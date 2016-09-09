@@ -41,11 +41,17 @@
           <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.credentials.toursite" placeholder="Toursite" lowercase>
         </div>
 
+        <div class="form-group" show-errors>
+          <input type="checkbox" name="checkbox" value="check" id="agree" ng-model="vm.terms"/>  I acknowledge that I have read and accepted <a href=""><b>Terms and Conditions</b></a>
+          <div ng-messages="vm.userForm.checkbox.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Please read and agree to Terms and Conditions.</p>
+          </div>   
+        </div>
 
         <div class="text-center form-group">
           <button type="submit" class="btn btn-primary">Create my account</button>
           &nbsp; or&nbsp;
-          <a ui-sref="authentication.signin" class="show-signup">Sign in</a>
+          <a ui-sref="authentication.hostSignin" class="show-signup">Sign in</a>
         </div>
         <div ng-show="vm.error" class="text-center text-danger">
           <strong ng-bind="vm.error"></strong>

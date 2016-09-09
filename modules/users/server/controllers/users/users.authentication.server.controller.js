@@ -118,23 +118,23 @@ exports.verifyUser = function(req, res) {
           error: 'User does not found. Please register first...'
         });
       } else {
-      	if (users.isActive === true) {
+        if (users.isActive === true) {
           res.render('modules/core/server/views/userAlreadyActivated', {
             error: 'User is already activated. Please login...'
           });
-      	} else{
-	      User.findOne({ verificationToken: searchThis }, function (err, doc) {
-	        doc.isActive = true;
-	        doc.save();
-	      });
-	      req.login(users, function (err) {
-	        if (err) {
-	          res.status(400).send(err);
-	        } else {
-	          res.redirect('/');
-	        }
-	      });
-	    }
+        } else {
+          User.findOne({ verificationToken: searchThis }, function (err, doc) {
+            doc.isActive = true;
+            doc.save();
+          });
+          req.login(users, function (err) {
+            if (err) {
+              res.status(400).send(err);
+            } else {
+              res.redirect('/');
+            }
+          });
+        }
       }
     }
   });
@@ -148,11 +148,11 @@ exports.signin = function (req, res, next) {
       res.status(400).send(info);
     } else {
       if (user.isActive === false) {
-      	res.status(403).send(info);
-      	// return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
-        /*res.render('modules/core/server/views/userNotActivated', {
-	      error: 'User is not yet activated. Please go to the verification link sent to your registered mail address...'
-	    });*/
+        res.status(403).send(info);
+        // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
+        /* res.render('modules/core/server/views/userNotActivated', {
+        error: 'User is not yet activated. Please go to the verification link sent to your registered mail address...'
+      }); */
       } else {
         // Remove sensitive data before login
         user.password = undefined;
