@@ -74,3 +74,6 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+
+# environment variables
+exportEnvironmentVariables.sh

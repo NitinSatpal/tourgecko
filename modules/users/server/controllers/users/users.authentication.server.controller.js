@@ -54,12 +54,12 @@ exports.signup = function (req, res) {
         service: 'gmail',
         auth: {
           xoauth2: xoauth2.createXOAuth2Generator({
-            user: 'nitinsatpal@gmail.com',
-            pass: 'tulsihardevitulsi',
-            clientId: '789865679055-k2unpukldioq6fpsjpet8uob8e5hunjr.apps.googleusercontent.com',
-            clientSecret: 'A8QKhmKyqtrN_AWglBXqOWZR',
-            refreshToken: '1/QxAwaritcLICN1l9nKhj1W_sYkDxIr9hzHj5AAYkO2M',
-            accessToken: 'ya29.Ci9YA7hMsZSxSLCKkVUphlYGFLF30w_0VPkkFHx3rWtcs_AwZTDqMFYXV86c1cn70w'
+            user: process.env.gmailUser,
+            pass: process.env.gmailPass,
+            clientId: process.env.clientId,
+            clientSecret: process.env.clientSecret,
+            refreshToken: process.env.refreshToken,
+            accessToken: process.env.accessToken
           })
         }
       });
