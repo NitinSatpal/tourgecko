@@ -86,20 +86,6 @@ exports.signup = function (req, res) {
         }
         console.log('Message sent: ' + info.response);
       });
-      // Commenting the following part as we do not want user to auto login once signup. We will add one layer of security by
-      // mail verification
-      // Remove sensitive data before login
-      /* user.password = undefined;
-      user.salt = undefined;
-
-      // We do not want automatic login but want user to activate its account
-      req.login(user, function (err) {
-        if (err) {
-          res.status(400).send(err);
-        } else {
-          res.json(user);
-        }
-      }); */
     }
   });
 };
@@ -127,8 +113,16 @@ exports.verifyUser = function(req, res) {
           verificationTokenExpiryCheck.setHours(users.created.getHours() + 24);
 
           if (verificationTokenExpiryCheck < new Date()) {
-            res.render('modules/core/server/views/userActivationLinkExpired', {
-              error: 'Activation link is expired. Please register again...'
+            User.remove({ verificationToken: searchThis }, function(err) {
+              if (err) {
+                res.status(500).render('modules/core/server/views/500', {
+                  error: 'Oops! Something went wrong...'
+                });
+              } else {
+                res.render('modules/core/server/views/userActivationLinkExpired', {
+                  error: 'Activation link is expired. Please register again...'
+                });
+              }
             });
           } else {
             User.findOne({ verificationToken: searchThis }, function (err, doc) {
