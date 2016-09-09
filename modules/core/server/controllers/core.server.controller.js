@@ -6,7 +6,6 @@ var validator = require('validator');
  * Render the main application page
  */
 exports.renderIndex = function (req, res) {
-  console.log('here' + req.user);
   var safeUserObject = null;
   if (req.user) {
     safeUserObject = {

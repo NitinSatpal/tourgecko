@@ -123,17 +123,28 @@ exports.verifyUser = function(req, res) {
             error: 'User is already activated. Please login...'
           });
         } else {
-          User.findOne({ verificationToken: searchThis }, function (err, doc) {
-            doc.isActive = true;
-            doc.save();
-          });
-          req.login(users, function (err) {
-            if (err) {
-              res.status(400).send(err);
-            } else {
-              res.redirect('/');
-            }
-          });
+          var verificationTokenExpiryCheck = users.created;
+          verificationTokenExpiryCheck.setHours(users.created.getHours() + 24);
+
+          if (verificationTokenExpiryCheck < new Date()) {
+            res.render('modules/core/server/views/userActivationLinkExpired', {
+              error: 'Activation link is expired. Please register again...'
+            });
+          } else {
+            User.findOne({ verificationToken: searchThis }, function (err, doc) {
+              doc.isActive = true;
+              doc.save();
+            });
+            users.password = undefined;
+            users.salt = undefined;
+            req.login(users, function (err) {
+              if (err) {
+                res.status(400).send(err);
+              } else {
+                res.redirect('/');
+              }
+            });
+          }
         }
       }
     }
@@ -157,7 +168,6 @@ exports.signin = function (req, res, next) {
         // Remove sensitive data before login
         user.password = undefined;
         user.salt = undefined;
-        console.log('the user is ' + user);
         req.login(user, function (err) {
           if (err) {
             res.status(400).send(err);
