@@ -74,6 +74,22 @@ var UserSchema = new Schema({
     lowercase: true,
     trim: true
   },
+  businessName: {
+    type: String,
+    default: ''
+  },
+  businessWebsite: {
+    type: String,
+    default: ''
+  },
+  hostType: {
+    type: String,
+    default: ''
+  },
+  hostPostalAddress: {
+    type: Schema.Types.Mixed,
+    default: {}
+  },
   verificationToken: {
     type: String,
     default: ''

@@ -1,3 +1,84 @@
 <div>
-  <h3 class="col-xs-12 text-center">Here the extra details will be asked by the host</h3>
+  <h3 class="col-xs-12 text-center">Tell us little about yourself and we are done!</h3>
+  <br><br>
+  <div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4">
+    <form name="vm.userDetailsForm" ng-submit="vm.signupDetails(vm.userDetailsForm.$valid)" class="signin" novalidate autocomplete="off">
+      <fieldset>
+      	<div class="form-group" show-errors>
+          <label for="businessName">Name of Business</label>
+          <input type="text" id="businessName" name="businessName" class="form-control" ng-model="vm.credentialsDetails.businessName" placeholder="Business Name" lowercase required>
+          <div ng-messages="vm.userDetailsForm.businessName.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Business Name is required.</p>
+          </div> 
+        </div>
+
+        <div class="form-group">
+          <label for="businessWebsite">Website of Business</label>
+          <input type="text" id="businessWebsite" name="businessWebsite" class="form-control" ng-model="vm.credentialsDetails.businessWebsite" placeholder="Website" lowercase>
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="hostType">How do you describe yourself</label>
+          <select type="select" id="hostType" name="hostType" class="form-control" ng-model="vm.credentialsDetails.hostType" placeholder="Describe yourself" required>
+            <option ng-selected="true">Tour Operator </option>
+            <option>Activity provider </option>
+            <option>Adventure Club</option>
+            <option>Tour Guide</option>
+          </select>
+          <div ng-messages="vm.userDetailsForm.hostType.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Host Type is required</p>
+          </div> 
+        </div>
+
+        <hr>
+
+        <div class="form-group" show-errors>
+          <label for="streetAddress">Street Address</label>
+          <input type="text" id="streetAddress" name="streetAddress" class="form-control" ng-model="vm.credentialsDetails.streetAddress" placeholder="Street Address" lowercase required>
+          <div ng-messages="vm.userDetailsForm.streetAddress.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Street Address is required.</p>
+          </div> 
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" class="form-control" ng-model="vm.credentialsDetails.city" placeholder="City" lowercase required>
+          <div ng-messages="vm.userDetailsForm.city.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">City is required.</p>
+          </div> 
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="postalCode">Postal Code</label>
+          <input type="text" id="postalCode" name="postalCode" class="form-control" ng-model="vm.credentialsDetails.postalCode" placeholder="Postal Code" lowercase required>
+          <div ng-messages="vm.userDetailsForm.postalCode.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Postal Code is required.</p>
+          </div> 
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="state">State</label>
+          <input type="text" id="state" name="state" class="form-control" ng-model="vm.credentialsDetails.state" placeholder="State" lowercase required>
+          <div ng-messages="vm.userDetailsForm.state.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">State is required.</p>
+          </div> 
+        </div>
+
+        <div class="form-group" show-errors>
+          <label for="country">Country</label>
+          <input type="text" id="country" name="country" class="form-control" ng-model="vm.credentialsDetails.country" placeholder="Country" lowercase required>
+          <div ng-messages="vm.userDetailsForm.country.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Country is required.</p>
+          </div> 
+        </div>
+
+        <div class="text-center form-group">
+    	    <button type="submit" class="btn btn-primary">Done</button>
+    	  </div>
+        <div ng-show="vm.error" class="text-center text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+      </fieldset>
+    </form>
+  </div>
 </div>

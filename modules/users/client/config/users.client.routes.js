@@ -74,12 +74,31 @@
         }
       })
       .state('hostDetails', {
-        url: '/host/signup/details',
+        abstract: true,
+        url: '/host',
+        templateUrl: 'modules/users/client/views/authentication/hostDetails.client.view.html',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm'
+      })
+      .state('hostDetails.details', {
+        url: '/details',
         templateUrl: 'modules/users/client/views/authentication/signupHostDetails.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm',
+        params: {
+          id: null
+        },
         data: {
           pageTitle: 'Signup Details'
+        }
+      })
+      .state('hostDetails.signupDone', {
+        url: '/done',
+        templateUrl: 'modules/users/client/views/authentication/signupCompleted.client.view.html',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Signup Done'
         }
       })
       .state('authentication.hostSignin', {

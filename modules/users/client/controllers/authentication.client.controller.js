@@ -5,15 +5,16 @@
     .module('users', [])
     .controller('AuthenticationController', AuthenticationController);
 
-  AuthenticationController.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication', 'PasswordValidator'];
+  AuthenticationController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator'];
 
-  function AuthenticationController($scope, $state, $http, $location, $window, Authentication, PasswordValidator) {
+  function AuthenticationController($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator) {
     var vm = this;
 
     vm.authentication = Authentication;
     vm.getPopoverMsg = PasswordValidator.getPopoverMsg;
     vm.signup = signup;
     vm.signin = signin;
+    vm.signupDetails = signupDetails;
     vm.callOauthProvider = callOauthProvider;
     vm.terms = false;
 
@@ -29,11 +30,11 @@
       // $location.path('/');
     }
 
+    // Signup function
     function signup(isValid) {
       vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
-
         return false;
       } else if (vm.terms === false) {
         alert('Please read and agree to terms and conditions');
@@ -41,16 +42,32 @@
       }
 
       $http.post('/api/auth/signup', vm.credentials).success(function (response) {
-        // We do not want automatic sign-in. Hence commenting the following line.
-        // vm.authentication.user = response;
-
-        // And redirect to the Details page
-        $state.go('hostDetails');// || $state.previous.state.name || 'home', $state.previous.params);
+        // And redirect to the Details page with the id of the user
+        console.log('kaka hai kya tu ' + response._id);
+        $state.go('hostDetails.details', { id: response._id });
       }).error(function (response) {
         vm.error = response.message;
       });
     }
 
+    // Signup step 2 or more details
+    function signupDetails(isValid) {
+      vm.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
+        return false;
+      }
+      var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
+      $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
+        // And redirect to the Details page
+        $state.go('hostDetails.signupDone');
+      }).error(function (response) {
+        vm.error = response.message;
+      });
+    }
+
+
+    // Signin function
     function signin(isValid) {
       vm.error = null;
 

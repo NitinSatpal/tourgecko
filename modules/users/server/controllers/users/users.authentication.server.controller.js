@@ -95,8 +95,8 @@ exports.verifyUser = function(req, res) {
   var safeUserObject = null;
   User.findOne({ verificationToken: searchThis }).sort('-created').populate('name').exec(function (err, users) {
     if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
       });
     } else {
       if (users === null) {
@@ -116,7 +116,7 @@ exports.verifyUser = function(req, res) {
             User.remove({ verificationToken: searchThis }, function(err) {
               if (err) {
                 res.status(500).render('modules/core/server/views/500', {
-                  error: 'Oops! Something went wrong...'
+                  error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
                 });
               } else {
                 res.render('modules/core/server/views/userActivationLinkExpired', {
@@ -126,6 +126,11 @@ exports.verifyUser = function(req, res) {
             });
           } else {
             User.findOne({ verificationToken: searchThis }, function (err, doc) {
+              if (err) {
+                res.status(500).render('modules/core/server/views/500', {
+                  error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
+                });
+              }
               doc.isActive = true;
               doc.save();
             });
@@ -144,6 +149,37 @@ exports.verifyUser = function(req, res) {
     }
   });
 };
+
+exports.signupDetails = function(req, res) {
+  var userDetails = req.body.detailsObj;
+  var userId = req.body.userId.id;
+  User.findOne({ _id: userId }).sort('-created').populate('name').exec(function (err, users) {
+    if (err) {
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong! Please fill the details again!'
+      });
+    } else if (users == null) {
+      res.render('modules/core/server/views/userNotFound', {
+        error: 'User does not found. Please register first...'
+      });
+    } else {
+      users.businessName = userDetails.businessName;
+      users.businessWebsite = userDetails.businessWebsite;
+      users.hostType = userDetails.hostType;
+      users.hostPostalAddress = {
+        streetAddress: userDetails.streetAddress,
+        city: userDetails.city,
+        postalCode: userDetails.postalCode,
+        state: userDetails.state,
+        country: userDetails.country
+      };
+      users.markModified('hostPostalAddress');
+      users.save();
+      res.json(users);
+    }
+  });
+};
+
 /**
  * Signin after passport authentication
  */
