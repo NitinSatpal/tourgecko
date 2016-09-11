@@ -59,7 +59,7 @@
       }
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
-        // And redirect to the Details page
+        // And redirect to the Signup Done page
         $state.go('hostDetails.signupDone');
       }).error(function (response) {
         vm.error = response.message;
