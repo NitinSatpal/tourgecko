@@ -73,6 +73,15 @@
           pageTitle: 'Signup'
         }
       })
+      .state('authentication.hostSignin', {
+        url: '/host/signin?err',
+        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Signin'
+        }
+      })
       .state('hostDetails', {
         abstract: true,
         url: '/host',
@@ -99,15 +108,6 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Signup Done'
-        }
-      })
-      .state('authentication.hostSignin', {
-        url: '/host/signin?err',
-        templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
-        controller: 'AuthenticationController',
-        controllerAs: 'vm',
-        data: {
-          pageTitle: 'Signin'
         }
       })
       .state('password', {

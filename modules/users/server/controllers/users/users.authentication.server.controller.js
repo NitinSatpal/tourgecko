@@ -26,12 +26,6 @@ exports.signup = function (req, res) {
 
   // Init user and add missing fields
   var user = new User(req.body);
-  // We are generating one random token for verification purpose
-  var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var token = '';
-  for (var i = 16; i > 0; --i) {
-    token += chars[Math.round(Math.random() * (chars.length - 1))];
-  }
 
   user.provider = 'local';
   user.displayName = user.email.split('@')[0];
@@ -39,7 +33,6 @@ exports.signup = function (req, res) {
   user.lastName = user.email.split('@')[0];
   user.username = user.email;
   user.isActive = false;
-  user.verificationToken = token;
 
   // Then save the user
   user.save(function (err) {
@@ -49,43 +42,6 @@ exports.signup = function (req, res) {
       });
     } else {
       res.json(user);
-      var link = 'http://' + req.get('host') + '/userverification?id=' + token + '&user=' + user.displayName;
-      var transporter = mailer.createTransport({
-        service: 'gmail',
-        auth: {
-          xoauth2: xoauth2.createXOAuth2Generator({
-            user: process.env.gmailUser,
-            pass: process.env.gmailPass,
-            clientId: process.env.clientId,
-            clientSecret: process.env.clientSecret,
-            refreshToken: process.env.refreshToken,
-            accessToken: process.env.accessToken
-          })
-        }
-      });
-
-      // setup e-mail data with unicode symbols
-      var mailOptions = {
-        from: '"Tourgecko" <nitinsatpal@gmail.communication>', // sender address
-        to: user.email, // list of receivers
-        subject: 'Verification link mail', // Subject line
-        text: 'Testing mail', // plaintext body
-        html: '<b>Dear ' + user.displayName + '</b> <br><br>' +
-              'Welcome to tourgecko. <br><br>' +
-              'Thank you for the registration. You are just one step away from simplifying your business<br><br>' +
-              'Please click the following link to activate your account<br>' +
-              link + '<br><br>' +
-              'Regards,<br>' +
-              'Team Tourgecko' // html body
-      };
-
-      // send mail with defined transport object
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-      });
     }
   });
 };
@@ -163,18 +119,66 @@ exports.signupDetails = function(req, res) {
         error: 'User does not found. Please register first...'
       });
     } else {
-      users.businessName = userDetails.businessName;
-      users.businessWebsite = userDetails.businessWebsite;
+      // We are generating one random token for verification purpose
+      var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var token = '';
+      for (var i = 16; i > 0; --i) {
+        token += chars[Math.round(Math.random() * (chars.length - 1))];
+      }
+
       users.hostType = userDetails.hostType;
-      users.hostPostalAddress = {
+      users.verificationToken = token;
+      users.hostCompanyDetails = {
+        businessName: userDetails.businessName,
+        businessWebsite: userDetails.businessWebsite,
         streetAddress: userDetails.streetAddress,
         city: userDetails.city,
         postalCode: userDetails.postalCode,
         state: userDetails.state,
         country: userDetails.country
       };
-      users.markModified('hostPostalAddress');
+      users.markModified('hostCompanyDetails');
       users.save();
+
+      var link = 'http://' + req.get('host') + '/userverification?id=' + token + '&user=' + users.displayName;
+      var transporter = mailer.createTransport({
+        service: 'gmail',
+        auth: {
+          xoauth2: xoauth2.createXOAuth2Generator({
+            user: process.env.gmailUser,
+            pass: process.env.gmailPass,
+            clientId: process.env.clientId,
+            clientSecret: process.env.clientSecret,
+            refreshToken: process.env.refreshToken,
+            accessToken: process.env.accessToken
+          })
+        }
+      });
+
+      // setup e-mail data with unicode symbols
+      var mailOptions = {
+        from: '"Tourgecko" <nitinsatpal@gmail.communication>', // sender address
+        to: users.email, // list of receivers
+        subject: 'Verification link mail', // Subject line
+        text: 'Testing mail', // plaintext body
+        html: '<b>Dear ' + users.displayName + '</b> <br><br>' +
+              'Welcome to tourgecko. <br><br>' +
+              'Thank you for the registration. You are just one step away from simplifying your business<br><br>' +
+              'Please click the following link to activate your account<br>' +
+              link + '<br><br>' +
+              'Regards,<br>' +
+              'Team Tourgecko' // html body
+      };
+
+      // send mail with defined transport object
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+      });
+
+
       res.json(users);
     }
   });

@@ -86,7 +86,7 @@ var UserSchema = new Schema({
     type: String,
     default: ''
   },
-  hostPostalAddress: {
+  hostCompanyDetails: {
     type: Schema.Types.Mixed,
     default: {}
   },
