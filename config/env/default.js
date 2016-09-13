@@ -8,6 +8,18 @@ module.exports = {
     // domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
+  mailer: {
+    service: 'gmail',
+    from: 'nitinsatpal@gmail.com',
+    auth: {
+      user: process.env.gmailUser,
+      pass: process.env.gmailPass,
+      clientId: process.env.clientId,
+      clientSecret: process.env.clientSecret,
+      refreshToken: process.env.refreshToken,
+      accessToken: process.env.accessToken
+    }
+  },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
   // DOMAIN config should be set to the fully qualified application accessible

@@ -4,12 +4,15 @@
  * Module dependencies
  */
 var path = require('path'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
+  User = mongoose.model('User'),
   passport = require('passport'),
-  mailer = require('nodemailer'),
+  nodemailer = require('nodemailer'),
   xoauth2 = require('xoauth2'),
-  User = mongoose.model('User');
+  async = require('async'),
+  crypto = require('crypto');
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -17,6 +20,12 @@ var noReturnUrls = [
   '/authentication/signup'
 ];
 
+var smtpTransport = nodemailer.createTransport({
+  service: config.mailer.service,
+  auth: {
+    xoauth2: xoauth2.createXOAuth2Generator(config.mailer.auth)
+  }
+});
 /**
  * Signup
  */
@@ -46,140 +55,131 @@ exports.signup = function (req, res) {
   });
 };
 
-exports.verifyUser = function(req, res) {
-  var searchThis = req.query.id;
-  var safeUserObject = null;
-  User.findOne({ verificationToken: searchThis }).sort('-created').populate('name').exec(function (err, users) {
-    if (err) {
-      res.status(500).render('modules/core/server/views/500', {
-        error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
+exports.signupDetails = function(req, res, next) {
+  async.waterfall([
+    // Generate random token
+    function (done) {
+      crypto.randomBytes(20, function (err, buffer) {
+        var token = buffer.toString('hex');
+        done(err, token);
       });
-    } else {
-      if (users === null) {
+    },
+    // Lookup user by username
+    function (token, done) {
+      if (req.body.userId.id) {
+        User.findOne({
+          _id: req.body.userId.id
+        }, '-salt -password', function (err, user) {
+          if (err || !user) {
+            res.status(500).render('modules/core/server/views/500', {
+              error: 'Oops! Something went wrong! Please fill the details again!'
+            });
+          } else if (user == null) {
+            res.render('modules/core/server/views/userNotFound', {
+              error: 'User does not found. Please register first...'
+            });
+          } else {
+            var userDetails = req.body.detailsObj;
+            user.verificationToken = token;
+            user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
+            user.hostType = userDetails.hostType;
+            user.hostCompanyDetails = {
+              businessName: userDetails.businessName,
+              businessWebsite: userDetails.businessWebsite,
+              streetAddress: userDetails.streetAddress,
+              city: userDetails.city,
+              postalCode: userDetails.postalCode,
+              state: userDetails.state,
+              country: userDetails.country
+            };
+            user.markModified('hostCompanyDetails');
+
+            user.save(function (err) {
+              done(err, token, user);
+            });
+          }
+        });
+      } else {
         res.render('modules/core/server/views/userNotFound', {
           error: 'User does not found. Please register first...'
         });
-      } else {
-        if (users.isActive === true) {
-          res.render('modules/core/server/views/userAlreadyActivated', {
-            error: 'User is already activated. Please login...'
-          });
-        } else {
-          var verificationTokenExpiryCheck = users.created;
-          verificationTokenExpiryCheck.setHours(users.created.getHours() + 24);
-
-          if (verificationTokenExpiryCheck < new Date()) {
-            User.remove({ verificationToken: searchThis }, function(err) {
-              if (err) {
-                res.status(500).render('modules/core/server/views/500', {
-                  error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
-                });
-              } else {
-                res.render('modules/core/server/views/userActivationLinkExpired', {
-                  error: 'Activation link is expired. Please register again...'
-                });
-              }
-            });
-          } else {
-            User.findOne({ verificationToken: searchThis }, function (err, doc) {
-              if (err) {
-                res.status(500).render('modules/core/server/views/500', {
-                  error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
-                });
-              }
-              doc.isActive = true;
-              doc.save();
-            });
-            users.password = undefined;
-            users.salt = undefined;
-            req.login(users, function (err) {
-              if (err) {
-                res.status(400).send(err);
-              } else {
-                res.redirect('/');
-              }
-            });
-          }
-        }
       }
+    },
+    function (token, user, done) {
+
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
+        name: user.displayName,
+        appName: config.app.title,
+        url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + req.body.userId.id
+      }, function (err, emailHTML) {
+        done(err, emailHTML, user);
+      });
+    },
+    // If valid email, send reset email using service
+    function (emailHTML, user, done) {
+      var mailOptions = {
+        to: user.email,
+        from: config.mailer.from,
+        subject: 'User verification',
+        html: emailHTML
+      };
+      smtpTransport.sendMail(mailOptions, function (err) {
+        if (!err) {
+          res.json(user);
+          console.log('Message sent');
+        } else {
+          return res.status(400).send({
+            message: 'Some problem occurred. Please try again after sometime or call us.'
+          });
+        }
+        done(err);
+      });
+    }
+  ], function (err) {
+    if (err) {
+      return next(err);
     }
   });
 };
 
-exports.signupDetails = function(req, res) {
-  var userDetails = req.body.detailsObj;
-  var userId = req.body.userId.id;
-  User.findOne({ _id: userId }).sort('-created').populate('name').exec(function (err, users) {
+/* Verify the user who is registered with us */
+exports.validateUserVerification = function(req, res) {
+  var userId = new mongoose.mongo.ObjectId(req.query.user);
+  User.findOne({
+    verificationToken: req.query.token,
+    verificationTokenExpires: {
+      $gt: Date.now()
+    }
+  }, function (err, user) {
     if (err) {
       res.status(500).render('modules/core/server/views/500', {
-        error: 'Oops! Something went wrong! Please fill the details again!'
+        error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
       });
-    } else if (users == null) {
-      res.render('modules/core/server/views/userNotFound', {
-        error: 'User does not found. Please register first...'
+    } else if (user == null || !user) {
+      res.render('modules/core/server/views/activationTokenInvalidOrExpired', {
+        error: 'Activation token is invalid or has expired.'
+      });
+    } else if (user.isActive === true) {
+      res.render('modules/core/server/views/userAlreadyActivated', {
+        error: 'User is already activated. Please login...'
       });
     } else {
-      // We are generating one random token for verification purpose
-      var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      var token = '';
-      for (var i = 16; i > 0; --i) {
-        token += chars[Math.round(Math.random() * (chars.length - 1))];
-      }
-
-      users.hostType = userDetails.hostType;
-      users.verificationToken = token;
-      users.hostCompanyDetails = {
-        businessName: userDetails.businessName,
-        businessWebsite: userDetails.businessWebsite,
-        streetAddress: userDetails.streetAddress,
-        city: userDetails.city,
-        postalCode: userDetails.postalCode,
-        state: userDetails.state,
-        country: userDetails.country
-      };
-      users.markModified('hostCompanyDetails');
-      users.save();
-
-      var link = 'http://' + req.get('host') + '/userverification?id=' + token + '&user=' + users.displayName;
-      var transporter = mailer.createTransport({
-        service: 'gmail',
-        auth: {
-          xoauth2: xoauth2.createXOAuth2Generator({
-            user: process.env.gmailUser,
-            pass: process.env.gmailPass,
-            clientId: process.env.clientId,
-            clientSecret: process.env.clientSecret,
-            refreshToken: process.env.refreshToken,
-            accessToken: process.env.accessToken
-          })
+      user.isActive = true;
+      user.save();
+      user.password = undefined;
+      user.salt = undefined;
+      req.login(user, function (err) {
+        if (err) {
+          res.status(400).send(err);
+        } else {
+          res.redirect('/');
         }
       });
-
-      // setup e-mail data with unicode symbols
-      var mailOptions = {
-        from: '"Tourgecko" <nitinsatpal@gmail.communication>', // sender address
-        to: users.email, // list of receivers
-        subject: 'Verification link mail', // Subject line
-        text: 'Testing mail', // plaintext body
-        html: '<b>Dear ' + users.displayName + '</b> <br><br>' +
-              'Welcome to tourgecko. <br><br>' +
-              'Thank you for the registration. You are just one step away from simplifying your business<br><br>' +
-              'Please click the following link to activate your account<br>' +
-              link + '<br><br>' +
-              'Regards,<br>' +
-              'Team Tourgecko' // html body
-      };
-
-      // send mail with defined transport object
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-      });
-
-
-      res.json(users);
     }
   });
 };

@@ -10,9 +10,16 @@ var path = require('path'),
   User = mongoose.model('User'),
   nodemailer = require('nodemailer'),
   async = require('async'),
+  xoauth2 = require('xoauth2'),
   crypto = require('crypto');
 
-var smtpTransport = nodemailer.createTransport(config.mailer.options);
+// var smtpTransport = nodemailer.createTransport(config.mailer.options);
+var smtpTransport = nodemailer.createTransport({
+  service: config.mailer.service,
+  auth: {
+    xoauth2: xoauth2.createXOAuth2Generator(config.mailer.auth)
+  }
+});
 
 /**
  * Forgot for reset password (forgot POST)
@@ -62,7 +69,6 @@ exports.forgot = function (req, res, next) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
-      console.log(baseUrl);
       res.render(path.resolve('modules/users/server/templates/reset-password-email'), {
         name: user.displayName,
         appName: config.app.title,
@@ -87,7 +93,7 @@ exports.forgot = function (req, res, next) {
           });
         } else {
           return res.status(400).send({
-            message: 'Failure sending email'
+            message: JSON.stringify(err)
           });
         }
 

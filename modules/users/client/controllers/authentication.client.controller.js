@@ -43,7 +43,6 @@
 
       $http.post('/api/auth/signup', vm.credentials).success(function (response) {
         // And redirect to the Details page with the id of the user
-        console.log('kaka hai kya tu ' + response._id);
         $state.go('hostDetails.details', { id: response._id });
       }).error(function (response) {
         vm.error = response.message;

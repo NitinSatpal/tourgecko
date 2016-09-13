@@ -90,10 +90,6 @@ var UserSchema = new Schema({
     type: Schema.Types.Mixed,
     default: {}
   },
-  verificationToken: {
-    type: String,
-    default: ''
-  },
   password: {
     type: String,
     default: ''
@@ -125,6 +121,14 @@ var UserSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
+  },
+  /* For initial user verification */
+  verificationToken: {
+    type: String,
+    default: ''
+  },
+  verificationTokenExpires: {
+    type: Date
   },
   /* For reset password */
   resetPasswordToken: {
