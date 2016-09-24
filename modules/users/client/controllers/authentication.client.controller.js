@@ -55,7 +55,6 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
         return false;
       }
-      console.log(JSON.stringify(vm.credentialsDetails));
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page
