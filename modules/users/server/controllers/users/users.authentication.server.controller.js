@@ -32,20 +32,18 @@ var smtpTransport = nodemailer.createTransport({
 exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
-
+  console.log('i m here ' + JSON.stringify(req.body));
   // Init user and add missing fields
   var user = new User(req.body);
-
   user.provider = 'local';
-  user.displayName = user.email.split('@')[0];
-  user.firstName = user.email.split('@')[0];
-  user.lastName = user.email.split('@')[0];
   user.username = user.email;
   user.isActive = false;
+  user.displayName = user.email.split('@')[0];
 
   // Then save the user
   user.save(function (err) {
     if (err) {
+      console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
@@ -80,6 +78,9 @@ exports.signupDetails = function(req, res, next) {
             });
           } else {
             var userDetails = req.body.detailsObj;
+            user.displayName = userDetails.firstName + ' ' + userDetails.lastName;
+            user.firstName = userDetails.firstName;
+            user.lastName = userDetails.lastName;
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
             user.hostType = userDetails.hostType;
@@ -95,6 +96,12 @@ exports.signupDetails = function(req, res, next) {
             user.markModified('hostCompanyDetails');
 
             user.save(function (err) {
+              if(err) {
+                res.status(500).render('modules/core/server/views/500', {
+                  error: 'Oops! Something went wrong! Please fill the details again!'
+                });
+              }
+              res.json(user);
               done(err, token, user);
             });
           }
@@ -130,7 +137,6 @@ exports.signupDetails = function(req, res, next) {
       };
       smtpTransport.sendMail(mailOptions, function (err) {
         if (!err) {
-          res.json(user);
           console.log('Message sent');
         } else {
           return res.status(400).send({

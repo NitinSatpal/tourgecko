@@ -40,7 +40,6 @@
         alert('Please read and agree to terms and conditions');
         return false;
       }
-
       $http.post('/api/auth/signup', vm.credentials).success(function (response) {
         // And redirect to the Details page with the id of the user
         $state.go('hostDetails.details', { id: response._id });
@@ -56,6 +55,7 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
         return false;
       }
+      console.log(JSON.stringify(vm.credentialsDetails));
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page

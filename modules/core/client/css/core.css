@@ -1,5 +1,9 @@
 .content {
-  margin-top: 50px;
+  /*margin-top: 50px;*/
+}
+.container{
+  width: 100% !important;
+  padding-right: 0 !important;  
 }
 .undecorated-link:hover {
   text-decoration: none;
@@ -37,7 +41,14 @@ a:hover .header-profile-image {
 }
 .has-error .help-block.error-text {
   display: block;
+  color:#cc0000 !important;
+  font-size:11px !important;
+  margin-top:3px !important;
 }
 .has-error .help-inline.error-text {
   display: inline;
+  color:#cc0000 !important;
+  font-size:11px !important;
+  margin-top:3px !important;
 }
+

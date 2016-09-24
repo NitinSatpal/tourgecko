@@ -31,12 +31,25 @@
   <!-- Fav Icon -->
   <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
 
+  <!-- Bootstrap and jquery -->
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"></script>
+  <link rel="stylesheet" href="lib/bootstrap-theme/css/bootstrap-theme.min.css"></script>
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+  <!-- cdn Roboto -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700" rel="stylesheet">
+
+  <!-- Iconic fonts -->
+  <link rel="stylesheet" href="lib/material-design/css/material-design-iconic-font.min.css" >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
   <!-- Application CSS Files -->
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
 <body class="ng-cloak">
-  <header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
+  <!--<header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>-->
   <section class="content">
     <section class="container">
       {{{block "content"}}}
