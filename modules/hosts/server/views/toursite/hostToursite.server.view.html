@@ -1,0 +1,29 @@
+{% extends '../../../../core/server/views/layout.server.view.html' %}
+
+{% block content %}
+<div style="margin-top:100px;" class="container">
+  <h1> Here the details of {{hostToursite}} will come </h1>
+  Following are fetched from database for this user and going forward we will fetch tour detils etc: 
+  <h1>Username : <p id="user"> </p></h1>
+  <h1>DisplayName: <p id="displayname"> </p></h1>
+ </div>
+
+
+<div></div>
+
+
+<script>    
+    $.ajax({
+      url:'/hostDomain',
+      type:'GET',
+      data: {ourHost : "{{ hostToursite }}" },
+      dataType: 'json',
+      success: function( json ) {
+        $.each(json, function(index, document) {
+          $("#user").html(document.username);
+          $("#displayname").html(document.displayName);
+        });
+      }
+    });  
+  </script>
+{% endblock %}

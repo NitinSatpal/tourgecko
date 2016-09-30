@@ -17,7 +17,6 @@
     vm.signupDetails = signupDetails;
     vm.callOauthProvider = callOauthProvider;
     vm.terms = false;
-
     // For now allowing all the numbers starting from 1 and just checking 10 digits for Indian mobile numbers. We can become more
     // strcit and just allow number starting from 7, 8, 9 as in India number series starts only from these numbers.
     $scope.regEx = '^[1-9][0-9]{9}$';
@@ -27,7 +26,7 @@
 
     // If user is signed in then redirect back home
     if (vm.authentication.user) {
-      // $location.path('/');
+      $location.path('/host/admin');
     }
 
     // Signup function
@@ -79,8 +78,9 @@
         // If successful we assign the response to the global user model
         vm.authentication.user = response;
 
-        // And redirect to the previous or home page
-        $state.go($state.previous.state.name || 'home', $state.previous.params);
+        // And redirect to the host home page
+        $state.go('hostHome');
+        // $state.go($state.previous.state.name || 'home', $state.previous.params);
       }).error(function (response) {
         vm.error = response.message;
       });

@@ -78,11 +78,14 @@
               </label>
               <button type="submit" class="btn btn-info login-button">create my account</button>
             </div>
+            <div ng-show="vm.error" class="text-center text-danger">
+              <strong ng-bind="vm.error"></strong>
+            </div>
           </form>
         </div>
       </div>
       <div class="panel-footer">
-        <p>Already have an account? <a class="forgot_pwd" href="#">Login</a></p>
+        <p>Already have an account? <a class="forgot_pwd" ui-sref="authentication.hostSignin">Login</a></p>
       </div>
     </div>
   </div>

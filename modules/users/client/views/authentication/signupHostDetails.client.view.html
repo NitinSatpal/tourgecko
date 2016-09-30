@@ -1,130 +1,113 @@
-<!--<nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#"><img src="images/logo.svg" alt="tourgecko"></a>
+<div id="signup-step1" class="wrapper">
+  <div class="row main_container">
+    <div class="col-lg-5 col-sm-5 col-md-5 step2">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Tell us little about yourself and we are done!</h2>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-        </div><!--/.nav-collapse -->
-      <!--</div>
-    </nav>-->
-    <div id="signup-step1" class="wrapper" style="margin-top:5px;">
-      <div class="row main_container">
-        <div class="container">
-          <div class="col-lg-5 col-sm-5 col-md-5 step2">
-            <div class="panel">
-              <div class="panel-header">
-                <h2>Tell us little about yourself and we are done!</h2>
+        <div class="panel-container">
+          <form class="form-horizontal" name="vm.userDetailsForm" ng-submit="vm.signupDetails(vm.userDetailsForm.$valid)" novalidate autocomplete="off">
+            <div class="row">
+              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+                <label for="firstName" class="control-label">First Name</label>
+                <input type="text" id="firstName" name="firstName" class="form-control" ng-model="vm.credentialsDetails.firstName" required>
+                <div ng-messages="vm.userDetailsForm.firstName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">First name is required.</p>
+                </div>
               </div>
-              <div class="panel-container">
-                <form class="form-horizontal" name="vm.userDetailsForm" ng-submit="vm.signupDetails(vm.userDetailsForm.$valid)" novalidate autocomplete="off">
-                  <div class="row">
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
-                      <label for="firstName" class="control-label">First Name</label>
-                      <input type="text" id="firstName" name="firstName" class="form-control" ng-model="vm.credentialsDetails.firstName" required>
-                      <div ng-messages="vm.userDetailsForm.firstName.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">First name is required.</p>
-                      </div>
-                    </div>
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
-                      <label for="lastName" class="control-label">Last Name</label>
-                      <input type="text" id="lastName" name="lastName" class="form-control" ng-model="vm.credentialsDetails.lastName" required>
-                      <div ng-messages="vm.userDetailsForm.lastName.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Last name is required.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
-                      <label for="businessName" class="control-label">Name of Business</label>
-                      <input type="text" id="businessName" name="businessName" class="form-control" ng-model="vm.credentialsDetails.businessName" required> 
-                      <div ng-messages="vm.userDetailsForm.businessName.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Business Name is required.</p>
-                      </div> 
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
-                      <label for="businessWebsite" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Current Website</label>
-                      <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
-                        <label><input type="checkbox" value=""><span>I don't have website yet</span></label>
-                      </div>
-                      <input type="text" id="businessWebsite" name="businessWebsite" class="form-control" ng-model="vm.credentialsDetails.businessWebsite" lowercase>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12" show-errors>
-                      <label for="hostType" class="control-label">How do you describe yourself?</label>
-                      <select type="select" id="hostType" name="hostType" class="form-control" ng-model="vm.credentialsDetails.hostType" placeholder="Describe yourself" required>
-                        <option>Tour Operator</option>
-                        <option>Activity provider </option>
-                        <option>Adventure Club</option>
-                        <option>Tour Guide</option>
-                      </select>
-                      <div ng-messages="vm.userDetailsForm.hostType.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Please select one option</p>
-                      </div> 
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
-                      <label for="streetAddress" class="control-label">Street Address</label>
-                      <input type="text" id="streetAddress" name="streetAddress" class="form-control" ng-model="vm.credentialsDetails.streetAddress" required>
-                      <div ng-messages="vm.userDetailsForm.streetAddress.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Street Address is required.</p>
-                      </div> 
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
-                      <label for="state" class="control-label">State</label>
-                      <input type="text" id="state" name="state" class="form-control" ng-model="vm.credentialsDetails.state" required>
-                      <div ng-messages="vm.userDetailsForm.state.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">State is required.</p>
-                      </div> 
-                    </div>
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
-                      <label for="city" class="control-label">City</label>
-                      <input type="text" id="city" name="city" class="form-control" ng-model="vm.credentialsDetails.city" required>
-                      <div ng-messages="vm.userDetailsForm.city.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">City is required.</p>
-                      </div> 
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
-                      <label for="postalCode" class="control-label">Postal Code</label>
-                      <input type="text" id="postalCode" name="postalCode" class="form-control" ng-model="vm.credentialsDetails.postalCode" required>
-                      <div ng-messages="vm.userDetailsForm.postalCode.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Postal Code is required.</p>
-                      </div>
-                    </div>
-                    <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
-                      <label for="country" class="control-label">Country</label>
-                      <select class="form-control" id="country" name="country" ng-model="vm.credentialsDetails.country" required>
-                        <option>India</option>
-                      </select>
-                      <div ng-messages="vm.userDetailsForm.country.$error" role="alert">
-                        <p class="help-block error-text" ng-message="required">Please select Country.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
-                      <input type="submit" name="done" value="done" class="btn btn-primary btn-block text-uppercase" />
-                    </div>
-                  </div>
-                </form>
-              </div>              
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+                <label for="lastName" class="control-label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" class="form-control" ng-model="vm.credentialsDetails.lastName" required>
+                <div ng-messages="vm.userDetailsForm.lastName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Last name is required.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="right_image hidden-xs">
-          </div>
-        </div>
+            <div class="row">
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+                <label for="businessName" class="control-label">Name of Business</label>
+                <input type="text" id="businessName" name="businessName" class="form-control" ng-model="vm.credentialsDetails.businessName" required> 
+                <div ng-messages="vm.userDetailsForm.businessName.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Business Name is required.</p>
+                </div> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+                <label for="businessWebsite" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Current Website</label>
+                <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
+                  <label><input type="checkbox" value=""><span>I don't have website yet</span></label>
+                </div>
+                <input type="text" id="businessWebsite" name="businessWebsite" class="form-control" ng-model="vm.credentialsDetails.businessWebsite" lowercase>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-12 col-md-12 col-sm-12" show-errors>
+                <label for="hostType" class="control-label">How do you describe yourself?</label>
+                <select type="select" id="hostType" name="hostType" class="form-control" ng-model="vm.credentialsDetails.hostType" placeholder="Describe yourself" required>
+                  <option>Tour Operator</option>
+                  <option>Activity provider </option>
+                  <option>Adventure Club</option>
+                  <option>Tour Guide</option>
+                </select>
+                <div ng-messages="vm.userDetailsForm.hostType.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Please select one option</p>
+                </div> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+                <label for="streetAddress" class="control-label">Street Address</label>
+                <input type="text" id="streetAddress" name="streetAddress" class="form-control" ng-model="vm.credentialsDetails.streetAddress" required>
+                <div ng-messages="vm.userDetailsForm.streetAddress.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Street Address is required.</p>
+                </div> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+                <label for="state" class="control-label">State</label>
+                <input type="text" id="state" name="state" class="form-control" ng-model="vm.credentialsDetails.state" required>
+                <div ng-messages="vm.userDetailsForm.state.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">State is required.</p>
+                </div> 
+              </div>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+                <label for="city" class="control-label">City</label>
+                <input type="text" id="city" name="city" class="form-control" ng-model="vm.credentialsDetails.city" required>
+                <div ng-messages="vm.userDetailsForm.city.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">City is required.</p>
+                </div> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+                <label for="postalCode" class="control-label">Postal Code</label>
+                <input type="text" id="postalCode" name="postalCode" class="form-control" ng-model="vm.credentialsDetails.postalCode" required>
+                <div ng-messages="vm.userDetailsForm.postalCode.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Postal Code is required.</p>
+                </div>
+              </div>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+                <label for="country" class="control-label">Country</label>
+                <select class="form-control" id="country" name="country" ng-model="vm.credentialsDetails.country" required>
+                  <option>India</option>
+                </select>
+                <div ng-messages="vm.userDetailsForm.country.$error" role="alert">
+                  <p class="help-block error-text" ng-message="required">Please select Country.</p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                <input type="submit" name="done" value="done" class="btn btn-primary btn-block text-uppercase" />
+              </div>
+            </div>
+          </form>
+        </div>              
       </div>
     </div>
+      <div class="right_image hidden-xs">
+      </div>
+  </div>
+</div>

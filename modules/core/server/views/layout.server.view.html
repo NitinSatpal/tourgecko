@@ -29,7 +29,7 @@
   <meta name="twitter:image" content="{{logo}}">
 
   <!-- Fav Icon -->
-  <link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
+  <link href="modules/core/client/img/brand/logo.png" rel="shortcut icon" type="image/x-icon">
 
   <!-- Bootstrap and jquery -->
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css"></script>
@@ -37,20 +37,33 @@
   <script src="lib/jquery/dist/jquery.min.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
+  <!-- font awesome -->
+  <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" >
+
   <!-- cdn Roboto -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
 
   <!-- Iconic fonts -->
   <link rel="stylesheet" href="lib/material-design/css/material-design-iconic-font.min.css" >
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+  <!-- moment -->
+  <script src="lib/moment/js/moment.js"></script>
+
+  <!-- Calendar Css and JS-->
+  <link rel="stylesheet" href="lib/full-calendar/css/fullcalendar.css" >
+  <link rel="stylesheet" href="lib/full-calendar/css/fullcalendar.print.css" media='print'>
+  <script src="lib/full-calendar/js/fullcalendar.js"></script>
 
   <!-- Application CSS Files -->
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
 <body class="ng-cloak">
-  <!--<header ng-include="'/modules/core/client/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>-->
   <section class="content">
+    <!-- need to find a good way to achieve this. Let it be for now -->
+    <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide=" '{{this.url}}' === 'http://localhost:3000/authentication/host/signup' || '{{this.url}}' === 'http://localhost:3000/authentication/host/signin' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="navbar navbar-default top-nav"></header>
     <section class="container">
       {{{block "content"}}}
     </section>
@@ -77,7 +90,7 @@
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
   <!--Application JavaScript Files-->
-    {{#each jsFiles}}<script type="text/javascript" src="{{this}}"></script>{{/each}}
+  {{#each jsFiles}}<script type="text/javascript" src="{{this}}"></script>{{/each}}
 
   {{#if livereload}}
   <!--Livereload script rendered -->

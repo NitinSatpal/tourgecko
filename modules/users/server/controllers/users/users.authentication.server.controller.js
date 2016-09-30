@@ -16,8 +16,8 @@ var path = require('path'),
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
-  '/authentication/signin',
-  '/authentication/signup'
+  '/authentication/host/signin',
+  '/authentication/host/signup'
 ];
 
 var smtpTransport = nodemailer.createTransport({
@@ -32,7 +32,6 @@ var smtpTransport = nodemailer.createTransport({
 exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
-  console.log('i m here ' + JSON.stringify(req.body));
   // Init user and add missing fields
   var user = new User(req.body);
   user.provider = 'local';
@@ -96,7 +95,7 @@ exports.signupDetails = function(req, res, next) {
             user.markModified('hostCompanyDetails');
 
             user.save(function (err) {
-              if(err) {
+              if (err) {
                 res.status(500).render('modules/core/server/views/500', {
                   error: 'Oops! Something went wrong! Please fill the details again!'
                 });
@@ -139,9 +138,10 @@ exports.signupDetails = function(req, res, next) {
         if (!err) {
           console.log('Message sent');
         } else {
-          return res.status(400).send({
-            message: 'Some problem occurred. Please try again after sometime or call us.'
-          });
+          console.log('Message sending failed.');
+          // return res.status(400).send({
+            // message: 'Some problem occurred. Please try again after sometime or call us.'
+          // });
         }
         done(err);
       });
@@ -183,7 +183,7 @@ exports.validateUserVerification = function(req, res) {
         if (err) {
           res.status(400).send(err);
         } else {
-          res.redirect('/');
+          res.redirect('/host/admin');
         }
       });
     }
@@ -254,14 +254,14 @@ exports.oauthCallback = function (strategy) {
 
     passport.authenticate(strategy, function (err, user, info) {
       if (err) {
-        return res.redirect('/authentication/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
+        return res.redirect('/authentication/host/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
       }
       if (!user) {
-        return res.redirect('/authentication/signin');
+        return res.redirect('/authentication/host/signin');
       }
       req.login(user, function (err) {
         if (err) {
-          return res.redirect('/authentication/signin');
+          return res.redirect('/authentication/host/signin');
         }
 
         return res.redirect(info || sessionRedirectURL || '/');

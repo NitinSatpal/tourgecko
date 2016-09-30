@@ -25,10 +25,10 @@
 
         if (!allowed) {
           event.preventDefault();
-          if (Authentication.user !== undefined && typeof Authentication.user === 'object') {
+          if (Authentication.user !== undefined && typeof Authentication.user === 'object' && Authentication.user !== null) {
             $state.transitionTo('forbidden');
           } else {
-            $state.go('authentication.signin').then(function () {
+            $state.go('authentication.hostSignin').then(function () {
               // Record previous state
               storePreviousState(toState, toParams);
             });

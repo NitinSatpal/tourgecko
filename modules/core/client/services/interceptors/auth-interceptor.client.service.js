@@ -20,7 +20,7 @@
           case 401:
             // Deauthenticate the global user
             Authentication.user = null;
-            $injector.get('$state').transitionTo('authentication.signin');
+            $injector.get('$state').transitionTo('authentication.hostSignin');
             break;
           case 403:
             $injector.get('$state').transitionTo('forbidden');

@@ -3,7 +3,8 @@
 }
 .container{
   width: 100% !important;
-  padding-right: 0 !important;  
+  padding-right: 0 !important;
+  overflow-x: hidden; 
 }
 .undecorated-link:hover {
   text-decoration: none;
@@ -49,6 +50,6 @@ a:hover .header-profile-image {
   display: inline;
   color:#cc0000 !important;
   font-size:11px !important;
-  margin-top:3px !important;
+  /*margin-top:3px !important;*/
 }
 

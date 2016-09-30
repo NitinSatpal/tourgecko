@@ -27,11 +27,27 @@
     });
 
     $stateProvider
-      .state('home', {
+      .state('abstractHome', {
+        abstract: true,
         url: '/',
-        templateUrl: 'modules/core/client/views/home.client.view.html',
+        templateUrl: 'modules/core/client/views/abstractHome.client.view.html',
         controller: 'HomeController',
         controllerAs: 'vm'
+      })
+      .state('abstractHome.toursite', {
+        url: '',
+        templateUrl: 'modules/hosts/client/views/toursite/toursite.client.view.html',
+        controller: 'ToursiteController',
+        controllerAs: 'vm',
+        params: {
+          id: null
+        }
+      })
+      .state('abstractHome.home', {
+        url: '',
+        templateUrl: 'modules/core/client/views/home.client.view.html',
+        controller: '',
+        controllerAs: ''
       })
       .state('not-found', {
         url: '/not-found',

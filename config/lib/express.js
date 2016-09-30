@@ -21,6 +21,7 @@ var config = require('../config'),
   _ = require('lodash'),
   lusca = require('lusca');
 
+var oneDay = 86400000;
 /**
  * Initialize local variables
  */
@@ -158,7 +159,7 @@ module.exports.initHelmetHeaders = function (app) {
  */
 module.exports.initModulesClientRoutes = function (app) {
   // Setting the app router and static folder
-  app.use('/', express.static(path.resolve('./public')));
+  app.use('/', express.static(path.resolve('./public'), { maxAge: oneDay }));
 
   // Globbing static routing
   config.folders.client.forEach(function (staticPath) {
