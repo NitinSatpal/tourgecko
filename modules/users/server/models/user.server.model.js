@@ -59,6 +59,11 @@ var UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  userType: {
+    type: String,
+    default: '',
+    trim: true
+  },
   isActive: {
     type: Boolean,
     default: false
@@ -73,22 +78,6 @@ var UserSchema = new Schema({
     required: 'Please fill in a username',
     lowercase: true,
     trim: true
-  },
-  businessName: {
-    type: String,
-    default: ''
-  },
-  businessWebsite: {
-    type: String,
-    default: ''
-  },
-  hostType: {
-    type: String,
-    default: ''
-  },
-  hostCompanyDetails: {
-    type: Schema.Types.Mixed,
-    default: {}
   },
   password: {
     type: String,

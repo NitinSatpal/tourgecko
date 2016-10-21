@@ -5,25 +5,32 @@
     .module('users.admin')
     .controller('UserController', UserController);
 
-  UserController.$inject = ['$scope', '$state', '$window', 'Authentication', 'userResolve'];
+  UserController.$inject = ['$scope', '$state', '$window', '$location', 'Authentication', 'userResolve'];
 
-  function UserController($scope, $state, $window, Authentication, user) {
+  function UserController($scope, $state, $window, $location, Authentication, user) {
     var vm = this;
 
     vm.authentication = Authentication;
     vm.user = user;
     vm.remove = remove;
     vm.update = update;
+    var urlPart = $location.url().split('/')[2];
+    if (urlPart === 'hosts')
+      vm.adminHosts = true;
+    else
+      vm.adminUsers = true;
 
     function remove(user) {
       if ($window.confirm('Are you sure you want to delete this user?')) {
         if (user) {
           user.$remove();
-
           vm.users.splice(vm.users.indexOf(user), 1);
         } else {
           vm.user.$remove(function () {
-            $state.go('admin.users');
+            if (urlPart === 'hosts')
+              $state.go('admin.hosts');
+            else
+              $state.go('admin.users');
           });
         }
       }

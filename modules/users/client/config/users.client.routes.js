@@ -21,16 +21,25 @@
           roles: ['user', 'admin']
         }
       })
-      .state('settings.profile', {
-        url: '/profile',
-        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
-        controller: 'EditProfileController',
-        controllerAs: 'vm',
+      .state('settings.home', {
+        url: '',
+        templateUrl: '',
+        controller: '',
+        controllerAs: '',
         data: {
           pageTitle: 'Settings'
         }
       })
-      .state('settings.password', {
+      .state('settings.profile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Settings'
+        }
+      })
+      /* .state('settings.password', {
         url: '/password',
         templateUrl: 'modules/users/client/views/settings/change-password.client.view.html',
         controller: 'ChangePasswordController',
@@ -56,7 +65,7 @@
         data: {
           pageTitle: 'Settings picture'
         }
-      })
+      }) */
       .state('authentication', {
         abstract: true,
         url: '/authentication',

@@ -5,11 +5,14 @@
     .module('hosts', [])
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService) {
     var vm = this;
     vm.authentication = Authentication;
+    vm.bookings = BookingService.query();
+
+    console.log(vm.bookings);
 
     vm.goToHostWebsite = function() {
       var userName = vm.authentication.user.username;

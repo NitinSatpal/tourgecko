@@ -1,6 +1,6 @@
 <div class="hostHome">
 	<div class="row body-content">
-		<div class="col-md-2 left-nav-bar">
+		<div class="col-md-3 col-sm-3 col-lg-2 left-nav-bar tourgecko-left-nav">
 			<nav class="navbar navbar-default navbar-fixed-side">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -19,15 +19,25 @@
 						<li><a href="#"><i class="zmdi zmdi-calendar-check"></i> Bookings</a></li>
 						
 						<li class="separator"><a href="#"><i class="zmdi zmdi-email"></i> Messages</a></li>
-						<li><a href="#"><i class="zmdi zmdi-settings"></i> Settings</a></li>
+						<li data-toggle="slide-collapse" data-target="#products" class="collapsed">
+									<a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
+									<ul class="sub-menu collapse" id="products">
+										<li class="active"><a href="#">Company Profile</a></li>
+										<li><a href="#">Contacts</a></li>
+										<li><a href="#">Payments</a></li>
+										<li><a href="#">Toursite</a></li>
+										<li><a href="#">Account</a></li>
+										<li><a href="#">Regional</a></li>
+									</ul>
+								</li>
 						<li><a href="#"><i class="zmdi zmdi-help"></i> Help</a></li>
 					</ul>
 				</div>
 			</nav>
 		</div>
-		<div class="col-md-10 col-sm-8 home-content">
+		<div class="col-md-9 col-sm-9 col-lg-10 home-content">
 			<div class="home_add_tour">
-            <h2><i class="zmdi zmdi-home"></i> Home</h2>
+	        <h2><i class="zmdi zmdi-home"></i> Home</h2>
 			<a class="btn btn-primary pull-right" href="#"><i>+</i>Add a Tour</a>
 				
 			</div>
@@ -124,10 +134,10 @@
 							<a href="#">See all Bookings</a>
 						</div>
 					</div>
-					<div class="col-lg-6 col-mg-6 col-sm-6 message">
+					<div class="col-lg-6 col-mg-6 col-sm-6 message" ng-repeat="booking in vm.bookings">
 						<h4>Messages</h4>
 						<div class="info_content">
-							<p class="name">Sunil Malik</p>
+							<p class="name">{{booking.numberOfBookings}}</p>
 							<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 							<p class="status"><i class="zmdi zmdi-email"></i></p>
 						</div>
@@ -152,7 +162,7 @@
 							<p class="status"><i class="zmdi zmdi-email"></i></p>
 						</div>
 						<div class="seemoreinfo">
-							<a href="#">See all Bookings</a>
+							<a href="#">See all Messages</a>
 						</div>
 					</div>
 				</div>
@@ -167,59 +177,150 @@
 					</div>
 				</div>
 			</div>
+			<div class="footer">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-md-12">
+						<footer>
+							<div class="wrap text-center">
+								<ul class="nav navbar-nav social center-text">
+									<li><a href="#">About TourGecko</a></li>
+									<li><a href="#">FAQ</a></li>
+									<li><a href="#">Sitemap</a></li>
+									<li><a href="#">Contact Us</a></li>
+									<li><a href="#">Terms of Use</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+								</ul>
+								<p class="copyright">&copy; 2016 TourGecko. All rights reserved.</p>
+							</div>
+						</footer>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="fullCalModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+				<h4 id="modalTitle" class=""></h4>
+			</div>
+			<div id="modalBody" class="modal-body"></div>
+			<div class="modal-footer">
+				<button class="btn btn-primary"><a id="eventUrl" target="_blank" href="#">Details</a></button>
+			</div>
 		</div>
 	</div>
 </div>
 <script>
 	$(document).ready(function() {
-
-	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		defaultDate: '2016-09-12',
-		navLinks: true, // can click day/week names to navigate views
-		selectable: true,
-		selectHelper: true,
-		select: function(start, end) {
-			var title = prompt('Event Title:');
-			var eventData;
-			if (title) {
-				eventData = {
-					title: title,
-					start: start,
-					end: end
-				};
-				$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
-			}
-			$('#calendar').fullCalendar('unselect');
-		},
-		editable: true,
-		eventLimit: true, // allow "more" link when too many events
-		events: [
-			{
-				title: '<span class="eventname orange">All Day Event</span><span class="lbreak"><i class="zmdi zmdi-circle orange"></i><i class="zmdi zmdi-account"></i>7/10</span>',
-				start: '2016-09-01',
-				backgroundColor: 'rgba(237,156,40, 0.2)'
-			},
-			{
-				title: '<span class="eventname green">All Day Event</span><span class="lbreak"><i class="zmdi zmdi-circle green"></i><i class="zmdi zmdi-account"></i>10/10</span>',
-				start: '2016-09-07',
-				end: '2016-09-10',
-				backgroundColor: 'rgba(66,174,94,0.2)'
-			},
-			{
-				title: '<span class="eventname red">All Day Event</span><span class="lbreak"><i class="zmdi zmdi-circle red"></i><i class="zmdi zmdi-account"></i>1/10</span>',
-				start: '2016-09-17',
-				end: '2016-09-20',
-				backgroundColor: 'rgba(216,64,64,0.2/respond)'
-			},
-		],
-		eventRender: function (event, element) {
-			element.find('.fc-title').html(event.title);
+		var events = [];
+		$.ajax({
+	      url:'/api/host/product',
+	        type:'GET',
+	        dataType: 'json',
+	      success: function( json ) {
+	      	var cssCounter = 0;
+	        $.each(json, function(index, document) {
+	        	if (cssCounter == 0) {
+	        		events.push	({title: '<span class="eventname orange">' + document.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle orange"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.productStartDate, end: document.productEndDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
+	        		cssCounter++;
+	        	} else if (cssCounter == 1) {
+	        		events.push	({title: '<span class="eventname green">' + document.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle green"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.productStartDate, end: document.productEndDate, backgroundColor: 'rgba(66,174,94,0.2)'});
+	        		cssCounter++;
+	        	} else {
+	        		events.push	({title: '<span class="eventname red">' + document.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle red"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.productStartDate, end: document.productEndDate, backgroundColor: 'rgba(216,64,64,0.2)'});
+	        		cssCounter = 0;
+	        	}
+	        });
+            $('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'month,agendaWeek,agendaDay'
+				},
+				navLinks: true, // can click day/week names to navigate views
+				selectable: true,
+				selectHelper: true,
+				select: function(start, end) {
+					var title = prompt('Event Title:');
+					var eventData;
+					if (title) {
+						eventData = {
+							title: title,
+							start: start,
+							end: end
+						};
+						$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+					}
+					$('#calendar').fullCalendar('unselect');
+				},
+				editable: true,
+				eventLimit: true, // allow "more" link when too many events
+				events: events,
+				eventRender: function (event, element) {
+					element.find('.fc-title').html(event.title);
+				},
+				eventClick:  function(event, jsEvent, view) {
+					var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+					var date1 = new Date(event._start._i);
+					var date2 = new Date(event._end._i);
+					var hours1 = date1.getHours();
+					var ampm1 = (hours1 >= 12)? 'pm' : 'am';
+					hours1 = (hours1 > 12)? hours1 -12 : hours1;
+					var hours2 = date2.getHours();
+					var ampm2 = (hours2 >= 12)? 'pm' : 'am';
+					hours2 = (hours2 > 12)? hours2 -12 : hours2;
+					var mins1 = date1.getMinutes();
+					var mins2 = date2.getMinutes();
+					var s_date = date1.getDate()+" "+months[new Date(event._start._i).getMonth()]+" "+hours1+":"+mins1+ampm1;
+					var e_date = date2.getDate()+" "+months[new Date(event._end._i).getMonth()]+" "+hours2+":"+mins2+ampm2;
+					var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+					var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+					
+					var event_name = $(jsEvent.currentTarget).find(".eventname").text();
+					var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
+					console.log(event_color);
+					var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
+					var duration_date = s_date+"-"+e_date;
+					var duration_days = diffDays+" Days";
+					
+					var html = "<p><i class='zmdi zmdi-calendar'></i> "+duration_date+"</p><p><i class='zmdi zmdi-time'></i> "+duration_days+"</p><p><i class='zmdi zmdi-calendar-check'></i> Fixed Dates</p><p><i class='zmdi zmdi-account'></i> "+bookings+"</p>";
+					
+					
+					$('#modalTitle').html("<i class='zmdi zmdi-circle'></i> "+event_name).attr("class","").addClass(event_color);
+					$('#modalBody').html(html);
+					$('#eventUrl').attr('href',event.url);
+					$('#fullCalModal').modal();
+				}
+			});
+	      }
+	    });
+	});
+</script>
+<script>
+	$(".navbar-toggle").click(function(e){
+		e.preventDefault();
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").toggleClass("toggle");
+		}
+		e.stopPropagation();
+	});
+	$("li[data-toggle='slide-collapse']").click(function(e){
+		e.stopPropagation();
+		$(this).toggleClass("toggle");
+	});
+	$(".sub-menu").click(function(e){
+		e.stopPropagation();
+	});
+	$(document).click(function () {
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").removeClass("toggle");
 		}
 	});
-});
 </script>

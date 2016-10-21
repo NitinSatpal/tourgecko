@@ -1,0 +1,150 @@
+<section>
+	<div class="text-center">
+    	<h2>Welcome {{vm.authentication.user.displayName}}.</h2>
+  		<br>
+	  	<button type="button" class="btn btn-info" ng-click="vm.showOptions('browseAndModifyData')" data-target="#browseData" aria-expanded="false">Browse and Modify Data</button>&nbsp;&nbsp;
+	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addRichData')">Add Rich Data</button>&nbsp;&nbsp;
+	  	<button type="button" class="btn btn-success" ng-click="vm.showOptions('analysis')">Analysis</button>
+	</div>
+	<br>
+	<hr>
+	<div class="userGuide" id="userGuide" ng-show="vm.userGuide">
+		<h3> User Guide</h3>
+		<br>
+		<ul>
+      		<li><h4>Browse and Modify Data</h4></li>
+  			<ul>
+  				<li> This option will be useful for browisng all users, products and other content of the tourgecko and to modify it, if required.</li>
+  			</ul>
+  			<li><h4>Add Rich Data</h4></li>
+  			<ul>
+  				<li> All kind of rich data can be added using this option. Any rich data added from here will be available for the functional use.</li>
+  			</ul>
+  			<li><h4>Analysis</h4></li>
+  			<ul>
+  				<li> This option will be useful for analysing tourgecko overall, like number of products sold, payout, paying, revenue etc.</li>
+  			</ul>
+      	</ul>
+	</div>
+	<div id="browseAndModifyData" ng-show="vm.browseAndModifyData">
+		<ul id="richDataTabs" class="nav nav-tabs">
+		    <li class="active"><a data-toggle="tab" href="#users">Users</a></li>
+		    <li><a data-toggle="tab" href="#hosts" ng-click="vm.fetchHosts()">Hosts</a></li>
+		    <li><a data-toggle="tab" href="#products">Products</a></li>
+		    <li><a data-toggle="tab" href="#themes">Themes</a></li>
+		    <li><a data-toggle="tab" href="#activities">Activities</a></li>
+	  	</ul>
+	  	<div class="tab-content">
+	  		<div class="tab-pane fade in active" id="users">
+	  			<div class="page-header">
+    				<div class="row">
+      					<div class="col-md-4">
+        					<h1>Users</h1>
+      					</div>
+				        <div class="col-md-4" style="margin-top: 2em">
+				        	<input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplayForUsers()" />
+				      	</div>
+    				</div>
+  				</div>
+			    <div class="list-group">
+			    	<a ng-repeat="user in vm.pagedItemsForUsers" ui-sref="admin.user({userId: user._id})" class="list-group-item">
+				      	<h4 class="list-group-item-heading" ng-bind="user.displayName"></h4>
+				      	<p class="list-group-item-text pull-right small" ng-bind="user.roles"></p>
+				      	<p class="list-group-item-text" ng-bind="user.email"></p>
+			    	</a>
+			  	</div>
+			  	<uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPageForUsers" total-items="vm.filterLengthForUsers" ng-model="vm.currentPageForUsers" ng-change="vm.pageChanged('users')"></uib-pagination>
+  			</div>
+  			<div class="tab-pane fade" id="hosts">
+	  			<div class="page-header">
+    				<div class="row">
+      					<div class="col-md-4">
+        					<h1>Hosts</h1>
+      					</div>
+				        <div class="col-md-4" style="margin-top: 2em">
+				        	<input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplayForHosts()" />
+				      	</div>
+    				</div>
+  				</div>
+			    <div class="list-group">
+			    	<a ng-repeat="host in vm.pagedItemsForHosts" ui-sref="admin.host({userId: host._id})" class="list-group-item">
+				      	<h4 class="list-group-item-heading" ng-bind="host.displayName"></h4>
+				      	<p class="list-group-item-text pull-right small" ng-bind="host.roles"></p>
+				      	<p class="list-group-item-text" ng-bind="host.email"></p>
+			    	</a>
+			  	</div>
+			  	<uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPageForHosts" total-items="vm.filterLengthForHosts" ng-model="vm.currentPageForHosts" ng-change="vm.pageChanged('hosts')"></uib-pagination>
+  			</div>
+  			<div class="tab-pane fade" id="products">
+	  			Yahoo
+  			</div>
+  			<div class="tab-pane fade" id="themes">
+	  			<div class="page-header">
+    				<div class="row">
+      					<div class="col-md-4">
+        					<h1>Themes</h1>
+      					</div>
+				        <div class="col-md-4" style="margin-top: 2em">
+				        	<input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplayForThemes()" />
+				      	</div>
+    				</div>
+  				</div>
+			    <div class="list-group">
+			    	<a ng-repeat="theme in vm.pagedItemsForThemes" class="list-group-item">
+				      	<h4 class="list-group-item-heading" ng-bind="theme.themeName"></h4>
+			    	</a>
+			  	</div>
+			  	<uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPageForThemes" total-items="vm.filterLengthForThemes" ng-model="vm.currentPageForThemes" ng-change="vm.pageChanged('themes')"></uib-pagination>
+  			</div>
+  			<div class="tab-pane fade" id="activities">
+	  			<div class="page-header">
+    				<div class="row">
+      					<div class="col-md-4">
+        					<h1>Activities</h1>
+      					</div>
+				        <div class="col-md-4" style="margin-top: 2em">
+				        	<input class="form-control col-md-4" type="text" ng-model="vm.search" placeholder="Search" ng-change="vm.figureOutItemsToDisplayForActivities()" />
+				      	</div>
+    				</div>
+  				</div>
+			    <div class="list-group">
+			    	<a ng-repeat="activity in vm.pagedItemsForActivities" class="list-group-item">
+				      	<h4 class="list-group-item-heading" ng-bind="activity.activityName"></h4>
+			    	</a>
+			  	</div>
+			  	<uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPageForActivities" total-items="vm.filterLengthForActivities" ng-model="vm.currentPageForActivities" ng-change="vm.pageChanged('activities')"></uib-pagination>
+  			</div>
+		</div>
+	</div>
+	<div id="modifyAndDelete" ng-show="vm.addRichData">
+		<ul id="richDataTabs" class="nav nav-tabs">
+		    <li class="active"><a data-toggle="tab" href="#addTheme">Add Themes</a></li>
+		    <li><a data-toggle="tab" href="#addActivity">Add Activities</a></li>
+	  	</ul>
+	  	<div class="tab-content">
+	  		<div class="tab-pane fade in active addTheme" id="addTheme" >
+	  			<br>
+	  			<br>
+	  			<div class="text-center">
+	  				<input name="theme" type="text" ng-model="vm.themesAdded" id="theme" placeholder="use comma to add multiple themes">
+		  			<br>
+		  			<br>
+	  				<button type="button" class="adminButtons" ng-click="vm.addThemes()">Add Themes</button>
+	  			</div>
+	  		</div>
+	  		<div id="addActivity" class="tab-pane fade addTheme">
+	  			<br>
+	  			<br>
+	  			<div class="text-center">
+	  				<input name="activity" type="text" ng-model="vm.activitiesAdded" id="activity" placeholder="use comma to add multiple activities">
+		  			<br>
+		  			<br>
+	  				<button type="button" class="adminButtons" ng-click="vm.addActivities()">Add Activities</button>
+	  			</div>
+	  		</div>
+	  	</div>
+	</div>
+	<div id="analysis" ng-show="vm.analysis">
+		hehehe
+	</div>
+</section>

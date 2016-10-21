@@ -5,18 +5,25 @@
     .module('users.admin')
     .controller('UserListController', UserListController);
 
-  UserListController.$inject = ['$scope', '$filter', 'AdminService'];
+  UserListController.$inject = ['$scope', '$filter', '$location', 'AdminService', 'HostService'];
 
-  function UserListController($scope, $filter, AdminService) {
+  function UserListController($scope, $filter, $location, AdminService, HostService) {
     var vm = this;
     vm.buildPager = buildPager;
     vm.figureOutItemsToDisplay = figureOutItemsToDisplay;
     vm.pageChanged = pageChanged;
 
-    AdminService.query(function (data) {
-      vm.users = data;
-      vm.buildPager();
-    });
+    if ($location.url() === '/admin/hosts') {
+      HostService.query(function (data) {
+        vm.users = data;
+        vm.buildPager('hosts');
+      });
+    } else {
+      AdminService.query(function (data) {
+        vm.users = data;
+        vm.buildPager();
+      });
+    }
 
     function buildPager() {
       vm.pagedItems = [];

@@ -24,6 +24,7 @@
   AdminService.$inject = ['$resource'];
 
   function AdminService($resource) {
+    var user = {};
     return $resource('api/users/:userId', {
       userId: '@_id'
     }, {

@@ -12,4 +12,15 @@ module.exports = function (app) {
 
   app.route('/api/host/toursitedata')
     .get(hosts.getToursiteData);
+
+  app.route('/api/host/product/')
+    .post(hosts.createProduct)
+    .get(hosts.fetchAllProductDetails);
+
+  app.route('/api/host/product/:productId')
+    .get(hosts.fetchSingleProductDetails);
+
+  app.route('/api/host/booking')
+    .post(hosts.createBooking)
+    .get(hosts.fetchAllBookingDetails);
 };

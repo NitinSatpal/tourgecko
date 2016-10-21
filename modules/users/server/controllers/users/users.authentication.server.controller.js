@@ -8,6 +8,8 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
+  UserAdmin = mongoose.model('UserAdministration'),
+  HostCompany = mongoose.model('HostCompany'),
   passport = require('passport'),
   nodemailer = require('nodemailer'),
   xoauth2 = require('xoauth2'),
@@ -42,11 +44,21 @@ exports.signup = function (req, res) {
   // Then save the user
   user.save(function (err) {
     if (err) {
-      console.log(err);
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
+      var userAdmin = new UserAdmin();
+      userAdmin.user = user;
+      userAdmin.save(function (err) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        } else {
+          // Do nothing
+        }
+      });
       res.json(user);
     }
   });
@@ -83,16 +95,7 @@ exports.signupDetails = function(req, res, next) {
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
             user.hostType = userDetails.hostType;
-            user.hostCompanyDetails = {
-              businessName: userDetails.businessName,
-              businessWebsite: userDetails.businessWebsite,
-              streetAddress: userDetails.streetAddress,
-              city: userDetails.city,
-              postalCode: userDetails.postalCode,
-              state: userDetails.state,
-              country: userDetails.country
-            };
-            user.markModified('hostCompanyDetails');
+            user.userType = 'host';
 
             user.save(function (err) {
               if (err) {
@@ -100,6 +103,28 @@ exports.signupDetails = function(req, res, next) {
                   error: 'Oops! Something went wrong! Please fill the details again!'
                 });
               }
+              var hostCompany = new HostCompany();
+              hostCompany.user = user;
+              hostCompany.companyName = userDetails.companyName;
+              hostCompany.companyWebsite = userDetails.companyWebsite;
+              hostCompany.hostCompanyAddress = {
+                streetAddress: userDetails.streetAddress,
+                city: userDetails.city,
+                postalCode: userDetails.postalCode,
+                state: userDetails.state,
+                country: userDetails.country
+              };
+              hostCompany.markModified('hostCompanyAddress');
+              hostCompany.save(function (err) {
+                if (err) {
+                  console.log(err);
+                  /* return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                  }); */
+                } else {
+                  // Do nothing
+                }
+              });
               res.json(user);
               done(err, token, user);
             });
@@ -201,9 +226,6 @@ exports.signin = function (req, res, next) {
       if (user.isActive === false) {
         res.status(403).send(info);
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
-        /* res.render('modules/core/server/views/userNotActivated', {
-        error: 'User is not yet activated. Please go to the verification link sent to your registered mail address...'
-      }); */
       } else {
         // Remove sensitive data before login
         user.password = undefined;

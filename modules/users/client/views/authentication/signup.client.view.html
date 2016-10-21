@@ -51,10 +51,11 @@
               <div class="cols-sm-10 input_group">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="zmdi zmdi-smartphone"></i></span>
-                  <input type="mobile" id="mobile" name="mobile" class="form-control" ng-model="vm.credentials.mobile" placeholder="Mobile" ng-pattern="regEx" lowercase required>
+                  <input type="mobile" id="mobile" name="mobile" class="form-control" ng-model="vm.credentials.mobile" placeholder="Mobile" ng-pattern="regExForMobileValidity" lowercase required>
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.mobile.$error" role="alert">
                   <p class="help-block error-text " ng-message="required">Mobile Number is required.</p>
+                  <p class="help-block error-text " ng-message="pattern">Mobile Number is invalid.</p>
                   <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>      
               </div>

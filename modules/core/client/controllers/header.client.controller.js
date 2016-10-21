@@ -21,5 +21,10 @@
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
     }
+
+    vm.goToHomePage = function() {
+      if ($state.$current.url.source !== '/')
+        $state.go('abstractHome');
+    };
   }
 }());

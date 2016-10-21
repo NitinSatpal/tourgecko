@@ -9,7 +9,6 @@ var adminPolicy = require('../policies/admin.server.policy'),
 module.exports = function (app) {
   // User route registration first. Ref: #713
   require('./users.server.routes.js')(app);
-
   // Users collection routes
   app.route('/api/users')
     .get(adminPolicy.isAllowed, admin.list);

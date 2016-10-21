@@ -28,10 +28,9 @@
 
     $stateProvider
       .state('abstractHome', {
-        abstract: true,
         url: '/',
         templateUrl: 'modules/core/client/views/abstractHome.client.view.html',
-        controller: 'HomeController',
+        controller: 'AbstractHomeController',
         controllerAs: 'vm'
       })
       .state('abstractHome.toursite', {
@@ -46,8 +45,8 @@
       .state('abstractHome.home', {
         url: '',
         templateUrl: 'modules/core/client/views/home.client.view.html',
-        controller: '',
-        controllerAs: ''
+        controller: 'HomeController',
+        controllerAs: 'vm'
       })
       .state('not-found', {
         url: '/not-found',

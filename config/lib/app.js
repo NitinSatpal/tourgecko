@@ -33,7 +33,7 @@ module.exports.start = function start(callback) {
   var _this = this;
 
   _this.init(function (app, db, config) {
-    if (cluster.isMaster) {
+    /* if (cluster.isMaster) {
       var numWorkers = require('os').cpus().length;
 
       console.log('Master cluster setting up ' + numWorkers + ' workers...');
@@ -50,7 +50,7 @@ module.exports.start = function start(callback) {
         console.log('Starting a new worker');
         cluster.fork();
       });
-    } else {
+    } else { */
       // Start the app by listening on <port> at <host>
       app.listen(config.port, config.host, function () {
         // Create server URL
@@ -69,7 +69,7 @@ module.exports.start = function start(callback) {
 
         if (callback) callback(app, db, config);
       });
-    }
+   // }
   });
 
 };

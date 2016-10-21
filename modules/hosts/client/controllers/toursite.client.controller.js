@@ -11,12 +11,10 @@
     var vm = this;
 
     if ($stateParams.id !== null) {
-      vm.toursite = $stateParams.id["userId"];
+      vm.toursite = $stateParams.id.userId;
       console.log(vm.toursite);
-    }
-    else
+    } else {
       console.log('error');
-    
-
+    }
   }
 }());

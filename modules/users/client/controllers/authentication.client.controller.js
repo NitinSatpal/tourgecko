@@ -17,10 +17,16 @@
     vm.signupDetails = signupDetails;
     vm.callOauthProvider = callOauthProvider;
     vm.terms = false;
+    vm.hostType = 'Tour Operator';
+    vm.country = 'India';
     // For now allowing all the numbers starting from 1 and just checking 10 digits for Indian mobile numbers. We can become more
     // strcit and just allow number starting from 7, 8, 9 as in India number series starts only from these numbers.
-    $scope.regEx = '^[1-9][0-9]{9}$';
-
+    $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
+    // Maximum number of digits in this world is currenlty 10 it seems.
+    $scope.regExForPostalCode = '^[0-9]{1,10}$';
+    // City name and state name will be consisting of alphabets only. Assumption for now.
+    // One more assumption is no city or state name will be greater than 50 alphabets.
+    $scope.regExForStateAndCity = '^[a-z]{1,50}$';
     // Get an eventual error defined in the URL query string:
     vm.error = $location.search().err;
 
@@ -55,6 +61,7 @@
         return false;
       }
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
+      console.log(JSON.stringify(vm.credentialsDetails));
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page
         $state.go('hostDetails.signupDone');
@@ -77,10 +84,11 @@
       $http.post('/api/auth/signin', vm.credentials).success(function (response) {
         // If successful we assign the response to the global user model
         vm.authentication.user = response;
-
         // And redirect to the host home page
-        $state.go('hostHome');
-        // $state.go($state.previous.state.name || 'home', $state.previous.params);
+        if (vm.authentication.user.roles.length === 1 && vm.authentication.user.roles[0] === 'user')
+          $state.go('hostHome');
+        else
+          $state.go($state.previous.state.name || 'admin.home', $state.previous.params);
       }).error(function (response) {
         vm.error = response.message;
       });

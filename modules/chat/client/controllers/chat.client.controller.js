@@ -5,9 +5,9 @@
     .module('chat')
     .controller('ChatController', ChatController);
 
-  ChatController.$inject = ['$scope', '$state', 'Authentication', 'Socket'];
+  ChatController.$inject = ['$scope', '$state', '$http', 'Authentication', 'Socket'];
 
-  function ChatController($scope, $state, Authentication, Socket) {
+  function ChatController($scope, $state, $http, Authentication, Socket) {
     var vm = this;
 
     vm.messages = [];
@@ -44,10 +44,14 @@
       var message = {
         text: vm.messageText
       };
-
+      var messageDetails = { 'messageFrom': 'kanna@manna.com', 'messageTo': 'nitinsatpal@gmail.com', 'messageType': 'query', 'messageBody': message.text, 'messageStatus': 'open' };
+      $http.post('/api/message/', messageDetails).success(function (response) {
+        console.log('saved');
+      }).error(function (response) {
+        vm.error = response.message;
+      });
       // Emit a 'chatMessage' message event
       Socket.emit('chatMessage', message);
-
       // Clear the message text
       vm.messageText = '';
     }
