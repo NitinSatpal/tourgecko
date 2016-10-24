@@ -1,46 +1,10 @@
 <div class="hostHome">
 	<div class="row body-content">
-		<div class="col-md-3 col-sm-3 col-lg-2 left-nav-bar tourgecko-left-nav">
-			<nav class="navbar navbar-default navbar-fixed-side">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span> 
-					</button>
-				</div>
-				<div class="navbar-collapse collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li><a href="#"><i class="zmdi zmdi-home"></i> Home</a></li>						
-						<li><a href="#" ng-click="vm.goToHostWebsite()"><i class="zmdi zmdi-globe"></i> View Your Website</a></li>
-						
-						<li class="separator"><a href="#"><i class="zmdi zmdi-card-travel"></i> Tours</a></li>						
-						<li><a href="#"><i class="zmdi zmdi-calendar"></i> Calendar</a></li>
-						<li><a href="#"><i class="zmdi zmdi-calendar-check"></i> Bookings</a></li>
-						
-						<li class="separator"><a href="#"><i class="zmdi zmdi-email"></i> Messages</a></li>
-						<li data-toggle="slide-collapse" data-target="#products" class="collapsed">
-									<a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
-									<ul class="sub-menu collapse" id="products">
-										<li class="active"><a href="#">Company Profile</a></li>
-										<li><a href="#">Contacts</a></li>
-										<li><a href="#">Payments</a></li>
-										<li><a href="#">Toursite</a></li>
-										<li><a href="#">Account</a></li>
-										<li><a href="#">Regional</a></li>
-									</ul>
-								</li>
-						<li><a href="#"><i class="zmdi zmdi-help"></i> Help</a></li>
-					</ul>
-				</div>
-			</nav>
-		</div>
+		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
+
 		<div class="col-md-9 col-sm-9 col-lg-10 home-content">
-			<div class="home_add_tour">
-	        <h2><i class="zmdi zmdi-home"></i> Home</h2>
-			<a class="btn btn-primary pull-right" href="#"><i>+</i>Add a Tour</a>
-				
-			</div>
+			<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
+
 			<div class="home-section analytics">
 				<div class="head_content">
 					<h3>Analytics</h3>
@@ -98,10 +62,10 @@
 					<h3>Latest</h3>
 				</div>
 				<div class="row">
-					<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
+					<div class="col-lg-6 col-mg-6 col-sm-6 bookings" ng-repeat="booking in vm.bookings">
 						<h4>Bookings</h4>
 						<div class="info_content">
-							<p class="name">Sunil Malik</p>
+							<p class="name">{{booking.numberOfBookings}}</p>
 							<p class="outing">Trek to bandghavgad</p>
 							<p class="date">20 Jan, 2016</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
@@ -134,10 +98,10 @@
 							<a href="#">See all Bookings</a>
 						</div>
 					</div>
-					<div class="col-lg-6 col-mg-6 col-sm-6 message" ng-repeat="booking in vm.bookings">
+					<div class="col-lg-6 col-mg-6 col-sm-6 message" ng-repeat="message in vm.messages">
 						<h4>Messages</h4>
 						<div class="info_content">
-							<p class="name">{{booking.numberOfBookings}}</p>
+							<p class="name">{{message.messageFrom}}</p>
 							<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 							<p class="status"><i class="zmdi zmdi-email"></i></p>
 						</div>
@@ -177,24 +141,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="footer">
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-md-12">
-						<footer>
-							<div class="wrap text-center">
-								<ul class="nav navbar-nav social center-text">
-									<li><a href="#">About TourGecko</a></li>
-									<li><a href="#">FAQ</a></li>
-									<li><a href="#">Sitemap</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Terms of Use</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-								</ul>
-								<p class="copyright">&copy; 2016 TourGecko. All rights reserved.</p>
-							</div>
-						</footer>
-					</div>
-				</div>
+			<div class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'">
 			</div>
 		</div>
 	</div>

@@ -1,0 +1,1009 @@
+<div class="hostHome container-fluid" id="tours">
+	<div class="row body-content">
+		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
+		<div class="col-md-12 col-sm-12 col-lg-12 home-content main-body-wrapper">
+			<div ng-include="'/modules/hosts/client/views/add-product/top-nav-product.client.view.html'"></div>
+			<div class="add-product">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tours_page">
+						<ul class="nav nav-tabs" id="addProductabs">
+							<li class="active"><a data-toggle="tab" href="#tours_bd">Basic Details</a></li>
+							<li><a data-toggle="tab" href="#tours_pricing">Pricing</a></li>
+							<li><a data-toggle="tab" href="#tours_sa">Schedule Availability</a></li>
+							<li><a data-toggle="tab" href="#tours_itinerary">Itinerary</a></li>
+							<li><a data-toggle="tab" href="#tours_guidelines">Guidelines</a></li>
+							<li><a data-toggle="tab" href="#tours_media">Media</a></li>
+						</ul>
+									
+						<!-- tab content begins -->
+						<form class="form-horizontal" name="vm.form.tourForm" novalidate>
+							<div class="tab-content">
+								<div id="tours_bd" class="tab-pane fade in active">
+									<h3><i class="zmdi zmdi-view-list-alt"></i> Set up basic details for this Tour</h3>												
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<div class="form-group" show-errors>
+													<label for="name_of_the_tour" class="control-label">Name this tour</label>
+													<div class="input_group">
+														<div class="input-group">
+															<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+															<input type="text" class="form-control" name="name_of_the_tour" id="name_of_the_tour"  ng-model="vm.tour.productTitle" placeholder="Ex: Hike to Ratangad" required/>
+														</div>
+													</div>
+													<div class="sub-desc-container" ng-show="vm.helpVisible">
+														<i class="zmdi zmdi-lamp"></i>
+														<p class="sub_desc">Be creative in naming your tour or activity to make it stand out. <br/>Example: A Trek through mountains of shepherds</p>
+													</div>
+													<div ng-messages="vm.form.tourForm.name_of_the_tour.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+									                </div>
+												</div>
+												
+												<div class="form-group" show-errors>
+													<label for="tour_main_destination" class="control-label">Main Destination</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">Enter main location or destination for this tour. If this is multi day tour with various destinations, you can enter main regional destination like a state or even country as main destination.</p>
+													<div class="input_group">
+														<div class="input-group">
+															<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+															<input type="text" class="form-control" name="tour_main_destination" id="tour_main_destination" ng-model="vm.tour.destination" placeholder="Ex: Himachal" required/>
+														</div>
+													</div>
+													<div ng-messages="vm.form.tourForm.tour_main_destination.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="required">Destination is required</p>
+									                </div>
+												</div>
+												
+												<div class="form-group" show-errors>
+													<label for="describe_tour_briefly" class="control-label">Describe this tour briefly</label>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
+													<div class="input_group">
+														<div>
+															<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-model="vm.tour.productSummary" required></textarea>
+														</div>
+													</div>
+													<div ng-messages="vm.form.tourForm.describe_tour_briefly.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="required">Description of the tour is required</p>
+									                </div>
+												</div>
+												
+												<div class="row no_margin_row">
+													<div class="col-sm-6 col-md-6 col-lg-6">
+														<div class="form-group">
+															<label for="tour_start_location" class="control-label">Start location</label>
+															<p class="sub_desc" ng-show="vm.helpVisible">Start location of this tour</p>
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+																	<input type="text" class="form-control" name="tour_start_location" id="tour_start_location"  ng-model="vm.tour.pickupLocation" placeholder="Ex: Himachal"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6 col-md-6 col-lg-6">
+														<div class="form-group">
+															<label for="tour_end_location" class="control-label">End location</label>
+															<p class="sub_desc" ng-show="vm.helpVisible">End location of this tour</p>
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+																	<input type="text" class="form-control" name="tour_end_location" id="tour_end_location" ng-model="vm.tour.dropLocation" placeholder="Ex: Mumbai"/>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row no_margin_row">
+													<div class="col-sm-6 col-md-6 col-lg-6">
+														<div class="form-group">
+															<label for="tour_physical_demand" class="control-label">How physically demanding is this tour?</label>
+															<p class="sub_desc" ng-show="vm.helpVisible">Grade this tour on level of physical fitness required</p>
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor" ng-model="vm.tour.productGrade">
+																		<option>Easy</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												
+												<div class="row no_margin_row">
+													<div class="col-sm-6 col-md-6 col-lg-6">
+														<label class="control-label">What age group is this tour suitable for?</label>
+														<div class="row">
+															<div class="col-sm-5 col-md-5 col-lg-5">
+																<div class="form-group">																			
+																	<div class="input_group">
+																		<div>																					
+																			<input type="text" class="form-control" name="tour_start_age" id="tour_start_age"  placeholder="age"/>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-sm-2 col-md-2 col-lg-2">
+																<p style="text-align: center; padding: 1em 0;">to</p>
+															</div>
+															<div class="col-sm-5 col-md-5 col-lg-5">
+																<div class="form-group">																			
+																	<div class="input_group">
+																		<div>																					
+																			<input type="text" class="form-control" name="tour_end_age" id="tour_end_age"  placeholder="age"/>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_pricing')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="tours_pricing" class="tab-pane fade">
+									<h3><i class="zmdi zmdi-money-box"></i> Set up price, deposits and cancellation</h3>
+									
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<div class="form-group">
+													<label for="starting_price" class="control-label">Starting Price</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">This is used for display purpose. Use the lowest price.</p>
+													<div class="input_group">
+														<div class="input-group">
+															<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+															<input type="text" class="form-control" name="starting_price" id="starting_price"  placeholder="Ex: 3000"/>
+														</div>
+													</div>
+												</div>
+												<label class="control-label">What is the Price of this tour?</label>
+												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
+												<div class="row no_margin_row">
+													
+													<div class="col-sm-12 col-lg-12 col-md-12">
+														<label for="pricefor" class="control-label pricefor">Price for</label>
+													</div>
+													
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor">
+																		<option>Everyone</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3 col-lg-3 col-md-3">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row no_margin_row price_for_adult">
+													<div class="col-sm-12 col-lg-12 col-md-12">
+														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">																
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor">
+																		<option>Adult</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3 col-lg-3 col-md-3">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
+												</div>
+												<div class="row no_margin_row">
+													<div class="col-sm-12 col-lg-12 col-md-12">
+														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor">
+																		<option>Group</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon minmax">min</span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon minmax">max</span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor">
+																		<option>Per Group</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">																		
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
+												</div>
+												<div class="row no_margin_row">
+													<div class="col-sm-12 col-lg-12 col-md-12">
+														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="pricefor">
+																		<option>Custom</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="custom label"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="form-group">																		
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6">
+														<div class="form-group">																		
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon seats_used">Seats Used</span>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3 col-lg-3 col-md-3">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
+												</div>
+												<a href="#" class="add_price_option">Add price option</a>
+											</div>
+											<h3>
+												Are there addon services?
+													<div class="onoffswitch addon-onoff">
+														<input type="checkbox" name="addon-onoffswitch" class="onoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" checked>
+														<label class="onoffswitch-label" for="addon-onoffswitch"></label>
+													</div>
+											</h3>
+											<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
+											<div class="panel addon-panel" ng-show="vm.isAddonAvailable">
+												<div class="row no_margin_row">
+													<div class="col-sm-4 col-lg-4 col-md-4">
+														<div class="form-group">
+															<label for="addon_name_one" class="control-label">Addon</label>
+															<p class="sub_desc lheight">Name of Addon</p>
+															<div class="input_group">
+																<div>
+																	<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" placeholder="Camera, Phone, Speaker etc.">
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4 col-lg-4 col-md-4">
+														<div class="form-group">
+															<label for="addon_price" class="control-label">Price</label>
+															<p class="sub_desc lheight">Approx value</p>
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" name="addon_price" class="form-control" id="addon_price" placeholder="Ex: 200">
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4 col-lg-4 col-md-4">
+														<div class="form-group">
+															<label for="addon_apply" class="control-label">Apply as</label>
+															<p class="sub_desc lheight">How to apply this price during booking</p>
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="addon_apply">
+																		<option>per booking</option>
+																		<option>Option 2</option>
+																		<option>Option 3</option>
+																		<option>Option 4</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-lg-12 col-md-12">
+														<div class="form-group">
+															<label for="addon_starting_price" class="control-label">Starting Price</label>
+															<div class="input_group">
+																<div>
+																	<input type="text" name="addon_starting_price" class="form-control" id="addon_starting_price" placeholder="Short description to explain what this addon is">
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-lg-12 col-md-12 addon_edit">
+														<a href="#" class="add_addon">Add more</a>
+														<a href="#" class="delete_addon">Delete</a>
+													</div>
+												</div>
+											</div>
+											<h3>
+												Does this Tour require a deposit?
+													<div class="onoffswitch deposit-onoff">
+														<input type="checkbox" name="deposit-onoffswitch" class="onoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" checked>
+														<label class="onoffswitch-label" for="deposit-onoffswitch"></label>
+													</div>
+											</h3>
+											<p class="sub_desc" ng-show="vm.helpVisible">You can set deposit on tours that have upfront cost.</p>
+											<div class="panel deposit-panel" ng-show="vm.isDepositApplicable">
+												<div class="row no_margin_row">
+													<div class="col-sm-4 col-lg-4 col-md-4">
+														<div class="form-group">
+															<label for="deposit_price" class="control-label">Price</label>
+															<p class="sub_desc lheight">Approx value</p>
+															<div class="input_group">
+																<div class="input-group">
+																	<input type="text" name="deposit_price" class="form-control" id="deposit_price" placeholder="Ex: 50">
+																	<span class="input-group-addon">% of List price</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												<!--	<div class="col-sm-12 col-lg-12 col-md-12">
+														<div class="form-group">
+															<label for="describe_tour" class="control-label">Describe this tour briefly</label>
+															<p class="sub_desc lheight">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
+															<div class="input_group">
+																<div>
+																	<textarea class="form-control jqte-test" rows="5" id="describe_tour" name="describe_tour"></textarea>
+																</div>
+															</div>
+														</div>
+													</div> -->
+												</div>
+											</div>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_bd')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_sa')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+		                        
+								<div id="tours_sa" class="tab-pane fade">
+									<h3><i class="zmdi zmdi-view-list-alt"></i> Duration , Dates and Availability</h3>
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<label for="tours_sa_date_time" class="control-label">How long is this tour?</label>
+												<div class="row no_margin_row">
+													<div class="col-sm-2 col-md-2 col-lg-2  col-xs-4">
+														<div class="form-group">
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  placeholder="Ex: 5"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-1 col-md-1 col-lg-1 col-xs-3">
+														<div class="days_radio">
+															<label class="radio_label">
+																<input type="radio" name="datetime" value="tours_sa_days" checked/>
+																<span>Days</span>
+																<i class="zmdi zmdi-check-circle"></i>
+																<i class="zmdi zmdi-circle-o"></i>
+															</label>
+														</div>
+													</div>
+													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+														<div class="days_radio">
+															<label class="radio_label">
+																<input type="radio" name="datetime" value="tours_sa_hours"/>
+																<span>Hours</span>
+																<i class="zmdi zmdi-check-circle"></i>
+																<i class="zmdi zmdi-circle-o"></i>
+															</label>
+														</div>
+													</div>
+												</div>
+												<label for="tours_sa_date_time" class="control-label">How is this tour made Available ?
+												</label>
+												<p class="sub_desc" ng-show="vm.helpVisible">can make tours available as fixed dated tours with fixed schedule for departure   or open dated where guest can chose date of departure while booking. Fixed date  tours are often group tours whereas open date tours are used for personalized or private tours.</p>
+												<div class="row no_margin_row">
+													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+														<div class="days_radio text_align_left">
+															<label class="radio_label">
+																<input type="radio" name="time_required" value="tours_sa_opendates" checked/>
+																<span>Open Dates</span>
+																<i class="zmdi zmdi-check-circle"></i>
+																<i class="zmdi zmdi-circle-o"></i>
+															</label>
+														</div>
+													</div>
+													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+														<div class="days_radio text_align_left">
+															<label class="radio_label">
+																<input type="radio" name="time_required" value="tours_sa_fixeddeparture"/>
+																<span>Fixed Departure</span>
+																<i class="zmdi zmdi-check-circle"></i>
+																<i class="zmdi zmdi-circle-o"></i>
+															</label>
+														</div>
+													</div>
+												</div>
+												<div class="row no_margin_row tours_sa_open_dates">
+													<div class="col-sm-4 col-md-4 col-lg-4">
+														<div class="form-group">
+															<label for="tour_exclusions" class="control-label">Exclusions</label>
+															<p class="sub_desc lheight" ng-show="vm.helpVisible"	>Describe what is excluded from tour and its price. For example Visa, flights, insurance etc</p>
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="tours_sa_timeslot" name="tours_sa_timeslot">
+																		<option value="">select</option>
+																		<option value="fixed">Fixed Times</option>
+																		<option value="guest">Guest Choice</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="row fixed_timeslot">
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<label for="tours_sa_timeslots" class="control-label">Time Slots</label>
+														</div>
+														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-5">
+															<div class="form-group">
+																<div class="input_group">
+																	<div class="input-group">
+																		<input type="text" class="form-control" name="tour_end_location" id="tour_end_location"  placeholder="Ex: 2:30 PM"/>
+																		<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-1 col-md-1 col-lg-1 col-xs-2">
+															<p style="text-align: center; padding: 1em 0;">to</p>
+														</div>
+														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-5">
+															<div class="form-group">
+																<div class="input_group">
+																	<div class="input-group">
+																		<input type="text" class="form-control" name="tour_end_location" id="tour_end_location"  placeholder="Ex: 6:30 PM"/>
+																		<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-12 col-lg-12">
+														<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
+														<div class="onoffswitch tours_sa_ty">
+															<input type="checkbox" name="tours_sa_ty-onoffswitch" class="onoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
+															<label class="onoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
+														</div>
+														<p class="sub_desc" ng-show="vm.helpVisible">You can select months when this tour is available. Guest can only create bookings in months that are marked available</p>
+													</div>
+													<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
+														<p>Available months</p>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox">
+															<label for="jan_checkbox"> January </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="feb_checkbox" value="february" name="month_checkbox" checked>
+															<label for="feb_checkbox"> February </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="march_checkbox" value="march" name="month_checkbox" checked>
+															<label for="march_checkbox"> March </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="april_checkbox" value="april" name="month_checkbox" checked>
+															<label for="april_checkbox"> April </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="may_checkbox" value="may" name="month_checkbox" checked>
+															<label for="may_checkbox"> May </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="jun_checkbox" value="june" name="month_checkbox" checked>
+															<label for="jun_checkbox"> June </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="jul_checkbox" value="july" name="month_checkbox" checked>
+															<label for="jul_checkbox"> July </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="aug_checkbox" value="august" name="month_checkbox" checked>
+															<label for="aug_checkbox"> August </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="sep_checkbox" value="september" name="month_checkbox" checked>
+															<label for="sep_checkbox"> September </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="oct_checkbox" value="october" name="month_checkbox" checked>
+															<label for="oct_checkbox"> October </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="nov_checkbox" value="november" name="month_checkbox" checked>
+															<label for="nov_checkbox"> November </label>
+														</div>
+														<div class="month_checkbox checkbox-inline">
+															<input type="checkbox" id="dec_checkbox" value="december" name="month_checkbox" checked>
+															<label for="dec_checkbox"> December </label>
+														</div>
+													</div>
+												</div>
+												<div class="row no_margin_row tours_sa_fixed_departure">
+													<label for="tours_sa_limited" class="control-label">Availability</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">You can limit availability for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
+													<div class="col-sm-4 col-md-4 col-lg-4">
+														<div class="form-group">
+															<div class="input_group">
+																<div>
+																	<select class="form-control" id="tours_sa_limited" name="tours_sa_limited">
+																		<option value="limited">Limited</option>
+																		<option value="unlimited">Unlimited</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-12 col-lg-12 limited_container">
+														<div class="row">
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<div class="form-group">
+																	<div class="input_group">
+																		<div class="input-group">
+																			<span class="input-group-addon">limit</span>
+																			<input type="text" class="form-control" name="tours_sa_limit_members" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-sm-4 col-md-4 col-lg-4">
+																<div class="days_radio text_align_left">
+																	<label class="radio_label">
+																		<input type="radio" name="show_to_guests" value="show"/>
+																		<span>Show availability  to guests</span>
+																		<i class="zmdi zmdi-check-circle"></i>
+																		<i class="zmdi zmdi-circle-o"></i>
+																	</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row no_margin_row">
+													<div class="col-sm-6 col-md-6 col-lg-6">
+														<div class="form-group">
+															<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
+															<div class="input_group">
+																<div class="input-group">
+																	<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  placeholder="Ex: 15"/>
+																	<span class="input-group-addon">Days before departure date.</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_pricing')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_itinerary')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="tours_itinerary" class="tab-pane fade">
+									<h3><i class="zmdi zmdi-view-list-alt"></i> Detailed Itinerary</h3>
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<h4>Create detailed itinerary of this tour</h4>
+												<p class="sub_desc" ng-show="vm.helpVisible">Let Guests know what happens through the tour on each day. Be descriptive so that Guests know what to expect.</p>
+												<div class="itinerary_panel_container">
+													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day 1</p>
+													<div class="form-group">
+														<label for="itinerary_headline" class="control-label">Headline</label>
+														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day’s activities to guest, E,g if this is trekking tour, headline of day can be “Walking 10 km from base village to camp 1”</p>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder=""/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="itinerary_headline" class="control-label">Detail</label>
+														<p class="sub_desc" ng-show="vm.helpVisible">Describe in detail what happens through this day</p>
+														<div class="input_group">
+															<div>
+																<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly"></textarea>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="add_itinerary_day"><i class="zmdi zmdi-plus"></i> Add More</a>
+												</div>
+												<!-- <div class="itinerary_panel_container">
+													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day 2</p>
+													<div class="form-group">
+														<label for="itinerary_headline" class="control-label">Headline</label>
+														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day’s activities to guest, E,g if this is trekking tour, headline of day can be “Walking 10 km from base village to camp 1”</p>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder=""/>
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label for="itinerary_headline" class="control-label">Detail</label>
+														<p class="sub_desc" ng-show="vm.helpVisible">Describe in detail what happens through this day</p>
+														<div class="input_group">
+															<div>
+																<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly"></textarea>
+															</div>
+														</div>
+													</div>
+													<a href="#" class="add_itinerary_day"><i class="zmdi zmdi-plus"></i> Add More</a>
+												</div> -->
+											</div>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_guidelines')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="tours_guidelines" class="tab-pane fade">
+									<h3><i class="zmdi zmdi-view-list-alt"></i> Guidelines , Inclusions, exclusions</h3>
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<div class="form-group">
+													<label for="tour_guidelines" class="control-label">What are the guidelines that Guests should know?</label>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">You can describe things to carry, clothes to wear, things to know , rules, Dos and Don’t etc.</p>
+													<div class="input_group">
+														<div>
+															<textarea class="form-control jqte-test" rows="5" id="tour_guidelines" name="tour_guidelines"></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="tour_inclusions" class="control-label">Inclusions</label>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe what is included in tour and its price. For example meals , accommodations, guide etc.</p>
+													<div class="input_group">
+														<div>
+															<textarea class="form-control jqte-test" rows="5" id="tour_inclusions" name="tour_inclusions"></textarea>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="tour_exclusions" class="control-label">Exclusions</label>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe what is excluded from tour and its price. For example Visa, flights, insurance etc.</p>
+													<div class="input_group">
+														<div>
+															<textarea class="form-control jqte-test" rows="5" id="tour_exclusions" name="tour_exclusions"></textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_itinerary')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_media')">Next&nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div id="tours_media" class="tab-pane fade">
+									<h3><i class="zmdi zmdi-view-list-alt"></i> Photos and Map</h3>
+									<div class="row">
+										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div class="panel">
+												<div class="row no_margin_row">
+													<label for="tours_sa_limited" class="control-label">Availability</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">You can limit availability for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
+													<div class="col-lg-12 col-md-12 col-sm-12">
+														<div class="fileUpload btn btn-primary">
+															<span><i class="zmdi zmdi-cloud-upload"></i> Add Photo</span>
+															<input type="file" class="upload" onchange="readURL(this);"/>
+														</div>
+														<hr/>
+														<div class="account_img_info">
+															<div class="img_info">
+																<img src="modules/core/client/img/signin-signup/background/bg_signup-details.jpg" class="img-responsive" alt=""/>
+																<p>image one</p>
+																<a href="#" class="close_img"><i class="zmdi zmdi-close"></i></a>
+															</div>
+														</div>
+														<p class="sub_desc" ng-show="vm.helpVisible"><i class="zmdi zmdi-lamp"></i> <span>Pictures speak thousand words .Guests are incited to travel by images and visuals. Use high definition photos of the destination</span></p>
+													</div>
+													<div class="col-sm-12 col-md-12 col-lg-12">
+														<div class="form-group">
+															<label for="tours_media_video" class="control-label">Video link</label>
+															<p class="sub_desc" ng-show="vm.helpVisible">If you have videos of your tour , link them through YouTube or other channels</p>
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="tours_media_video" id="tours_media_video"  placeholder="video link"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-12 col-lg-12">
+														<div class="form-group">
+															<label for="tours_media_map" class="control-label">Tour map</label>
+															<p class="sub_desc" ng-show="vm.helpVisible">If you have tour map created externally  , upload it as image here</p>
+															<div class="input_group">
+																<div class="fileUpload btn btn-primary">
+															<span><i class="zmdi zmdi-cloud-upload"></i> Add Map</span>
+															<input type="file" class="upload" onchange="readURL(this);"/>
+														</div>
+														<div class="account_img_info">
+															<div class="img_info">
+																<img src="modules/core/client/img/signin-signup/background/bg_login.jpg" class="img-responsive" alt=""/>
+																<a href="#" class="close_img"><i class="zmdi zmdi-close"></i></a>
+															</div>
+														</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_guidelines')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+										</div>
+										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+											<div class="tours_help">
+												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div ng-show="vm.error" class="text-danger">
+					          <strong ng-bind="vm.error"></strong>
+					        </div>
+						</form>
+						<div class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	changeTab = function (tabId) {
+		// First take the screen to top
+		$('html, body').animate({scrollTop : 0},800);
+      	// return false;
+
+		// Scrolling to top will be done in 800 ms. So call next tab method after 1 sec.
+		setTimeout(function() {
+		  nowChangeTab(tabId);
+		}, 1000)
+	}
+
+	nowChangeTab = function (tabId) {
+		$('#addProductabs a[href="#'+tabId+'"]').tab('show');
+	}
+</script>
+<!--<script type="text/javascript" src="lib/scripts-inside-html/jquery-te-1.4.0.min.js" charset="utf-8"></script>
+<script>
+	$('.jqte-test').jqte();
+	$(".navbar-toggle").click(function(e){
+		e.preventDefault();
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").toggleClass("toggle");
+		}
+		e.stopPropagation();
+	});
+	$("li[data-toggle='slide-collapse']").click(function(e){
+		e.stopPropagation();
+		$(this).toggleClass("toggle");
+	});
+	$(".sub-menu").click(function(e){
+		e.stopPropagation();
+	});
+	$(document).click(function () {
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").removeClass("toggle");
+		}
+	});
+	$(".onoffswitch").on("change","#myonoffswitch",function(){
+		if($(this).is(':checked')){
+			$(".tour_help_info").show();
+			$(".tour_main_content").attr("class","col-sm-10 col-md-10 col-lg-10 tour_main_content");
+		}else{
+			$(".tour_help_info").hide();
+			$(".tour_main_content").attr("class","col-sm-12 col-md-12 col-lg-12 tour_main_content");
+		}
+	});
+	$(".tours_sa_ty").on("change","#tours_sa_ty-onoffswitch",function(){
+		if($(this).is(":checked")){
+			$(".available_months").hide();
+		}else{
+			$(".available_months").show();
+		}
+	});
+	$("#tours_sa").on("change","#tours_sa_timeslot",function(){
+		if($(this).val() == "fixed"){
+			$(".fixed_timeslot").show();
+		}else{
+			$(".fixed_timeslot").hide();
+		}
+	});
+	$(".tours_sa_fixed_departure").on("change","#tours_sa_limited",function(){
+		if($(this).val() == "limited"){
+			$(".limited_container").show();
+		}else{
+			$(".limited_container").hide();
+		}
+	});
+	$("#tours_sa").on("change","input[type=radio][name=time_required]",function(){
+		if($(this).val() == "tours_sa_opendates"){
+			$(".tours_sa_open_dates").show();
+			$(".tours_sa_fixed_departure").hide();
+		}else if($(this).val() == "tours_sa_fixeddeparture"){
+			$(".tours_sa_open_dates").hide();
+			$(".tours_sa_fixed_departure").show();
+		}
+	});	
+</script>-->
+

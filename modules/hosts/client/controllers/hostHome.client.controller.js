@@ -2,17 +2,16 @@
   'use strict';
 
   angular
-    .module('hosts', [])
+    .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.bookings = BookingService.query();
-
-    console.log(vm.bookings);
+    vm.messages = MessageService.query();
 
     vm.goToHostWebsite = function() {
       var userName = vm.authentication.user.username;

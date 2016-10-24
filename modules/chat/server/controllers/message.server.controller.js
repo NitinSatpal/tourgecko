@@ -17,9 +17,19 @@ exports.saveMessageDetails = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json('kama me hu');
       console.log('message saves successfully');
     }
+  });
+};
+
+exports.fetchMessageDetails = function (req, res) {
+  Message.find().sort('-created').populate('').exec(function (err, messages) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(messages);
   });
 };
 
