@@ -165,7 +165,7 @@
 													<div class="input_group">
 														<div class="input-group">
 															<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-															<input type="text" class="form-control" name="starting_price" id="starting_price"  placeholder="Ex: 3000"/>
+															<input type="text" class="form-control" name="starting_price" id="starting_price"  ng-model="vm.tour.productAdvertisedprice" placeholder="Ex: 3000"/>
 														</div>
 													</div>
 												</div>
@@ -324,14 +324,14 @@
 											</h3>
 											<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
 											<div class="panel addon-panel" ng-show="vm.isAddonAvailable">
-												<div class="row no_margin_row">
+												<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params">
 													<div class="col-sm-4 col-lg-4 col-md-4">
 														<div class="form-group">
 															<label for="addon_name_one" class="control-label">Addon</label>
 															<p class="sub_desc lheight">Name of Addon</p>
 															<div class="input_group">
 																<div>
-																	<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" placeholder="Camera, Phone, Speaker etc.">
+																	<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" ng-model="addon.name" placeholder="Camera, Phone, Speaker etc.">
 																</div>
 															</div>
 														</div>
@@ -343,7 +343,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" name="addon_price" class="form-control" id="addon_price" placeholder="Ex: 200">
+																	<input type="text" name="addon_price" class="form-control" id="addon_price" ng-model="addon.price" placeholder="Ex: 200">
 																</div>
 															</div>
 														</div>
@@ -354,8 +354,8 @@
 															<p class="sub_desc lheight">How to apply this price during booking</p>
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="addon_apply">
-																		<option>per booking</option>
+																	<select class="form-control" id="addon_apply" ng-model="addon.applyAs">
+																		<option>Per Booking</option>
 																		<option>Option 2</option>
 																		<option>Option 3</option>
 																		<option>Option 4</option>
@@ -369,15 +369,17 @@
 															<label for="addon_Description" class="control-label">Description</label>
 															<div class="input_group">
 																<div>
-																	<input type="text" name="addon_Description" class="form-control" id="addon_Description" placeholder="Short description to explain what this addon is">
+																	<input type="text" name="addon_Description" class="form-control" id="addon_Description" ng-model="addon.description" placeholder="Short description to explain what this addon is">
 																</div>
 															</div>
 														</div>
 													</div>
 													<div class="col-sm-12 col-lg-12 col-md-12 addon_edit">
-														<a href="#" class="add_addon">Add more</a>
-														<a href="#" class="delete_addon">Delete</a>
+														<a href="#" class="delete_addon" ng-click="vm.removeAddon()">Delete</a>
 													</div>
+												</div>
+												<div class="col-sm-12 col-lg-12 col-md-12 addon_edit">
+													<a href="#" class="add_addon" ng-click="vm.addMoreAddons()">Add more</a>
 												</div>
 											</div>
 											<h3>
@@ -396,23 +398,12 @@
 															<p class="sub_desc lheight">Approx value</p>
 															<div class="input_group">
 																<div class="input-group">
-																	<input type="text" name="deposit_price" class="form-control" id="deposit_price" placeholder="Ex: 50">
+																	<input type="text" name="deposit_price" class="form-control" id="deposit_price" ng-model="vm.tour.depositAmount" placeholder="Ex: 50">
 																	<span class="input-group-addon">% of List price</span>
 																</div>
 															</div>
 														</div>
 													</div>
-												<!--	<div class="col-sm-12 col-lg-12 col-md-12">
-														<div class="form-group">
-															<label for="describe_tour" class="control-label">Describe this tour briefly</label>
-															<p class="sub_desc lheight">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
-															<div class="input_group">
-																<div>
-																	<textarea class="form-control jqte-test" rows="5" id="describe_tour" name="describe_tour"></textarea>
-																</div>
-															</div>
-														</div>
-													</div> -->
 												</div>
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_bd')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
@@ -438,7 +429,7 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  placeholder="Ex: 5"/>
+																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.tour.duration" placeholder="Ex: 5"/>
 																</div>
 															</div>
 														</div>
@@ -446,7 +437,7 @@
 													<div class="col-sm-1 col-md-1 col-lg-1 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="tours_sa_days" checked/>
+																<input type="radio" name="datetime" value="days" ng-model="vm.durationType" ng-change="vm.test()"/>
 																<span>Days</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -456,7 +447,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="tours_sa_hours"/>
+																<input type="radio" name="datetime" value="hours" ng-model="vm.durationType" ng-change="vm.test()"/>
 																<span>Hours</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -471,7 +462,7 @@
 													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 														<div class="days_radio text_align_left">
 															<label class="radio_label">
-																<input type="radio" name="time_required" value="tours_sa_opendates" checked/>
+																<input type="radio" name="time_required" value="openDate" ng-model="vm.productAvailabilityType"/>
 																<span>Open Dates</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -481,7 +472,7 @@
 													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 														<div class="days_radio text_align_left">
 															<label class="radio_label">
-																<input type="radio" name="time_required" value="tours_sa_fixeddeparture"/>
+																<input type="radio" name="time_required" value="fixedDeparture" ng-model="vm.productAvailabilityType"/>
 																<span>Fixed Departure</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -544,7 +535,7 @@
 													<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
 														<p>Available months</p>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox" ng-model="vm.abc.jan.value">
+															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox" ng-model="vm.availableMonths[0]">
 															<label for="jan_checkbox"> January </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
@@ -639,7 +630,7 @@
 															<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
 															<div class="input_group">
 																<div class="input-group">
-																	<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  placeholder="Ex: 15"/>
+																	<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  ng-model="vm.tour.productMinNoticeDays" placeholder="Ex: 15"/>
 																	<span class="input-group-addon">Days before departure date.</span>
 																</div>
 															</div>

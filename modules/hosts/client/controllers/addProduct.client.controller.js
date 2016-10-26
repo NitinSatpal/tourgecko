@@ -16,13 +16,15 @@
     vm.isAddonAvailable = false;
     vm.isDepositApplicable = false;
     vm.isAvailableThroughoutTheYear = true;
+    vm.durationType = 'days';
     vm.productGrade = 'Easy';
+    vm.productAvailabilityType = 'openDate';
     vm.pricingOptions = ['Everyone'];
 
     // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays 
     vm.availableMonths = [false, false, false, false, false, false, false, false, false, false, false, false];
     vm.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+    
     vm.pricingParams = {
       Params: [{
         price: 0,
@@ -35,9 +37,36 @@
       }]
     };
 
+    vm.addonParams = {
+      params: [{
+        name: '',
+        price: '',
+        applyAs: 'Per Booking',
+        description: ''
+      }]
+    };
+
     vm.addPricingOption = function() {
       vm.pricingOptions.push('Everyone');
     }
+
+    vm.addMoreAddons = function() {
+      vm.addonParams.params.push({
+          name: '',
+          price: '',
+          applyAs: 'Per Booking',
+          description: ''
+      });
+
+       console.log('here ' + JSON.stringify(vm.addonParams));
+    }
+
+    vm.removeAddon = function(index) {
+      if(vm.addonParams.params.length == 1)
+        vm.isAddonAvailable = false;
+      else
+        vm.addonParams.params.splice(index, 1);
+    },
 
     vm.save = function (isValid) {
       if (!isValid) {
@@ -47,7 +76,8 @@
 
       vm.tour.isDraft = true;
       vm.tour.productGrade = vm.productGrade;
-
+      vm.tour.productDurationType = vm.durationType;
+      vm.tour.productAvailabilityType = vm.productAvailabilityType;
       // Available months
       vm.monthsStore = [];
       for(var index = 0; index < vm.availableMonths.length; index++) {
@@ -66,6 +96,10 @@
         }
         vm.tour.productPricingOptions = vm.pricingOptionStore;
       }
+
+      vm.tour.productAddons = vm.addonParams.params;
+
+      vm.tour.isDepositNeeded = vm.isDepositApplicable;
       
       vm.tour.$save(successCallback, errorCallback);
       

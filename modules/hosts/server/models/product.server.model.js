@@ -34,9 +34,13 @@ var ProductSchema = new Schema({
     type: Number,
     default: 0
   },
+  productDurationType: {
+    type: String,
+    default: ''
+  },
   duration: {
-    type: Array,
-    default: []
+    type: Number,
+    default: 0
   },
   productPricingOptions: {
     type: Schema.Types.Mixed,
