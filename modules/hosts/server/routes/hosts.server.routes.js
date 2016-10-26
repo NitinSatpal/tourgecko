@@ -17,6 +17,9 @@ module.exports = function (app) {
     .post(hosts.createProduct)
     .get(hosts.fetchAllProductDetails);
 
+  app.route('/api/host/productsessions/')
+    .get(hosts.fetchAllProductSessionDetails);
+
   app.route('/api/host/product/:productId')
     .get(hosts.fetchSingleProductDetails);
 

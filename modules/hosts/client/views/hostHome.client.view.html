@@ -10,22 +10,26 @@
 					<h3>Analytics</h3>
 					<p>Last 30 days</p>
 				</div>
+				<!-- We are suppose to give the analytics for last 30 days as per written in heading. For now, its overall. Will
+					 check whether I need to change it to last 30 days or we will change the heading to total -->
 				<div class="row">
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 analytics-bookings">
 						<i class="zmdi zmdi-account"></i>
-						<p><span>10</span> Bookings</p>
+						<p ng-show="vm.bookings.length > 1"><span>{{vm.bookings.length}}</span> Bookings</p>
+						<p ng-show="vm.bookings.length <= 1"><span>{{vm.bookings.length}}</span> Booking</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 revenue">
 						<i class="zmdi zmdi-money"></i>
-						<p><span>1500</span> Revenue</p>
+						<p><span>{{vm.totalRevenue}}</span> Revenue</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
 						<i class="zmdi zmdi-email"></i>
-						<p><span>10</span> Messages</p>
+						<p ng-show="vm.messages.length > 1"><span>{{vm.messages.length}}</span> Messages</p>
+						<p ng-show="vm.messages.length <= 1"><span>{{vm.messages.length}}</span> Message</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
 						<i class="zmdi zmdi-airplane"></i>
-						<p><span>15</span> Departures</p>
+						<p><span>{{vm.productSessions.length}}</span> Departures</p>
 					</div>
 				</div>
 			</div>
@@ -62,71 +66,31 @@
 					<h3>Latest</h3>
 				</div>
 				<div class="row">
-					<div class="col-lg-6 col-mg-6 col-sm-6 bookings" ng-repeat="booking in vm.bookings">
+					<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
 						<h4>Bookings</h4>
-						<div class="info_content">
+						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
 							<p class="name">{{booking.numberOfBookings}}</p>
 							<p class="outing">Trek to bandghavgad</p>
 							<p class="date">20 Jan, 2016</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
 						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="outing">Trek to bandghavgad</p>
-							<p class="date">20 Jan, 2016</p>
-							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="outing">Trek to bandghavgad</p>
-							<p class="date">20 Jan, 2016</p>
-							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="outing">Trek to bandghavgad</p>
-							<p class="date">20 Jan, 2016</p>
-							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="outing">Trek to bandghavgad</p>
-							<p class="date">20 Jan, 2016</p>
-							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
-						</div>
-						<div class="seemoreinfo">
-							<a href="#">See all Bookings</a>
-						</div>
+					<div class="seemoreinfo">
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5">See all Bookings</a>
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length < 5">Go to Bookings</a>
+						</div>	
 					</div>
-					<div class="col-lg-6 col-mg-6 col-sm-6 message" ng-repeat="message in vm.messages">
+					
+					<div class="col-lg-6 col-mg-6 col-sm-6 message">
 						<h4>Messages</h4>
-						<div class="info_content">
+						<div class="info_content" ng-repeat="message in vm.messages | limitTo:5">
 							<p class="name">{{message.messageFrom}}</p>
 							<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 							<p class="status"><i class="zmdi zmdi-email"></i></p>
 						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="content">Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt consectetur adipiscing elit</p>
-							<p class="status"><i class="zmdi zmdi-email"></i></p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="content">Sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-							<p class="status"><i class="zmdi zmdi-email"></i></p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-							<p class="status"><i class="zmdi zmdi-email"></i></p>
-						</div>
-						<div class="info_content">
-							<p class="name">Sunil Malik</p>
-							<p class="content">Dolor sit amet, consectetur tempor incididunt</p>
-							<p class="status"><i class="zmdi zmdi-email"></i></p>
-						</div>
+						
 						<div class="seemoreinfo">
-							<a href="#">See all Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5">See all Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length < 5">Go to Messages</a>
 						</div>
 					</div>
 				</div>

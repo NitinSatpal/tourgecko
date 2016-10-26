@@ -34,6 +34,10 @@ var MessageSchema = new Schema({
     type: String,
     default: '',
     trim: true
+  },
+  messageRead: {
+    type: Boolean,
+    default: false
   }
 });
 

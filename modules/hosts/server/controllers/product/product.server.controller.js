@@ -51,6 +51,18 @@ exports.fetchSingleProductDetails = function (req, res) {
   });
 };
 
+// Fetching products details here.
+exports.fetchAllProductSessionDetails = function (req, res) {
+  ProductSession.find().sort('-created').populate('').exec(function (err, productSessions) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(productSessions);
+  });
+};
+
 var cronJob = cron.job('00 30 00 * * *', function() {
   async.waterfall([
     function (done) {

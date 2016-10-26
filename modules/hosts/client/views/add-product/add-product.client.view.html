@@ -101,7 +101,7 @@
 															<p class="sub_desc" ng-show="vm.helpVisible">Grade this tour on level of physical fitness required</p>
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="pricefor" ng-model="vm.tour.productGrade">
+																	<select class="form-control" id="pricefor" ng-model="vm.productGrade">
 																		<option>Easy</option>
 																		<option>Option 2</option>
 																		<option>Option 3</option>
@@ -118,10 +118,10 @@
 														<label class="control-label">What age group is this tour suitable for?</label>
 														<div class="row">
 															<div class="col-sm-5 col-md-5 col-lg-5">
-																<div class="form-group">																			
+																<div class="form-group">
 																	<div class="input_group">
-																		<div>																					
-																			<input type="text" class="form-control" name="tour_start_age" id="tour_start_age"  placeholder="age"/>
+																		<div>															
+																			<input type="text" class="form-control" name="tour_start_age" id="tour_start_age" ng-model="vm.tour.productMinAgeRequired" placeholder="min. age"/>
 																		</div>
 																	</div>
 																</div>
@@ -130,10 +130,10 @@
 																<p style="text-align: center; padding: 1em 0;">to</p>
 															</div>
 															<div class="col-sm-5 col-md-5 col-lg-5">
-																<div class="form-group">																			
+																<div class="form-group">												
 																	<div class="input_group">
-																		<div>																					
-																			<input type="text" class="form-control" name="tour_end_age" id="tour_end_age"  placeholder="age"/>
+																		<div>
+																			<input type="text" class="form-control" name="tour_end_age" id="tour_end_age" ng-model="vm.tour.productMaxAgeRequired" placeholder="max age"/>
 																		</div>
 																	</div>
 																</div>
@@ -171,7 +171,7 @@
 												</div>
 												<label class="control-label">What is the Price of this tour?</label>
 												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
-												<div class="row no_margin_row">
+												<div class="row no_margin_row" ng-repeat="options in vm.pricingOptions track by $index">
 													
 													<div class="col-sm-12 col-lg-12 col-md-12">
 														<label for="pricefor" class="control-label pricefor">Price for</label>
@@ -181,126 +181,66 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="pricefor">
+																	<select class="form-control" id="pricefor" ng-model="vm.pricingOptions[$index]">
 																		<option>Everyone</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div class="input-group">
-																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="row no_margin_row price_for_adult">
-													<div class="col-sm-12 col-lg-12 col-md-12">
-														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">																
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="pricefor">
 																		<option>Adult</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div class="input-group">
-																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
-												</div>
-												<div class="row no_margin_row">
-													<div class="col-sm-12 col-lg-12 col-md-12">
-														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="pricefor">
 																		<option>Group</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
+																		<option>Custom</option>
 																	</select>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3">
+													<!-- Everyone and Adult Pricing -->
+													<div ng-show="vm.pricingOptions[$index]=='Everyone' || vm.pricingOptions[$index]=='Adult'">
+														<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+															<div class="form-group">
+																<div class="input_group">
+																	<div class="input-group">
+																		<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																		<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.price"  placeholder="Ex: 200"/>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-3 col-lg-3 col-md-3">
+															<div class="form-group">
+																<div class="input_group">
+																	<div>
+																		<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.description"  placeholder="Description"/>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<!-- Group Pricing -->
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
-															
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">min</span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.minGroupSize" placeholder="Ex: 2"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3">
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">max</span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.maxGroupSize"placeholder="Ex: 2"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
-															
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="pricefor">
+																	<select class="form-control" id="pricefor" ng-model="vm.pricingParams[$index].Params.groupOption">
 																		<option>Per Group</option>
 																		<option>Option 2</option>
 																		<option>Option 3</option>
@@ -310,90 +250,70 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
+														<div class="form-group">														
+															<div class="input_group">
+																<div class="input-group">
+																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.price" placeholder="Ex: 2"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2" ng-show="vm.pricingOptions[$index]=='Group'">
+														<div class="form-group">
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.description" placeholder="Description"/>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<!-- Custom Pricing -->
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+														<div class="form-group">
+															
+															<div class="input_group">
+																<div>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.customLabel"  placeholder="custom label"/>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">																		
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.price" placeholder="Ex: 200"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
-												</div>
-												<div class="row no_margin_row">
-													<div class="col-sm-12 col-lg-12 col-md-12">
-														<label for="pricefor" class="control-label pricefor visible-xs">Price for</label>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="pricefor">
-																		<option>Custom</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">
-															
-															<div class="input_group">
-																<div>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="custom label"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
-														<div class="form-group">																		
-															<div class="input_group">
-																<div class="input-group">
-																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 200"/>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6">
+													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">																		
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon seats_used">Seats Used</span>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.seatsUsed" placeholder="Ex: 2"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3">
+													<div class="col-sm-3 col-lg-3 col-md-3" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 															
 															<div class="input_group">
 																<div>
-																	<input type="text" class="form-control" name="pf_price" id=""  placeholder="Description"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.description" placeholder="Description"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<a href="#" class="close_group"><i class="zmdi zmdi-close"></i></a>
+
 												</div>
-												<a href="#" class="add_price_option">Add price option</a>
+												<a href="#" class="add_price_option" ng-click="vm.addPricingOption()">Add price option</a>
 											</div>
 											<h3>
 												Are there addon services?
@@ -446,10 +366,10 @@
 													</div>
 													<div class="col-sm-12 col-lg-12 col-md-12">
 														<div class="form-group">
-															<label for="addon_starting_price" class="control-label">Starting Price</label>
+															<label for="addon_Description" class="control-label">Description</label>
 															<div class="input_group">
 																<div>
-																	<input type="text" name="addon_starting_price" class="form-control" id="addon_starting_price" placeholder="Short description to explain what this addon is">
+																	<input type="text" name="addon_Description" class="form-control" id="addon_Description" placeholder="Short description to explain what this addon is">
 																</div>
 															</div>
 														</div>
@@ -624,51 +544,51 @@
 													<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
 														<p>Available months</p>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox">
+															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox" ng-model="vm.abc.jan.value">
 															<label for="jan_checkbox"> January </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="feb_checkbox" value="february" name="month_checkbox" checked>
+															<input type="checkbox" id="feb_checkbox" value="february" name="month_checkbox" ng-model="vm.availableMonths[1]">
 															<label for="feb_checkbox"> February </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="march_checkbox" value="march" name="month_checkbox" checked>
+															<input type="checkbox" id="march_checkbox" value="march" name="month_checkbox" ng-model="vm.availableMonths[2]">
 															<label for="march_checkbox"> March </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="april_checkbox" value="april" name="month_checkbox" checked>
+															<input type="checkbox" id="april_checkbox" value="april" name="month_checkbox" ng-model="vm.availableMonths[3]">
 															<label for="april_checkbox"> April </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="may_checkbox" value="may" name="month_checkbox" checked>
+															<input type="checkbox" id="may_checkbox" value="may" name="month_checkbox" ng-model="vm.availableMonths[4]">
 															<label for="may_checkbox"> May </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jun_checkbox" value="june" name="month_checkbox" checked>
+															<input type="checkbox" id="jun_checkbox" value="june" name="month_checkbox" ng-model="vm.availableMonths[5]">
 															<label for="jun_checkbox"> June </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jul_checkbox" value="july" name="month_checkbox" checked>
+															<input type="checkbox" id="jul_checkbox" value="july" name="month_checkbox" ng-model="vm.availableMonths[6]">
 															<label for="jul_checkbox"> July </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="aug_checkbox" value="august" name="month_checkbox" checked>
+															<input type="checkbox" id="aug_checkbox" value="august" name="month_checkbox" ng-model="vm.availableMonths[7]">
 															<label for="aug_checkbox"> August </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="sep_checkbox" value="september" name="month_checkbox" checked>
+															<input type="checkbox" id="sep_checkbox" value="september" name="month_checkbox" ng-model="vm.availableMonths[8]">
 															<label for="sep_checkbox"> September </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="oct_checkbox" value="october" name="month_checkbox" checked>
+															<input type="checkbox" id="oct_checkbox" value="october" name="month_checkbox" ng-model="vm.availableMonths[9]">
 															<label for="oct_checkbox"> October </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="nov_checkbox" value="november" name="month_checkbox" checked>
+															<input type="checkbox" id="nov_checkbox" value="november" name="month_checkbox" ng-model="vm.availableMonths[10]">
 															<label for="nov_checkbox"> November </label>
 														</div>
 														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="dec_checkbox" value="december" name="month_checkbox" checked>
+															<input type="checkbox" id="dec_checkbox" value="december" name="month_checkbox" ng-model="vm.availableMonths[11]">
 															<label for="dec_checkbox"> December </label>
 														</div>
 													</div>
@@ -854,12 +774,13 @@
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
 												<div class="row no_margin_row">
-													<label for="tours_sa_limited" class="control-label">Availability</label>
-													<p class="sub_desc" ng-show="vm.helpVisible">You can limit availability for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
+													<label for="tours_sa_limited" class="control-label">Photos</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">Add photos which will visually describe the destination.</p>
 													<div class="col-lg-12 col-md-12 col-sm-12">
 														<div class="fileUpload btn btn-primary">
 															<span><i class="zmdi zmdi-cloud-upload"></i> Add Photo</span>
 															<input type="file" class="upload" onchange="readURL(this);"/>
+
 														</div>
 														<hr/>
 														<div class="account_img_info">

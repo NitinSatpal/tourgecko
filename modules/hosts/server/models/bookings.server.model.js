@@ -14,9 +14,9 @@ var BookingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  product: {
+  productSession: {
     type: Schema.ObjectId,
-    ref: 'Product'
+    ref: 'ProductSession'
   },
   numberOfBookings: {
     type: Number,

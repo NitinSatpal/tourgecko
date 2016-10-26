@@ -38,13 +38,8 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
-  productPricingtype: {
-    type: String,
-    default: '',
-    trim: true
-  },
-  productPricing: {
-    type: Array,
+  productPricingOptions: {
+    type: Schema.Types.Mixed,
     default: []
   },
   productAvailabilityType: {
@@ -185,6 +180,14 @@ var ProductSchema = new Schema({
     type: String,
     default: '',
     trim: true
+  },
+  isDraft: {
+    type: Boolean,
+    default: 'true'
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
   },
   user: {
     type: Schema.ObjectId,

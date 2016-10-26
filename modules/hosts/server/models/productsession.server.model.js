@@ -14,6 +14,9 @@ var ProductSessionSchema = new Schema({
     type: Schema.ObjectId,
     unique: true,
     ref: 'Product'
+  },
+  sessionDate: {
+  	type: Date
   }
 });
 

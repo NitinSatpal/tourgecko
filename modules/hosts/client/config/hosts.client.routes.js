@@ -39,7 +39,7 @@
           tourResolve: newTour
         },
         data: {
-          pageTitle: 'Add Product'
+          pageTitle: 'Admin | Add Product'
         }
       })
       .state('host.tours', {
@@ -48,7 +48,7 @@
         controller: '',
         controllerAs: '',
         data: {
-          pageTitle: 'tours'
+          pageTitle: 'Admin | Tours'
         }
       })
       .state('host.notifications', {
@@ -57,7 +57,34 @@
         controller: '',
         controllerAs: '',
         data: {
-          pageTitle: 'tours'
+          pageTitle: 'Admin | Notifications'
+        }
+      })
+      .state('host.allMessages', {
+        url: '/messages',
+        templateUrl: 'modules/hosts/client/views/host/messages.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Admin | Messages'
+        }
+      })
+      .state('host.allBookings', {
+        url: '/bookings',
+        templateUrl: 'modules/hosts/client/views/host/bookings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Admin | Bookings'
+        }
+      })
+      .state('host.calendar', {
+        url: '/calendar',
+        templateUrl: 'modules/hosts/client/views/host/calendar.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Admin | Calendar'
         }
       });
   }

@@ -5,13 +5,25 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService', 'ProductSessionService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService, ProductSessionService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.bookings = BookingService.query();
     vm.messages = MessageService.query();
+    vm.productSessions = ProductSessionService.query();
+    vm.totalRevenue = 0;
+    vm.bellNotifications = 0;
+
+    for(var index = 0; index < vm.bookings.length; index ++)
+      vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
+
+    for(var index = 0; index < vm.messages.length; index ++) {
+      if (vm.messages[index].messageRead == true)
+        vm.bellNotifications = vm.bellNotifications + 1;
+    }
+
 
     vm.goToHostWebsite = function() {
       var userName = vm.authentication.user.username;
