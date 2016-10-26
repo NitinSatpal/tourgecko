@@ -16,11 +16,12 @@
     vm.totalRevenue = 0;
     vm.bellNotifications = 0;
 
-    for(var index = 0; index < vm.bookings.length; index ++)
+    var index = 0;
+    for (index = 0; index < vm.bookings.length; index ++)
       vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
 
-    for(var index = 0; index < vm.messages.length; index ++) {
-      if (vm.messages[index].messageRead == true)
+    for (index = 0; index < vm.messages.length; index ++) {
+      if (vm.messages[index].messageRead === true)
         vm.bellNotifications = vm.bellNotifications + 1;
     }
 

@@ -63,7 +63,7 @@ exports.fetchAllProductSessionDetails = function (req, res) {
   });
 };
 
-var cronJob = cron.job('00 30 00 * * *', function() {
+var cronJob = cron.job('01 48 00 * * *', function() {
   async.waterfall([
     function (done) {
       var productSessions = [];
@@ -86,7 +86,7 @@ var cronJob = cron.job('00 30 00 * * *', function() {
       ProductSession.collection.insert(productSessions, onInsert);
       function onInsert(err, success) {
         if (err) {
-          console.log('productsessions not added ');
+          console.log('productsessions not added');
         } else {
           console.log('successfully saved');
         }
@@ -98,6 +98,6 @@ var cronJob = cron.job('00 30 00 * * *', function() {
     }
     console.log('Done!');
   });
-  console.info('cron job completed 5');
+  console.info('cron job completed');
 });
 cronJob.start();

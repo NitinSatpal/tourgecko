@@ -21,10 +21,9 @@
     vm.productAvailabilityType = 'openDate';
     vm.pricingOptions = ['Everyone'];
 
-    // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays 
+    // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays
     vm.availableMonths = [false, false, false, false, false, false, false, false, false, false, false, false];
     vm.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    
     vm.pricingParams = {
       Params: [{
         price: 0,
@@ -48,25 +47,23 @@
 
     vm.addPricingOption = function() {
       vm.pricingOptions.push('Everyone');
-    }
+    };
 
     vm.addMoreAddons = function() {
       vm.addonParams.params.push({
-          name: '',
-          price: '',
-          applyAs: 'Per Booking',
-          description: ''
+        name: '',
+        price: '',
+        applyAs: 'Per Booking',
+        description: ''
       });
-
-       console.log('here ' + JSON.stringify(vm.addonParams));
-    }
+    };
 
     vm.removeAddon = function(index) {
-      if(vm.addonParams.params.length == 1)
+      if (vm.addonParams.params.length === 1)
         vm.isAddonAvailable = false;
       else
         vm.addonParams.params.splice(index, 1);
-    },
+    };
 
     vm.save = function (isValid) {
       if (!isValid) {
@@ -80,8 +77,9 @@
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
       // Available months
       vm.monthsStore = [];
-      for(var index = 0; index < vm.availableMonths.length; index++) {
-        if (vm.availableMonths[index] == true)
+      var index = 0;
+      for (index = 0; index < vm.availableMonths.length; index++) {
+        if (vm.availableMonths[index] === true)
           vm.monthsStore.push(vm.monthNames[index]);
       }
       vm.tour.productMonthsAvailableForBoking = vm.monthsStore;
@@ -89,7 +87,7 @@
       // Pricing options
       vm.pricingOptionStore = [];
       if (vm.pricingParams[0] !== undefined) {
-        for(var index = 0; index < vm.pricingOptions.length; index++) {
+        for (index = 0; index < vm.pricingOptions.length; index++) {
           var pricingInfo = {};
           pricingInfo[vm.pricingOptions[index]] = vm.pricingParams[index].Params;
           vm.pricingOptionStore.push(pricingInfo);
@@ -100,9 +98,9 @@
       vm.tour.productAddons = vm.addonParams.params;
 
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
-      
+
       vm.tour.$save(successCallback, errorCallback);
-      
+
       function successCallback(res) {
         $state.go('host.hostHome');
       }
@@ -120,7 +118,7 @@
       }
 
       vm.tour.$save(successCallback, errorCallback);
-      
+
       function successCallback(res) {
         $state.go('host.hostHome');
       }

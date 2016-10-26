@@ -16,7 +16,7 @@ var ProductSessionSchema = new Schema({
     ref: 'Product'
   },
   sessionDate: {
-  	type: Date
+    type: Date
   }
 });
 
