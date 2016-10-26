@@ -16,7 +16,7 @@
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 analytics-bookings">
 						<i class="zmdi zmdi-account"></i>
 						<p ng-show="vm.bookings.length > 1"><span>{{vm.bookings.length}}</span> Bookings</p>
-						<p ng-show="vm.bookings.length == 1"><span>{{vm.bookings.length}}</span> Booking</p>
+						<p ng-show="vm.bookings.length <= 1"><span>{{vm.bookings.length}}</span> Booking</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 revenue">
 						<i class="zmdi zmdi-money"></i>
@@ -25,7 +25,7 @@
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
 						<i class="zmdi zmdi-email"></i>
 						<p ng-show="vm.messages.length > 1"><span>{{vm.messages.length}}</span> Messages</p>
-						<p ng-show="vm.messages.length == 1"><span>{{vm.messages.length}}</span> Message</p>
+						<p ng-show="vm.messages.length <= 1"><span>{{vm.messages.length}}</span> Message</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
 						<i class="zmdi zmdi-airplane"></i>
@@ -76,7 +76,7 @@
 						</div>
 					<div class="seemoreinfo">
 							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5">See all Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length < 5">Go to Bookings</a>
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length < 5 && m.bookings.length > 0">Go to Bookings</a>
 						</div>	
 					</div>
 					
@@ -90,7 +90,7 @@
 						
 						<div class="seemoreinfo">
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5">See all Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length < 5">Go to Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length < 5 && vm.messages.length > 0">Go to Messages</a>
 						</div>
 					</div>
 				</div>
