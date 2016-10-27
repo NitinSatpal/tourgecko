@@ -38,9 +38,9 @@ var ProductSchema = new Schema({
     type: String,
     default: ''
   },
-  duration: {
+  productDuration: {
     type: Number,
-    default: 0
+    default: 1
   },
   productPricingOptions: {
     type: Schema.Types.Mixed,
@@ -51,17 +51,29 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
+  productTimeSlotsAvailability: {
+    type: String,
+    default: ''
+  },
+  productTimeSlots: {
+    type: Array,
+    default: []
+  },
   isProductScheduled: {
     type: Boolean,
     default: false
   },
-  productDuration: {
-    type: Number,
-    default: 1
-  },
   productSheduleDates: {
     type: Array,
     default: []
+  },
+  productSeatsLimitType: {
+    type: String,
+    default: 'Limited'
+  },
+  produSeatLimit: {
+    type:Number,
+    default: 0
   },
   productStartDate: {
     type: Date,

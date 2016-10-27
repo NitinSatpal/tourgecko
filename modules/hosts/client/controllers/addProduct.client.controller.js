@@ -19,6 +19,8 @@
     vm.durationType = 'days';
     vm.productGrade = 'Easy';
     vm.productAvailabilityType = 'openDate';
+    vm.productTimeSlotsAvailability = 'guestChoice';
+    vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
 
     // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays
@@ -75,6 +77,9 @@
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productDurationType = vm.durationType;
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
+      vm.tour.productTimeSlotsAvailability = vm.productTimeSlotsAvailability;
+      vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
+
       // Available months
       vm.monthsStore = [];
       var index = 0;
