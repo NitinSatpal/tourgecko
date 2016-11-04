@@ -466,6 +466,8 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 /*#tours #tours_pricing form label{font-weight: bold !important;}*/
 #tours #tours_pricing form .minmax{font-size: 9px;padding: 4px;color: #bbb;}
 #tours #tours_pricing form .seats_used{font-size: 10px;}
+#tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee; padding-bottom: 20px; margin: 25px;}
+
 #tours .tour_help_info{padding: 0;}
 #tours  .tour_help_info .tours_help{background: #FFFFF5; padding:5px; border-radius:5px;}
 #tours  .tour_help_info .tours_help h3{font-size: 16px; text-align: left; padding: 10px 15px; margin: 0;border-bottom: 1px dashed #c9c9c9;}
