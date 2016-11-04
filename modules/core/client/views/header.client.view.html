@@ -1,4 +1,44 @@
-<div class="container-fluid" ng-controller="HeaderController as vm">
+<div class="tourgecko-top-nav" ng-controller="HeaderController as vm">
+  <button type="button" class="navbar-toggle" data-toggle="slide-collapse" data-target="#myNavbar">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span> 
+  </button>
+  <div class="top-nav-bar">
+    <nav class="navbar navbar-default top-nav">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
+          <li class="dropdown notifications">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="zmdi zmdi-notifications"></i><span class="label label-info ">3</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Favourites Snippet</a></li>
+              <li><a href="#">Email marketing</a></li>
+              <li><a href="#">Subscriber focused email design</a></li>
+              <li><a ui-sref="host.notifications" class="text-center">View All</a></li>
+            </ul>
+          </li>
+          <li class="dropdown account">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
+              <span ng-bind="vm.authentication.user.displayName"></span> 
+              <b class="caret hidden-xs"></b>
+            </a>
+            <ul class="dropdown-menu" ui-sref-active="active" ng-repeat="item in vm.accountMenu.items">
+              <li><a ui-sref="{{item.state}}" ng-bind="item.title"></a></li>
+              <li><a href="/api/auth/signout" target="_self">Signout</a></li>
+              <!--<li><a href="#">Profile</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Logout</a></li>-->
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>
+<!--<div class="container-fluid" ng-controller="HeaderController as vm">
   <div class="navbar-header">
     <a class="navbar-brand" ng-click="vm.goToHomePage()" href=""><img src="modules/core/client/img/brand/logo.svg" alt="tourgecko"></a>  
   </div>
@@ -30,4 +70,4 @@
         </ul>
     </li>
   </ul>
-</div>
+</div>-->

@@ -20,6 +20,7 @@
     vm.productGrade = 'Easy';
     vm.productAvailabilityType = 'openDate';
     vm.productTimeSlotsAvailability = 'guestChoice';
+    vm.timeslots = [];
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
 
@@ -47,6 +48,12 @@
       }]
     };
 
+    vm.timeslotParams = {
+      params: [{
+        timeslot: ''
+      }]
+    };
+
     vm.addPricingOption = function() {
       vm.pricingOptions.push('Everyone');
     };
@@ -67,12 +74,22 @@
         vm.addonParams.params.splice(index, 1);
     };
 
+    vm.addMoreTimeslots = function() {
+      vm.timeslotParams.params.push({
+        timeslot: ''
+      });
+    };
+
+    vm.removeTimeslots = function(index) {
+      vm.timeslotParams.params.splice(index, 1);
+    };
+
     vm.save = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
       }
-
+      
       vm.tour.isDraft = true;
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productDurationType = vm.durationType;
@@ -103,6 +120,8 @@
       vm.tour.productAddons = vm.addonParams.params;
 
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
+
+      vm.tour.productTimeSlots = vm.timeslotParams.params;
 
       vm.tour.$save(successCallback, errorCallback);
 

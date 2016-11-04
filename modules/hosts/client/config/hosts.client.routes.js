@@ -86,6 +86,24 @@
         data: {
           pageTitle: 'Admin | Calendar'
         }
+      })
+      .state('host.companyProfile', {
+        url: '/settings/companyprofile',
+        templateUrl: 'modules/hosts/client/views/settings/companyProfile.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Settings'
+        }
+      })
+      .state('settings.contacts', {
+        url: '',
+        templateUrl: 'modules/hosts/client/views/settings/contacts.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Settings'
+        }
       });
   }
 

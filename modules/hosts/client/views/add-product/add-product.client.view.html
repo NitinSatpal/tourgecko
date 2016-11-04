@@ -59,7 +59,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
 													<div class="input_group">
 														<div>
-															<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-model="vm.tour.productSummary" required></textarea>
+															<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-model="vm.tour.productSummary"></textarea>
 														</div>
 													</div>
 													<div ng-messages="vm.form.tourForm.describe_tour_briefly.$error" role="alert">
@@ -500,35 +500,27 @@
 															<label for="tours_sa_timeslots" class="control-label">Time Slots</label>
 														</div>
 													</div>
-													
-													<div class="row fixed_timeslot">
-														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-5">
-															<div class="form-group">
-																<div class="input_group">
-																	<div class="input-group">
-																		<input type="text" class="form-control" name="tour_end_location" id="tour_end_location" placeholder="Ex: 2:30 PM"/>
-																		<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
+													<div class="row no_margin_row fixed_timeslot">
+														<div id="time-slots-for-fixed-timings" class="col-sm-6 col-md-6 col-lg-6">
+															<div class="row" ng-repeat="timeslots in vm.timeslotParams.params">
+																<div class="col-sm-5 col-md-5 col-lg-5">
+																	<div class="form-group">									
+																		<div class="input_group">
+																			<div>												
+																				<input type="text" class="form-control" name="timeslot" id="timsslot" ng-model="timeslots.timeslot" placeholder="Time-Slot"/>
+																				<a href="#" id="close_timeSlot" ng-show="$index != 0" ng-click="vm.removeTimeslots($index)">
+																					<i class="zmdi zmdi-close"></i>
+																				</a>
+																			</div>
+																		</div>
 																	</div>
 																</div>
 															</div>
 														</div>
-														<div class="col-sm-1 col-md-1 col-lg-1 col-xs-2">
-															<p style="text-align: center; padding: 1em 0;">to</p>
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<a href="#" class="add_more_time-slots" id="addMoreTimeslots" ng-click="vm.addMoreTimeslots()">Add more</a>
 														</div>
-														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-5">
-															<div class="form-group">
-																<div class="input_group">
-																	<div class="input-group">
-																		<input type="text" class="form-control" name="tour_end_location" id="tour_end_location" placeholder="Ex: 6:30 PM"/>
-																		<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<br>
 													</div>
-													
-													
 													<br>
 													<div class="col-sm-12 col-md-12 col-lg-12">
 														<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
@@ -922,6 +914,6 @@
 			$(".tours_sa_open_dates").hide();
 			$(".tours_sa_fixed_departure").show();
 		}
-	});	
+	});
 </script>
 

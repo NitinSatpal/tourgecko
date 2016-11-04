@@ -5,7 +5,7 @@ h1, h2, h3, h4, h5, h6{ color:#555;}
 p{ color:#666; font-weight:300}
 
 .navbar-default{ height:60px; background-color:#ffffff; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);}
-.navbar-brand>img{ width:14em; margin-top:-22px;}
+.navbar-brand>img{ width:10.5em;}
 body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#f6f6f6;}
 .wrapper{ margin:0; padding:0; width:100%; height:100%;}
 #login.wrapper{background: url(../img/signin-signup/background/bg_login.jpg) no-repeat; background-size: cover; height:100vh;}
@@ -15,8 +15,9 @@ body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; back
 .input-group i{ color:rgba(0,0,0,0.3)}
 .form-control{ box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05); color:#454545} 
 .form-group { margin-top:10px !important;}
-.btn-info, .btn-primary{ background-color:#40C4FF; border:none;}
-.btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background-color:#24B4F5; border:none;}
+.btn-primary{ background:#40C4FF; border:none;}
+.btn-info { background:#265a88; border:none;}
+.btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background:#24B4F5; border:none;}
 
 .zmdi.icn_green{ color:#42AE5E !important;}
 .zmdi.icn_orange{ color:#F5A623 !important;}
@@ -70,7 +71,9 @@ form > .error_msg{text-align:center;margin-top:10px;}
 #signup-step1 .panel{ background:none; }
 #signup-step1 .step2{margin-left: -3.5%;}
 #signup-step1 .panel{margin-left: 50px;}
-.hostHome {padding-left: 42px; padding-right: 42px;}
+.hostHome {margin-left: -3%;}
+.tourgecko-left-nav {margin-top: -6.01%;}
+.hostHome .tourlist-content {padding-left:50px; margin-right:6.1% !important;}
 @media (max-width:767px){#signup-step1 .row.header{text-align:center;}
 #signup-step1 .row.header img{display:inline-block;}
 .pull-right{float:none !important;}
