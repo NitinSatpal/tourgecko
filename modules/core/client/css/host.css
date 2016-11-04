@@ -15,7 +15,7 @@ body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; back
 .input-group i{ color:rgba(0,0,0,0.3)}
 .form-control{ box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05); color:#454545} 
 .form-group { margin-top:10px !important;}
-.btn-info, .btn-primary{ background-color:#40C4FF; border:none;}
+.btn-info, .btn-primary{ background:#40C4FF; border:none;}
 .btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background-color:#24B4F5; border:none;}
 
 .zmdi.icn_green{ color:#42AE5E !important;}

@@ -7,7 +7,7 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
-  cron = require('cron'),
+  //cron = require('cron'),
   async = require('async'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -63,41 +63,41 @@ exports.fetchAllProductSessionDetails = function (req, res) {
   });
 };
 
-var cronJob = cron.job('01 48 00 * * *', function() {
-  async.waterfall([
-    function (done) {
-      var productSessions = [];
-      Product.find({ 'isProductScheduled': true }).sort('-created').populate('').exec(function (err, products) {
-        if (err) {
-          console.log('error occurred in finding the required documents');
-        } else {
-          products.forEach(function(product) {
-            var productSession = new ProductSession();
-            productSession.product = product;
-            productSessions.push(productSession.toObject());
-          });
-        }
-        done(err, productSessions);
-      });
-    },
-    function (productSessions, done) {
-      // All cluster worker threads tries to enter this data into collection. For now, I kept the model field as unique. But going forward
-      // we should find some good solution
-      ProductSession.collection.insert(productSessions, onInsert);
-      function onInsert(err, success) {
-        if (err) {
-          console.log('productsessions not added');
-        } else {
-          console.log('successfully saved');
-        }
-      }
-    }
-  ], function (error, success) {
-    if (error) {
-      console.log('Something is wrong!');
-    }
-    console.log('Done!');
-  });
-  console.info('cron job completed');
-});
-cronJob.start();
+//var cronJob = cron.job('01 48 00 * * *', function() {
+//  async.waterfall([
+//    function (done) {
+//      var productSessions = [];
+//      Product.find({ 'isProductScheduled': true }).sort('-created').populate('').exec(function (err, products) {
+//        if (err) {
+//          console.log('error occurred in finding the required documents');
+//        } else {
+//          products.forEach(function(product) {
+//            var productSession = new ProductSession();
+//            productSession.product = product;
+//            productSessions.push(productSession.toObject());
+//          });
+//        }
+//        done(err, productSessions);
+//      });
+//    },
+//    function (productSessions, done) {
+//      // All cluster worker threads tries to enter this data into collection. For now, I kept the model field as unique. But going forward
+//      // we should find some good solution
+//      ProductSession.collection.insert(productSessions, onInsert);
+//      function onInsert(err, success) {
+//        if (err) {
+//          console.log('productsessions not added');
+//        } else {
+//          console.log('successfully saved');
+//        }
+//      }
+//    }
+//  ], function (error, success) {
+//    if (error) {
+//      console.log('Something is wrong!');
+//    }
+//    console.log('Done!');
+//  });
+//  console.info('cron job completed');
+//});
+//cronJob.start();
