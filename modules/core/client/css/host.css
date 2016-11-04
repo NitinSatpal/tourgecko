@@ -73,6 +73,7 @@ form > .error_msg{text-align:center;margin-top:10px;}
 .hostHome {margin-left: -3%;}
 .tourgecko-left-nav {margin-top: -6.01%;}
 .hostHome .tourlist-content {padding-left:50px; margin-right:6.1% !important;}
+.hostHome .addproduct-content {padding-left:50px; margin-right:6.1% !important;}
 @media (max-width:767px){#signup-step1 .row.header{text-align:center;}
 #signup-step1 .row.header img{display:inline-block;}
 .pull-right{float:none !important;}
@@ -112,6 +113,7 @@ body{background-color:#f6f6f6;font-family:'Roboto', 'Helvetica Neue', Helvetica,
 .home-section{ margin-top:20px;}
 .home-section .bookings, .home-section .message{ margin-top:20px;} 
 .home_add_tour{padding:2% 15px;box-shadow:0 2px 10px 0 rgba(0,0,0,0.10);background-color:#F1FBFF;position: relative;}
+.home_add_tour_margin {margin-right: 16.55%;}
 .home_add_tour h2{text-align:left;font-size:22px;display:inline-block;margin:0;}
 .home_add_tour h2 i{background-color:rgba(241, 192, 122, 0.2);border-radius:50%;border:1px solid #D8E8EF;padding:10px 12px;color:#ED9C28;}
 .home_add_tour a .save-btn {font-size: 12px;font-weight: 500;padding: 10px 20px;border-radius: 5px;text-decoration: none;vertical-align: middle;position: absolute;top: 50%;transform: translateY(-50%);right: 10px;}
@@ -411,7 +413,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 
 
 /*   =====================================    styles for fixed nav   ==================================   */
-.main-body-wrapper{margin-left: 200px;}
+.main-body-wrapper{margin-left: 200px; margin-right: 30%;}
 .left-nav-bar{width: 200px;}
 .left-nav-bar .navbar-fixed-side{max-width: 200px; width: 100%;overflow: hidden;height: 100%;}
 .main-wrapper .left-nav-bar .navbar-fixed-side #myNavbar li{position: static;}
@@ -509,7 +511,7 @@ and (max-device-width : 1024px){
 
 
 /*   =================  tours 2 styles  ===================  */
-.add-product {padding-left: 30px; padding-right: 30px;}
+.add-product {padding-left: 30px; padding-right: 55px;}
 .tab-content {margin-right: 15%;}
 #tours_list .home_add_tour{display: table;width: 100%;}
 #tours_list .home_add_tour h2 i{display: table-cell;vertical-align: middle;}
