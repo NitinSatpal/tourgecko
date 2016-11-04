@@ -15,9 +15,10 @@ body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; back
 .input-group i{ color:rgba(0,0,0,0.3)}
 .form-control{ box-shadow: 0 1px 1px 0 rgba(0,0,0,0.05); color:#454545} 
 .form-group { margin-top:10px !important;}
-.btn-primary{ background:#40C4FF; border:none;}
-.btn-info { background:#265a88; border:none;}
+.btn-info, .btn-primary{ background:#40C4FF; border:none;}
 .btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background:#24B4F5; border:none;}
+.btn-info, .btn-primary{ background:#40C4FF; border:none;}
+.btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background-color:#24B4F5; border:none;}
 
 .zmdi.icn_green{ color:#42AE5E !important;}
 .zmdi.icn_orange{ color:#F5A623 !important;}
@@ -469,6 +470,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 /*#tours #tours_pricing form label{font-weight: bold !important;}*/
 #tours #tours_pricing form .minmax{font-size: 9px;padding: 4px;color: #bbb;}
 #tours #tours_pricing form .seats_used{font-size: 10px;}
+#tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee; padding-bottom: 20px; margin: 25px;}
 #tours .tour_help_info{padding: 0;}
 #tours  .tour_help_info .tours_help{background: #FFFFF5; padding:5px; border-radius:5px;}
 #tours  .tour_help_info .tours_help h3{font-size: 16px; text-align: left; padding: 10px 15px; margin: 0;border-bottom: 1px dashed #c9c9c9;}
