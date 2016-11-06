@@ -1,7 +1,7 @@
 <div class="hostHome container-fluid">	
-	<div>
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
-	</div>
+	
+	<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
+	
 	<div class="row body-content" style="padding-left:250px;margin-right: -10%;">
 		<div class="col-md-9 col-sm-9 col-lg-10 home-content">
 			<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
@@ -106,8 +106,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'">
-			</div>
 		</div>
 	</div>
 </div>
@@ -211,7 +209,7 @@
 	    });
 	});
 </script>
-<script>
+<!--<script>
 	$(".navbar-toggle").click(function(e){
 		e.preventDefault();
 		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
@@ -222,6 +220,7 @@
 		e.stopPropagation();
 	});
 	$("li[data-toggle='slide-collapse']").click(function(e){
+		console.log("on click");
 		e.stopPropagation();
 		$(this).toggleClass("toggle");
 	});
@@ -235,4 +234,4 @@
 			$(".main-wrapper").removeClass("toggle");
 		}
 	});
-</script>
+</script> -->

@@ -1,7 +1,6 @@
 <div class="hostHome container-fluid" id="tours">
-	<div>
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
-	</div>
+
+	<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
 	<div class="row body-content addproduct-content">
 		<div class="col-md-12 col-sm-12 col-lg-12 home-content main-body-wrapper">
 			<div ng-include="'/modules/hosts/client/views/add-product/top-nav-product.client.view.html'"></div>
@@ -184,7 +183,7 @@
 															<div class="input_group">
 																<div>
 																	<select class="form-control" id="pricefor" ng-model="vm.pricingOptions[$index]">
-																		<option>Everyone</option>
+																		<option>All</option>
 																		<option>Adult</option>
 																		<option>Group</option>
 																		<option>Custom</option>
@@ -194,7 +193,7 @@
 														</div>
 													</div>
 													<!-- Everyone and Adult Pricing -->
-													<div ng-show="vm.pricingOptions[$index]=='Everyone' || vm.pricingOptions[$index]=='Adult'">
+													<div ng-show="vm.pricingOptions[$index]=='All' || vm.pricingOptions[$index]=='Adult'">
 														<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
 															<div class="form-group">
 																<div class="input_group">
@@ -829,7 +828,6 @@
 					          <strong ng-bind="vm.error"></strong>
 					        </div>
 						</form>
-						<div class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'">
 					</div>
 				</div>
 			</div>
@@ -855,7 +853,8 @@
 <script type="text/javascript" src="lib/scripts-inside-html/jquery-te-1.4.0.min.js" charset="utf-8"></script>
 <script>
 	$('.jqte-test').jqte();
-	$(".navbar-toggle").click(function(e){
+	
+	/* $(".navbar-toggle").click(function(e) {
 		e.preventDefault();
 		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
 			$("li[data-toggle='slide-collapse']").removeClass("toggle");
@@ -864,7 +863,7 @@
 		}
 		e.stopPropagation();
 	});
-	$("li[data-toggle='slide-collapse']").click(function(e){
+	$("li[data-toggle='slide-collapse']").click(function(e) {
 		e.stopPropagation();
 		$(this).toggleClass("toggle");
 	});
@@ -877,7 +876,8 @@
 		}else{
 			$(".main-wrapper").removeClass("toggle");
 		}
-	});
+	}); */
+	
 	$(".onoffswitch").on("change","#myonoffswitch",function(){
 		if($(this).is(':checked')){
 			$(".tour_help_info").show();

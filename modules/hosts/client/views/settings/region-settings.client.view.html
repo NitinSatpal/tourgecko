@@ -1,0 +1,95 @@
+<div class="hostHome">
+	<div class="row body-content">
+		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<div id="settings">
+			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
+				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
+					<div class="home_add_tour">
+						<h2><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;Settings&nbsp;&nbsp;
+						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>&nbsp;&nbsp;
+						<span class="bread-current">Regional</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>						
+					</div>
+					<div class="row settings-subnav">
+						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_regional">
+							<form class="form-horizontal" method="post" action="#">
+								<h3>Toursite <i class="zmdi zmdi-globe icn_green"></i></h3>
+								<p class="section-desc">Tour site is created automatically for you. You can control if it is visible to your guests or not</p>
+								<div class="panel regional_panel">
+									<div class="row">                                    
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="regional_language" class="cols-sm-2 control-label">Langauge</label>
+												<p class="sub_desc">Year since you are operating</p>
+												<div class="input_group">
+													<div>
+														<select class="form-control" id="regional_language">
+															<option>English (India)</option>
+															<option>Option 2</option>
+															<option>Option 3</option>
+															<option>Option 4</option>
+														</select>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid location</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+											<div class="regional_format">
+												<div class="number_format">
+													<p>Number format</p>
+													<p class="bold">12,500.00</p>
+												</div>
+												<div class="date_format">
+													<p>Date format</p>
+													<p class="bold">21/06/2016</p>
+												</div>
+												<div class="time_format">
+													<p>Time format</p>
+													<p class="bold">10:30pm</p>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    <div class="row language">                                       
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="regional_currency" class="cols-sm-2 control-label">Currency</label>
+												<p class="sub_desc">Default currency</p>
+												<div class="input_group">
+													<div>
+														<select class="form-control" id="regional_currency">
+															<option>INR</option>
+															<option>Option 2</option>
+															<option>Option 3</option>
+															<option>Option 4</option>
+														</select>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid location</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+											<div class="regional_format">
+												<div class="number_format">
+													<p>Prices will appear as</p>
+													<p class="bold">INR 25,000</p>
+												</div>
+											</div>
+										</div>
+									</div>									
+								</div>
+								
+								<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
+							</form>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,7 +1,5 @@
 <div class="hostHome container-fluid" id="tours">
-	<div>
 		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
-	</div>
 	<div class="row body-content" style="margin-right: -44.9%;">
 		<div class="main-body-wrapper">
 			<div id="tours_list" class="container-fluid">
@@ -163,26 +161,6 @@
 								</div>
 							</div>
 						</div>
-						<!--  ===========  footer  ===========   -->
-						<div class="footer">
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<footer>
-										<div class="wrap text-center">
-											<ul class="nav navbar-nav social center-text">
-												<li><a href="#">About TourGecko</a></li>
-												<li><a href="#">FAQ</a></li>
-												<li><a href="#">Sitemap</a></li>
-												<li><a href="#">Contact Us</a></li>
-												<li><a href="#">Terms of Use</a></li>
-												<li><a href="#">Privacy Policy</a></li>
-											</ul>
-											<p class="copyright">&copy; 2016 TourGecko. All rights reserved.</p>
-										</div>
-									</footer>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -201,7 +179,7 @@
 	</div>
 </div>
 <script>
-	$(".navbar-toggle").click(function(e){
+	/*$(".navbar-toggle").click(function(e){
 		e.preventDefault();
 		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
 			$("li[data-toggle='slide-collapse']").removeClass("toggle");
@@ -223,7 +201,7 @@
 		}else{
 			$(".main-wrapper").removeClass("toggle");
 		}
-	});
+	});*/
 	
 	$(document).ready(function() {
 		var $lightbox = $('#lightbox');

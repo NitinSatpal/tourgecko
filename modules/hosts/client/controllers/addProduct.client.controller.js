@@ -22,7 +22,7 @@
     vm.productTimeSlotsAvailability = 'guestChoice';
     vm.timeslots = [];
     vm.productSeatsLimitType = 'limited';
-    vm.pricingOptions = ['Everyone'];
+    vm.pricingOptions = ['All'];
 
     // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays
     vm.availableMonths = [false, false, false, false, false, false, false, false, false, false, false, false];
@@ -55,7 +55,7 @@
     };
 
     vm.addPricingOption = function() {
-      vm.pricingOptions.push('Everyone');
+      vm.pricingOptions.push('All');
     };
 
     vm.addMoreAddons = function() {

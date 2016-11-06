@@ -197,7 +197,8 @@ footer{    border-top: 1px solid #ddd; margin-top: 2em;}
 /*    ===============    settings    ============    */
 
 #settings .home_add_tour a i {font-size: 16px;vertical-align: -1px;}
-#settings .home-content .input-group{display: block;}
+#settings .settings-content {margin-left: 2.5%;}
+#settings .settings-content .input-group{display: block;}
 #settings h3{font-size: 18px; color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;}
 #settings h3 i{color: rgba(0,0,0,0.4);}
 #settings p{font-size: 12px; color: #999;/*line-height: 26px;*/}

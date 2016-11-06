@@ -1,12 +1,73 @@
-<div class="col-md-3 col-sm-3 col-lg-2 container-fluid tourgecko-left-nav">
+<div class="main-wrapper"  ng-controller="sidenavController as vm">
+	<div class="col-md-3 col-sm-3 col-lg-2 container-fluid tourgecko-left-nav">
+		<div class="left-nav-bar">
+			<nav class="navbar navbar-default navbar-fixed-side">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"><img src="modules/core/client/img/brand/logo.svg" alt="tourgecko"></a>
+				</div>
+				<div class="navbar-collapse collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li class="active"><a ui-sref="host.hostHome"><i class="zmdi zmdi-home"></i> Home</a></li>						
+						<li><a href="#" ng-click="vm.goToHostWebsite()"><i class="zmdi zmdi-globe"></i> View Your Website</a></li>
+						
+						<li class="separator"><a ui-sref="host.tours"><i class="zmdi zmdi-card-travel"></i> Tours</a></li>						
+						<li><a ui-sref="host.calendar"><i class="zmdi zmdi-calendar"></i> Calendar</a></li>
+						<li><a ui-sref="host.allBookings"><i class="zmdi zmdi-calendar-check"></i> Bookings</a></li>
+					
+					<li class="separator"><a ui-sref="host.allMessages"><i class="zmdi zmdi-email"></i> Messages</a></li>
+						<li data-toggle="slide-collapse" data-target="#products" class="collapsed">
+							<a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
+							<ul class="sub-menu collapse" id="products">
+								<li><a ui-sref="host.companyProfile">Company Profile</a></li>
+								<li><a ui-sref="host.contacts">Contacts</a></li>
+								<li><a ui-sref="host.payments">Payments</a></li>
+								<li><a ui-sref="host.toursite">Toursite</a></li>
+								<li><a ui-sref="host.account">Account</a></li>
+								<li><a ui-sref="host.region">Regional</a></li>
+							</ul>
+						</li>
+						<li><a href="#"><i class="zmdi zmdi-help"></i> Help</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+</div>
+<script>
+	$(".navbar-toggle").click(function(e){
+		e.preventDefault();
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").toggleClass("toggle");
+		}
+		e.stopPropagation();
+	});
+	$("li[data-toggle='slide-collapse']").click(function(e){
+		console.log("on click");
+		e.stopPropagation();
+		$(this).toggleClass("toggle");
+	});
+	$(".sub-menu").click(function(e){
+		e.stopPropagation();
+	});
+	$(document).click(function () {
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").removeClass("toggle");
+		}
+	});
+</script>
+<!--<div class="col-md-3 col-sm-3 col-lg-2 container-fluid tourgecko-left-nav" ng-controller="sidenavController as vm">
 	<div class="left-nav-bar">
 		<nav class="navbar navbar-default navbar-fixed-side">
 			<div class="navbar-header">
 				<a class="navbar-brand" ui-sref="host.hostHome"><img src="modules/core/client/img/brand/logo.svg" alt="tourgecko"></a>
 			</div>
 			<div class="navbar-collapse collapse" id="myNavbar">
-				<ul class="nav navbar-nav">
-					<li><a ui-sref="host.hostHome"><i class="zmdi zmdi-home"></i> Home</a></li>						
+				<ul class="nav navbar-nav sidenavOptions">
+					<li class="active"><a ui-sref="host.hostHome"><i class="zmdi zmdi-home"></i> Home</a></li>						
 					<li><a href="#" ng-click="vm.goToHostWebsite()"><i class="zmdi zmdi-globe"></i> View Your Website</a></li>
 					
 					<li class="separator"><a ui-sref="host.tours"><i class="zmdi zmdi-card-travel"></i> Tours</a></li>						
@@ -14,20 +75,21 @@
 					<li><a ui-sref="host.allBookings"><i class="zmdi zmdi-calendar-check"></i> Bookings</a></li>
 					
 					<li class="separator"><a ui-sref="host.allMessages"><i class="zmdi zmdi-email"></i> Messages</a></li>
+					
 					<li data-toggle="slide-collapse" data-target="#products" class="collapsed">
-								<a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
-								<ul class="sub-menu collapse" id="products">
-									<li class="active"><a ui-sref="settings.companyProfile">Company Profile</a></li>
-									<li><a ui-sref="settings.contacts">Contacts</a></li>
-									<li><a href="#">Payments</a></li>
-									<li><a href="#">Toursite</a></li>
-									<li><a href="#">Account</a></li>
-									<li><a href="#">Regional</a></li>
-								</ul>
-							</li>
+						<a href=""><i class="zmdi zmdi-settings"></i> Settings</a>
+						<ul class="sub-menu collapse" id="products">
+							<li><a ui-sref="host.companyProfile">Company Profile</a></li>
+							<li><a ui-sref="host.contacts">Contacts</a></li>
+							<li><a href="host.payments">Payments</a></li>
+							<li><a href="host.toursite">Toursite</a></li>
+							<li><a href="host.account">Account</a></li>
+							<li><a href="host.region">Regional</a></li>
+						</ul>
+					</li>
 					<li><a href="#"><i class="zmdi zmdi-help"></i> Help</a></li>
 				</ul>
 			</div>
 		</nav>
 	</div>
-</div>
+</div>-->

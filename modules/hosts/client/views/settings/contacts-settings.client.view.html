@@ -1,0 +1,194 @@
+<div class="hostHome">
+	<div class="row body-content">
+		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<div id="settings">
+			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
+				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
+					<div class="home_add_tour">
+						<h2><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;Settings&nbsp;&nbsp;
+						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>&nbsp;&nbsp;
+						<span class="bread-current">Contacts</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>						
+					</div>
+					<div class="row settings-subnav">
+						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_contact">
+							<form class="form-horizontal" method="post" action="#">
+								<h3>Notifications <i class="zmdi zmdi-globe-lock icn_orange"></i></h3>
+								<p class="section-desc">Receipts and notifications will  be sent on  this email and phone </p>
+								<div class="panel">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="company_email" class="cols-sm-2 control-label">Email</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+														<input type="text" class="form-control" name="company_email" id="company_email"  placeholder="example@email.com"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid email address</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="company_mobile" class="cols-sm-2 control-label">Mobile</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+														<input type="text" class="form-control" name="company_mobile" id="company_mobile"  placeholder="Phone Number"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid mobile number</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<h3>Inquiry Contacts <i class="zmdi zmdi-globe icn_green"></i></h3>
+								<p class="section-desc">Your addresses and location</p>
+								<div class="panel">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="inquiry_email" class="cols-sm-2 control-label">Email</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+														<input type="text" class="form-control" name="inquiry_email" id="inquiry_email"  placeholder="example@email.com"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid email address</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="inquiry_mobile" class="cols-sm-2 control-label">Mobile</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+														<input type="text" class="form-control" name="inquiry_mobile" id="inquiry_mobile"  placeholder="Phone Number"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid mobile number</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row availability_radio">
+										<div class="col-lg-12">
+											<div class="form-group">
+												<label class="control-label">Availablity</label>
+												<div class="radio">
+													<input type="radio" name="anytime" value="anytime" id="anytime">
+													<label for="anytime">Anytime</label>
+												</div>
+												<div class="radio">
+													<input type="radio" name="availability_time" id="availability_time">
+													<span>from</span>
+													<select class="form-control" name="availability_from" id="availability_from">
+														<option>1 PM</option>
+														<option>1</option>
+														<option>1</option>
+														<option>1</option>
+													</select>
+													<span>to</span>
+													<select class="form-control" name="availability_to" id="availability_to">
+														<option>1 AM</option>
+														<option>1</option>
+														<option>1</option>
+														<option>1</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<h3>Social <i class="zmdi zmdi-globe icn_green"></i></h3>
+								<p class="section-desc">Links to your social profiles and presence</p>
+								<div class="panel">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="social_fb" class="cols-sm-2 control-label">Facebook</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i></span>
+														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="ex: facebook.com/username"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter facebook username</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="social_tw" class="cols-sm-2 control-label">Twitter</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i></span>
+														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="ex: twitter.com/username"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter twitter username</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="social_in" class="cols-sm-2 control-label">Instagram</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i></span>
+														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="ex: instagram.com/username"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter instagram username</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="social_blog" class="cols-sm-2 control-label">Blog</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-blogger"></i></span>
+														<input type="text" class="form-control" name="social_blog" id="social_blog"  placeholder="ex: your wordpress / blogger or blog address"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter blog address</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
+							</form>
+						</div>
+					</div>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

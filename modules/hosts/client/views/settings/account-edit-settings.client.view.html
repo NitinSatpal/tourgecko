@@ -1,0 +1,217 @@
+<div class="hostHome">
+	<div class="row body-content">
+		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<div id="settings">
+			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
+				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
+					<div class="home_add_tour">
+						<h2><i class="zmdi zmdi-settings"></i>&nbsp;&nbsp;Settings&nbsp;&nbsp;
+						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>&nbsp;&nbsp;
+						<span class="bread-current">Edit Profile</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>						
+					</div>
+					<div class="row settings-subnav">
+						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_account_info">
+							<form class="form-horizontal" method="post" action="#">
+								<h3>User Profile <i class="zmdi zmdi-lock icn_orange"></i></h3>
+								<p class="section-desc">All information relevant to user account</p>
+								<div class="panel account_status">
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="account_img_info">
+												<img src="modules/users/client/img/profile/default.png" class="img-responsive" alt=""/>
+											</div>
+											<div class="fileUpload btn btn-primary">
+												<span>Upload Photo</span>
+												<input type="file" class="upload" onchange="readURL(this);"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel_one">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="row">
+												<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+													<div class="form-group">
+														<label for="account_firstname" class="cols-sm-2 control-label">First Name</label>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="account_firstname" id="account_firstname"  placeholder="Full Name"/>
+															</div>
+															<div class="error_group">
+																<p class="error_msg">Please enter a valid email address</p>
+																<i class="zmdi zmdi-alert-triangle"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+													<div class="form-group">
+														<label for="bank_lastname" class="cols-sm-2 control-label">Last Name</label>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="bank_lastname" id="bank_lastname"  placeholder="Last Name"/>
+															</div>
+															<div class="error_group">
+																<p class="error_msg">Please enter a valid email address</p>
+																<i class="zmdi zmdi-alert-triangle"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="account_email" class="cols-sm-2 control-label">Email</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+														<input type="text" class="form-control" name="account_email" id="account_email"  placeholder="example@email.com"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid email address</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="account_mobile" class="cols-sm-2 control-label">Mobile</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+														<input type="text" class="form-control" name="account_mobile" id="account_mobile"  placeholder="Phone Number"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid mobile number</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<a href="#" class="change_password" id="changePassword">Change Password</a>
+										<a href="#" class="change_password" id="cancelPasswordChange" style="display:none">Cancel</a>
+									</div>
+								</div>
+								<div class="panel panel_two">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="account_current_pwd" class="cols-sm-2 control-label">Current Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_current_pwd" id="account_current_pwd"  placeholder="Enter current password"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Your current password is wrong</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="account_new_pwd" class="cols-sm-2 control-label">New Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_new_pwd" id="account_new_pwd"  placeholder="Enter new password"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid email address</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="account_confirm_new_pwd" class="cols-sm-2 control-label">Confirm New Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_confirm_new_pwd" id="account_confirm_new_pwd"  placeholder="Confirm New Password"/>
+													</div>
+													<div class="error_group">
+														<p class="error_msg">Please enter a valid mobile number</p>
+														<i class="zmdi zmdi-alert-triangle"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('.account_img_info img')
+					.attr('src', e.target.result);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	$(document).ready(function(){
+		$("#settings .settings_account_info .panel_one").on("click","#changePassword",function(e) {
+			e.preventDefault();
+			$("#settings .settings_account_info .panel_one").css("margin-bottom","0px");
+			$("#settings .settings_account_info .panel_two").slideDown(500);
+			$("#changePassword").hide();
+			$("#cancelPasswordChange").show();
+		});
+
+		$("#settings .settings_account_info .panel_one").on("click","#cancelPasswordChange",function(e) {
+			e.preventDefault();
+			$("#settings .settings_account_info .panel_one").css("margin-bottom","1px");
+			$("#settings .settings_account_info .panel_two").slideUp(500);
+			$("#cancelPasswordChange").hide();
+			$("#changePassword").show();
+		});
+	});
+</script>
+<script>
+	$(".navbar-toggle").click(function(e){
+		e.preventDefault();
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").toggleClass("toggle");
+		}
+		e.stopPropagation();
+	});
+	$("li[data-toggle='slide-collapse']").click(function(e){
+		e.stopPropagation();
+		$(this).toggleClass("toggle");
+	});
+	$(".sub-menu").click(function(e){
+		e.stopPropagation();
+	});
+	$(document).click(function () {
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").removeClass("toggle");
+		}
+	});
+</script>

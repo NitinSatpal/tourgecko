@@ -45,8 +45,8 @@
       .state('host.tours', {
         url: '/tours',
         templateUrl: 'modules/hosts/client/views/tours/tourlist.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'TourListController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Admin | Tours'
         }
@@ -89,20 +89,74 @@
       })
       .state('host.companyProfile', {
         url: '/settings/companyprofile',
-        templateUrl: 'modules/hosts/client/views/settings/companyProfile.client.view.html',
+        templateUrl: 'modules/hosts/client/views/settings/companyProfile-settings.client.view.html',
         controller: '',
         controllerAs: '',
         data: {
-          pageTitle: 'Settings'
+          pageTitle: 'Company Profile'
         }
       })
-      .state('settings.contacts', {
-        url: '',
-        templateUrl: 'modules/hosts/client/views/settings/contacts.client.view.html',
+      .state('host.contacts', {
+        url: '/settings/contacts',
+        templateUrl: 'modules/hosts/client/views/settings/contacts-settings.client.view.html',
         controller: '',
         controllerAs: '',
         data: {
-          pageTitle: 'Settings'
+          pageTitle: 'Contacts'
+        }
+      })
+      .state('host.payments', {
+        url: '/settings/payments',
+        templateUrl: 'modules/hosts/client/views/settings/payments-settings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Payments'
+        }
+      })
+      .state('host.toursite', {
+        url: '/settings/toursite',
+        templateUrl: 'modules/hosts/client/views/settings/toursite-settings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Toursite'
+        }
+      })
+      .state('host.account', {
+        url: '/settings/account',
+        templateUrl: 'modules/hosts/client/views/settings/account-settings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Account'
+        }
+      })
+      .state('host.accountEdit', {
+        url: '/settings/account/edit',
+        templateUrl: 'modules/hosts/client/views/settings/account-edit-settings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Account'
+        }
+      })
+      .state('host.region', {
+        url: '/settings/region',
+        templateUrl: 'modules/hosts/client/views/settings/region-settings.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Region'
+        }
+      })
+      .state('host.testing', {
+        url: '/testing',
+        templateUrl: 'modules/hosts/client/views/testing.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Admin | Bookings'
         }
       });
   }

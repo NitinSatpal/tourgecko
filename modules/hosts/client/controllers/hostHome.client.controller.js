@@ -25,8 +25,8 @@
         vm.bellNotifications = vm.bellNotifications + 1;
     }
 
-
-    vm.goToHostWebsite = function() {
+    
+    /* vm.goToHostWebsite = function() {
       var userName = vm.authentication.user.username;
       console.log(userName);
       $http.get('/api/host/toursite', { params: { 'username': userName } }).success(function (response) {
@@ -38,6 +38,6 @@
       }).error(function (response) {
         vm.error = response.message;
       });
-    };
+    }; */
   }
 }());
