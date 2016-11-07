@@ -17,6 +17,7 @@ body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; back
 .form-group { margin-top:10px !important;}
 .btn-info, .btn-primary{ background:#40C4FF; border:none;}
 .btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background:#24B4F5; border:none;}
+.sub_btn{ margin-right:15px;}
 
 .zmdi.icn_green{ color:#42AE5E !important;}
 .zmdi.icn_orange{ color:#F5A623 !important;}
@@ -111,13 +112,16 @@ body{background-color:#f6f6f6;font-family:'Roboto', 'Helvetica Neue', Helvetica,
 .main_content{padding:0;}
 
 .home-section{ margin-top:20px;}
+.home_add_tour .btn.btn-primary.pull-right{ position:relative; top:8px;}
 .home-section .bookings, .home-section .message{ margin-top:20px;} 
 .home_add_tour{padding:2% 15px;box-shadow:0 2px 10px 0 rgba(0,0,0,0.10);background-color:#F1FBFF;position: relative;}
 .home_add_tour_margin {margin-right: 16.55%;}
 .home_add_tour h2{text-align:left;font-size:22px;display:inline-block;margin:0;}
 .home_add_tour h2 i{background-color:rgba(241, 192, 122, 0.2);border-radius:50%;border:1px solid #D8E8EF;padding:10px 12px;color:#ED9C28;}
+span.bread-caret i{ background:none; border:none; border-radius:0; color:#555; padding-left:6px; padding-right:6px;}
+span.bread-current{ font-weight:400;} 
 .home_add_tour a .save-btn {font-size: 12px;font-weight: 500;padding: 10px 20px;border-radius: 5px;text-decoration: none;vertical-align: middle;position: absolute;top: 50%;transform: translateY(-50%);right: 10px;}
-.home_add_tour a i{font-style:normal;padding:0 10px 0 0;}
+a.btn i{padding:0 10px 0 0;}
 .analytics .head_content, .latest .head_content, .event_calendar .head_content{padding:4% 0 0 0;position:relative;border-bottom:1px solid #DADBDB;}
 .analytics .head_content h3, .pinboard .head_content h3, .latest .head_content h3, .event_calendar .head_content h3{margin:0;font-size:20px;font-weight:500;}
 .event_calendar .fc-title .lbreak{display: block;font-size: 12px; font-weight: 900;}
@@ -198,10 +202,10 @@ footer{    border-top: 1px solid #ddd; margin-top: 2em;}
 
 #settings .home_add_tour a i {font-size: 16px;vertical-align: -1px;}
 #settings .settings-content {margin-left: 2.5%;}
-#settings .settings-content .input-group{display: block;}
+/*#settings .settings-content .input-group{display: block;} commenting this as this is breaking input group styling in different differnet pages*/
 #settings h3{font-size: 18px; color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;}
 #settings h3 i{color: rgba(0,0,0,0.4);}
-#settings p{font-size: 12px; color: #999;/*line-height: 26px;*/}
+#settings p{color: #999;/*line-height: 26px;*/}
 #settings .settings-subnav .subnav{background: #F4FCFF;}
 #settings .settings-subnav .subnav h3{padding: 8% 0;background: #ccc;text-align: center;font-size: 14px;}
 #settings form{padding-top: 5%;}
@@ -210,7 +214,7 @@ footer{    border-top: 1px solid #ddd; margin-top: 2em;}
 #settings form .panel{padding:10px 20px; margin-bottom:30px;}
 #settings form .panel .form-group{margin-right: 0px; margin-left: 0px;}
 #settings form .input-group p{font-size: 12px;color: rgba(0,0,0,0.5);line-height: 20px;}
-#settings form .sub_btn{padding: 5px 30px;}
+/*#settings form .sub_btn{padding: 5px 30px;}*/
 
 
 /*  ========== contact styles  ============ */
@@ -229,7 +233,7 @@ footer{    border-top: 1px solid #ddd; margin-top: 2em;}
 #settings .regional_format > div{float: left; }
 #settings .regional_format > div p{margin: 0;line-height: 16px;font-size: 12px;}
 #settings .regional_format > div p.bold{font-weight: 900;}
-#settings .regional_panel{margin: 0;border-bottom: 1px solid #ccc;}
+/*#settings .regional_panel{margin: 0;border-bottom: 1px solid #ccc;}*/
 #settings .regional_panel .language{ padding:0;}
 #settings .regional_panel .language:last-child{ border-top:1px solid #eee; margin-top:20px;}
 
@@ -517,7 +521,7 @@ and (max-device-width : 1024px){
 #tours_list .home_add_tour{display: table;width: 100%;}
 #tours_list .home_add_tour h2 i{display: table-cell;vertical-align: middle;}
 #tours_list .home_add_tour h2 p{display: table-cell;padding-left: 10px;font-weight: bold;}
-#tours_list .home_add_tour h2 p > span{display: block;font-size: 14px; color: rgba(0,0,0,.4); font-weight: bold;}
+#tours_list .home_add_tour h2 p > span{display: block;font-size: 14px; color: rgba(0,0,0,.4); font-weight: normal;}
 #tours_list .home_add_tour a{position: relative; top: 10px;}
 #tours_list .info_visible {display: table;}
 #tours_list .info_visible label.visible{display: table-cell;vertical-align: middle; padding-right: 10px;font-size: 12px; font-weight: normal;}
