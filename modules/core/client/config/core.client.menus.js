@@ -20,22 +20,13 @@
     });
 
     menuService.addSubMenuItem('account', 'settings', {
-      title: 'Profile',
-      state: 'settings.profile'
+      title: 'Account',
+      state: 'host.account'
     });
 
     menuService.addSubMenuItem('account', 'settings', {
-      title: 'Settings',
-      state: 'settings.home'
+      title: 'Company Profile',
+      state: 'host.companyProfile'
     });
-    /* menuService.addSubMenuItem('account', 'settings', {
-      title: 'Change Password',
-      state: 'settings.password'
-    }); */
-
-    /* menuService.addSubMenuItem('account', 'settings', {
-      title: 'Manage Social Accounts',
-      state: 'settings.accounts'
-    }); */
   }
 }());

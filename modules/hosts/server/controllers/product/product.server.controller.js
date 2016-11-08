@@ -9,6 +9,8 @@ var path = require('path'),
   ProductSession = mongoose.model('ProductSession'),
   //cron = require('cron'),
   async = require('async'),
+  multer = require('multer'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 // Creating product here.
@@ -39,7 +41,6 @@ exports.fetchAllProductDetails = function (req, res) {
 };
 
 // Fetch Single product details
-// Fetching product details here.
 exports.fetchSingleProductDetails = function (req, res) {
   Product.find({ '_id': req.params.productId }).sort('-created').populate('').exec(function (err, products) {
     if (err) {
@@ -61,6 +62,74 @@ exports.fetchAllProductSessionDetails = function (req, res) {
     }
     res.json(productSessions);
   });
+};
+
+exports.uploadProductPicture = function (req, res) {
+  var user = req.user;
+  var upload = multer(config.uploads.productPictureUploads).single('newProductPicture');
+  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+
+  // Filtering to upload only images
+  upload.fileFilter = imageUploadFileFilter;
+  if (user) {
+    uploadImage()
+      .then(function () {
+        res.json(config.uploads.productPictureUploads.dest + req.file.filename);
+      })
+      .catch(function (err) {
+        res.status(400).send(err);
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadImage () {
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          reject(errorHandler.getErrorMessage(uploadError));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+};
+
+exports.uploadProductMap = function (req, res) {
+  var user = req.user;
+  var upload = multer(config.uploads.productMapUploads).single('newProductMap');
+  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+
+  // Filtering to upload only images
+  upload.fileFilter = imageUploadFileFilter;
+  if (user) {
+    uploadImage()
+      .then(function () {
+        res.json(config.uploads.productMapUploads.dest + req.file.filename);
+      })
+      .catch(function (err) {
+        res.status(400).send(err);
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadImage () {
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          reject(errorHandler.getErrorMessage(uploadError));
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
 };
 
 //var cronJob = cron.job('01 48 00 * * *', function() {

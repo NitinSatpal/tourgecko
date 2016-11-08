@@ -176,7 +176,7 @@ body{background-color:#f6f6f6;font-family:'Roboto', 'Helvetica Neue', Helvetica,
 .footer .navbar-nav li a:hover{text-decoration: underline;background: none;}
 .footer .navbar-nav li:last-child {border-right: none;}
 .footer p{color: #C3C4C4; font-size: 14px;}
-footer{    border-top: 1px solid #ddd; margin-top: 2em;}
+.footer{border-top: 1px solid #ddd; margin-top: 2em;}
 
 /*Modal styels*/
 

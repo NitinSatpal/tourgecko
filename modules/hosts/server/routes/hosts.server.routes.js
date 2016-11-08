@@ -26,4 +26,10 @@ module.exports = function (app) {
   app.route('/api/host/booking')
     .post(hosts.createBooking)
     .get(hosts.fetchAllBookingDetails);
+
+  app.route('/api/product/productPicture')
+    .post(hosts.uploadProductPicture);
+
+  app.route('/api/product/productMap')
+    .post(hosts.uploadProductMap);
 };

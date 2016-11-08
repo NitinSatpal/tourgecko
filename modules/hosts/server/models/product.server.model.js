@@ -197,9 +197,18 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
+  productPictureURLs: {
+    type: Array,
+    default: []
+  },
+  productMapURLs: {
+    type: Array,
+    default: []
+  },
+  // this boolean also handles isVisible condition on tourlist page
   isDraft: {
     type: Boolean,
-    default: 'true'
+    default: false
   },
   isVerified: {
     type: Boolean,

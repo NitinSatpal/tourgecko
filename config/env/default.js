@@ -58,6 +58,18 @@ module.exports = {
       limits: {
         fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
       }
+    },
+    productPictureUploads: {
+      dest: './modules/hosts/client/pictures/products/tours/photos/', // photo upload destination path
+      limits: {
+        fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+      }
+    },
+    productMapUploads: {
+      dest: './modules/hosts/client/pictures/products/tours/maps/', // photo upload destination path
+      limits: {
+        fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+      }
     }
   }
 };

@@ -7,20 +7,28 @@
 					<div class="col-md-12 col-sm-12 col-lg-12 ">
 						<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
 						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details">
+							<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">
 								<div class="panel">
 									<div class="row">
-										<div class="col-sm-6 col-md-6 col-lg-6 tour_left">
-											<img src="modules/core/client/img/signin-signup/background/bg_login.jpg" alt="" class="img-responsive" alt="7 Days Tour to Sandhan Valley"/>
+										<div class="col-sm-6 col-md-6 col-lg-6 tour_left" ng-show="vm.products[$index].productPictureURLs.length > 0">
+											<img ng-src="{{vm.products[$index].productPictureURLs[0]}}" class="img-responsive" alt="{{vm.products[$index].productTitle}}"/>
+										</div>
+										<div class="col-sm-6 col-md-6 col-lg-6 tour_left no-image" ng-show="vm.products[$index].productPictureURLs.length == 0">
+											<div class="no_image">
+												<div>
+													<i class="zmdi zmdi-image-alt"></i>
+													<span>no picture</span>
+												</div>
+											</div>
 										</div>
 										<div class="col-sm-6 col-md-6 col-lg-6 tour_right">
-											<p class="tour_details">7 Days Tour to <span>Sandhan Valley</span></p>
-											<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> Himachal, India</p>
+											<p class="tour_details">{{vm.products[$index].productTitle}}</p>
+											<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> {{vm.products[$index].destination}}, India</p>
 											<div class="info_visible">
-												<label class="visible" for="myonoffswitch1">Visible</label>
+												<label class="visible" for="{{$index}}">Visible</label>
 												<div class="onoffswitch">
-													<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch1" checked>
-													<label class="onoffswitch-label" for="myonoffswitch1"></label>
+													<input type="checkbox" name="" class="onoffswitch-checkbox" id="{{$index}}" ng-model="vm.products[$index].isVerified" ng-click="vm.makeProductVisible(vm.products[$index])">
+													<label class="onoffswitch-label" for="{{$index}}"></label>
 												</div>
 											</div>
 										</div>
@@ -56,7 +64,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details">
 								<div class="panel">
 									<div class="row">
@@ -160,7 +168,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -170,7 +178,7 @@
 				<button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
 				<div class="modal-content">
 					<div class="modal-body">
-						<img src="" alt="" />
+						<img ng-src="" alt="" />
 						<p></p>
 					</div>
 				</div>
