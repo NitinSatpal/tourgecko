@@ -32,7 +32,8 @@
       })
       .state('host.addProduct', {
         url: '/product/add',
-        templateUrl: 'modules/hosts/client/views/add-product/add-product.client.view.html',
+        //templateUrl: 'modules/hosts/client/views/add-product/add-product.client.view.html',
+		templateUrl: 'modules/hosts/client/views/add-product/add-product-test.client.view.html',
         controller: 'AddProductController',
         controllerAs: 'vm',
         resolve: {
