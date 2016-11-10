@@ -10,13 +10,13 @@ var mongoose = require('mongoose'),
  * Tour Schema
  */
 var ProductSessionSchema = new Schema({
+  sessionDate: {
+    type: Date
+  },
   product: {
     type: Schema.ObjectId,
     unique: true,
     ref: 'Product'
-  },
-  sessionDate: {
-    type: Date
   }
 });
 

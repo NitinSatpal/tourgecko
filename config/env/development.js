@@ -28,13 +28,13 @@ module.exports = {
     title: defaultEnvConfig.app.title + ' - Development Environment'
   },
   facebook: {
-    clientID: process.env.FACEBOOK_ID || 'APP_ID',
-    clientSecret: process.env.FACEBOOK_SECRET || 'APP_SECRET',
+    clientID: process.env.FACEBOOK_ID || '211443949283579', // '709122302584846',
+    clientSecret: process.env.FACEBOOK_SECRET || '8a78c70061b0b6a179a7e02bacf12cea', // '78299ec208baf33dece1dccd2743d2e3',
     callbackURL: '/api/auth/facebook/callback'
   },
   twitter: {
-    clientID: process.env.TWITTER_KEY || 'CONSUMER_KEY',
-    clientSecret: process.env.TWITTER_SECRET || 'CONSUMER_SECRET',
+    clientID: process.env.TWITTER_KEY || 'lLkgscpJmS4QxZUfkzsuIezhC',
+    clientSecret: process.env.TWITTER_SECRET || 'kUEMiXXdgkM4lbS50MXDeSJhVHFXw0RI8s1s2Ctho78GZOnOZS',
     callbackURL: '/api/auth/twitter/callback'
   },
   google: {

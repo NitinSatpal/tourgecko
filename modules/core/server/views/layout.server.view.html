@@ -62,8 +62,9 @@
 
 <body class="ng-cloak">
   <section class="content">
-    <!-- need to find a good way to achieve this. Let it be for now -->
-    <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header>
+    <!-- need to find a good way to achieve this. Let it be for now
+    <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header> -->
+    <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
     <section class="container">
       {{{block "content"}}}
     </section>

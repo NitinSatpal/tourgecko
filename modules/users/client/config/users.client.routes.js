@@ -11,7 +11,7 @@
   function routeConfig($stateProvider) {
     // Users state routing
     $stateProvider
-      /* .state('settings', {
+     .state('settings', {
         abstract: true,
         url: '/settings',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
@@ -65,7 +65,7 @@
         data: {
           pageTitle: 'Settings picture'
         }
-      })  */
+      })
       .state('authentication', {
         abstract: true,
         url: '/authentication',

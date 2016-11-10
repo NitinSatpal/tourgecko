@@ -26,7 +26,7 @@
     $scope.regExForPostalCode = '^[0-9]{1,10}$';
     // City name and state name will be consisting of alphabets only. Assumption for now.
     // One more assumption is no city or state name will be greater than 50 alphabets.
-    $scope.regExForStateAndCity = '^[a-z]{1,50}$';
+    $scope.regExForStateAndCity = '^[a-z | A-Z]{1,50}$';
     // Get an eventual error defined in the URL query string:
     vm.error = $location.search().err;
 
@@ -61,7 +61,6 @@
         return false;
       }
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
-      console.log(JSON.stringify(vm.credentialsDetails));
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page
         $state.go('hostDetails.signupDone');
@@ -86,7 +85,7 @@
         vm.authentication.user = response;
         // And redirect to the host home page
         if (vm.authentication.user.roles.length === 1 && vm.authentication.user.roles[0] === 'user')
-          $state.go('hostHome');
+          $state.go('host.hostHome');
         else
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);
       }).error(function (response) {

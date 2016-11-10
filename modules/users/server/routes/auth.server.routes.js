@@ -23,7 +23,7 @@ module.exports = function (app) {
 
   // Setting the facebook oauth routes
   app.route('/api/auth/facebook').get(users.oauthCall('facebook', {
-    scope: ['email']
+    scope: ['email', 'publish_pages', 'manage_pages', 'pages_manage_cta']
   }));
   app.route('/api/auth/facebook/callback').get(users.oauthCallback('facebook'));
 

@@ -35,5 +35,21 @@
     	}
     }
 
+    vm.shareOnSocialAccount = function (account, product) {
+        if (account == 'twitter') {
+            $http.post('/api/social/host/twitter', product).success(function (response) {
+                console.log(response);
+            }).error(function (response) {
+                vm.error = response.message;
+            });
+        } else if (account == 'facebook') {
+            $http.post('/api/social/host/facebook', product).success(function (response) {
+                console.log(response);
+            }).error(function (response) {
+                vm.error = response.message;
+            });
+        }
+    }
+
   }
 }());
