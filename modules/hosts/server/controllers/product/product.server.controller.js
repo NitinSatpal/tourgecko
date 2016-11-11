@@ -168,5 +168,6 @@ exports.uploadProductMap = function (req, res) {
     console.log('Done!');
   });
   console.info('cron job completed');
-}); */
+}); 
 cronJob.start();
+*/
