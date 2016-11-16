@@ -113,7 +113,7 @@
     // Company Profile settings
     vm.saveCompanyProfileSettings = function () {
       vm.error = null;
-      if (isCompanyDetailChanged == true) {
+      if (isCompanyDetailsChanged == true) {
         $http.post('/api/host/company', vm.companyDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
@@ -137,7 +137,7 @@
       else
         vm.contactDetails[0].inquiryTime = vm.inquiryTime;
 
-      if (isContactDetailChanged == true || vm.inquiryTime != 'Anytime') {
+      if (isContactDetailsChanged == true || vm.inquiryTime != 'Anytime') {
         $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
