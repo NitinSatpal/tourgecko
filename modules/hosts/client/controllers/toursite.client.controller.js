@@ -12,7 +12,6 @@
 
     if ($stateParams.id !== null) {
       vm.toursite = $stateParams.id.userId;
-      console.log(vm.toursite);
     } else {
       console.log('error');
     }

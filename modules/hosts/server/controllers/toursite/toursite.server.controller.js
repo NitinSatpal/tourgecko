@@ -7,29 +7,32 @@
 var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
+  Company = mongoose.model('HostCompany'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 // Finding if toursite exists or not.
 exports.getToursite = function (req, res) {
-  var userName = req.query.username;
+  var userId;
+  if (req.user !== undefined)
+    userId = req.user._id;
   var tourSite = req.query.toursite;
-  if (userName === undefined) {
-    User.findOne({ toursite: tourSite }, '-salt -password').sort('-created').exec(function (err, user) {
+  if (userId === undefined) {
+    Company.findOne({ toursite: tourSite }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
       if (err) {
         res.status(500).render('modules/core/server/views/500', {
           error: 'Oops! Something went wrong...'
         });
       }
-      res.json(user);
+      res.json(company);
     });
   } else {
-    User.findOne({ username: userName }, '-salt -password').sort('-created').exec(function (err, user) {
+    Company.findOne({ user: req.user._id }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
       if (err) {
         res.status(500).render('modules/core/server/views/500', {
           error: 'Oops! Something went wrong...'
         });
       }
-      res.json(user);
+      res.json(company);
     });
   }
 };

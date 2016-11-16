@@ -8,7 +8,8 @@ var hosts = require('../controllers/hosts.server.controller');
 module.exports = function (app) {
   // Articles collection routes
   app.route('/api/host/toursite/')
-    .get(hosts.getToursite);
+    .get(hosts.getToursite)
+    .post(hosts.saveToursiteDetails)
 
   app.route('/api/host/toursitedata')
     .get(hosts.getToursiteData);
@@ -38,4 +39,24 @@ module.exports = function (app) {
 
   app.route('/api/social/host/facebook')
     .post(hosts.postOnFB);
+
+  app.route('/api/host/company')
+    .get(hosts.fetchCompanyDetails)
+    .post(hosts.saveCompanyDetails);
+
+  app.route('/api/host/contact')
+    .post(hosts.saveContactDetails);
+
+  app.route('/api/host/payment')
+    .post(hosts.savePaymentDetails);
+
+  app.route('/api/host/userAccount')
+    .post(hosts.saveUserAccountDetails);
+
+  app.route('/api/host/language')
+    .get(hosts.getSupportedLanguages);
+
+  app.route('/api/host/region')
+    .post(hosts.saveRegionalDetails);
+
 };

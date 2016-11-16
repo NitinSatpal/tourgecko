@@ -48,7 +48,6 @@ form .input_group{position:relative;}
 .input_group.error .input-group-addon i{color:#cc0000; opacity:.6; -webkit-opacity:.6;}
 .error_msg{color:#cc0000 !important;font-size:11px !important; margin-top:3px;}
 .input_group.error  .error_group{display: block;}
-form .error_group{display: none;}
 form .error_group i{position:absolute;right:10px;z-index:9;top:9px;color:#cc0000;}
 form > .error_msg{text-align:center;margin-top:10px;}
 .checkbox-inline{ font-size:12px; margin-top:3px;}
@@ -208,6 +207,10 @@ a.btn i{padding:0 10px 0 0;}
 #settings p{color: #999;/*line-height: 26px;*/}
 #settings .settings-subnav .subnav{background: #F4FCFF;}
 #settings .settings-subnav .subnav h3{padding: 8% 0;background: #ccc;text-align: center;font-size: 14px;}
+#settings .settings-subnav .saveButton {margin-top: -11%; margin-right: 5%;}
+#settings .settings-subnav .saveButton-Bottom {margin-right: 5%;}
+.hostHome .settings_company_details .saveButton {margin-top: -11%; margin-right: 5%;}
+.hostHome .settings_company_details .saveButton-Bottom {margin-right: 5%;}
 #settings form{padding-top: 5%;}
 #settings form{padding-top: 5%;}
 /*#settings form .row{padding: .5em 0;}*/
@@ -222,6 +225,17 @@ a.btn i{padding:0 10px 0 0;}
 #settings .settings_contact .availability_radio label{padding: 0;}
 #settings .settings_contact .availability_radio select{display: inline-block; width: auto;}
 #settings .settings_contact .availability_radio{padding-bottom: 15px;}
+
+.tour-availability-options{ margin-bottom:1rem !important;}
+.pointer-box{ background-color:#f9f9f9;}
+.pointer-line{ margin:0; padding:0 !important; height:1px; background-color:#ddd;}
+.pointer{ margin-top: -3rem; }
+.pointer-line .pointer.pointer_a{ margin-left: 7%;}  .pointer-line .pointer.pointer_b{ margin-left: 33%;}
+.brdr{ display:block; height:1px; background-color:#eee; margin:1rem auto;}
+.brdr-btm{ border-bottom:1px solid #eee; padding-bottom:1.5rem;}
+.brdr-top{ border-top:1px solid #eee; padding-bottom:1.5rem;}
+.space-btm{padding-bottom:1.5rem;}
+.space-top{padding-top:1.5rem;}
 
 
 /*  ========== Regional styles  ===========  */
@@ -450,16 +464,16 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 /*  =================    styles for tours_1 page  ======================  */
 #tours .tours_head_content{width: 50%;}
 #tours .help_info{display: table;float: left;padding: 10px 30px;}
-#tours .help_info label.help{display: table-cell;vertical-align: middle;padding: 0 10px;}
+#tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: -15%;}
 #tours .help_info .onoffswitch{display: table-cell;}
-#tours .tour_pagination{display: table;float: left;padding: 10px;position: relative;}
+#tours .tour_pagination{display: table;float: left;padding: 10px;position: relative; margin-left: 5%; margin-top: -7%;}
 #tours .tour_pagination .tour_prev{display: table-cell;padding: 0 10px;}
 #tours .tour_pagination p{display: table-cell;}
 #tours .tour_pagination .tour_next{display: table-cell;padding: 0 10px;}
 #tours .tour_pagination a.tour_prev:before {content: "\2039 ";font-size: 40px;position: absolute;top: -13px;left: 0px;}
 #tours .tour_pagination a.tour_next:after {content: " \203A";font-size: 40px;position: absolute;top: -13px;right: 0px;}
-#tours .save-button {display: table;float: left; }
-#tours .create-button {display: table;float: left; padding-left: 5%;}
+#tours .save-button {display: table;float: left; margin-top: 1%;}
+#tours .create-button {display: table;float: left; padding-left: 5%;margin-top: 1%;}
 #tours label.pricefor{text-align: left;} 
 #tours form .panel{padding: 10px 20px;}
 #tours form .panel .row > div{padding-left: 5px;padding-right: 5px;}
@@ -476,18 +490,19 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours #tours_pricing form .minmax{font-size: 9px;padding: 4px;color: #bbb;}
 #tours #tours_pricing form .seats_used{font-size: 10px;}
 #tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee; padding-bottom: 20px; margin: 25px;}
+#tour_main_content .panel .pricingOptions {margin-left:-0.5% !important;}
 #tours .tour_help_info{padding: 0;}
 #tours  .tour_help_info .tours_help{background: #FFFFF5; padding:5px; border-radius:5px;}
 #tours  .tour_help_info .tours_help h3{font-size: 16px; text-align: left; padding: 10px 15px; margin: 0;border-bottom: 1px dashed #c9c9c9;}
 #tours  .tour_help_info .tours_help h3 i{color: #ccc;}
 #tours  .tour_help_info .tours_help p{font-size: 12px; padding: 5px;}
 #tours .no_margin_row{margin: 0 -5px;position: relative;}
-#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 14px;position: absolute;right: -14px;top: 22%;}
+#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: -10px;top: 50%;transform: translateY(-50%);}
 #tours form .panel .no_margin_row.price_for_adult .close_group{right: 40%;}
 #tours form .panel .no_margin_row .close_group i{font-weight: bold;}
 #tours #tour_main_content .add_price_option{margin-left: 5px;}
 #tours .addon-onoff, #tours .deposit-onoff{display: inline-block; top: 7px;}
-#tours #tour_main_content .sub_desc{font-size: 10px;line-height: 11px;}
+#tours #tour_main_content .sub_desc{font-size: 12px;line-height: 11px;}
 #tours #tour_main_content .addon-panel{padding-bottom: 35px;}
 #tours #tour_main_content .addon-panel .addon_edit{position: relative;}
 #tours #tour_main_content .addon-panel .addon_edit > a{position: absolute;}
@@ -543,7 +558,7 @@ and (max-device-width : 1024px){
 #tours_list .panel .no-image .no_image div{position: absolute;width: 60px;height: 60px;top: 50%;left: 50%;transform: translate(-50%,-50%);}
 #tours_list .panel .no-image .no_image div span{font-size: 12px;position: absolute;bottom: -5px;left: 0px;color: #ccc;}
 
-.onoffswitch{position:relative;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
+.onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: -10%;}
 .onoffswitch-checkbox{display:none;}
 .onoffswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
 .onoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
@@ -551,13 +566,21 @@ and (max-device-width : 1024px){
 .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before{border-color:#49E845;}
 .onoffswitch-checkbox:checked + .onoffswitch-label:before{right:0px;}
 
+.formonoffswitch{position:relative;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
+.formonoffswitch-checkbox{display:none;}
+.formonoffswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
+.formonoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
+.formonoffswitch-checkbox:checked + .formonoffswitch-label{background-color:#49E845;}
+.formonoffswitch-checkbox:checked + .formonoffswitch-label, .formonoffswitch-checkbox:checked + .formonoffswitch-label:before{border-color:#49E845;}
+.formonoffswitch-checkbox:checked + .formonoffswitch-label:before{right:0px;}
+
 #lightbox .modal-content{display:inline-block;text-align:center;}
 #lightbox .close{opacity:1;color:rgb(255, 255, 255);background-color:rgb(25, 25, 25);padding:5px 8px;border-radius:30px;border:2px solid rgb(255, 255, 255);position:absolute;top:-15px;right:-55px;z-index:1032;}
 .outline{background-color:transparent;color:inherit;transition:all .25s;}
 .btn-primary.outline{color:#428bca;border:1px solid #428bca;}
 .btn-primary.outline:hover,.btn-primary.outline:active, .btn-primary.outline:focus{color:#fff !important;}
 
-#tours #tours_sa .days_radio label.radio_label{font-size: 14px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;position: relative;}
+#tours #tours_sa .days_radio label.radio_label{font-size: 18px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;position: relative;}
 #tours #tours_sa .days_radio label.radio_label span{font-size: 14px; color: rgba(0,0,0,0.6);font-weight: 900;margin-left: 16px;}
 #tours #tours_sa .days_radio{position: relative;margin: 14px 0;}
 #tours #tours_sa .days_radio.text_align_left{text-align: left; margin: 10px 0 0px 0;}
@@ -566,13 +589,31 @@ and (max-device-width : 1024px){
 #tours #tours_sa .days_radio input ~ .zmdi-check-circle{display: none;}
 #tours #tours_sa .days_radio input:checked ~ .zmdi-check-circle{display: block;color: #42AE5E}
 #tours #tours_sa .days_radio input:checked ~ .zmdi-circle-o{display: none;}
-#tours #tours_sa .tours_sa_ty{display: inline-block;position: relative;top: 10px;}
+#tours #tours_sa .tours_sa_ty{display: inline-block;position: relative;top: 10px; margin-bottom:1rem;}
 #tours #tours_sa .available_months .month_checkbox{padding-top: 7px;margin-top: 5px;margin-bottom: 5px;margin-left: 0;margin-right: 10px;border: 1px solid #ccc;padding: 0 20px 0 30px;border-radius: 5px;}
 #tours #tours_sa .available_months .month_checkbox label{margin: 2px 0;font-weight: normal;}
 #tours #tours_sa label[for="tours_sa_notice"]{text-align: left;}
 #tours #tours_sa .fixed_timeslot{padding: 0 0 0 10px;margin: 0;position: relative;left: -10px;display: none;clear: both;}
 #tours #tours_sa .tours_sa_fixed_departure .days_radio{margin-top: 15px;}
 #tours #tours_sa .tours_sa_fixed_departure{display: none;}
+
+/*code for multiselect*/
+span.multiselect-native-select{position:relative}
+span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!important;height:1px!important;margin:-1px -1px -1px -3px!important;overflow:hidden!important;padding:0!important;position:absolute!important;width:1px!important;left:50%;top:30px}
+.multiselect-container{position:absolute;list-style-type:none;margin:0;padding:0;}
+.multiselect-container .input-group{margin:5px}
+.multiselect-container>li{padding:0}
+.multiselect-container>li>a.multiselect-all label{font-weight:700}
+.multiselect-container>li.multiselect-group label{margin:0;padding:3px 20px 3px 20px;height:100%;font-weight:700}
+.multiselect-container>li.multiselect-group-clickable label{cursor:pointer}
+.multiselect-container>li>a{padding:0}
+.multiselect-container>li>a>label{margin:0;height:100%;cursor:pointer;font-weight:400;padding:3px 20px 3px 40px}
+.multiselect-container>li>a>label.radio,.multiselect-container>li>a>label.checkbox{margin:0}
+.multiselect-container>li>a>label>input[type=checkbox]{margin-bottom:5px}
+.btn-group>.btn-group:nth-child(2)>.multiselect.btn{border-top-left-radius:4px;border-bottom-left-radius:4px}
+.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio{padding:3px 20px 3px 40px}
+.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio]{margin-left:-20px;margin-right:0}
+.multiselect-container.dropdown-menu>.active>a{ background-color:#F1FBFF; color:#333;}
 
 
 @media (max-width: 767px){

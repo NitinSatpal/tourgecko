@@ -154,6 +154,8 @@ exports.me = function (req, res) {
       roles: req.user.roles,
       profileImageURL: req.user.profileImageURL,
       email: validator.escape(req.user.email),
+      password: req.user.password,
+      mobile: req.user.mobile,
       lastName: validator.escape(req.user.lastName),
       firstName: validator.escape(req.user.firstName),
       additionalProvidersData: req.user.additionalProvidersData

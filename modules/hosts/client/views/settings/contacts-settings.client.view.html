@@ -8,42 +8,42 @@
 						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
 						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
 						<span class="bread-current">Contacts</span></h2>
-						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i>Save</a>						
 					</div>
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_contact">
-							<form class="form-horizontal" method="post" action="#">
+							<form class="form-horizontal" name="vm.contactForm" ng-submit="vm.saveContactSettings(vm.contactForm.$valid)" novalidate>
+								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 								<h3>Notifications <i class="zmdi zmdi-globe-lock icn_orange"></i></h3>
 								<p class="section-desc">Receipts and notifications will  be sent on  this email and phone </p>
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
+											<div class="form-group" show-errors>
 												<label for="company_email" class="cols-sm-2 control-label">Email</label>
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-														<input type="text" class="form-control" name="company_email" id="company_email"  placeholder="example@email.com"/>
+														<input type="email" class="form-control" name="company_email" id="company_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].notificationEmail"/>
 													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter a valid email address</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
-													</div>
+													<div class="error_group" ng-messages="vm.contactForm.company_email.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
 												</div>
 											</div>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col">
-											<div class="form-group">
+											<div class="form-group" show-errors>
 												<label for="company_mobile" class="cols-sm-2 control-label">Mobile</label>
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
-														<input type="text" class="form-control" name="company_mobile" id="company_mobile"  placeholder="Phone Number"/>
+														<input type="text" class="form-control" name="company_mobile" id="company_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].notificationMobile"/>
 													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter a valid mobile number</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
-													</div>
+													<div class="error_group" ng-messages="vm.contactForm.company_mobile.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
 												</div>
 											</div>
 										</div>
@@ -54,32 +54,32 @@
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
+											<div class="form-group" show-errors>
 												<label for="inquiry_email" class="cols-sm-2 control-label">Email</label>
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-														<input type="text" class="form-control" name="inquiry_email" id="inquiry_email"  placeholder="example@email.com"/>
+														<input type="email" class="form-control" name="inquiry_email" id="inquiry_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].inquiryEmail"/>
 													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter a valid email address</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
-													</div>
+													<div class="error_group" ng-messages="vm.contactForm.inquiry_email.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6 col">
-											<div class="form-group">
+										<div class="col-lg-6 col-md-6 col-sm-6 col" >
+											<div class="form-group" show-errors>
 												<label for="inquiry_mobile" class="cols-sm-2 control-label">Mobile</label>
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
-														<input type="text" class="form-control" name="inquiry_mobile" id="inquiry_mobile"  placeholder="Phone Number"/>
+														<input type="text" class="form-control" name="inquiry_mobile" id="inquiry_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].inquiryMobile"/>
 													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter a valid mobile number</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
-													</div>
+													<div class="error_group" ng-messages="vm.contactForm.inquiry_mobile.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
 												</div>
 											</div>
 										</div>
@@ -89,24 +89,40 @@
 											<div class="form-group">
 												<label class="control-label">Availablity</label>
 												<div class="radio">
-													<input type="radio" name="anytime" value="anytime" id="anytime">
+													<input type="radio" name="anytime" value="Anytime" id="anytime" ng-model="vm.inquiryTime">
 													<label for="anytime">Anytime</label>
 												</div>
 												<div class="radio">
-													<input type="radio" name="anytime" id="anytime" value="amytime">
-													<span>from</span>
-													<select class="form-control" name="availability_from" id="availability_from">
-														<option>1 PM</option>
-														<option>1</option>
-														<option>1</option>
-														<option>1</option>
+													<input type="radio" name="anytime" id="anytime" value="rangeTime" ng-model="vm.inquiryTime">
+													<span>From</span>
+													<select class="form-control" name="availability_from" id="availability_from" ng-model="vm.inquiryTimeFrom">
+														<option>1 AM</option>
+														<option>2 AM</option>
+														<option>3 AM</option>
+														<option>4 AM</option>
+														<option>5 AM</option>
+														<option>6 AM</option>
+														<option>7 AM</option>
+														<option>8 AM</option>
+														<option>9 AM</option>
+														<option>10 AM</option>
+														<option>11 AM</option>
+														<option>12 Noon</option>
 													</select>
 													<span>to</span>
-													<select class="form-control" name="availability_to" id="availability_to">
-														<option>1 AM</option>
-														<option>1</option>
-														<option>1</option>
-														<option>1</option>
+													<select class="form-control" name="availability_to" id="availability_to" ng-model="vm.inquiryTimeTo">
+														<option>1 PM</option>
+														<option>2 PM</option>
+														<option>3 PM</option>
+														<option>4 PM</option>
+														<option>5 PM</option>
+														<option>6 PM</option>
+														<option>7 PM</option>
+														<option>8 PM</option>
+														<option>9 PM</option>
+														<option>10 PM</option>
+														<option>11 PM</option>
+														<option>12 Midnight</option>
 													</select>
 												</div>
 											</div>
@@ -123,11 +139,7 @@
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i></span>
-														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="ex: facebook.com/username"/>
-													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter facebook username</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
+														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="ex: facebook.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.facebook"/>
 													</div>
 												</div>
 											</div>
@@ -138,11 +150,7 @@
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i></span>
-														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="ex: twitter.com/username"/>
-													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter twitter username</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
+														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="ex: twitter.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.twitter"/>
 													</div>
 												</div>
 											</div>
@@ -155,11 +163,7 @@
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i></span>
-														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="ex: instagram.com/username"/>
-													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter instagram username</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
+														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="ex: instagram.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.instagram"/>
 													</div>
 												</div>
 											</div>
@@ -170,23 +174,20 @@
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-blogger"></i></span>
-														<input type="text" class="form-control" name="social_blog" id="social_blog"  placeholder="ex: your wordpress / blogger or blog address"/>
-													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter blog address</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
+														<input type="text" class="form-control" name="social_blog" id="social_blog"  placeholder="ex: your wordpress / blogger or blog address" ng-model="vm.contactDetails[0].hostSocialAccounts.blog"/>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
+								<button class="sub_btn btn btn-primary pull-right" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+								<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
+					                <span ng-bind="vm.error"></span>
+					            </uib-alert>
 							</form>
 						</div>
 					</div>
-
-					
 				</div>
 			</div>
 		</div>

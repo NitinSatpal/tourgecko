@@ -5,153 +5,151 @@
 			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
 				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
 					<div class="home_add_tour fixed-in-div">
-								<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
-								<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
-								<span class="bread-current">Company Profile</span></h2>
-								<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i>Save</a>						
-							</div>
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_company_details">
-									<form class="form-horizontal" method="post" action="#">
-										<h3>Company Details <i class="zmdi zmdi-globe icn_green"></i></h3>
-										<p class="section-desc">Describe about who you are and what services you provide</p>
-										<div class="panel">
-											<div class="row">
-												<div class="col-lg-6 col-md-6 col-sm-6">										
-													<div class="form-group">
-														<label for="describe" class="control-label">How do you describe yourself?</label>
-														<div class="input_group">
-															<div>
-																<select class="form-control" id="describe">
-																	<option>Tour Operator</option>
-																	<option>Option 2</option>
-																	<option>Option 3</option>
-																	<option>Option 4</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 col-md-6 col-sm-6 col">
-													<div class="form-group">
-														<label for="business_name" class="control-label">Name of your business</label>
-														<div class="input_group">
-															<div>
-																<input type="text" name="business_name" class="form-control" id="business_name"/>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-12 col-md-12 col-sm-12">
-													<div class="form-group">
-														<label for="about_business" class="control-label">About your business</label>
-														<p class="sub_desc">Describe what you do and what kind of tours and activities you provide. This is shown to guests on tour site and tour pages.</p>
-														<div class="input_group">
-															<div>
-																<textarea class="form-control" rows="5" id="about_business"></textarea>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 col-md-6 col-sm-6">
-													<div class="form-group">
-														<label for="established_in" class="control-label">Established In</label>
-														<p class="sub_desc lheight">Year since you are operating</p>
-														<div class="input_group">
-															<div>
-																<input type="text" name="established_in" class="form-control" id="established_in"/>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 col-md-6 col-sm-6 col">
-													<div class="form-group">
-														<label for="logo" class="control-label">Logo</label>
-														<p class="sub_desc">If you are a guide, you can upload your picture</p>
-														<div class="input_group">
-															<div>
-																<input name="logo" id="logo" type="file" class="filestyle form-control" data-icon="false">
-															</div>
-														</div>
+						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
+						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
+						<span class="bread-current">Company Profile</span></h2>			
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_company_details">
+							<form class="form-horizontal" name="vm.companyProfile" ng-submit="vm.saveCompanyProfileSettings(vm.companyProfile.$valid)">
+								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+								<h3>Company Details <i class="zmdi zmdi-globe icn_green"></i></h3>
+								<p class="section-desc">Describe about who you are and what services you provide</p>
+								<div class="panel">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">										
+											<div class="form-group">
+												<label for="describe" class="control-label">How do you describe yourself?</label>
+												<div class="input_group">
+													<div>
+														<select class="form-control" id="describe" ng-model="vm.companyDetails[0].hostType">
+															<option>Tour Operator</option>
+															<option>Activity provider </option>
+											                <option>Adventure Club</option>
+											                <option>Tour Guide</option>
+														</select>
 													</div>
 												</div>
 											</div>
 										</div>
-										<h3>Address <i class="zmdi zmdi-globe icn_green"></i></h3>
-										<p class="section-desc">Your addresses and location</p>
-										<div class="panel">
-											<div class="row">
-												<div class="col-lg-12 col-md-12 col-sm-12">
-													<div class="form-group">
-														<label for="street_address" class="control-label">Street Address</label>
-														<div class="input_group">
-															<div>
-																<textarea class="form-control" rows="5" id="street_address"></textarea>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 col-md-6 col-sm-6">
-													<div class="form-group">
-														<label for="city_addr" class="control-label">City</label>
-														<div class="input_group">
-															<div>
-																<input type="text" name="city_addr" class="form-control" id="city_addr"/>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 col-md-6 col-sm-6 col">
-													<div class="form-group">
-														<label for="postal_code" class="control-label">Postal Code</label>
-														<div class="input_group">
-															<div>
-																<input type="text" name="postal_code" class="form-control" id="postal_code"/>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="row">
-												<div class="col-lg-6 col-md-6 col-sm-6">
-													<div class="form-group">
-														<label for="country_addr" class="control-label">Country</label>
-														<div class="input_group">
-															<div>
-																<select class="form-control" id="country_addr">
-																	<option>India</option>
-																	<option>Option 2</option>
-																	<option>Option 3</option>
-																	<option>Option 4</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-6 col-md-6 col-sm-6 col">
-													<div class="form-group">
-														<label for="state_addr" class="control-label">State</label>
-														<div class="input_group">
-															<div>
-																<input type="text" name="state_addr" class="form-control" id="state_addr"/>
-															</div>
-														</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="business_name" class="control-label">Name of your business</label>
+												<div class="input_group">
+													<div>
+														<input type="text" name="business_name" class="form-control" id="business_name" ng-model="vm.companyDetails[0].companyName"/>
 													</div>
 												</div>
 											</div>
 										</div>
-										<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i>Save</a>
-									</form>
+									</div>
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="form-group">
+												<label for="about_business" class="control-label">About your business</label>
+												<p class="sub_desc">Describe what you do and what kind of tours and activities you provide. This is shown to guests on tour site and tour pages.</p>
+												<div class="input_group">
+													<div>
+														<textarea class="form-control" rows="5" id="about_business" ng-model="vm.companyDetails[0].aboutHost"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="established_in" class="control-label">Established In</label>
+												<p class="sub_desc lheight">Year since you are operating</p>
+												<div class="input_group">
+													<div>
+														<input type="text" name="established_in" class="form-control" id="established_in"/>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="logo" class="control-label">Logo</label>
+												<p class="sub_desc">If you are a guide, you can upload your picture</p>
+												<div class="input_group">
+													<div>
+														<input name="logo" id="logo" type="file" class="filestyle form-control" data-icon="false" ng-model="vm.logo">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-
-					
+								<h3>Address <i class="zmdi zmdi-globe icn_green"></i></h3>
+								<p class="section-desc">Your addresses and location</p>
+								<div class="panel">
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="form-group">
+												<label for="street_address" class="control-label">Street Address</label>
+												<div class="input_group">
+													<div>
+														<textarea class="form-control" rows="5" id="street_address" ng-model="vm.companyDetails[0].hostCompanyAddress.streetAddress"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="city_addr" class="control-label">City</label>
+												<div class="input_group">
+													<div>
+														<input type="text" name="city_addr" class="form-control" id="city_addr" ng-model="vm.companyDetails[0].hostCompanyAddress.city"/>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="postal_code" class="control-label">Postal Code</label>
+												<div class="input_group">
+													<div>
+														<input type="text" name="postal_code" class="form-control" id="postal_code" ng-model="vm.companyDetails[0].hostCompanyAddress.postalCode"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label for="country_addr" class="control-label">Country</label>
+												<div class="input_group">
+													<div>
+														<select class="form-control" id="country_addr" ng-model="vm.companyDetails[0].hostCompanyAddress.country">
+															<option>India</option>
+															<option>Option 2</option>
+															<option>Option 3</option>
+															<option>Option 4</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group">
+												<label for="state_addr" class="control-label">State</label>
+												<div class="input_group">
+													<div>
+														<input type="text" name="state_addr" class="form-control" id="state_addr" ng-model="vm.companyDetails[0].hostCompanyAddress.state"/>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<button class="btn btn-primary pull-right saveButton-Bottom" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

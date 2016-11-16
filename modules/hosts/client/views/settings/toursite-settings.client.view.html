@@ -8,11 +8,11 @@
 						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
 						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
 						<span class="bread-current">Toursite</span></h2>
-						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i>Save</a>						
 					</div>
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_toursite">
-							<form class="form-horizontal" method="post" action="#">
+							<form class="form-horizontal" ng-submit="vm.saveToursiteSettings()">
+								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 								<h3>Toursite <i class="zmdi zmdi-globe icn_green"></i></h3>
 								<p class="section-desc">Tour site is created automatically for you. You can control if it is visible to your guests or not</p>
 								<div class="panel">
@@ -23,12 +23,8 @@
 												<div class="input_group">
 													<div class="input-group">
 														<span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
-														<input type="text" class="form-control" name="toursite" id="toursite"  placeholder="toursite"/>
+														<input type="text" class="form-control" name="toursite" id="toursite"  placeholder="toursite" ng-model="vm.toursiteDetails[0].toursite"/>
 														<span class="input-group-addon">.tourgecko.com</span>
-													</div>
-													<div class="error_group">
-														<p class="error_msg">Please enter a valid location</p>
-														<i class="zmdi zmdi-alert-triangle"></i>
 													</div>
 												</div>
 											</div>
@@ -39,7 +35,7 @@
 											<h4>Make toursite inactive</h4>
 											<p class="status-desc">If you make toursite inactive, guest will not be able to access it. They can still access individual tour pages though.</p>
 											<div class="form-group toogle-status">
-												<label class="checkbox-inline"><input type="checkbox"><span>Inactive</span></label>
+												<label class="checkbox-inline"><input type="checkbox" ng-model="vm.toursiteDetails[0].isToursiteInactive"><span>Inactive</span></label>
 											</div>
 										</div>
 									</div>
@@ -49,24 +45,17 @@
 												<label for="toursite_exwebsite" class="cols-sm-2 control-label">Existing Website</label>
 												<div class="input_group">
 													<div>
-														<select class="form-control" id="regional_language">
-															<option>Everyone</option>
-															<option>Option 2</option>
-															<option>Option 3</option>
-															<option>Option 4</option>
-														</select>
+														<input type="text" class="form-control" name="existingWebsite" id="existingWebsite"  placeholder="Website" ng-model="vm.toursiteDetails[0].companyWebsite"/>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<a class="sub_btn btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i>Save</a>
+								<button class="btn btn-primary pull-right saveButton-Bottom" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 							</form>
 						</div>
 					</div>
-
-					
 				</div>
 			</div>
 		</div>

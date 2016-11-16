@@ -3,7 +3,12 @@
 
   angular
     .module('hosts', [])
-    .controller('AddProductController', AddProductController);
+    .controller('AddProductController', AddProductController)
+    .filter('htmlData', function($sce) {
+        return function(val) {
+            return $sce.trustAsHtml(val);
+        };
+    });
 
   AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', 'tourResolve', 'Upload'];
 
@@ -29,10 +34,15 @@
     vm.addMorePhotos = false;
     vm.productPictureURLs = [];
     vm.productMapURLs = [];
+    vm.availableMonths = [];
+    vm.itineraries = [];
+    vm.dayCounter = 1;
+    vm.showSaveButtonForItineraries = false;
+    vm.showSaveItinerariesSection = true;
+    vm.showEditingSaveButton = false;
+    vm.productDuration;
+    vm.heading = '';
 
-    // Hashmaps and other methods won't optimize this as it is a constant time checking. So using two arrays
-    vm.availableMonths = [false, false, false, false, false, false, false, false, false, false, false, false];
-    vm.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     vm.pricingParams = {
       Params: [{
         price: 0,
@@ -54,15 +64,15 @@
       }]
     };
 
-    vm.timeslotParams = {
-      params: [{
-        timeslot: ''
-      }]
-    };
+    vm.timeslots = [''];
 
     vm.addPricingOption = function() {
       vm.pricingOptions.push('All');
     };
+
+    vm.removePricingOption = function(index) {
+      vm.pricingOptions.splice(index, 1);
+    }
 
     vm.addMoreAddons = function() {
       vm.addonParams.params.push({
@@ -81,16 +91,74 @@
     };
 
     vm.addMoreTimeslots = function() {
-      vm.timeslotParams.params.push({
-        timeslot: ''
-      });
+      vm.timeslots.push('');
     };
 
     vm.removeTimeslots = function(index) {
-      vm.timeslotParams.params.splice(index, 1);
+      vm.timeslots.splice(index, 1);
     };
 
+    vm.createItinerary = function(done) {
+      if (vm.productDuration === undefined) {
+        alert('First set the duration of the tour');
+        return false;
+      } else if(vm.heading === '' && CKEDITOR.instances.tourItinerary.getData() !== '') {
+        alert('Please add some meaningful headline for day ' + vm.dayCounter);
+        return false;
+      }
+      else if (vm.heading !== '' && CKEDITOR.instances.tourItinerary.getData() === '') {
+        alert('Please add some description for day ' + vm.dayCounter);
+        return false;
+      }
+      else if (vm.heading === '' && CKEDITOR.instances.tourItinerary.getData() === '') {
+        alert('Please add details of Day ' + vm.dayCounter + ' first');
+        return false;
+      }
+
+      if(vm.dayCounter == vm.productDuration - 1) {
+          vm.dayCounter++;
+          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
+          vm.showSaveButtonForItineraries = true;
+          CKEDITOR.instances.tourItinerary.setData('');
+          vm.heading = '';
+      } else {
+        if(done == true) {
+          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
+          vm.showSaveItinerariesSection = false;
+        }
+        else {
+          vm.dayCounter++;
+          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
+          CKEDITOR.instances.tourItinerary.setData('');
+          vm.heading = '';
+        }
+      }
+    }
+
+    var indexSaved;
+    vm.editItinerary = function(index) {
+      indexSaved = index;
+      vm.showEditingSaveButton = true;
+      vm.showSaveItinerariesSection = true;
+      vm.showSaveButtonForItineraries = false;
+      vm.dayCounter = index + 1;
+      vm.heading = vm.itineraries[index].title;
+      CKEDITOR.instances.tourItinerary.setData(vm.itineraries[index].description);
+    }
+
+    vm.saveEditedItinerary = function(index) {
+      vm.itineraries[indexSaved].title = vm.heading;
+      vm.itineraries[indexSaved].description = CKEDITOR.instances.tourItinerary.getData();
+      vm.showSaveItinerariesSection = false;
+    }
+
+    vm.getHtmlTrustedData = function(htmlData){
+      return $sce.trustAsHtml(htmlData);
+    };
     vm.save = function (isValid) {
+
+      console.log(vm.itineraries);
+      return false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
@@ -133,19 +201,18 @@
     function setProductInformation() {
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productDurationType = vm.durationType;
+      vm.tour.productDuration = vm.productDuration;
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
       vm.tour.productTimeSlotsAvailability = vm.productTimeSlotsAvailability;
       vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
+      vm.tour.productMonthsAvailableForBoking = vm.availableMonths;
+      vm.tour.productSummary = CKEDITOR.instances.describe_tour_briefly.getData();
+      vm.tour.productCancellationPolicy = CKEDITOR.instances.cancellationPolicies.getData();
+      vm.tour.productGuidelines = CKEDITOR.instances.tour_guidelines.getData();
+      vm.tour.productFacilitiesIncluded = CKEDITOR.instances.tour_inclusions.getData();
+      vm.tour.productFacilitiesExcluded = CKEDITOR.instances.tour_exclusions.getData();
 
-      // Available months
-      vm.monthsStore = [];
       var index = 0;
-      for (index = 0; index < vm.availableMonths.length; index++) {
-        if (vm.availableMonths[index] === true)
-          vm.monthsStore.push(vm.monthNames[index]);
-      }
-      vm.tour.productMonthsAvailableForBoking = vm.monthsStore;
-
       // Pricing options
       vm.pricingOptionStore = [];
       if (vm.pricingParams[0] !== undefined) {
@@ -161,7 +228,7 @@
 
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
 
-      vm.tour.productTimeSlots = vm.timeslotParams.params;
+      vm.tour.productTimeSlots = vm.timeslots;
 
       vm.tour.productPictureURLs = vm.productPictureURLs;
 

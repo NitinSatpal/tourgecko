@@ -74,7 +74,6 @@ exports.forgot = function (req, res, next) {
         appName: config.app.title,
         url: baseUrl + '/api/auth/reset/' + token
       }, function (err, emailHTML) {
-        console.log(emailHTML);
         done(err, emailHTML, user);
       });
     },
@@ -214,7 +213,6 @@ exports.reset = function (req, res, next) {
 exports.changePassword = function (req, res, next) {
   // Init Variables
   var passwordDetails = req.body;
-
   if (req.user) {
     if (passwordDetails.newPassword) {
       User.findById(req.user.id, function (err, user) {

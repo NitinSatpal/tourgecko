@@ -20,4 +20,7 @@ module.exports = function (app) {
 
   app.route('/api/admin/hosts')
     .get(adminPolicy.isAllowed, admin.getHosts);
+
+  app.route('/api/admin/languages')
+    .post(adminPolicy.isAllowed, admin.saveLanguages);
 };

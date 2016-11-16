@@ -15,11 +15,12 @@
                 <div class="cols-sm-10 input_group">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-                    <input type="text" class="form-control" name="email" id="email"  ng-model="vm.credentials.username" placeholder="example@email.com" lowercase required/>
+                    <input type="email" class="form-control" name="email" id="email"  ng-model="vm.credentials.username" placeholder="example@email.com" lowercase required/>
                   </div>
                   <div class="error_group" ng-messages="vm.userForm.email.$error" role="alert">
-                    <p class="help-block error-text" ng-message="required">Please enter a valid email address</p>
-                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+                      <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                      <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+                      <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                   </div>
                 </div>
               </div>

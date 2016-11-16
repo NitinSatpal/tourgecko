@@ -35,7 +35,8 @@ exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
   // Init user and add missing fields
-  var user = new User(req.body);
+  var user = new User(req.body.signupData);
+  var toursite = req.body.toursite;
   user.provider = 'local';
   user.username = user.email;
   user.isActive = false;
@@ -56,7 +57,18 @@ exports.signup = function (req, res) {
             message: errorHandler.getErrorMessage(err)
           });
         } else {
-          // Do nothing
+          var hostCompany = new HostCompany();
+          hostCompany.user = user._id;
+          hostCompany.toursite = toursite;
+          hostCompany.save(function (err) {
+            if(err) {
+              return res.status(400).send({
+                message: errorHandler.getErrorMessage(err)
+              });
+            } else {
+              // Do nothing
+            }
+          });
         }
       });
       res.json(user);
@@ -94,7 +106,6 @@ exports.signupDetails = function(req, res, next) {
             user.lastName = userDetails.lastName;
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
-            user.hostType = userDetails.hostType;
             user.userType = 'host';
 
             user.save(function (err) {
@@ -103,28 +114,38 @@ exports.signupDetails = function(req, res, next) {
                   error: 'Oops! Something went wrong! Please fill the details again!'
                 });
               }
-              var hostCompany = new HostCompany();
-              hostCompany.user = user;
-              hostCompany.companyName = userDetails.companyName;
-              hostCompany.companyWebsite = userDetails.companyWebsite;
-              hostCompany.hostCompanyAddress = {
-                streetAddress: userDetails.streetAddress,
-                city: userDetails.city,
-                postalCode: userDetails.postalCode,
-                state: userDetails.state,
-                country: userDetails.country
-              };
-              hostCompany.markModified('hostCompanyAddress');
-              hostCompany.save(function (err) {
+              HostCompany.findOne({ user: req.body.userId.id }, '-salt -password').sort('-created').exec(function (err, hostCompany) {
                 if (err) {
-                  console.log(err);
-                  /* return res.status(400).send({
-                    message: errorHandler.getErrorMessage(err)
-                  }); */
-                } else {
-                  // Do nothing
+                  res.status(500).render('modules/core/server/views/500', {
+                    error: 'Oops! Something went wrong...'
+                  });
                 }
+                var todayDate = new Date();
+                hostCompany.user = user;
+                hostCompany.companyName = userDetails.companyName;
+                hostCompany.companyWebsite = userDetails.companyWebsite;
+                hostCompany.hostType = userDetails.hostType;
+                hostCompany.memberSince = todayDate.getFullYear() + '/' + (todayDate.getMonth()+1) + '/' + todayDate.getDate();
+                hostCompany.hostCompanyAddress = {
+                  streetAddress: userDetails.streetAddress,
+                  city: userDetails.city,
+                  postalCode: userDetails.postalCode,
+                  state: userDetails.state,
+                  country: userDetails.country
+                };
+                hostCompany.markModified('hostCompanyAddress');
+                hostCompany.save(function (err) {
+                  if (err) {
+                    console.log(err);
+                    /* return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    }); */
+                  } else {
+                    // Do nothing
+                  }
+                });
               });
+              
               res.json(user);
               done(err, token, user);
             });

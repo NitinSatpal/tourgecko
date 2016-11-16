@@ -120,9 +120,10 @@
 		<ul id="richDataTabs" class="nav nav-tabs">
 		    <li class="active"><a data-toggle="tab" href="#addTheme">Add Themes</a></li>
 		    <li><a data-toggle="tab" href="#addActivity">Add Activities</a></li>
+		    <li><a data-toggle="tab" href="#addLanguage">Add Languages</a></li>
 	  	</ul>
 	  	<div class="tab-content">
-	  		<div class="tab-pane fade in active addTheme" id="addTheme" >
+	  		<div class="tab-pane fade in active addRichData" id="addTheme" >
 	  			<br>
 	  			<br>
 	  			<div class="text-center">
@@ -132,7 +133,7 @@
 	  				<button type="button" class="adminButtons" ng-click="vm.addThemes()">Add Themes</button>
 	  			</div>
 	  		</div>
-	  		<div id="addActivity" class="tab-pane fade addTheme">
+	  		<div id="addActivity" class="tab-pane fade addRichData">
 	  			<br>
 	  			<br>
 	  			<div class="text-center">
@@ -140,6 +141,16 @@
 		  			<br>
 		  			<br>
 	  				<button type="button" class="adminButtons" ng-click="vm.addActivities()">Add Activities</button>
+	  			</div>
+	  		</div>
+	  		<div id="addLanguage" class="tab-pane fade addRichData">
+	  			<br>
+	  			<br>
+	  			<div class="text-center">
+	  				<input name="language" type="text" ng-model="vm.languagesAdded" id="language" placeholder="use comma to add multiple languages">
+		  			<br>
+		  			<br>
+	  				<button type="button" class="adminButtons" ng-click="vm.addLanguages()">Add Languages</button>
 	  			</div>
 	  		</div>
 	  	</div>

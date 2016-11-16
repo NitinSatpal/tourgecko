@@ -14,6 +14,7 @@
     // variables for rich data addition
     vm.themesAdded;
     vm.activitiesAdded;
+    vm.languagesAdded
 
     // Vriables and function calls for browse and modify data
     vm.pagedItemsForUsers = [];
@@ -63,6 +64,24 @@
 
       vm.activitiesAdded = '';
       $http.post('/api/admin/activities', vm.commitActivities)
+        .success(function (response) {
+          $state.reload();
+        })
+        .error(function (error) {
+          console.log(error);
+        });
+    };
+
+    vm.addLanguages = function() {
+      vm.commitLanguages = [];
+      for (var index = 0; index < vm.languagesAdded.split(',').length; index++) {
+        var language = vm.languagesAdded.split(',')[index].trim();
+        vm.commitLanguages.push(language);
+      }
+      
+      var newLanguagesAdded = {'supportedLanguages': vm.commitLanguages}
+      vm.languagesAdded = '';
+      $http.post('/api/admin/languages', newLanguagesAdded)
         .success(function (response) {
           $state.reload();
         })

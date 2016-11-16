@@ -19,6 +19,7 @@
     vm.terms = false;
     vm.hostType = 'Tour Operator';
     vm.country = 'India';
+    vm.toursite = '';
     // For now allowing all the numbers starting from 1 and just checking 10 digits for Indian mobile numbers. We can become more
     // strcit and just allow number starting from 7, 8, 9 as in India number series starts only from these numbers.
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
@@ -45,7 +46,8 @@
         alert('Please read and agree to terms and conditions');
         return false;
       }
-      $http.post('/api/auth/signup', vm.credentials).success(function (response) {
+      vm.signupDateStore = {signupData: vm.credentials, toursite: vm.toursite}
+      $http.post('/api/auth/signup', vm.signupDateStore).success(function (response) {
         // And redirect to the Details page with the id of the user
         $state.go('hostDetails.details', { id: response._id });
       }).error(function (response) {
@@ -60,6 +62,7 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
         return false;
       }
+      
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page

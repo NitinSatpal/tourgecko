@@ -29,6 +29,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/admin/activities',
       permissions: '*'
+    }, {
+      resources: '/api/admin/languages',
+      permissions: '*'
     }]
   }]);
 };

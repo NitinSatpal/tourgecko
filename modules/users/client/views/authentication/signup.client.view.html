@@ -17,8 +17,8 @@
                   <input type="email" class="form-control" name="email" id="email"  placeholder="example@email.com" ng-model="vm.credentials.email" required lowercase/>
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.email.$error" role="alert">
-                  <p class="help-block error-text" ng-message="required">Email address is required.</p>
-                  <p class="help-block error-text" ng-message="email">Email address is invalid.</p>
+                  <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                  <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
                   <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>
               </div>
@@ -29,7 +29,8 @@
               <div class="cols-sm-10 input_group">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
-                  <input type="password" id="password" name="password" class="form-control" ng-model="vm.credentials.password" required  placeholder="enter password" uib-popover="{{vm.getPopoverMsg()}}" uib-popover-trigger="focus" password-validator/>
+                  <input type="password" id="password" name="password" class="form-control" ng-model="vm.credentials.password" required  placeholder="enter password" uib-popover="{{vm.getPopoverMsg()}}" uib-popover-trigger="focus"/>
+                  <!--<input type="password" id="password" name="password" class="form-control" ng-model="vm.credentials.password" required  placeholder="enter password" uib-popover="{{vm.getPopoverMsg()}}" uib-popover-trigger="focus" password-validator/> -->
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.password.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Please enter a password.</p>
@@ -41,10 +42,10 @@
               </div>
             </div>
 
-            <div class="form-group" ng-show="!vm.userForm.password.$error.required">
+            <!--<div class="form-group" ng-show="!vm.userForm.password.$error.required">
               <label>Password Requirements</label>
               <uib-progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></uib-progressbar>
-            </div>
+            </div>-->
 
             <div class="form-group" show-errors>
               <label for="mobile" class="cols-sm-2 control-label">Mobile</label>
@@ -54,8 +55,8 @@
                   <input type="mobile" id="mobile" name="mobile" class="form-control" ng-model="vm.credentials.mobile" placeholder="Mobile" ng-pattern="regExForMobileValidity" lowercase required>
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.mobile.$error" role="alert">
-                  <p class="help-block error-text " ng-message="required">Mobile Number is required.</p>
-                  <p class="help-block error-text " ng-message="pattern">Mobile Number is invalid.</p>
+                  <p class="help-block error-text " ng-message="required"> Please enter Mobile Number</p>
+                  <p class="help-block error-text " ng-message="pattern">Please enter valid Mobile Number</p>
                   <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>      
               </div>
@@ -67,7 +68,7 @@
               <div class="cols-sm-10 input_group">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
-                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.credentials.toursite" placeholder="toursite" lowercase>
+                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase>
                   <span class="input-group-addon">.tourgecko.com</span>
                 </div>
               </div>

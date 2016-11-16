@@ -28,7 +28,7 @@
 													<label for="name_of_the_tour" class="control-label">Name this tour</label>
 													<div class="input_group">
 														<div class="input-group">
-															<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+															<span class="input-group-addon"><i class="zmdi zmdi-landscape"></i></span>
 															<input type="text" class="form-control" name="name_of_the_tour" id="name_of_the_tour"  ng-model="vm.tour.productTitle" placeholder="Ex: Hike to Ratangad" required/>
 														</div>
 													</div>
@@ -60,7 +60,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
 													<div class="input_group">
 														<div>
-															<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-model="vm.tour.productSummary"></textarea>
+															<textarea ck-editor class="form-control" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-model="vm.tour.productSummary"></textarea>
 														</div>
 													</div>
 													<div ng-messages="vm.form.tourForm.describe_tour_briefly.$error" role="alert">
@@ -172,7 +172,7 @@
 												</div>
 												<label class="control-label">What is the Price of this tour?</label>
 												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
-												<div class="row no_margin_row" ng-repeat="options in vm.pricingOptions track by $index">
+												<div class="row no_margin_row pricingOptions" ng-repeat="options in vm.pricingOptions track by $index">
 													
 													<div class="col-sm-12 col-lg-12 col-md-12">
 														<label for="pricefor" class="control-label pricefor">Price for</label>
@@ -194,7 +194,7 @@
 													</div>
 													<!-- Everyone and Adult Pricing -->
 													<div ng-show="vm.pricingOptions[$index]=='All' || vm.pricingOptions[$index]=='Adult'">
-														<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+														<div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
 															<div class="form-group">
 																<div class="input_group">
 																	<div class="input-group">
@@ -204,7 +204,7 @@
 																</div>
 															</div>
 														</div>
-														<div class="col-sm-3 col-lg-3 col-md-3">
+														<div class="col-sm-5 col-lg-5 col-md-5">
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
@@ -241,7 +241,7 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="pricefor" ng-model="vm.pricingParams[$index].Params.groupOption">
+																	<select class="form-control" id="pricefor" ng-model="vm.pricingParams[$index].Params.groupOption" ng-init="vm.pricingParams[$index].Params.groupOption = 'Per Group'">
 																		<option>Per Group</option>
 																		<option>Option 2</option>
 																		<option>Option 3</option>
@@ -312,17 +312,17 @@
 															</div>
 														</div>
 													</div>
-
+													<a href="#" class="close_group" ng-hide="$index == 0" ng-click="vm.removePricingOption($index)"><i class="zmdi zmdi-close"></i></a>
 												</div>
 												<a href="#" class="add_price_option" ng-click="vm.addPricingOption()">Add price option</a>
 											</div>
-											<h3>
+											<h5>
 												Are there addon services?
-													<div class="onoffswitch addon-onoff">
-														<input type="checkbox" name="addon-onoffswitch" class="onoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" checked>
-														<label class="onoffswitch-label" for="addon-onoffswitch"></label>
+													<div class="formonoffswitch addon-onoff">
+														<input type="checkbox" name="addon-onoffswitch" class="formonoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" checked>
+														<label class="formonoffswitch-label" for="addon-onoffswitch"></label>
 													</div>
-											</h3>
+											</h5>
 											<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
 											<div class="panel addon-panel" ng-show="vm.isAddonAvailable">
 												<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params">
@@ -383,20 +383,21 @@
 													<a href="#" class="add_addon" ng-click="vm.addMoreAddons()">Add more</a>
 												</div>
 											</div>
-											<h3>
+											<hr>
+											<h5>
 												Does this Tour require a deposit?
-													<div class="onoffswitch deposit-onoff">
-														<input type="checkbox" name="deposit-onoffswitch" class="onoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" checked>
-														<label class="onoffswitch-label" for="deposit-onoffswitch"></label>
+													<div class="formonoffswitch deposit-onoff">
+														<input type="checkbox" name="deposit-onoffswitch" class="formonoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" checked>
+														<label class="formonoffswitch-label" for="deposit-onoffswitch"></label>
 													</div>
-											</h3>
+											</h5>
 											<p class="sub_desc" ng-show="vm.helpVisible">You can set deposit on tours that have upfront cost.</p>
 											<div class="panel deposit-panel" ng-show="vm.isDepositApplicable">
 												<div class="row no_margin_row">
 													<div class="col-sm-4 col-lg-4 col-md-4">
 														<div class="form-group">
 															<label for="deposit_price" class="control-label">Price</label>
-															<p class="sub_desc lheight">Approx value</p>
+															<p class="sub_desc lheight">Percent value</p>
 															<div class="input_group">
 																<div class="input-group">
 																	<input type="text" name="deposit_price" class="form-control" id="deposit_price" ng-model="vm.tour.depositAmount" placeholder="Ex: 50">
@@ -407,6 +408,20 @@
 													</div>
 												</div>
 											</div>
+											<hr>
+											<h5 >
+												Cancellation and refund  policy
+											</h5>
+											<p class="sub_desc lheight">Choose which cancellation policy is applied on this tour</p>
+											<div class="input_group">
+                                             	<div>
+                                                	<textarea ck-editor class="form-control" rows="5" id="cancellationPolicies" name="cancellationPolicies" placeholder="Text area for writing cancellation policies"></textarea>
+                                             	</div>
+                                          	</div>
+
+                                          	<br>
+											
+
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_bd')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_sa')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
@@ -420,7 +435,7 @@
 								</div>
 		                        
 								<div id="tours_sa" class="tab-pane fade">
-									<h3><i class="zmdi zmdi-view-list-alt"></i> Duration , Dates and Availability</h3>
+									<h3><i class="zmdi zmdi-time icn_orange"></i> Duration , Dates and Availability</h3>
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
@@ -430,7 +445,7 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.tour.productDuration" placeholder="Ex: 5"/>
+																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.productDuration" placeholder="Ex: 5"/>
 																</div>
 															</div>
 														</div>
@@ -456,177 +471,187 @@
 														</div>
 													</div>
 												</div>
-												<label for="tours_sa_date_time" class="control-label">How is this tour made Available ?
-												</label>
-												<p class="sub_desc" ng-show="vm.helpVisible">can make tours available as fixed dated tours with fixed schedule for departure   or open dated where guest can chose date of departure while booking. Fixed date  tours are often group tours whereas open date tours are used for personalized or private tours.</p>
-												<div class="row no_margin_row">
-													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
-														<div class="days_radio text_align_left">
-															<label class="radio_label">
-																<input type="radio" name="time_required" value="openDate" ng-model="vm.productAvailabilityType"/>
-																<span>Open Dates</span>
-																<i class="zmdi zmdi-check-circle"></i>
-																<i class="zmdi zmdi-circle-o"></i>
-															</label>
+												<div class="brdr"></div>
+                                             	<div class="tour-availability">
+													<label for="tours_sa_date_time" class="control-label">How is this tour made Available ?
+													</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">can make tours available as fixed dated tours with fixed schedule for departure   or open dated where guest can chose date of departure while booking. Fixed date  tours are often group tours whereas open date tours are used for personalized or private tours.</p>
+													<div class="row no_margin_row tour-availability-options">
+														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+															<div class="days_radio text_align_left">
+																<label class="radio_label">
+																	<input type="radio" name="time_required" value="openDate" ng-model="vm.productAvailabilityType"/>
+																	<span>Open Dates</span>
+																	<i class="zmdi zmdi-check-circle"></i>
+																	<i class="zmdi zmdi-circle-o"></i>
+																</label>
+															</div>
 														</div>
-													</div>
-													<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
-														<div class="days_radio text_align_left">
-															<label class="radio_label">
-																<input type="radio" name="time_required" value="fixedDeparture" ng-model="vm.productAvailabilityType"/>
-																<span>Fixed Departure</span>
-																<i class="zmdi zmdi-check-circle"></i>
-																<i class="zmdi zmdi-circle-o"></i>
-															</label>
-														</div>
-													</div>
-												</div>
-												<div class="row no_margin_row tours_sa_open_dates">
-													<div class="col-sm-4 col-md-4 col-lg-4">
-														<div class="form-group">
-															<label for="tour_exclusions" class="control-label">Is time required for booking?</label>
-															<p class="sub_desc lheight" ng-show="vm.helpVisible">If guest need to select a timeslot during booking.</p>
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot">
-																		<option value="fixedSlots">Fixed Times</option>
-																		<option value="guestChoice">Guest Choice</option>
-																	</select>
-																</div>
+														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+															<div class="days_radio text_align_left">
+																<label class="radio_label">
+																	<input type="radio" name="time_required" value="fixedDeparture" ng-model="vm.productAvailabilityType"/>
+																	<span>Fixed Departure</span>
+																	<i class="zmdi zmdi-check-circle"></i>
+																	<i class="zmdi zmdi-circle-o"></i>
+																</label>
 															</div>
 														</div>
 													</div>
-													<div class="row fixed_timeslot">
+
+													<div class="row no_margin_row tours_sa_open_dates pointer-box">
+														<div class="pointer-line"><img class="pointer pointer_a" src="modules/hosts/client/images/pointer.svg"></div>
 														<div class="col-sm-12 col-md-12 col-lg-12">
-															<label for="tours_sa_timeslots" class="control-label">Time Slots</label>
+															<label for="tours_sa_timeslot" class="control-label">Is time required for booking?</label>
+															<p class="sub_desc lheight" ng-show="vm.helpVisible">If guest need to select a timeslot during booking.</p>
+														</div>
+														<div class="col-sm-4 col-md-4 col-lg-4">
+															<div class="form-group">
+																<div class="input_group">
+																	<div>
+																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot">
+																			<option value="fixedSlots">Fixed Times</option>
+																			<option value="guestChoice">Guest Choice</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+													
+														<div class="row fixed_timeslot">
+															<div class="col-sm-12 col-md-12 col-lg-12">
+																<label for="tours_sa_timeslots" class="control-label">Time Slots</label>
+															</div>
+															<div class="col-sm-3 col-md-3 col-lg-3 col-xs-5 timeslots" ng-repeat="timeslot in vm.timeslots track by $index">
+																<div class="form-group">
+	                                                         		<div class="input_group">
+	                                                            		<div class="input-group">
+	                                                            			<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
+	                                                            			<input type="text" class="form-control" name="timeslot" id="timsslot" ng-model="vm.timeslots[$index]" placeholder="Time-Slot"/>
+	                                                            		</div>
+	                                                            	</div>
+	                                                            	<a href="#" class="delete_addon" ng-click="vm.removeTimeslots($index)" ng-hide="$index == 0"><i class="zmdi zmdi-delete"></i> Delete</a>
+	                                                            </div>
+	                                                        </div>
+	                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+	                                                        	<a href="#" class="add_more_time-slots" id="addMoreTimeslots" ng-click="vm.addMoreTimeslots()"><i class="zmdi zmdi-plus"></i> Add more</a>
+	                                                        </div>
+														</div>
+														<br>
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
+															<div class="formonoffswitch tours_sa_ty">
+																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
+																<label class="formonoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
+															</div>
+															<p class="sub_desc" ng-show="vm.helpVisible" style="margin-top:5px;">You can select months when this tour is available. Guest can only create bookings in months that are marked available</p>
+														</div>
+													
+														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
+															<div class="form-group">
+																<label class="control-label">Available months</label><br>
+
+																<select id="months" multiple="multiple" ng-model="vm.availableMonths">
+
+				                                                    <option value="january">January</option>
+				                                                    <option value="february">February</option>
+				                                                    <option value="march">March</option>
+				                                                    <option value="april">April</option>
+				                                                    <option value="may">May</option>
+				                                                    <option value="june">June</option>
+				                                                    <option value="july">July</option>
+				                                                    <option value="august">August</option>
+				                                                    <option value="september">September</option>
+				                                                    <option value="october">October</option>
+				                                                    <option value="november">November</option>
+				                                                    <option value="december">December</option>
+
+			                                                	</select>
+															</div>
 														</div>
 													</div>
-													<div class="row no_margin_row fixed_timeslot">
-														<div id="time-slots-for-fixed-timings" class="col-sm-6 col-md-6 col-lg-6">
-															<div class="row" ng-repeat="timeslots in vm.timeslotParams.params">
-																<div class="col-sm-5 col-md-5 col-lg-5">
-																	<div class="form-group">									
+												
+													<div class="row no_margin_row tours_sa_fixed_departure pointer-box">
+														<div class="pointer-line">
+															<img class="pointer pointer_b" src="modules/hosts/client/images/pointer.svg">
+														</div>
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<label for="tours_sa_limited" class="control-label">Availability</label>
+														
+															<p class="sub_desc" ng-show="vm.helpVisible"> You can limit availability for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
+														</div>
+														<div class="col-sm-4 col-md-4 col-lg-4">
+															<div class="form-group">
+																<div class="input_group">
+																	<div>
+																		<select class="form-control" id="tours_sa_limited" ng-model="vm.productSeatsLimitType" name="tours_sa_limited">
+																			<option value="limited">Limited</option>
+																			<option value="unlimited">Unlimited</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-12 col-md-12 col-lg-12 limited_container">
+															<div class="row">
+																<div class="col-sm-4 col-md-4 col-lg-4">
+																	<div class="form-group">
 																		<div class="input_group">
-																			<div>												
-																				<input type="text" class="form-control" name="timeslot" id="timsslot" ng-model="timeslots.timeslot" placeholder="Time-Slot"/>
-																				<a href="#" id="close_timeSlot" ng-show="$index != 0" ng-click="vm.removeTimeslots($index)">
-																					<i class="zmdi zmdi-close"></i>
-																				</a>
+																			<div class="input-group">
+																				<span class="input-group-addon">limit</span>
+																				<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.tour.produSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-															</div>
-														</div>
-														<div class="col-sm-12 col-md-12 col-lg-12">
-															<a href="#" class="add_more_time-slots" id="addMoreTimeslots" ng-click="vm.addMoreTimeslots()">Add more</a>
-														</div>
-													</div>
-													<br>
-													<div class="col-sm-12 col-md-12 col-lg-12">
-														<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
-														<div class="onoffswitch tours_sa_ty">
-															<input type="checkbox" name="tours_sa_ty-onoffswitch" class="onoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
-															<label class="onoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
-														</div>
-														<p class="sub_desc" ng-show="vm.helpVisible">You can select months when this tour is available. Guest can only create bookings in months that are marked available</p>
-													</div>
-													<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
-														<p>Available months</p>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jan_checkbox" value="january" name="month_checkbox" ng-model="vm.availableMonths[0]">
-															<label for="jan_checkbox"> January </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="feb_checkbox" value="february" name="month_checkbox" ng-model="vm.availableMonths[1]">
-															<label for="feb_checkbox"> February </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="march_checkbox" value="march" name="month_checkbox" ng-model="vm.availableMonths[2]">
-															<label for="march_checkbox"> March </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="april_checkbox" value="april" name="month_checkbox" ng-model="vm.availableMonths[3]">
-															<label for="april_checkbox"> April </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="may_checkbox" value="may" name="month_checkbox" ng-model="vm.availableMonths[4]">
-															<label for="may_checkbox"> May </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jun_checkbox" value="june" name="month_checkbox" ng-model="vm.availableMonths[5]">
-															<label for="jun_checkbox"> June </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="jul_checkbox" value="july" name="month_checkbox" ng-model="vm.availableMonths[6]">
-															<label for="jul_checkbox"> July </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="aug_checkbox" value="august" name="month_checkbox" ng-model="vm.availableMonths[7]">
-															<label for="aug_checkbox"> August </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="sep_checkbox" value="september" name="month_checkbox" ng-model="vm.availableMonths[8]">
-															<label for="sep_checkbox"> September </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="oct_checkbox" value="october" name="month_checkbox" ng-model="vm.availableMonths[9]">
-															<label for="oct_checkbox"> October </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="nov_checkbox" value="november" name="month_checkbox" ng-model="vm.availableMonths[10]">
-															<label for="nov_checkbox"> November </label>
-														</div>
-														<div class="month_checkbox checkbox-inline">
-															<input type="checkbox" id="dec_checkbox" value="december" name="month_checkbox" ng-model="vm.availableMonths[11]">
-															<label for="dec_checkbox"> December </label>
-														</div>
-													</div>
-												</div>
-												<div class="row no_margin_row tours_sa_fixed_departure">
-													<label for="tours_sa_limited" class="control-label">Availability</label>
-													<p class="sub_desc" ng-show="vm.helpVisible">You can limit availability for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
-													<div class="col-sm-4 col-md-4 col-lg-4">
-														<div class="form-group">
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="tours_sa_limited" ng-model="vm.productSeatsLimitType" name="tours_sa_limited">
-																		<option value="limited">Limited</option>
-																		<option value="unlimited">Unlimited</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-12 col-md-12 col-lg-12 limited_container">
-														<div class="row">
-															<div class="col-sm-4 col-md-4 col-lg-4">
-																<div class="form-group">
-																	<div class="input_group">
-																		<div class="input-group">
-																			<span class="input-group-addon">limit</span>
-																			<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.tour.produSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
-																		</div>
+																<div class="col-sm-4 col-md-4 col-lg-4">
+																	<div class="days_radio text_align_left">
+																		<label class="radio_label">
+																			<input type="radio" name="show_to_guests" value="show"/>
+																			<span>Show availability  to guests</span>
+																			<i class="zmdi zmdi-check-circle"></i>
+																			<i class="zmdi zmdi-circle-o"></i>
+																		</label>
 																	</div>
 																</div>
 															</div>
-															<div class="col-sm-4 col-md-4 col-lg-4">
-																<div class="days_radio text_align_left">
-																	<label class="radio_label">
-																		<input type="radio" name="show_to_guests" value="show"/>
-																		<span>Show availability  to guests</span>
-																		<i class="zmdi zmdi-check-circle"></i>
-																		<i class="zmdi zmdi-circle-o"></i>
-																	</label>
-																</div>
-															</div>
 														</div>
 													</div>
 												</div>
+
+												<div class="row no_margin_row">
+													<div class="col-sm-12 col-md-12 col-lg-12">
+														<label for="tours_sa_notice" class="control-label">How many seats can be booked per booking?
+														</label>
+													</div>
+														
+													<div class="col-sm-3 col-md-3 col-lg-3">
+														<div class="input_group from-to">
+															<div class="form-group">
+                                                               <div class="input-group">
+                                                                  <span class="input-group-addon">Min</span>
+                                                                  <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minBookingRequired">
+                                                               </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                                        <div class="input_group from-to">
+                                                        	<div class="form-group">
+                                                               <div class="input-group">
+                                                                  <span class="input-group-addon">Max</span>
+                                                                  <input type="text" class="form-control" name="pf_price" placeholder="Ex: 200" ng-model="vm.tour.maxBookingAllowed">
+                                                               </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+												</div>
+
 												<div class="row no_margin_row">
 													<div class="col-sm-6 col-md-6 col-lg-6">
+														<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
 														<div class="form-group">
-															<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
 															<div class="input_group">
 																<div class="input-group">
 																	<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  ng-model="vm.tour.productMinNoticeDays" placeholder="Ex: 15"/>
@@ -653,17 +678,31 @@
 									<h3><i class="zmdi zmdi-view-list-alt"></i> Detailed Itinerary</h3>
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
-											<div class="panel">
+											<div>
+								              <div ng-repeat="desc in vm.itineraries track by $index" class="selectedItemsDiv">
+								              	<div class="panel">
+								              		<b>Day {{$index + 1}}</b>
+								              		<br>
+									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.editItinerary($index)"> Edit this Itinerary </a>
+									                <ng-bind-html="vm.getHtmlTrustedData(desc.title)">
+									                <b> Headline </b> <p ng-bind-html="desc.title | htmlData"></p><br>
+									                <ng-bind-html="vm.getHtmlTrustedData(desc.description)">
+									                <b> Description </b><p class="renderedChild" ng-bind-html="desc.description | htmlData"></p>
+								                </div>
+								                <hr>
+								              </div>
+								            </div>
+											<div class="panel" ng-show="vm.showSaveItinerariesSection">
 												<h4>Create detailed itinerary of this tour</h4>
 												<p class="sub_desc" ng-show="vm.helpVisible">Let Guests know what happens through the tour on each day. Be descriptive so that Guests know what to expect.</p>
 												<div class="itinerary_panel_container">
-													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day 1</p>
+													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
 													<div class="form-group">
 														<label for="itinerary_headline" class="control-label">Headline</label>
 														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day’s activities to guest, E,g if this is trekking tour, headline of day can be “Walking 10 km from base village to camp 1”</p>
 														<div class="input_group">
 															<div>
-																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder=""/>
+																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder="" ng-model="vm.heading"/>
 															</div>
 														</div>
 													</div>
@@ -672,34 +711,14 @@
 														<p class="sub_desc" ng-show="vm.helpVisible">Describe in detail what happens through this day</p>
 														<div class="input_group">
 															<div>
-																<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly"></textarea>
+																<textarea ck-editor class="form-control" rows="5" id="tourItinerary" name="tourItinerary"></textarea>
 															</div>
 														</div>
 													</div>
-													<a href="#" class="add_itinerary_day"><i class="zmdi zmdi-plus"></i> Add More</a>
+													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary()" ng-show="!vm.showSaveButtonForItineraries && !vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Add More</a>
+													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary(true)" ng-show="vm.showSaveButtonForItineraries"><i class="zmdi zmdi-plus"></i> Save</a>
+													<a href="#" class="add_itinerary_day" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Save</a>
 												</div>
-												<!-- <div class="itinerary_panel_container">
-													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day 2</p>
-													<div class="form-group">
-														<label for="itinerary_headline" class="control-label">Headline</label>
-														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day’s activities to guest, E,g if this is trekking tour, headline of day can be “Walking 10 km from base village to camp 1”</p>
-														<div class="input_group">
-															<div>
-																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder=""/>
-															</div>
-														</div>
-													</div>
-													<div class="form-group">
-														<label for="itinerary_headline" class="control-label">Detail</label>
-														<p class="sub_desc" ng-show="vm.helpVisible">Describe in detail what happens through this day</p>
-														<div class="input_group">
-															<div>
-																<textarea class="form-control jqte-test" rows="5" id="describe_tour_briefly" name="describe_tour_briefly"></textarea>
-															</div>
-														</div>
-													</div>
-													<a href="#" class="add_itinerary_day"><i class="zmdi zmdi-plus"></i> Add More</a>
-												</div> -->
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_guidelines')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
@@ -723,7 +742,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">You can describe things to carry, clothes to wear, things to know , rules, Dos and Don’t etc.</p>
 													<div class="input_group">
 														<div>
-															<textarea class="form-control jqte-test" rows="5" id="tour_guidelines" name="tour_guidelines"></textarea>
+															<textarea ck-editor class="form-control" rows="5" id="tour_guidelines" name="tour_guidelines"></textarea>
 														</div>
 													</div>
 												</div>
@@ -732,7 +751,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe what is included in tour and its price. For example meals , accommodations, guide etc.</p>
 													<div class="input_group">
 														<div>
-															<textarea class="form-control jqte-test" rows="5" id="tour_inclusions" name="tour_inclusions"></textarea>
+															<textarea ck-editor class="form-control" rows="5" id="tour_inclusions" name="tour_inclusions"></textarea>
 														</div>
 													</div>
 												</div>
@@ -741,7 +760,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe what is excluded from tour and its price. For example Visa, flights, insurance etc.</p>
 													<div class="input_group">
 														<div>
-															<textarea class="form-control jqte-test" rows="5" id="tour_exclusions" name="tour_exclusions"></textarea>
+															<textarea ck-editor class="form-control" rows="5" id="tour_exclusions" name="tour_exclusions" ></textarea>
 														</div>
 													</div>
 												</div>
@@ -879,6 +898,9 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="lib/scripts-inside-html/css/jquery-te-1.4.0.css">
 <script>
 	changeTab = function (tabId) {
 		// First take the screen to top
@@ -895,34 +917,7 @@
 		$('#addProductabs a[href="#'+tabId+'"]').tab('show');
 	}
 </script>
-<script type="text/javascript" src="lib/scripts-inside-html/jquery-te-1.4.0.min.js" charset="utf-8"></script>
-<script>
-	$('.jqte-test').jqte();
-	
-	/* $(".navbar-toggle").click(function(e) {
-		e.preventDefault();
-		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
-			$("li[data-toggle='slide-collapse']").removeClass("toggle");
-		}else{
-			$(".main-wrapper").toggleClass("toggle");
-		}
-		e.stopPropagation();
-	});
-	$("li[data-toggle='slide-collapse']").click(function(e) {
-		e.stopPropagation();
-		$(this).toggleClass("toggle");
-	});
-	$(".sub-menu").click(function(e){
-		e.stopPropagation();
-	});
-	$(document).click(function () {
-		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
-			$("li[data-toggle='slide-collapse']").removeClass("toggle");
-		}else{
-			$(".main-wrapper").removeClass("toggle");
-		}
-	}); */
-	
+<script>	
 	$(".onoffswitch").on("change","#myonoffswitch",function(){
 		if($(this).is(':checked')){
 			$(".tour_help_info").show();
@@ -961,6 +956,55 @@
 			$(".tours_sa_open_dates").hide();
 			$(".tours_sa_fixed_departure").show();
 		}
+	});
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+       $('#months').multiselect({
+       });
+    });
+</script>
+<script>
+	CKEDITOR.replace('describe_tour_briefly', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
+	});
+
+	CKEDITOR.replace('cancellationPolicies', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
+	});
+
+	CKEDITOR.replace('tourItinerary', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
+	});
+
+	CKEDITOR.replace('tour_guidelines', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
+	});
+
+	CKEDITOR.replace('tour_inclusions', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
+	});
+
+	CKEDITOR.replace('tour_exclusions', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       ]
 	});
 </script>
 

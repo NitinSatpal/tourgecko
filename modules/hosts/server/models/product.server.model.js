@@ -40,7 +40,7 @@ var ProductSchema = new Schema({
   },
   productDuration: {
     type: Number,
-    default: 1
+    default: 0
   },
   productPricingOptions: {
     type: Schema.Types.Mixed,
@@ -69,19 +69,10 @@ var ProductSchema = new Schema({
   },
   productSeatsLimitType: {
     type: String,
-    default: 'Limited'
+    default: ''
   },
   produSeatLimit: {
-    type:Number,
-    default: 0
-  },
-  productStartDate: {
-    type: Date,
-    default: Date.now
-  },
-  productEndDate: {
-    type: Date,
-    default: Date.now
+    type:Number
   },
   productBookingAvailabilityType: {
     type: String,
@@ -135,7 +126,7 @@ var ProductSchema = new Schema({
     type: Number,
     default: 0
   },
-  productMaxAgerequired: {
+  productMaxAgeRequired: {
     type: Number,
     default: 0
   },
@@ -158,8 +149,7 @@ var ProductSchema = new Schema({
     default: 0
   },
   isCancellationAllowed: {
-    type: Boolean,
-    default: true
+    type: Boolean
   },
   productCancellationPolicy: {
     type: String,
@@ -185,8 +175,14 @@ var ProductSchema = new Schema({
     trim: true
   },
   productFacilitiesIncluded: {
-    type: Array,
-    default: []
+    type: String,
+    default: '',
+    trim: true
+  },
+  productFacilitiesExcluded: {
+    type: String,
+    default: '',
+    trim: true
   },
   prodcutGuideLanguages: {
     type: Array,

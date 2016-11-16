@@ -45,6 +45,7 @@
           }
 
           scope.requirementsColor = requirementsMeter[requirementsIdx].color;
+          
           scope.requirementsProgress = requirementsMeter[requirementsIdx].progress;
 
           if (result.errors.length) {

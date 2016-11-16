@@ -5,15 +5,14 @@
 			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
 				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
 					<div class="home_add_tour">
-						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
-						<span class="bread-caret"> <i class="zmdi zmdi-caret-right"></i></span>
-						<span class="bread-current">Account</span></h2>
-						<a class="btn btn-primary pull-right" ui-sref="host.accountEdit"><i class="zmdi zmdi-edit"></i>Edit</a>
+						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings&nbsp;
+						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>&nbsp;
+						<span class="bread-current">Edit Profile</span></h2>
 					</div>
-
 					<div class="row settings-subnav">
-						<div class="col-lg-12 col-md-12 col-sm-12 pull-right">
-							<form class="form-horizontal" method="post" action="#">
+						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_account_info">
+							<form class="form-horizontal" name="vm.accountForm" ng-submit="vm.saveAccountSettings(vm.accountForm.$valid)" novalidate>
+								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 								<h3>Account Overview <i class="zmdi zmdi-lock icn_orange"></i></h3>
 								<p class="section-desc">Account overview and details</p>
 								<div class="panel account_status">
@@ -21,51 +20,148 @@
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<div class="member_since">
 												<p class="desc bold">Member since</p>
-												<p class="m_date"><i class="zmdi zmdi-calendar-check"></i> 20,January,2016</p>
+												<p class="m_date"><i class="zmdi zmdi-calendar-check"></i>{{vm.memberSinceDate}}</p>
 											</div>
 											<div class="member_status">
 												<p class="desc bold">Account Status</p>
-												<p class="status"><i class="zmdi zmdi-account"></i> Active</p>
+												<p class="status"><i class="zmdi zmdi-account"></i>{{vm.accountDetails[0].isAccountActive == false ? 'Inactive' : 'Active'}}</p>
 											</div>
 										</div>
 									</div>
 								</div>
-								<h3>User Accounts <i class="zmdi zmdi-lock icn_orange"></i></h3>
-								<p class="section-desc">Active accounts</p>
-								<div class="panel account_overview">
-									<div class="row details_row">
+								<br>
+								<hr>
+								<h3>User Profile <i class="zmdi zmdi-lock icn_orange"></i></h3>
+								<p class="section-desc">All information relevant to user account</p>
+								<div class="panel account_status">
+									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12">
-											<div class="account_details">
-												<h4>Gaurav Sharma</h4>
-												<div class="details">
-													<i class="zmdi zmdi-account-circle"></i>
-													<div>
-														<p class="role">Super Admin</p>
-														<p class="owner_type">Owner Account</p>
+											<div class="account_img_info">
+												<img src="modules/users/client/img/profile/default.png" class="img-responsive" alt=""/>
+											</div>
+											<div class="fileUpload btn btn-primary">
+												<span>Upload Photo</span>
+												<input type="file" class="upload" onchange="readURL(this);"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="panel panel_one">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div class="row">
+												<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+													<div class="form-group">
+														<label for="account_firstname" class="cols-sm-2 control-label">First Name</label>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="account_firstname" id="account_firstname" ng-model="vm.userDetails.firstName" placeholder="Full Name"/>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+													<div class="form-group">
+														<label for="bank_lastname" class="cols-sm-2 control-label">Last Name</label>
+														<div class="input_group">
+															<div>
+																<input type="text" class="form-control" name="bank_lastname" id="bank_lastname" ng-model="vm.userDetails.lastName" placeholder="Last Name"/>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12">
-											<div class="user_info">
-												<img src="modules/users/client/img/profile/default.png" class="img-responsive" alt=" " />
-												<div class="info">
-													<div class="email">
-														<p class="desc">Email</p>
-														<p class="email_info bold">gaurav@gmail.com</p>
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group" show-errors>
+												<label for="account_email" class="cols-sm-2 control-label">Email</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+														<input type="email" class="form-control" name="account_email" id="account_email"  placeholder="example@email.com" ng-model="vm.userDetails.email" />
 													</div>
-													<div class="last_login">
-														<p class="desc">Last login</p>
-														<p class="last_login_info bold">1 January, 2016</p>
+													<div class="error_group" ng-messages="vm.accountForm.account_email.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group" show-errors>
+												<label for="account_mobile" class="cols-sm-2 control-label">Mobile</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+														<input type="text" class="form-control" name="account_mobile" id="account_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.userDetails.mobile" />
 													</div>
+													<div class="error_group" ng-messages="vm.accountForm.account_mobile.$error" role="alert">
+									                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
+									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+									                </div>
+												</div>
+											</div>
+										</div>
+										<a href="#" class="change_password" id="changePassword">Change Password</a>
+										<a href="#" class="change_password" id="cancelPasswordChange" style="display:none">Cancel</a>
+									</div>
+								</div>
+								<div class="panel panel_two">
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group" show-errors>
+												<label for="account_current_pwd" class="cols-sm-2 control-label">Current Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_current_pwd" id="account_current_pwd"  placeholder="Enter current password" ng-model="vm.passwordDetails.currentPassword"/>
+													</div>
+													<div class="error_group" role="alert" ng-show="vm.showPasswordRelatedError == 'Current password is incorrect' || vm.showPasswordRelatedError == 'Current password is incorrect'">
+									                    <p class="error_msg"">{{vm.showPasswordRelatedError}}</p>
+									                    <i class="zmdi zmdi-alert-triangle"></i>
+									                </div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group" show-errors>
+												<label for="account_new_pwd" class="cols-sm-2 control-label">New Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_new_pwd" id="account_new_pwd"  placeholder="Enter new password" ng-model="vm.passwordDetails.newPassword"/>
+													</div>
+													<div class="error_group" ng-show=" vm.showPasswordRelatedError == 'Please provide a new password'">
+									                    <p class="error_msg">{{vm.showPasswordRelatedError}}</p>
+									                    <i class="zmdi zmdi-alert-triangle"></i>
+									                </div>
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col">
+											<div class="form-group" show-errors>
+												<label for="account_confirm_new_pwd" class="cols-sm-2 control-label">Confirm New Password</label>
+												<div class="input_group">
+													<div class="input-group">
+														<span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+														<input type="password" class="form-control" name="account_confirm_new_pwd" id="account_confirm_new_pwd"  placeholder="Confirm New Password" ng-model="vm.passwordDetails.verifyPassword"/>
+													</div>
+													<div class="error_group" role="alert" ng-show="vm.showPasswordRelatedError == 'Passwords do not match'">
+									                    <p class="error_msg"">{{vm.showPasswordRelatedError}}</p>
+									                    <i class="zmdi zmdi-alert-triangle"></i>
+									                </div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
+								<button class="btn btn-primary pull-right saveButton-Bottom" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 							</form>
+
 						</div>
 					</div>
 				</div>
@@ -73,3 +169,59 @@
 		</div>
 	</div>
 </div>
+<script>
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('.account_img_info img')
+					.attr('src', e.target.result);
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+	$(document).ready(function(){
+		$("#settings .settings_account_info .panel_one").on("click","#changePassword",function(e) {
+			e.preventDefault();
+			$("#settings .settings_account_info .panel_one").css("margin-bottom","0px");
+			$("#settings .settings_account_info .panel_two").slideDown(500);
+			$("#changePassword").hide();
+			$("#cancelPasswordChange").show();
+		});
+
+		$("#settings .settings_account_info .panel_one").on("click","#cancelPasswordChange",function(e) {
+			e.preventDefault();
+			$("#settings .settings_account_info .panel_one").css("margin-bottom","1px");
+			$("#settings .settings_account_info .panel_two").slideUp(500);
+			$("#cancelPasswordChange").hide();
+			$("#changePassword").show();
+		});
+	});
+</script>
+<script>
+	$(".navbar-toggle").click(function(e){
+		e.preventDefault();
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").toggleClass("toggle");
+		}
+		e.stopPropagation();
+	});
+	$("li[data-toggle='slide-collapse']").click(function(e){
+		e.stopPropagation();
+		$(this).toggleClass("toggle");
+	});
+	$(".sub-menu").click(function(e){
+		e.stopPropagation();
+	});
+	$(document).click(function () {
+		if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+			$("li[data-toggle='slide-collapse']").removeClass("toggle");
+		}else{
+			$(".main-wrapper").removeClass("toggle");
+		}
+	});
+</script>

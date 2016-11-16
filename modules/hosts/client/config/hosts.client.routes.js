@@ -90,8 +90,8 @@
       .state('host.companyProfile', {
         url: '/settings/companyprofile',
         templateUrl: 'modules/hosts/client/views/settings/companyProfile-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Company Profile'
         }
@@ -99,8 +99,8 @@
       .state('host.contacts', {
         url: '/settings/contacts',
         templateUrl: 'modules/hosts/client/views/settings/contacts-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Contacts'
         }
@@ -108,8 +108,8 @@
       .state('host.payments', {
         url: '/settings/payments',
         templateUrl: 'modules/hosts/client/views/settings/payments-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Payments'
         }
@@ -117,8 +117,8 @@
       .state('host.toursite', {
         url: '/settings/toursite',
         templateUrl: 'modules/hosts/client/views/settings/toursite-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Toursite'
         }
@@ -126,8 +126,8 @@
       .state('host.account', {
         url: '/settings/account',
         templateUrl: 'modules/hosts/client/views/settings/account-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Account'
         }
@@ -135,8 +135,8 @@
       .state('host.accountEdit', {
         url: '/settings/account/edit',
         templateUrl: 'modules/hosts/client/views/settings/account-edit-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Account'
         }
@@ -144,8 +144,8 @@
       .state('host.region', {
         url: '/settings/region',
         templateUrl: 'modules/hosts/client/views/settings/region-settings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Region'
         }

@@ -23,6 +23,12 @@ var HostCompanySchema = new Schema({
     default: '',
     trim: true
   },
+  establishedIn: {
+    type: Date
+  },
+  logoURL: {
+    type: String
+  },
   toursite: {
     type: String,
     default: '',
@@ -33,27 +39,29 @@ var HostCompanySchema = new Schema({
     default: '',
     trim: true
   },
-  notoficationEmail: {
+  notificationEmail: {
     type: String,
     lowercase: true,
     trim: true,
-    default: 'example@example.com',
     validate: [validateLocalStrategyEmail, 'Please fill a valid email address']
   },
   notificationMobile: {
     type: Number,
-    default: 0
+    default: ''
   },
-  enquiryEmail: {
+  inquiryEmail: {
     type: String,
     lowercase: true,
     trim: true,
-    default: 'example@example.com',
     validate: [validateLocalStrategyEmail, 'Please fill a valid email address']
   },
-  enquiryMobileNos: {
-    type: Array,
-    default: []
+  inquiryMobile: {
+    type: Number,
+    default: ''
+  },
+  inquiryTime: {
+    type: String,
+    default: 'Anytime'
   },
   blogLink: {
     type: String,
@@ -66,19 +74,23 @@ var HostCompanySchema = new Schema({
     trim: true
   },
   defaultCurrency: {
-    type: Array,
-    default: []
+    type: String,
+    default: 'INR'
+  },
+  defaultLanguage: {
+    type: String,
+    default: 'English'
   },
   paymentOption: {
     type: Array,
     default: []
   },
-  isToursiteActive: {
+  isToursiteInactive: {
     type: Boolean,
     default: false
   },
   memberSince: {
-    type: Date
+    type: String
   },
   hostType: {
     type: String,
@@ -92,6 +104,14 @@ var HostCompanySchema = new Schema({
   },
   hostCompanyAddress: {
     type: Schema.Types.Mixed,
+    default: {}
+  },
+  hostSocialAccounts: {
+    type:Schema.Types.Mixed,
+    default: {}
+  },
+  hostBankAccountDetails: {
+    type:Schema.Types.Mixed,
     default: {}
   },
   isAccountActive: {
