@@ -156,9 +156,6 @@
       return $sce.trustAsHtml(htmlData);
     };
     vm.save = function (isValid) {
-
-      console.log(vm.itineraries);
-      return false;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
