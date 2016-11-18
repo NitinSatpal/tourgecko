@@ -23,11 +23,11 @@
 										</div>
 										<div class="col-sm-6 col-md-6 col-lg-6 tour_right">
 											<p class="tour_details">{{vm.products[$index].productTitle}}</p>
-											<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> {{vm.products[$index].destination}}, India</p>
+											<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> {{vm.products[$index].destination}}</p>
 											<div class="info_visible">
 												<label class="visible" for="{{$index}}">Visible</label>
 												<div class="onoffswitch">
-													<input type="checkbox" name="" class="onoffswitch-checkbox" id="{{$index}}" ng-model="vm.products[$index].isVerified" ng-click="vm.makeProductVisible(vm.products[$index])">
+													<input type="checkbox" name="" class="onoffswitch-checkbox" id="{{$index}}" ng-model="vm.products[$index].isPublished" ng-click="vm.makeProductVisible(vm.products[$index])">
 													<label class="onoffswitch-label" for="{{$index}}"></label>
 												</div>
 											</div>
@@ -46,7 +46,7 @@
 													</ul>
 												</div>
 												<div class="tour_preview">
-													<a href="#" class="btn btn-primary outline" data-toggle="modal" data-target="#lightbox">
+													<a href="#" class="btn btn-primary outline" ng-click="vm.showTourDetails($index)">
 														<i class="zmdi zmdi-sign-in"></i>preview
 													</a>
 												</div>

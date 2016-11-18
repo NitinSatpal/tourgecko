@@ -12,12 +12,14 @@
     vm.authentication = Authentication;
 
     vm.products = ProductService.query();
+
+    vm.checkThis = $window.localStorage.getItem('productId');
     
 
     vm.makeProductVisible = function (product) {
-    	if (product.isVerified == true) {
+    	if (product.isPublished == true) {
     		// In case host trying to make the tour visible
-    		if (product.isDraft == true) {
+    		/* if (product.isDraft == true) {
     			// Check if the tour is in draft stage. If yes then do not allow the host to change the visibility.
     			alert('This tour is in draft stage. Please complete the details first');
     			product.isVerified = false;
@@ -25,7 +27,8 @@
     			// If the tour is not in draft stage but ie yet to be verified by tourgecko. ASk host to wait while we verify
     			alert('This tour is not yet verified by tourgecko. We will notify you with the status shortly');
     			product.isVerified = false;
-    		}
+    		} */
+            alert('Please make sure all the details are correct. Tours with more details are booked more often');
     	} else {
     		// In case host is trying to make the tour invisible. Just give the info of what will happen with this
     		// and ask for confirmation
@@ -49,6 +52,11 @@
                 vm.error = response.message;
             });
         }
+    }
+
+    vm.showTourDetails = function(index) {
+        $window.localStorage.setItem('productId', vm.products[index]._id);
+        $window.open($state.href('host.tourDetails'),'_blank','heigth=600,width=600');
     }
 
   }

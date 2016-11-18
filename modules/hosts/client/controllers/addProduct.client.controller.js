@@ -27,7 +27,7 @@
     vm.productTimeSlotsAvailability = 'guestChoice';
     vm.timeslots = [];
     vm.productSeatsLimitType = 'limited';
-    vm.pricingOptions = ['All'];
+    vm.pricingOptions = ['Everyone'];
     vm.imageFileSelected = false;
     vm.mapFileSelected = false;
     vm.showProgressbar = false;
@@ -67,7 +67,7 @@
     vm.timeslots = [''];
 
     vm.addPricingOption = function() {
-      vm.pricingOptions.push('All');
+      vm.pricingOptions.push('Everyone');
     };
 
     vm.removePricingOption = function(index) {
@@ -99,7 +99,8 @@
     };
 
     vm.createItinerary = function(done) {
-      if (vm.productDuration === undefined) {
+      // For now, no validations etc. Let them put anything, we will trust they wont do shit.
+      /*if (vm.productDuration === undefined) {
         alert('First set the duration of the tour');
         return false;
       } else if(vm.heading === '' && CKEDITOR.instances.tourItinerary.getData() !== '') {
@@ -132,15 +133,19 @@
           CKEDITOR.instances.tourItinerary.setData('');
           vm.heading = '';
         }
-      }
+      } */
+      vm.dayCounter++;
+      vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
+      CKEDITOR.instances.tourItinerary.setData('');
+      vm.heading = '';
     }
 
     var indexSaved;
     vm.editItinerary = function(index) {
       indexSaved = index;
       vm.showEditingSaveButton = true;
-      vm.showSaveItinerariesSection = true;
-      vm.showSaveButtonForItineraries = false;
+      //vm.showSaveItinerariesSection = true;
+      //vm.showSaveButtonForItineraries = false;
       vm.dayCounter = index + 1;
       vm.heading = vm.itineraries[index].title;
       CKEDITOR.instances.tourItinerary.setData(vm.itineraries[index].description);
@@ -149,26 +154,28 @@
     vm.saveEditedItinerary = function(index) {
       vm.itineraries[indexSaved].title = vm.heading;
       vm.itineraries[indexSaved].description = CKEDITOR.instances.tourItinerary.getData();
-      vm.showSaveItinerariesSection = false;
+      CKEDITOR.instances.tourItinerary.setData('');
+      vm.heading = '';
+      //vm.showSaveItinerariesSection = false;
     }
 
     vm.getHtmlTrustedData = function(htmlData){
       return $sce.trustAsHtml(htmlData);
     };
+
+    // SAve the data here
     vm.save = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
       }
       
-      vm.tour.isDraft = true;
-      
       setProductInformation();
 
       vm.tour.$save(successCallback, errorCallback);
 
       function successCallback(res) {
-        $state.go('host.hostHome');
+        $state.go('host.tours');
       }
 
       function errorCallback(res) {
@@ -176,7 +183,7 @@
       }
     };
 
-    vm.create = function (isValid) {
+    /* vm.create = function (isValid) {
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
@@ -187,15 +194,16 @@
       vm.tour.$save(successCallback, errorCallback);
 
       function successCallback(res) {
-        $state.go('host.hostHome');
+        $state.go('host.tours');
       }
 
       function errorCallback(res) {
         vm.error = res.data.message;
       }
-    };
+    }; */
 
     function setProductInformation() {
+      vm.tour.destination = document.getElementById('tour_main_destination').value;
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productDurationType = vm.durationType;
       vm.tour.productDuration = vm.productDuration;
@@ -215,6 +223,8 @@
       if (vm.pricingParams[0] !== undefined) {
         for (index = 0; index < vm.pricingOptions.length; index++) {
           var pricingInfo = {};
+          if (vm.pricingOptions[index] !== 'Group')
+            vm.pricingParams[index].Params.groupOption = '';
           pricingInfo[vm.pricingOptions[index]] = vm.pricingParams[index].Params;
           vm.pricingOptionStore.push(pricingInfo);
         }

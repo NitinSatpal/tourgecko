@@ -17,6 +17,7 @@ var path = require('path'),
 exports.createProduct = function (req, res) {
   var product = new Product(req.body);
   product.user = req.user;
+  product.created = Date.now();
 
   product.save(function (err) {
     if (err) {
@@ -30,7 +31,7 @@ exports.createProduct = function (req, res) {
 
 // Fetching products details here.
 exports.fetchAllProductDetails = function (req, res) {
-  Product.find().sort('-created').populate('user').exec(function (err, products) {
+  Product.find().sort({created: -1}).populate('user').exec(function (err, products) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

@@ -104,9 +104,10 @@
 																<div>
 																	<select class="form-control" id="pricefor" ng-model="vm.productGrade">
 																		<option>Easy</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
+																		<option>Moderate</option>
+																		<option>Hard</option>
+																		<option>Challenging</option>
+																		<option>Very Challenging</option>
 																	</select>
 																</div>
 															</div>
@@ -183,8 +184,11 @@
 															<div class="input_group">
 																<div>
 																	<select class="form-control" id="pricefor" ng-model="vm.pricingOptions[$index]">
-																		<option>All</option>
+																		<option>Everyone</option>
 																		<option>Adult</option>
+																		<option>Child</option>
+																		<option>Single</option>
+																		<option>Couple</option>
 																		<option>Group</option>
 																		<option>Custom</option>
 																	</select>
@@ -193,7 +197,7 @@
 														</div>
 													</div>
 													<!-- Everyone and Adult Pricing -->
-													<div ng-show="vm.pricingOptions[$index]=='All' || vm.pricingOptions[$index]=='Adult'">
+													<div ng-show="vm.pricingOptions[$index]=='Everyone' || vm.pricingOptions[$index]=='Adult' || vm.pricingOptions[$index]=='Child' || vm.pricingOptions[$index]=='Single' || vm.pricingOptions[$index]=='Couple'">
 														<div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
 															<div class="form-group">
 																<div class="input_group">
@@ -243,9 +247,7 @@
 																<div>
 																	<select class="form-control" id="pricefor" ng-model="vm.pricingParams[$index].Params.groupOption" ng-init="vm.pricingParams[$index].Params.groupOption = 'Per Group'">
 																		<option>Per Group</option>
-																		<option>Option 2</option>
-																		<option>Option 3</option>
-																		<option>Option 4</option>
+																		<option>Per Person</option>
 																	</select>
 																</div>
 															</div>
@@ -510,6 +512,7 @@
 																<div class="input_group">
 																	<div>
 																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot">
+																			<option value="notTimeRequired">No time required</option>
 																			<option value="fixedSlots">Fixed Times</option>
 																			<option value="guestChoice">Guest Choice</option>
 																		</select>
@@ -715,8 +718,8 @@
 															</div>
 														</div>
 													</div>
-													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary()" ng-show="!vm.showSaveButtonForItineraries && !vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Add More</a>
-													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary(true)" ng-show="vm.showSaveButtonForItineraries"><i class="zmdi zmdi-plus"></i> Save</a>
+													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary()" ng-show="!vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Add another day</a>
+													<!-- <a href="#" class="add_itinerary_day" ng-click="vm.createItinerary(true)" ng-show="vm.showSaveButtonForItineraries"><i class="zmdi zmdi-plus"></i> Save</a> -->
 													<a href="#" class="add_itinerary_day" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Save</a>
 												</div>
 											</div>
@@ -900,6 +903,7 @@
 </div>
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/ckeditor/ckeditor.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI&libraries=places&callback=initAutocomplete"></script>
 <link rel="stylesheet" href="lib/scripts-inside-html/css/jquery-te-1.4.0.css">
 <script>
 	changeTab = function (tabId) {
@@ -1006,5 +1010,11 @@
             {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
        ]
 	});
+</script>
+<script>
+	function initAutocomplete() {
+		var destination = document.getElementById('tour_main_destination');
+    	var searchBox = new google.maps.places.SearchBox(destination);
+	}
 </script>
 

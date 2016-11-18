@@ -51,6 +51,15 @@
           pageTitle: 'Admin | Tours'
         }
       })
+      .state('host.tourDetails', {
+        url: '/tours/details',
+        templateUrl: 'modules/hosts/client/views/tours/tourdetails.client.view.html',
+        controller: 'TourDetailsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Admin | Tour'
+        }
+      })
       .state('host.notifications', {
         url: '/notifications',
         templateUrl: 'modules/hosts/client/views/host/notifications.client.view.html',

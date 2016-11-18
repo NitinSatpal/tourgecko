@@ -22,8 +22,7 @@ var ProductSchema = new Schema({
   },
   destination: {
     type: String,
-    default: '',
-    trim: true
+    default: ''
   },
   productSummary: {
     type: String,
@@ -202,13 +201,21 @@ var ProductSchema = new Schema({
     default: []
   },
   // this boolean also handles isVisible condition on tourlist page
-  isDraft: {
+  /*isDraft: {
     type: Boolean,
     default: false
   },
   isVerified: {
     type: Boolean,
     default: false
+  },*/
+  isPublished: {
+    type: Boolean,
+    default: false
+  },
+  created: {
+    type: Date,
+    default: Date.now
   },
   user: {
     type: Schema.ObjectId,
