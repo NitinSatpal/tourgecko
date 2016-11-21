@@ -42,7 +42,7 @@ var ProductSchema = new Schema({
     default: 0
   },
   productPricingOptions: {
-    type: Schema.Types.Mixed,
+    type: Array,
     default: []
   },
   productAvailabilityType: {
@@ -173,12 +173,12 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
-  productFacilitiesIncluded: {
+  productInclusions: {
     type: String,
     default: '',
     trim: true
   },
-  productFacilitiesExcluded: {
+  productExclusions: {
     type: String,
     default: '',
     trim: true

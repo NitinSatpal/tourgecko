@@ -23,8 +23,8 @@
     vm.isAvailableThroughoutTheYear = true;
     vm.durationType = 'days';
     vm.productGrade = 'Easy';
-    vm.productAvailabilityType = 'openDate';
-    vm.productTimeSlotsAvailability = 'guestChoice';
+    vm.productAvailabilityType = 'Open Date';
+    vm.productTimeSlotsAvailability = 'No Time Required';
     vm.timeslots = [];
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
@@ -66,8 +66,46 @@
 
     vm.timeslots = [''];
 
-    vm.addPricingOption = function() {
-      vm.pricingOptions.push('Everyone');
+    vm.addPricingOption = function(index) {
+      var isValid = validatePricingOption(index);
+      if (isValid)
+        vm.pricingOptions.push('Everyone');
+    };
+
+    function validatePricingOption (index) {
+      var indexTracker;
+      var lastGroupOption;
+      if(vm.pricingOptions[index] == 'Group') {
+        if(vm.pricingParams[index].Params.minGroupSize != 0 && vm.pricingParams[index].Params.maxGroupSize != 0 && vm.pricingParams[index].Params.minGroupSize >= vm.pricingParams[index].Params.maxGroupSize) {
+          alert('group max size should be greater than group min size');
+          return false;
+        }
+        if (index > 0) {
+          for (indexTracker = index-1; index >= 0; index --) {
+            if (vm.pricingOptions[indexTracker] == 'Group') {
+              lastGroupOption = vm.pricingParams[indexTracker].Params;
+              break;
+            }
+          }
+          if (lastGroupOption !== undefined && lastGroupOption.maxGroupSize > vm.pricingParams[index].Params.minGroupSize) {
+            alert('Max size option of previous group should be less than the min size option of current group');
+            return false;
+          }
+        }
+      }
+      return true;
+      
+      /* if (index > 0) {
+        for (indexTracker = index-1; index >= 0; index --) {
+          console.log(indexTracker);
+          if (vm.pricingOptions[indexTracker] == 'Group') {
+            lastGroupOption = vm.pricingParams[indexTracker].Params;
+            break;
+          }
+        }
+        if (lastGroupOption.maxGroupSize > vm.pricingParams[index].Params.maxGroupSize)
+          alert('what the hell');
+      } */
     };
 
     vm.removePricingOption = function(index) {
@@ -214,20 +252,21 @@
       vm.tour.productSummary = CKEDITOR.instances.describe_tour_briefly.getData();
       vm.tour.productCancellationPolicy = CKEDITOR.instances.cancellationPolicies.getData();
       vm.tour.productGuidelines = CKEDITOR.instances.tour_guidelines.getData();
-      vm.tour.productFacilitiesIncluded = CKEDITOR.instances.tour_inclusions.getData();
-      vm.tour.productFacilitiesExcluded = CKEDITOR.instances.tour_exclusions.getData();
+      vm.tour.productInclusions = CKEDITOR.instances.tour_inclusions.getData();
+      vm.tour.productExclusions = CKEDITOR.instances.tour_exclusions.getData();
+      vm.tour.productItineraryDescription = vm.itineraries;
 
       var index = 0;
       // Pricing options
-      vm.pricingOptionStore = [];
+      vm.pricingOptionStore = {};
       if (vm.pricingParams[0] !== undefined) {
         for (index = 0; index < vm.pricingOptions.length; index++) {
           var pricingInfo = {};
           if (vm.pricingOptions[index] !== 'Group')
             vm.pricingParams[index].Params.groupOption = '';
-          pricingInfo[vm.pricingOptions[index]] = vm.pricingParams[index].Params;
-          vm.pricingOptionStore.push(pricingInfo);
+          vm.pricingOptionStore[vm.pricingOptions[index]] = vm.pricingParams[index].Params;
         }
+
         vm.tour.productPricingOptions = vm.pricingOptionStore;
       }
 

@@ -20,12 +20,12 @@
 }
 
 .tourDetail-host-image-container {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background-color: grey;
   vertical-align: middle;
-  margin: 0 auto;
+  margin-left: 5px;
   position: relative;
   overflow: hidden;
   text-align: left;
@@ -51,6 +51,7 @@
   vertical-align: middle;
   position: relative;
 }
+
 
 .tourDetail-social-icon-container i {
   font-size:1.9em;
@@ -82,7 +83,6 @@
 }
 
 .tourDetail-card-title {
-  color: black;
   margin-top: 15px;
   margin-left: 6%;
   display: inline-block;
@@ -139,12 +139,12 @@
 }
 
 .tourDetail-Pricing-Booking-card {
-  height: auto;
+  height: auto !important;
   width: 30%;
-  min-height: 367px !important;
-  margin-top: -60px;
+  min-height: 200px;
+  margin-top: -277px;
   padding: 20px;
-  overflow-y: hidden !important;
+  overflow-y: auto;
   position: relative;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -158,7 +158,7 @@
 
 .tourDetail-pricedetails {
   margin-top: 2px;
-  text-align: right;
+  height: auto;
 }
 
 .tourDetail-pricedetails .startprice {
@@ -168,9 +168,8 @@
 }
 
 .tourDetail-pricedetails .originalprice {
-    color: #F15A29;
+    color: #ED9C28;
     font-size: 3em;
-    margin-left: 15px;
 }
 
 .tourDetail-pricedetails .percentprice {
@@ -194,10 +193,12 @@
 .tourDetail-bookingetails{
   margin-top: 30px;
   margin-left: 2px;
+  height: auto;
 }
 .tourDetail-bookingetails-departure-div{
   margin-left: -50px;
   margin-top: -8px;
+  height: auto;
 }
 .tourDetail-bookingetails .tourDetail-bookingetails-departure-div .tourDetail-bookingetails-departure-heading {
   font-size: 1.5em;
@@ -209,17 +210,13 @@
   color: grey;
 }
 
-.tourDetail-bookingetails-booking-section {
-  margin-top: 25px;
-}
-
 .tourDetail-commonbutton {
   width: 91%;
   height: 40px;
   padding-top: 4px;
   border-radius: 20px;
-  position: absolute;
-  background: #F15A29;
+  position: relative;
+  background: #ED9C28;
   color: #fff;
   margin-top: 25px;
   font-size: 1.5em;
@@ -230,9 +227,9 @@
 }
 
 .tourDetail-queries-card {
-  height: 45%;
+  height: auto !important;
   width: 30%;
-  min-height: 300px;
+  min-height: 260px;
   margin-top: -60px;
   padding: 20px;
   position: relative;
@@ -243,11 +240,13 @@
   border: 1px solid #fff;
   float: right;
   word-wrap: break-word;
-  overflow: auto;
+  overflow-y: auto !important;
+  overflow: auto !important;
+  margin-top: 60px;
 }
 
 .tourDetail-overview {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .tourDetail-queries-host {
@@ -260,43 +259,58 @@
   font-size: 1.8em;
 }
 
-.tourDetail-queries-to-us {
-  margin-top: 2px;
+.more {
+  color: #ED9C28 !important;
 }
 
-.tourDetail-contactusbutton {
-  width: 91%;
+.less {
+  color: #ED9C28 !important;
+}
+
+.tourDetail-queries-host .tourDetail-contactusbutton {
+  width: 82%;
   height: 58px;
   padding-top: 4px;
   border-radius: 100px;
-  position: absolute;
+  position: relative;
   background: lightgrey;
   color: #fff;
   margin-top: 25px;
   font-size: 1.5em;
+  margin-left: 14px;
 }
 
-.tourDetail-queries-to-us .tourDetail-contactusbutton .tourDetail-contactusbutton-symbol {
-  width: 60%;
+.tourDetail-queries-host .tourDetail-contactusbutton .tourDetail-contactusbutton-symbol {
+  width: 20%;
   height: 50px;
   padding-top: 4px;
   border-radius: 25px;
   position: absolute;
   background: #82C343;
   color: #fff;
-  margin-left: 5px;
+  margin-left: -8px;
   font-size: 1.5em;
 }
 
-.tourDetail-queries-to-us .tourDetail-contactusbutton .tourDetail-contactusbutton-symbol i {
+.tourDetail-queries-host .tourDetail-contactusbutton .tourDetail-contactusbutton-symbol i {
   text-align: center;
   margin-top: 7px;
 }
 
-.tourDetail-queries-to-us .tourDetail-contactusbutton p {
-  font-size: 0.8em;
-  margin-left: -5px;
+.tourDetail-queries-host .tourDetail-contactusbutton-text {
+  margin-left: 75px;
+  margin-top: -48px;
+}
+
+.tourDetail-queries-host .tourDetail-contactusbutton-text p {
+  font-size: 1em;
   color:black;
+}
+
+.tourDetail-queries-host .tourDetail-contactusbutton-text span {
+  margin-left: -69px;
+  color:grey;
+  font-size:1.2em;
 }
 
 .tourDetail-about-host {
@@ -354,10 +368,21 @@
   color: #9B9B9B;
 }
 
-
-.tourDetail-information-card .bullets ul li {
+.bullets {
   list-style-type: disc;
   font-size:1.2em;
+}
+
+.guidelines ul li {
+  margin-left: -24px;
+}
+
+.guidelines ol li {
+  margin-left: -24px;
+}
+
+.bullets .paraMargin {
+  margin-left: 20px;
 }
 
 .fa-check {
@@ -421,6 +446,7 @@
   .tourDetail-information-card {
     height: auto;
     width: 100%;
+    margin-top: -150px !important;
   }
 
   .tourDetail-itinerary-card .destination-image-container {

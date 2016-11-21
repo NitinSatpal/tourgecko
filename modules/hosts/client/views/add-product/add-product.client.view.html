@@ -179,7 +179,7 @@
 														<label for="pricefor" class="control-label pricefor">Price for</label>
 													</div>
 													
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6">
+													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -225,7 +225,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">min</span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.minGroupSize" placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.minGroupSize" placeholder="Ex:2"/>
 																</div>
 															</div>
 														</div>
@@ -236,12 +236,12 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">max</span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.maxGroupSize"placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.maxGroupSize" placeholder="Ex:2"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -258,12 +258,12 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.price" placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.price" placeholder="Ex:2"/>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-12 col-lg-12 col-md-12" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -274,7 +274,7 @@
 													</div>
 
 													<!-- Custom Pricing -->
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 															
 															<div class="input_group">
@@ -284,7 +284,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm- col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">																		
 															<div class="input_group">
 																<div class="input-group">
@@ -304,7 +304,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-12 col-lg-12 col-md-12" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 															
 															<div class="input_group">
@@ -315,8 +315,8 @@
 														</div>
 													</div>
 													<a href="#" class="close_group" ng-hide="$index == 0" ng-click="vm.removePricingOption($index)"><i class="zmdi zmdi-close"></i></a>
+													<a href="#" class="add_price_option" ng-click="vm.addPricingOption($index)" ng-show="$index == vm.pricingOptions.length - 1 || vm.pricingOptions.length == 0">Add price option</a>
 												</div>
-												<a href="#" class="add_price_option" ng-click="vm.addPricingOption()">Add price option</a>
 											</div>
 											<h5>
 												Are there addon services?
@@ -482,7 +482,7 @@
 														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
-																	<input type="radio" name="time_required" value="openDate" ng-model="vm.productAvailabilityType"/>
+																	<input type="radio" name="time_required" value="Open Date" ng-model="vm.productAvailabilityType"/>
 																	<span>Open Dates</span>
 																	<i class="zmdi zmdi-check-circle"></i>
 																	<i class="zmdi zmdi-circle-o"></i>
@@ -492,7 +492,7 @@
 														<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
-																	<input type="radio" name="time_required" value="fixedDeparture" ng-model="vm.productAvailabilityType"/>
+																	<input type="radio" name="time_required" value="Fixed Departure" ng-model="vm.productAvailabilityType"/>
 																	<span>Fixed Departure</span>
 																	<i class="zmdi zmdi-check-circle"></i>
 																	<i class="zmdi zmdi-circle-o"></i>
@@ -512,9 +512,9 @@
 																<div class="input_group">
 																	<div>
 																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot">
-																			<option value="notTimeRequired">No time required</option>
-																			<option value="fixedSlots">Fixed Times</option>
-																			<option value="guestChoice">Guest Choice</option>
+																			<option value="No Time Required">No time required</option>
+																			<option value="Fixed Slots">Fixed Times</option>
+																			<option value="Guest Choice">Guest Choice</option>
 																		</select>
 																	</div>
 																</div>
@@ -610,7 +610,7 @@
 																<div class="col-sm-4 col-md-4 col-lg-4">
 																	<div class="days_radio text_align_left">
 																		<label class="radio_label">
-																			<input type="radio" name="show_to_guests" value="show"/>
+																			<input type="checkbox" name="show_to_guests" value="show"/>
 																			<span>Show availability  to guests</span>
 																			<i class="zmdi zmdi-check-circle"></i>
 																			<i class="zmdi zmdi-circle-o"></i>
@@ -919,6 +919,36 @@
 
 	nowChangeTab = function (tabId) {
 		$('#addProductabs a[href="#'+tabId+'"]').tab('show');
+	}
+
+	changeTabWithNoTabId = function(pressedButton) {
+		if(pressedButton == 'previous') {
+			if ($("#tours_bd").is(':visible'))
+				alert('you are at the first tab');
+			else if ($("#tours_pricing").is(':visible'))
+				nowChangeTab('tours_bd');
+			else if ($("#tours_sa").is(':visible'))
+				nowChangeTab('tours_pricing');
+			else if ($("#tours_itinerary").is(':visible'))
+				nowChangeTab('tours_sa');
+			else if($("#tours_guidelines").is(':visible'))
+				nowChangeTab('tours_itinerary');
+			else
+				nowChangeTab('tours_guidelines');
+		} else {
+			if ($("#tours_bd").is(':visible'))
+				nowChangeTab('tours_pricing');
+			else if ($("#tours_pricing").is(':visible'))
+				nowChangeTab('tours_sa');
+			else if ($("#tours_sa").is(':visible'))
+				nowChangeTab('tours_itinerary');
+			else if ($("#tours_itinerary").is(':visible'))
+				nowChangeTab('tours_guidelines');
+			else if($("#tours_guidelines").is(':visible'))
+				nowChangeTab('tours_media');
+			else
+				alert('you are at the last tab');
+		}
 	}
 </script>
 <script>	

@@ -133,16 +133,18 @@
 	      success: function( json ) {
 	      	var cssCounter = 0;
 	        $.each(json, function(index, document) {
-	        	if (cssCounter == 0) {
-	        		events.push	({title: '<span class="eventname orange">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle orange"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
-	        		cssCounter++;
-	        	} else if (cssCounter == 1) {
-	        		events.push	({title: '<span class="eventname green">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle green"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(66,174,94,0.2)'});
-	        		cssCounter++;
-	        	} else {
-	        		events.push	({title: '<span class="eventname red">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle red"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(216,64,64,0.2)'});
-	        		cssCounter = 0;
-	        	}
+	        	if(!document) {
+		        	if (cssCounter == 0) {
+		        		events.push	({title: '<span class="eventname orange">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle orange"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
+		        		cssCounter++;
+		        	} else if (cssCounter == 1) {
+		        		events.push	({title: '<span class="eventname green">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle green"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(66,174,94,0.2)'});
+		        		cssCounter++;
+		        	} else {
+		        		events.push	({title: '<span class="eventname red">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle red"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(216,64,64,0.2)'});
+		        		cssCounter = 0;
+		        	}
+		        }
 	        });
             $('#calendar').fullCalendar({
 				header: {
