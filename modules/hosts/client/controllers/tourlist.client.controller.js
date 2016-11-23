@@ -5,13 +5,13 @@
     .module('hosts')
     .controller('TourListController', TourListController);
 
-  TourListController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'ProductService'];
+  TourListController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CompanyProductService'];
 
-  function TourListController($scope, $state, $window, $http, Authentication, ProductService) {
+  function TourListController($scope, $state, $window, $http, Authentication, CompanyProductService) {
     var vm = this;
     vm.authentication = Authentication;
 
-    vm.products = ProductService.query();
+    vm.products = CompanyProductService.query();
 
     vm.checkThis = $window.localStorage.getItem('productId');
     

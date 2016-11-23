@@ -220,6 +220,10 @@ var ProductSchema = new Schema({
   user: {
     type: Schema.ObjectId,
     ref: 'User'
+  },
+  hostCompany: {
+    type:Schema.ObjectId,
+    ref: 'HostCompany'
   } /* ,
   expireAt: {
   	type: Date,

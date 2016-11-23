@@ -20,13 +20,8 @@
     });
 
     menuService.addSubMenuItem('account', 'settings', {
-      title: 'Account',
+      title: 'My Profile',
       state: 'host.account'
-    });
-
-    menuService.addSubMenuItem('account', 'settings', {
-      title: 'Company Profile',
-      state: 'host.companyProfile'
     });
   }
 }());

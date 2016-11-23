@@ -35,12 +35,14 @@ exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
   // Init user and add missing fields
+  var hostCompany = new HostCompany();
   var user = new User(req.body.signupData);
   var toursite = req.body.toursite;
   user.provider = 'local';
   user.username = user.email;
   user.isActive = false;
   user.displayName = user.email.split('@')[0];
+  user.company = hostCompany;
 
   // Then save the user
   user.save(function (err) {
@@ -57,9 +59,12 @@ exports.signup = function (req, res) {
             message: errorHandler.getErrorMessage(err)
           });
         } else {
-          var hostCompany = new HostCompany();
           hostCompany.user = user._id;
           hostCompany.toursite = toursite;
+          hostCompany.notificationEmail = user.email;
+          hostCompany.notificationMobile =user.mobile;
+          hostCompany.inquiryEmail = user.email;
+          hostCompany.inquiryMobile = user.mobile;
           hostCompany.save(function (err) {
             if(err) {
               return res.status(400).send({
@@ -121,11 +126,12 @@ exports.signupDetails = function(req, res, next) {
                   });
                 }
                 var todayDate = new Date();
+                var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
                 hostCompany.user = user;
                 hostCompany.companyName = userDetails.companyName;
                 hostCompany.companyWebsite = userDetails.companyWebsite;
                 hostCompany.hostType = userDetails.hostType;
-                hostCompany.memberSince = todayDate.getFullYear() + '/' + (todayDate.getMonth()+1) + '/' + todayDate.getDate();
+                hostCompany.memberSince = todayDate.getDate() + ' ' + (months[todayDate.getMonth()]) + ', ' + todayDate.getFullYear();
                 hostCompany.hostCompanyAddress = {
                   streetAddress: userDetails.streetAddress,
                   city: userDetails.city,

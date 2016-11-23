@@ -18,6 +18,7 @@ exports.createProduct = function (req, res) {
   var product = new Product(req.body);
   product.user = req.user;
   product.created = Date.now();
+  product.hostCompany = req.user.company;
 
   product.save(function (err) {
     if (err) {
@@ -52,6 +53,19 @@ exports.fetchSingleProductDetails = function (req, res) {
     res.json(products);
   });
 };
+
+// Fetch Single product details
+exports.fetchCompanyProductDetails = function (req, res) {
+  Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('').exec(function (err, products) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(products);
+  });
+};
+
 
 // Fetching products details here.
 exports.fetchAllProductSessionDetails = function (req, res) {

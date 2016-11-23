@@ -100,6 +100,10 @@ var UserSchema = new Schema({
     default: ['user'],
     required: 'Please provide at least one role'
   },
+  company: {
+    type:Schema.ObjectId,
+    ref: 'HostCompany'
+  },
   updated: {
     type: Date
   },

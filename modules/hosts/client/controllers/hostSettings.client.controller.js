@@ -28,14 +28,6 @@
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
-
-
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    $timeout(function() {
-      if (vm.accountDetails[0] !== undefined)
-        vm.memberSinceDate = vm.accountDetails[0].memberSince.split('/')[2] + ' ' + months[vm.accountDetails[0].memberSince.split('/')[1] - 1] + ', ' + vm.accountDetails[0].memberSince.split('/')[0];
-    },5000);
       
     vm.passwordRelatedError= '';
     var initializing = true

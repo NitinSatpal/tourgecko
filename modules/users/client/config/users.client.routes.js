@@ -68,7 +68,7 @@
       })
       .state('authentication', {
         abstract: true,
-        url: '/authentication',
+        url: '',
         templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html',
         controller: 'AuthenticationController',
         controllerAs: 'vm'
@@ -83,12 +83,12 @@
         }
       })
       .state('authentication.hostSignin', {
-        url: '/host/signin?err',
+        url: '/host/login?err',
         templateUrl: 'modules/users/client/views/authentication/signin.client.view.html',
         controller: 'AuthenticationController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Signin'
+          pageTitle: 'login'
         }
       })
       .state('hostDetails', {
