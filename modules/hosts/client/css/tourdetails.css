@@ -39,6 +39,10 @@
     width: auto;
 }
 
+#uploader {
+  z-index: inherit !important;
+}
+
 .tourDetail-social-icon-container {
   width: 45px;
   height: 40px;

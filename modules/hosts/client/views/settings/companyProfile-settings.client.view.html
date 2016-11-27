@@ -5,16 +5,17 @@
 			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
 				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
 					<div class="home_add_tour fixed-in-div">
-						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
-						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
-						<span class="bread-current">Company Profile</span></h2>			
+						<i class="zmdi zmdi-settings heading-icn"></i>
+						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Company Profile</span></h2>	
 					</div>
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_company_details">
 							<form class="form-horizontal" name="vm.companyProfile" ng-submit="vm.saveCompanyProfileSettings(vm.companyProfile.$valid)">
 								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
-								<h3>Company Details <i class="zmdi zmdi-globe icn_green"></i></h3>
-								<p class="section-desc">Describe about who you are and what services you provide</p>
+								
+								<h5>Company Details <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site." ></i></h5>
+								<p class="section-desc sub_desc">Describe about who you are and what services you provide</p>
+								
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">										
@@ -63,7 +64,7 @@
 												<p class="sub_desc lheight">Year since you are operating</p>
 												<div class="input_group">
 													<div>
-														<input type="text" name="established_in" class="form-control" id="established_in"/>
+														<input type="text" name="established_in" class="form-control" id="established_in" ng-model="m.companyDetails[0].establishedIn"/>
 													</div>
 												</div>
 											</div>
@@ -81,8 +82,8 @@
 										</div>
 									</div>
 								</div>
-								<h3>Address <i class="zmdi zmdi-globe icn_green"></i></h3>
-								<p class="section-desc">Your addresses and location</p>
+								<h5>Address <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site."></i></h5>
+								<p class="section-desc sub_desc">Your addresses and location</p>
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12">

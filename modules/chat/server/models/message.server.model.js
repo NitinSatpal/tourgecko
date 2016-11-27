@@ -20,6 +20,10 @@ var MessageSchema = new Schema({
     default: '',
     trim: true
   },
+  messageToId: {
+    type:Schema.ObjectId,
+    ref: 'user'
+  },
   messageType: {
     type: String,
     default: '',

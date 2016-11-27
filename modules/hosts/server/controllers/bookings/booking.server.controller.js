@@ -25,8 +25,8 @@ exports.createBooking = function (req, res) {
 };
 
 // Fetch all bookings
-exports.fetchAllBookingDetails = function (req, res) {
-  Booking.find().sort('-created').populate('').exec(function (err, bookings) {
+exports.fetchCompanyBookingDetails = function (req, res) {
+  Booking.find({user: req.user._id}).sort('-created').populate('').exec(function (err, bookings) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

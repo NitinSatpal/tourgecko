@@ -18,7 +18,7 @@
         controller: 'SettingsController',
         controllerAs: 'vm',
         data: {
-          roles: ['user', 'admin']
+          roles: ['user', 'admin', 'Super Admin']
         }
       })
       .state('settings.home', {
@@ -30,13 +30,22 @@
           pageTitle: 'Settings'
         }
       })
-      .state('settings.profile', {
+      /* .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
         controller: '',
         controllerAs: '',
         data: {
           pageTitle: 'Settings'
+        }
+      }) */
+      .state('settings.profile', {
+        url: '/profile',
+        templateUrl: 'modules/users/client/views/settings/user-profile.client.view.html',
+        controller: 'UserProdileController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Profile'
         }
       })
       .state('settings.password', {

@@ -18,7 +18,7 @@
         controller: '',
         controllerAs: '',
         data: {
-          roles: ['user']
+          roles: ['user', 'hostAdmin']
         }
       })
       .state('host.hostHome', {

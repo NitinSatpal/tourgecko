@@ -22,9 +22,6 @@
 
     vm.languagesSupported = LanguageService.query();
     vm.languages = vm.languagesSupported.supportedLanguages;
-    vm.inquiryTime = 'Anytime';
-    vm.inquiryTimeFrom = '9 AM';
-    vm.inquiryTimeTo = '6 PM';
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
@@ -35,7 +32,7 @@
     var isContactDetailsChanged = false;
     var isPaymentDetailsChanged = false;
     var isToursiteDetailsChanged = false;
-    var isUserDetailsChanged = false;
+    var isAccountrDetailsChanged = false;
     var isRegionalDetailsChanged = false;
     var isPasswordDetailsChanged = false;
     
@@ -78,13 +75,14 @@
       }
     }, true);
 
-    $scope.$watch('vm.userDetails', function() {
+  // For now account modifiction is not present
+  /* $scope.$watch('vm.accountDetails', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
       } else {
-        isUserDetailsChanged = true;
+        isAccountrDetailsChanged = true;
       }
-    }, true);
+    }, true); 
 
     $scope.$watch('vm.passwordDetails', function() {
       if (initializing) {
@@ -92,7 +90,7 @@
       } else {
         isPasswordDetailsChanged = true;
       }
-    }, true);
+    }, true); */
 
     $scope.$watch('vm.regionalDetails', function() {
       if (initializing) {
@@ -123,11 +121,6 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.contactForm');
         return false;
       }
-
-      if(vm.inquiryTime == 'rangeTime')
-        vm.contactDetails[0].inquiryTime = vm.inquiryTimeFrom + ' to ' + vm.inquiryTimeTo;
-      else
-        vm.contactDetails[0].inquiryTime = vm.inquiryTime;
 
       if (isContactDetailsChanged == true || vm.inquiryTime != 'Anytime') {
         $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
@@ -170,7 +163,8 @@
     };
 
     // Account settings
-    vm.saveAccountSettings = function (isValid) {
+    // For now account modifiction is not present
+    /* vm.saveAccountSettings = function (isValid) {
       vm.error = null;
       var isErrorPresent = false;
       if (!isValid) {
@@ -201,7 +195,7 @@
           vm.error = response.message;
         });
       }
-    };
+    }; */
 
     vm.saveRegionalSettings = function () {
       vm.error = null;

@@ -87,7 +87,7 @@
         // If successful we assign the response to the global user model
         vm.authentication.user = response;
         // And redirect to the host home page
-        if (vm.authentication.user.roles.length === 1 && vm.authentication.user.roles[0] === 'user')
+        if (vm.authentication.user.roles.length === 2 && vm.authentication.user.roles[1] === 'hostAdmin')
           $state.go('host.hostHome');
         else
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);

@@ -51,6 +51,25 @@ exports.update = function (req, res) {
   }
 };
 
+exports.saveProfileDetails = function (req, res) {
+  var changedUserDetails = req.body;
+
+  User.findOne({_id: req.user._id}).exec(function (err, user) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    user.email = changedUserDetails.email;
+    user.mobile = changedUserDetails.mobile;
+    user.firstName = changedUserDetails.firstName;
+    user.lastName = changedUserDetails.lastName;
+    user.displayName = changedUserDetails.firstName + ' ' + changedUserDetails.lastName;
+    user.save();
+    res.json(user);
+  });
+};
+
 /**
  * Update profile picture
  */

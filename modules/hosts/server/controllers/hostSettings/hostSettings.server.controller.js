@@ -107,7 +107,7 @@ exports.saveToursiteDetails = function (req, res) {
 };
 
 // Save account details
-exports.saveUserAccountDetails = function (req, res) {
+/* exports.saveAccountDetails = function (req, res) {
   console.log(req.user._id);
   var changedAccountDetails = req.body;
 
@@ -125,7 +125,7 @@ exports.saveUserAccountDetails = function (req, res) {
     user.save();
     res.json(user);
   });
-};
+}; */
 
 // Get supported languages
 exports.getSupportedLanguages = function (req, res) {

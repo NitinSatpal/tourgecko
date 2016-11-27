@@ -29,7 +29,7 @@ module.exports = function (app) {
 
   app.route('/api/host/booking')
     .post(hosts.createBooking)
-    .get(hosts.fetchAllBookingDetails);
+    .get(hosts.fetchCompanyBookingDetails);
 
   app.route('/api/product/productPicture')
     .post(hosts.uploadProductPicture);
@@ -53,8 +53,8 @@ module.exports = function (app) {
   app.route('/api/host/payment')
     .post(hosts.savePaymentDetails);
 
-  app.route('/api/host/userAccount')
-    .post(hosts.saveUserAccountDetails);
+ /* app.route('/api/host/account')
+    .post(hosts.saveAccountDetails); */
 
   app.route('/api/host/language')
     .get(hosts.getSupportedLanguages);

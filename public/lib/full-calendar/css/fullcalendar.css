@@ -887,6 +887,10 @@ a.fc-more:hover {
 	        box-sizing: content-box;
 }
 
+th.fc-day-header.fc-widget-header {
+    line-height: 4rem;
+}
+
 .fc-view, /* scope positioning and z-index's for everything within the view */
 .fc-view > table { /* so dragged elements can be above the view's main element */
 	position: relative;

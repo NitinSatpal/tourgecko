@@ -23,7 +23,7 @@ exports.saveMessageDetails = function (req, res) {
 };
 
 exports.fetchMessageDetails = function (req, res) {
-  Message.find().sort('-created').populate('').exec(function (err, messages) {
+  Message.find({'messageToId': req.user._id}).sort('-created').populate('').exec(function (err, messages) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

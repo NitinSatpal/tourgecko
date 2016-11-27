@@ -24,7 +24,7 @@ var HostCompanySchema = new Schema({
     trim: true
   },
   establishedIn: {
-    type: Date
+    type: String
   },
   logoURL: {
     type: String
@@ -62,6 +62,14 @@ var HostCompanySchema = new Schema({
   inquiryTime: {
     type: String,
     default: 'Anytime'
+  },
+  inquiryTimeRangeFrom: {
+    type: String,
+    default: '9 AM'
+  },
+  inquiryTimeRangeTo: {
+    type: String,
+    default: '6 PM'
   },
   blogLink: {
     type: String,
@@ -115,6 +123,10 @@ var HostCompanySchema = new Schema({
     default: {}
   },
   isAccountActive: {
+    type: Boolean,
+    default: false
+  },
+  isOwnerAccount: {
     type: Boolean,
     default: false
   }

@@ -3,6 +3,7 @@
 
 h1, h2, h3, h4, h5, h6{ color:#555;}
 p{ color:#666; font-weight:300}
+.padding-zero{ padding: 0}
 
 .navbar-default{ height:60px; background-color:#ffffff; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);}
 .navbar-brand>img{ width:10.5em;}
@@ -21,6 +22,13 @@ body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; back
 
 .zmdi.icn_green{ color:#42AE5E !important;}
 .zmdi.icn_orange{ color:#F5A623 !important;}
+span.icn_orange{ margin: 0 .2rem}
+.icn_hold{ margin-top: -.5rem}
+.tooltip-inner{ background-color: rgba(10,60,100,.9)}
+.tooltip.top .tooltip-arrow , .tooltip.top-left .tooltip-arrow, .tooltip.top-right .tooltip-arrow {border-top-color: rgba(10,60,100,.9);}
+.tooltip.right .tooltip-arrow {border-right-color: rgba(10,60,100,.9);}
+.tooltip.left .tooltip-arrow {border-left-color: rgba(10,60,100,.9);}
+.tooltip.bottom .tooltip-arrow, .tooltip.bottom-left .tooltip-arrow, .tooltip.bottom-right .tooltip-arrow {border-bottom-color: rgba(10,60,100,.9);}
 .zmdi.zmdi-lamp{-moz-transform: scale(1, -1); -webkit-transform: scale(1, -1); -o-transform: scale(1, -1); -ms-transform: scale(1, -1); transform: scale(1, -1);}
 
 /* LOGIN */
@@ -116,11 +124,17 @@ body{background-color:#f6f6f6;font-family:'Roboto', 'Helvetica Neue', Helvetica,
 .home_add_tour{padding:2% 15px;box-shadow:0 2px 10px 0 rgba(0,0,0,0.10);background-color:#F1FBFF;position: relative;}
 .home_add_tour_margin {margin-right: 16.55%;}
 .home_add_tour h2{text-align:left;font-size:22px;display:inline-block;margin:0;}
-.home_add_tour h2 i{background-color:rgba(241, 192, 122, 0.2);border-radius:50%;border:1px solid #D8E8EF;padding:10px 12px;color:#ED9C28;}
-span.bread-caret i{ background:none; border:none; border-radius:0; color:#555; padding-left:6px; padding-right:6px;}
-span.bread-current{ font-weight:400;} 
+i.heading-icn{background-color:rgba(241, 192, 122, 0.2);border-radius:50%;border:1px solid #D8E8EF;padding:11px 12px;color:#ED9C28; margin:.5rem .5rem 0 0;}
+i.bread-caret{ background:none; border:none; border-radius:0; color:#999; padding-left:6px; padding-right:6px; vertical-align: middle;}
+span.bread-current{ font-weight:400; vertical-align: middle;}
+.home_add_tour h2 a{ color: #555; vertical-align: middle;}
 .home_add_tour a .save-btn {font-size: 12px; font-weight: 500; padding: 10px 20px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 50%; transform: translateY(-50%);right: 10px;}
 a.btn i{padding:0 10px 0 0;}
+
+ul.cal_list_toggle{margin-top: -20px; float: right !important;}
+ul.cal_list_toggle li{ display:inline-block; list-style-type:none; margin:0; padding:0;}
+ul.cal_list_toggle li a{ padding:.5rem; }
+ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 .analytics .head_content, .latest .head_content, .event_calendar .head_content{padding:4% 0 0 0;position:relative;border-bottom:1px solid #DADBDB;}
 .analytics .head_content h3, .pinboard .head_content h3, .latest .head_content h3, .event_calendar .head_content h3{margin:0;font-size:20px;font-weight:500;}
 .event_calendar .fc-title .lbreak{display: block;font-size: 12px; font-weight: 900;}
@@ -204,7 +218,7 @@ a.btn i{padding:0 10px 0 0;}
 /*#settings .settings-content .input-group{display: block;} commenting this as this is breaking input group styling in different differnet pages*/
 #settings h3{font-size: 18px; color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;}
 #settings h3 i{color: rgba(0,0,0,0.4);}
-#settings p{color: #999;/*line-height: 26px;*/}
+#settings p{color: #666;/*line-height: 26px;*/}
 #settings .settings-subnav .subnav{background: #F4FCFF;}
 #settings .settings-subnav .subnav h3{padding: 8% 0;background: #ccc;text-align: center;font-size: 14px;}
 #settings .settings-subnav .saveButton {margin-top: -11%; margin-right: 5%;}
@@ -285,10 +299,15 @@ a.btn i{padding:0 10px 0 0;}
 #settings .settings_toursite h4, #settings .status-desc{ margin-bottom:.2em; line-height:normal;}
 #settings .toogle-status{ margin:0 !important; } #settings .toogle-status label{ padding:0 auto;}
 #settings .sub_desc{ margin-bottom:.2em;}
+p.sub_desc{ color:#aaaaaa !important;}
+
+.panel.panel_two.pointer-box{ border-top: 0 !important; padding: 0 !important;}
+.panel.panel_two.pointer-box .row{ padding:0 1.5rem;}
+.panel.panel_two.pointer-box .pointer-line .pointer.pointer_a{ margin-left: 2%;}
 
 /*#settings .settings_account_info .account_img_info{width: 200px;height: 200px;}*/
 #settings .settings_account_info .account_img_info img{width: 9em; border-radius: 100%; margin:1em}
-#settings .settings_account_info .change_password{font-size: 12px;font-weight: 500;margin-left: 15px;margin-top: 15px;display: inline-block;color: #40C4FF;}
+#settings .settings_account_info .change_password, #settings .settings_account_info .cancel_password{font-size: 12px;font-weight: 500; margin: 1rem; display: inline-block;color: #40C4FF;}
 #settings .settings_account_info .account_status{margin-bottom: 0; border-bottom: 1px solid #eee;}
 #settings .settings_account_info .panel_one{}
 #settings .settings_account_info .panel_two{padding-top: 0; border-top: 1px solid #eee;display: none;}
@@ -307,7 +326,7 @@ a.btn i{padding:0 10px 0 0;}
 #tours #tours_media .account_img_info .img_info p{text-align: left; margin-left: 0.5em;}
 
 
-#settings .section-desc{ margin-bottom:.4em; color:#454545;}
+#settings .section-desc{ margin-bottom:.8em;font-size:12px;}
 @media (max-width:767px){.main_header{background-position:center;}
 .body-content{top:0;}
 .body-content .navbar-header{display:inline-block;position:fixed;top:5px;left:5px;z-index:999;}
@@ -356,6 +375,11 @@ a.btn i{padding:0 10px 0 0;}
 #settings .settings_company_details form .form-group{margin-bottom: 15px !important;}
 #settings .settings_company_details form .row{padding: 0;}
 #settings .settings_company_details form .panel{padding-bottom: 15px; padding-top: 15px;}
+
+.panel.panel_two.pointer-box .row{ padding:0 1.5rem !important;}
+.panel.panel_two.pointer-box .pointer-line .pointer.pointer_a{ margin-left: 6%;}
+.pointer-line .pointer.pointer_a {margin-left: 18%;}
+.pointer-line .pointer.pointer_b {margin-left: 68%;}
 
 .left-nav-bar .navbar{position:relative;border:1px solid transparent;}
 .left-nav-bar .navbar .navbar-nav{margin:0 -15px;}
@@ -445,6 +469,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 .main-wrapper .left-nav-bar .navbar-fixed-side #myNavbar li.toggle i{color: #AAE8FF;}
 .left-nav-bar .navbar .navbar-nav{position: relative;}
 .navbar-fixed-side .navbar-brand {padding: 0;padding-left: 0.4em;}
+.navbar-fixed-side .navbar-brand:hover,  .navbar-fixed-side .navbar-brand:active, .navbar-fixed-side .navbar-brand:focus{background: #fff;}
 @media (max-width:767px){
 	.collapse{display: block;}
 	.main-body-wrapper{left: 0px;margin-left: 0px;position: relative;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
@@ -472,7 +497,8 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours .tour_pagination .tour_next{display: table-cell;padding: 0 10px;}
 #tours .tour_pagination a.tour_prev:before {content: "\2039 ";font-size: 40px;position: absolute;top: -13px;left: 0px;}
 #tours .tour_pagination a.tour_next:after {content: " \203A";font-size: 40px;position: absolute;top: -13px;right: 0px;}
-#tours .save-button {display: table;float: left; margin-top:-10.6%;margin-left: 65%;}
+#tours .preview-button {display: table;float: left; margin-top:-10.6%;margin-left: 55%;}
+#tours .save-button {display: table;float: left; margin-top:-10.6%;margin-left: 80%;}
 #tours .create-button {display: table;float: left; padding-left: 5%;margin-top: 1%;}
 #tours label.pricefor{text-align: left;} 
 #tours form .panel{padding: 10px 20px;}
@@ -520,6 +546,32 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours #tours_itinerary .itinerary_panel_container .form-group {margin-left: 4%;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day i{border: 1px solid #D8E8EF;color: #ED9C28;border-radius: 100%;padding: 5px 8px;background: rgb(243, 236, 226);margin-right: 10px;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day {position: absolute;bottom: 0;left: -14px;z-index: 999;}
+#tours .departureSession_section{display: table;}
+#tours .departureSession_section > a{/*display: table-cell; */vertical-align: middle;}
+#tours .departureSession_section > a.ds_cal_icon{padding: 10px 10px;font-size: 20px;}
+#tours .ds_calendar_grid{max-width: 40rem; width: 80%; margin-left:1rem; padding-bottom: 5px; border:1px solid #ddd; font-size:13px; margin-bottom:1rem; /*display: none;*/}
+#tours .ds_calendar_grid > div{padding: 5px 0; margin: 2px 0;}
+#tours .ds_calendar_grid .calendar-week-header{background: #F1FBFF;color: #555; font-weight:500;}
+#tours .ds_calendar_grid .calendar-week:nth-child(even){background: #cfd5ea;}
+#tours .ds_calendar_grid .calendar-week:nth-child(odd){background: #e9ebf5;}
+#tours .ds_calendar_grid > div > div .active, #tours .ds_calendar_grid > div > div .inactive {width: 20px;height: 12px;display: inline-block;right: 25px;border-radius: 8px; margin-left:5px;}
+#tours .ds_calendar_grid > div > div .active{border: 1px solid #70ad47; background: #a7cd96;}
+#tours .ds_calendar_grid > div > div .inactive{border: 1px solid #ababac; background: #c9c9c9;}
+#calendar{ margin-bottom: 1rem;}
+.availability{ margin-top: 1.2rem}
+#departureSession .ds_repeat_daily, #departureSession  .dsChangePrice{display: none;}
+
+.fixed-departure-onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: 36%; margin-top: -4.2%;}
+
+
+.limited_container .text-readable13{ margin-top:1rem;}
+.text-readable13 span { font-size:16px; color:#666;}
+
+
+
+
+
+
 @media only screen 
 and (min-device-width : 768px) 
 and (max-device-width : 1024px){
@@ -541,7 +593,7 @@ and (max-device-width : 1024px){
 #tours_list .info_visible {display: table;}
 #tours_list .info_visible label.visible{display: table-cell;vertical-align: middle; padding-right: 10px;font-size: 12px; font-weight: normal;}
 #tours_list .info_visible .onoffswitch{display: table-cell; vertical-align: middle;}
-#tours_list .panel .row > div img{max-height: 175px; width: 100%; border-radius: 10px 0px 0px 10px;}
+#tours_list .panel .row > div img{max-height: 175px; width: 100%; border-radius: 1rem;}
 #tours_list .panel{margin: 10px 0;padding: 5px;padding-bottom: 52px;}
 #tours_list .panel .tour_details{font-size: 16px; font-weight: 500;}
 #tours_list .panel .tour_details span{font-weight: 900;}
@@ -554,7 +606,7 @@ and (max-device-width : 1024px){
 #tours_list .panel .tour_utils .tour_preview a{margin: 0;}
 #tours_list .panel .tour_utils {position: absolute;width: 60%;right: 10px;top: -1px;padding: 10px 0;text-align: right;border-top: 1px solid #ccc;}
 #tours_list .panel .no-image i{font-size: 60px; color: #ccc;}
-#tours_list .panel .no-image .no_image{min-height: 175px;position: relative;background: #eee;border-radius: 10px 0 0px 10px;}
+#tours_list .panel .no-image .no_image{min-height: 175px;position: relative;background: #eee;border-radius: 1rem;}
 #tours_list .panel .no-image .no_image div{position: absolute;width: 60px;height: 60px;top: 50%;left: 50%;transform: translate(-50%,-50%);}
 #tours_list .panel .no-image .no_image div span{font-size: 12px;position: absolute;bottom: -5px;left: 0px;color: #ccc;}
 
@@ -577,8 +629,9 @@ and (max-device-width : 1024px){
 #lightbox .modal-content{display:inline-block;text-align:center;}
 #lightbox .close{opacity:1;color:rgb(255, 255, 255);background-color:rgb(25, 25, 25);padding:5px 8px;border-radius:30px;border:2px solid rgb(255, 255, 255);position:absolute;top:-15px;right:-55px;z-index:1032;}
 .outline{background-color:transparent;color:inherit;transition:all .25s;}
-.btn-primary.outline{color:#428bca;border:1px solid #428bca;}
+.btn-primary.outline{color:#40C4FF;border:1px solid #40C4FF;}
 .btn-primary.outline:hover,.btn-primary.outline:active, .btn-primary.outline:focus{color:#fff !important;}
+.btn-primary.btn-preview{}
 
 #tours #tours_sa .days_radio label.radio_label{font-size: 18px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;position: relative;}
 #tours #tours_sa .days_radio label.radio_label span{font-size: 14px; color: rgba(0,0,0,0.6);font-weight: 900;margin-left: 16px;}

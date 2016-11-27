@@ -50,6 +50,10 @@ var BookingSchema = new Schema({
     type: String,
     default: 'tourgecko Wallet',
     trim: true
+  },
+  created: {
+    type: Date,
+    default: Date.now
   }
 });
 

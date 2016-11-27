@@ -5,16 +5,15 @@
 			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
 				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
 					<div class="home_add_tour">
-						<h2><i class="zmdi zmdi-settings"></i>&nbsp;Settings
-						<span class="bread-caret"><i class="zmdi zmdi-caret-right"></i></span>
-						<span class="bread-current">Contacts</span></h2>
+						<i class="zmdi zmdi-settings heading-icn"></i>
+						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Contacts</span></h2>
 					</div>
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_contact">
 							<form class="form-horizontal" name="vm.contactForm" ng-submit="vm.saveContactSettings(vm.contactForm.$valid)" novalidate>
 								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
-								<h3>Notifications <i class="zmdi zmdi-globe-lock icn_orange"></i></h3>
-								<p class="section-desc">Receipts and notifications will  be sent on  this email and phone </p>
+								<h5>Notifications <img class="icn_hold" src="modules/hosts/client/images/icn_hold.svg" data-toggle="tooltip" data-placement="right" title="This information is not shown publicly"></h5>
+								<p class="section-desc sub_desc">Receipts and notifications will  be sent on  this email and phone </p>
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
@@ -49,8 +48,8 @@
 										</div>
 									</div>
 								</div>
-								<h3>Inquiry Contacts <i class="zmdi zmdi-globe icn_green"></i></h3>
-								<p class="section-desc">Your addresses and location</p>
+								<h5>Inquiry Contacts <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
+								<p class="section-desc sub_desc">Contacts details for guest to contact you by email or calls</p>
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
@@ -68,6 +67,9 @@
 												</div>
 											</div>
 										</div>
+									</div>
+									<hr>
+									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6 col" >
 											<div class="form-group" show-errors>
 												<label for="inquiry_mobile" class="cols-sm-2 control-label">Mobile</label>
@@ -89,48 +91,48 @@
 											<div class="form-group">
 												<label class="control-label">Availablity</label>
 												<div class="radio">
-													<input type="radio" name="anytime" value="Anytime" id="anytime" ng-model="vm.inquiryTime">
+													<input type="radio" name="anytime" value="Anytime" id="anytime" ng-model="vm.contactDetails[0].inquiryTime">
 													<label for="anytime">Anytime</label>
 												</div>
 												<div class="radio">
-													<input type="radio" name="anytime" id="anytime" value="rangeTime" ng-model="vm.inquiryTime">
+													<input type="radio" name="anytime" id="anytime" value="rangeTime" ng-model="vm.contactDetails[0].inquiryTime">
 													<span>From</span>
-													<select class="form-control" name="availability_from" id="availability_from" ng-model="vm.inquiryTimeFrom">
-														<option>1 AM</option>
-														<option>2 AM</option>
-														<option>3 AM</option>
-														<option>4 AM</option>
-														<option>5 AM</option>
-														<option>6 AM</option>
-														<option>7 AM</option>
-														<option>8 AM</option>
-														<option>9 AM</option>
-														<option>10 AM</option>
-														<option>11 AM</option>
-														<option>12 Noon</option>
+													<select class="form-control" name="availability_from" id="availability_from" ng-model="vm.contactDetails[0].inquiryTimeRangeFrom">
+														<option value="1 AM">1 AM</option>
+														<option value="2 AM">2 AM</option>
+														<option value="3 AM">3 AM</option>
+														<option value="4 AM">4 AM</option>
+														<option value="5 AM">5 AM</option>
+														<option value="6 AM">6 AM</option>
+														<option value="7 AM">7 AM</option>
+														<option value="8 AM">8 AM</option>
+														<option value="9 AM">9 AM</option>
+														<option value="10 AM">10 AM</option>
+														<option value="11 AM">11 AM</option>
+														<option value="12 Noon">12 Noon</option>
 													</select>
 													<span>to</span>
-													<select class="form-control" name="availability_to" id="availability_to" ng-model="vm.inquiryTimeTo">
-														<option>1 PM</option>
-														<option>2 PM</option>
-														<option>3 PM</option>
-														<option>4 PM</option>
-														<option>5 PM</option>
-														<option>6 PM</option>
-														<option>7 PM</option>
-														<option>8 PM</option>
-														<option>9 PM</option>
-														<option>10 PM</option>
-														<option>11 PM</option>
-														<option>12 Midnight</option>
+													<select class="form-control" name="availability_to" id="availability_to" ng-model="vm.contactDetails[0].inquiryTimeRangeTo">
+														<option value="1 PM">1 PM</option>
+														<option value="2 PM">2 PM</option>
+														<option value="3 PM">3 PM</option>
+														<option value="4 PM">4 PM</option>
+														<option value="5 PM">5 PM</option>
+														<option value="6 PM">6 PM</option>
+														<option value="7 PM">7 PM</option>
+														<option value="8 PM">8 PM</option>
+														<option value="9 PM">9 PM</option>
+														<option value="10 PM">10 PM</option>
+														<option value="11 PM">11 PM</option>
+														<option value="12 Midnight">12 Midnight</option>
 													</select>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<h3>Social <i class="zmdi zmdi-globe icn_green"></i></h3>
-								<p class="section-desc">Links to your social profiles and presence</p>
+								<h5>Social <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
+								<p class="section-desc sub_desc">Links to your social profiles and presence</p>
 								<div class="panel">
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
@@ -138,8 +140,8 @@
 												<label for="social_fb" class="cols-sm-2 control-label">Facebook</label>
 												<div class="input_group">
 													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i></span>
-														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="ex: facebook.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.facebook"/>
+														<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i> http://facebook.com/</span>
+														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="facebook-username" ng-model="vm.contactDetails[0].hostSocialAccounts.facebook"/>
 													</div>
 												</div>
 											</div>
@@ -149,8 +151,8 @@
 												<label for="social_tw" class="cols-sm-2 control-label">Twitter</label>
 												<div class="input_group">
 													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i></span>
-														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="ex: twitter.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.twitter"/>
+														<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i> http://twitter.com/</span>
+														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="twitter-username" ng-model="vm.contactDetails[0].hostSocialAccounts.twitter"/>
 													</div>
 												</div>
 											</div>
@@ -162,8 +164,8 @@
 												<label for="social_in" class="cols-sm-2 control-label">Instagram</label>
 												<div class="input_group">
 													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i></span>
-														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="ex: instagram.com/username" ng-model="vm.contactDetails[0].hostSocialAccounts.instagram"/>
+														<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i> http://instagram.com/</span>
+														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="instagram-username" ng-model="vm.contactDetails[0].hostSocialAccounts.instagram"/>
 													</div>
 												</div>
 											</div>

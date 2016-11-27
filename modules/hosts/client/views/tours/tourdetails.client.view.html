@@ -447,7 +447,7 @@
                                         <p>Or just give us a call<br>
                                         {{vm.companyDetails.inquiryMobile}}</p>
                                     </div>
-                                    <span>({{vm.companyDetails.inquiryTime}})</span>
+                                    <span>({{vm.companyDetails.inquiryTime == 'rangeTime' ? vm.companyDetails.inquiryTimeRangeFrom + ' to ' + vm.companyDetails.inquiryTimeRangeTo: 'Anytime'}})</span>
                                 </div>
                             </div>
                         </div>

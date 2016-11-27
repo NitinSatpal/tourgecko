@@ -21,7 +21,7 @@
 
     menuService.addSubMenuItem('account', 'settings', {
       title: 'My Profile',
-      state: 'host.account'
+      state: 'settings.profile'
     });
   }
 }());

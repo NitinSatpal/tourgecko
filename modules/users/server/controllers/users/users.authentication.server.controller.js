@@ -65,6 +65,8 @@ exports.signup = function (req, res) {
           hostCompany.notificationMobile =user.mobile;
           hostCompany.inquiryEmail = user.email;
           hostCompany.inquiryMobile = user.mobile;
+          hostCompany.isAccountActive = true;
+          hostCompany.isOwnerAccount = true;
           hostCompany.save(function (err) {
             if(err) {
               return res.status(400).send({
@@ -112,6 +114,7 @@ exports.signupDetails = function(req, res, next) {
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
             user.userType = 'host';
+            user.roles.push('hostAdmin');
 
             user.save(function (err) {
               if (err) {
@@ -142,7 +145,6 @@ exports.signupDetails = function(req, res, next) {
                 hostCompany.markModified('hostCompanyAddress');
                 hostCompany.save(function (err) {
                   if (err) {
-                    console.log(err);
                     /* return res.status(400).send({
                       message: errorHandler.getErrorMessage(err)
                     }); */

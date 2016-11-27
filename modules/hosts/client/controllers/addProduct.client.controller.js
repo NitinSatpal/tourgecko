@@ -375,7 +375,6 @@
         vm.mapFileSelected = false;
         $scope.mapFile = '';
       }
-      
     }
   }
 }());

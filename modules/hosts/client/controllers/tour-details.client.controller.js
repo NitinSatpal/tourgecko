@@ -22,7 +22,7 @@
     $http.get('/api/host/product/'+productId).success(function (response) {
       // And redirect to the Details page with the id of the user
       vm.productDetails = response[0];
-      if(response[0].productPictureURLs)
+      if(response[0].productPictureURLs.length != 0)
         vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];
       $http.get('/api/host/company/').success(function (res) {
         // And redirect to the Details page with the id of the user
