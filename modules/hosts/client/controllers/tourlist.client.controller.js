@@ -14,7 +14,7 @@
     vm.products = CompanyProductService.query();
 
     vm.checkThis = $window.localStorage.getItem('productId');
-    
+
 
     vm.makeProductVisible = function (product) {
     	if (product.isPublished == true) {
@@ -38,7 +38,7 @@
     	}
     }
 
-    vm.shareOnSocialAccount = function (account, product) {
+  /*  vm.shareOnSocialAccount = function (account, product) {
         if (account == 'twitter') {
             $http.post('/api/social/host/twitter', product).success(function (response) {
                 console.log(response);
@@ -52,7 +52,7 @@
                 vm.error = response.message;
             });
         }
-    }
+    }*/
 
     vm.showTourDetails = function(index) {
         $window.localStorage.setItem('productId', vm.products[index]._id);
