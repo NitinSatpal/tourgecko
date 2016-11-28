@@ -35,9 +35,6 @@
         templateUrl: 'modules/hosts/client/views/add-product/add-product.client.view.html',
         controller: 'AddProductController',
         controllerAs: 'vm',
-        resolve: {
-          tourResolve: newTour
-        },
         data: {
           pageTitle: 'Admin | Add Product'
         }
@@ -168,12 +165,6 @@
           pageTitle: 'Admin | Bookings'
         }
       });
-  }
-
-  newTour.$inject = ['ProductService'];
-
-  function newTour(ProductService) {
-    return new ProductService();
   }
 
 }());

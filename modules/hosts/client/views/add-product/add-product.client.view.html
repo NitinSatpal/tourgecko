@@ -24,6 +24,7 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
+												<label class="control-label">Type: </label> <h5 class="from-to"> {{vm.productType}}</h5>
 												<div class="form-group" show-errors>
 													<label for="name_of_the_tour" class="control-label">Name this tour</label>
 													<div class="input_group">
@@ -606,7 +607,7 @@
 																</div>
 																<div class="col-sm-6 col-md-6 col-lg-4 text-readable13 availability">
 			                                                        <label class="checkbox-inline">
-			                                                        	<input type="checkbox" name="show_to_guests" value="show" id="show-availability">
+			                                                        	<input type="checkbox" name="show_to_guests" value="show" ng-model="vm.tour.isAvailabilityVisibleToGuests" id="show-availability">
 			                                                        	<span>Show availability to guests</span>
 			                                                        </label>
 			                                                     </div>
@@ -917,7 +918,7 @@
 									  <label for="dsStartDate" class="control-label">Start Date</label>
 									  <div class="input_group">
 										 <div>
-											<input type="date" class="form-control" name="dsStartDate" id="dsStartDate"  placeholder=""/>
+											<input type="date" class="form-control" name="dsStartDate" id="dsStartDate" ng-model="vm.fixedProductSchedule.params[0].startDate" placeholder=""/>
 										 </div>
 									  </div>
 									</div>
@@ -927,18 +928,18 @@
 								 <div class="col-sm-12 col-md-12 col-lg-12">
 								   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
 								   <div class="onoffswitch fixed-departure-onoffswitch tours_sd_st">
-									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="onoffswitch-checkbox" id="tours_sd_st-onoffswitch">
+									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="onoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
 									  <label class="onoffswitch-label" for="tours_sd_st-onoffswitch"></label>
 								   </div>
 								</div>
 							</div>
-							<div class="row">
+							<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
 								<div class="col-sm-6 col-md-6 col-lg-6">
 									<div class="form-group">
 									  <label for="dsTimeSlot" class="control-label">Time slot</label>
 									  <div class="input_group">
 										 <div>
-											<input type="time" class="form-control" name="dsTimeSlot" id="dsTimeSlot"  placeholder="hrs:mins"/>
+											<input type="time" class="form-control" name="dsTimeSlot" id="dsTimeSlot" ng-model="vm.fixedProductSchedule.params[0].startTime" placeholder="hrs:mins"/>
 										 </div>
 									  </div>
 									</div>
@@ -950,10 +951,10 @@
 									  <label for="dsRepeat" class="control-label">Repeat</label>
 									  <div class="input_group">
 										 <div>
-											<select class="form-control" id="dsRepeat">
-											   <option value="do_not_repeat">Do not repeat</option>
-											   <option value="repeat_daily">Repeat Daily</option>
-											   <option value="repeat_weekly">Repeat Weekly</option>
+											<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule.params[0].repeatBehavior">
+											   <option value="Do not repeat">Do not repeat</option>
+											   <option value="Repeat Daily">Repeat Daily</option>
+											   <option value="Repeat Weekly">Repeat Weekly</option>
 											</select>
 										 </div>
 									  </div>
@@ -966,16 +967,16 @@
 									  <label for="dsRepeatDaily" class="control-label">Until</label>
 									  <div class="input_group">
 										 <div>
-											<input type="date" class="form-control" name="dsRepeatDaily" id="dsRepeatDaily"  placeholder=""/>
+											<input type="date" class="form-control" name="dsRepeatDaily" id="dsRepeatDaily" ng-model="vm.fixedProductSchedule.params[0].repeatTillDate" placeholder=""/>
 										 </div>
 									  </div>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
 									<div class="form-group"><label class="control-label">Select</label><br>
-									   <select id="weeks" multiple="multiple">
+									   <select id="weeks" multiple="multiple" ng-model="vm.fixedProductSchedule.params[0].repeatOnDays">
 											<option value="monday">Monday</option>
-											<option value="teusday">Tuesday</option>
+											<option value="tuesday">Tuesday</option>
 											<option value="wednesday">Wednesday</option>
 											<option value="thursday">Thursday</option>
 											<option value="friday">Friday</option>
@@ -1021,7 +1022,7 @@
 								</div>
 							</div>
 							<div class="dsCreate text-center">
-								<a href="#" class="btn btn-primary">create</a>
+								<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.test()">create</a>
 							</div>
 						</div>
 					</div>
@@ -1149,12 +1150,12 @@
 <script>
 	$("#departureSession").on("change","#dsRepeat",function(e) {
 		e.preventDefault();
-		if($(this).val() == "do_not_repeat"){
+		if($(this).val() == "Do not repeat"){
 			$(".ds_repeat_daily").hide();
-		}else if($(this).val() == "repeat_daily"){
+		}else if($(this).val() == "Repeat Daily"){
 			$(".ds_repeat_daily").show();
 			$(".dsRepeatWeekly").hide();
-		}else if($(this).val() == "repeat_weekly"){
+		}else if($(this).val() == "Repeat Weekly"){
 			$(".ds_repeat_daily").show();
 			$(".dsRepeatWeekly").show();
 		}
@@ -1162,6 +1163,12 @@
 	$("#departureSession").on("click",".dsChangePrice_link",function(e){
 		e.preventDefault();
 		$(".dsChangePrice").toggle();
+	});
+
+	$("#departureSession").on("click","#createDepartureSessionButton",function(e){
+		e.preventDefault();
+		$("#departureSession").toggle();
+		$('.modal-backdrop').remove();
 	});
 </script>
 

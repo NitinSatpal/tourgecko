@@ -34,13 +34,13 @@
 	</div>
 </div>
 <script>
-	$("#parentMenu").on('click', function(e) {
+	$("#parentMenu").on('click', function(event) {
 	   $(this).toggleClass("toggle");
-	   e.stopPropagation();
+	   event.stopPropagation();
 	});
-	$("ul#one li ul li a").on('click', function(e) {
-	   e.preventDefault();
-	   e.stopPropagation();
+	$("ul#one li ul li a").on('click', function(event) {
+	   event.preventDefault();
+	   event.stopPropagation();
 	});
 
 	$(document).ready(function(){

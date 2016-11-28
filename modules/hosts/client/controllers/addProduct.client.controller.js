@@ -10,11 +10,10 @@
         };
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', 'tourResolve', 'Upload'];
+  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', 'Upload'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, tour, Upload) {
+  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, Upload) {
     var vm = this;
-    vm.tour = tour;
     vm.error = null;
     vm.form = {};
     vm.helpVisible = true;
@@ -42,6 +41,8 @@
     vm.showEditingSaveButton = false;
     vm.productDuration;
     vm.heading = '';
+    vm.productType = $window.localStorage.getItem('productType');
+    vm.isFixedTourTimeSlotAvailable = false;
 
     vm.pricingParams = {
       Params: [{
@@ -65,6 +66,16 @@
     };
 
     vm.timeslots = [''];
+
+    vm.fixedProductSchedule = {
+      params: [{
+        startDate: '',
+        startTime: '',
+        repeatBehavior: 'Do not repeat',
+        repeatTillDate: '',
+        repeatOnDays: []
+      }]
+    };
 
     vm.addPricingOption = function(index) {
       var isValid = validatePricingOption(index);
@@ -94,18 +105,6 @@
         }
       }
       return true;
-      
-      /* if (index > 0) {
-        for (indexTracker = index-1; index >= 0; index --) {
-          console.log(indexTracker);
-          if (vm.pricingOptions[indexTracker] == 'Group') {
-            lastGroupOption = vm.pricingParams[indexTracker].Params;
-            break;
-          }
-        }
-        if (lastGroupOption.maxGroupSize > vm.pricingParams[index].Params.maxGroupSize)
-          alert('what the hell');
-      } */
     };
 
     vm.removePricingOption = function(index) {
@@ -210,15 +209,13 @@
       
       setProductInformation();
 
-      vm.tour.$save(successCallback, errorCallback);
 
-      function successCallback(res) {
+      $http.post('/api/host/product/', vm.tour).success(function (response) {
+        // And redirect to the Details page with the id of the user
         $state.go('host.tours');
-      }
-
-      function errorCallback(res) {
-        vm.error = res.data.message;
-      }
+      }).error(function (response) {
+        vm.error = response.message;
+      });
     };
 
     /* vm.create = function (isValid) {
@@ -255,6 +252,8 @@
       vm.tour.productInclusions = CKEDITOR.instances.tour_inclusions.getData();
       vm.tour.productExclusions = CKEDITOR.instances.tour_exclusions.getData();
       vm.tour.productItineraryDescription = vm.itineraries;
+      vm.tour.productType = $window.localStorage.getItem('productType');
+      vm.tour.fixedProductSchedule = vm.fixedProductSchedule.params;
 
       var index = 0;
       // Pricing options
@@ -279,6 +278,13 @@
       vm.tour.productPictureURLs = vm.productPictureURLs;
 
       vm.tour.productMapURLs = vm.productMapURLs;
+    }
+
+    vm.goToTourCreationPage = function() {
+      $timeout(function () {
+        $state.go('host.addProduct');
+      }, 800);
+      $window.localStorage.setItem('productType', vm.productType);
     }
 
     vm.uploadImage = function (dataUrl, name) {

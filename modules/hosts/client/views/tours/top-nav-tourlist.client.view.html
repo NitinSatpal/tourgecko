@@ -4,7 +4,7 @@
 	<button class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-plus"></i>&nbsp;Add a Tour</button>					
 </div>
 
-<div id="select-tour-type" class="modal fade">
+<div id="select-tour-type" class="modal fade" ng-controller="AddProductController as vm">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -17,15 +17,15 @@
 						<form action="">
 							<div class="radio">
 								<label>
-									<input type="radio" name="add-tour" value="add-tour-multiday-tour" id="add-tour-multiday-tour" checked>
-									<strong>Multi- day tour</strong>
+									<input type="radio" name="add-tour" value="Multi-day tour" id="add-tour-multiday-tour" ng-model="vm.productType">
+									<strong>Multi-day tour</strong>
 									<p class="sub_desc">Multi day tours like adventure expeditions , road trips or detonation tours</p>
 								</label>
 							</div>
 
 							<div class="radio">
 								<label>
-									<input type="radio" name="add-tour" value="add-tour-activity" id="add-tour-activity">
+									<input type="radio" name="add-tour" value="Activity" id="add-tour-activity" ng-model="vm.productType">
 									<strong>Activity</strong>
 									<p class="sub_desc">Short spanned tours usually with duration in hours like scuba diving, balloon flights or any short timed activity</p>
 								</label>
@@ -33,7 +33,7 @@
 
 							<div class="radio">
 								<label>
-									<input type="radio" name="add-tour" value="add-tour-daytour" id="add-tour-daytour">
+									<input type="radio" name="add-tour" value="Day tour" id="add-tour-daytour" ng-model="vm.productType">
 									<strong>Day tour</strong>
 									<p class="sub_desc">Day long tours like city  or heritage walks</p>
 								</label>
@@ -41,7 +41,7 @@
 
 							<div class="radio">
 								<label>
-									<input type="radio" name="add-tour" value="add-tour-event" id="add-tour-event">
+									<input type="radio" name="add-tour" value="Event" id="add-tour-event" ng-model="vm.productType">
 									<strong>Event</strong>
 									<p class="sub_desc">Sporting or out outdoor event</p>
 								</label>
@@ -51,9 +51,17 @@
 					</div>
 				</div>
 				<div class="modal-footer text-center">
-					<a class="btn btn-primary" ui-sref="host.addProduct">Add New Tour</a>
+					<a class="btn btn-primary" onclick="fadeOutTheModal()" ng-click="vm.goToTourCreationPage()">Add New Tour</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<script>
+	function fadeOutTheModal () {
+		$('#select-tour-type').slideUp('slow');
+		setTimeout(function(){
+			$('.modal-backdrop').remove();
+		}, 800);
+	}
+</script>

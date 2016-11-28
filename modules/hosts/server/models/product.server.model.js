@@ -45,11 +45,20 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
+  /* Fixed or Open Date */
   productAvailabilityType: {
     type: String,
     default: '',
     trim: true
   },
+
+ /* In case of fixed tours, if host create the departure session, this value will become true. In open dates when guest book, this will becom true*/
+  isProductScheduled: {
+    type: Boolean,
+    default: false
+  },
+
+/* In case of open date products, time-slot and schedule dates once guest book it */
   productTimeSlotsAvailability: {
     type: String,
     default: ''
@@ -58,14 +67,13 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
-  isProductScheduled: {
-    type: Boolean,
-    default: false
-  },
-  productSheduleDates: {
+  openProductShedule: {
     type: Array,
     default: []
   },
+  /* Open date tour ends here */
+
+  /* For fixed date tours */
   productSeatsLimitType: {
     type: String,
     default: ''
@@ -73,6 +81,16 @@ var ProductSchema = new Schema({
   produSeatLimit: {
     type:Number
   },
+  isAvailabilityVisibleToGuests: {
+    type: Boolean,
+    default: false
+  },
+  fixedProductSchedule: {
+    type: Array,
+    default: []
+  },
+  /* Fixed date tour ends here */
+
   productBookingAvailabilityType: {
     type: String,
     default: '',

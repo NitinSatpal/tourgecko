@@ -210,6 +210,11 @@ ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 #fullCalModal .modal-footer button a{color: #fff;padding: 0 30px;font-size: 12px;font-weight: 500;}
 #fullCalModal .modal-footer button a:hover{text-decoration: none;}
 
+/* Since modal is hiding the scroll after it disappears */
+.modal-open {
+    overflow: scroll !important;
+}
+
 
 /*    ===============    settings    ============    */
 
