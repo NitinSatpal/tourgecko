@@ -37,11 +37,11 @@ module.exports = function (app) {
   app.route('/api/product/productMap')
     .post(hosts.uploadProductMap);
 
-  app.route('/api/social/host/twitter')
-    .post(hosts.postOnTwitter);
+  /*app.route('/api/social/host/twitter')
+    .post(hosts.postOnTwitter);*/
 
-  app.route('/api/social/host/facebook')
-    .post(hosts.postOnFB);
+  /*app.route('/api/social/host/facebook')
+    .post(hosts.postOnFB);*/
 
   app.route('/api/host/company')
     .get(hosts.fetchCompanyDetails)
