@@ -193,6 +193,7 @@
       vm.itineraries[indexSaved].description = CKEDITOR.instances.tourItinerary.getData();
       CKEDITOR.instances.tourItinerary.setData('');
       vm.heading = '';
+      vm.showEditingSaveButton = false;
       //vm.showSaveItinerariesSection = false;
     }
 
