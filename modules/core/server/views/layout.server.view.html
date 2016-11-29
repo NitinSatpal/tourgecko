@@ -30,7 +30,7 @@
 
   <!-- Fav Icon -->
   <link href="modules/core/client/img/brand/logo.png" rel="shortcut icon" type="image/x-icon">
-  
+
   <!-- Bootstrap and jquery -->
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="lib/bootstrap-theme/css/bootstrap-theme.min.css">
@@ -61,15 +61,19 @@
 </head>
 
 <body class="ng-cloak">
-  <section class="content">
+  <section class="content main-wrapper">
     <!-- need to find a good way to achieve this. Let it be for now
     <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header> -->
+    <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
+      <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
+    </section>
+    <section class="main-body-wrapper">
     <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
-    <section class="container">
+
       {{{block "content"}}}
     </section>
   </section>
-  <!-- <footer class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'"></footer> -->
+  <footer class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'"></footer>
   <noscript>
     <style>
       [ng\:cloak], [ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

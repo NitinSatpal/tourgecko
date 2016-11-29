@@ -1,8 +1,8 @@
-<div class="tourgecko-top-nav" ng-controller="HeaderController as vm">
+<div class="container-fluid tourgecko-top-nav" ng-controller="HeaderController as vm">
   <button type="button" class="navbar-toggle" data-toggle="slide-collapse" data-target="#myNavbar">
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
-    <span class="icon-bar"></span> 
+    <span class="icon-bar"></span>
   </button>
   <div class="top-nav-bar">
     <nav class="navbar navbar-default top-nav">
@@ -22,7 +22,7 @@
           <li class="dropdown account">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
-              <span ng-bind="vm.authentication.user.displayName"></span> 
+              <span ng-bind="vm.authentication.user.displayName"></span>
               <b class="caret hidden-xs"></b>
             </a>
             <ul class="dropdown-menu" ui-sref-active="active">

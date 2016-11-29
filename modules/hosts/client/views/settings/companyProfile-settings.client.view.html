@@ -1,24 +1,24 @@
-<div class="hostHome">
+<div class="hostHome container-fluid">
 	<div class="row body-content">
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
-				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
 					<div class="home_add_tour fixed-in-div">
 						<i class="zmdi zmdi-settings heading-icn"></i>
-						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Company Profile</span></h2>	
+						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Company Profile</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
 					</div>
-					<div class="row">
+					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_company_details">
 							<form class="form-horizontal" name="vm.companyProfile" ng-submit="vm.saveCompanyProfileSettings(vm.companyProfile.$valid)">
-								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
-								
+								<!--<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
+
 								<h5>Company Details <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site." ></i></h5>
 								<p class="section-desc sub_desc">Describe about who you are and what services you provide</p>
-								
+
 								<div class="panel">
 									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">										
+										<div class="col-lg-6 col-md-6 col-sm-6">
 											<div class="form-group">
 												<label for="describe" class="control-label">How do you describe yourself?</label>
 												<div class="input_group">
@@ -152,7 +152,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 	</div>
 </div>

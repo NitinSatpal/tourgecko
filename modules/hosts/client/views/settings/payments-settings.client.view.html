@@ -1,17 +1,17 @@
-<div class="hostHome">
+<div class="hostHome container-fluid">
 	<div class="row body-content">
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
-				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
-					<div class="home_add_tour">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
+					<div class="home_add_tour fixed-in-div">
 						<i class="zmdi zmdi-settings heading-icn"></i>
 						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Payment</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
 					</div>
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_payment">
 							<form class="form-horizontal" ng-submit="vm.savePaymentSettings()">
-								<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+								<!--<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
 								<h5>Payment Method <i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is private to you and hidden."></i></h5>
 								<p class="section-desc sub_desc">Payment methods to capture and collect online payments during bookings</p>
 								<div class="panel panel_one">
@@ -92,9 +92,8 @@
 						</div>
 					</div>
 
-					
+
 				</div>
-			</div>
 		</div>
 	</div>
 </div>

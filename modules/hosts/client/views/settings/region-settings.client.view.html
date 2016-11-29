@@ -1,21 +1,21 @@
-<div class="hostHome">
+<div class="hostHome container-fluid">
 	<div class="row body-content">
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+	<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
-				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
-					<div class="home_add_tour">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
+					<div class="home_add_tour fixed-in-div">
 						<i class="zmdi zmdi-settings heading-icn"></i>
 						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Regional</span></h2>
+						<a class="btn btn-primary pull-right" href="#"><i class="zmdi zmdi-floppy"></i> Save</a>
 					</div>
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_regional">
 							<form class="form-horizontal" name="regionalDetails" ng-submit="vm.saveRegionalSettings()">
-								<button class="btn btn-primary pull-right saveButton" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+								<!--<button class="btn btn-primary pull-right saveButton" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
 								<h5>Regional settings <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site."></i></h5>
 								<p class="section-desc sub_desc">Settings to configure region specific details like language and currency</p>
 								<div class="panel regional_panel">
-									<div class="row">                                    
+									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6">
 											<div class="form-group">
 												<label for="regional_language" class="cols-sm-2 control-label">Langauge<span class="icn_orange">*</span></label>
@@ -44,7 +44,7 @@
 											</div>
 										</div>
 									</div>
-                                    <div class="row language">                                       
+                                    <div class="row language">
                                         <div class="col-lg-6 col-md-6 col-sm-6">
 											<div class="form-group">
 												<label for="regional_currency" class="cols-sm-2 control-label">Currency<span class="icn_orange">*</span></label>
@@ -64,14 +64,13 @@
 												</div>
 											</div>
 										</div>
-									</div>									
+									</div>
 								</div>
 								<button class="btn btn-primary pull-right saveButton-Bottom" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
 							</form>
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 	</div>
 </div>

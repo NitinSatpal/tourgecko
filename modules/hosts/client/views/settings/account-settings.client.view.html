@@ -1,9 +1,8 @@
-<div class="hostHome">
+<div class="hostHome container-fluid">
 	<div class="row body-content">
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>
+		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-			<div class="row body-content" style="padding-left:250px;margin-right: -5.3%;">
-				<div class="col-md-9 col-sm-9 col-lg-10 settings-content">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
 					<div class="home_add_tour">
 						<i class="zmdi zmdi-settings heading-icn"></i>
 						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Account</span></h2>
@@ -37,7 +36,7 @@
 									<div class="row details_row">
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<div class="account_details">
-												<h4>{{vm.accountDetails[0].user.displayName}}</h4>
+												<h5>{{vm.accountDetails[0].user.displayName}}</h5>
 												<div class="details">
 													<i class="zmdi zmdi-account-circle"></i>
 													<div>
@@ -71,7 +70,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
 		</div>
 	</div>
 </div>

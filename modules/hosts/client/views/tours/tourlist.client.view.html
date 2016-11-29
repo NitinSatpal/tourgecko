@@ -1,10 +1,8 @@
-<div class="hostHome container-fluid" id="tours">
-		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
-	<div class="row body-content" style="margin-right: -44.9%;">
-		<div class="main-body-wrapper">
+<div class="hostHome" id="tours">
+		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
 			<div id="tours_list" class="container-fluid">
 				<div class="row body-content tourlist-content">
-					<div class="col-md-12 col-sm-12 col-lg-12 ">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 						<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">
@@ -36,7 +34,7 @@
 									<div class="row">
 										<div class="col-sm-12 col-md-12 col-lg-12">
 											<div class="tour_utils">
-												<div class="tour_share dropdown">														
+												<div class="tour_share dropdown">
 													<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-share"></i></a>
 													<ul class="dropdown-menu">
 														<li><a href="#" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li>
@@ -53,7 +51,7 @@
 												<div class="tour_edit">
 													<a href="#" class="btn btn-primary outline"><i class="zmdi zmdi-edit"></i>Edit</a>
 												</div>
-												<div class="tour_more dropdown">														
+												<div class="tour_more dropdown">
 													<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-more-vert"></i></a>
 													<ul class="dropdown-menu">
 														<li><a href="#">facebook</a></li>
@@ -62,14 +60,14 @@
 												</div>
 											</div>
 										</div>
-									</div>									
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+
 		<div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
@@ -81,12 +79,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
 </div>
 <script>
 	$(document).ready(function() {
 		var $lightbox = $('#lightbox');
-		
+
 		$('[data-target="#lightbox"]').on('click', function(event) {
 			var $img = $(this).parents(".panel").find(".tour_left img"),
 				src = $img.attr('src'),
@@ -108,9 +105,10 @@
 		});
 		$lightbox.on('shown.bs.modal', function (e) {
 			var $img = $lightbox.find('img');
-				
+
 			$lightbox.find('.modal-dialog').css({'width': $img.width()});
 			$lightbox.find('.close').removeClass('hidden');
 		});
 	});
+
 </script>
