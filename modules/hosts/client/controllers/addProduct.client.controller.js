@@ -43,6 +43,7 @@
     vm.heading = '';
     vm.productType = $window.localStorage.getItem('productType');
     vm.isFixedTourTimeSlotAvailable = false;
+    $scope.productImageStorage = [];
 
     vm.pricingParams = {
       Params: [{
@@ -254,6 +255,7 @@
       vm.tour.productExclusions = CKEDITOR.instances.tour_exclusions.getData();
       vm.tour.productItineraryDescription = vm.itineraries;
       vm.tour.productType = $window.localStorage.getItem('productType');
+      $window.localStorage.setItem('productType', '');
       vm.tour.fixedProductSchedule = vm.fixedProductSchedule.params;
 
       var index = 0;
@@ -311,7 +313,6 @@
     vm.uploadMap = function (dataUrl, name) {
       vm.success = vm.error = null;
       vm.showMapProgressbar = true;
-      
       Upload.upload({
         url: 'api/product/productMap',
         data: {
@@ -371,7 +372,6 @@
       // Show error message
       vm.error = response.message;
     }
-
     vm.cancelSelection = function(pictureType) {
       if (pictureType == 'image') {
         // Reset form
@@ -382,6 +382,11 @@
         vm.mapFileSelected = false;
         $scope.mapFile = '';
       }
+    }
+    $scope.imageFile = '';
+    $scope.saveUploadedPhoto = function(uploadedImageUrl, uplodedimageName) {
+      var tempImageStore = {imageUrl: uploadedImageUrl, imageName: uplodedimageName};
+      $scope.productImageStorage.push(tempImageStore);
     }
   }
 }());
