@@ -43,7 +43,6 @@
     vm.heading = '';
     vm.productType = $window.localStorage.getItem('productType');
     vm.isFixedTourTimeSlotAvailable = false;
-    $scope.productImageStorage = [];
 
     vm.pricingParams = {
       Params: [{
@@ -137,41 +136,6 @@
     };
 
     vm.createItinerary = function(done) {
-      // For now, no validations etc. Let them put anything, we will trust they wont do shit.
-      /*if (vm.productDuration === undefined) {
-        alert('First set the duration of the tour');
-        return false;
-      } else if(vm.heading === '' && CKEDITOR.instances.tourItinerary.getData() !== '') {
-        alert('Please add some meaningful headline for day ' + vm.dayCounter);
-        return false;
-      }
-      else if (vm.heading !== '' && CKEDITOR.instances.tourItinerary.getData() === '') {
-        alert('Please add some description for day ' + vm.dayCounter);
-        return false;
-      }
-      else if (vm.heading === '' && CKEDITOR.instances.tourItinerary.getData() === '') {
-        alert('Please add details of Day ' + vm.dayCounter + ' first');
-        return false;
-      }
-
-      if(vm.dayCounter == vm.productDuration - 1) {
-          vm.dayCounter++;
-          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
-          vm.showSaveButtonForItineraries = true;
-          CKEDITOR.instances.tourItinerary.setData('');
-          vm.heading = '';
-      } else {
-        if(done == true) {
-          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
-          vm.showSaveItinerariesSection = false;
-        }
-        else {
-          vm.dayCounter++;
-          vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
-          CKEDITOR.instances.tourItinerary.setData('');
-          vm.heading = '';
-        }
-      } */
       vm.dayCounter++;
       vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
       CKEDITOR.instances.tourItinerary.setData('');
@@ -182,8 +146,6 @@
     vm.editItinerary = function(index) {
       indexSaved = index;
       vm.showEditingSaveButton = true;
-      //vm.showSaveItinerariesSection = true;
-      //vm.showSaveButtonForItineraries = false;
       vm.dayCounter = index + 1;
       vm.heading = vm.itineraries[index].title;
       CKEDITOR.instances.tourItinerary.setData(vm.itineraries[index].description);
@@ -195,7 +157,6 @@
       CKEDITOR.instances.tourItinerary.setData('');
       vm.heading = '';
       vm.showEditingSaveButton = false;
-      //vm.showSaveItinerariesSection = false;
     }
 
     vm.getHtmlTrustedData = function(htmlData){
@@ -219,25 +180,6 @@
         vm.error = response.message;
       });
     };
-
-    /* vm.create = function (isValid) {
-      if (!isValid) {
-        $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
-        return false;
-      }
-
-      setProductInformation();
-      
-      vm.tour.$save(successCallback, errorCallback);
-
-      function successCallback(res) {
-        $state.go('host.tours');
-      }
-
-      function errorCallback(res) {
-        vm.error = res.data.message;
-      }
-    }; */
 
     function setProductInformation() {
       vm.tour.destination = document.getElementById('tour_main_destination').value;
@@ -290,14 +232,22 @@
       $window.localStorage.setItem('productType', vm.productType);
     }
 
-    vm.uploadImage = function (dataUrl, name) {
+    /* $scope.filesToBeUploaded = $window.globalFileStorage;
+    vm.uploadImage = function () {
       vm.success = vm.error = null;
       vm.showImageProgressbar = true;
+      var index;
+      var filesToBeUploadedStorage = []
+      console.log($scope.filesToBeUploaded);
+      for(index = 0; index < $scope.filesToBeUploaded.length; index ++) {
+        filesToBeUploadedStorage[index] = Upload.dataUrltoBlob($scope.filesToBeUploaded[index].imageUrl);
+      }
+
       
       Upload.upload({
         url: 'api/product/productPicture',
         data: {
-          newProductPicture: Upload.dataUrltoBlob(dataUrl, name)
+          files: $scope.filesToBeUploaded
         }
       }).then(function (response) {
         $timeout(function () {
@@ -382,11 +332,6 @@
         vm.mapFileSelected = false;
         $scope.mapFile = '';
       }
-    }
-    $scope.imageFile = '';
-    $scope.saveUploadedPhoto = function(uploadedImageUrl, uplodedimageName) {
-      var tempImageStore = {imageUrl: uploadedImageUrl, imageName: uplodedimageName};
-      $scope.productImageStorage.push(tempImageStore);
-    }
+    } */
   }
 }());

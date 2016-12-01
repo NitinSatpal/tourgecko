@@ -79,19 +79,23 @@ exports.fetchAllProductSessionDetails = function (req, res) {
   });
 };
 
+/*
 exports.uploadProductPicture = function (req, res) {
   var user = req.user;
-  var upload = multer(config.uploads.productPictureUploads).single('newProductPicture');
+  var upload = multer(config.uploads.productPictureUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
 
   // Filtering to upload only images
-  upload.fileFilter = imageUploadFileFilter;
+ // upload.fileFilter = imageUploadFileFilter;
   if (user) {
+    console.log('1');
     uploadImage()
       .then(function () {
+        console.log('5');
         res.json(config.uploads.productPictureUploads.dest + req.file.filename);
       })
       .catch(function (err) {
+        console.log('6 ' + err);
         res.status(400).send(err);
       });
   } else {
@@ -101,11 +105,14 @@ exports.uploadProductPicture = function (req, res) {
   }
 
   function uploadImage () {
+    console.log('2');
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
+          console.log('3');
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
+          console.log('4');
           resolve();
         }
       });
@@ -145,7 +152,7 @@ exports.uploadProductMap = function (req, res) {
       });
     });
   }
-};
+}; */
 
 /* var cronJob = cron.job('00 30 00 * * *', function() {
   async.waterfall([

@@ -31,11 +31,11 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/product/productPicture')
+ /* app.route('/api/product/productPicture')
     .post(hosts.uploadProductPicture);
 
   app.route('/api/product/productMap')
-    .post(hosts.uploadProductMap);
+    .post(hosts.uploadProductMap); */
 
   /*app.route('/api/social/host/twitter')
     .post(hosts.postOnTwitter);*/
