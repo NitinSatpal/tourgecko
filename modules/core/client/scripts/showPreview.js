@@ -1,18 +1,23 @@
-var globalFileStorage = [];
+var globalImageFileStorage = [];
+var globalMapFileStorage = [];
 function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	
 	// Get the Div
 	var preview = document.querySelector(ElementID);
 
-	// Get all the uploaded files
-	var files   = document.querySelector(inputFileSelectorId).files;
+	// get the uploaded files
+	var files  = document.querySelector(inputFileSelectorId).files;
 	
 	// Initialize counter. This wil be used for giving dynamic id's to the elements
 	var counter = 0;
 
 	// This function accepts one file at a time and append the Image to the above fetched div. It also attach anchort taf with icon for image removal
 	function readAndPreview(file) {
-		globalFileStorage.push(file);
+		if (inputFileSelectorId == '#productImages')
+			globalImageFileStorage.push(file);
+		else
+			globalMapFileStorage.push(file);
+
 		file.index = counter;
 		counter++;
 	    // Make sure `file.name` matches our extensions criteria
@@ -23,11 +28,10 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	      	reader.addEventListener("load", function () {
 		        var image = new Image();
 		        var tempImage = {imageUrl: this.result, imageName: file.name};
-		        // globalFileStorage.push(tempImage);
 		        image.height = 100;
 		        image.title = file.name;
 		        image.src = this.result;
-		        image.id = 'image' + file.index;
+		        image.id = 'fileId' + file.index;
 		        preview.appendChild( image );
 		        
 		        if (isDeleteButtonRequired == true)
@@ -48,30 +52,19 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
 
 // To remove the selected file
-function removeFileFromPreview () {
+function removeFileFromPreview (whichFile) {
 	// Get Image element
-	var imageElement = document.getElementById('image' + this.id);
+	var fileElement = document.getElementById('fileId' + this.id);
 
 	// Remove Image element
-	imageElement.remove();
+	fileElement.remove();
 
 	// Remove icon
 	this.remove();
 
 	// Remove the file from global array
-	globalFileStorage.splice(this.id, 1);
+	if (whichFile == 'image')
+		globalImageFileStorage.splice(this.id, 1);
+	else
+		globalMapFileStorage.splice(this.id, 1);
 }
-
-// Save the files to the server
-/* function uploadFiles () {
-	angular.element(document.getElementById('tours')).scope().uploadImage('abcbc','dbnasdjkasd');
-	$.ajax({
-      url:'/api/product/productPicture',
-        type:'POST',
-        dataType: 'json',
-        data: {filesToUpload: globalFileStorage},
-        success: function( json ) {
-        
-      	}
-    });
-} */

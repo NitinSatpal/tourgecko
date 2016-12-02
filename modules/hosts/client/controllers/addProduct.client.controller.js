@@ -232,22 +232,16 @@
       $window.localStorage.setItem('productType', vm.productType);
     }
 
-    /* $scope.filesToBeUploaded = $window.globalFileStorage;
+    $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
     vm.uploadImage = function () {
       vm.success = vm.error = null;
       vm.showImageProgressbar = true;
-      var index;
-      var filesToBeUploadedStorage = []
-      console.log($scope.filesToBeUploaded);
-      for(index = 0; index < $scope.filesToBeUploaded.length; index ++) {
-        filesToBeUploadedStorage[index] = Upload.dataUrltoBlob($scope.filesToBeUploaded[index].imageUrl);
-      }
-
       
       Upload.upload({
         url: 'api/product/productPicture',
+        arrayKey: '',
         data: {
-          files: $scope.filesToBeUploaded
+          files: $scope.imageFilesToBeUploaded
         }
       }).then(function (response) {
         $timeout(function () {
@@ -260,13 +254,15 @@
       });
     };
 
-    vm.uploadMap = function (dataUrl, name) {
+    $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
+    vm.uploadMap = function () {
       vm.success = vm.error = null;
       vm.showMapProgressbar = true;
       Upload.upload({
         url: 'api/product/productMap',
+        arrayKey: '',
         data: {
-          newProductMap: Upload.dataUrltoBlob(dataUrl, name)
+          files: $scope.mapFilesToBeUploded
         }
       }).then(function (response) {
         $timeout(function () {
@@ -332,6 +328,6 @@
         vm.mapFileSelected = false;
         $scope.mapFile = '';
       }
-    } */
+    }
   }
 }());
