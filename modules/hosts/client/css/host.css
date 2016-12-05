@@ -11,8 +11,8 @@ p{ color:#666; font-weight:300}
 .navbar-default{ height:60px; background-color:#ffffff; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);}
 .navbar-brand>img{ width:10.5em;}
 .wrapper{ margin:0; padding:0; width:100%; height:100%;}
-#login.wrapper{background: url(../img/signin-signup/background/bg_login.jpg) no-repeat; background-size: cover; height:100vh;}
-#signup{ background:url(../img/signin-signup/background/bg_signup.jpg) no-repeat; background-size:cover; height:100vh;}
+#login.wrapper{background: url(/modules/core/client/img/signin-signup/background/bg_login.jpg) no-repeat; background-size: cover; height:100vh;}
+#signup{ background:url(/modules/core/client/img/signin-signup/background/bg_signup.jpg) no-repeat; background-size:cover; height:100vh;}
 #signup-step1.wrapper{ margin-top:-20px;}
 
 .input-group i{ color:rgba(0,0,0,0.3)}
@@ -73,7 +73,7 @@ form > .error_msg{text-align:center;margin-top:10px;}
 #signup-step1 .row label{font-size:14px;color:#626262;}
 #signup-step1 .row .checkbox label{font-size:12px;}
 #signup-step1 .row h2{font-size:18px;color:#ED9C28;font-family:"Roboto";text-align:center;}
-#signup-step1 .right_image{width:50%;height:100%;position:absolute;top:0;right:0;background:url("../img/signin-signup/background/bg_signup-details.jpg") no-repeat;background-size:cover; z-index:-99; box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2); -webkit-box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2); -moz-box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2);}
+#signup-step1 .right_image{width:50%;height:100%;position:absolute;top:0;right:0;background:url("/modules/core/client/img/signin-signup/background/bg_signup-details.jpg") no-repeat;background-size:cover; z-index:-99; box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2); -webkit-box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2); -moz-box-shadow:inset 56px 0 37px -8px rgba(0, 0, 0, .2);}
 #signup-step1 .row.header{z-index:9;position:relative;}
 #signup-step1 .row.header img{padding:15px;;}
 #signup-step1 .form-group{margin-left:0;margin-right:0;}
@@ -467,7 +467,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 
 
 /*   =====================================    styles for fixed nav   ==================================   */
-.main-body-wrapper{margin-left: 200px; /*margin-right: 30%;*/}
+.main-body-wrapper{margin-left: 200px;}
 .left-nav-bar{width: 200px;}
 .left-nav-bar .navbar-fixed-side{max-width: 200px; width: 100%;overflow: hidden;height: 100%;}
 .main-wrapper .left-nav-bar .navbar-fixed-side #myNavbar li{position: static;}
