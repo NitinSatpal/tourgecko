@@ -18,6 +18,9 @@ module.exports = function (app) {
     .post(hosts.createProduct)
     .get(hosts.fetchAllProductDetails);
 
+  app.route('/api/host/editproduct/')
+    .post(hosts.editProduct);
+
   app.route('/api/host/companyproducts/')
     .get(hosts.fetchCompanyProductDetails);
 

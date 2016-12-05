@@ -3,13 +3,11 @@
 body{font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color:#f6f6f6;}
 h1, h2, h3, h4, h5, h6{ color:#555;}
 p{ color:#666; font-weight:300}
-.padding-zero{ padding: 0}
-
 /* Since modal is hiding the scroll after it disappears */
 .modal-open {
     overflow: scroll !important;
 }
-
+.btn-default{ background: #fff;}
 .navbar-default{ height:60px; background-color:#ffffff; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);}
 .navbar-brand>img{ width:10.5em;}
 .wrapper{ margin:0; padding:0; width:100%; height:100%;}
@@ -22,7 +20,7 @@ p{ color:#666; font-weight:300}
 .form-group { margin-top:10px !important;}
 .btn-info, .btn-primary{ background:#40C4FF; border:none;}
 .btn-info:hover, .btn-info:focus, .btn-primary:hover, .btn-primary.focus, .btn-primary:focus, .btn-info.focus, .btn-primary.active, .btn-primary:active{ background:#24B4F5; border:none;}
-.sub_btn{ margin-right:15px;}
+/*.sub_btn{ margin-right:15px;}*/
 
 .zmdi.icn_green{ color:#42AE5E !important;}
 .zmdi.icn_orange{ color:#F5A623 !important;}
@@ -91,6 +89,7 @@ form > .error_msg{text-align:center;margin-top:10px;}
 @media (max-width:767px){#signup-step1 .row.header{text-align:center;}
 #signup-step1 .row.header img{display:inline-block;}
 .pull-right{float:none !important;}
+.delete_addon.pull-right{ float:right !important; }
 }
 label span{margin: 2px 0 0 -3px; font-size:11px}
 
@@ -140,7 +139,7 @@ i.heading-icn{background-color:rgba(241, 192, 122, 0.2);border-radius:50%;border
 i.bread-caret{ background:none; border:none; border-radius:0; color:#999; padding-left:6px; padding-right:6px; vertical-align: middle;}
 span.bread-current{ font-weight:400; vertical-align: middle;}
 .home_add_tour h2 a{ color: #555; vertical-align: middle;}
-.home_add_tour a .save-btn {font-size: 12px; font-weight: 500; padding: 10px 20px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 50%; transform: translateY(-50%);right: 10px;}
+.home_add_tour .save-btn {font-size: 15px; height:34px; padding-top:6px; padding-bottom:6px;font-weight: 500; padding-left: 20px; padding-right:20px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
 a.btn i{padding:0 10px 0 0;}
 
 ul.cal_list_toggle{margin-top: -20px; float: right !important;}
@@ -235,7 +234,6 @@ ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 #settings .settings-subnav .subnav{background: #F4FCFF;}
 #settings .settings-subnav .subnav h3{padding: 8% 0;background: #ccc;text-align: center;font-size: 14px;}
 #settings .settings-subnav .saveButton {margin-top: -11%; margin-right: 5%;}
-#settings .settings-subnav .saveButton-Bottom {margin-right: 5%;}
 /*.hostHome .settings_company_details .saveButton {margin-top: -11%; margin-right: 5%;}*/
 .hostHome .settings_company_details .saveButton-Bottom {margin-right: 5%;}
 #settings form{padding-top: 5%;}
@@ -250,7 +248,7 @@ ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 /*  ========== contact styles  ============ */
 #settings .settings_contact .availability_radio input{position: static; margin: 0; vertical-align: middle;}
 #settings .settings_contact .availability_radio label{padding: 0;}
-#settings .settings_contact .availability_radio select{display: inline-block; width: auto;}
+#settings .settings_contact .availability_radio select{display: inline-block; max-width: 9.8rem;}
 #settings .settings_contact .availability_radio{padding-bottom: 15px;}
 
 .tour-availability-options{ margin-bottom:1rem !important;}
@@ -320,12 +318,12 @@ p.sub_desc{ color:#aaaaaa !important;}
 .panel.panel_two.pointer-box .pointer-line .pointer.pointer_a{ margin-left: 2%;}
 
 /*#settings .settings_account_info .account_img_info{width: 200px;height: 200px;}*/
-#settings .settings_account_info .account_img_info img{width: 9em; border-radius: 100%; margin:1em}
-#settings .settings_account_info .change_password, #settings .settings_account_info .cancel_password{font-size: 12px;font-weight: 500; margin: 1rem; display: inline-block;color: #40C4FF;}
+#settings .settings_account_info .account_img_info img{width: 12.6rem; border-radius: 100%; margin:1em; display: inline; opacity: .4;}
+#settings .settings_account_info .change_password, #settings .settings_account_info .cancel_password{font-size: 12px;font-weight: 400; margin: 1rem; display: inline-block;color: #40C4FF;}
 #settings .settings_account_info .account_status{margin-bottom: 0; border-bottom: 1px solid #eee;}
 #settings .settings_account_info .panel_one{}
 #settings .settings_account_info .panel_two{padding-top: 0; border-top: 1px solid #eee;display: none;}
-#settings .settings_account_info .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF;position: absolute;top: 50%;left: 17%;transform: translateY(-50%);font-weight: 500;}
+#settings .settings_account_info .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF; transform: translateY(-50%);}
 #settings .settings_account_info .fileUpload:hover,#settings .settings_account_info .fileUpload:visited,#settings .settings_account_info .fileUpload:active,#settings .settings_account_info .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #settings .settings_account_info .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
 
@@ -369,7 +367,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 #settings .settings_account_info .account_img_info{width: 150px;height: 150px; margin: 0 auto;}
 #settings .settings_account_info .fileUpload {position: static;display: block; margin-top:0;}
 #settings .settings_account_info form .input-group, #settings .settings_contact form .input-group{margin: 0;}
-#settings .settings_contact form .panel{padding: 20px;}
+#settings .settings_contact form .panel{padding: 1rem;}
 #settings .settings_account_info form .form-group{margin-top: 15px !important;}
 #settings .settings_account_info form .row{padding: 0;}
 #settings .settings_account_info .change_password {padding-bottom: 15px;}
@@ -458,7 +456,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 
 
 #settings .settings_payment .payment_radio label.radio_label{font-size: 18px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;}
-#settings .settings_payment .payment_radio label.radio_label span{font-size: 18px; color: rgba(0,0,0,0.6);font-weight: 900;margin-left: 20px;}
+#settings .settings_payment .payment_radio label.radio_label span{ font-size: 1.7rem; color: #19A0DC; font-weight: 400; margin-left: 20px}
 #settings .settings_payment .payment_radio{position: relative;}
 #settings .settings_payment .payment_radio i{position: absolute;top: 50%; left: 0;transform: translateY(-50%);}
 #settings .settings_payment .payment_radio input{display: none;}
@@ -482,7 +480,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 .main-wrapper .left-nav-bar .navbar-fixed-side #myNavbar .toggle .sub-menu li.active a{color: #454545;}
 .main-wrapper .left-nav-bar .navbar-fixed-side #myNavbar li.toggle i{color: #454545;}
 .left-nav-bar .navbar .navbar-nav{position: relative;}
-.navbar-fixed-side .navbar-brand {padding: 0;padding-left: 0.4em;}
+.navbar-fixed-side .navbar-brand {padding: 0;padding-left: 0.4em; background: #fff;}
 .navbar-fixed-side .navbar-brand:hover,  .navbar-fixed-side .navbar-brand:active, .navbar-fixed-side .navbar-brand:focus{background: #fff;}
 @media (max-width:767px){
 	.collapse{display: block;}
@@ -496,6 +494,8 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 	.left-nav-bar .navbar .navbar-nav{position: relative;}
 	.main-wrapper.toggle .left-nav-bar .navbar-fixed-side{left: 15px;}
 	.main-wrapper.toggle .left-nav-bar .navbar-fixed-side #myNavbar{display: block;}
+  #tours form .panel .no_margin_row .close_group{top: 6.2rem !important;}
+  .cke_2_contents.cke_reset, .cke_contents.cke_reset{ height: 10rem !important;}
 }
 
 
@@ -503,19 +503,19 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 /*  =================    styles for tours_1 page  ======================  */
 #tours .tours_head_content{width: 50%;}
 #tours .help_info{display: table;float: left;padding: 10px 30px;}
-#tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: -5%;}
+#tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: -15%; padding-top: 6px;}
 #tours .help_info .onoffswitch{display: table-cell;}
-#tours .tour_pagination{display: table;float: left;padding: 10px;position: relative; margin-left: 70% !important; margin-top: -7%;}
+#tours .tour_pagination{display: table;float: left;padding: 10px;position: relative; margin-left: 15% !important; top:-3px;}
 #tours .tour_pagination .tour_prev{display: table-cell;padding: 0 10px;}
 #tours .tour_pagination p{display: table-cell;}
 #tours .tour_pagination .tour_next{display: table-cell;padding: 0 10px;}
 #tours .tour_pagination a.tour_prev:before {content: "\2039 ";font-size: 40px;position: absolute;top: -13px;left: 0px;}
 #tours .tour_pagination a.tour_next:after {content: " \203A";font-size: 40px;position: absolute;top: -13px;right: 0px;}
-#tours .preview-button {display: table;float: left; margin-top:-10.6%;margin-left: 55%;}
-#tours .save-button {display: table;float: left; margin-top:-10.6%;margin-left: 80%;}
+#tours .preview-button {display: table;float: left; margin-top:-13%;margin-left: 50%;}
+#tours .save-button {display: table;float: left; margin-top:-13%;margin-left: 80%; }
 #tours .create-button {display: table;float: left; padding-left: 5%;margin-top: 1%;}
-#tours label.pricefor{text-align: left;}
-#tours form .panel{padding: 10px 20px;}
+#tours label.pricefor{text-align: left; margin-top: 1rem;}
+#tours form .panel{padding: 1rem 2rem 1rem 1rem}
 /*#tours form .panel .row > div{padding-left: 5px;padding-right: 5px;}*/
 #tours form .panel .row > div .row{padding-left: 10px;padding-right: 10px;position: relative;}
 #tours form .panel .row > div .row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: 38%;top: 22%;}
@@ -525,12 +525,28 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours .tours_page ul.nav-tabs>li {background: #fff;margin: 1px;margin-bottom: -1px;}
 #tours .tours_page ul.nav-tabs>li a{padding: 10px 13px;margin: 0;}
 #tours .tours_page ul.nav-tabs>li.active a{background-color: #f6f6f6;}
+
+.nav-tabs-dropdown{display:none;}
+.nav-tabs-dropdown:before{content:"\e114";font-family:'Glyphicons Halflings';position:absolute;right:30px;}
+@media screen and (min-width:769px){#nav-tabs-wrapper{display:block!important;}
+}
+@media screen and (max-width:768px){.nav-tabs-dropdown{display:block; margin-top: 2rem; height: 4.2rem; line-height: 3rem;}
+ #addProductabs{display:none; text-align:center;}
+ .nav-tabs-horizontal{min-height:20px; margin-bottom:20px; background-color:#f5f5f5; margin-top: 0 !important;}
+ .nav-tabs-horizontal > li{float:none;}
+ .nav-tabs-horizontal > li + li{margin-left:2px;}
+ .nav-tabs-horizontal > li, .nav-tabs-horizontal > li > a{background:transparent;width:100%;}
+ .nav-tabs-horizontal > li > a{}
+ .nav-tabs-horizontal > li.active > a, .nav-tabs-horizontal > li.active > a:hover, .nav-tabs-horizontal > li.active > a:focus{border:1px solid #ddd; border-radius: 0 !important;}
+}
+
+
 #tours #tours_pricing h3 i, #tours #tours_bd h3 i, #tours #tours_itinerary h3 i, #tours #tours_guidelines h3 i{color: #ED9C28;}
 /*#tours #tours_pricing form label{font-weight: bold !important;}*/
 #tours #tours_pricing form .minmax{font-size: 9px;padding: 4px;color: #bbb;}
 #tours #tours_pricing form .seats_used{font-size: 10px;}
-#tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee; padding-bottom: 20px; margin: 25px 0;}
-#tour_main_content .panel .row.no_margin_row.ng-scope > div, #tour_main_content .panel .row.no_margin_row.ng-scope > div > .col-xs-12{ padding: 0}
+#tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee;}
+/*#tour_main_content .panel .row.no_margin_row.ng-scope > div, #tour_main_content .panel .row.no_margin_row.ng-scope > div > .col-xs-12{ padding: 0}*/
 /*#tour_main_content .panel .pricingOptions {margin-left:-0.5% !important;}*/
 #tours .tour_help_info{padding: 0;}
 #tours  .tour_help_info .tours_help{background: #FFFFF5; padding:5px; border-radius:5px;}
@@ -538,12 +554,12 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours  .tour_help_info .tours_help h3 i{color: #ccc;}
 #tours  .tour_help_info .tours_help p{font-size: 12px; padding: 5px;}
 #tours .no_margin_row{margin: 0 -5px;position: relative;}
-#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: -10px;top: 50%;transform: translateY(-50%);}
+#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: -8px;top: 2.5rem;transform: translateY(-50%);}
 #tours form .panel .no_margin_row.price_for_adult .close_group{right: 40%;}
 #tours form .panel .no_margin_row .close_group i{font-weight: bold;}
 #tours #tour_main_content .add_price_option{margin-left: 5px;}
-#tours .addon-onoff, #tours .deposit-onoff{display: inline-block; top: 7px;}
-#tours #tour_main_content .sub_desc{font-size: 12px;line-height: 11px;}
+#tours .addon-onoff, #tours .deposit-onoff{display: inline-block; top: 9px;}
+#tours #tour_main_content .sub_desc{font-size: 12px;line-height: 1.5rem;}
 #tours #tour_main_content .addon-panel{padding-bottom: 35px;}
 #tours #tour_main_content .addon-panel .addon_edit{position: relative;}
 #tours #tour_main_content .addon-panel .addon_edit > a{position: absolute;}
@@ -556,9 +572,9 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours .sub-desc-container p{display: table-cell;line-height: 11px;padding-left: 10px;}
 #tours #tours_bd i.zmdi-lamp{color: #ED9C28;}
 #tours #tours_itinerary .itinerary_panel_container {position: relative;padding-top: 2%;border-left: 1px dashed #ccc;padding-bottom: 4%;margin-left: 2%;margin-bottom: 20px;}
-#tours #tours_itinerary .itinerary_panel_container  .itinerary_day{position: absolute;top: 0;left: -14px;z-index: 999;}
-#tours #tours_itinerary .itinerary_panel_container  .itinerary_day i{border: 1px solid #D8E8EF;color: #ED9C28;border-radius: 100%;padding: 5px 8px;background: rgb(243, 236, 226);margin-right: 10px;}
-#tours #tours_itinerary .itinerary_panel_container .form-group {margin-left: 4%;}
+#tours #tours_itinerary .itinerary_panel_container  .itinerary_day{position: absolute;top: 0;left: -2rem;z-index: 999;}
+#tours #tours_itinerary .itinerary_panel_container  .itinerary_day i{border: 1px solid #D8E8EF;color: #ED9C28;border-radius: 100%;padding: 5px 8px;background: rgb(243, 236, 226);margin-right: 10px; position: relative; left: .6rem;}
+#tours #tours_itinerary .itinerary_panel_container .form-group {margin-left: 2rem;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day i{border: 1px solid #D8E8EF;color: #ED9C28;border-radius: 100%;padding: 5px 8px;background: rgb(243, 236, 226);margin-right: 10px;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day {position: absolute;bottom: 0;left: -14px;z-index: 999;}
 #tours .departureSession_section{display: table;}
@@ -576,16 +592,17 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 .availability{ margin-top: 1.2rem}
 #departureSession .ds_repeat_daily, #departureSession  .dsChangePrice{display: none;}
 
-.fixed-departure-onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: 36%; margin-top: -4.2%;}
-
+.fixed-departure-onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left:21rem; margin-top: -2.6rem;}
 
 .limited_container .text-readable13{ margin-top:1rem;}
 .text-readable13 span { font-size:16px; color:#666;}
 
+.padding-zero{ padding: 0}
+.margin-zero{ margin: 0}
+.padding-five{ padding: 0 .5rem !important;}
 
-
-
-
+.tour_more.dropdown .dropdown-menu{left: -150px;}
+.text-center{ text-align: center !important;}
 
 @media only screen
 and (min-device-width : 768px)
@@ -606,7 +623,7 @@ and (max-device-width : 1024px){
 #tours_list .home_add_tour h2 p > span{display: block;font-size: 14px; color: rgba(0,0,0,.4); font-weight: normal;}
 #tours_list .home_add_tour a{position: relative; top: 10px;}
 #tours_list .info_visible {display: table;}
-#tours_list .info_visible label.visible{display: table-cell;vertical-align: middle; padding-right: 10px;font-size: 12px; font-weight: normal;}
+#tours_list .info_visible label.visible{display: table-cell;vertical-align: middle; padding-right: 10px;font-size: 14px; font-weight: normal;}
 #tours_list .info_visible .onoffswitch{display: table-cell; vertical-align: middle;}
 #tours_list .panel .row > div img{max-height: 175px; width: 100%; border-radius: 1rem;}
 #tours_list .panel{margin: 10px 0;padding: 5px;padding-bottom: 52px;}
@@ -625,13 +642,30 @@ and (max-device-width : 1024px){
 #tours_list .panel .no-image .no_image div{position: absolute;width: 60px;height: 60px;top: 50%;left: 50%;transform: translate(-50%,-50%);}
 #tours_list .panel .no-image .no_image div span{font-size: 12px;position: absolute;bottom: -5px;left: 0px;color: #ccc;}
 
-.onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; /*margin-left: -10%;*/}
+.onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: -10%;padding-top: 6px;}
 .onoffswitch-checkbox{display:none;}
 .onoffswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
-.onoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
+.onoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:6px;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
 .onoffswitch-checkbox:checked + .onoffswitch-label{background-color:#49E845;}
 .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before{border-color:#49E845;}
 .onoffswitch-checkbox:checked + .onoffswitch-label:before{right:0px;}
+
+
+.fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
+.fixedTouronoffswitch-checkbox{display:none;}
+.fixedTouronoffswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
+.fixedTouronoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
+.fixedTouronoffswitch-checkbox:checked + .fixedTouronoffswitch-label{background-color:#49E845;}
+.fixedTouronoffswitch-checkbox:checked + .fixedTouronoffswitch-label, .fixedTouronoffswitch-checkbox:checked + .fixedTouronoffswitch-label:before{border-color:#49E845;}
+.fixedTouronoffswitch-checkbox:checked + .fixedTouronoffswitch-label:before{right:0px;}
+
+.tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
+.tourlistonoffswitch-checkbox{display:none;}
+.tourlistonoffswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
+.tourlistonoffswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
+.tourlistonoffswitch-checkbox:checked + .tourlistonoffswitch-label{background-color:#49E845;}
+.tourlistonoffswitch-checkbox:checked + .tourlistonoffswitch-label, .tourlistonoffswitch-checkbox:checked + .tourlistonoffswitch-label:before{border-color:#49E845;}
+.tourlistonoffswitch-checkbox:checked + .tourlistonoffswitch-label:before{right:0px;}
 
 .formonoffswitch{position:relative;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;}
 .formonoffswitch-checkbox{display:none;}
@@ -646,7 +680,7 @@ and (max-device-width : 1024px){
 .outline{background-color:transparent;color:inherit;transition:all .25s;}
 .btn-primary.outline{color:#40C4FF;border:1px solid #40C4FF;}
 .btn-primary.outline:hover,.btn-primary.outline:active, .btn-primary.outline:focus{color:#fff !important;}
-.btn-primary.btn-preview{}
+.btn-primary{ box-shadow: none;}
 
 #tours #tours_sa .days_radio label.radio_label{font-size: 18px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;position: relative;}
 #tours #tours_sa .days_radio label.radio_label span{font-size: 14px; color: rgba(0,0,0,0.6);font-weight: 900;margin-left: 16px;}
@@ -684,11 +718,12 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 .multiselect-container.dropdown-menu>.active>a{ background-color:#F1FBFF; color:#333;}
 
 
-@media (max-width: 767px){
+@media  (max-width: 767px){
 #tours_list .panel {padding-bottom: 0px;}
 #tours_list .panel .row > div img {max-height: 175px;width: 100%;border-radius: 10px;}
 #tours_list .panel .tour_right {text-align: center;}
-#tours_list .info_visible {display: inline-block;text-align: center;}
+#tours_list .info_visible {display: inline-block;}
+#tours_list .info_visible label.visible { padding-right: 45px !important;}
 #tours_list .panel .tour_utils {position: relative;width: 100%;padding: 20px 0;text-align: right;border-top: 1px solid #ccc;text-align: center;right: 0px; top: 0px;}
 /*.modal-dialog {top: 50px; left: 20px;}*/
 #tours_list .panel .no-image .no_image{border-radius: 10px;}
@@ -697,4 +732,15 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 .home_add_tour h2{font-size: 16px; max-width: 21.5rem;}
 #tours_list .home_add_tour a{float: right !important; font-size: 10px;}
 .home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right{ position: relative; top: .8rem;margin: 0 0 1rem 0; float: right !important;}
+.home-section .message{ border-top: 1px solid #ddd}
+.btn.btn-primary.pull-right{ float: right !important; }
+.tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-top: -19px; margin-left: 55px;}
+.fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 45% !important;}
+.home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: bold; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
+.home_add_tour .btn-preview {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: bold; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 100px;}
+
+#tours .help_info{display: table;float: left;padding: 10px 30px;}
+#tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: 32%; margin-top: -7.4%;}
+#tours .help_info .onoffswitch{display: table-cell;}
+.onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: 42%;margin-top: -8.4%;}
 }

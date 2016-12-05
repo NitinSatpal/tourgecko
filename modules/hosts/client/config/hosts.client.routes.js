@@ -39,6 +39,15 @@
           pageTitle: 'Admin | Add Product'
         }
       })
+      .state('host.editProduct', {
+        url: '/product/edit',
+        templateUrl: 'modules/hosts/client/views/add-product/add-product.client.view.html',
+        controller: 'AddProductController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Admin | Edit Product'
+        }
+      })
       .state('host.tours', {
         url: '/tours',
         templateUrl: 'modules/hosts/client/views/tours/tourlist.client.view.html',

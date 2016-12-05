@@ -30,8 +30,7 @@ var ProductSchema = new Schema({
     trim: true
   },
   productAdvertisedprice: {
-    type: Number,
-    default: 0
+    type: Number
   },
   productDurationType: {
     type: String,
@@ -118,8 +117,7 @@ var ProductSchema = new Schema({
     default: false
   },
   depositAmount: {
-    type: Number,
-    default: 0
+    type: Number
   },
   productTheme: {
     type: Array,
@@ -140,12 +138,10 @@ var ProductSchema = new Schema({
     trim: true
   },
   productMinAgeRequired: {
-    type: Number,
-    default: 0
+    type: Number
   },
   productMaxAgeRequired: {
-    type: Number,
-    default: 0
+    type: Number
   },
   pickupLocation: {
     type: String,
@@ -232,8 +228,10 @@ var ProductSchema = new Schema({
     default: false
   },
   created: {
+    type: Date
+  },
+  lastUpdated: {
     type: Date,
-    default: Date.now
   },
   user: {
     type: Schema.ObjectId,

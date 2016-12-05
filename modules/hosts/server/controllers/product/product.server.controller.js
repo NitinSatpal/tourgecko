@@ -3,7 +3,8 @@
 /**
  * Module dependencies
  */
-var path = require('path'),
+var _ = require('lodash'),
+  path = require('path'),
   mongoose = require('mongoose'),
   Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
@@ -18,6 +19,7 @@ exports.createProduct = function (req, res) {
   var product = new Product(req.body);
   product.user = req.user;
   product.created = Date.now();
+  product.lastUpdated = Date.now();
   product.hostCompany = req.user.company;
 
   product.save(function (err) {
@@ -27,6 +29,25 @@ exports.createProduct = function (req, res) {
       });
     }
     res.json(product);
+  });
+};
+
+exports.editProduct = function(req, res) {
+  Product.findOne({ '_id': req.body._id }).exec(function (err, product) {
+    if(err) {
+      console.log(err);
+    } else {
+      for (var field in Product.schema.paths) {
+        if ((field !== '_id') && (field !== '__v')) {
+          if (req.body[field] !== undefined) {
+            product[field] = req.body[field];
+          } 
+        }
+      }
+      console.log('here ');
+      product.save();
+      res.json(product);
+    }
   });
 };
 

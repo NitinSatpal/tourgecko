@@ -36,13 +36,21 @@
     vm.availableMonths = [];
     vm.itineraries = [];
     vm.dayCounter = 1;
+    vm.showCreatedItinerary = false;
     vm.showSaveButtonForItineraries = false;
-    vm.showSaveItinerariesSection = true;
-    vm.showEditingSaveButton = false;
+    vm.showEditItineraryElements = false;
     vm.productDuration;
     vm.heading = '';
-    vm.productType = $window.localStorage.getItem('productType');
+    vm.productType = '';
     vm.isFixedTourTimeSlotAvailable = false;
+
+    var productId = $window.localStorage.getItem('productEditId');
+    if(productId != 'noProductId') {
+        $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
+            vm.tour = response[0];
+            vm.itineraries = vm.tour.productItineraryDescription;
+        });
+    }
 
     vm.pricingParams = {
       Params: [{
@@ -136,27 +144,46 @@
     };
 
     vm.createItinerary = function(done) {
+      vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData(), 'day': vm.dayCounter});
       vm.dayCounter++;
-      vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData()});
+      vm.showCreatedItinerary = true;
       CKEDITOR.instances.tourItinerary.setData('');
       vm.heading = '';
     }
 
     var indexSaved;
     vm.editItinerary = function(index) {
+      vm.editIndex = index;
       indexSaved = index;
-      vm.showEditingSaveButton = true;
-      vm.dayCounter = index + 1;
-      vm.heading = vm.itineraries[index].title;
-      CKEDITOR.instances.tourItinerary.setData(vm.itineraries[index].description);
+      vm.showEditItineraryElements = true;
+      vm.editHeading = vm.itineraries[index].title;
+      var idOfEditor = 'editItinerary'+index;
+
+      CKEDITOR.replace(idOfEditor, {
+          toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+          ]
+      });
+
+      
+      CKEDITOR.instances[idOfEditor].setData(vm.itineraries[index].description);
     }
 
     vm.saveEditedItinerary = function(index) {
-      vm.itineraries[indexSaved].title = vm.heading;
-      vm.itineraries[indexSaved].description = CKEDITOR.instances.tourItinerary.getData();
-      CKEDITOR.instances.tourItinerary.setData('');
-      vm.heading = '';
-      vm.showEditingSaveButton = false;
+      var idOfEditor = 'editItinerary'+index;
+      vm.itineraries[indexSaved].title = vm.editHeading;
+      vm.itineraries[indexSaved].description = CKEDITOR.instances[idOfEditor].getData();
+      vm.showEditItineraryElements = false;
+      CKEDITOR.instances[idOfEditor].setData('');
+      vm.editHeading = '';
+
+      if (CKEDITOR.instances[idOfEditor]) 
+        CKEDITOR.instances[idOfEditor].destroy();
+    }
+
+    vm.deleteItinerary = function(index) {
+      vm.itineraries.splice(index,1);
     }
 
     vm.getHtmlTrustedData = function(htmlData){
@@ -172,13 +199,23 @@
       
       setProductInformation();
 
-
-      $http.post('/api/host/product/', vm.tour).success(function (response) {
-        // And redirect to the Details page with the id of the user
-        $state.go('host.tours');
-      }).error(function (response) {
-        vm.error = response.message;
-      });
+      var productId = $window.localStorage.getItem('productEditId');
+      if(productId != 'noProductId'){
+        $window.localStorage.setItem('productEditId', 'noProductId');
+        $http.post('/api/host/editproduct/', vm.tour).success(function (response) {
+          // And redirect to the tour list page
+          $state.go('host.tours');
+        }).error(function (response) {
+          vm.error = response.message;
+        });
+      } else {
+        $http.post('/api/host/product/', vm.tour).success(function (response) {
+          // And redirect to the tourlist page
+          $state.go('host.tours');
+        }).error(function (response) {
+          vm.error = response.message;
+        });
+      }
     };
 
     function setProductInformation() {

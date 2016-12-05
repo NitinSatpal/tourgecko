@@ -7,7 +7,8 @@
 			<div class="add-product">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tours_page">
-						<ul class="nav nav-tabs" id="addProductabs">
+						<a href="#" class="nav-tabs-dropdown btn btn-block btn-default">Tabs</a>
+						<ul class="nav nav-tabs nav-tabs-horizontal" id="addProductabs">
 							<li class="active"><a data-toggle="tab" href="#tours_bd">Basic Details</a></li>
 							<li><a data-toggle="tab" href="#tours_pricing">Pricing</a></li>
 							<li><a data-toggle="tab" href="#tours_sa">Schedule Availability</a></li>
@@ -122,7 +123,7 @@
 													<div class="col-sm-6 col-md-6 col-lg-6">
 														<label class="control-label">What age group is this tour suitable for?</label>
 														<div class="row">
-															<div class="col-sm-5 col-md-5 col-lg-5 col-xs-5">
+															<div class="col-sm-5 col-md-5 col-lg-5 col-xs-5 padding-five">
 																<div class="form-group">
 																	<div class="input_group">
 																		<div>
@@ -134,7 +135,7 @@
 															<div class="col-sm-2 col-md-2 col-lg-2 col-xs-2">
 																<p style="text-align: center; padding: 1em 0;">to</p>
 															</div>
-															<div class="col-sm-5 col-md-5 col-lg-5 col-xs-5">
+															<div class="col-sm-5 col-md-5 col-lg-5 col-xs-5 padding-five">
 																<div class="form-group">
 																	<div class="input_group">
 																		<div>
@@ -182,7 +183,7 @@
 														<label for="pricefor" class="control-label pricefor">Price for</label>
 													</div>
 
-													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-4">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -201,7 +202,7 @@
 													</div>
 													<!-- Everyone and Adult Pricing -->
 													<div ng-show="vm.pricingOptions[$index]=='Everyone' || vm.pricingOptions[$index]=='Adult' || vm.pricingOptions[$index]=='Child' || vm.pricingOptions[$index]=='Single' || vm.pricingOptions[$index]=='Couple'">
-														<div class="col-sm-4 col-lg-4 col-md-4 col-xs-6">
+														<div class="col-sm-8 col-lg-8 col-md-8 col-xs-8">
 															<div class="form-group">
 																<div class="input_group">
 																	<div class="input-group">
@@ -211,7 +212,8 @@
 																</div>
 															</div>
 														</div>
-														<div class="col-sm-5 col-lg-5 col-md-5">
+														
+														<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12 ">
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
@@ -223,7 +225,7 @@
 													</div>
 
 													<!-- Group Pricing -->
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div class="input-group">
@@ -233,7 +235,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-3" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 
 															<div class="input_group">
@@ -244,7 +246,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -256,7 +258,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-2 col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-8 col-lg-8 col-md-8 col-xs-8" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div class="input-group">
@@ -266,7 +268,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-12 col-lg-12 col-md-12" ng-show="vm.pricingOptions[$index]=='Group'">
+													<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12" ng-show="vm.pricingOptions[$index]=='Group'">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -277,7 +279,7 @@
 													</div>
 
 													<!-- Custom Pricing -->
-													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-8 col-lg-8 col-md-8 col-xs-8" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 
 															<div class="input_group">
@@ -287,7 +289,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm- col-lg-2 col-md-2 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-4 col-lg-4 col-md-4 col-xs-4" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 															<div class="input_group">
 																<div class="input-group">
@@ -297,7 +299,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-3 col-lg-3 col-md-3 col-xs-6" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-8 col-lg-8 col-md-8 col-xs-8" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
 															<div class="input_group">
 																<div class="input-group">
@@ -307,9 +309,8 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-12 col-lg-12 col-md-12" ng-show="vm.pricingOptions[$index]=='Custom'">
+													<div class="col-sm-12 col-lg-12 col-md-12 col-xs-12" ng-show="vm.pricingOptions[$index]=='Custom'">
 														<div class="form-group">
-
 															<div class="input_group">
 																<div>
 																	<input type="text" class="form-control" name="pf_price" id="" ng-model="vm.pricingParams[$index].Params.description" placeholder="Description"/>
@@ -441,7 +442,7 @@
 											<div class="panel">
 												<label for="tours_sa_date_time" class="control-label">How long is this tour?</label>
 												<div class="row no_margin_row">
-													<div class="col-sm-6 col-md-3 col-lg-3 col-xs-4">
+													<div class="col-sm-6 col-md-3 col-lg-3 col-xs-4 padding-five">
 														<div class="form-group">
 															<div class="input_group">
 																<div>
@@ -505,7 +506,7 @@
 															<label for="tours_sa_timeslot" class="control-label">Is time required for booking?</label>
 															<p class="sub_desc lheight" ng-show="vm.helpVisible">If guest need to select a timeslot during booking.</p>
 														</div>
-														<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12 padding-zero">
+														<div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
@@ -539,7 +540,7 @@
 	                                                        </div>
 														</div>
 														<br>
-														<div class="col-sm-12 col-md-12 col-lg-12">
+														<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
 															<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
 															<div class="formonoffswitch tours_sa_ty">
 																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
@@ -591,7 +592,7 @@
 
 														<div class="col-sm-12 col-md-12 col-lg-12 limited_container">
 															<div class="row">
-																<div class="col-sm-4 col-md-4 col-lg-4">
+																<div class="col-sm-4 col-md-4 col-lg-4 padding-five">
 																	<div class="form-group">
 																		<div class="input_group">
 																			<div class="input-group">
@@ -626,9 +627,9 @@
 														</label>
 													</div>
 
-													<div class="col-sm-3 col-md-3 col-lg-3">
-														<div class="input_group from-to">
-															<div class="form-group">
+																										<div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
+																											<div class="input_group from-to">
+																												<div class="form-group">
                                                                <div class="input-group">
                                                                   <span class="input-group-addon">Min</span>
                                                                   <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minBookingRequired">
@@ -636,8 +637,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <div class="col-sm-3 col-md-3 col-lg-3">
+
+                                                    <div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
                                                         <div class="input_group from-to">
                                                         	<div class="form-group">
                                                                <div class="input-group">
@@ -680,20 +681,39 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div>
-								              <div ng-repeat="desc in vm.itineraries track by $index" class="selectedItemsDiv">
+								              <div ng-repeat="desc in vm.itineraries | orderBy:'day'" class="selectedItemsDiv">
 								              	<div class="panel">
-								              		<b>Day {{$index + 1}}</b>
+								              		<b>Day {{vm.itineraries[$index].day}}</b>
 								              		<br>
-									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.editItinerary($index)"> Edit this Itinerary </a>
+								              		<!-- Button section -->
+								              		 <a href="#" style="float:right;margin-right:10px;" ng-click="vm.deleteItinerary($index)" ng-show="!vm.showEditItineraryElements"> Delete </a>
+
+									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.editItinerary($index)" ng-show="!vm.showEditItineraryElements"> Edit &nbsp;&nbsp;</a>
+
+									               
+
+									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditItineraryElements"> Save </a>
+									                <!-- Button section ends here -->
+
+									                <!-- Bind the heading and display-->
 									                <ng-bind-html="vm.getHtmlTrustedData(desc.title)">
-									                <b> Headline </b> <p ng-bind-html="desc.title | htmlData"></p><br>
+									                <b> Headline </b> <p ng-show="vm.showCreatedItinerary" ng-bind-html="desc.title | htmlData"></p>
+									                
+									                <!-- If host click edit this itinerary, open input text -->
+									                <input type="text" class="form-control" name="itinerary_editheadline" id="itinerary_editheadline"  placeholder="" ng-model="vm.editHeading" ng-show="vm.showEditItineraryElements && $index == vm.editIndex"/>
+									                <br>
+
+									                <!-- Bind the description and display-->
 									                <ng-bind-html="vm.getHtmlTrustedData(desc.description)">
-									                <b> Description </b><p class="renderedChild" ng-bind-html="desc.description | htmlData"></p>
+									                <b> Description </b><p ng-show="vm.showCreatedItinerary" class="renderedChild" ng-bind-html="desc.description | htmlData"></p>
+
+									                <!-- If host click edit itinerary, open this rich textbox-->
+									                <textarea ng-show="vm.showEditItineraryElements && $index == vm.editIndex" ck-editor class="form-control" rows="5" id="editItinerary{{$index}}" name="editItinerary{{$index}}"></textarea>
 								                </div>
 								                <hr>
 								              </div>
 								            </div>
-											<div class="panel" ng-show="vm.showSaveItinerariesSection">
+											<div class="panel">
 												<h4>Create detailed itinerary of this tour</h4>
 												<p class="sub_desc" ng-show="vm.helpVisible">Let Guests know what happens through the tour on each day. Be descriptive so that Guests know what to expect.</p>
 												<div class="itinerary_panel_container">
@@ -716,9 +736,8 @@
 															</div>
 														</div>
 													</div>
-													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary()" ng-show="!vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Add another day</a>
-													<!-- <a href="#" class="add_itinerary_day" ng-click="vm.createItinerary(true)" ng-show="vm.showSaveButtonForItineraries"><i class="zmdi zmdi-plus"></i> Save</a> -->
-													<a href="#" class="add_itinerary_day" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditingSaveButton"><i class="zmdi zmdi-plus"></i> Save</a>
+													<a href="#" class="add_itinerary_day" ng-click="vm.createItinerary()"><i class="zmdi zmdi-plus"></i> Add another day</a>
+													<a href="#" class="add_itinerary_done" ng-click="vm.createItinerary()"> Done</a>
 												</div>
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
@@ -779,7 +798,7 @@
 								</div>
 
 								<div id="tours_media" class="tab-pane fade">
-									<h3><i class="zmdi zmdi-view-list-alt"></i> Photos and Map</h3>
+									<h3><i class="zmdi zmdi-collection-image-o icn_orange"></i> Photos and Map</h3>
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
@@ -822,14 +841,14 @@
 													<label for="tours_media_map" class="control-label">Tour map</label>
 														<p class="sub_desc" ng-show="vm.helpVisible">If you have tour map created externally  , upload it as image here</p>
 													<div class="col-sm-12 col-md-12 col-lg-12">
-														
-														<div class="fileUpload btn btn-primary">
-	                                                      <span><i class="zmdi zmdi-cloud-upload"></i> Add Map</span>
-	                                                      <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
-	                                                   </div>
-	                                                   <br>
-                                              	
-                                                   		<div class="account_img_info">                                                   			
+
+														<div class="fileUpload btn">
+                            <span><i class="zmdi zmdi-cloud-upload"></i> Add Map</span>
+                            <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
+	                          </div>
+                             <br>
+
+                           		<div class="account_img_info">
 															<div class="img_info" id="product_Map_preview">
 
 															</div>
@@ -883,9 +902,9 @@
 							<div class="row">
 								 <div class="col-sm-12 col-md-12 col-lg-12">
 								   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
-								   <div class="onoffswitch fixed-departure-onoffswitch tours_sd_st">
-									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="onoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
-									  <label class="onoffswitch-label" for="tours_sd_st-onoffswitch"></label>
+								   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
+									  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
 								   </div>
 								</div>
 							</div>
@@ -977,7 +996,7 @@
 									 </div>
 								</div>
 							</div>
-							<div class="dsCreate text-center">
+							<div class="dsCreate text-center modal-footer">
 								<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.test()">create</a>
 							</div>
 						</div>
@@ -1036,7 +1055,23 @@
 	}
 </script>
 
-<script>	
+<script type="text/javascript">
+$('.nav-tabs-dropdown').each(function(i, elm) {
+    $(elm).text($(elm).next('ul').find('li.active a').text());
+});
+
+$('.nav-tabs-dropdown').on('click', function(e) {
+    e.preventDefault();
+    $(e.target).toggleClass('open').next('ul').slideToggle();
+});
+
+$('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
+    e.preventDefault();
+    if($(window).width() < 767){$(e.target).closest('ul').hide().prev('a').removeClass('open').text($(this).text());}
+});
+</script>
+
+<script>
 	$(".onoffswitch").on("change","#myonoffswitch",function(){
 		if($(this).is(':checked')){
 			$(".tour_help_info").show();
@@ -1099,7 +1134,7 @@
 	  $('#months').multiselect
 		({});
 		$('#weeks').multiselect
-		({});
+		({nonSelectedText: 'Select Days'});
 	});
 </script>
 
@@ -1184,5 +1219,3 @@
     	var searchBox = new google.maps.places.SearchBox(destination);
 	}
 </script>
-
-
