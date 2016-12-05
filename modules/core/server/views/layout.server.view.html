@@ -61,7 +61,7 @@
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
-<body class="ng-cloak">
+<body class="ng-cloak noHorizontalScroll">
   <section class="content main-wrapper">
     <!-- need to find a good way to achieve this. Let it be for now
     <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header> -->
@@ -70,11 +70,10 @@
     </section>
     <section class="main-body-wrapper">
     <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
-
       {{{block "content"}}}
+    <footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" ></footer>
     </section>
   </section>
-  <footer class="footer" ng-include="'/modules/hosts/client/views/footer-host.client.view.html'" ng-cloak></footer>
   <noscript>
     <style>
       [ng\:cloak], [ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
