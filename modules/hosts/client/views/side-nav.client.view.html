@@ -40,6 +40,12 @@
 	   event.stopPropagation();
 	});
 
+	$("ul#one").on('click', function(event){
+		if($("#parentMenu").hasClass("toggle"))
+			$("#parentMenu").removeClass("toggle");
+	   event.stopPropagation();
+	});
+
 	$(document).ready(function(){
 		 $('[data-toggle="tooltip"]').tooltip();
 	});

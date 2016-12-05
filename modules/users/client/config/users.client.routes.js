@@ -42,7 +42,7 @@
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/user-profile.client.view.html',
-        controller: 'UserProdileController',
+        controller: 'UserProfileController',
         controllerAs: 'vm',
         data: {
           pageTitle: 'Profile'

@@ -3,11 +3,11 @@
 
   angular
     .module('users')
-    .controller('UserProdileController', UserProdileController);
+    .controller('UserProfileController', UserProfileController);
 
-  UserProdileController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'SpecificUserService'];
+  UserProfileController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'SpecificUserService'];
 
-  function UserProdileController($scope, $state, $http, $timeout, $window, Authentication, SpecificUserService) {
+  function UserProfileController($scope, $state, $http, $timeout, $window, Authentication, SpecificUserService) {
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
