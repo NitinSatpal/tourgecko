@@ -49,4 +49,17 @@
 	$(document).ready(function(){
 		 $('[data-toggle="tooltip"]').tooltip();
 	});
+
+	if ($(window).width() <= 767) {
+		$(document).click(function () {
+			if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
+				$("li[data-toggle='slide-collapse']").removeClass("toggle");
+				$(".main-wrapper").removeClass("toggle");
+			}else{
+				$(".main-wrapper").removeClass("toggle");
+			}
+		});
+	}
+
+	
 </script>
