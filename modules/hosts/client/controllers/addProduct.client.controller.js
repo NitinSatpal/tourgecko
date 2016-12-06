@@ -13,6 +13,9 @@
   AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', 'Upload'];
 
   function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, Upload) {
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Initializitaion */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     var vm = this;
     vm.error = null;
     vm.form = {};
@@ -43,7 +46,14 @@
     vm.heading = '';
     vm.productType = '';
     vm.isFixedTourTimeSlotAvailable = false;
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Initialization ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Check whether product is getting created or edited */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     var productId = $window.localStorage.getItem('productEditId');
     if(productId != 'noProductId') {
         $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
@@ -51,18 +61,98 @@
             vm.itineraries = vm.tour.productItineraryDescription;
         });
     }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* function ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
-    vm.pricingParams = {
-      Params: [{
-        price: 0,
-        description: '',
-        minGroupSize: 0,
-        maxGroupSize: 0,
-        groupOption: 'Per Group',
-        customLabel: '',
-        seatsUsed: 0
-      }]
+
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Pricing parameters initialization, handler and validations*/
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    vm.pricingParams = [{
+      'pricingType': 'Everyone'
+    }];
+
+    vm.initializePricingOptions = function (index) {
+      if(vm.pricingParams[index].pricingType == 'Group')
+        vm.pricingParams[index].groupOption = 'Per Group';
+      else
+        delete vm.pricingParams[index]['groupOption'];
+    }
+
+    vm.addPricingOption = function(index) {
+      var isValid = validatePricingOption(index);
+      if (isValid) {
+        var addPricingOption = {'pricingType': 'Everyone'};
+        vm.pricingParams.push(addPricingOption);
+      }
     };
+
+    /* Group pricing validation start here. This validation will be executed when host is creating different options to guide the host */
+    function validatePricingOption (index) {
+      var indexTracker;
+      var lastGroupOption;
+      if(vm.pricingParams[index].pricingType == 'Group') {
+        if(vm.pricingParams[index].minGroupSize === undefined) {
+          alert('Please enter a valid range of the group ');
+          return false;
+        }
+        if(vm.pricingParams[index].minGroupSize !== undefined && vm.pricingParams[index].maxGroupSize !== undefined && parseInt(vm.pricingParams[index].minGroupSize) >= parseInt(vm.pricingParams[index].maxGroupSize)) {
+          alert('group max size should be greater than group min size ');
+          return false;
+        }
+        if (index > 0) {
+          for (indexTracker = index-1; index >= 0; index --) {
+            if (vm.pricingParams[indexTracker].pricingType == 'Group') {
+              lastGroupOption = vm.pricingParams[indexTracker];
+              break;
+            }
+          }
+          if (lastGroupOption !== undefined) {
+            if (lastGroupOption.maxGroupSize === undefined || (lastGroupOption.maxGroupSize !== undefined && (parseInt(lastGroupOption.maxGroupSize)  >= parseInt(vm.pricingParams[index].minGroupSize)))) {
+              alert('Max size option of previous group should be less than the min size option of current group ');
+              return false;
+            } else if (parseInt(lastGroupOption.maxGroupSize) <= parseInt(lastGroupOption.minGroupSize)) {
+              alert('group max size should be greater than group min size in previous group option ');
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    };
+
+    /* This validation will be executed when host is saving the tour, in case host may have change very old group price option. We are only validating
+       latest one in previous validation */
+    function finalValidateOfGroupPricing () {
+      var index;
+      var groupRange = [];
+      for (index = 0; index < vm.pricingParams.length; index++ ) {
+        if (vm.pricingParams[index].pricingType == 'Group') {
+          groupRange.push(vm.pricingParams[index].minGroupSize);
+          if(vm.pricingParams[index].maxGroupSize === undefined)
+            groupRange.push(Number.MAX_VALUE)
+          else
+            groupRange.push(vm.pricingParams[index].maxGroupSize);
+
+        }
+      }
+      if (groupRange.length > 0) {
+        for (index = 0; index < groupRange.length - 1; index ++) {
+          if (groupRange[index + 1] < groupRange[index])
+            return false;
+        }
+      }
+      return true;
+    }
+
+    vm.removePricingOption = function(index) {
+      vm.pricingParams.splice(index, 1);
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* pricing parameters initialization, handler and validation ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
 
     vm.addonParams = {
       params: [{
@@ -85,39 +175,7 @@
       }]
     };
 
-    vm.addPricingOption = function(index) {
-      var isValid = validatePricingOption(index);
-      if (isValid)
-        vm.pricingOptions.push('Everyone');
-    };
-
-    function validatePricingOption (index) {
-      var indexTracker;
-      var lastGroupOption;
-      if(vm.pricingOptions[index] == 'Group') {
-        if(vm.pricingParams[index].Params.minGroupSize != 0 && vm.pricingParams[index].Params.maxGroupSize != 0 && vm.pricingParams[index].Params.minGroupSize >= vm.pricingParams[index].Params.maxGroupSize) {
-          alert('group max size should be greater than group min size');
-          return false;
-        }
-        if (index > 0) {
-          for (indexTracker = index-1; index >= 0; index --) {
-            if (vm.pricingOptions[indexTracker] == 'Group') {
-              lastGroupOption = vm.pricingParams[indexTracker].Params;
-              break;
-            }
-          }
-          if (lastGroupOption !== undefined && lastGroupOption.maxGroupSize > vm.pricingParams[index].Params.minGroupSize) {
-            alert('Max size option of previous group should be less than the min size option of current group');
-            return false;
-          }
-        }
-      }
-      return true;
-    };
-
-    vm.removePricingOption = function(index) {
-      vm.pricingOptions.splice(index, 1);
-    }
+    
 
     vm.addMoreAddons = function() {
       vm.addonParams.params.push({
@@ -192,6 +250,12 @@
 
     // SAve the data here
     vm.save = function (isValid) {
+      var isGroupPricingCorrect = finalValidateOfGroupPricing()
+      
+      if (isGroupPricingCorrect == false) {
+        alert('Please check group pricing options range. Each group should have range greater than previous.')
+        return false;
+      }
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
@@ -236,20 +300,7 @@
       vm.tour.productType = $window.localStorage.getItem('productType');
       $window.localStorage.setItem('productType', '');
       vm.tour.fixedProductSchedule = vm.fixedProductSchedule.params;
-
-      var index = 0;
-      // Pricing options
-      vm.pricingOptionStore = {};
-      if (vm.pricingParams[0] !== undefined) {
-        for (index = 0; index < vm.pricingOptions.length; index++) {
-          var pricingInfo = {};
-          if (vm.pricingOptions[index] !== 'Group')
-            vm.pricingParams[index].Params.groupOption = '';
-          vm.pricingOptionStore[vm.pricingOptions[index]] = vm.pricingParams[index].Params;
-        }
-
-        vm.tour.productPricingOptions = vm.pricingOptionStore;
-      }
+      vm.tour.productPricingOptions = vm.pricingParams;
 
       vm.tour.productAddons = vm.addonParams.params;
 
