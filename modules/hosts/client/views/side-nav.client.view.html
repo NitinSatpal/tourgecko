@@ -52,8 +52,8 @@
 
 	if ($(window).width() <= 767) {
 		$(document).click(function () {
-			if($("li[data-toggle='slide-collapse']").hasClass("toggle")){
-				$("li[data-toggle='slide-collapse']").removeClass("toggle");
+			if($("#parentMenu").hasClass("toggle")){
+				$("#parentMenu").removeClass("toggle");
 				$(".main-wrapper").removeClass("toggle");
 			}else{
 				$(".main-wrapper").removeClass("toggle");
