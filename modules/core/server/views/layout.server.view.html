@@ -61,28 +61,31 @@
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
-<body class="ng-cloak noHorizontalScroll">
+<body class="ng-cloak noHorizontalScroll" onload="abc()">
   <section class="content main-wrapper">
-    <!-- need to find a good way to achieve this. Let it be for now
-    <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header> -->
-    <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
+    <section class="container-fluid tourgecko-left-nav">
       <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
     </section>
-    <section class="main-body-wrapper">
-    <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
+    
+    <section class="main-body-wrapper" id="classTracker">
+      <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
       {{{block "content"}}}
-    <footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" ></footer>
+      <footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" ></footer>
     </section>
   </section>
+  
   <noscript>
+    
     <style>
       [ng\:cloak], [ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
         display: block !important;
       }
     </style>
+    
     <div class="alert alert-warning">
       <strong>This page requires JavaScript.</strong> Please enable it in your browser.
     </div>
+  
   </noscript>
 
   <!--Embedding The User Object-->
@@ -102,5 +105,4 @@
   <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
   {{/if}}
 </body>
-
 </html>
