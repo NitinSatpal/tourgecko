@@ -89,6 +89,7 @@ form > .error_msg{text-align:center;margin-top:10px;}
 @media (max-width:767px){#signup-step1 .row.header{text-align:center;}
 #signup-step1 .row.header img{display:inline-block;}
 .pull-right{float:none !important;}
+#tours #tours_itinerary .itinerary_panel_container .add_itinerary_done {float: right;}
 .delete_addon.pull-right{ float:right !important; }
 }
 label span{margin: 2px 0 0 -3px; font-size:11px}
@@ -576,6 +577,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours #tours_itinerary .itinerary_panel_container .form-group {margin-left: 2rem;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day i{border: 1px solid #D8E8EF;color: #ED9C28;border-radius: 100%;padding: 5px 8px;background: rgb(243, 236, 226);margin-right: 10px;}
 #tours #tours_itinerary .itinerary_panel_container  .add_itinerary_day {position: absolute;bottom: 0;left: -14px;z-index: 999;}
+#tours #tours_itinerary .itinerary_panel_container .add_itinerary_done {float: right;}
 #tours .departureSession_section{display: table;}
 #tours .departureSession_section > a{/*display: table-cell; */vertical-align: middle;}
 #tours .departureSession_section > a.ds_cal_icon{padding: 10px 10px;font-size: 20px;}
@@ -737,7 +739,6 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 .fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 47% !important;}
 .home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
 .home_add_tour .btn-preview {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 100px;}
-
 #tours .help_info{display: table;float: left;padding: 10px 30px;}
 #tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: 32%; margin-top: -7.4%;}
 #tours .help_info .onoffswitch{display: table-cell;}

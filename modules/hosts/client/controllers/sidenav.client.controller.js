@@ -1,3 +1,4 @@
+
 (function () {
   'use strict';
 
@@ -5,11 +6,13 @@
     .module('hosts')
     .controller('sidenavController', sidenavController);
 
-  sidenavController.$inject = ['$window', '$http', 'Authentication'];
+  sidenavController.$inject = ['$scope', '$window', '$http', '$location', 'Authentication'];
 
-  function sidenavController($window, $http, Authentication) {
+  function sidenavController($scope, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
+    
+    
 
     vm.goToHostWebsite = function() {
       $http.get('/api/host/toursite').success(function (response) {
