@@ -163,20 +163,6 @@
       }]
     };
 
-    vm.timeslots = [''];
-
-    vm.fixedProductSchedule = {
-      params: [{
-        startDate: '',
-        startTime: '',
-        repeatBehavior: 'Do not repeat',
-        repeatTillDate: '',
-        repeatOnDays: []
-      }]
-    };
-
-    
-
     vm.addMoreAddons = function() {
       vm.addonParams.params.push({
         name: '',
@@ -193,6 +179,8 @@
         vm.addonParams.params.splice(index, 1);
     };
 
+    vm.timeslots = [''];
+
     vm.addMoreTimeslots = function() {
       vm.timeslots.push('');
     };
@@ -200,6 +188,20 @@
     vm.removeTimeslots = function(index) {
       vm.timeslots.splice(index, 1);
     };
+
+    vm.fixedProductSchedule = {
+      params: [{
+        startDate: '',
+        startTime: '',
+        repeatBehavior: 'Do not repeat',
+        repeatTillDate: '',
+        repeatOnDays: []
+      }]
+    };
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Itinerary creation, edit, delete and save */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
     vm.createItinerary = function(done) {
       vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData(), 'day': vm.dayCounter});
@@ -247,8 +249,16 @@
     vm.getHtmlTrustedData = function(htmlData){
       return $sce.trustAsHtml(htmlData);
     };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Itinerary creation, edit and save, ends here*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
-    // SAve the data here
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Save function */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+    // Save the data here
     vm.save = function (isValid) {
       var isGroupPricingCorrect = finalValidateOfGroupPricing()
       
@@ -261,27 +271,33 @@
         return false;
       }
       
+      // save the data which was processed in different way whil creating this product
       setProductInformation();
 
       var productId = $window.localStorage.getItem('productEditId');
       if(productId != 'noProductId'){
         $window.localStorage.setItem('productEditId', 'noProductId');
         $http.post('/api/host/editproduct/', vm.tour).success(function (response) {
-          // And redirect to the tour list page
           $state.go('host.tours');
         }).error(function (response) {
           vm.error = response.message;
         });
       } else {
         $http.post('/api/host/product/', vm.tour).success(function (response) {
-          // And redirect to the tourlist page
           $state.go('host.tours');
         }).error(function (response) {
           vm.error = response.message;
         });
       }
     };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Save function ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Assign form data to product record properly */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     function setProductInformation() {
       vm.tour.destination = document.getElementById('tour_main_destination').value;
       vm.tour.productGrade = vm.productGrade;
@@ -301,25 +317,34 @@
       $window.localStorage.setItem('productType', '');
       vm.tour.fixedProductSchedule = vm.fixedProductSchedule.params;
       vm.tour.productPricingOptions = vm.pricingParams;
-
       vm.tour.productAddons = vm.addonParams.params;
-
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
-
       vm.tour.productTimeSlots = vm.timeslots;
-
       vm.tour.productPictureURLs = vm.productPictureURLs;
-
       vm.tour.productMapURLs = vm.productMapURLs;
     }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Assign form data to product record properly, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* This function handles the tour edit. It will be called from tourlist page, if host is clicking on Edit*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
       $timeout(function () {
         $state.go('host.addProduct');
       }, 800);
       $window.localStorage.setItem('productType', vm.productType);
     }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* This function handles the tour edit. It will be called from tourlist page, if host is clicking on Edit, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Image upload, initilization, upload, delte and save */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
     vm.uploadImage = function () {
       vm.success = vm.error = null;
@@ -341,7 +366,14 @@
         vm.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
       });
     };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Image upload, initilization, upload, delte and save, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Map upload, initilization, upload, delte and save */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
     vm.uploadMap = function () {
       vm.success = vm.error = null;
@@ -362,7 +394,13 @@
         vm.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
       });
     };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Map upload, initilization, upload, delte and save, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Common success and error function for product Image and map upload, initilization, upload, delte and save*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
     // Called after the user has successfully uploaded a new picture
     function onSuccessItem(response, pictureType) {
       // Show success message
@@ -406,16 +444,8 @@
       // Show error message
       vm.error = response.message;
     }
-    vm.cancelSelection = function(pictureType) {
-      if (pictureType == 'image') {
-        // Reset form
-        vm.imageFileSelected = false;
-        $scope.picFile = '';
-      } else {
-        // Reset form
-        vm.mapFileSelected = false;
-        $scope.mapFile = '';
-      }
-    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Common success and error function for product Image and map upload, initilization, upload, delte and save, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
   }
 }());

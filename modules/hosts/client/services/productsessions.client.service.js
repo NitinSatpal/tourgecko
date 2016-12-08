@@ -8,7 +8,7 @@
   ProductSessionService.$inject = ['$resource'];
 
   function ProductSessionService($resource) {
-    return $resource('/api/host/productsessions/', {
+    return $resource('/api/host/companyproductsessions/', {
     }, {
       update: {
         method: 'PUT'

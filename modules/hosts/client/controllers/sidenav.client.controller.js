@@ -12,7 +12,19 @@
     var vm = this;
     vm.authentication = Authentication;
     
+    vm.hideSideNav = false;
+    var hideSideNavHere = new Set();
+    hideSideNavHere.add('/');
+    hideSideNavHere.add('/host/tourdetails');
     
+    $scope.$on('$stateChangeSuccess', stateChangeSuccess);
+
+    function stateChangeSuccess() {
+        if(hideSideNavHere.has($location.path()))
+            vm.hideSideNav = true;
+        else
+          vm.hideSideNav = false;
+    }
 
     vm.goToHostWebsite = function() {
       $http.get('/api/host/toursite').success(function (response) {

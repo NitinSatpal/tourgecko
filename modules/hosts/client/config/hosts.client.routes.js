@@ -147,15 +147,6 @@
           pageTitle: 'Account'
         }
       })
-      .state('host.accountEdit', {
-        url: '/settings/account/edit',
-        templateUrl: 'modules/hosts/client/views/settings/account-edit-settings.client.view.html',
-        controller: 'HostSettingsController',
-        controllerAs: 'vm',
-        data: {
-          pageTitle: 'Account'
-        }
-      })
       .state('host.region', {
         url: '/settings/region',
         templateUrl: 'modules/hosts/client/views/settings/region-settings.client.view.html',
@@ -163,15 +154,6 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Region'
-        }
-      })
-      .state('host.testing', {
-        url: '/testing',
-        templateUrl: 'modules/hosts/client/views/testing.client.view.html',
-        controller: '',
-        controllerAs: '',
-        data: {
-          pageTitle: 'Admin | Bookings'
         }
       });
   }

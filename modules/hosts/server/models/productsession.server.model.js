@@ -13,6 +13,10 @@ var ProductSessionSchema = new Schema({
   sessionDate: {
     type: Date
   },
+  hostCompany: {
+  	type:Schema.ObjectId,
+    ref: 'HostCompany'
+  },
   product: {
     type: Schema.ObjectId,
     unique: true,

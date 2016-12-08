@@ -10,21 +10,17 @@
   function FooterController($scope, $state, $location, Authentication, menuService) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.hideSideNav = false;
-    var hideSideNavHere = new Set();
-    hideSideNavHere.add('/host/login');
-    hideSideNavHere.add('/host/signup');
-    hideSideNavHere.add('/host/tourdetails');
+    vm.hideFooter = false;
+    var hideFooterHere = new Set();
+    hideFooterHere.add('/host/tourdetails');
     
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
-      	if(hideSideNavHere.has($location.path()))
-           	vm.hideSideNav = true;
+      	if(hideFooterHere.has($location.path()))
+           	vm.hideFooter = true;
         else
-        	vm.hideSideNav = false;
+        	vm.hideFooter = false;
     }
-
-
   }
 }());

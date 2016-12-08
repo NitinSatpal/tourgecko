@@ -89,8 +89,10 @@
         // And redirect to the host home page
         if (vm.authentication.user.roles.length === 2 && vm.authentication.user.roles[1] === 'hostAdmin')
           $state.go('host.hostHome');
-        else
+        else  if (vm.authentication.user.roles.length === 1 && vm.authentication.user.roles[0] === 'admin')
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);
+        else
+          console.log('something is wrong');
       }).error(function (response) {
         vm.error = response.message;
       });

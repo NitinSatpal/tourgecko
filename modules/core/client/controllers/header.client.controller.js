@@ -10,11 +10,9 @@
   function HeaderController($scope, $state, Authentication, $location, menuService) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.hideSideNav = false;
-    var hideSideNavHere = new Set();
-    hideSideNavHere.add('/host/login');
-    hideSideNavHere.add('/host/signup');
-    hideSideNavHere.add('/host/tourdetails');
+    vm.hideHeader = false;
+    var hideHeaderHere = new Set();
+    hideHeaderHere.add('/host/tourdetails');
 
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
@@ -25,10 +23,10 @@
     function stateChangeSuccess() {
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
-      if(hideSideNavHere.has($location.path()))
-        vm.hideSideNav = true;
+      if(hideHeaderHere.has($location.path()))
+        vm.hideHeader = true;
       else
-        vm.hideSideNav = false;
+        vm.hideHeader = false;
     }
 
     vm.goToHomePage = function() {

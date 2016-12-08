@@ -61,15 +61,15 @@
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
-<body class="ng-cloak noHorizontalScroll">
+<body class="ng-cloak noHorizontalScroll" id="tourgeckoBody">
   <section class="content main-wrapper">
-    <!-- need to find a good way to achieve this. Let it be for now
-    <header ng-include="'/modules/core/client/views/header.client.view.html'" ng-hide="'{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signup' || '{{this.url}}' === 'http://tourgecko.com:3000/authentication/host/signin'" class="top-nav"></header> -->
     <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
       <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
     </section>
+    <section>
     <section class="main-body-wrapper">
-    <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
+      <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
+    </section>
       {{{block "content"}}}
     <footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" ></footer>
     </section>

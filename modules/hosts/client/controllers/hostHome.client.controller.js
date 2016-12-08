@@ -21,7 +21,7 @@
       vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
 
     for (index = 0; index < vm.messages.length; index ++) {
-      if (vm.messages[index].messageRead === true)
+      if (vm.messages[index].messageRead == false)
         vm.bellNotifications = vm.bellNotifications + 1;
     }
   }

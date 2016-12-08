@@ -88,7 +88,7 @@ exports.fetchCompanyProductDetails = function (req, res) {
 };
 
 
-// Fetching products details here.
+// Fetching all product session details here.
 exports.fetchAllProductSessionDetails = function (req, res) {
   ProductSession.find().sort('-created').populate('product').exec(function (err, productSessions) {
     if (err) {
@@ -99,6 +99,19 @@ exports.fetchAllProductSessionDetails = function (req, res) {
     res.json(productSessions);
   });
 };
+
+// Fetching specific company's product details here.
+exports.fetchCompanyProductSessionDetails = function (req, res) {
+  ProductSession.find({'hostCompany': req.user.company }).sort('-created').populate('product').exec(function (err, productSessions) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(productSessions);
+  });
+};
+
 
 
 exports.uploadProductPicture = function (req, res) {

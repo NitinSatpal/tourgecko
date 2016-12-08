@@ -82,8 +82,8 @@ form > .error_msg{text-align:center;margin-top:10px;}
 #signup-step1 .panel{margin-left: 50px;}
 
 .container-fluid.tourgecko-top-nav{padding: 0; margin: 0;}
-/*.hostHome {margin-left: -3%;}
-.tourgecko-left-nav {margin-top: -6.01%;}
+.hostHome {min-height: 431px !important;}
+/* .tourgecko-left-nav {margin-top: -6.01%;}
 .hostHome .tourlist-content {padding-left:50px; margin-right:6.1% !important;}
 .hostHome .addproduct-content {padding-left:50px; margin-right:6.1% !important;}*/
 @media (max-width:767px){#signup-step1 .row.header{text-align:center;}
@@ -735,6 +735,7 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 .home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right{ position: relative; top: .8rem;margin: 0 0 1rem 0; float: right !important;}
 .home-section .message{ border-top: 1px solid #ddd}
 .btn.btn-primary.pull-right{ float: right !important; }
+.info_content .update_profile {margin-top: -45px;}
 .tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-top: -19px; margin-left: 55px;}
 .fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 47% !important;}
 .home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
