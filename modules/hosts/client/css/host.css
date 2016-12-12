@@ -734,10 +734,7 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 #tours_list .home_add_tour a{float: right !important; font-size: 10px;}
 .home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right{ position: relative; top: .8rem;margin: 0 0 1rem 0; float: right !important;}
 .home-section .message{ border-top: 1px solid #ddd}
-.btn.btn-primary.pull-right{ float: right !important; }
-/*
-.update_profile.btn.btn-primary.pull-right {float: left!important;}
-*/
+
 .tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-top: -19px; margin-left: 55px;}
 .fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 47% !important;}
 .home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
