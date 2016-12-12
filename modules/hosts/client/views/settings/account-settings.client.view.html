@@ -1,18 +1,15 @@
 <div class="hostHome container-fluid">
 	<div class="row body-content">
-		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
 					<div class="home_add_tour">
 						<i class="zmdi zmdi-settings heading-icn"></i>
 						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Account</span></h2>
-						<!-- <a class="btn btn-primary pull-right" ui-sref="host.accountEdit"><i class="zmdi zmdi-edit"></i>Edit</a> -->
 					</div>
 
 					<div class="row settings-subnav">
 						<div class="col-lg-12 col-md-12 col-sm-12 pull-right">
 							<form class="form-horizontal" name="vm.accountForm" ng-submit="vm.saveUserSettings(vm.accountForm.$valid)" novalidate>
-								<!-- <button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button> -->
 								<h5>Account Overview <i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="right" title="This information is private to you and hidden."></i></h5>
 								<p class="section-desc sub_desc">Account overview and details</p>
 								<div class="panel account_status">
@@ -65,7 +62,6 @@
 										</div>
 									</div>
 								</div>
-								<!-- <button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button> ->>
 							</form>
 						</div>
 					</div>
@@ -73,3 +69,9 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(document).ready(function(){
+		 $('[data-toggle="tooltip"]').tooltip();
+	});
+</script>

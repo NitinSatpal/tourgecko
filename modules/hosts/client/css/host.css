@@ -319,7 +319,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 .panel.panel_two.pointer-box .pointer-line .pointer.pointer_a{ margin-left: 2%;}
 
 /*#settings .settings_account_info .account_img_info{width: 200px;height: 200px;}*/
-#settings .settings_account_info .account_img_info img{width: 12.6rem; border-radius: 100%; margin:1em; display: inline; opacity: .4;}
+#settings .settings_account_info .account_img_info img{width: 12.6rem; border-radius: 100%; margin:1em; display: inline;}
 #settings .settings_account_info .change_password, #settings .settings_account_info .cancel_password{font-size: 12px;font-weight: 400; margin: 1rem; display: inline-block;color: #40C4FF;}
 #settings .settings_account_info .account_status{margin-bottom: 0; border-bottom: 1px solid #eee;}
 #settings .settings_account_info .panel_one{}
@@ -557,7 +557,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: -8px;top: 2.5rem;transform: translateY(-50%);}
 #tours form .panel .no_margin_row.price_for_adult .close_group{right: 40%;}
 #tours form .panel .no_margin_row .close_group i{font-weight: bold;}
-#tours #tour_main_content .add_price_option{margin-left: 5px;}
+#tours #tour_main_content .add_price_option{margin-left: 15px;}
 #tours .addon-onoff, #tours .deposit-onoff{display: inline-block; top: 9px;}
 #tours #tour_main_content .sub_desc{font-size: 12px;line-height: 1.5rem;}
 #tours #tour_main_content .addon-panel{padding-bottom: 35px;}
@@ -735,7 +735,9 @@ span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!impo
 .home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right{ position: relative; top: .8rem;margin: 0 0 1rem 0; float: right !important;}
 .home-section .message{ border-top: 1px solid #ddd}
 .btn.btn-primary.pull-right{ float: right !important; }
-.info_content .update_profile {margin-top: -45px;}
+/*
+.update_profile.btn.btn-primary.pull-right {float: left!important;}
+*/
 .tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-top: -19px; margin-left: 55px;}
 .fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 47% !important;}
 .home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}

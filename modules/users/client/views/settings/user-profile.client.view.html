@@ -14,16 +14,43 @@
 								<h5>User Profile <i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is private to you and hidden."></i></h5>
 								<p class="section-desc sub_desc">All information relevant to user account</p>
 								<div class="panel account_status">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 text-center">
+									<div class="row" ng-show="!vm.profilePicSelected">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" >
 											<div class="account_img_info">
-												<img src="modules/users/client/img/profile/default.png" class="img-responsive" alt=""/>
+												<div class="img_info">
+													<img ng-src="{{vm.profilePicSelected ? croppedDataUrl : vm.user.profileImageURL}}" alt="{{vm.user.displayName}}" class=" user-profile-picture" ngf-drop>
+												</div>
 											</div>
 											<div class="fileUpload btn btn-primary">
 												<span>Upload Photo</span>
-												<input type="file" class="upload" onchange="readURL(this);"/>
+												<input type="file" class="upload" ngf-select="vm.profilePicSelected = true; vm.success = null" ng-model="profilePic" accept="image/*"/>
 											</div>
 										</div>
+									</div>
+									<div class="row" ng-show="vm.profilePicSelected">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
+											<div class="account_img_info">
+												<div class="img_info">
+													<img ng-src="{{vm.profilePicSelected ? croppedDataUrl : 'modules/users/client/img/profile/default.png'}}" alt="{{vm.user.displayName}}" class=" user-profile-picture" ngf-drop>
+												</div>
+											</div>
+											<div class="fileUpload btn btn-primary">
+												<span>Change</span>
+												<input type="file" class="upload" ngf-select="vm.profilePicSelected = true; vm.success = null" ng-model="profilePic" accept="image/*"/>
+											</div>
+										</div>
+										<div class="paraMargin">
+											<p>Crop your picture then press</p>
+											<p> upload below:</p>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+											<div ngf-drop ng-model="profilePic" ngf-pattern="image/*" class="cropArea">
+								            	<img-crop image="profilePic | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
+								          	</div>
+										</div>
+										<div class="fileUpload btn btn-primary uploadButtonMargin" ng-click="vm.upload(croppedDataUrl, profilePic.name)">
+								          	<span>Upload</span>
+								        </div>
 									</div>
 								</div>
 								<div class="panel panel_one">

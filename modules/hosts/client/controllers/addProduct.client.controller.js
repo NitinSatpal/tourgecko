@@ -44,7 +44,7 @@
     vm.showEditItineraryElements = false;
     vm.productDuration;
     vm.heading = '';
-    vm.productType = '';
+    vm.productType =  $window.localStorage.getItem('productType');
     vm.isFixedTourTimeSlotAvailable = false;
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
@@ -56,10 +56,11 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     var productId = $window.localStorage.getItem('productEditId');
     if(productId != 'noProductId') {
-        $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
-            vm.tour = response[0];
-            vm.itineraries = vm.tour.productItineraryDescription;
-        });
+      $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
+          vm.tour = response[0];
+          vm.itineraries = vm.tour.productItineraryDescription;
+      });
+      $window.localStorage.setItem('productEditId', 'noProductId');
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
@@ -275,8 +276,7 @@
       setProductInformation();
 
       var productId = $window.localStorage.getItem('productEditId');
-      if(productId != 'noProductId'){
-        $window.localStorage.setItem('productEditId', 'noProductId');
+      if(productId != 'noProductId') {
         $http.post('/api/host/editproduct/', vm.tour).success(function (response) {
           $state.go('host.tours');
         }).error(function (response) {
@@ -329,7 +329,7 @@
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* This function handles the tour edit. It will be called from tourlist page, if host is clicking on Edit*/
+    /* This function handles the button click of add tour */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
       $timeout(function () {
@@ -338,7 +338,7 @@
       $window.localStorage.setItem('productType', vm.productType);
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* This function handles the tour edit. It will be called from tourlist page, if host is clicking on Edit, ends here */
+    /* This function handles the button click of add tour, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 

@@ -322,102 +322,108 @@
 													<a href="#" class="add_price_option" ng-click="vm.addPricingOption($index)" ng-show="$index == vm.pricingParams.length - 1 || vm.pricingParams.length == 0">Add price option</a>
 												</div>
 											</div>
-											<h5>
-												Are there addon services?
-													<div class="formonoffswitch addon-onoff">
-														<input type="checkbox" name="addon-onoffswitch" class="formonoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" checked>
-														<label class="formonoffswitch-label" for="addon-onoffswitch"></label>
+											<div class="panel">
+												<h5>
+													Are there addon services?
+														<div class="formonoffswitch addon-onoff">
+															<input type="checkbox" name="addon-onoffswitch" class="formonoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" checked>
+															<label class="formonoffswitch-label" for="addon-onoffswitch"></label>
+														</div>
+												</h5>
+												<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
+												<div class="addon-panel" ng-show="vm.isAddonAvailable">
+													<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params">
+														<div class="col-sm-4 col-lg-4 col-md-4">
+															<div class="form-group">
+																<label for="addon_name_one" class="control-label">Addon</label>
+																<p class="sub_desc lheight">Name of Addon</p>
+																<div class="input_group">
+																	<div>
+																		<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" ng-model="addon.name" placeholder="Camera, Phone, Speaker etc.">
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4 col-lg-4 col-md-4">
+															<div class="form-group">
+																<label for="addon_price" class="control-label">Price</label>
+																<p class="sub_desc lheight">Approx value</p>
+																<div class="input_group">
+																	<div class="input-group">
+																		<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+																		<input type="text" name="addon_price" class="form-control" id="addon_price" ng-model="addon.price" placeholder="Ex: 200">
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-4 col-lg-4 col-md-4">
+															<div class="form-group">
+																<label for="addon_apply" class="control-label">Apply as</label>
+																<p class="sub_desc lheight">How to apply this price during booking</p>
+																<div class="input_group">
+																	<div>
+																		<select class="form-control" id="addon_apply" ng-model="addon.applyAs">
+																			<option>Per Booking</option>
+																			<option>Per Quantity</option>
+																			<option>Guest Choice</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="col-sm-12 col-lg-12 col-md-12">
+															<div class="form-group">
+																<label for="addon_Description" class="control-label">Description</label>
+																<div class="input_group">
+																	<div>
+																		<input type="text" name="addon_Description" class="form-control" id="addon_Description" ng-model="addon.description" placeholder="Short description to explain what this addon is">
+																	</div>
+																</div>
+															</div>
+														</div>
+														<a href="#" class="add_addon" ng-click="vm.addMoreAddons()" ng-show="$index == vm.addonParams.params.length - 1"><i class="zmdi zmdi-plus"></i> Add more </a>&nbsp;&nbsp;
+	                                                   	<a href="#" class="delete_addon pull-right" ng-click="vm.removeAddon()"><i class="zmdi zmdi-delete"></i> Delete</a>
+
 													</div>
-											</h5>
-											<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
-											<div class="panel addon-panel" ng-show="vm.isAddonAvailable">
-												<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params">
-													<div class="col-sm-4 col-lg-4 col-md-4">
-														<div class="form-group">
-															<label for="addon_name_one" class="control-label">Addon</label>
-															<p class="sub_desc lheight">Name of Addon</p>
-															<div class="input_group">
-																<div>
-																	<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" ng-model="addon.name" placeholder="Camera, Phone, Speaker etc.">
+												</div>
+
+												<hr>
+												<h5>
+													Does this Tour require a deposit?
+														<div class="formonoffswitch deposit-onoff">
+															<input type="checkbox" name="deposit-onoffswitch" class="formonoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" checked>
+															<label class="formonoffswitch-label" for="deposit-onoffswitch"></label>
+														</div>
+												</h5>
+												<p class="sub_desc" ng-show="vm.helpVisible">You can set deposit on tours that have upfront cost.</p>
+												<div class="deposit-panel" ng-show="vm.isDepositApplicable">
+													<div class="row no_margin_row">
+														<div class="col-sm-4 col-lg-4 col-md-4">
+															<div class="form-group">
+																<label for="deposit_price" class="control-label">Price</label>
+																<p class="sub_desc lheight">Percent value</p>
+																<div class="input_group">
+																	<div class="input-group">
+																		<input type="text" name="deposit_price" class="form-control" id="deposit_price" ng-model="vm.tour.depositAmount" placeholder="Ex: 50">
+																		<span class="input-group-addon">% of List price</span>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-4 col-lg-4 col-md-4">
-														<div class="form-group">
-															<label for="addon_price" class="control-label">Price</label>
-															<p class="sub_desc lheight">Approx value</p>
-															<div class="input_group">
-																<div class="input-group">
-																	<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-																	<input type="text" name="addon_price" class="form-control" id="addon_price" ng-model="addon.price" placeholder="Ex: 200">
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-4 col-lg-4 col-md-4">
-														<div class="form-group">
-															<label for="addon_apply" class="control-label">Apply as</label>
-															<p class="sub_desc lheight">How to apply this price during booking</p>
-															<div class="input_group">
-																<div>
-																	<select class="form-control" id="addon_apply" ng-model="addon.applyAs">
-																		<option>Per Booking</option>
-																		<option>Per Quantity</option>
-																		<option>Guest Choice</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-sm-12 col-lg-12 col-md-12">
-														<div class="form-group">
-															<label for="addon_Description" class="control-label">Description</label>
-															<div class="input_group">
-																<div>
-																	<input type="text" name="addon_Description" class="form-control" id="addon_Description" ng-model="addon.description" placeholder="Short description to explain what this addon is">
-																</div>
-															</div>
-														</div>
-													</div>
-													<a href="#" class="add_addon" ng-click="vm.addMoreAddons()" ng-show="$index == vm.addonParams.params.length - 1"><i class="zmdi zmdi-plus"></i> Add more </a>&nbsp;&nbsp;
-                                                   	<a href="#" class="delete_addon pull-right" ng-click="vm.removeAddon()"><i class="zmdi zmdi-delete"></i> Delete</a>
 												</div>
 											</div>
 											<hr>
-											<h5>
-												Does this Tour require a deposit?
-													<div class="formonoffswitch deposit-onoff">
-														<input type="checkbox" name="deposit-onoffswitch" class="formonoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" checked>
-														<label class="formonoffswitch-label" for="deposit-onoffswitch"></label>
-													</div>
-											</h5>
-											<p class="sub_desc" ng-show="vm.helpVisible">You can set deposit on tours that have upfront cost.</p>
-											<div class="panel deposit-panel" ng-show="vm.isDepositApplicable">
-												<div class="row no_margin_row">
-													<div class="col-sm-4 col-lg-4 col-md-4">
-														<div class="form-group">
-															<label for="deposit_price" class="control-label">Price</label>
-															<p class="sub_desc lheight">Percent value</p>
-															<div class="input_group">
-																<div class="input-group">
-																	<input type="text" name="deposit_price" class="form-control" id="deposit_price" ng-model="vm.tour.depositAmount" placeholder="Ex: 50">
-																	<span class="input-group-addon">% of List price</span>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<hr>
-											<h5 >
-												Cancellation and refund  policy
-											</h5>
-											<p class="sub_desc lheight">Choose which cancellation policy is applied on this tour</p>
-											<div class="input_group">
-                                             	<div>
-                                                	<textarea ck-editor class="form-control" rows="5" id="cancellationPolicies" name="cancellationPolicies" placeholder="Text area for writing cancellation policies"></textarea>
-                                             	</div>
+											<div class="panel">
+												<h5 >
+													Cancellation and refund  policy
+												</h5>
+												<p class="sub_desc lheight">Choose which cancellation policy is applied on this tour</p>
+												<div class="input_group">
+	                                             	<div>
+	                                                	<textarea ck-editor class="form-control" rows="5" id="cancellationPolicies" name="cancellationPolicies" placeholder="Text area for writing cancellation policies"></textarea>
+	                                             	</div>
+	                                          	</div>
                                           	</div>
 
                                           	<br>
@@ -720,7 +726,7 @@
 													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
 													<div class="form-group">
 														<label for="itinerary_headline" class="control-label">Headline</label>
-														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day’s activities to guest, E,g if this is trekking tour, headline of day can be “Walking 10 km from base village to camp 1”</p>
+														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the dayâ€™s activities to guest, E,g if this is trekking tour, headline of day can be â€œWalking 10 km from base village to camp 1â€</p>
 														<div class="input_group">
 															<div>
 																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder="" ng-model="vm.heading"/>
@@ -759,7 +765,7 @@
 											<div class="panel">
 												<div class="form-group">
 													<label for="tour_guidelines" class="control-label">What are the guidelines that Guests should know?</label>
-													<p class="sub_desc lheight" ng-show="vm.helpVisible">You can describe things to carry, clothes to wear, things to know , rules, Dos and Don’t etc.</p>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">You can describe things to carry, clothes to wear, things to know , rules, Dos and Donâ€™t etc.</p>
 													<div class="input_group">
 														<div>
 															<textarea ck-editor class="form-control" rows="5" id="tour_guidelines" name="tour_guidelines"></textarea>
