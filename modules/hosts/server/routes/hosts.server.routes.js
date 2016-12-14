@@ -37,10 +37,10 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/product/productPicture')
+  app.route('/api/product/productPicture/:productId')
     .post(hosts.uploadProductPicture);
 
-  app.route('/api/product/productMap')
+  app.route('/api/product/productMap/:productId')
     .post(hosts.uploadProductMap);
 
   /*app.route('/api/social/host/twitter')

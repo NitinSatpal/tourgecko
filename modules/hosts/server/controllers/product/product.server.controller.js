@@ -44,7 +44,6 @@ exports.editProduct = function(req, res) {
           } 
         }
       }
-      console.log('here ');
       product.save();
       res.json(product);
     }
@@ -118,16 +117,16 @@ exports.uploadProductPicture = function (req, res) {
   var user = req.user;
   var upload = multer(config.uploads.productPictureUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+  var productPictureUrlsStore = [];
+  var productId = req.params.productId;
 
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
   if (user) {
     uploadImage()
-      .then(function () {
-        // uploaded successfully
-      })
+      .then(updateProduct)
       .catch(function (err) {
-        console.log('6 ' + err);
+        console.log(err);
         res.status(400).send(err);
       });
   } else {
@@ -142,8 +141,25 @@ exports.uploadProductPicture = function (req, res) {
         if (uploadError) {
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
+          for (var index = 0; index < req.files.length; index++)
+            productPictureUrlsStore.push(config.uploads.productPictureUploads.dest + req.files[index].filename);
           resolve();
         }
+      });
+    });
+  }
+
+  function updateProduct () {
+    return new Promise(function (resolve, reject) {
+      Product.findOne({ '_id': productId }).exec(function (err, product) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        product.productPictureURLs = productPictureUrlsStore;
+        product.save();
+        res.json('done');
       });
     });
   }
@@ -153,14 +169,14 @@ exports.uploadProductMap = function (req, res) {
   var user = req.user;
   var upload = multer(config.uploads.productMapUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+  var productMapUrlsStore = [];
+  var productId = req.params.productId;
 
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
   if (user) {
     uploadImage()
-      .then(function () {
-        // uploaded successfully
-      })
+      .then(updateProduct)
       .catch(function (err) {
         res.status(400).send(err);
       });
@@ -176,8 +192,25 @@ exports.uploadProductMap = function (req, res) {
         if (uploadError) {
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
+          for (var index = 0; index < req.files.length; index++)
+            productMapUrlsStore.push(config.uploads.productPictureUploads.dest + req.files[index].filename);
           resolve();
         }
+      });
+    });
+  }
+
+  function updateProduct () {
+    return new Promise(function (resolve, reject) {
+      Product.findOne({ '_id': productId }).exec(function (err, product) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        product.productMapURLs = productMapUrlsStore;
+        product.save();
+        res.json('done');
       });
     });
   }

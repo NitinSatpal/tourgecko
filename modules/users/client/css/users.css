@@ -3,6 +3,21 @@
     position: fixed;
   }
 }
+
+.settings-content .home_add_tour .userProfileTitleMargin {
+  margin-top:12px;
+  margin-left: -3%;
+}
+.settings-content .home_add_tour .userProfileNameMargin {
+  margin-top:12px;
+  margin-left:-15%;
+}
+.settings-content .home_add_tour .userProfileSaveButton{
+    position: relative;
+    top: 8px;
+    margin-left: 13%;
+
+}
 .social-account-container {
   display: inline-block;
   position: relative;
@@ -55,5 +70,25 @@
   }
   #settings .settings_account_info .fileUpload  {
     margin-top: 30px;
+  }
+  .settings-content .home_add_tour .userProfileTitleMargin {
+    margin-top:12px;
+    margin-left: 4%;
+  }
+  .settings-content .home_add_tour .userProfileNameMargin {
+    margin-top:35px; 
+    margin-left:-75%;
+  }
+  .settings-content .home_add_tour .userProfileSaveButton {
+    margin-right:10%;
+  }
+  .settings-content .home_add_tour .userProfileSaveButton{
+    position: relative;
+    top:-10px;
+    margin-left: 40%;
+  }
+
+  .settings-content .home_add_tour .heading-icn-mobile {
+    margin-top: 20px;
   }
 }

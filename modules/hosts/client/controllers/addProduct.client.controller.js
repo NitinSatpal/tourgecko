@@ -46,6 +46,9 @@
     vm.heading = '';
     vm.productType =  $window.localStorage.getItem('productType');
     vm.isFixedTourTimeSlotAvailable = false;
+    $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
+    $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
+    var uploadFilesProductId;
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -60,7 +63,6 @@
           vm.tour = response[0];
           vm.itineraries = vm.tour.productItineraryDescription;
       });
-      $window.localStorage.setItem('productEditId', 'noProductId');
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
@@ -272,19 +274,36 @@
         return false;
       }
       
-      // save the data which was processed in different way whil creating this product
       setProductInformation();
 
       var productId = $window.localStorage.getItem('productEditId');
+
       if(productId != 'noProductId') {
         $http.post('/api/host/editproduct/', vm.tour).success(function (response) {
-          $state.go('host.tours');
+          uploadFilesProductId = response._id;
+          if($scope.imageFilesToBeUploaded.length > 0) 
+            uploadImage();
+          else {
+            $state.go('host.tours');
+            $window.localStorage.setItem('productEditId', 'noProductId');
+          }
+
+          if($scope.mapFilesToBeUploded.length > 0)
+            uploadMap();
         }).error(function (response) {
           vm.error = response.message;
         });
       } else {
         $http.post('/api/host/product/', vm.tour).success(function (response) {
-          $state.go('host.tours');
+          uploadFilesProductId = response._id;
+          if($scope.imageFilesToBeUploaded.length > 0) 
+            uploadImage();
+          else {
+            $state.go('host.tours');
+          }
+
+          if($scope.mapFilesToBeUploded.length > 0)
+            uploadMap();
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -320,8 +339,6 @@
       vm.tour.productAddons = vm.addonParams.params;
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
       vm.tour.productTimeSlots = vm.timeslots;
-      vm.tour.productPictureURLs = vm.productPictureURLs;
-      vm.tour.productMapURLs = vm.productMapURLs;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Assign form data to product record properly, ends here */
@@ -332,6 +349,7 @@
     /* This function handles the button click of add tour */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
+      $window.localStorage.setItem('productEditId', 'noProductId');
       $timeout(function () {
         $state.go('host.addProduct');
       }, 800);
@@ -343,59 +361,46 @@
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Image upload, initilization, upload, delte and save */
+    /* Product Image upload */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
-    vm.uploadImage = function () {
+    function uploadImage () {
       vm.success = vm.error = null;
-      vm.showImageProgressbar = true;
-      
       Upload.upload({
-        url: 'api/product/productPicture',
+        url: 'api/product/productPicture/'+ uploadFilesProductId,
         arrayKey: '',
         data: {
           files: $scope.imageFilesToBeUploaded
         }
       }).then(function (response) {
-        $timeout(function () {
-          onSuccessItem(response.data, 'image');
-        }, 3000);
+        onSuccessItem(response.data, 'image');
       }, function (response) {
         if (response.status > 0) onErrorItem(response.data);
-      }, function (evt) {
-        vm.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
       });
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Image upload, initilization, upload, delte and save, ends here */
+    /* Product Image upload, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Map upload, initilization, upload, delte and save */
+    /* Product Map upload */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
-    vm.uploadMap = function () {
+    function uploadMap () {
       vm.success = vm.error = null;
-      vm.showMapProgressbar = true;
       Upload.upload({
-        url: 'api/product/productMap',
+        url: 'api/product/productMap/'+ uploadFilesProductId,
         arrayKey: '',
         data: {
           files: $scope.mapFilesToBeUploded
         }
       }).then(function (response) {
-        $timeout(function () {
-          onSuccessItem(response.data, 'map');
-        }, 3000);
+        onSuccessItem(response.data, 'map');
       }, function (response) {
         if (response.status > 0) onErrorItem(response.data);
-      }, function (evt) {
-        vm.progress = parseInt(100.0 * evt.loaded / evt.total, 10);
       });
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Map upload, initilization, upload, delte and save, ends here */
+    /* Product Map upload, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -403,46 +408,16 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     // Called after the user has successfully uploaded a new picture
     function onSuccessItem(response, pictureType) {
-      // Show success message
       vm.success = true;
-      // hide progressbar
-      vm.showProgressbar = false;
-
-      if (pictureType == 'image') {
-        // Reset form
-        vm.imageFileSelected = false;
-        $scope.picFile = '';
-        vm.showImageProgressbar = false;
-
-        //change label
-        vm.addMorePhotos = true;
-
-        // add uploaded image urls to database
-        vm.productPictureURLs.push(response);
-      } else {
-        // Reset form
-        vm.mapFileSelected = false;
-        $scope.mapFile = '';
-        vm.showMapProgressbar = false;
-
-        // add uploaded map urls to database
-        vm.productMapURLs.push(response);
+      if(pictureType == 'image') {
+        $state.go('host.tours');
+        $window.localStorage.setItem('productEditId', 'noProductId');
       }
-      
     }
 
     // Called after the user has failed to uploaded a new picture
     function onErrorItem(response, pictureType) {
-      if (pictureType == 'image') {
-        // Reset form
-        vm.imageFileSelected = false;
-      } else {
-        // Reset form
-        vm.mapFileSelected = false;
-      }
-
-      // Show error message
-      vm.error = response.message;
+      vm.error = true;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Common success and error function for product Image and map upload, initilization, upload, delte and save, ends here */

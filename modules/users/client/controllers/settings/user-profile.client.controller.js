@@ -18,6 +18,7 @@
     var initializing = true
     var isUserDetailsChanged = false;
     var isPasswordDetailsChanged = false;
+    var imageUploaded = false;
     
     
     /* We can watch each and every value and can check whether the value is in changed state at the time of 'Save' button is clicked
@@ -60,6 +61,8 @@
         }).error(function (response) {
           vm.error = response.message;
         });
+      } else if (imageUploaded == true){
+        $window.location.reload();
       } else {
         if (isPasswordDetailsChanged == false)
           alert('you have not changed anything');
@@ -81,7 +84,7 @@
 
     vm.upload = function (dataUrl, name) {
       vm.success = vm.error = null;
-
+      imageUploaded = true;
       Upload.upload({
         url: 'api/users/picture',
         data: {
