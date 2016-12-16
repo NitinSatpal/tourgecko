@@ -456,7 +456,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="col-sm-3 col-md-2 col-lg-2 col-xs-3">
+													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
 																<input type="radio" name="datetime" value="days" ng-model="vm.durationType" ng-change="vm.test()"/>
@@ -515,7 +515,7 @@
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
-																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot">
+																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot')">
 																			<option value="No Time Required">No time required</option>
 																			<option value="Fixed Slots">Fixed Times</option>
 																			<option value="Guest Choice">Guest Choice</option>
@@ -528,16 +528,14 @@
 														<div class="row fixed_timeslot">
 															<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
 																<label for="tours_sa_timeslots" class="control-label">Time Slots</label>
-																<p class="sub_desc lheight" ng-show="vm.helpVisible">You can add multiple time-slots.</p>
 															</div>
-															<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-																<div class="form-group">
-                                                            		<div class="input-group" >
-                                                            			<span class="input-group-addon"><i class="zmdi zmdi-time"></i></span>
-                                                            			<select id="timeslots" name="timeslots" data-placeholder="Click here" class="chosen-select" multiple>
-																		</select>
-                                                            		</div>
-	                                                            </div>
+															
+															<div class="form-group" id="addSelectorHere">
+                                                        		
+                                                            </div>
+	                                                       
+	                                                        <div class="col-sm-12 col-md-12 col-lg-12">
+	                                                        	<a href="#" class="add_more_time-slots" id="addMoreTimeslots" onclick="addSelectorElement(undefined)"><i class="zmdi zmdi-plus"></i> Add more</a>
 	                                                        </div>
 														</div>
 														<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
@@ -546,12 +544,12 @@
 																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
 																<label class="formonoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
 															</div>
-															<p class="sub_desc" ng-show="vm.helpVisible" style="margin-top:5px;">You can select months when this tour is available. Guest can only create bookings in months that are marked available</p>
+															<p class="sub_desc" ng-show="vm.helpVisible" style="margin-top:5px;">You can select the months when this tour is not available. Guest can only create bookings in months that are not marked as unavailable</p>
 														</div>
 
 														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
 															<div class="form-group">
-																<label class="control-label">Available months</label><br>
+																<label class="control-label">Non-Available months</label><br>
 
 																<select id="months" multiple="multiple" ng-model="vm.availableMonths">
 
@@ -597,7 +595,7 @@
 																		<div class="input_group">
 																			<div class="input-group">
 																				<span class="input-group-addon">limit</span>
-																				<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.tour.produSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
+																				<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.tour.productSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
 																			</div>
 																		</div>
 																	</div>
@@ -612,7 +610,7 @@
 														</div>
 
 							                            <div class="col-sm-12 col-md-12 col-lg-12 departureSession_section">
-															<a href="#" data-toggle="modal" data-target="#departureSession"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
+															<a href="#" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
 													   	</div>
 
 				               							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -680,6 +678,11 @@
 									<h5><i class="zmdi zmdi-view-list-alt icn_orange"></i> Detailed Itinerary</h5>
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
+											<div style="margin-left:12px;">
+											<h4>Create detailed itinerary of this tour</h4>
+											<p class="sub_desc" ng-show="vm.helpVisible">Let Guests know what happens through the tour on each day. Be descriptive so that Guests know what to expect.</p>
+											</div>
+											<hr>
 											<div>
 								              <div ng-repeat="desc in vm.itineraries | orderBy:'day'" class="selectedItemsDiv">
 								              	<div class="panel">
@@ -714,8 +717,6 @@
 								              </div>
 								            </div>
 											<div class="panel">
-												<h4>Create detailed itinerary of this tour</h4>
-												<p class="sub_desc" ng-show="vm.helpVisible">Let Guests know what happens through the tour on each day. Be descriptive so that Guests know what to expect.</p>
 												<div class="itinerary_panel_container">
 													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
 													<div class="form-group">
@@ -877,165 +878,165 @@
 		</div>
 	</div>
 	<!-- Modal -->
-			<div class="modal fade" id="departureSession" role="dialog">
-				<div class="modal-dialog">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title">Create fixed departure Session</h4>
+		<div class="modal verticalScroll" id="departureSession" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" id="closeDepartureSession" ng-click="vm.fixedDepartureSessionCounter = vm.fixedDepartureSessionCounter - 1">&times;</button>
+						<h4 class="modal-title">Create fixed departure Session</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group">
+								  <label for="dsStartDate" class="control-label">Start Date</label>
+								  <div class="input_group">
+									 <div>
+										<input type="date" class="form-control" name="dsStartDate" id="dsStartDate" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" placeholder=""/>
+									 </div>
+								  </div>
+								</div>
+							</div>
 						</div>
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									<div class="form-group">
-									  <label for="dsStartDate" class="control-label">Start Date</label>
-									  <div class="input_group">
-										 <div>
-											<input type="date" class="form-control" name="dsStartDate" id="dsStartDate" ng-model="vm.fixedProductSchedule.params[0].startDate" placeholder=""/>
-										 </div>
-									  </div>
-									</div>
+						<div class="row">
+							 <div class="col-sm-12 col-md-12 col-lg-12">
+							   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
+							   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+								  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
+								  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
+							   </div>
+							</div>
+						</div>
+						<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group">
+								  <label for="dsTimeSlot" class="control-label">Time slot</label>
+								  <div class="input_group">
+									 <div>
+										<input type="time" class="form-control" name="dsTimeSlot" id="dsTimeSlot" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime" placeholder="hrs:mins"/>
+									 </div>
+								  </div>
 								</div>
 							</div>
-							<div class="row">
-								 <div class="col-sm-12 col-md-12 col-lg-12">
-								   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
-								   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
-									  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
-								   </div>
-								</div>
-							</div>
-							<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									<div class="form-group">
-									  <label for="dsTimeSlot" class="control-label">Time slot</label>
-									  <div class="input_group">
-										 <div>
-											<input type="time" class="form-control" name="dsTimeSlot" id="dsTimeSlot" ng-model="vm.fixedProductSchedule.params[0].startTime" placeholder="hrs:mins"/>
-										 </div>
-									  </div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-6 col-lg-6 col-md-6">
-								   <div class="form-group">
-									  <label for="dsRepeat" class="control-label">Repeat</label>
-									  <div class="input_group">
-										 <div>
-											<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule.params[0].repeatBehavior">
-											   <option value="Do not repeat">Do not repeat</option>
-											   <option value="Repeat Daily">Repeat Daily</option>
-											   <option value="Repeat Weekly">Repeat Weekly</option>
-											</select>
-										 </div>
-									  </div>
-								   </div>
-								</div>
-							</div>
-							<div class="row ds_repeat_daily">
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									<div class="form-group">
-									  <label for="dsRepeatDaily" class="control-label">Until</label>
-									  <div class="input_group">
-										 <div>
-											<input type="date" class="form-control" name="dsRepeatDaily" id="dsRepeatDaily" ng-model="vm.fixedProductSchedule.params[0].repeatTillDate" placeholder=""/>
-										 </div>
-									  </div>
-									</div>
-								</div>
-								<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
-									<div class="form-group"><label class="control-label">Select</label><br>
-									   <select id="weeks" multiple="multiple" ng-model="vm.fixedProductSchedule.params[0].repeatOnDays">
-											<option value="monday">Monday</option>
-											<option value="tuesday">Tuesday</option>
-											<option value="wednesday">Wednesday</option>
-											<option value="thursday">Thursday</option>
-											<option value="friday">Friday</option>
-											<option value="saturday">Saturday</option>
-											<option value="sunday">Sunday</option>
+						</div>
+						<div class="row">
+							<div class="col-sm-6 col-lg-6 col-md-6">
+							   <div class="form-group">
+								  <label for="dsRepeat" class="control-label">Repeat</label>
+								  <div class="input_group">
+									 <div>
+										<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
+										   <option value="Do not repeat">Do not repeat</option>
+										   <option value="Repeat Daily">Repeat Daily</option>
+										   <option value="Repeat Weekly">Repeat Weekly</option>
 										</select>
+									 </div>
+								  </div>
+							   </div>
+							</div>
+						</div>
+						<div class="row ds_repeat_daily">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group">
+								  <label for="dsRepeatDaily" class="control-label">Until</label>
+								  <div class="input_group">
+									 <div>
+										<input type="date" class="form-control" name="dsRepeatDaily" id="dsRepeatDaily" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate" placeholder=""/>
+									 </div>
+								  </div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
+								<div class="form-group"><label class="control-label">Except On</label><br>
+								   <select id="weeks" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+										<option value="monday">Monday</option>
+										<option value="tuesday">Tuesday</option>
+										<option value="wednesday">Wednesday</option>
+										<option value="thursday">Thursday</option>
+										<option value="friday">Friday</option>
+										<option value="saturday">Saturday</option>
+										<option value="sunday">Sunday</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<a href="#" class="dsChangePrice_link">Change price  and capacity  for this session?</a><br><br>
+						<div class="row dsChangePrice">
+							<div class="col-sm-12 col-md-12 col-lg-12" ng-repeat="pricing in vm.sessionPricing track by $index">
+								<div class="row" ng-show="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">
+									<div class="col-sm-6 col-md-6 col-lg-6" >
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">{{pricing.pricingType}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+								</div>
+								<div class="row" ng-show="pricing.pricingType == 'Group'">
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Group: From {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Group'">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Pricing By</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <select class="form-control" id="pricefor" ng-model="pricing.groupOption">
+														<option>Per Group</option>
+														<option>Per Person</option>
+													</select>
+											   </div>
+											</div>
+										 </div>
+									</div>
+								</div>
+								<div class="row"  ng-show="pricing.pricingType == 'Custom'">
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Custom: {{pricing.customLabel}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Custom'">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Seats Used</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed"/>
+											   </div>
+											</div>
+										 </div>
 									</div>
 								</div>
 							</div>
-							<a href="#" class="dsChangePrice_link">Change price  and capacity  for this session?</a><br><br>
-							<div class="row dsChangePrice">
-								<div class="col-sm-12 col-md-12 col-lg-12" ng-repeat="pricing in vm.pricingParams track by $index">
-									<div class="row" ng-show="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">
-										<div class="col-sm-6 col-md-6 col-lg-6" >
-											 <div class="form-group">
-												<label for="dsPriceAdult" class="control-label">{{pricing.pricingType}}</label>
-												<div class="input_group">
-												   <div class="input-group">
-													  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-													  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-												   </div>
-												</div>
-											 </div>
-										</div>
-									</div>
-									<div class="row" ng-show="pricing.pricingType == 'Group'">
-										<div class="col-sm-6 col-md-6 col-lg-6">
-											 <div class="form-group">
-												<label for="dsPriceAdult" class="control-label">Group: From {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</label>
-												<div class="input_group">
-												   <div class="input-group">
-													  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-													  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-												   </div>
-												</div>
-											 </div>
-										</div>
-										<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Group'">
-											 <div class="form-group">
-												<label for="dsPriceAdult" class="control-label">Pricing By</label>
-												<div class="input_group">
-												   <div class="input-group">
-													  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-													  <select class="form-control" id="pricefor" ng-model="pricing.groupOption">
-															<option>Per Group</option>
-															<option>Per Person</option>
-														</select>
-												   </div>
-												</div>
-											 </div>
-										</div>
-									</div>
-									<div class="row"  ng-show="pricing.pricingType == 'Custom'">
-										<div class="col-sm-6 col-md-6 col-lg-6">
-											 <div class="form-group">
-												<label for="dsPriceAdult" class="control-label">Custom: {{pricing.customLabel}}</label>
-												<div class="input_group">
-												   <div class="input-group">
-													  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-													  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-												   </div>
-												</div>
-											 </div>
-										</div>
-										<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Custom'">
-											 <div class="form-group">
-												<label for="dsPriceAdult" class="control-label">Seats Used</label>
-												<div class="input_group">
-												   <div class="input-group">
-													  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-													  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed"/>
-												   </div>
-												</div>
-											 </div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="dsCreate text-center modal-footer">
-								<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.test()">create</a>
-							</div>
+						</div>
+						<div class="dsCreate text-center modal-footer">
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">create</a>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 </div>
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/ckeditor/ckeditor.js"></script>
@@ -1172,6 +1173,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 </script>
 
 <script>
+	var sessionPricingVisible = false;
 	$("#departureSession").on("change","#dsRepeat",function(e) {
 		e.preventDefault();
 		if($(this).val() == "Do not repeat"){
@@ -1187,13 +1189,18 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	$("#departureSession").on("click",".dsChangePrice_link",function(e){
 		e.preventDefault();
 		$(".dsChangePrice").toggle();
+		sessionPricingVisible = !sessionPricingVisible;
 	});
-
-	$("#departureSession").on("click","#createDepartureSessionButton",function(e){
+	$("#closeDepartureSession").on("click", function(e){
 		e.preventDefault();
-		$("#departureSession").toggle();
+		$('body').css('overflow', 'scroll');
+		$("#departureSession").fadeOut();
 		$('.modal-backdrop').remove();
-	});
+		if (sessionPricingVisible == true) {
+			$(".dsChangePrice").toggle('slow');
+			sessionPricingVisible = false;
+		}
+	})
 </script>
 
 <script type="text/javascript">
@@ -1265,10 +1272,43 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
                 '06:00 PM','06:15 PM', '06:30 PM', '06:45 PM' , '07:00 PM', '07:15 PM', '07:30 PM', '07:45 PM',
                 '08:00 PM','08:15 PM', '08:30 PM', '08:45 PM' , '09:00 PM', '09:15 PM', '09:30 PM', '09:45 PM',
                 '10:00 PM','10:15 PM', '10:30 PM', '10:45 PM' , '11:00 PM', '11:15 PM', '11:30 PM', '11:45 PM'];
-	$.each(slots, function(key, value) {
-      	$("#timeslots").append($("<option></option>").val(value).html(value));
-    });
-	$(".chosen-select").chosen({
-		width: "100%"
-	});
+
+    var counter = 0;
+    function addSelectorElement(initialCall) {
+    	if(initialCall && $(initialCall).val() != 'Fixed Slots') {
+    		$('#addSelectorHere').empty();
+    		counter = 0;
+    		return;
+    	}
+    	counter++;
+    	parentDivId = 'parentdiv'+counter;
+    	spanId = 'span'+counter;
+    	anchorId = 'anchor'+counter;
+    	selectorId = 'selector'+counter;
+
+    	var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
+    	$(parentDiv).css('float','left');
+    	$(parentDiv).css('width','140px');
+    	$(parentDiv).css('margin-left','20px');
+    	$(parentDiv).css('margin-top','15px');
+    	$(parentDiv).css('padding-left','-10px');
+    	$('#addSelectorHere').append(parentDiv);
+    	var span = $('<span></span>').attr('id',spanId).attr('class', 'input-group-addon');
+    	$(span).css('margin-right', '-10px !important');
+    	$(parentDiv).append(span);
+    	$(span).append($('<i></i>').attr('class', 'zmdi zmdi-time')); 
+    	$(parentDiv).append($('<select></select>').attr('id', selectorId).attr('class', 'timslotSelector'));
+    	if (counter > 1) {
+    		$(parentDiv).append($('<span></span>').attr('id',counter).attr('class', 'glyphicon glyphicon-remove-sign timeslotRemove').attr('onclick', 'removeTimeslot(this)'));
+    	}
+
+		$(".timslotSelector").select2({
+		  data: slots,
+		  width: '100px'
+		})
+    }
+   	
+    function removeTimeslot(removeThisDiv) {
+    	$('#parentdiv'+removeThisDiv.id).remove();
+    }
 </script>

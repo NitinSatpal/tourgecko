@@ -7,6 +7,26 @@ p{ color:#666; font-weight:300}
 .modal-open {
     overflow: scroll !important;
 }
+.verticalScroll {
+	overflow: scroll !important;
+}
+.input-group-addon {
+	padding: 4.5px 8px !important;
+}
+.select2-container--default .select2-selection--single {
+	border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+.timeslotRemove {
+	position:absolute;
+	padding-bottom: 5px;
+	color:#ED9C28;
+	font-size:20px;
+	margin-top: -15px;
+	margin-left: -5px;
+	cursor: pointer;
+}
+
 .btn-default{ background: #fff;}
 .navbar-default{ height:60px; background-color:#ffffff; box-shadow: 0 2px 10px 0 rgba(0,0,0,0.10);}
 .navbar-brand>img{ width:10.5em;}

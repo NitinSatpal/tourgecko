@@ -27,7 +27,7 @@
     vm.productGrade = 'Easy';
     vm.productAvailabilityType = 'Open Date';
     vm.productTimeSlotsAvailability = 'No Time Required';
-    vm.timeslots = [];
+    vm.timeslots = [''];
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
     vm.imageFileSelected = false;
@@ -45,10 +45,13 @@
     vm.productDuration;
     vm.heading = '';
     vm.productType =  $window.localStorage.getItem('productType');
+    vm.isProductScheduled = false;
     vm.isFixedTourTimeSlotAvailable = false;
+    vm.fixedDepartureSessionCounter = -1;
     $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
     $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
     var uploadFilesProductId;
+    var sessionSpecialPricing = [];
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -121,6 +124,16 @@
             }
           }
         }
+      } else {
+        if (vm.pricingParams[index] && vm.pricingParams[index].pricingType == 'Everyone') {
+          if (index > 0) {
+            alert('If you want same price for Everyone then Please remove all the options and keep only Price for Everyone');
+            return false;
+          } else {
+            alert('You have already added price for Everyone. No other option is valid now');
+            return false;
+          }
+        }
       }
       return true;
     };
@@ -130,7 +143,10 @@
     function finalValidateOfGroupPricing () {
       var index;
       var groupRange = [];
+      var isEveryonePricingPresent;
       for (index = 0; index < vm.pricingParams.length; index++ ) {
+        if (vm.pricingParams[index].pricingType == 'Everyone')
+          isEveryonePricingPresent = true;
         if (vm.pricingParams[index].pricingType == 'Group') {
           groupRange.push(vm.pricingParams[index].minGroupSize);
           if(vm.pricingParams[index].maxGroupSize === undefined)
@@ -142,10 +158,18 @@
       }
       if (groupRange.length > 0) {
         for (index = 0; index < groupRange.length - 1; index ++) {
-          if (groupRange[index + 1] < groupRange[index])
+          if (groupRange[index + 1] < groupRange[index]) {
+            vm.pricingValid = false;
             return false;
+          }
         }
       }
+
+      if(isEveryonePricingPresent == true && vm.pricingParams.length > 1) {
+        vm.pricingValid = false
+        return false;
+      }
+      vm.pricingValid = true;
       return true;
     }
 
@@ -182,8 +206,6 @@
         vm.addonParams.params.splice(index, 1);
     };
 
-    vm.timeslots = [''];
-
     vm.addMoreTimeslots = function() {
       vm.timeslots.push('');
     };
@@ -192,15 +214,7 @@
       vm.timeslots.splice(index, 1);
     };
 
-    vm.fixedProductSchedule = {
-      params: [{
-        startDate: '',
-        startTime: '',
-        repeatBehavior: 'Do not repeat',
-        repeatTillDate: '',
-        repeatOnDays: []
-      }]
-    };
+    vm.fixedProductSchedule = [{}];
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Itinerary creation, edit, delete and save */
@@ -256,6 +270,47 @@
     /* Itinerary creation, edit and save, ends here*/
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Fixed Date departure session validation functions */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+vm.openDepartureSessionModal = function() {
+  vm.isSpecialPricingPresent = false;
+  if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
+    alert('Please enter pricing details before creating departure session');
+    return false;
+  }
+  else {
+    vm.sessionPricing = []
+    angular.copy(vm.pricingParams, vm.sessionPricing);
+    vm.fixedDepartureSessionCounter++;
+    var newSchedule = {'repeatBehavior':'Do not repeat'}
+    vm.fixedProductSchedule[vm.fixedDepartureSessionCounter] = newSchedule;
+    vm.isFixedTourTimeSlotAvailable = false;
+    $('#departureSession').fadeIn();
+  }
+}
+
+vm.createDepartureSession = function () {
+  if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
+    alert('Please select date for creating a departure session');
+    return false;
+  } else if (vm.isFixedTourTimeSlotAvailable == true && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime === undefined) {
+    alert('You have opted for time slot.Please create time slot or opt out the same');
+    return false;
+  } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
+    alert('Please select the end date of reptition of this tour');
+    return false;
+  }
+  vm.isProductScheduled = true;
+  sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
+  $("#departureSession").fadeOut();
+  $('.modal-backdrop').remove();
+  return true;
+  
+}
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Fixed Date departure session validation function, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function */
@@ -263,10 +318,10 @@
 
     // Save the data here
     vm.save = function (isValid) {
-      var isGroupPricingCorrect = finalValidateOfGroupPricing()
+      var isPricingCorrect = finalValidateOfGroupPricing();
       
-      if (isGroupPricingCorrect == false) {
-        alert('Please check group pricing options range. Each group should have range greater than previous.')
+      if (isPricingCorrect == false) {
+        alert('Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present.')
         return false;
       }
       if (!isValid) {
@@ -294,14 +349,13 @@
           vm.error = response.message;
         });
       } else {
-        $http.post('/api/host/product/', vm.tour).success(function (response) {
+        $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
           if($scope.imageFilesToBeUploaded.length > 0) 
             uploadImage();
           else {
             $state.go('host.tours');
           }
-
           if($scope.mapFilesToBeUploded.length > 0)
             uploadMap();
         }).error(function (response) {
@@ -334,11 +388,11 @@
       vm.tour.productItineraryDescription = vm.itineraries;
       vm.tour.productType = $window.localStorage.getItem('productType');
       $window.localStorage.setItem('productType', '');
-      vm.tour.fixedProductSchedule = vm.fixedProductSchedule.params;
       vm.tour.productPricingOptions = vm.pricingParams;
       vm.tour.productAddons = vm.addonParams.params;
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
       vm.tour.productTimeSlots = vm.timeslots;
+      vm.tour.isProductScheduled = vm.isProductScheduled;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Assign form data to product record properly, ends here */

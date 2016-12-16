@@ -16,21 +16,40 @@ var _ = require('lodash'),
 
 // Creating product here.
 exports.createProduct = function (req, res) {
-  var product = new Product(req.body);
+  var product = new Product(req.body.tour);
   product.user = req.user;
   product.created = Date.now();
   product.lastUpdated = Date.now();
   product.hostCompany = req.user.company;
-
   product.save(function (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
+    if(req.body.tour.isProductScheduled == true)
+      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, product);
     res.json(product);
   });
+  
 };
+
+function createDepartureSessions (departureSessions, departureSessionPricings, product) {
+  var productSessions = [];
+  for(var index = 0; index < departureSessions.length; index++) {
+    var productSession = new ProductSession();
+    productSession.product = product._id;
+    productSession.hostCompany = product.hostCompany;
+    productSession.sessionDepartureDetails = departureSessions[index];
+    productSession.sessionPricingDetails = departureSessionPricings[index];
+    productSessions.push(productSession.toObject())
+  }
+  ProductSession.collection.insert(productSessions, onInsert);
+}
+
+function onInsert(){
+  // Tour Sessions inserted successfully.
+}
 
 exports.editProduct = function(req, res) {
   Product.findOne({ '_id': req.body._id }).exec(function (err, product) {

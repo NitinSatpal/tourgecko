@@ -66,10 +66,6 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
-  openProductShedule: {
-    type: Array,
-    default: []
-  },
   /* Open date tour ends here */
 
   /* For fixed date tours */
@@ -77,16 +73,12 @@ var ProductSchema = new Schema({
     type: String,
     default: ''
   },
-  produSeatLimit: {
+  productSeatLimit: {
     type:Number
   },
   isAvailabilityVisibleToGuests: {
     type: Boolean,
     default: false
-  },
-  fixedProductSchedule: {
-    type: Array,
-    default: []
   },
   /* Fixed date tour ends here */
 
