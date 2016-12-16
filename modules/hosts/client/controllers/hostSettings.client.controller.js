@@ -55,6 +55,7 @@
       if (initializing) {
         $timeout(function() { initializing = false; });
       } else {
+        console.log('i m here');
         isContactDetailsChanged = true;
       }
     }, true);
@@ -116,15 +117,17 @@
 
     // Contact settings
     vm.saveContactSettings = function (isValid) {
+      console.log(isContactDetailsChanged);
       vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.contactForm');
         return false;
       }
 
-      if (isContactDetailsChanged == true || vm.inquiryTime != 'Anytime') {
+      if (isContactDetailsChanged == true || (vm.inquiryTime != 'Anytime' && vm.inquiryTime !== undefined)) {
         $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
           $window.location.reload();
+
         }).error(function (response) {
           vm.error = response.message;
         });
