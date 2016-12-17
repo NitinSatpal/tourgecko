@@ -76,23 +76,6 @@
       }
     }, true);
 
-  // For now account modifiction is not present
-  /* $scope.$watch('vm.accountDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isAccountrDetailsChanged = true;
-      }
-    }, true); 
-
-    $scope.$watch('vm.passwordDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isPasswordDetailsChanged = true;
-      }
-    }, true); */
-
     $scope.$watch('vm.regionalDetails', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
@@ -140,7 +123,7 @@
     vm.savePaymentSettings = function () {
       vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
       vm.error = null;
-      if (isPaymentDetailsChanged == true || vm.beneficiaryBankCountry != 'India') {
+      if (isPaymentDetailsChanged == true || (vm.beneficiaryBankCountry != 'India' && vm.beneficiaryBankCountry !== undefined)) {
         $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
@@ -154,6 +137,8 @@
     // Toursite settings
     vm.saveToursiteSettings = function () {
       vm.error = null;
+      console.log(isToursiteDetailsChanged);
+      return;
       if (isToursiteDetailsChanged == true) {
         $http.post('/api/host/toursite', vm.toursiteDetails).success(function (response) {
           $window.location.reload();
