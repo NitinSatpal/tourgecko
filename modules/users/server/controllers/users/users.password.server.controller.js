@@ -41,7 +41,7 @@ exports.forgot = function (req, res, next) {
         }, '-salt -password', function (err, user) {
           if (err || !user) {
             return res.status(400).send({
-              message: 'No account with that username has been found'
+              message: 'No account with that email has been found'
             });
           } else if (user.provider !== 'local') {
             return res.status(400).send({

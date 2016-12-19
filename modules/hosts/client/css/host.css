@@ -126,6 +126,17 @@ body{background-color:#f6f6f6;font-family:'Roboto', 'Helvetica Neue', Helvetica,
 .left-nav-bar li.separator{margin-top:20px;}
 .left-nav-bar .navbar-nav li a{font-weight:500;font-size:14px;color:rgba(0,0,0,0.6);padding-top: 5px !important; padding-bottom: 5px !important;}
 .left-nav-bar .navbar-nav li a i{font-size:18px;display:inline-block;padding:13px 10px 13px 5px;}
+.left-nav-bar .sideNav-Settings-Right {
+	float:right;
+	margin-top:16px;
+	color:#40C4FF;
+}
+.left-nav-bar .sideNav-Settings-Left {
+	float:left;
+	margin-top:98%;
+	color:#40C4FF;
+	cursor:pointer;
+}
 
 .navbar-right .notifications{position: relative;}
 .navbar-right .notifications > a i{font-size: 24px;font-weight: 900;color: #40C4FF}
