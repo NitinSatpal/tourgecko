@@ -15,6 +15,7 @@
     hideHeaderHere.add('/host/tourdetails');
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
+    headerWithoutSideNav.add('/');
 
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;

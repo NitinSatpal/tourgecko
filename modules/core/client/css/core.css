@@ -1,6 +1,9 @@
 .content {
   /*margin-top: 50px;*/
 }
+.landingPage {
+  margin-top:20px;
+}
 .noHorizontalScroll {
   overflow-x: hidden !important;
 }
@@ -57,4 +60,10 @@ a:hover .header-profile-image {
   color:#cc0000 !important;
   font-size:11px !important;
   /*margin-top:3px !important;*/
+}
+
+@media  (max-width: 767px) {
+  .noHorizontalScroll {
+    overflow-x: hidden !important;
+  }
 }
