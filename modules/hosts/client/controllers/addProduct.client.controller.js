@@ -63,12 +63,19 @@
     if(productId != 'noProductId') {
       $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
           vm.tour = response[0];
+
           addImagesMapEditMode(vm.tour.productPictureURLs, vm.tour.productMapURLs);
+
+          $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
+
           if (vm.tour.productTimeSlotsAvailability == 'Fixed Slots')
             createTimeslotsEditMode(vm.tour.productTimeSlots);
-          if(vm.productAvailabilityType == 'Fixed Departure')
+          
+          vm.productAvailabilityType = vm.tour.productAvailabilityType;
+
+          if(vm.tour.productAvailabilityType == 'Fixed Departure')
             openFixedDeparturePanel();
-          $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
+          
           vm.itineraries = vm.tour.productItineraryDescription;
           vm.pricingParams = vm.tour.productPricingOptions;
           vm.isAddonAvailable = vm.tour.areAddonsAvailable;
@@ -76,7 +83,6 @@
           vm.isDepositApplicable = vm.tour.isDepositNeeded;
           vm.productDurationType = vm.tour.productDurationType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
-          vm.productAvailabilityType = vm.tour.productAvailabilityType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
       });
     }
