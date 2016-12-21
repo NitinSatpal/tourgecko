@@ -37,8 +37,7 @@ var ProductSchema = new Schema({
     default: ''
   },
   productDuration: {
-    type: Number,
-    default: 0
+    type: Number
   },
   productPricingOptions: {
     type: Array,
@@ -59,8 +58,7 @@ var ProductSchema = new Schema({
 
 /* In case of open date products, time-slot and schedule dates once guest book it */
   productTimeSlotsAvailability: {
-    type: String,
-    default: ''
+    type: String
   },
   productTimeSlots: {
     type: Array,
@@ -88,12 +86,10 @@ var ProductSchema = new Schema({
     trim: true
   },
   minBookingRequired: {
-    type: Number,
-    default: 0
+    type: Number
   },
   maxBookingAllowed: {
-    type: Number,
-    default: 0
+    type: Number
   },
   productconfirmMode: {
     type: String,
@@ -145,6 +141,10 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
+  areAddonsAvailable: {
+    type: Boolean,
+    default: false
+  },
   productAddons: {
     type: Array,
     default: []
@@ -166,7 +166,11 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
-  productMonthsAvailableForBoking: {
+  isProductAvailabileAllTime: {
+    type: Boolean,
+    default: true
+  },
+  productUnavailableMonths: {
     type: Array,
     default: []
   },

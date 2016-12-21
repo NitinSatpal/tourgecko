@@ -212,7 +212,7 @@ exports.uploadProductMap = function (req, res) {
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
           for (var index = 0; index < req.files.length; index++)
-            productMapUrlsStore.push(config.uploads.productPictureUploads.dest + req.files[index].filename);
+            productMapUrlsStore.push(config.uploads.productMapUploads.dest + req.files[index].filename);
           resolve();
         }
       });

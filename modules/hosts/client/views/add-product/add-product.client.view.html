@@ -359,7 +359,7 @@
 														<div class="col-sm-4 col-lg-4 col-md-4">
 															<div class="form-group">
 																<label for="addon_apply" class="control-label">Apply as</label>
-																<p class="sub_desc lheight">How to apply this price during booking</p>
+																<p class="sub_desc lheight">How to apply this price</p>
 																<div class="input_group">
 																	<div>
 																		<select class="form-control" id="addon_apply" ng-model="addon.applyAs">
@@ -451,7 +451,7 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.productDuration" placeholder="Ex: 5"/>
+																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.tour.productDuration" placeholder="Ex: 5"/>
 																</div>
 															</div>
 														</div>
@@ -459,7 +459,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="days" ng-model="vm.durationType" ng-change="vm.test()"/>
+																<input type="radio" name="datetime" value="days" ng-model="vm.productDurationType"/>
 																<span>Days</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -469,7 +469,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="hours" ng-model="vm.durationType" ng-change="vm.test()"/>
+																<input type="radio" name="datetime" value="hours" ng-model="vm.productDurationType"/>
 																<span>Hours</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -496,7 +496,7 @@
 														<div class="col-sm-6 col-md-6 col-lg-3 col-xs-6">
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
-																	<input type="radio" name="time_required" value="Fixed Departure" ng-model="vm.productAvailabilityType"/>
+																	<input type="radio" name="time_required" value="Fixed Departure" id="fixedDepartureRadio" ng-model="vm.productAvailabilityType"/>
 																	<span>Fixed Departure</span>
 																	<i class="zmdi zmdi-check-circle"></i>
 																	<i class="zmdi zmdi-circle-o"></i>
@@ -515,7 +515,7 @@
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
-																		<select class="form-control" id="tours_sa_timeslot" ng-model="vm.productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot')">
+																		<select class="form-control" id="tours_sa_timeslot" ng-model="productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot', 0)">
 																			<option value="No Time Required">No time required</option>
 																			<option value="Fixed Slots">Fixed Times</option>
 																			<option value="Guest Choice">Guest Choice</option>
@@ -535,23 +535,23 @@
                                                             </div>
 	                                                       
 	                                                        <div class="col-sm-12 col-md-12 col-lg-12">
-	                                                        	<a href="#" class="add_more_time-slots" id="addMoreTimeslots" onclick="addSelectorElement(undefined)"><i class="zmdi zmdi-plus"></i> Add more</a>
+	                                                        	<a href="#" class="add_more_time-slots" id="addMoreTimeslots" onclick="createDynamicTimeslotSelection()"><i class="zmdi zmdi-plus"></i> Add more</a>
 	                                                        </div>
 														</div>
 														<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
 															<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
 															<div class="formonoffswitch tours_sa_ty">
-																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isAvailableThroughoutTheYear">
+																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.tour.isProductAvailabileAllTime">
 																<label class="formonoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
 															</div>
 															<p class="sub_desc" ng-show="vm.helpVisible" style="margin-top:5px;">You can select the months when this tour is not available. Guest can only create bookings in months that are not marked as unavailable</p>
 														</div>
 
-														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isAvailableThroughoutTheYear">
+														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.tour.isProductAvailabileAllTime">
 															<div class="form-group">
 																<label class="control-label">Non-Available months</label><br>
 
-																<select id="months" multiple="multiple" ng-model="vm.availableMonths">
+																<select id="months" multiple="multiple" ng-model="vm.tour.productUnavailableMonths">
 
 				                                                    <option value="january">January</option>
 				                                                    <option value="february">February</option>
@@ -570,7 +570,7 @@
 														</div>
 													</div>
 
-													<div class="row no_margin_row tours_sa_fixed_departure pointer-box">
+													<div class="row no_margin_row tours_sa_fixed_departure pointer-box" id="fixedDeparturePanel">
 														<div class="pointer-line">
 															<img class="pointer pointer_b" src="modules/hosts/client/images/pointer.svg">
 														</div>
@@ -588,7 +588,7 @@
 		                                                   </div>
 		                                                </div>
 
-														<div class="col-sm-12 col-md-12 col-lg-12 limited_container">
+														<div class="col-sm-12 col-md-12 col-lg-12 limited_container" ng-show="vm.productSeatsLimitType == 'limited'">
 															<div class="row">
 																<div class="col-sm-4 col-md-4 col-lg-4 padding-five">
 																	<div class="form-group">
@@ -608,10 +608,18 @@
 			                                                     </div>
 															</div>
 														</div>
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<br>
+															<div class="row">
+									                            <div class="col-sm-8 col-md-8 col-lg-8 departureSession_section">
+																	<a href="" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
+															   	</div>
 
-							                            <div class="col-sm-12 col-md-12 col-lg-12 departureSession_section">
-															<a href="#" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
-													   	</div>
+															   	<div class="col-sm-4 col-md-4 col-lg-4">
+															   		<a href="" id="showCalendar"> Show calendar </a>
+															   	</div>
+															</div>
+														</div>
 
 				               							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				               								<div id='calendar' class=".fullCalendar"></div>
@@ -1129,39 +1137,33 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 			$(".fixed_timeslot").hide();
 		}
 	});
-	$(".tours_sa_fixed_departure").on("change","#tours_sa_limited",function() {
-		if($(this).val() == "limited"){
-			$(".limited_container").show();
-		}else{
-			$(".limited_container").hide();
-		}
-	});
-	$("#tours_sa").on("change","input[type=radio][name=time_required]",function(){
+	$("#tours_sa").on("change","input[type=radio][name=time_required]",function() {
 		if($(this).val() == "Open Date"){
 			$(".tours_sa_open_dates").show();
 			$(".tours_sa_fixed_departure").hide();
 		}else if($(this).val() == "Fixed Departure"){
 			$(".tours_sa_open_dates").hide();
 			$(".tours_sa_fixed_departure").show();
-			$( ".fc-today-button" ).click();//this line auto clicks today button to display calendar view
 		}
 	});
-</script>
 
-<!--script for enabling calendar view-->
-<script type="text/javascript">
-	$(document).ready(function() {
-	// page is now ready, initialize the calendar...
+	$("#showCalendar").click(function(){
 		$('#calendar').fullCalendar({
-		  header: {
-		      right: 'today',
-		      //center: '',
-		      left: 'prev,next title'
-		  },
+	  		header: {
+				left: 'title',
+				center: '',
+				right:'prev,next'
+			},
 		})
-	});
+	})
 </script>
 
+<script>
+function openFixedDeparturePanel () {
+	$(".tours_sa_open_dates").hide();
+    $(".tours_sa_fixed_departure").show();
+}
+</script>
 <!--script for enabling month selector-->
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -1273,13 +1275,29 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
                 '08:00 PM','08:15 PM', '08:30 PM', '08:45 PM' , '09:00 PM', '09:15 PM', '09:30 PM', '09:45 PM',
                 '10:00 PM','10:15 PM', '10:30 PM', '10:45 PM' , '11:00 PM', '11:15 PM', '11:30 PM', '11:45 PM'];
 
-    var counter = 0;
-    function addSelectorElement(initialCall) {
-    	if(initialCall && $(initialCall).val() != 'Fixed Slots') {
+    var counter = -1;
+    function addSelectorElement(cahngedValue, numOfElements) {
+    	if(cahngedValue && $(cahngedValue).val() != 'Fixed Slots') {
     		$('#addSelectorHere').empty();
-    		counter = 0;
+    		counter = -1;
     		return;
     	}
+    	createDynamicTimeslotSelection();
+    }
+    function createTimeslotsEditMode (valueArray) {
+    	$(".fixed_timeslot").show();
+    	for (var index = 0; index <= valueArray.length; index ++) {
+			createDynamicTimeslotSelection();
+			if (index < valueArray.length)
+				$('#selector'+counter).val(valueArray[index]);
+			else {
+				$('#parentdiv'+counter).remove();
+			}
+    	}
+    }
+    
+    		
+    function createDynamicTimeslotSelection() {
     	counter++;
     	parentDivId = 'parentdiv'+counter;
     	spanId = 'span'+counter;
@@ -1297,8 +1315,8 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
     	$(span).css('margin-right', '-10px !important');
     	$(parentDiv).append(span);
     	$(span).append($('<i></i>').attr('class', 'zmdi zmdi-time')); 
-    	$(parentDiv).append($('<select></select>').attr('id', selectorId).attr('class', 'timslotSelector'));
-    	if (counter > 1) {
+    	$(parentDiv).append($('<select></select>').attr('id', selectorId).attr('class', 'timslotSelector').attr('onchange','addTimeSlots('+selectorId+')'));
+    	if (counter > 0) {
     		$(parentDiv).append($('<span></span>').attr('id',counter).attr('class', 'glyphicon glyphicon-remove-sign timeslotRemove').attr('onclick', 'removeTimeslot(this)'));
     	}
 
@@ -1310,5 +1328,9 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
    	
     function removeTimeslot(removeThisDiv) {
     	$('#parentdiv'+removeThisDiv.id).remove();
+    }
+
+    function addTimeSlots (id) {
+    	angular.element('#addSelectorHere').scope().timeslots.push($(id).val());
     }
 </script>

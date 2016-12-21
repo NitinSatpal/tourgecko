@@ -23,26 +23,23 @@
     vm.isAddonAvailable = false;
     vm.isDepositApplicable = false;
     vm.isAvailableThroughoutTheYear = true;
-    vm.durationType = 'days';
     vm.productGrade = 'Easy';
     vm.productAvailabilityType = 'Open Date';
-    vm.productTimeSlotsAvailability = 'No Time Required';
-    vm.timeslots = [''];
+    vm.productDurationType = 'days';
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
+    vm.fixedProductSchedule = [{}];
     vm.imageFileSelected = false;
     vm.mapFileSelected = false;
     vm.showProgressbar = false;
     vm.addMorePhotos = false;
     vm.productPictureURLs = [];
     vm.productMapURLs = [];
-    vm.availableMonths = [];
     vm.itineraries = [];
     vm.dayCounter = 1;
     vm.showCreatedItinerary = false;
     vm.showSaveButtonForItineraries = false;
     vm.showEditItineraryElements = false;
-    vm.productDuration;
     vm.heading = '';
     vm.productType =  $window.localStorage.getItem('productType');
     vm.isProductScheduled = false;
@@ -50,6 +47,8 @@
     vm.fixedDepartureSessionCounter = -1;
     $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
     $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
+    $scope.timeslots = [];
+    $scope.productTimeSlotsAvailability = 'No Time Required';
     var uploadFilesProductId;
     var sessionSpecialPricing = [];
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -64,13 +63,26 @@
     if(productId != 'noProductId') {
       $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
           vm.tour = response[0];
+          addImagesMapEditMode(vm.tour.productPictureURLs, vm.tour.productMapURLs);
+          if (vm.tour.productTimeSlotsAvailability == 'Fixed Slots')
+            createTimeslotsEditMode(vm.tour.productTimeSlots);
+          if(vm.productAvailabilityType == 'Fixed Departure')
+            openFixedDeparturePanel();
+          $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
           vm.itineraries = vm.tour.productItineraryDescription;
+          vm.pricingParams = vm.tour.productPricingOptions;
+          vm.isAddonAvailable = vm.tour.areAddonsAvailable;
+          vm.addonParams.params = vm.tour.productAddons;
+          vm.isDepositApplicable = vm.tour.isDepositNeeded;
+          vm.productDurationType = vm.tour.productDurationType;
+          vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
+          vm.productAvailabilityType = vm.tour.productAvailabilityType;
+          vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
       });
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Pricing parameters initialization, handler and validations*/
@@ -177,9 +189,12 @@
       vm.pricingParams.splice(index, 1);
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* pricing parameters initialization, handler and validation ends */
+    /* pricing parameters initialization, handler and validation ends here*/
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Addon parameters initialization and handler*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
     vm.addonParams = {
       params: [{
@@ -205,16 +220,10 @@
       else
         vm.addonParams.params.splice(index, 1);
     };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Addon parameters initialization and handler, ends here*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
 
-    vm.addMoreTimeslots = function() {
-      vm.timeslots.push('');
-    };
-
-    vm.removeTimeslots = function(index) {
-      vm.timeslots.splice(index, 1);
-    };
-
-    vm.fixedProductSchedule = [{}];
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Itinerary creation, edit, delete and save */
@@ -318,6 +327,7 @@ vm.createDepartureSession = function () {
 
     // Save the data here
     vm.save = function (isValid) {
+      // return;
       var isPricingCorrect = finalValidateOfGroupPricing();
       
       if (isPricingCorrect == false) {
@@ -374,12 +384,13 @@ vm.createDepartureSession = function () {
     function setProductInformation() {
       vm.tour.destination = document.getElementById('tour_main_destination').value;
       vm.tour.productGrade = vm.productGrade;
-      vm.tour.productDurationType = vm.durationType;
-      vm.tour.productDuration = vm.productDuration;
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
-      vm.tour.productTimeSlotsAvailability = vm.productTimeSlotsAvailability;
       vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
-      vm.tour.productMonthsAvailableForBoking = vm.availableMonths;
+      vm.tour.productDurationType = vm.productDurationType;
+      if (vm.productSeatsLimitType == 'unlimited') {
+        vm.tour.productSeatLimit = '';
+        vm.tour.isAvailabilityVisibleToGuests = false;
+      }
       vm.tour.productSummary = CKEDITOR.instances.describe_tour_briefly.getData();
       vm.tour.productCancellationPolicy = CKEDITOR.instances.cancellationPolicies.getData();
       vm.tour.productGuidelines = CKEDITOR.instances.tour_guidelines.getData();
@@ -389,10 +400,15 @@ vm.createDepartureSession = function () {
       vm.tour.productType = $window.localStorage.getItem('productType');
       $window.localStorage.setItem('productType', '');
       vm.tour.productPricingOptions = vm.pricingParams;
+      vm.tour.areAddonsAvailable = vm.isAddonAvailable;
       vm.tour.productAddons = vm.addonParams.params;
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
-      vm.tour.productTimeSlots = vm.timeslots;
+      vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;
+      vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;
+
+      if (vm.tour.isProductAvailabileAllTime)
+        vm.tour.productUnavailableMonths.length = 0;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Assign form data to product record properly, ends here */

@@ -26,16 +26,22 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
 	    	// Event listener. It run's on load to do the required thing.
 	      	reader.addEventListener("load", function () {
+	      		var parentDivId = 'parentdiv'+counter-1;
+	      		var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
+		    	$(parentDiv).css('float','left');
+		    	$(parentDiv).css('margin-left','20px');
+		    	$(parentDiv).css('margin-top','15px');
 		        var image = new Image();
 		        var tempImage = {imageUrl: this.result, imageName: file.name};
 		        image.height = 100;
 		        image.title = file.name;
 		        image.src = this.result;
 		        image.id = 'fileId' + file.index;
-		        preview.appendChild( image );
+		        parentDiv.append(image);
+		        parentDiv.appendTo(preview);
 		        
 		        if (isDeleteButtonRequired == true)
-		        	$('<i>', {id: file.index}).addClass('zmdi zmdi-close').appendTo($('<a>', {id: 'anchorTag'+file.index}).addClass('close_img').appendTo(preview)).click(removeFileFromPreview);
+		        	$('<span>', {id: file.index}).addClass('glyphicon glyphicon-remove-sign timeslotRemove').appendTo($('<a>', {id: 'anchorTag'+file.index}).addClass('close_img').appendTo(parentDiv)).click(removeFileFromPreview);
 
 		      }, false);
 	      	
@@ -59,6 +65,8 @@ function removeFileFromPreview (whichFile) {
 	// Remove Image element
 	fileElement.remove();
 
+	$('parentdiv'+this.id).remove();
+
 	// Remove icon
 	this.remove();
 
@@ -67,4 +75,65 @@ function removeFileFromPreview (whichFile) {
 		globalImageFileStorage.splice(this.id, 1);
 	else
 		globalMapFileStorage.splice(this.id, 1);
+}
+
+
+function addImagesMapEditMode (productImages, productMaps) {
+	globalImageFileStorage = productImages;
+	globalMapFileStorage = productMaps;
+	var index = 0;
+	for (index = 0; index < productImages.length; index++) {
+		addImageOneByOne(productImages[index]);
+	}
+
+	for(index = 0; index < productMaps.length; index++) {
+		addMapOneByOne(productMaps[index]);
+	}
+}
+var editImageCounter = 0;
+var editMapCounter = 0;
+function addImageOneByOne(source){
+	var parentDivId = 'parentDivImg'+editImageCounter;
+	var parentDivImg = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
+	$(parentDivImg).css('float','left');
+	$(parentDivImg).css('margin-left','20px');
+	$(parentDivImg).css('margin-top','15px');
+	var img = $('<img>');
+	img.attr('src', source);
+    img.appendTo(parentDivImg);
+    parentDivImg.appendTo('#product_img_preview');
+    
+    $('<span>', {id: editImageCounter}).addClass('glyphicon glyphicon-remove-sign timeslotRemove')
+    .appendTo($('<a>', {id: 'anchorTag'+editImageCounter}).addClass('close_img')
+    .appendTo(parentDivImg)).click(removeImageFromEditPreview);
+
+    editImageCounter++;
+}
+
+function addMapOneByOne(source){
+	var parentDivId = 'parentDivMap'+editMapCounter;
+	var parentDivMap = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
+	$(parentDivMap).css('float','left');
+	$(parentDivMap).css('margin-left','20px');
+	$(parentDivMap).css('margin-top','15px');
+	var img = $('<img>');
+	img.attr('src', source);
+    img.appendTo(parentDivMap);
+    parentDivMap.appendTo('#product_Map_preview');
+    
+    $('<span>', {id: editMapCounter}).addClass('glyphicon glyphicon-remove-sign timeslotRemove')
+    .appendTo($('<a>', {id: 'anchorTag'+editMapCounter}).addClass('close_img')
+    .appendTo(parentDivMap)).click(removeMapFromEditPreview);
+
+    editMapCounter++;
+}
+
+function removeImageFromEditPreview (whichFile) {
+	$('#parentDivImg'+this.id).remove();
+	globalImageFileStorage.splice(this.id, 1);
+}
+
+function removeMapFromEditPreview (whichFile) {
+	$('#parentDivMap'+this.id).remove();
+	globalMapFileStorage.splice(this.id, 1);
 }
