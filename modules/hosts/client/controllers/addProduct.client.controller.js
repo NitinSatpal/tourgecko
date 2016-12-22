@@ -28,7 +28,7 @@
     vm.productDurationType = 'days';
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
-    vm.fixedProductSchedule = [{}];
+    vm.fixedProductSchedule = [];
     vm.imageFileSelected = false;
     vm.mapFileSelected = false;
     vm.showProgressbar = false;
@@ -49,6 +49,7 @@
     $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
     $scope.timeslots = [];
     $scope.productTimeSlotsAvailability = 'No Time Required';
+    $scope.departureSessions = [];
     var uploadFilesProductId;
     var sessionSpecialPricing = [];
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -310,7 +311,7 @@ vm.createDepartureSession = function () {
     alert('Please select date for creating a departure session');
     return false;
   } else if (vm.isFixedTourTimeSlotAvailable == true && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime === undefined) {
-    alert('You have opted for time slot.Please create time slot or opt out the same');
+    alert('You have opted for time slot. Please create time slot or opt out the same');
     return false;
   } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
     alert('Please select the end date of reptition of this tour');
@@ -320,9 +321,20 @@ vm.createDepartureSession = function () {
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
+
+ 
+  $scope.departureSessions.push({title: '<span class="eventname orangeFC">' +
+                                vm.tour.productTitle +
+                                '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
+                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                backgroundColor: 'rgba(237,156,40, 0.2)'});
+
+  openCalendarForFixedDepartures();
   return true;
   
 }
+
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Fixed Date departure session validation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -350,7 +362,7 @@ vm.createDepartureSession = function () {
       var productId = $window.localStorage.getItem('productEditId');
 
       if(productId != 'noProductId') {
-        $http.post('/api/host/editproduct/', vm.tour).success(function (response) {
+        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
           if($scope.imageFilesToBeUploaded.length > 0) 
             uploadImage();

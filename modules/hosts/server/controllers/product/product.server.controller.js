@@ -49,21 +49,23 @@ function createDepartureSessions (departureSessions, departureSessionPricings, p
 
 function onInsert(){
   // Tour Sessions inserted successfully.
-}
+} 
 
 exports.editProduct = function(req, res) {
-  Product.findOne({ '_id': req.body._id }).exec(function (err, product) {
+  Product.findOne({ '_id': req.body.tour._id }).exec(function (err, product) {
     if(err) {
       console.log(err);
     } else {
       for (var field in Product.schema.paths) {
         if ((field !== '_id') && (field !== '__v')) {
-          if (req.body[field] !== undefined) {
-            product[field] = req.body[field];
+          if (req.body.tour[field] !== undefined) {
+            product[field] = req.body.tour[field];
           } 
         }
       }
       product.save();
+      if(req.body.toursessions.length > 0)
+        createDepartureSessions(req.body.toursessions, req.body.sessionPricings, product);
       res.json(product);
     }
   });

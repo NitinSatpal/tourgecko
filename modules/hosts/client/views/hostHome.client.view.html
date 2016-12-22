@@ -132,21 +132,21 @@
 	$(document).ready(function() {
 		var events = [];
 		$.ajax({
-	      url:'/api/host/productsessions',
+	      url:'/api/host/companyproductsessions/',
 	        type:'GET',
 	        dataType: 'json',
 	      success: function( json ) {
 	      	var cssCounter = 0;
 	        $.each(json, function(index, document) {
-	        	if(!document) {
+	        	if(document) {
 		        	if (cssCounter == 0) {
-		        		events.push	({title: '<span class="eventname orange">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle orange"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
+		        		events.push	({title: '<span class="eventname orangeFC">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i><i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
 		        		cssCounter++;
 		        	} else if (cssCounter == 1) {
-		        		events.push	({title: '<span class="eventname green">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle green"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(66,174,94,0.2)'});
+		        		events.push	({title: '<span class="eventname greenFC">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i><i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(66,174,94,0.2)'});
 		        		cssCounter++;
 		        	} else {
-		        		events.push	({title: '<span class="eventname red">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle red"></i><i class="zmdi zmdi-account"></i>7/10</span>' , start: document.product.productStartDate, end: document.product.productEndDate, backgroundColor: 'rgba(216,64,64,0.2)'});
+		        		events.push	({title: '<span class="eventname redFC">' + document.product.productTitle + '</span><span class="lbreak"><i class="zmdi zmdi-circle redFC"></i><i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(216,64,64,0.2)'});
 		        		cssCounter = 0;
 		        	}
 		        }
@@ -197,7 +197,6 @@
 					var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 					var event_name = $(jsEvent.currentTarget).find(".eventname").text();
 					var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
-					console.log(event_color);
 					var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
 					var duration_date = s_date+"-"+e_date;
 					var duration_days = diffDays+" Days";

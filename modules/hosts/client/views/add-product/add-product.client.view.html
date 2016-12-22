@@ -616,7 +616,7 @@
 															   	</div>
 
 															   	<div class="col-sm-4 col-md-4 col-lg-4">
-															   		<a href="" id="showCalendar"> Show calendar </a>
+															   		<a href="" id="showCalendar" onclick="openCalendarForFixedDepartures();"> Show calendar </a>
 															   	</div>
 															</div>
 														</div>
@@ -1147,15 +1147,45 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 		}
 	});
 
-	$("#showCalendar").click(function(){
-		$('#calendar').fullCalendar({
-	  		header: {
-				left: 'title',
-				center: '',
-				right:'prev,next'
-			},
-		})
-	})
+	var events = [];
+	function openCalendarForFixedDepartures () {
+		$.ajax({
+	    	url:'/api/host/companyproductsessions/',
+	        type:'GET',
+	        dataType: 'json',
+	      	success: function( json ) {
+	      		var cssCounter = 0;
+	        	$.each(json, function(index, document) {
+	        		if(document) {
+		        		if (cssCounter == 0) {
+		        			angular.element('#addSelectorHere').scope().departureSessions.push ({title: '<span class="eventname orangeFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
+		        			cssCounter++;
+		        		} else if (cssCounter == 1) {
+		        			angular.element('#addSelectorHere').scope().departureSessions.push ({title: '<span class="eventname greenFC" >' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(66,174,94,0.2)'});
+		        			cssCounter++;
+		        		} else {
+		        			angular.element('#addSelectorHere').scope().departureSessions.push({title: '<span class="eventname redFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(216,64,64,0.2)'});
+		        			cssCounter = 0;
+		        		}
+		        	}
+	        	});
+	        	
+	        	$('#calendar').fullCalendar({
+		  			header: {
+						left: 'title',
+						center: '',
+						right:'prev,next'
+					},
+					
+					eventLimit: true, // allow "more" link when too many events
+					events: angular.element('#addSelectorHere').scope().departureSessions,
+					eventRender: function (event, element) {
+						element.find('.fc-title').html(event.title);
+					}
+				});
+	      	}
+	 	});
+	}
 </script>
 
 <script>
