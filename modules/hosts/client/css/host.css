@@ -275,23 +275,18 @@ ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 /*    ===============    settings    ============    */
 
 #settings .home_add_tour a i {font-size: 16px;vertical-align: -1px;}
-/*#settings .settings-content {margin-left: 2.5%;}*/
-/*#settings .settings-content .input-group{display: block;} commenting this as this is breaking input group styling in different differnet pages*/
 #settings h3{font-size: 18px; color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;}
 #settings h3 i{color: rgba(0,0,0,0.4);}
-#settings p{color: #666;/*line-height: 26px;*/}
+#settings p{color: #666;}
 #settings .settings-subnav .subnav{background: #F4FCFF;}
 #settings .settings-subnav .subnav h3{padding: 8% 0;background: #ccc;text-align: center;font-size: 14px;}
 #settings .settings-subnav .saveButton {margin-top: -11%; margin-right: 5%;}
-/*.hostHome .settings_company_details .saveButton {margin-top: -11%; margin-right: 5%;}*/
 .hostHome .settings_company_details .saveButton-Bottom {margin-right: 5%;}
 #settings form{padding-top: 5%;}
 #settings form{padding-top: 5%;}
-/*#settings form .row{padding: .5em 0;}*/
 #settings form .panel{padding:10px 20px; margin-bottom:30px;}
 #settings form .panel .form-group{margin-right: 0px; margin-left: 0px;}
 #settings form .input-group p{font-size: 12px;color: rgba(0,0,0,0.5);line-height: 20px;}
-/*#settings form .sub_btn{padding: 5px 30px;}*/
 
 
 /*  ========== contact styles  ============ */
@@ -322,7 +317,6 @@ ul.cal_list_toggle li a.active{ font-weight:400; color:#999;}
 #settings .regional_format > div{float: left; }
 #settings .regional_format > div p{margin: 0;line-height: 16px;font-size: 12px;}
 #settings .regional_format > div p.bold{font-weight: 900;}
-/*#settings .regional_panel{margin: 0;border-bottom: 1px solid #ccc;}*/
 #settings .regional_panel .language{ padding:0;}
 #settings .regional_panel .language:last-child{ border-top:1px solid #eee; margin-top:20px;}
 
@@ -590,19 +584,16 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 
 
 #tours #tours_pricing h3 i, #tours #tours_bd h3 i, #tours #tours_itinerary h3 i, #tours #tours_guidelines h3 i{color: #ED9C28;}
-/*#tours #tours_pricing form label{font-weight: bold !important;}*/
 #tours #tours_pricing form .minmax{font-size: 9px;padding: 4px;color: #bbb;}
 #tours #tours_pricing form .seats_used{font-size: 10px;}
 #tour_main_content .panel .row.no_margin_row.ng-scope{ border-top:1px solid #eee;}
-/*#tour_main_content .panel .row.no_margin_row.ng-scope > div, #tour_main_content .panel .row.no_margin_row.ng-scope > div > .col-xs-12{ padding: 0}*/
-/*#tour_main_content .panel .pricingOptions {margin-left:-0.5% !important;}*/
 #tours .tour_help_info{padding: 0;}
 #tours  .tour_help_info .tours_help{background: #FFFFF5; padding:5px; border-radius:5px;}
 #tours  .tour_help_info .tours_help h3{font-size: 16px; text-align: left; padding: 10px 15px; margin: 0;border-bottom: 1px dashed #c9c9c9;}
 #tours  .tour_help_info .tours_help h3 i{color: #ccc;}
 #tours  .tour_help_info .tours_help p{font-size: 12px; padding: 5px;}
 #tours .no_margin_row{margin: 0 -5px;position: relative;}
-#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: -8px;top: 2.5rem;transform: translateY(-50%);}
+#tours form .panel .no_margin_row .close_group{color: #c00;font-weight: 900;font-size: 20px;position: absolute;right: 17px;top: 2.5rem;transform: translateY(-50%);}
 #tours form .panel .no_margin_row.price_for_adult .close_group{right: 40%;}
 #tours form .panel .no_margin_row .close_group i{font-weight: bold;}
 #tours #tour_main_content .add_price_option{margin-left: 15px;}
@@ -749,46 +740,203 @@ and (max-device-width : 1024px){
 #tours #tours_sa .tours_sa_fixed_departure{display: none;}
 
 /*code for multiselect*/
-span.multiselect-native-select{position:relative}
-span.multiselect-native-select select{border:0!important;clip:rect(0 0 0 0)!important;height:1px!important;margin:-1px -1px -1px -3px!important;overflow:hidden!important;padding:0!important;position:absolute!important;width:1px!important;left:50%;top:30px}
-.multiselect-container{position:absolute;list-style-type:none;margin:0;padding:0;}
-.multiselect-container .input-group{margin:5px}
-.multiselect-container>li{padding:0}
-.multiselect-container>li>a.multiselect-all label{font-weight:700}
-.multiselect-container>li.multiselect-group label{margin:0;padding:3px 20px 3px 20px;height:100%;font-weight:700}
-.multiselect-container>li.multiselect-group-clickable label{cursor:pointer}
-.multiselect-container>li>a{padding:0}
-.multiselect-container>li>a>label{margin:0;height:100%;cursor:pointer;font-weight:400;padding:3px 20px 3px 40px}
-.multiselect-container>li>a>label.radio,.multiselect-container>li>a>label.checkbox{margin:0}
-.multiselect-container>li>a>label>input[type=checkbox]{margin-bottom:5px}
-.btn-group>.btn-group:nth-child(2)>.multiselect.btn{border-top-left-radius:4px;border-bottom-left-radius:4px}
-.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio{padding:3px 20px 3px 40px}
-.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio]{margin-left:-20px;margin-right:0}
-.multiselect-container.dropdown-menu>.active>a{ background-color:#F1FBFF; color:#333;}
+span.multiselect-native-select {
+	position:relative;
+}
+span.multiselect-native-select select {
+	border:0!important;
+	clip:rect(0 0 0 0)!important;
+	height:1px!important;
+	margin:-1px -1px -1px -3px!important;
+	overflow:hidden!important;
+	padding:0!important;
+	position:absolute!important;
+	width:1px!important;
+	left:50%;
+	top:30px;
+}
+.multiselect-container {
+	position:absolute;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+.multiselect-container .input-group { 
+	margin:5px;
+}
+.multiselect-container > li {
+	padding:0;
+}
+.multiselect-container > li > a.multiselect-all label {
+	font-weight:700;
+}
+.multiselect-container > li.multiselect-group label {
+	margin:0;
+	padding:3px 20px 3px 20px;
+	height:100%;
+	font-weight:700;
+}
+.multiselect-container > li.multiselect-group-clickable label{
+	cursor:pointer;
+}
+.multiselect-container > li > a {
+	padding:0;
+}
+.multiselect-container > li > a > label {
+	margin:0;
+	height:100%;
+	cursor:pointer;
+	font-weight:400;
+	padding:3px 20px 3px 40px;
+}
+.multiselect-container > li > a > label.radio,.multiselect-container > li > a > label.checkbox {
+	margin:0
+}
+.multiselect-container > li > a > label > input[type=checkbox] {
+	margin-bottom:5px;
+}
+.btn-group>.btn-group:nth-child(2)>.multiselect.btn {
+	border-top-left-radius:4px;
+	border-bottom-left-radius:4px;
+}
+.form-inline .multiselect-container label.checkbox,.form-inline .multiselect-container label.radio {
+	padding: 3px 20px 3px 40px;
+}
+.form-inline .multiselect-container li a label.checkbox input[type=checkbox],.form-inline .multiselect-container li a label.radio input[type=radio] {
+	margin-left:-20px;
+	margin-right:0;
+}
+.multiselect-container.dropdown-menu>.active>a {
+	background-color:#F1FBFF;
+	color:#333;
+}
 
 
-@media  (max-width: 767px){
-#tours_list .panel {padding-bottom: 0px;}
-#tours_list .panel .row > div img {max-height: 175px;width: 100%;border-radius: 10px;}
-#tours_list .panel .tour_right {text-align: center;}
-#tours_list .info_visible {display: inline-block;}
-#tours_list .info_visible label.visible { padding-right: 45px !important;}
-#tours_list .panel .tour_utils {position: relative;width: 100%;padding: 20px 0;text-align: right;border-top: 1px solid #ccc;text-align: center;right: 0px; top: 0px;}
-/*.modal-dialog {top: 50px; left: 20px;}*/
-#tours_list .panel .no-image .no_image{border-radius: 10px;}
-#tours_list .home_add_tour h2 p{font-size: 13px;vertical-align: middle;}
-#tours_list .home_add_tour h2 p > span{font-size: 12px;}
-.home_add_tour h2{font-size: 16px; max-width: 21.5rem;}
-#tours_list .home_add_tour a{float: right !important; font-size: 10px;}
-.home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right{ position: relative; top: .8rem;margin: 0 0 1rem 0; float: right !important;}
-.home-section .message{ border-top: 1px solid #ddd}
-.sub_btn.btn.btn-primary.pull-right{ float: right !important; }
-.tourlistonoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-top: -19px; margin-left: 55px;}
-.fixedTouronoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;margin-left: 47% !important;}
-.home_add_tour .save-btn {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 10px;}
-.home_add_tour .btn-preview {font-size: 11px; height:25px; padding-top:5px; padding-bottom:6px;font-weight: 500; padding-left: 10px; padding-right:10px; border-radius: 5px; text-decoration: none; vertical-align: middle; position: absolute; top: 44.5%; transform: translateY(-50%);right: 100px;}
-#tours .help_info{display: table;float: left;padding: 10px 30px;}
-#tours .help_info label.help{position:absolute;display: table-cell;vertical-align: middle;padding: 0 10px; margin-left: 32%; margin-top: -7.4%;}
-#tours .help_info .onoffswitch{display: table-cell;}
-.onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left: 42%;margin-top: -8.4%;}
+@media  (max-width: 767px) {
+	#tours_list .panel {
+		padding-bottom: 0px;
+	}
+	#tours_list .panel .row > div img {
+		max-height: 175px;
+		width: 100%;
+		border-radius: 10px;
+	}
+	#tours_list .panel .tour_right {
+		text-align: center;
+	}
+	#tours_list .info_visible {
+		display: inline-block;
+	}
+	#tours_list .info_visible label.visible {
+		padding-right: 45px !important;
+	}
+	#tours_list .panel .tour_utils {
+		position: relative;width: 100%;
+		padding: 20px 0;
+		text-align: right;
+		border-top: 1px solid #ccc;
+		text-align: center;
+		right: 0; 
+		top: 0;
+	}
+	#tours_list .panel .no-image .no_image {
+		border-radius: 10px;
+	}
+	#tours_list .home_add_tour h2 p {
+		font-size: 13px;
+		vertical-align: middle;
+	}
+	#tours_list .home_add_tour h2 p > span {
+		font-size: 12px;
+	}
+	.home_add_tour h2 {
+		font-size: 16px; 
+		max-width: 21.5rem;
+	}
+	#tours_list .home_add_tour a {
+		float: right !important;
+		font-size: 10px;
+	}
+	.home_add_tour .btn.btn-primary.pull-right, .settings-subnav .btn.btn-primary.pull-right {
+		position: relative;
+		top: .8rem;
+		margin: 0 0 1rem 0;
+		float: right !important;
+	}
+	.home-section .message {
+		border-top: 1px solid #ddd
+	}
+	.sub_btn.btn.btn-primary.pull-right {
+		float: right !important;
+	}
+	.tourlistonoffswitch {
+		position:absolute;
+		width:40px;
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		margin-top: -19px;
+		margin-left: 55px;
+	}
+	.fixedTouronoffswitch {
+		position:absolute;
+		width:40px;
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		margin-left: 47% !important;
+	}
+	.home_add_tour .save-btn {
+		font-size: 11px;
+		height:25px;
+		padding-top:5px;
+		padding-bottom:6px;
+		font-weight: 500;
+		padding-left: 10px;
+		padding-right:10px;
+		border-radius: 5px;
+		text-decoration: none;
+		vertical-align: middle;
+		position: absolute; top: 44.5%;
+		transform: translateY(-50%);
+		right: 10px;
+	}
+	.home_add_tour .btn-preview {
+		font-size: 11px;
+		height:25px;
+		padding-top:5px;
+		padding-bottom:6px;
+		font-weight: 500;
+		padding-left: 10px;
+		padding-right:10px;
+		border-radius: 5px;
+		text-decoration: none;
+		vertical-align: middle;
+		position: absolute;
+		top: 44.5%;
+		transform: translateY(-50%);right: 100px;
+	}
+	#tours .help_info {
+		display: table;
+		float: left;
+		padding: 10px 30px;
+	}
+	#tours .help_info label.help {
+		position:absolute;
+		display: table-cell;
+		vertical-align: middle;
+		padding: 0 10px;
+		margin-left: 32%;
+		margin-top: -7.4%;
+	}
+	#tours .help_info .onoffswitch {
+		display: table-cell;
+	}
+	.onoffswitch {
+		position:absolute;width:40px;
+		-webkit-user-select:none;
+		-moz-user-select:none;-ms-user-select:none;
+		margin-left: 42%;
+		margin-top: -8.4%;
+	}
 }

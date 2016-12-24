@@ -177,8 +177,7 @@
 												</div>
 												<label class="control-label">What is the Price of this tour?</label>
 												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
-												<div class="row no_margin_row pricingOptions" ng-repeat="pricing in vm.pricingParams track by $index">
-
+												<div class="row no_margin_row" ng-repeat="pricing in vm.pricingParams track by $index" ng-style="vm.getDynamicCSS($index)">
 													<div class="col-sm-12 col-lg-12 col-md-12">
 														<label for="pricefor" class="control-label pricefor">Price for</label>
 													</div>
@@ -332,7 +331,7 @@
 												</h5>
 												<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
 												<div class="addon-panel" ng-show="vm.isAddonAvailable">
-													<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params">
+													<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params" ng-style="vm.getDynamicCSS($index)">
 														<div class="col-sm-4 col-lg-4 col-md-4">
 															<div class="form-group">
 																<label for="addon_name_one" class="control-label">Addon</label>
@@ -395,7 +394,7 @@
 														</div>
 												</h5>
 												<p class="sub_desc" ng-show="vm.helpVisible">You can set deposit on tours that have upfront cost.</p>
-												<div class="deposit-panel" ng-show="vm.isDepositApplicable">
+												<div class="deposit-panel" ng-show="vm.isDepositApplicable" ng-style="vm.getDynamicCSS(0)">
 													<div class="row no_margin_row">
 														<div class="col-sm-4 col-lg-4 col-md-4">
 															<div class="form-group">

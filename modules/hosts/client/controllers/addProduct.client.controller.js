@@ -539,5 +539,22 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Common success and error function for product Image and map upload, initilization, upload, delte and save, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
+    vm.getDynamicCSS = function (index) {
+      vm.zeroCSS = {
+        "background-color" : "#eee",
+        "border-radius": "10px"
+      };
+      vm.otherCSS = {
+        "background-color" : "#eee",
+        "border-radius": "10px",
+        "margin-top": "10px"
+      };
+      console.log(index);
+      if (index == 0)
+        return vm.zeroCSS;
+      else
+        return vm.otherCSS;
+    }
   }
 }());
