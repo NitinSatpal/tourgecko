@@ -45,6 +45,7 @@
     vm.isProductScheduled = false;
     vm.isFixedTourTimeSlotAvailable = false;
     vm.fixedDepartureSessionCounter = -1;
+    vm.ShowCalendarButton = true;
     $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
     $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
     $scope.timeslots = [];
@@ -291,7 +292,10 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
 vm.openDepartureSessionModal = function() {
   vm.isSpecialPricingPresent = false;
-  if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
+  if(vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) {
+    alert('Please enter tour name before creating departure session');
+    return false;
+  } else if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     alert('Please enter pricing details before creating departure session');
     return false;
   }
@@ -313,7 +317,9 @@ vm.createDepartureSession = function () {
   } else if (vm.isFixedTourTimeSlotAvailable == true && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime === undefined) {
     alert('You have opted for time slot. Please create time slot or opt out the same');
     return false;
-  } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
+  } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
+              vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') &&
+              vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
     alert('Please select the end date of reptition of this tour');
     return false;
   }
@@ -321,16 +327,39 @@ vm.createDepartureSession = function () {
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
-
  
-  $scope.departureSessions.push({title: '<span class="eventname orangeFC">' +
+  if ($window.events.length % 3 == 0) {
+    $window.events.push({title: '<span class="eventname orangeFC">' +
                                 vm.tour.productTitle +
                                 '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
                                 start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
                                 end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
                                 backgroundColor: 'rgba(237,156,40, 0.2)'});
 
-  openCalendarForFixedDepartures();
+  } else if ($window.events.length % 3 == 1) {
+    $window.events.push({title: '<span class="eventname greenFC">' +
+                                vm.tour.productTitle +
+                                '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
+                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                backgroundColor: 'rgba(66,174,94,0.2)'});
+  } else {
+    $window.events.push({title: '<span class="eventname redFC">' +
+                                vm.tour.productTitle +
+                                '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
+                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                backgroundColor: 'rgba(216,64,64,0.2)'});
+  }
+  
+
+  if (vm.ShowCalendarButton && vm.fixedDepartureSessionCounter == 0) {
+    openCalendarForFixedDepartures();
+    if (vm.ShowCalendarButton)
+      vm.ShowCalendarButton = !vm.ShowCalendarButton;
+  }
+  else
+    rebuildFullCalendar();
   return true;
   
 }
