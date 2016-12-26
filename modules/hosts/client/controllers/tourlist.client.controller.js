@@ -52,9 +52,9 @@
         }
     }*/
 
-    vm.showTourDetails = function(index) {
+    vm.showTourPreview = function(index) {
         $window.localStorage.setItem('productId', vm.products[index]._id);
-        $window.open($state.href('host.tourDetails'),'_blank','heigth=600,width=600');
+        $window.open($state.href('hostAndGuest.tourPreview'),'_blank','heigth=600,width=600');
     }
 
     vm.editTourDetails = function(index) {

@@ -1,0 +1,379 @@
+<div class="tourPreviewDetails">
+    <header>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
+        <link rel="stylesheet" href="modules/core/client/css/theme.css"/>
+        <link rel="stylesheet" href="modules/core/client/css/tour-preview-details.css"/>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+  
+        <div id="dev" class="blue lighten-5 center dev-view z-depth-3">
+            <p>This is what other people see when they visit your Booking Site. <a class="blue-text" style="cursor:pointer" onclick="document.getElementById('dev').style.display='none';">Return to your dashboard.</a><p>
+        </div>
+        <!--<div class="navbar-fixed">-->
+        <nav class="blue-grey darken-4 fixed">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo orange-text">xplorazzi</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
+                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
+                  <li><a href="#" id="profile-list" data-activates="profile-menu"><i class="zmdi zmdi-account-circle left orange-text"></i><i class="material-icons right">arrow_drop_down</i>Sudheer</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                  <li><a href="#"><i class="zmdi zmdi-account-circle left orange-text dropdown-button"></i>Sudheer</a></li>
+                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
+                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
+                </ul>
+                <ul id="profile-menu" class="dropdown-content">
+                  <li><a href="#!" class="blue-grey-text text-darken-1">My Profile</a></li>
+                  <li><a href="#!" class="blue-grey-text text-darken-1">Edit Profile</a></li>
+                  <li><a href="#!" class="blue-grey-text text-darken-1">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div id="details_hero" class="slider" data-indicators="true">
+            <ul class="slides">
+                <li>
+                    <img src="https://static.pexels.com/photos/66874/landscape-meadow-field-mountains-66874.jpeg">
+                </li>
+                <li>
+                    <img src="https://static.pexels.com/photos/158607/cairn-fog-mystical-background-158607.jpeg">
+                </li>
+                <li>
+                    <img src="https://static.pexels.com/photos/29426/pexels-photo-29426.jpg">
+                </li>
+                <li>
+                    <img src="https://static.pexels.com/photos/24586/pexels-photo-24586.jpg">
+                </li>
+            </ul>
+        </div>
+        <!--Carousel end-->
+        <div class="marginFromBothEnd">
+            <div id="details" class="container ">
+                <div class="row">
+                    <div class="col l8 m8 s12">
+
+                        <div class="card-panel">
+                            <div class="valign-wrapper">
+                                <div class="col l2 m3 s3">
+                                    <span class="blue lighten-5 days circle valign center">
+                                        <h3>9</h3><p>Days</p>
+                                    </span>
+                                </div>
+                                <div class="col l10 m9 s9"><h5>Trek through orange vallys of Naneghat</h5>
+                                    <a href="#" class="blue-grey-text text-darken-1">
+                                        <i class="zmdi zmdi-pin orange-text"></i>&nbsp;Ratangad, Maharashtra
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div id="tour_tags">
+                                <a href="#"><div class="chip">Trecking</div></a>
+                                <a href="#"><div class="chip">Rafting</div></a>
+                                <a href="#"><div class="chip">Swimming</div></a>
+                                <a href="#"><div class="chip">Diving</div></a>
+                                <a href="#"><div class="chip">Cycling</div></a>
+                            </div>
+
+                            <div class="divider"></div>
+
+                            <div class="row tour-glance">
+                                <div class="col l3 m3 s6 ">
+                                    <label><i class="zmdi zmdi-pin orange-text"></i> Start</label>
+                                    <h6>Hyderabad</h6>
+                                </div>
+                                <div class="col l3 m3 s6">
+                                    <label><i class="zmdi zmdi-pin-drop orange-text"></i> End</label>
+                                    <h6>Mumbai</h6>
+                                </div>
+
+
+                                <div class="col l3 m3 s6">
+                                  <label><i class="zmdi zmdi-time orange-text"></i> Suitable for</label>
+                                  <h6>16 - 40 <span class="blue-grey-text text-lighten-1">Years</span></h6>
+                                </div>
+
+                                <div class="col l3 m3 s6">
+                                  <label><i class="zmdi zmdi-run orange-text"></i> Physical Demand</label>
+                                  <h6>Moderate</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="collapsible active section_expandable" data-collapsible="expandable">
+                            <li id="tour-overview" class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-info-outline orange-text"></i>Overview
+                                </div>
+                                <div class="collapsible-body card-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively. I am similar to what is called a panel in other frameworks.
+                                        <span class="read-more-content"><br><br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br><br>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="card">
+                    
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-format-list-bulleted orange-text"></i>At a Glance
+                                </div>
+                                
+                                <div class="collapsible-body card-content">
+                                    <ul class="collection">
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Travel Style</span><span class="secondary-content">Active</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Suitable For</span><span class="secondary-content">16 - 50 Years Old  </span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Group Size</span><span class="secondary-content">2-5</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Social Type</span><span class="secondary-content">Groups</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Guiding Type</span><span class="secondary-content">Guided</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Service Style</span><span class="secondary-content">Luxury</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1">
+                                            <div>
+                                                <span class="primary-content">Attractions</span>
+                                                <div class="chips-attractions">
+                                                    <a href="#" class="chip">Glacier</a>
+                                                    <a href="#" class="chip">Lake</a>
+                                                    <a href="#" class="chip">Park</a>
+                                                    <a href="#" class="chip">Lorem</a>
+                                                    <a href="#" class="chip">Ipsum</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                          
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Best Season</span><span class="secondary-content">Active</span></div></li>
+                                      
+                                        <li class="collection-item blue-grey-text text-darken-1"><div><span class="primary-content">Availability</span><span class="secondary-content">Fixed Departure</span></div></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-file-text orange-text"></i>Itinerary
+                                </div>
+                                <div class="collapsible-body card-content itinerary-list">
+                                    <ol class="collapsible list-group vertical-steps" data-collapsible="accordian">
+                                        <li class="list-group-item">
+                                            <div class="blue-grey-text text-darken-1 collapsible-header">
+                                                <strong>Ipsum dolor sit amet</strong>
+                                                <br>
+                                            </div>
+                                            <div class="collapsible-body">Lorem ipsum dolor sit amet.</div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="blue-grey-text text-darken-1 collapsible-header">
+                                                <strong>Listos ame ut erosid</strong>
+                                                <br>
+                                            </div>
+                                            <div class="collapsible-body">Aliquam tincidunt mauris eu risus orem ipsum dolor sit amet auctor dapibus neque tincidunt mauris eu risus.
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="blue-grey-text text-darken-1  collapsible-header">
+                                                <strong>Consectetur adipiscing elit</strong>
+                                                <br>
+                                            </div>
+                                            <div class="collapsible-body">Vestibulum auctor dapibus neque tincidunt mauris eu risus.
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-comment-list orange-text"></i>Guidelines
+                                </div>
+                                <div class="collapsible-body card-content">
+                                    <ul class="collection with-header">
+                                        <li class="collection-item blue-grey-text text-darken-1">
+                                            <div>
+                                                <strong>What to bring?</strong>
+                                                <br>
+                                                <span class="blue-grey-text text-lighten-1" >Lorem ipsum dolor sit amet, consectetur</span>
+                                            </div>
+                                        </li>
+                                        <li class="collection-item blue-grey-text text-darken-1">
+                                            <div>
+                                                <strong>What to carry?</strong>
+                                                <br>
+                                                <span class="blue-grey-text text-lighten-1">I am a very simple card.</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="card">
+                              <div class="collapsible-header active"><i class="zmdi zmdi-calendar-check orange-text"></i>Inclusions</div>
+                              <div class="collapsible-body card-content">
+                                <ul class="inclusions">
+                                    <li>
+                                    <span>Accommodation</span>
+                                    </li>
+                                    <li>
+                                    <span>Budget hotels during 3 nights</span>
+                                    </li>
+                                    <li>
+                                    <span>Tent on twin sharing basis during 2 days</span>
+                                    </li>
+                                    <li>
+                                    <span>Meals</span>
+                                    </li>
+                                    <li>
+                                    <span>Transport</span>
+                                    </li>
+                                </ul> 
+                              </div>
+                            </li>
+                                
+                            <li class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-calendar-close orange-text"></i>Exclusions
+                                </div>
+                                <div class="collapsible-body card-content">
+                                    <ul class="exclusions">
+                                        <li>
+                                            <span>Visa</span>
+                                        </li>
+                                        <li>
+                                            <span>Insurance</span>
+                                        </li>
+                                    </ul> 
+                                </div>
+                            </li>
+
+                            <li class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-money-box orange-text"></i>Prices
+                                </div>
+                                <div class="collapsible-body card-content">
+                                    <ul class="collection with-header">
+                                        <li class="collection-item blue-grey-text text-darken-1">
+                                            <strong>Price Type</strong>
+                                            <blockquote class="blue-grey-text text-lighten-1">Per Person</blockquote>
+                                        </li>
+                                        <li class="collection-item blue-grey-text text-darken-1">
+                                            <strong>Price/Person</strong>
+                                            <blockquote class="blue-grey-text text-lighten-1">
+                                                <span class="currency">&#8377;</span> 5000
+                                            </blockquote>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                                
+                            <li class="card">
+                                <div class="collapsible-header active">
+                                    <i class="zmdi zmdi-money-box orange-text"></i>
+                                    Cancellation &amp; Refund
+                                </div>
+                                <div class="collapsible-body card-content">
+                                    <div class="padding">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
+                                        <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
+                                        <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a>    
+                                    </div>
+                                </div>
+                            </li>    
+                        </ul>
+                    </div>
+                    <!--main-content end-->
+                    
+                    <!--right bar-->        
+                    <div class="col l4 m4 s12 ">
+                        <div class="right-bar">
+                            <div class="card-panel pricing-card hide-on-small-only ">
+                                <p class="blue-grey-text text-darken-1">Starting from <span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;
+                                    </span> 1500</span>
+                                </p>
+                                <div class="valign-wrapper">
+                                    <div class="chip orange">
+                                        <h6 class="white-text">
+                                            <strong>10%</strong>OFF
+                                        </h6>
+                                    </div>
+                                    <h5 class="green-text">
+                                        <span class="currency">&#8377;</span> 1350
+                                    </h5>
+                                </div>
+                                <div class="divider"></div>
+                                <div class="valign-wrapper">
+                                    <h4 class="grey-text">
+                                        <i class="zmdi zmdi-calendar-alt"></i>
+                                    </h4>
+                                    <div class="departure-dates">
+                                        <p class="blue-grey-text text-darken-1">
+                                            <strong>Availability:</strong>
+                                        </p>
+                                        <div class="chip">12 May</div>
+                                        <div class="chip">17 June</div>
+                                        <div class="chip">21 Aug</div>
+                                    </div>
+                                </div>
+                                <div class="center">
+                                    <a href="2_tour-booking.html" class="waves-effect waves-light btn orange fluid">Request Booking</a>
+                                </div>
+                            </div>
+                            <div class="card-panel">
+                                <p class="blue-grey-text text-darken-1">
+                                    <strong>Need any help with booking?</strong>
+                                </p>
+                                <div class="center"><a class="waves-effect waves-light btn btn-outline white orange-text fluid"><i class="zmdi zmdi-email" style="vertical-align: top;"></i> Contact Us</a>
+                                </div>
+                                <br>
+                                <div class="chip">
+                                    <a href="tel:+919867101299" >
+                                        <img src="modules/core/client/img/previewAndDetails/icn_call.svg" alt="Contact Person">
+                                    </a>
+                                    <span class="grey-text">Call Us on:</span> 
+                                    <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
+                                        <strong>+91-98673-4560</strong>
+                                    </a>
+                                </div>
+                                <blockquote>
+                                    <label>
+                                        <strong>From</strong> 
+                                        <span class="orange-text">10:00AM</span> 
+                                        <strong>to</strong> 
+                                        <span class="orange-text">5:00PM</span> 
+                                        <strong>IST</strong>  
+                                    </label>
+                                </blockquote>
+                            </div>
+                            <br><br><br>
+                        </div>
+                    </div>
+                    <!--right bar end-->
+                  
+                    <!--Sticky Footer for mobile view-->    
+                    <div class="price-box hide-on-med-and-up white z-depth-4">
+                        <span class="blue-grey-text text-darken-1">Starting from 
+                            <span style="text-decoration:line-through" class="red-text">&#8377; 1500</span>
+                        </span>
+                        <br>
+                        <span class="orange-text discount">
+                            <strong>10%</strong> OFF
+                        </span>
+                        <span class="green-text price">
+                            <span class="currency">&#8377;</span> 1350
+                        </span>
+                        <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
+                    </div>
+                    <!--Sticky Footer End-->    
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+    </footer>
+</div>
+
+<!--Scripts-->
+<script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details.js"></script>

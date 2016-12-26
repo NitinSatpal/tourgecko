@@ -1,0 +1,81 @@
+main{ margin-bottom: 5rem;}
+.main-content{ margin-top: 1rem;}
+
+.marginFromBothEnd {
+	margin-left: 15%;
+	margin-right: 15% !important;
+}
+
+/*Grid*/
+
+.fluid{ width: 100% !important}
+.block-element{ display: block;}
+
+.margin{margin:1rem !important}
+.margin-top{margin-top: 1rem !important}
+.margin-right{margin-right: 1rem !important}
+.margin-left{margin-left: 1rem !important}
+.margin-bottom{margin-bottom: 1rem !important}
+.margin-none{margin:0 !important}
+.margin-none-top{margin-top: 0 !important}
+.margin-none-right{margin-right: 0 !important}
+.margin-none-left{margin-left: 0 !important}
+.margin-none-bottom{margin-bottom: 0 !important}
+
+.padding{padding:1rem !important}
+.padding-top{padding-top: 1rem !important}
+.padding-right{padding-right: 1rem !important}
+.padding-left{padding-left: 1rem !important}
+.padding-bottom{padding-bottom: 1rem !important}
+.padding-none{ padding: 0 !important;}
+.padding-none-top{padding-top: 0 !important;}
+.padding-none-right{padding-right: 0 !important;}
+.padding-none-bottom{padding-bottom: 0 !important;}
+.padding-none-left{padding-left: 0 !important;}
+
+/*background*/
+.no-background{ background: none !important; background-color: transparent;}
+
+
+/*Text*/
+.desc-text{ font-size: .9rem; font-weight: 300;}
+
+/*Navigation*/
+.navbar-fixed{ z-index: 998}
+.side-nav{width: 16rem;}
+.side-nav li>a>i, .side-nav li>a>[class^="mdi-"], .side-nav li>a>[class*="mdi-"], .side-nav li>a>i.material-icons{ margin: 0 12px 0 0}
+
+#profile-menu{ top:50px !important;}
+
+/*Components*/
+input[type=number] {-moz-appearance: textfield;-o-appearance: textfield;}
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button{-webkit-appearance: none; margin: 0;}
+
+.dev-view{min-height: 40px;}
+.dev-view p{ margin: 0; padding: .5rem .5rem .2rem .5rem}
+
+.fluid{width: 100%;}
+.divider{ margin: 1rem 0;}
+.collapsible-body.card-content{ padding: 0;}
+.collapsible-header i, .section-header i{width: 2rem; font-size: 1.6rem; line-height: 3rem; display: block; float: left; text-align: center; margin-right: .5rem}
+.section-header-title{display: block; color:#000; }
+
+
+@media(max-width: 768px){
+    .section-header-title{margin-left: 2.5rem;line-height: 1.5rem; padding-top: .8rem;}
+    .section-header-title .desc-text{ display: block;margin-left: -.3rem; margin-bottom: .5rem}
+
+}
+
+
+i.left{ margin-right: 10px;}
+.slider .indicators{ z-index: 2}
+
+.btn-outline{ border: 1px solid #78909c; box-shadow: none;}
+.btn-outline.light-border{opacity:.5,-webkit-background-clip: padding-box; /* for Safari */background-clip: padding-box;}
+
+/*Tour Details*/
+.price-box{ position: fixed; bottom: 0; left:0; height: 5rem; overflow: hidden; z-index: 999; padding:.7rem .5rem; width: 100%; min-width: 320px; background-color: #fff;}
+.price-box .discount{ margin: -.1rem 0 0 0}
+.price-box .price{ font-weight: 700; font-size: 1.64rem; margin:0.2rem 0 0.656rem .3rem}
+.price-box #book{ margin:-.9rem .5rem 0 .5rem}

@@ -11,11 +11,13 @@
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
-    var hideHeaderHere = new Set();
-    hideHeaderHere.add('/host/tourdetails');
+    
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
     headerWithoutSideNav.add('/');
+
+    var hideHeaderAndEditCSS = new Set();
+    hideHeaderAndEditCSS.add('/host/tour/preview');
 
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
@@ -26,9 +28,10 @@
     function stateChangeSuccess() {
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
-      if(hideHeaderHere.has($location.path()))
+      if(hideHeaderAndEditCSS.has($location.path())) {
         vm.hideHeader = true;
-      else
+        $('#mainHeader').removeClass('leftMarginToHeader');
+      } else
         vm.hideHeader = false;
         if(headerWithoutSideNav.has($location.path())) {
           $('#mainHeader').removeClass('leftMarginToHeader');

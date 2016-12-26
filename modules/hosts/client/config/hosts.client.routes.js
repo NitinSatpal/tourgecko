@@ -57,15 +57,6 @@
           pageTitle: 'Admin | Tours'
         }
       })
-      .state('host.tourDetails', {
-        url: '/tours/details',
-        templateUrl: 'modules/hosts/client/views/tours/tourdetails.client.view.html',
-        controller: 'TourDetailsController',
-        controllerAs: 'vm',
-        data: {
-          pageTitle: 'Admin | Tour'
-        }
-      })
       .state('host.notifications', {
         url: '/notifications',
         templateUrl: 'modules/hosts/client/views/host/notifications.client.view.html',
@@ -154,6 +145,25 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Region'
+        }
+      })
+      .state('hostAndGuest', {
+        abstract: true,
+        url: '',
+        templateUrl: 'modules/core/client/views/previewAndDetails.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          roles: ['user', 'hostAdmin']
+        }
+      })
+      .state('hostAndGuest.tourPreview', {
+        url: '/host/tour/preview',
+        templateUrl: 'modules/hosts/client/views/tours/tourpreview.client.view.html',
+        controller: 'TourPreviewController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Admin | Tour'
         }
       });
   }

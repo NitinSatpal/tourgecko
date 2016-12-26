@@ -17,6 +17,7 @@
     hideSideNavHere.add('/');
     hideSideNavHere.add('/host/tourdetails');
     hideSideNavHere.add('/password/reset/success');
+    hideSideNavHere.add('/host/tour/preview');
     
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
