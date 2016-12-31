@@ -37,7 +37,7 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/product/productPicture/:productId')
+  app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
   app.route('/api/product/productMap/:productId')

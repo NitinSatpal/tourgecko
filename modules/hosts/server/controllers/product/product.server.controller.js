@@ -139,7 +139,7 @@ exports.uploadProductPicture = function (req, res) {
   var upload = multer(config.uploads.productPictureUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
   var productPictureUrlsStore = [];
-  var productId = req.params.productId;
+  var productId = req.query.productId;
 
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
@@ -162,8 +162,15 @@ exports.uploadProductPicture = function (req, res) {
         if (uploadError) {
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
-          for (var index = 0; index < req.files.length; index++)
+          if (req.body.previousFiles) {
+            if (typeof req.body.previousFiles == 'string')
+              productPictureUrlsStore.push(req.body.previousFiles);
+            else
+              productPictureUrlsStore = req.body.previousFiles;
+          }
+          for (var index = 0; index < req.files.length; index++) {
             productPictureUrlsStore.push(config.uploads.productPictureUploads.dest + req.files[index].filename);
+          }
           resolve();
         }
       });

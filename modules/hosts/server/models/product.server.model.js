@@ -56,6 +56,11 @@ var ProductSchema = new Schema({
     default: false
   },
 
+  productScheduledDates: {
+    type: Array,
+    default: []
+  },
+
 /* In case of open date products, time-slot and schedule dates once guest book it */
   productTimeSlotsAvailability: {
     type: String

@@ -15,6 +15,7 @@
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
     headerWithoutSideNav.add('/');
+    headerWithoutSideNav.add('/admin/home');
 
     var hideHeaderAndEditCSS = new Set();
     hideHeaderAndEditCSS.add('/host/tour/preview');

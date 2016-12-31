@@ -25,10 +25,11 @@
     vm.isAvailableThroughoutTheYear = true;
     vm.productGrade = 'Easy';
     vm.productAvailabilityType = 'Open Date';
-    vm.productDurationType = 'days';
+    vm.productDurationType = 'Days';
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
     vm.fixedProductSchedule = [];
+    vm.productScheduledDates = [];
     vm.imageFileSelected = false;
     vm.mapFileSelected = false;
     vm.showProgressbar = false;
@@ -41,16 +42,18 @@
     vm.showSaveButtonForItineraries = false;
     vm.showEditItineraryElements = false;
     vm.heading = '';
+    vm.calculatedDay  = true;
     vm.productType =  $window.localStorage.getItem('productType');
     vm.isProductScheduled = false;
     vm.isFixedTourTimeSlotAvailable = false;
     vm.fixedDepartureSessionCounter = -1;
     vm.ShowCalendarButton = true;
-    $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
-    $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
     $scope.timeslots = [];
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
+    $scope.imageFilesToBeUploaded;
+    $scope.imageFilesToBeUploadedEdit;
+    $scope.mapFilesToBeUploded;
     var uploadFilesProductId;
     var sessionSpecialPricing = [];
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -77,7 +80,7 @@
 
           if(vm.tour.productAvailabilityType == 'Fixed Departure')
             openFixedDeparturePanel();
-          
+
           vm.itineraries = vm.tour.productItineraryDescription;
           vm.pricingParams = vm.tour.productPricingOptions;
           vm.isAddonAvailable = vm.tour.areAddonsAvailable;
@@ -86,11 +89,48 @@
           vm.productDurationType = vm.tour.productDurationType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
+          vm.productScheduledDates = vm.tour.productScheduledDates;
+          vm.showCreatedItinerary = true;
+          var maxVal = findDayCounterValue();
+          if (maxVal == '-Infinity')
+            vm.dayCounter = 1;
+          else
+            vm.dayCounter = maxVal + 1;
+          setRichTextData();
       });
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* function to get the next day counter */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+function findDayCounterValue () {
+  return Math.max.apply(Math,vm.itineraries.map(function(o){return o.day;}));
+}
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* function ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Function to set tich text data for tour edit */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+function setRichTextData () {
+  CKEDITOR.instances.describe_tour_briefly.setData(vm.tour.productSummary);
+  CKEDITOR.instances.cancellationPolicies.setData(vm.tour.productCancellationPolicy);
+  CKEDITOR.instances.tour_guidelines.setData(vm.tour.productGuidelines);
+  CKEDITOR.instances.tour_inclusions.setData(vm.tour.productInclusions);
+  CKEDITOR.instances.tour_exclusions.setData(vm.tour.productExclusions);
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* function ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Pricing parameters initialization, handler and validations*/
@@ -238,8 +278,17 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
     vm.createItinerary = function(done) {
+      if(vm.productDurationType == 'Hours' && done != true) {
+        alert ('Your tour is hourly, There should be only one Day itinerary. Please click on Done');
+        return false;
+      }
+      vm.calculatedDay = true;
       vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData(), 'day': vm.dayCounter});
-      vm.dayCounter++;
+      vm.itineraries.sort(function(obj1, obj2) {
+        return obj1.day - obj2.day;
+      });
+
+      vm.dayCounter = findDayCounterValue() + 1;
       vm.showCreatedItinerary = true;
       CKEDITOR.instances.tourItinerary.setData('');
       vm.heading = '';
@@ -247,6 +296,7 @@
 
     var indexSaved;
     vm.editItinerary = function(index) {
+      vm.showCreatedItinerary = false;
       vm.editIndex = index;
       indexSaved = index;
       vm.showEditItineraryElements = true;
@@ -269,6 +319,7 @@
       vm.itineraries[indexSaved].title = vm.editHeading;
       vm.itineraries[indexSaved].description = CKEDITOR.instances[idOfEditor].getData();
       vm.showEditItineraryElements = false;
+      vm.showCreatedItinerary = true;
       CKEDITOR.instances[idOfEditor].setData('');
       vm.editHeading = '';
 
@@ -283,6 +334,10 @@
     vm.getHtmlTrustedData = function(htmlData){
       return $sce.trustAsHtml(htmlData);
     };
+
+    vm.changeDay = function () {
+      vm.calculatedDay = false;
+    }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Itinerary creation, edit and save, ends here*/
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -324,6 +379,7 @@ vm.createDepartureSession = function () {
     return false;
   }
   vm.isProductScheduled = true;
+  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
@@ -393,12 +449,14 @@ vm.createDepartureSession = function () {
       if(productId != 'noProductId') {
         $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
-          if($scope.imageFilesToBeUploaded.length > 0) 
-            uploadImage();
-          else {
+          $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
+          $scope.imageFilesToBeUploadedEdit = $window.globalImageFileStorageEdit;
+          $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
+          uploadImage();
+         /* else {
             $state.go('host.tours');
             $window.localStorage.setItem('productEditId', 'noProductId');
-          }
+          } */
 
           if($scope.mapFilesToBeUploded.length > 0)
             uploadMap();
@@ -408,6 +466,8 @@ vm.createDepartureSession = function () {
       } else {
         $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
+          $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
+          $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
           if($scope.imageFilesToBeUploaded.length > 0) 
             uploadImage();
           else {
@@ -432,6 +492,7 @@ vm.createDepartureSession = function () {
       vm.tour.destination = document.getElementById('tour_main_destination').value;
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
+      vm.tour.productScheduledDates = vm.productScheduledDates;
       vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
       vm.tour.productDurationType = vm.productDurationType;
       if (vm.productSeatsLimitType == 'unlimited') {
@@ -480,13 +541,19 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Product Image upload */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    function uploadImage () {
+    function uploadImage () {      
       vm.success = vm.error = null;
+      // uploadFilesProductId
+      console.log($window.globalImageFileStorageEdit);
       Upload.upload({
-        url: 'api/product/productPicture/'+ uploadFilesProductId,
+        url: 'api/product/productPictureUploads/',
         arrayKey: '',
+        params: {
+          productId: uploadFilesProductId,
+        },
         data: {
-          files: $scope.imageFilesToBeUploaded
+          files: $scope.imageFilesToBeUploaded,
+          previousFiles: $window.globalImageFileStorageEdit
         }
       }).then(function (response) {
         onSuccessItem(response.data, 'image');
@@ -550,7 +617,6 @@ vm.createDepartureSession = function () {
         "border-radius": "10px",
         "margin-top": "10px"
       };
-      console.log(index);
       if (index == 0)
         return vm.zeroCSS;
       else

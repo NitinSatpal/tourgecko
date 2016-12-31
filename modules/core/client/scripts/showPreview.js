@@ -1,5 +1,7 @@
 var globalImageFileStorage = [];
 var globalMapFileStorage = [];
+var globalImageFileStorageEdit = [];
+var globalMapFileStorageEdit = [];
 function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	
 	// Get the Div
@@ -79,10 +81,13 @@ function removeFileFromPreview (whichFile) {
 
 
 function addImagesMapEditMode (productImages, productMaps) {
-	globalImageFileStorage = productImages;
-	globalMapFileStorage = productMaps;
+	console.log('in script ' + productImages);
+	globalMapFileStorageEdit = productMaps;
+
 	var index = 0;
 	for (index = 0; index < productImages.length; index++) {
+		console.log('in script again' + productImages[index]);
+		globalImageFileStorageEdit.push(productImages[index]);
 		addImageOneByOne(productImages[index]);
 	}
 
@@ -92,7 +97,7 @@ function addImagesMapEditMode (productImages, productMaps) {
 }
 var editImageCounter = 0;
 var editMapCounter = 0;
-function addImageOneByOne(source){
+function addImageOneByOne(source) {
 	var parentDivId = 'parentDivImg'+editImageCounter;
 	var parentDivImg = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
 	$(parentDivImg).css('float','left');
@@ -130,7 +135,7 @@ function addMapOneByOne(source){
 
 function removeImageFromEditPreview (whichFile) {
 	$('#parentDivImg'+this.id).remove();
-	globalImageFileStorage.splice(this.id, 1);
+	globalImageFileStorageEdit.splice(this.id, 1);
 }
 
 function removeMapFromEditPreview (whichFile) {

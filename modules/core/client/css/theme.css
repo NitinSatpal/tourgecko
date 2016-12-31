@@ -31,6 +31,9 @@ input:not([type]):focus:not([readonly]), input[type=text]:focus:not([readonly]),
 .pricing-card h5{ margin-top: .4rem; margin-left: .2rem; font-weight: 700;}
 .pricing-card .departure-dates{margin-left: 1rem; margin-bottom: 2rem;}
 .pricing-card .departure-dates p{ margin-bottom: .2rem; margin-left: .2rem;}
+.pricing-card .tourType {
+	color: #ff9800;
+}
 blockquote{margin: .5rem 0; padding-left: .5rem; border-left: 2px solid #ff9800 !important;}
 .section-header{font-size: 1.2rem; font-weight: 500; display: block;min-height: 3rem;line-height: 3rem;padding: 0 1rem; border-bottom: 1px solid #ddd; margin:0 -0.75rem;}
 .section-header .desc-text{ margin-left: .5rem;}
@@ -63,29 +66,21 @@ blockquote{margin: .5rem 0; padding-left: .5rem; border-left: 2px solid #ff9800 
 
 #details .list-group.vertical-steps{ padding: 0;}
 #details .list-group.vertical-steps .list-group-item{border:none;border-left:2px solid #ff9800; box-sizing:border-box;border-radius:0;counter-increment:step-counter;padding-left:20px;padding-right:0px;padding-bottom:30px;padding-top:0px; transition: all .5s ease-in-out;}
-#details .list-group.vertical-steps .list-group-item.active{background-color:transparent; color:inherit;transition: all .2s ease-in-out;}
+#details .list-group.vertical-steps .list-group-item.active{background-color:transparent !important; color:inherit;transition: all .2s ease-in-out;}
 #details .list-group.vertical-steps .list-group-item::before{font-size:.8rem; font-weight: 500; color: #546e7a !important; background-color: #fff; border:2px solid #ff9800; border-radius:50%; content:"Day\00a0"counter(step-counter)""; display:inline-block; float:left; height:45px; line-height:45px; margin-left:-45px; text-align:center; width:45px; margin-right: .8rem; transition: all .2s ease-in-out; }
 #details .list-group.vertical-steps .list-group-item span,.list-group.vertical-steps .list-group-item a{display:block;overflow:hidden;padding-top:12px;}
 #details .list-group.vertical-steps .list-group-item span{ font-size: .9rem !important;}
 #details .list-group.vertical-steps .list-group-item:last-child{border-left:2px solid transparent; padding-bottom: 0;}
 #details .list-group.vertical-steps .list-group-item.active::before{background-color:#ff9800; color: #fff !important; margin-left: -45px; border: 1px solid #fff; box-shadow: 0px 0px 5px rgba(0,0,0,.3); transform: scale(1.15);transition: all .2s ease-in-out; }
 
-/*
-#details .list-group.vertical-steps .list-group-item.completed{border-left:3px solid #ff9800;}
-#details .list-group.vertical-steps .list-group-item.completed::before{background-color:#fff;}
-#details .list-group.vertical-steps .list-group-item.completed:last-child{border-left:3px solid transparent;}
-*/
+#details .inclusions, #details .exclusions {margin-top: -30px; margin-left: -5px !important;}
+#details .inclusions li, #details .exclusions li{margin: 1rem 0;}
+#details .inclusions li:before{ content: '\f26b'; display: inline-block; color:#4CAF50; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
+#details .exclusions li:before{ content: '\f136'; display: inline-block; color:#cc0000; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
+#details .inclusions li span, #details ul.exclusions li span{margin-left: -.8rem;}
 
-#details ul.inclusions, #details ul.exclusions{ margin:10px 20px;}
-#details ul.inclusions li, #details ul.exclusions li{margin: 1rem 0;}
-/*
-#details ul.inclusions li span.icn_inclusion{color: #4CAF50; font-size: 1.2rem;}
-#details ul.exclusions li span.icn_exclusion{color: #CC0000; font-size: 1.2rem;}
-#details ul.inclusions li span.icn_inclusion, #details ul.exclusions li span.icn_exclusion{display: inline-block; padding-right: 1rem;}*/
-#details ul.inclusions li:before{ content: '\f26b'; display: inline-block; color:#4CAF50; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
-#details ul.exclusions li:before{ content: '\f136'; display: inline-block; color:#cc0000; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
-#details ul.inclusions li span, #details ul.exclusions li span{margin-left: -.8rem;}
-
+#details ul.inclusions li ul li:before{ content: '\f26b'; display: inline-block; color:#4CAF50; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
+#details ul.exclusions li ul li:before{ content: '\f136'; display: inline-block; color:#cc0000; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
 
 #details .itinerary-list .collapsible{ box-shadow: none; border: none;}
 #details .itinerary-list .collapsible .collapsible-header{ background: none; border: none; font-size: 1rem; line-height: normal; height: auto; padding:1rem 0; min-height: 3rem; margin-left: -50px;position: relative; z-index: 999;}

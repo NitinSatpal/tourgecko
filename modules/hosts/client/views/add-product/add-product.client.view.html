@@ -458,7 +458,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="days" ng-model="vm.productDurationType"/>
+																<input type="radio" name="datetime" value="Days" ng-model="vm.productDurationType"/>
 																<span>Days</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -468,7 +468,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="hours" ng-model="vm.productDurationType"/>
+																<input type="radio" name="datetime" value="Hours" ng-model="vm.productDurationType"/>
 																<span>Hours</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -694,7 +694,7 @@
 											</div>
 											<hr>
 											<div>
-								              <div ng-repeat="desc in vm.itineraries | orderBy:'day'" class="selectedItemsDiv">
+								              <div ng-repeat="desc in vm.itineraries" class="selectedItemsDiv">
 								              	<div class="panel">
 								              		<b>Day {{vm.itineraries[$index].day}}</b>
 								              		<br>
@@ -728,10 +728,13 @@
 								            </div>
 											<div class="panel">
 												<div class="itinerary_panel_container">
-													<p class="itinerary_day"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
+													<p class="itinerary_day" ng-show="vm.calculatedDay" ng-click="vm.changeDay();"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
+													<p class="itinerary_day" ng-show="!vm.calculatedDay"><i class="zmdi zmdi-pin-drop"></i> Day <input type="text" ng-model="vm.dayCounter" class="itinerary_day_Edit"></p>
+													<br>
+													<p class="sub_desc itinerary_day_Help" ng-show="vm.helpVisible && vm.calculatedDay">Click on Day to edit the Day number</p>
 													<div class="form-group">
 														<label for="itinerary_headline" class="control-label">Headline</label>
-														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the dayâ€™s activities to guest, E,g if this is trekking tour, headline of day can be â€œWalking 10 km from base village to camp 1â€</p>
+														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the dayâ€™s activities to guest, E,g if this is trekking tour, headline of day can be â€œWalking 10 km from base village to camp 1</p>
 														<div class="input_group">
 															<div>
 																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder="" ng-model="vm.heading"/>
@@ -747,8 +750,8 @@
 															</div>
 														</div>
 													</div>
-													<a href="" class="add_itinerary_day" ng-click="vm.createItinerary()"><i class="zmdi zmdi-plus"></i> Add another day</a>
-													<a href="" class="add_itinerary_done " ng-click="vm.createItinerary()"> Done</a>
+													<a href="" class="add_itinerary_day" ng-click="vm.createItinerary(false)"><i class="zmdi zmdi-plus"></i> Add another day</a>
+													<a href="" class="add_itinerary_done " ng-click="vm.createItinerary(true)"> Done</a>
 												</div>
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
@@ -902,8 +905,9 @@
 								<div class="form-group">
 								  <label for="dsStartDate" class="control-label">Start Date</label>
 								  <div class="input_group">
-									 <div>
-										<input type="date" class="form-control" name="dsStartDate" id="dsStartDate" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" placeholder=""/>
+									 <div class="input-group">
+									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate">
+									 	<span class="input-group-addon" id="fdCalendarIcon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
 									 </div>
 								  </div>
 								</div>
@@ -1148,8 +1152,26 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 			$(".tours_sa_fixed_departure").show();
 		}
 	});
-
 </script>
+<script>
+    $(document).ready(function() {
+    	$('#fdCalendarIcon').click(function(){
+	       $(document).ready(function(){
+	           $("#dsStartDate").datepicker().focus();
+	       });
+	   	});
+    	var date = new Date();
+		date.setDate(date.getDate());
+      	var options={
+	        format: 'mm/dd/yyyy',
+	        todayHighlight: true,
+	        autoclose: true,
+	       	startDate: date
+	    };
+      	$('#dsStartDate').datepicker(options);
+    })
+</script>
+
 <script>
 	var events = [];
 	$(document).ready(function() {
