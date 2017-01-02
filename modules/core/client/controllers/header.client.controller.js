@@ -32,13 +32,14 @@
       if(hideHeaderAndEditCSS.has($location.path())) {
         vm.hideHeader = true;
         $('#mainHeader').removeClass('leftMarginToHeader');
-      } else
+      } else {
         vm.hideHeader = false;
         if(headerWithoutSideNav.has($location.path())) {
           $('#mainHeader').removeClass('leftMarginToHeader');
         } else {
           $('#mainHeader').addClass('leftMarginToHeader');
         }
+      }
     }
 
     vm.goToHomePage = function() {

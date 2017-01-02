@@ -1115,7 +1115,9 @@ $('.nav-tabs-dropdown').on('click', function(e) {
 
 $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
     e.preventDefault();
-    if($(window).width() < 767){$(e.target).closest('ul').hide().prev('a').removeClass('open').text($(this).text());}
+    if ($(window).width() < 767) {
+    	$(e.target).closest('ul').hide().prev('a').removeClass('open').text($(this).text());
+    }
 });
 </script>
 

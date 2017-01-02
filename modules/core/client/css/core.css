@@ -66,4 +66,7 @@ a:hover .header-profile-image {
   .noHorizontalScroll {
     overflow-x: hidden !important;
   }
+  .leftMarginToHeader {
+    margin-left: 0 !important;
+  }
 }

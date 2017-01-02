@@ -81,7 +81,6 @@ function removeFileFromPreview (whichFile) {
 
 
 function addImagesMapEditMode (productImages, productMaps) {
-	console.log('in script ' + productImages);
 	globalMapFileStorageEdit = productMaps;
 
 	var index = 0;

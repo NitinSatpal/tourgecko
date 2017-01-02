@@ -544,7 +544,6 @@ vm.createDepartureSession = function () {
     function uploadImage () {      
       vm.success = vm.error = null;
       // uploadFilesProductId
-      console.log($window.globalImageFileStorageEdit);
       Upload.upload({
         url: 'api/product/productPictureUploads/',
         arrayKey: '',
