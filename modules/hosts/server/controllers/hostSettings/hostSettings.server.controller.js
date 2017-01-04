@@ -4,7 +4,9 @@
  * Module dependencies
  */
 var path = require('path'),
+  fs = require('fs'),
   mongoose = require('mongoose'),
+  multer = require('multer'),
   Company = mongoose.model('HostCompany'),
   User = mongoose.model('User'),
   Language = mongoose.model('I18NLanguage'),
@@ -46,6 +48,103 @@ exports.saveCompanyDetails = function (req, res) {
     res.json(company);
   });
 };
+
+// Upload company logo
+exports.uploadCompanyLogo = function (req, res) {
+  console.log('here - 1');
+  var user = req.user;
+  var upload = multer(config.uploads.hostCompanyLogoUploads).single('newLogo');
+  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+  var existingLogoUrl;
+  console.log('here - 2');
+  // Filtering to upload only images
+  upload.fileFilter = imageUploadFileFilter;
+
+  if (user) {
+    console.log('here - 3');
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        console.log('here - 4');
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      existingLogoUrl = company.logoURL;
+      uploadImage()
+        .then(updateCompany)
+        .then(deleteOldImage)
+        .then(function () {
+          res.json(user);
+        })
+        .catch(function (err) {
+          console.log('here - 5 ' + err);
+          res.status(400).send(err);
+        });
+
+      function uploadImage () {
+        console.log('here - 6');
+        return new Promise(function (resolve, reject) {
+          upload(req, res, function (uploadError) {
+            if (uploadError) {
+              console.log('here - 7 ' +uploadError);
+              reject(errorHandler.getErrorMessage(uploadError));
+            } else {
+              console.log('here - 8');
+              resolve();
+            }
+          });
+        });
+      }
+
+      function updateCompany () {
+        console.log('here - 9');
+        return new Promise(function (resolve, reject) {
+          company.logoURL = config.uploads.hostCompanyLogoUploads.dest + req.file.filename;
+          console.log('here - 10');
+          company.save(function (err, thecompany) {
+            if (err) {
+              console.log('here - 11 ' + err);
+              reject(err);
+            } else {
+              console.log('here - 12');
+              resolve();
+            }
+          });
+        });
+      }
+
+      function deleteOldImage () {
+        console.log('here - 13');
+        return new Promise(function (resolve, reject) {
+          if (existingLogoUrl !== Company.schema.path('logoURL').defaultValue) {
+            console.log('here - 14');
+            fs.unlink(existingLogoUrl, function (unlinkError) {
+              if (unlinkError) {
+                console.log('here - 15 ' +unlinkError);
+                reject({
+                  message: 'Error occurred while deleting old Company logo'
+                });
+              } else {
+                console.log('here - 16');
+                resolve();
+              }
+            });
+          } else {
+            console.log('here - 17');
+            resolve();
+          }
+        });
+      }
+    });
+  } else {
+    console.log('here - 18');
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+};
+
+
 
 //Save contact details
 exports.saveContactDetails = function (req, res) {

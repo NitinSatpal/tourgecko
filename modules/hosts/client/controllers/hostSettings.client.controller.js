@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostSettingsController', HostSettingsController);
 
-  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService'];
+  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService', 'Upload'];
 
-  function HostSettingsController($scope, $state, $http, $timeout, $window, Authentication, HostCompanyService, LanguageService, SpecificUserService) {
+  function HostSettingsController($scope, $state, $http, $timeout, $window, Authentication, HostCompanyService, LanguageService, SpecificUserService, Upload) {
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
@@ -35,6 +35,7 @@
     var isAccountrDetailsChanged = false;
     var isRegionalDetailsChanged = false;
     var isPasswordDetailsChanged = false;
+    var imageUploaded = false;
     
     /* We can watch each and every value and can check whether the value is in changed state at the time of 'Save' button is clicked
       e.g. if field 'How do you describe yourself?' is by default 'Tour Operator' and use is changing it to 'Activity Provider'
@@ -55,7 +56,6 @@
       if (initializing) {
         $timeout(function() { initializing = false; });
       } else {
-        console.log('i m here');
         isContactDetailsChanged = true;
       }
     }, true);
@@ -87,7 +87,9 @@
     // Company Profile settings
     vm.saveCompanyProfileSettings = function () {
       vm.error = null;
-      if (isCompanyDetailsChanged == true) {
+      if (!isCompanyDetailsChanged && imageUploaded)
+        $window.location.reload();
+      else if (isCompanyDetailsChanged == true) {
         $http.post('/api/host/company', vm.companyDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
@@ -98,9 +100,50 @@
       }
     };
 
+    // Upload company logo
+    vm.uploadCompanyLogo = function (dataUrl, name) {
+      vm.success = vm.error = null;
+      imageUploaded = true;
+      Upload.upload({
+        url: 'api/host/company/logo',
+        data: {
+          newLogo: Upload.dataUrltoBlob(dataUrl, name)
+        }
+      }).then(function (response) {
+        $timeout(function () {
+          onSuccessItem(response.data);
+        });
+      }, function (response) {
+        if (response.status > 0) onErrorItem(response.data);
+      });
+    };
+
+    // Called after the user has successfully uploaded a new picture
+    function onSuccessItem(response) {
+      // Show success message
+      vm.success = true;
+
+      // Populate user object
+      vm.user = Authentication.user = response;
+
+      // Reset form
+      vm.logoPicSelected = false;
+      vm.progress = 0;
+    }
+
+    // Called after the user has failed to uploaded a new picture
+    function onErrorItem(response) {
+      vm.logoPicSelected = false;
+
+      // Show error message
+      vm.error = response.message;
+    }
+
+
+
+
     // Contact settings
     vm.saveContactSettings = function (isValid) {
-      console.log(isContactDetailsChanged);
       vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.contactForm');
@@ -108,6 +151,17 @@
       }
 
       if (isContactDetailsChanged == true || (vm.inquiryTime != 'Anytime' && vm.inquiryTime !== undefined)) {
+        var fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
+        var tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
+        var insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
+        
+        if (fb)
+          vm.contactDetails[0].hostSocialAccounts.facebook = fb;
+        if (tweet)
+          vm.contactDetails[0].hostSocialAccounts.twitter = tweet;
+        if (insta)
+          vm.contactDetails[0].hostSocialAccounts.instagram = insta;
+
         $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
           $window.location.reload();
 
@@ -137,8 +191,6 @@
     // Toursite settings
     vm.saveToursiteSettings = function () {
       vm.error = null;
-      console.log(isToursiteDetailsChanged);
-      return;
       if (isToursiteDetailsChanged == true) {
         $http.post('/api/host/toursite', vm.toursiteDetails).success(function (response) {
           $window.location.reload();

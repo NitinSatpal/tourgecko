@@ -369,7 +369,7 @@ vm.createDepartureSession = function () {
   if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
     alert('Please select date for creating a departure session');
     return false;
-  } else if (vm.isFixedTourTimeSlotAvailable == true && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime === undefined) {
+  } else if (vm.isFixedTourTimeSlotAvailable == true && ($('#dsTimeSlot').val() === undefined || $('#dsTimeSlot').val() == null || $('#dsTimeSlot').val() == '')) {
     alert('You have opted for time slot. Please create time slot or opt out the same');
     return false;
   } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
@@ -379,35 +379,43 @@ vm.createDepartureSession = function () {
     return false;
   }
   vm.isProductScheduled = true;
-  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
-  sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
+  
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
- 
+   
   if ($window.events.length % 3 == 0) {
     $window.events.push({title: '<span class="eventname orangeFC">' +
                                 vm.tour.productTitle +
                                 '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
-                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
                                 backgroundColor: 'rgba(237,156,40, 0.2)'});
 
   } else if ($window.events.length % 3 == 1) {
     $window.events.push({title: '<span class="eventname greenFC">' +
                                 vm.tour.productTitle +
                                 '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
-                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
                                 backgroundColor: 'rgba(66,174,94,0.2)'});
   } else {
     $window.events.push({title: '<span class="eventname redFC">' +
                                 vm.tour.productTitle +
                                 '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate,
-                                end: vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].endDate,
+                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
                                 backgroundColor: 'rgba(216,64,64,0.2)'});
   }
   
+  vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
+  
+  // Convert date string to ISO and add one day to the string date before converting to avoid one day fall back
+  var dateToSave = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  dateToSave.setDate(dateToSave.getDate() + 1)
+
+  vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate = new Date(dateToSave);
+
+  vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].duration = vm.tour.productDuration + ' ' + vm.tour.productDurationType;
+
+  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
 
   if (vm.ShowCalendarButton && vm.fixedDepartureSessionCounter == 0) {
     openCalendarForFixedDepartures();
@@ -416,6 +424,9 @@ vm.createDepartureSession = function () {
   }
   else
     rebuildFullCalendar();
+
+  $(".ds_repeat_daily").hide();
+  $(".dsChangePrice").hide();
   return true;
   
 }

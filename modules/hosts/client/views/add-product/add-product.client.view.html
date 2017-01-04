@@ -907,7 +907,9 @@
 								  <div class="input_group">
 									 <div class="input-group">
 									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate">
-									 	<span class="input-group-addon" id="fdCalendarIcon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+									 	<span class="input-group-addon" id="dsStartDateCalendarIcon">
+									 		<i class="fa fa-calendar" aria-hidden="true"></i>
+									 	</span>
 									 </div>
 								  </div>
 								</div>
@@ -926,9 +928,12 @@
 							<div class="col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group">
 								  <label for="dsTimeSlot" class="control-label">Time slot</label>
-								  <div class="input_group">
-									 <div>
-										<input type="time" class="form-control" name="dsTimeSlot" id="dsTimeSlot" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime" placeholder="hrs:mins"/>
+								  <div class="input-group">
+									 <div class="input-group">
+									 	<input class="form-control" id="dsTimeSlot" name="dsTimeSlot" placeholder="Time-slot" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime">
+									 	<span class="input-group-addon customized-inputGroup-addon" id="dsTimeSlotCalendarIcon">
+									 		<i class="fa fa-clock-o" aria-hidden="true"></i>
+									 	</span>
 									 </div>
 								  </div>
 								</div>
@@ -953,10 +958,13 @@
 						<div class="row ds_repeat_daily">
 							<div class="col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group">
-								  <label for="dsRepeatDaily" class="control-label">Until</label>
+								  <label for="dsRepeatTill" class="control-label">Until</label>
 								  <div class="input_group">
-									 <div>
-										<input type="date" class="form-control" name="dsRepeatDaily" id="dsRepeatDaily" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate" placeholder=""/>
+									 <div class="input-group">
+									 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
+									 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
+									 		<i class="fa fa-calendar" aria-hidden="true"></i>
+									 	</span>
 									 </div>
 								  </div>
 								</div>
@@ -1157,7 +1165,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 </script>
 <script>
     $(document).ready(function() {
-    	$('#fdCalendarIcon').click(function(){
+    	$('#dsStartDateCalendarIcon').click(function(){
 	       $(document).ready(function(){
 	           $("#dsStartDate").datepicker().focus();
 	       });
@@ -1165,12 +1173,42 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
     	var date = new Date();
 		date.setDate(date.getDate());
       	var options={
-	        format: 'mm/dd/yyyy',
+	        format: "dd MM yyyy",
 	        todayHighlight: true,
 	        autoclose: true,
 	       	startDate: date
 	    };
       	$('#dsStartDate').datepicker(options);
+    })
+</script>
+<script>
+	$(document).ready(function() {
+    	$('#dsTimeSlotCalendarIcon').click(function(){
+	       $(document).ready(function(){
+	           $('#dsTimeSlot').datetimepicker().focus();
+	       });
+	   	});
+    	$('#dsTimeSlot').datetimepicker({
+	        format: 'LT'
+	    });
+    })
+</script>
+<script>
+    $(document).ready(function() {
+    	$('#dsRepeatTillCalendarIcon').click(function(){
+	       $(document).ready(function(){
+	           $('#dsRepeatTill').datepicker().focus();
+	       });
+	   	});
+    	var date = new Date();
+		date.setDate(date.getDate());
+      	var options={
+	        format: "dd MM yyyy",
+	        todayHighlight: true,
+	        autoclose: true,
+	       	startDate: date
+	    };
+      	$('#dsRepeatTill').datepicker(options);
     })
 </script>
 
@@ -1186,13 +1224,13 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	        	$.each(json, function(index, document) {
 	        		if(document) {
 		        		if (cssCounter == 0) {
-		        			events.push ({title: '<span class="eventname orangeFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
+		        			events.push ({title: '<span class="eventname orangeFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
 		        			cssCounter++;
 		        		} else if (cssCounter == 1) {
-		        			events.push ({title: '<span class="eventname greenFC" >' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(66,174,94,0.2)'});
+		        			events.push ({title: '<span class="eventname greenFC" >' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate,  backgroundColor: 'rgba(66,174,94,0.2)'});
 		        			cssCounter++;
 		        		} else {
-		        			events.push({title: '<span class="eventname redFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, end: document.sessionDepartureDetails.endDate, backgroundColor: 'rgba(216,64,64,0.2)'});
+		        			events.push({title: '<span class="eventname redFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: document.sessionDepartureDetails.startDate, backgroundColor: 'rgba(216,64,64,0.2)'});
 		        			cssCounter = 0;
 		        		}
 		        	}
@@ -1285,6 +1323,7 @@ function openFixedDeparturePanel () {
 			sessionPricingVisible = false;
 		}
 	})
+
 </script>
 
 <script type="text/javascript">

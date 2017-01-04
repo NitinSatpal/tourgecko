@@ -18,7 +18,7 @@
     var productId = $window.localStorage.getItem('productId');
     vm.productDetails;
 
-    $http.get('/api/host/product/'+productId).success(function (response) {
+    $http.get('/api/host/product/' + productId).success(function (response) {
       vm.productDetails = response[0];
       if(response[0].productPictureURLs.length != 0)
         vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];

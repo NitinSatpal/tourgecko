@@ -53,6 +53,9 @@ module.exports = function (app) {
     .get(hosts.fetchCompanyDetails)
     .post(hosts.saveCompanyDetails);
 
+  app.route('/api/host/company/logo')
+    .post(hosts.uploadCompanyLogo);
+
   app.route('/api/host/contact')
     .post(hosts.saveContactDetails);
 

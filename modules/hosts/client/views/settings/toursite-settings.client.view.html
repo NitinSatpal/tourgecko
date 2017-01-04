@@ -31,11 +31,15 @@
 									</div>
 									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12">
-											<h5>Make toursite inactive</h5>
-											<p class="status-desc sub_desc">If you make toursite inactive, guest will not be able to access it. They can still access individual tour pages though.</p>
-											<div class="form-group toogle-status">
-												<label class="checkbox-inline"><input type="checkbox" ng-model="vm.toursiteDetails[0].isToursiteInactive"><span>Inactive</span></label>
+											<div class="form-group">
+											   	<label for="sdSTimeSwitch" class="control-label">Make toursite inactive?</label>
+											    <div class="tourActivenessswitch fixed-departure-onoffswitch tours_sd_st">
+												  	<input type="checkbox" name="tours_sd_st-onoffswitch" class="tourActivenessswitch-checkbox" ng-model="vm.toursiteDetails[0].isToursiteInactive" id="tours_sd_st-onoffswitch">
+												  	<label class="tourActivenessswitch-label" for="tours_sd_st-onoffswitch"></label>
+											   	</div>
+											   	<p class="status-desc sub_desc">If you make toursite inactive, guest will not be able to access it. They can still access individual tour pages though.</p>
 											</div>
+											
 										</div>
 									</div>
 									<div class="row">
