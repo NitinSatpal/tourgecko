@@ -40,10 +40,13 @@
         }
       })
       .state('host.editProduct', {
-        url: '/product/edit',
+        url: '/product/edit/:productId',
         templateUrl: 'modules/hosts/client/views/add-product/add-product.client.view.html',
         controller: 'AddProductController',
         controllerAs: 'vm',
+        params: {
+          productId: null
+        },
         data: {
           pageTitle: 'Admin | Edit Product'
         }
@@ -158,10 +161,13 @@
         }
       })
       .state('hostAndGuest.tourPreview', {
-        url: '/host/tour/preview',
+        url: '/host/tour/preview/:productId',
         templateUrl: 'modules/hosts/client/views/tours/tourpreview.client.view.html',
         controller: 'TourPreviewController',
         controllerAs: 'vm',
+        params: {
+          productId: null
+        },
         data: {
           pageTitle: 'Admin | Tour'
         }

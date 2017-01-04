@@ -10,9 +10,9 @@
         };
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', 'Upload'];
+  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, Upload) {
+  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload) {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initializitaion */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -64,9 +64,9 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Check whether product is getting created or edited */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    var productId = $window.localStorage.getItem('productEditId');
-    if(productId != 'noProductId') {
-      $http.get('/api/host/product/'+ $window.localStorage.getItem('productEditId')).success(function (response) {
+    var productId = $location.path().split('/')[4];
+    if(productId) {
+      $http.get('/api/host/product/'+ productId).success(function (response) {
           vm.tour = response[0];
 
           addImagesMapEditMode(vm.tour.productPictureURLs, vm.tour.productMapURLs);
@@ -455,19 +455,13 @@ vm.createDepartureSession = function () {
       
       setProductInformation();
 
-      var productId = $window.localStorage.getItem('productEditId');
-
-      if(productId != 'noProductId') {
+      if(productId) {
         $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
           $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
           $scope.imageFilesToBeUploadedEdit = $window.globalImageFileStorageEdit;
           $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
           uploadImage();
-         /* else {
-            $state.go('host.tours');
-            $window.localStorage.setItem('productEditId', 'noProductId');
-          } */
 
           if($scope.mapFilesToBeUploded.length > 0)
             uploadMap();
@@ -538,7 +532,6 @@ vm.createDepartureSession = function () {
     /* This function handles the button click of add tour */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
-      $window.localStorage.setItem('productEditId', 'noProductId');
       $timeout(function () {
         $state.go('host.addProduct');
       }, 800);
@@ -605,7 +598,6 @@ vm.createDepartureSession = function () {
       vm.success = true;
       if(pictureType == 'image') {
         $state.go('host.tours');
-        $window.localStorage.setItem('productEditId', 'noProductId');
       }
     }
 

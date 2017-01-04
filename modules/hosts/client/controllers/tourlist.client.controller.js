@@ -53,13 +53,12 @@
     }*/
 
     vm.showTourPreview = function(index) {
-        $window.localStorage.setItem('productId', vm.products[index]._id);
-        $window.open($state.href('hostAndGuest.tourPreview'),'_blank','heigth=600,width=600');
+        $window.open($state.href('hostAndGuest.tourPreview', {productId: vm.products[index]._id}),'_blank','heigth=600,width=600');
     }
 
     vm.editTourDetails = function(index) {
-        $window.localStorage.setItem('productEditId', vm.products[index]._id);
-        $state.go('host.editProduct');
+        // $window.localStorage.setItem('productEditId', vm.products[index]._id);
+        $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
 
   }

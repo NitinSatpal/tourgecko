@@ -23,8 +23,8 @@
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
-        if(hideSideNavHere.has($location.path()))
-            vm.hideSideNav = true;
+        if(hideSideNavHere.has($location.path()) || $location.path().split('/')[3] == 'preview')
+          vm.hideSideNav = true;
         else
           vm.hideSideNav = false;
     }

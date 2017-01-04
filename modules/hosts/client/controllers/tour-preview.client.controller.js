@@ -10,12 +10,13 @@
         };
     });
 
-  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication'];
+  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication'];
 
-  function TourPreviewController($scope, $state, $window, $http, Authentication) {
+  function TourPreviewController($scope, $state, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
-    var productId = $window.localStorage.getItem('productId');
+    console.log()
+    var productId = $location.path().split('/')[4];
     vm.productDetails;
 
     $http.get('/api/host/product/' + productId).success(function (response) {

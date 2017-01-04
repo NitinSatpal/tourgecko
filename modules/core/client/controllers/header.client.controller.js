@@ -29,7 +29,7 @@
     function stateChangeSuccess() {
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
-      if(hideHeaderAndEditCSS.has($location.path())) {
+      if(hideHeaderAndEditCSS.has($location.path()) || $location.path().split('/')[3] == 'preview') {
         vm.hideHeader = true;
         $('#mainHeader').removeClass('leftMarginToHeader');
       } else {

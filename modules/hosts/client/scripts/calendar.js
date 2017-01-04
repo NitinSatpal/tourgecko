@@ -113,10 +113,9 @@ $(document).ready(function() {
 									bookings + 
 								"</p>";
 
-				window.localStorage.setItem('productId', event.productId);
 				$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
 				$('#calendarTourPopupBody').html(bodyHtml);
-				$('#eventUrl').attr('href','host/tour/preview');
+				$('#eventUrl').attr('href','host/tour/preview/'+ event.productId);
 				$('#fullCalModal').modal();
 			}
 		});
