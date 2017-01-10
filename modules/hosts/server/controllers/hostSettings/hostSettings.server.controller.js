@@ -17,14 +17,16 @@ var path = require('path'),
 // Fetching user company details here. Though we will need specific users company details always. But we are fetching as an array.
 // Later point of time we may need company details of all the users. We can use this same api for that.
 exports.fetchCompanyDetails = function (req, res) {
-  Company.find({user: req.user._id}).populate('user').exec(function (err, companies) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(companies);
-  });
+  if(req.user) {
+    Company.find({user: req.user._id}).populate('user').exec(function (err, companies) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(companies);
+    });
+  }
 };
 
 // Save company details

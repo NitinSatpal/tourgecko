@@ -85,7 +85,6 @@ function addImagesMapEditMode (productImages, productMaps) {
 
 	var index = 0;
 	for (index = 0; index < productImages.length; index++) {
-		console.log('in script again' + productImages[index]);
 		globalImageFileStorageEdit.push(productImages[index]);
 		addImageOneByOne(productImages[index]);
 	}

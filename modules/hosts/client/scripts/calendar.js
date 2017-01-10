@@ -6,45 +6,84 @@ $(document).ready(function() {
         dataType: 'json',
       success: function( json ) {
       	var cssCounter = 0;
+      	var weekDaysNumber = new Map();
+      	weekDaysNumber.set('sunday', 0);
+      	weekDaysNumber.set('monday', 1);
+      	weekDaysNumber.set('tuesday', 2);
+      	weekDaysNumber.set('wednesday', 3);
+      	weekDaysNumber.set('thursday', 4);
+      	weekDaysNumber.set('friday', 5);
+      	weekDaysNumber.set('saturday', 6);
+      	
         $.each(json, function(index, document) {
         	if(document) {
-	        	if (cssCounter == 0) {
-	        		events.push	({
-	        			title: '<span class="eventname orangeFC">' + 
-	        			document.product.productTitle + '</span> <br>' + 
-	        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
-	        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' ,
-	        			start: document.sessionDepartureDetails.startDate,
-	        			duration: document.sessionDepartureDetails.duration,
-	        			productId: document.product._id,
-	        			backgroundColor: 'rgba(237,156,40, 0.2)'
-	        		});
-	        		cssCounter++;
-	        	} else if (cssCounter == 1) {
-	        		events.push	({
-	        			title: '<span class="eventname greenFC">' +
-	        			document.product.productTitle + '</span> <br>' +
-	        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
-	        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-	        			start: document.sessionDepartureDetails.startDate,
-	        			duration: document.sessionDepartureDetails.duration,
-	        			productId: document.product._id,
-	        			backgroundColor: 'rgba(66,174,94,0.2)'
-	        		});
-	        		cssCounter++;
-	        	} else {
-	        		events.push	({
-	        			title: '<span class="eventname redFC">' +
-	        			document.product.productTitle + '</span> <br>' +
-	        			'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
-	        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-	        			start: document.sessionDepartureDetails.startDate,
-	        			duration: document.sessionDepartureDetails.duration,
-	        			productId: document.product._id,
-	        			backgroundColor: 'rgba(216,64,64,0.2)'
-	        		});
-	        		cssCounter = 0;
-	        	}
+        		var repeatedDays = 0;
+        		var notAllowedDays = new Set();
+        		if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
+        			var firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
+	        		var secondDate = new Date(document.sessionDepartureDetails.startDate);
+	        		var oneDay = 24*60*60*1000;
+	        		repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+	        		repeatedDays = repeatedDays + 1;
+
+	        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
+	        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
+	        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
+	        		}
+
+        		}
+        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
+        		eventDate = eventDate.setDate(eventDate.getDate() - 1);
+        		eventDate = new Date (eventDate);
+
+        		for (var index = 0; index <= repeatedDays; index ++) {
+        			var needToSave = true;
+        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && notAllowedDays.has(eventDate.getDay()))
+        				needToSave = false;
+        			
+        			eventDate = eventDate.setDate(eventDate.getDate() + 1);
+
+        			if (needToSave) {
+			        	if (cssCounter == 0) {
+			        		events.push	({
+			        			title: '<span class="eventname orangeFC">' + 
+			        			document.product.productTitle + '</span> <br>' + 
+			        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
+			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' ,
+			        			start: eventDate,
+			        			duration: document.sessionDepartureDetails.duration,
+			        			productId: document.product._id,
+			        			backgroundColor: 'rgba(237,156,40, 0.2)'
+			        		});
+			        		cssCounter++;
+			        	} else if (cssCounter == 1) {
+			        		events.push	({
+			        			title: '<span class="eventname greenFC">' +
+			        			document.product.productTitle + '</span> <br>' +
+			        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+			        			start: eventDate,
+			        			duration: document.sessionDepartureDetails.duration,
+			        			productId: document.product._id,
+			        			backgroundColor: 'rgba(66,174,94,0.2)'
+			        		});
+			        		cssCounter++;
+			        	} else {
+			        		events.push	({
+			        			title: '<span class="eventname redFC">' +
+			        			document.product.productTitle + '</span> <br>' +
+			        			'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
+			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+			        			start: eventDate,
+			        			duration: document.sessionDepartureDetails.duration,
+			        			productId: document.product._id,
+			        			backgroundColor: 'rgba(216,64,64,0.2)'
+			        		});
+			        		cssCounter = 0;
+			        	}
+			        }
+		        	eventDate = new Date (eventDate);
+		        }
 	        }
         });
         $('#calendar').fullCalendar({

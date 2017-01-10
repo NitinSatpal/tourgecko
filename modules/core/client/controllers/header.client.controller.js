@@ -16,6 +16,7 @@
     headerWithoutSideNav.add('/password/reset/success');
     headerWithoutSideNav.add('/');
     headerWithoutSideNav.add('/admin/home');
+     headerWithoutSideNav.add('/forbidden');
 
     var hideHeaderAndEditCSS = new Set();
     hideHeaderAndEditCSS.add('/host/tour/preview');
@@ -34,7 +35,7 @@
         $('#mainHeader').removeClass('leftMarginToHeader');
       } else {
         vm.hideHeader = false;
-        if(headerWithoutSideNav.has($location.path())) {
+        if(headerWithoutSideNav.has($location.path()) || $location.path().split('/')[1] == 'guest') {
           $('#mainHeader').removeClass('leftMarginToHeader');
         } else {
           $('#mainHeader').addClass('leftMarginToHeader');

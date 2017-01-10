@@ -19,11 +19,12 @@
     hideSideNavHere.add('/password/reset/success');
     hideSideNavHere.add('/host/tour/preview');
     hideSideNavHere.add('/admin/home');
+    hideSideNavHere.add('/forbidden');
     
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
-        if(hideSideNavHere.has($location.path()) || $location.path().split('/')[3] == 'preview')
+        if(hideSideNavHere.has($location.path()) || $location.path().split('/')[3] == 'preview' || $location.path().split('/')[1] == 'guest')
           vm.hideSideNav = true;
         else
           vm.hideSideNav = false;

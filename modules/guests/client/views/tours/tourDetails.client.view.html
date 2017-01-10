@@ -1,35 +1,7 @@
 <div class="tourPreviewDetails">
     <header>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
-        <link rel="stylesheet" href="modules/core/client/css/tour-preview-details-booking-1.css"/>
-        <link rel="stylesheet" href="modules/core/client/css/tour-preview-details-booking-2.css"/>
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-  
-        <div id="dev" class="blue lighten-5 center dev-view z-depth-3">
-            <p>This is what other people see when they visit your Booking Site. <a class="blue-text" style="cursor:pointer" onclick="document.getElementById('dev').style.display='none';">Return to your dashboard.</a><p>
-        </div>
-        <!--<div class="navbar-fixed">-->
-       <!-- <nav class="blue-grey darken-4 fixed">
-            <div class="nav-wrapper container">
-                <a href="#" class="brand-logo orange-text">tourgecko</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
-                  <li><a href="#" id="profile-list" data-activates="profile-menu"><i class="zmdi zmdi-account-circle left orange-text"></i><i class="material-icons right">arrow_drop_down</i>Sudheer</a></li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                  <li><a href="#"><i class="zmdi zmdi-account-circle left orange-text dropdown-button"></i>Sudheer</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
-                </ul>
-                <ul id="profile-menu" class="dropdown-content">
-                  <li><a href="#!" class="blue-grey-text text-darken-1">My Profile</a></li>
-                  <li><a href="#!" class="blue-grey-text text-darken-1">Edit Profile</a></li>
-                  <li><a href="#!" class="blue-grey-text text-darken-1">Settings</a></li>
-                </ul>
-            </div>
-        </nav> -->
     </header>
     <main>
         <div id="details_hero" class="slider" data-indicators="true">
@@ -349,7 +321,7 @@
                                     </div>
                                 </div>
                                 <div class="center">
-                                    <a href="" class="waves-effect waves-light btn orange fluid">Request Booking</a>
+                                    <a ui-sref="guest.booking({productId: vm.productDetails._id})" class="waves-effect waves-light btn orange fluid">Request Booking</a>
                                 </div>
                             </div>
                             <div class="card-panel">
@@ -365,18 +337,18 @@
                                     </a>
                                     <span class="grey-text">Call Us on:</span> 
                                     <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
-                                        <strong>{{vm.companyDetails.inquiryMobile}}</strong>
+                                        <strong>{{vm.productDetails.hostCompany.inquiryMobile}}</strong>
                                     </a>
                                 </div>
                                 <blockquote>
-                                    <label ng-show="vm.companyDetails.inquiryTime == 'rangeTime'">>
+                                    <label ng-show="vm.productDetails.hostCompany.inquiryTime == 'rangeTime'">>
                                         <strong>From</strong> 
-                                        <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeFrom}}</span> 
+                                        <span class="orange-text">{{vm.productDetails.hostCompany.inquiryTimeRangeFrom}}</span> 
                                         <strong>to</strong> 
-                                        <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeTo}}</span> 
+                                        <span class="orange-text">{{vm.productDetails.hostCompany.inquiryTimeRangeTo}}</span> 
                                         <strong>IST</strong>  
                                     </label>
-                                    <label ng-show="vm.companyDetails.inquiryTime == 'Anytime'">
+                                    <label ng-show="vm.productDetails.hostCompany.inquiryTime == 'Anytime'">
                                         <strong>Anytime</strong> 
                                         
                                     </label>
@@ -413,5 +385,5 @@
 <!--Scripts-->
 <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
-<script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details.js"></script>
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>

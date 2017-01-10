@@ -2,26 +2,24 @@
   'use strict';
 
   angular
-    .module('hosts')
-    .controller('TourPreviewController', TourPreviewController)
+    .module('guests')
+    .controller('TourDetailsController', TourDetailsController)
     .filter('htmlData', function($sce) {
         return function(val) {
           return $sce.trustAsHtml(val);
         };
     });
 
-  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication'];
+  TourDetailsController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication'];
 
-  function TourPreviewController($scope, $state, $window, $http, $location, Authentication) {
+  function TourDetailsController($scope, $state, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
-    console.log()
-    var productId = $location.path().split('/')[4];
+    var productId = $location.path().split('/')[3];
     vm.productDetails;
-
-    $http.get('/api/host/product/' + productId).success(function (response) {
+    
+    $http.get('/api/guest/product/' + productId).success(function (response) {
       vm.productDetails = response[0];
-      vm.companyDetails = response[0].hostCompany;
       if(response[0].productPictureURLs.length != 0)
         vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];
     }).error(function (response) {

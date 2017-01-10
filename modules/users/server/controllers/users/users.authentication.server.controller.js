@@ -114,7 +114,7 @@ exports.signupDetails = function(req, res, next) {
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
             user.userType = 'host';
-            user.roles.push('hostAdmin');
+            user.roles = ['hostAdmin'];
 
             user.save(function (err) {
               if (err) {

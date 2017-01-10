@@ -151,10 +151,15 @@
       }
 
       if (isContactDetailsChanged == true || (vm.inquiryTime != 'Anytime' && vm.inquiryTime !== undefined)) {
-        var fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
-        var tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
-        var insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
-        
+        var fb;
+        var tweet;
+        var insta;
+        if(vm.contactDetails[0].hostSocialAccounts) {
+          fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
+          tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
+          insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
+        }
+
         if (fb)
           vm.contactDetails[0].hostSocialAccounts.facebook = fb;
         if (tweet)

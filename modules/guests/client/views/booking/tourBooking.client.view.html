@@ -1,0 +1,467 @@
+<div class="guestHome tourBooking">
+    <header>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+      </script> 
+    </header>
+
+    <main>
+        <div id="booking" class="main-content marginFromBothEnd">
+            <div class="row">
+                <div class="col l8 m8 s12">
+                    <div class="col l12 m12 s12 black-text margin-bottom"><h5>{{vm.bookingProductDetails.productTitle}}</h5>
+                        <a href="#" class="blue-grey-text text-darken-1">
+                            <i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{vm.bookingProductDetails.destination}}
+                        </a>
+                    </div>
+                    <div id="wizard" class="swMain section">
+                        <ul class="col l12 m12 s12">
+                            <li class="col l3 m3 s3">
+                                <a href="#step-1">
+                                    <label class="stepNumber">1</label>
+                                    <span class="stepDesc">Departure <br/>
+                                        <small>{{vm.selectedDate}}</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col l3 m3 s3">
+                                <a href="#step-2">
+                                    <label class="stepNumber">2</label>
+                                    <span class="stepDesc">Pricing <br/>
+                                        <small>You Pay &#8377; {{vm.totalPayablePrice}}</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col l3 m3 s3">
+                                <a href="#step-3">
+                                    <label class="stepNumber">3</label>
+                                    <span class="stepDesc">
+                                        Your Information <br/>
+                                        <small>username@email.com</small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="col l3 m3 s3">
+                                <a href="#step-4">
+                                    <label class="stepNumber last-step">4</label>
+                                    <span class="stepDesc">
+                                        Payment Information <br/>
+                                        <small></small>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                  
+                        <!--step 1-->
+                        <div id="step-1" class="col l12 m12 s12 margin-bottom z-depth-1">
+                            <div class="section-header white">
+                                <i class="zmdi zmdi-calendar orange-text"></i>
+                                <span class="section-header-title">Departure
+                                    <!--<span class="desc-text grey-text">(the day to start)</span>-->
+                                </span> 
+                            </div>
+                            <div class="row light-blue lighten-5 padding blue-grey-text text-darken-1">
+                                <strong>Select the departure date</strong>
+                            </div>
+                            <ul id="departure-schedule" class="collection">
+                                <li class="collection-item no-background" ng-repeat="index in getDepartureDates(firstFiveDepartureDates) track by $index">
+                                    <span class="primary-content">
+                                        <input name="group1" type="radio" id="departureDate{{$index}}" class="with-gap" value="vm.selectedDate" ng-click="vm.setSelectedDate($index)">
+                                        <label for="departureDate{{$index}}" class="blue-grey-text text-lighten-1">{{vm.getDepartureDate(vm.productSessions[$index].sessionDepartureDetails.startDate)}}</label>
+                                    </span>
+                                    <span class=" secondary-content chip green">
+                                        <a class="white-text" href="#">4 Seats Available</a>
+                                    </span>
+                                </li>
+                                <li class="collection-item center  no-background" ng-show="firstFiveDepartureDates == 5 && !vm.showMoreDates">
+                                    <a href="#" class="blue-grey-text text-darken-1 btn btn-flat btn-waves" ng-click="firstFiveDepartureDates = vm.productSessions.length"><i class="zmdi zmdi-plus orange-text"></i> See More Dates</a>
+                                </li>
+                                <li class="collection-item center  no-background" ng-show="firstFiveDepartureDates > 5">
+                                    <a href="#" class="blue-grey-text text-darken-1 btn btn-flat btn-waves" ng-click="firstFiveDepartureDates = 5"><i class="zmdi zmdi-minus orange-text"></i> See Less Dates</a>
+                                </li>
+                            </ul>
+                        </div>
+                 
+                        <!--step 2--> 
+                        <div id="step-2" class="col l12 m12 s12 margin-bottom z-depth-1">
+                            <div class="section-header white">
+                                <i class="orange-text">&#8377;</i>
+                                <span class="section-header-title">Pricing Details</span> 
+                            </div>  
+                            <div id="guest-pricing-details">
+                                <div class="row padding light-blue lighten-5 blue-grey-text text-darken-1">
+                                    <strong>Select a booking option</strong>    
+                                </div>
+				                <div class="padding-left padding-right">
+                                    <div class="row blue-grey lighten-5 margin-bottom blue-grey-text text-darken-1">
+										<div class="col s7">
+                                            <strong>Booking Option</strong>
+                                        </div>
+										<div class="col s3">
+                                            <strong>Price</strong>
+                                        </div>
+                                        <div class="col s2">
+                                            <strong>Qty</strong>
+                                        </div>
+									</div>
+                                    <div ng-repeat="pricing in vm.bookingProductDetails.productPricingOptions track by $index">
+    									<div class="row">
+                                            <div class="col s7">
+    											<div class="inputwithlabel">
+                                                    <input name="pricingSelection" type="radio" id="pricingSelection{{$index}}" class="with-gap"
+                                                    ng-click="vm.setSelectedPricing($index)">
+    												<label for="pricingSelection{{$index}}">
+    													<span class="input-radio pull-left"></span>
+    													<span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
+                                                            {{pricing.pricingType}}
+                                                            <span ng-show="pricing.pricingType == 'Group'">
+                                                                <br>
+                                                                <span class="desc-text grey-text">(Group-size : {{pricing.minGroupSize}} to {{pricing.maxGroupSize}})</span>
+                                                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            </span>
+                                                            <span ng-show="pricing.pricingType == 'Custom'">
+                                                                <br>
+                                                                <span class="desc-text grey-text">(Seats-used : {{pricing.seatsUsed}})</span>
+                                                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            </span>
+    													</span>
+    												</label>
+    											</div>
+    										</div>
+    										<div class="col s3 price-per-guest">
+                                                <strong>&#8377; {{pricing.price}}</strong>
+                                            </div>
+    										<div class="col s2 guest-quantity">
+    											<input type="number" name="quantity" min="1" ng-model="vm.seatQuantity[$index]" class="qty" ng-change="vm.calculateSeatPrice($index)">
+    										</div>
+    									</div>
+                                    </div>
+                                
+                                    <div class="divider"></div>
+                            
+                                    <div ng-show="vm.bookingProductDetails.areAddonsAvailable">    
+                                        <div class="row padding-top padding-bottom">
+                                            <div class="col s12 l12 m12 margin-bottom blue-grey-text text-darken-1">Optional Add-Ons</div>
+                                            <div class="col s12 l12 m12" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index">
+                                                <div class="col s7">
+    										        <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)">
+    										        <label for="addon{{$index}}" class="blue-grey-text text-lighten-1">{{addon.name}}</label>
+    									        </div>
+        								        <div class="col s3 price-per-guest">
+                                                    <strong>&#8377; {{addon.price}}</strong> <br>
+                                                    <span class="desc-text grey-text">({{addon.applyAs}})</span>
+                                                </div>
+            									<div class="col s2 guest-quantity">
+            										<input type="number" name="quantity" min="1" class="qty" ng-model="vm.addonQuantity[$index]" ng-change="vm.calculateAddonPrice($index)">
+            									</div>
+                                            </div>
+    							        </div>
+                                        <div class="divider"></div>
+                                    </div>
+                            
+                                    <!-- No coupon codes for now -->
+                                    <!--
+                                    <div class="row padding-top padding-bottom">
+                                        <div class="col s12 l12 m12">
+                                            <a id="display-coupon" class="blue-grey-text text-darken-1"><strong>Have a coupon?&nbsp;&nbsp;<i class="zmdi zmdi-plus"></i></strong>
+                                            </a>
+                                        </div>
+        								
+                                        <div id="apply-coupon" class="col s12 l12 m12 padding-none-left">
+                                        <div class="input-field col s6 m4 l4">
+                                          <input id="coupon-code" type="text" class="blue-grey-text text-darken-1">
+                                          <label for="coupon-code" data-error="wrong" data-success="right">Coupon Code</label>
+                                        </div>
+                                        <div class="input-field col s4 m6 l6"><a href="#" class="btn btn-outline white orange-text">Apply</a>
+                                            </div>
+                                        </div>
+        							</div>
+                                    -->
+                        
+                                    <div class="row padding-top padding-bottom blue-grey lighten-5">
+                                        <div class="col s12 l12 m12 blue-grey-text text-darken-1 margin-bottom">
+                                            <strong>Totals</strong>
+                                        </div>
+                                
+                                        <div class="col s12 m12 l12 margin-bottom">
+                                            <div class="col s7 m7 l7">Tour price</div>
+                                            <div class="col s5 m5 l5">
+                                                <strong>&#8377; {{vm.calculatedSeatPrice}}</strong>
+                                            </div>
+                                        </div>    
+                                 
+                                        <div class="col s12 m12 l12  margin-bottom">    
+                                            <div class="col s7 m7 l7">Add-ons</div>
+                                            <div class="col s5 m5 l5">
+                                                <strong>&#8377; {{vm.calculatedAddonPrice}}</strong>
+                                            </div>    
+                                        </div>    
+                                
+                                        <!-- No discount for now-->
+                                        <!--
+                                        <div class="col s12 m12 l12 margin-bottom">    
+                                            <div class="col s7 m7 l7">Discount</div>
+                                            <div class="col s5 m5 l5">
+                                                <strong>&#8377; 100</strong>
+                                            </div>    
+                                        </div>
+                                        -->
+                                
+                                        <div class="col s12 m12 l12">    
+                                            <div class="col s7 m7 l7 orange-text">You will pay</div>
+                                            <div class="col s5 m5 l5">
+                                                <span class="chip green white-text">&#8377; {{vm.totalPayablePrice}}</span>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>                    
+                        </div>
+                  
+                  
+                        <!--step 3--> 
+                        <div id="step-3" class="col l12 m12 s12 margin-bottom z-depth-1">
+                            <div class="section-header white">
+                                <i class="zmdi zmdi-account orange-text"></i>
+                                <span class="section-header-title">Guest Information
+                                <!--<span class="desc-text grey-text">(the day to start)</span>-->
+                                </span> 
+                            </div>
+                            <div class="row light-blue lighten-5 margin-bottom padding blue-grey-text text-darken-1">
+                                <strong>Your information</strong>
+                            </div>
+                    
+                            <form class="margin-top">
+                                <div class="col s12 l12 m12 blue-grey-text text-darken-1">Full Name</div>
+                                <div class="col l12 m12 s12  padding-none-left">
+                                    <div class="input-field col s6 m6 l6">
+                                        <input id="first-name" type="text" class="blue-grey-text text-darken-1">
+                                        <label for="first-name" data-error="wrong" data-success="right">First Name</label>
+                                    </div>
+                                    <div class="input-field col s6 m6 l6">
+                                        <input id="last-name" type="text" class="blue-grey-text text-darken-1">
+                                        <label for="last-name" data-error="wrong" data-success="right">Last Name</label>
+                                    </div>
+                                </div>
+                        
+                                <div class="col s12 l12 m12 blue-grey-text text-darken-1">Email</div>
+                                <div class="col l12 m12 s12 padding-none-left">
+                                    <div class="input-field col s12 m12 l12">
+                                        <input id="email-address" type="email" class="blue-grey-text text-darken-1">
+                                        <label for="email-address" data-error="Invalid Email Address" data-success="right">Receipts and notifications will be sent to this address</label>
+                                    </div>   
+                                </div>
+                        
+                                <div class="col s12 l12 m12 blue-grey-text text-darken-1">Phone</div>
+                                <div class="col l12 m12 s12  padding-none-left margin-bottom">
+                                    <div class="input-field col s3 l2 m12">
+                                        <select>
+                                            <option value="1">+91</option>
+                                            <option value="2">+1</option>
+                                            <option value="3">+101</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-field col l10 m10 s9">
+                                        <input id="mobile" type="number" class="blue-grey-text text-darken-1">
+                                        <label for="mobile" data-error="Invalid Mobile Number" data-success="right">Mobile number</label>
+                                    </div>   
+                                </div>
+                            </form>
+                        </div>
+                  
+                        <!--step 4--> 
+                        <div id="step-4" class="col l12 m12 s12 margin-bottom z-depth-1">
+                            <div class="section-header white">
+                                <i class="zmdi zmdi-card orange-text"></i>
+                                <span class="section-header-title">Payment</span> 
+                            </div>
+                            <div class="row green lighten-5 padding green-text margin-none-bottom center">You pay &nbsp;
+                                <strong>&#8377; 2000</strong>
+                            </div>
+                            <div class="row margin-none-bottom">
+                                <div class="col s12 m3 l3 tabs-holder">
+                                    <ul class="tabs margin-bottom fluid-vertical">
+                                        <li class="tab vertical">
+                                            <a href="#debit-card" class="active" >Debit Card</a>
+                                        </li>
+                                        <br>
+                                        <li class="tab vertical">
+                                            <a href="#credit-card">Credit Card</a>
+                                        </li>
+                                        <br>
+                                        <li class="tab vertical">
+                                            <a href="#netbanking">Net Banking</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                        
+                                <div class="col s12 m9 l9">
+                                    <div id="debit-card" class="col s12 m12 l12 margin-top margin-bottom">
+                                        <div class="row">
+                                            <div class="col l4 m4 s12">
+                                                <label>Pay using Debit Card:</label>
+                                            </div>
+                                            <div class="col l8 m8 s12 padding-none-left">
+                                                <img src="modules/core/client/img/previewAndDetails/debit-cards.png" alt="cards">
+                                            </div>
+                                        </div>
+                                        <div class="cards-bg z-depth-1 padding-bottom padding-top">
+                                            <div class="col s12 l12 m12 margin-top">
+                                                <div class="input-field">
+                                                    <input id="debit-card-number" type="number">
+                                                    <label for="debit-card-number" class="">Card Number</label>
+                                                </div>
+                                                <div class="input-field">
+                                                    <input id="name-on-debit-card" type="text">
+                                                    <label for="name-on-debit-card" class="">Name on card</label>
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="col s4 m3 l3 padding-top blue-grey-text text-darken-1">
+                                                <span class="padding-top">Expiry Date</span>
+                                            </div>
+                                            <div class="col s2 m3 l3">    
+                                                <div class="input-field">
+                                                    <input id="debit-card-expiry-month" type="number" class="autocomplete">
+                                                    <label for="debit-card-expiry-month">MM</label>
+                                                </div>    
+                                            </div>
+                                            <div class="col s2 m3 l3">
+                                                <div class="input-field">
+                                                    <input id="debit-card-expiry-year" type="number">
+                                                    <label for="debit-card-expiry-year" class="">YY</label>
+                                                </div>
+                                            </div>
+                                            <div class="col s4 m3 l3">
+                                                <div class="input-field">
+                                                    <input id="debit-ccv" type="number">
+                                                    <label for="debit-ccv" class="">CCV</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="credit-card" class="col s12 m12 l12 margin-top margin-bottom">
+                                        <div class="row">
+                                            <div class="col l4 m4 s12 ">
+                                                <label>Pay using Credit Card:</label>
+                                            </div>
+                                            <div class="col l8 m8 s12 padding-none-left">
+                                                <img src="modules/core/client/img/previewAndDetails/credit-cards.png" alt="cards">
+                                            </div>
+                                        </div>
+                            
+                                        <div class="cards-bg z-depth-1 padding-bottom padding-top">
+                                            <div class="col s12 l12 m12 margin-top">
+                                            <div class="input-field">
+                                                <input id="credit-card-number" type="number">
+                                                <label for="credit-card-number" class="">Card Number</label>
+                                            </div>
+                                            <div class="input-field">
+                                                <input id="name-on-credit-card" type="text">
+                                                <label for="name-on-credit-card" class="">Name on card</label>
+                                            </div>
+                                            </div>
+                                            
+                                            <div class="col s4 m3 l3 padding-top blue-grey-text text-darken-1">
+                                                <span class="padding-top">Expiry Date</span>
+                                            </div>
+                                            <div class="col s2 m3 l3">    
+                                                <div class="input-field">
+                                                    <input id="credit-card-expiry-month" type="number">
+                                                    <label for="credit-card-expiry-month" class="">MM</label>
+                                                </div>    
+                                            </div>
+                                            <div class="col s2 m3 l3">
+                                                <div class="input-field">
+                                                    <input id="credit-card-expiry-year" type="number">
+                                                    <label for="credit-card-expiry-year" class="">YY</label>
+                                                </div>    
+                                            </div> 
+                                            <div class="col s4 m3 l3">
+                                                <div class="input-field">
+                                                    <input id="credit-ccv" type="number">
+                                                    <label for="credit-ccv" class="">CCV</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="netbanking" class="col s12 m12 l12 margin-top margin-bottom">    
+                                        <strong>Select Your Bank</strong>
+                                        <div class="input-field col s12 padding-none-left">
+                                            <select>
+                                                <option value="" disabled selected>Choose your option</option>    
+                                                <option value="1">Bank 1</option>
+                                                <option value="2">Bank 2</option>
+                                                <option value="3">Bank 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 l12 m12 margin-top center">
+                                        <input type="checkbox" id="agree-booking-terms" class="filled-in" name="agree-booking-terms">
+                                        <label for="agree-booking-terms" class="blue-grey-text text-lighten-1"> 
+                                            I hereby agree to <a href="#" class="blue-grey-text text-darken-1">Terms and Conditions</a>
+                                        </label>
+                                        <br>
+                                        <!--<a href="#" class="btn btn-primary margin green">Continue</a>-->
+                                    </div>
+                        
+                                    <div class="row center desc-text">
+                                        <label>We do not store your netbanking/debit/credit card information. All payments are encrypted and securely processed through PCI compliant provider.</label>
+                                    </div>
+                                </div>   
+                            </div>        
+                        </div>
+                        <!--Step4 End-->   
+                    </div><!--Wizard End-->
+                </div><!--Main-Body--> 
+                
+                <div class="col l4 m4 s12 right-bar">
+                    <div class="card-panel">
+                        <p class="blue-grey-text text-darken-1"><strong>Need any help with booking?</strong></p>
+                        <div class="chip call-us">
+                            <a href="tel:+919867101299">
+                                <img src="modules/core/client/img/previewAndDetails/icn_call.svg" alt="Contact Person">
+                            </a>
+                            <span class="grey-text">Call Us on:</span>
+                            <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
+                                <strong>{{vm.bookingProductDetails.hostCompany.inquiryMobile}}</strong>
+                            </a>
+                        </div>
+                        <blockquote>
+                            <label ng-show="vm.bookingProductDetails.hostCompany.inquiryTime == 'rangeTime'">
+                                <strong>From &nbsp;</strong> 
+                                <span class="orange-text">{{vm.bookingProductDetails.hostCompany.inquiryTimeRangeFrom}}</span>
+                                <strong>&nbsp;to&nbsp;</strong>
+                                <span class="orange-text">{{vm.bookingProductDetails.hostCompany.inquiryTimeRangeTo}}</span>
+                                <strong>IST</strong>
+                            </label>
+                            <label ng-show="vm.bookingProductDetails.hostCompany.inquiryTime == 'Anytime'">
+                                <strong>24 hrs available</strong> 
+                            </label>
+                        </blockquote>
+                    </div>
+                    <br><br><br>
+                    <!--right bar end-->
+                </div>
+                <!--main columns end-->
+            </div>
+        </div>
+    </main>
+</div>
+
+<script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // Smart Wizard 	
+        $('#wizard').smartWizard();
+
+        function onFinishCallback(){
+            $('#wizard').smartWizard('showMessage','Finish Clicked');
+            //alert('Finish Clicked');
+        }     
+    });
+</script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>

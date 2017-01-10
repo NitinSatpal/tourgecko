@@ -42,7 +42,7 @@ function createDepartureSessions (departureSessions, departureSessionPricings, p
     productSession.hostCompany = product.hostCompany;
     productSession.sessionDepartureDetails = departureSessions[index];
     productSession.sessionPricingDetails = departureSessionPricings[index];
-    productSessions.push(productSession.toObject())
+    productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);
 }
@@ -85,7 +85,7 @@ exports.fetchAllProductDetails = function (req, res) {
 
 // Fetch Single product details
 exports.fetchSingleProductDetails = function (req, res) {
-  Product.find({ '_id': req.params.productId }).sort('-created').populate('user').exec(function (err, products) {
+  Product.find({ '_id': req.params.productId }).sort('-created').populate('hostCompany').exec(function (err, products) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -122,14 +122,16 @@ exports.fetchAllProductSessionDetails = function (req, res) {
 
 // Fetching specific company's product details here.
 exports.fetchCompanyProductSessionDetails = function (req, res) {
-  ProductSession.find({'hostCompany': req.user.company }).sort('-created').populate('product').exec(function (err, productSessions) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(productSessions);
-  });
+  if(req.user) {
+    ProductSession.find({'hostCompany': req.user.company }).sort('-created').populate('product').exec(function (err, productSessions) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(productSessions);
+    });
+  }
 };
 
 

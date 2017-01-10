@@ -1,0 +1,13 @@
+@charset "UTF-8";
+/* CSS Document */
+body {
+	font-family: 'Roboto','Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color:#f6f6f6;
+}
+
+.guestHome {
+	min-height: 431px !important;
+}
+
+@media  (max-width: 767px) {
+}

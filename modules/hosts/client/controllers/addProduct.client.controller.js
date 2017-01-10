@@ -382,26 +382,67 @@ vm.createDepartureSession = function () {
   
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
-   
-  if ($window.events.length % 3 == 0) {
-    $window.events.push({title: '<span class="eventname orangeFC">' +
-                                vm.tour.productTitle +
-                                '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
-                                backgroundColor: 'rgba(237,156,40, 0.2)'});
 
-  } else if ($window.events.length % 3 == 1) {
-    $window.events.push({title: '<span class="eventname greenFC">' +
-                                vm.tour.productTitle +
-                                '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
-                                backgroundColor: 'rgba(66,174,94,0.2)'});
-  } else {
-    $window.events.push({title: '<span class="eventname redFC">' +
-                                vm.tour.productTitle +
-                                '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                start: new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate),
-                                backgroundColor: 'rgba(216,64,64,0.2)'});
+  // if any tour is repeted, then populate the calendar accordingly
+  var weekDaysNumber = new Map();
+      weekDaysNumber.set('sunday', 0);
+      weekDaysNumber.set('monday', 1);
+      weekDaysNumber.set('tuesday', 2);
+      weekDaysNumber.set('wednesday', 3);
+      weekDaysNumber.set('thursday', 4);
+      weekDaysNumber.set('friday', 5);
+      weekDaysNumber.set('saturday', 6);
+  var repeatedDays = 0;
+  var notAllowedDays = new Set();
+
+  if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
+     vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') {
+    var firstDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate);
+    var secondDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+    var oneDay = 24 * 60 * 60 * 1000;
+    repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+    repeatedDays = repeatedDays + 1;
+
+    if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') {
+      for (var index = 0; index < vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays.length; index++)
+        notAllowedDays.add(weekDaysNumber.get(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays[index]));
+    }
+  }
+
+  var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  eventDate = eventDate.setDate(eventDate.getDate() - 1);
+  eventDate = new Date (eventDate);
+
+  for (var index = 0; index <= repeatedDays; index ++) {
+    var needToSave = true;
+    if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && notAllowedDays.has(eventDate.getDay()))
+      needToSave = false;
+    
+    eventDate = eventDate.setDate(eventDate.getDate() + 1);
+
+    if (needToSave) {
+      if ($window.events.length % 3 == 0) {
+        $window.events.push({title: '<span class="eventname orangeFC">' +
+                                    vm.tour.productTitle +
+                                    '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                    start: eventDate,
+                                    backgroundColor: 'rgba(237,156,40, 0.2)'});
+
+      } else if ($window.events.length % 3 == 1) {
+        $window.events.push({title: '<span class="eventname greenFC">' +
+                                    vm.tour.productTitle +
+                                    '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                    start: eventDate,
+                                    backgroundColor: 'rgba(66,174,94,0.2)'});
+      } else {
+        $window.events.push({title: '<span class="eventname redFC">' +
+                                    vm.tour.productTitle +
+                                    '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+                                    start: eventDate,
+                                    backgroundColor: 'rgba(216,64,64,0.2)'});
+      }
+    }
+    eventDate = new Date (eventDate);
   }
   
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();

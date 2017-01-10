@@ -18,7 +18,7 @@
         controller: '',
         controllerAs: '',
         data: {
-          roles: ['user', 'hostAdmin']
+          roles: ['hostAdmin']
         }
       })
       .state('host.hostHome', {
@@ -157,7 +157,7 @@
         controller: '',
         controllerAs: '',
         data: {
-          roles: ['user', 'hostAdmin']
+          pageTitle: 'Admin | Tour'
         }
       })
       .state('hostAndGuest.tourPreview', {
