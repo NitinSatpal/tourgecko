@@ -14,10 +14,21 @@ var BookingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  product: {
+    type: Schema.ObjectId,
+    ref: 'Product'
+  },
   productSession: {
     type: Schema.ObjectId,
     ref: 'ProductSession'
   },
+  isOpenDateTour: {
+    type: Boolean
+  },
+  openDatedTourDepartureDate: {
+    type: Date
+  },
+  providedGuestDetails: {},
   numberOfBookings: {
     type: Number,
     default: 1
@@ -52,8 +63,7 @@ var BookingSchema = new Schema({
     trim: true
   },
   created: {
-    type: Date,
-    default: Date.now
+    type: Date
   }
 });
 

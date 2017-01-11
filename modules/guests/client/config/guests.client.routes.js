@@ -52,6 +52,16 @@
           pageTitle: 'Tour | Booking',
           roles: ['user']
         }
+      })
+      .state('guest.bookingDone', {
+        url: '/tour/booking/done',
+        templateUrl: 'modules/guests/client/views/booking/tourBookingDone.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Tour | Booking Done',
+          roles: ['user']
+        }
       });
   }
 

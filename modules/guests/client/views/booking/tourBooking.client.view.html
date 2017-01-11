@@ -63,22 +63,34 @@
                             <div class="row light-blue lighten-5 padding blue-grey-text text-darken-1">
                                 <strong>Select the departure date</strong>
                             </div>
-                            <ul id="departure-schedule" class="collection">
-                                <li class="collection-item no-background" ng-repeat="index in getDepartureDates(firstFiveDepartureDates) track by $index">
+                            <ul id="departure-schedule" class="collection" ng-show="vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
+                                <li class="collection-item no-background" ng-repeat="index in getDepartureDates(vm.productSessions.length) track by $index">
                                     <span class="primary-content">
                                         <input name="group1" type="radio" id="departureDate{{$index}}" class="with-gap" value="vm.selectedDate" ng-click="vm.setSelectedDate($index)">
-                                        <label for="departureDate{{$index}}" class="blue-grey-text text-lighten-1">{{vm.getDepartureDate(vm.productSessions[$index].sessionDepartureDetails.startDate)}}</label>
+                                        <label for="departureDate{{$index}}" class="blue-grey-text text-lighten-1">{{getDepartureDate(vm.productSessions[$index].sessionDepartureDetails.startDate, false)}}</label>
                                     </span>
                                     <span class=" secondary-content chip green">
-                                        <a class="white-text" href="#">4 Seats Available</a>
+                                        {{vm.productSessions[$index].product.productSeatsLimitType}}
+                                        <a class="white-text" href="#" ng-show="vm.bookingProductDetails.productSeatsLimitType == 'limited'">4 Seats Available</a>
+                                        <a class="white-text" href="#" ng-show="vm.bookingProductDetails.productSeatsLimitType == 'unlimited'">No Limit on Seats</a>
                                     </span>
                                 </li>
-                                <li class="collection-item center  no-background" ng-show="firstFiveDepartureDates == 5 && !vm.showMoreDates">
+                                <li class="collection-item center  no-background" ng-show="firstFiveDepartureDates == 5 && !vm.showMoreDates && vm.productSessions.length > 5">
                                     <a href="#" class="blue-grey-text text-darken-1 btn btn-flat btn-waves" ng-click="firstFiveDepartureDates = vm.productSessions.length"><i class="zmdi zmdi-plus orange-text"></i> See More Dates</a>
                                 </li>
                                 <li class="collection-item center  no-background" ng-show="firstFiveDepartureDates > 5">
                                     <a href="#" class="blue-grey-text text-darken-1 btn btn-flat btn-waves" ng-click="firstFiveDepartureDates = 5"><i class="zmdi zmdi-minus orange-text"></i> See Less Dates</a>
                                 </li>
+                            </ul>
+                            <ul id="departure-schedule" class="collection" ng-show="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
+                                <span class="desc-text grey-text openDatedTourDesc">Tour is not available in the following months</span>
+                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Host has made this tour unavailable for certain months and you cannot book the tour during that time."><i class="zmdi zmdi-info-outline orange-text"></i></a>  <br>
+                                <span class="desc-text semi-grey-text openDatedTourDesc" ng-repeat="notAllowedMonth in vm.bookingProductDetails.productUnavailableMonths">
+                                    {{notAllowedMonth}}
+                                </span>
+                                <div class="calendarMargin">
+                                    <div id='bookingCalendar' class=".fullCalendar"></div>
+                                </div>
                             </ul>
                         </div>
                  
@@ -104,37 +116,74 @@
                                             <strong>Qty</strong>
                                         </div>
 									</div>
-                                    <div ng-repeat="pricing in vm.bookingProductDetails.productPricingOptions track by $index">
-    									<div class="row">
-                                            <div class="col s7">
-    											<div class="inputwithlabel">
-                                                    <input name="pricingSelection" type="radio" id="pricingSelection{{$index}}" class="with-gap"
-                                                    ng-click="vm.setSelectedPricing($index)">
-    												<label for="pricingSelection{{$index}}">
-    													<span class="input-radio pull-left"></span>
-    													<span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
-                                                            {{pricing.pricingType}}
-                                                            <span ng-show="pricing.pricingType == 'Group'">
-                                                                <br>
-                                                                <span class="desc-text grey-text">(Group-size : {{pricing.minGroupSize}} to {{pricing.maxGroupSize}})</span>
-                                                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                    <div ng-show="vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
+                                        <div ng-repeat="pricing in vm.productSessions[vm.selectedBookingOptionIndex].sessionPricingDetails track by $index">
+                                            <div class="row">
+                                                <div class="col s7">
+                                                    <div class="inputwithlabel">
+                                                        <input name="pricingSelection" type="radio" id="pricingSelection{{$index}}" class="with-gap"
+                                                        ng-click="vm.setSelectedPricing($index)">
+                                                        <label for="pricingSelection{{$index}}">
+                                                            <span class="input-radio pull-left"></span>
+                                                            <span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
+                                                                {{pricing.pricingType}}
+                                                                <span ng-show="pricing.pricingType == 'Group'">
+                                                                    <br>
+                                                                    <span class="desc-text grey-text">(Group-size : {{pricing.minGroupSize}} to {{pricing.maxGroupSize}})</span>
+                                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                </span>
+                                                                <span ng-show="pricing.pricingType == 'Custom'">
+                                                                    <br>
+                                                                    <span class="desc-text grey-text">(Seats-used : {{pricing.seatsUsed}})</span>
+                                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                </span>
                                                             </span>
-                                                            <span ng-show="pricing.pricingType == 'Custom'">
-                                                                <br>
-                                                                <span class="desc-text grey-text">(Seats-used : {{pricing.seatsUsed}})</span>
-                                                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
-                                                            </span>
-    													</span>
-    												</label>
-    											</div>
-    										</div>
-    										<div class="col s3 price-per-guest">
-                                                <strong>&#8377; {{pricing.price}}</strong>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s3 price-per-guest">
+                                                    <strong>&#8377; {{pricing.price}}</strong>
+                                                </div>
+                                                <div class="col s2 guest-quantity">
+                                                    <input type="number" name="quantity" min="1" ng-model="vm.seatQuantity[$index]" class="qty" ng-change="vm.calculateSeatPrice($index)">
+                                                </div>
                                             </div>
-    										<div class="col s2 guest-quantity">
-    											<input type="number" name="quantity" min="1" ng-model="vm.seatQuantity[$index]" class="qty" ng-change="vm.calculateSeatPrice($index)">
-    										</div>
-    									</div>
+                                        </div>
+                                    </div>
+
+                                    <div ng-show="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
+                                        <div ng-repeat="pricing in vm.bookingProductDetails.productPricingOptions track by $index">
+                                            <div class="row">
+                                                <div class="col s7">
+                                                    <div class="inputwithlabel">
+                                                        <input name="pricingSelection" type="radio" id="pricingSelection{{$index}}" class="with-gap"
+                                                        ng-click="vm.setSelectedPricing($index)">
+                                                        <label for="pricingSelection{{$index}}">
+                                                            <span class="input-radio pull-left"></span>
+                                                            <span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
+                                                                {{pricing.pricingType}}
+                                                                <span ng-show="pricing.pricingType == 'Group'">
+                                                                    <br>
+                                                                    <span class="desc-text grey-text">(Group-size : {{pricing.minGroupSize}} to {{pricing.maxGroupSize}})</span>
+                                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                </span>
+                                                                <span ng-show="pricing.pricingType == 'Custom'">
+                                                                    <br>
+                                                                    <span class="desc-text grey-text">(Seats-used : {{pricing.seatsUsed}})</span>
+                                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                </span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col s3 price-per-guest">
+                                                    <strong>&#8377; {{pricing.price}}</strong>
+                                                </div>
+                                                <div class="col s2 guest-quantity">
+                                                    <input type="number" name="quantity" min="1" ng-model="vm.seatQuantity[$index]" class="qty" ng-change="vm.calculateSeatPrice($index)">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 
                                     <div class="divider"></div>
@@ -144,7 +193,7 @@
                                             <div class="col s12 l12 m12 margin-bottom blue-grey-text text-darken-1">Optional Add-Ons</div>
                                             <div class="col s12 l12 m12" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index">
                                                 <div class="col s7">
-    										        <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)">
+    										        <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)" ng-model="vm.addonsChecked[$index]">
     										        <label for="addon{{$index}}" class="blue-grey-text text-lighten-1">{{addon.name}}</label>
     									        </div>
         								        <div class="col s3 price-per-guest">
@@ -152,7 +201,8 @@
                                                     <span class="desc-text grey-text">({{addon.applyAs}})</span>
                                                 </div>
             									<div class="col s2 guest-quantity">
-            										<input type="number" name="quantity" min="1" class="qty" ng-model="vm.addonQuantity[$index]" ng-change="vm.calculateAddonPrice($index)">
+            										<input type="number" name="quantity" min="1" value="1" class="qty" ng-model="vm.addonQuantity[$index]" disabled placeholder="1" ng-show="addon.applyAs == 'Per Booking' || addon.applyAs == 'Per Seat'">
+                                                    <input type="number" name="quantity" min="1" class="qty" ng-model="vm.addonQuantity[$index]" ng-change="vm.calculateAddonPrice()" ng-show="addon.applyAs == 'Guest Choice'">
             									</div>
                                             </div>
     							        </div>
@@ -235,11 +285,11 @@
                                 <div class="col s12 l12 m12 blue-grey-text text-darken-1">Full Name</div>
                                 <div class="col l12 m12 s12  padding-none-left">
                                     <div class="input-field col s6 m6 l6">
-                                        <input id="first-name" type="text" class="blue-grey-text text-darken-1">
+                                        <input id="first-name" type="text" class="blue-grey-text text-darken-1" ng-model="vm.providedGuestDetails.firstName">
                                         <label for="first-name" data-error="wrong" data-success="right">First Name</label>
                                     </div>
                                     <div class="input-field col s6 m6 l6">
-                                        <input id="last-name" type="text" class="blue-grey-text text-darken-1">
+                                        <input id="last-name" type="text" class="blue-grey-text text-darken-1" ng-model="vm.providedGuestDetails.lastName">
                                         <label for="last-name" data-error="wrong" data-success="right">Last Name</label>
                                     </div>
                                 </div>
@@ -247,7 +297,7 @@
                                 <div class="col s12 l12 m12 blue-grey-text text-darken-1">Email</div>
                                 <div class="col l12 m12 s12 padding-none-left">
                                     <div class="input-field col s12 m12 l12">
-                                        <input id="email-address" type="email" class="blue-grey-text text-darken-1">
+                                        <input id="email-address" type="email" class="blue-grey-text text-darken-1" ng-model="vm.providedGuestDetails.email">
                                         <label for="email-address" data-error="Invalid Email Address" data-success="right">Receipts and notifications will be sent to this address</label>
                                     </div>   
                                 </div>
@@ -262,7 +312,7 @@
                                         </select>
                                     </div>
                                     <div class="input-field col l10 m10 s9">
-                                        <input id="mobile" type="number" class="blue-grey-text text-darken-1">
+                                        <input id="mobile" type="number" class="blue-grey-text text-darken-1" ng-model="vm.providedGuestDetails.mobile">
                                         <label for="mobile" data-error="Invalid Mobile Number" data-success="right">Mobile number</label>
                                     </div>   
                                 </div>
@@ -455,12 +505,47 @@
 <script type="text/javascript">
     $(document).ready(function(){
         // Smart Wizard 	
-        $('#wizard').smartWizard();
+        $('#wizard').smartWizard({
+            onLeaveStep: leaveAStepCallback
+        });
 
+        function leaveAStepCallback(obj, context) {
+            return angular.element('#booking').scope().validateData(context.fromStep, context.toStep);
+        }
         function onFinishCallback(){
             $('#wizard').smartWizard('showMessage','Finish Clicked');
             //alert('Finish Clicked');
         }     
+    });
+</script>
+<script type="text/javascript">
+    var events = []
+
+    $('#bookingCalendar').fullCalendar({
+        height: 600,
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month'
+        },
+        navLinks: true, // can click day/week names to navigate views
+        selectHelper: true,
+        selectable: true,
+        select: function(start, end) {
+            var date = new Date(start);
+            if (date < new Date())
+                alert('You cannot book tour for passed dates');
+            else if (angular.element('#booking').scope().bookingNotAllowedMonths.has(date.getMonth()))
+                alert('tour is not available in this month');
+            else {
+                date = date.setDate(date.getDate() + 1);
+                var selectedDate = angular.element('#booking').scope().getDepartureDate(date, true);
+            }
+        },
+        events: events,
+        eventRender: function (event, element) {
+            element.find('.fc-title').html(event.title);
+        }
     });
 </script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>

@@ -9,5 +9,28 @@ body {
 	min-height: 431px !important;
 }
 
+.blueFC {
+	color: #40C4FF;
+}
+.selectedDate {
+	font-size: 12px;
+}
+.displayDate {
+	font-size: 12px;
+}
+.openDatedTourDesc {
+	font-size: 15px;
+	margin-left: 13px;
+	text-transform: capitalize;
+}
+.semi-grey-text {
+	color:#546e7a;
+	font-weight: 500;
+}
+.guestHome .calendarMargin {
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
 @media  (max-width: 767px) {
 }

@@ -24,7 +24,9 @@ function SmartWizard(target, options) {
     next : $('<a>'+ options.labelNext + '</a>')
             .attr("href","#")
             .addClass("btn btn-next white white orange-text text-darken-1 margin-top margin-bottom"),
-    previous : $('<a>'+options.labelPrevious+'</a>').attr("href","#").addClass("btn btn-previous white blue-grey-text text-lighten-2 margin-top margin-bottom"),
+    previous : $('<a>'+options.labelPrevious+'</a>')
+                .attr("href","#")
+                .addClass("btn btn-previous white blue-grey-text text-lighten-2 margin-top margin-bottom"),
     finish  : $('<a>'+options.labelFinish+'</a>').attr("href","3_tour-booking-confirmation.html").addClass("btn btn-finish orange waves-effect waves-light white-text margin-top margin-bottom")
     };
 

@@ -200,7 +200,7 @@ function setRichTextData () {
 
     /* This validation will be executed when host is saving the tour, in case host may have change very old group price option. We are only validating
        latest one in previous validation */
-    function finalValidateOfGroupPricing () {
+    function finalValidateOfPricing () {
       var index;
       var groupRange = [];
       var isEveryonePricingPresent;
@@ -353,8 +353,7 @@ vm.openDepartureSessionModal = function() {
   } else if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     alert('Please enter pricing details before creating departure session');
     return false;
-  }
-  else {
+  } else {
     vm.sessionPricing = []
     angular.copy(vm.pricingParams, vm.sessionPricing);
     vm.fixedDepartureSessionCounter++;
@@ -411,14 +410,18 @@ vm.createDepartureSession = function () {
 
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   eventDate = eventDate.setDate(eventDate.getDate() - 1);
-  eventDate = new Date (eventDate);
-
+  eventDate = new Date(eventDate);
   for (var index = 0; index <= repeatedDays; index ++) {
     var needToSave = true;
     if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && notAllowedDays.has(eventDate.getDay()))
       needToSave = false;
     
-    eventDate = eventDate.setDate(eventDate.getDate() + 1);
+    if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' ||
+        vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daile')
+      eventDate = eventDate.setDate(eventDate.getDate() + 1);
+    else
+      eventDate = eventDate.setDate(eventDate.getDate() + 2);
+
 
     if (needToSave) {
       if ($window.events.length % 3 == 0) {
@@ -483,10 +486,13 @@ vm.createDepartureSession = function () {
     // Save the data here
     vm.save = function (isValid) {
       // return;
-      var isPricingCorrect = finalValidateOfGroupPricing();
+      var isPricingCorrect = finalValidateOfPricing();
       
       if (isPricingCorrect == false) {
         alert('Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present.')
+        return false;
+      } else if (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined) {
+        alert('Please provide at least one pricing options for the tour to be bookable');
         return false;
       }
       if (!isValid) {

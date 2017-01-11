@@ -11,8 +11,8 @@ var path = require('path'),
 // Creating product here.
 exports.createBooking = function (req, res) {
   var booking = new Booking(req.body);
-  booking.user = req.user;
-  booking.product = req.product;
+  booking.user = req.user; 
+  booking.created = Date.now();
   booking.save(function (err) {
     if (err) {
       return res.status(400).send({
@@ -26,7 +26,7 @@ exports.createBooking = function (req, res) {
 
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
-  Booking.find({user: req.user._id}).sort('-created').populate('').exec(function (err, bookings) {
+  Booking.find({user: req.user._id}).sort('-created').exec(function (err, bookings) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

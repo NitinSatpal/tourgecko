@@ -93,7 +93,6 @@ $(document).ready(function() {
 				right: 'month,agendaWeek,agendaDay'
 			},
 			navLinks: true, // can click day/week names to navigate views
-			selectable: true,
 			selectHelper: true,
 			select: function(start, end) {
 				var title = prompt('Event Title:');
