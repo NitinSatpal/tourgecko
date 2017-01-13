@@ -291,17 +291,26 @@ exports.validateUserVerification = function(req, res) {
       });
     } else {
       user.isActive = true;
-      user.save();
-      user.password = undefined;
-      user.salt = undefined;
-      req.login(user, function (err) {
+      user.save(function (err) {
         if (err) {
-          res.status(400).send(err);
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
         } else {
-          if (user.userType == 'host')
-            res.redirect('/host/admin');
-          else
-            res.redirect('/guest/home');
+          // Remove sensitive data before login
+          user.password = undefined;
+          user.salt = undefined;
+
+          req.login(user, function (err) {
+            if (err) {
+              res.status(400).send(err);
+            } else {
+              if (user.userType == 'host')
+                res.redirect('/host/admin');
+              else
+                res.redirect('/guest/home');
+            }
+          });
         }
       });
     }
