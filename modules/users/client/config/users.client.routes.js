@@ -100,6 +100,33 @@
           pageTitle: 'login'
         }
       })
+      .state('authentication.guestSignup', {
+        url: '/guest/signup',
+        templateUrl: 'modules/users/client/views/authentication/guestSignup.client.view.html',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Signup'
+        }
+      })
+      .state('authentication.guestSignupDone', {
+        url: '/guest/signup/done',
+        templateUrl: 'modules/users/client/views/authentication/guestSignupDone.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Signup | Done'
+        }
+      })
+      .state('authentication.guestSignin', {
+        url: '/guest/login?err',
+        templateUrl: 'modules/users/client/views/authentication/guestSignin.client.view.html',
+        controller: 'AuthenticationController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'login'
+        }
+      })
       .state('hostDetails', {
         abstract: true,
         url: '/host',

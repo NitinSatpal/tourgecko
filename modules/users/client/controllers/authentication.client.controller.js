@@ -32,12 +32,16 @@
     vm.error = $location.search().err;
 
     // If user is signed in then redirect back home
-    if (vm.authentication.user) {
+    if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'hostAdmin') {
       $location.path('/host/admin');
+    } else if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'user') {
+      $location.path('/guest/home');
+    } else if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'admin') {
+      $location.path('/admin/home');
     }
 
     // Signup function
-    function signup(isValid) {
+    function signup(isValid, ishostSignup) {
       vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
@@ -46,10 +50,15 @@
         alert('Please read and agree to terms and conditions');
         return false;
       }
-      vm.signupDateStore = {signupData: vm.credentials, toursite: vm.toursite}
+      vm.signupDateStore = {signupData: vm.credentials, toursite: vm.toursite, isHost: ishostSignup}
       $http.post('/api/auth/signup', vm.signupDateStore).success(function (response) {
         // And redirect to the Details page with the id of the user
-        $state.go('hostDetails.details', { id: response._id });
+
+        console.log(JSON.stringify(response));
+        if (response.company)
+          $state.go('hostDetails.details', { id: response._id });
+        else
+          $state.go('authentication.guestSignupDone');
       }).error(function (response) {
         vm.error = response.message;
       });

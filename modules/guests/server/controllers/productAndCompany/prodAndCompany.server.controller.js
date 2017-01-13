@@ -14,12 +14,11 @@ var _ = require('lodash'),
 // Fetch Single product details
 exports.fetchProductDetails = function (req, res) {
   Product.find({ '_id': req.params.productId }).sort('-created').populate('hostCompany').exec(function (err, products) {
-    if (err || products == '') {
+    if (err) {
       // here page not found shud be rendered
     } else {
       res.json(products);
     }
-    
   });
 };
 

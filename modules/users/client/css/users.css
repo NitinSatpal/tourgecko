@@ -28,6 +28,24 @@
   position: absolute;
   pointer-events: none;
 }
+.btn-facebook {
+  background-color: #3B5998;
+}
+.btn-facebook:hover {
+  background-color: #8B9DC3;
+}
+.btn-twitter {
+  background-color: #4099FF;
+}
+.btn-twitter:hover {
+  background-color: #0084B4;
+}
+.btn-google {
+  background-color: #D34836;
+}
+.btn-google:hover {
+  background-color: #AB2B1D;
+}
 .user-profile-picture {
   min-height: 150px;
   max-height: 150px;
@@ -51,7 +69,16 @@
 .social-button:hover {
   opacity: 0.65;
 }
-
+.guestLoginSocialAccountImages {
+  min-height: 75px;
+  max-height: 75px;
+  min-width: 75px;
+  max-width: 75px;
+  cursor: pointer;
+}
+.welcome_note {
+  font-size: 20px !important;
+}
 @media  (max-width: 767px){
   .cropArea {
     background: transparent;

@@ -18,8 +18,8 @@ var path = require('path'),
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
-  '/authentication/host/signin',
-  '/authentication/host/signup'
+  '/guest/login',
+  '/guest/signup'
 ];
 
 var smtpTransport = nodemailer.createTransport({
@@ -35,52 +35,113 @@ exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
   // Init user and add missing fields
-  var hostCompany = new HostCompany();
   var user = new User(req.body.signupData);
-  var toursite = req.body.toursite;
-  user.provider = 'local';
   user.username = user.email;
+  user.provider = 'local';
   user.isActive = false;
-  user.displayName = user.email.split('@')[0];
-  user.company = hostCompany;
 
-  // Then save the user
-  user.save(function (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-      var userAdmin = new UserAdmin();
-      userAdmin.user = user;
-      userAdmin.save(function (err) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        } else {
-          hostCompany.user = user._id;
-          hostCompany.toursite = toursite;
-          hostCompany.notificationEmail = user.email;
-          hostCompany.notificationMobile =user.mobile;
-          hostCompany.inquiryEmail = user.email;
-          hostCompany.inquiryMobile = user.mobile;
-          hostCompany.isAccountActive = true;
-          hostCompany.isOwnerAccount = true;
-          hostCompany.save(function (err) {
-            if(err) {
-              return res.status(400).send({
-                message: errorHandler.getErrorMessage(err)
-              });
-            } else {
-              // Do nothing
+  var hostCompany = new HostCompany();
+  if(req.body.isHost) {
+    var toursite = req.body.toursite;
+    user.displayName = user.email.split('@')[0];
+    user.company = hostCompany;
+
+    // Then save the user
+    user.save(function (err) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        var userAdmin = new UserAdmin();
+        userAdmin.user = user;
+        userAdmin.save(function (err) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          } else {
+            hostCompany.user = user._id;
+            hostCompany.toursite = toursite;
+            hostCompany.notificationEmail = user.email;
+            hostCompany.notificationMobile =user.mobile;
+            hostCompany.inquiryEmail = user.email;
+            hostCompany.inquiryMobile = user.mobile;
+            hostCompany.isAccountActive = true;
+            hostCompany.isOwnerAccount = true;
+            hostCompany.save(function (err) {
+              if(err) {
+                return res.status(400).send({
+                  message: errorHandler.getErrorMessage(err)
+                });
+              } else {
+                // Do nothing
+              }
+            });
+          }
+        });
+        res.json(user);
+      }
+    });
+  } else {
+    async.waterfall([
+      function (done) {
+        crypto.randomBytes(20, function (err, buffer) {
+          var token = buffer.toString('hex');
+          done(err, token, user);
+        });
+      },
+      function (token, user, done) {
+        user.displayName = user.firstName + ' ' + user.lastName;
+        user.verificationToken = token;
+        user.verificationTokenExpires =  Date.now() + 3600000; // 1 hour
+        user.save(function (err) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          } else {
+            var httpTransport = 'http://';
+            if (config.secure && config.secure.ssl === true) {
+              httpTransport = 'https://';
             }
-          });
-        }
-      });
-      res.json(user);
-    }
-  });
+            var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+            res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
+              name: user.displayName,
+              appName: config.app.title,
+              url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + user.id
+            }, function (err, emailHTML) {
+              done(err, emailHTML, user);
+            });
+          }
+        });
+      },
+      function (emailHTML, user, done) {
+        var mailOptions = {
+          to: user.email,
+          from: config.mailer.from,
+          subject: 'User verification',
+          html: emailHTML
+        };
+        smtpTransport.sendMail(mailOptions, function (err) {
+          if (!err) {
+            console.log('Message sent');
+          } else {
+            console.log('Message sending failed.');
+            // return res.status(400).send({
+              // message: 'Some problem occurred. Please try again after sometime or call us.'
+            // });
+          }
+          done(err);
+        });
+      }
+    ], function (err) {
+      if (err) {
+        return next(err);
+      }
+    });
+    res.json(user);  
+  }
 };
 
 exports.signupDetails = function(req, res, next) {
@@ -237,7 +298,10 @@ exports.validateUserVerification = function(req, res) {
         if (err) {
           res.status(400).send(err);
         } else {
-          res.redirect('/host/admin');
+          if (user.userType == 'host')
+            res.redirect('/host/admin');
+          else
+            res.redirect('/guest/home');
         }
       });
     }
@@ -286,6 +350,7 @@ exports.oauthCall = function (strategy, scope) {
   return function (req, res, next) {
     // Set redirection path on session.
     // Do not redirect to a signin or signup page
+
     if (noReturnUrls.indexOf(req.query.redirect_to) === -1) {
       req.session.redirect_to = req.query.redirect_to;
     }
@@ -305,17 +370,16 @@ exports.oauthCallback = function (strategy) {
 
     passport.authenticate(strategy, function (err, user, info) {
       if (err) {
-        return res.redirect('/authentication/host/signin?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
+        return res.redirect('/guest/login?err=' + encodeURIComponent(errorHandler.getErrorMessage(err)));
       }
       if (!user) {
-        return res.redirect('/authentication/host/signin');
+        return res.redirect('/guest/login');
       }
       req.login(user, function (err) {
         if (err) {
-          return res.redirect('/authentication/host/signin');
+          return res.redirect('/guest/login');
         }
-
-        return res.redirect(info || sessionRedirectURL || '/');
+        return res.redirect('/');
       });
     })(req, res, next);
   };
@@ -362,6 +426,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
               provider: providerUserProfile.provider,
               providerData: providerUserProfile.providerData
             });
+            user.roles = ['user'];
 
             // And save the user
             user.save(function (err) {

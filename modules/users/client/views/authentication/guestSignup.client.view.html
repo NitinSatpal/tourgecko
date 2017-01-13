@@ -7,8 +7,49 @@
       </div>
       <div class="panel-body">
         <div class="body-container">
-          <h2>Lets create your account!</h2>
-          <form class="form-horizontal" name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid, true)" novalidate autocomplete="off">
+          <h2>Login with Social Accounts!</h2>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <a class="btn btn-primary btn-facebook" href="/api/auth/facebook" target="_self">
+                <span class="fa fa-facebook"></span> Log in with Facebook
+              </a>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <a class="btn btn-primary btn-twitter" href="/api/auth/twitter" target="_self">
+                <span class="fa fa-twitter"></span> Log in with Twitter
+              </a>
+            </div>
+            <br>
+            <br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <a class="btn btn-primary btn-google" href="/api/auth/google" target="_self">
+                  <span class="fa fa-google"></span> Log in with Google
+                </a>
+            </div>
+          </div>
+          <br>
+          <h2>Or create an account with email!</h2>
+          <form class="form-horizontal" name="vm.userForm" ng-submit="vm.signup(vm.userForm.$valid, false)" novalidate autocomplete="off">
+            <div class="form-group" show-errors>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                  <label for="firstName" class="control-label">First Name</label>
+                  <input type="text" id="firstName" name="firstName" class="form-control" ng-model="vm.credentialsDetails.firstName" required>
+                  <div ng-messages="vm.userDetailsForm.firstName.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">First name is required.</p>
+                  </div>
+                </div>
+                
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                   <label for="lastName" class="control-label">Last Name</label>
+                  <input type="text" id="lastName" name="lastName" class="form-control" ng-model="vm.credentialsDetails.lastName" required>
+                  <div ng-messages="vm.userDetailsForm.lastName.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Last name is required.</p>
+                  </div>
+                </div>
+              </div>
+             
+            </div>
             <div class="form-group" show-errors>
               <label for="email" class="cols-sm-2 control-label">Email</label>
               <div class="cols-sm-10 inp  ut_group">
@@ -39,37 +80,7 @@
               </div>
             </div>
 
-            <!--<div class="form-group" ng-show="!vm.userForm.password.$error.required">
-              <label>Password Requirements</label>
-              <uib-progressbar value="requirementsProgress" type="{{requirementsColor}}"><span style="color:white; white-space:nowrap;">{{requirementsProgress}}%</span></uib-progressbar>
-            </div>-->
 
-            <div class="form-group" show-errors>
-              <label for="mobile" class="cols-sm-2 control-label">Mobile</label>
-              <div class="cols-sm-10 input_group">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="zmdi zmdi-smartphone"></i></span>
-                  <input type="mobile" id="mobile" name="mobile" class="form-control" ng-model="vm.credentials.mobile" placeholder="Mobile" ng-pattern="regExForMobileValidity" lowercase required>
-                </div>
-                <div class="error_group" ng-messages="vm.userForm.mobile.$error" role="alert">
-                  <p class="help-block error-text " ng-message="required"> Please enter Mobile Number</p>
-                  <p class="help-block error-text " ng-message="pattern">Please enter valid Mobile Number</p>
-                  <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
-                </div>      
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="toursite" class="cols-sm-2 control-label">Toursite</label>
-              <p class="form-group-addontext">This will be used to host your<br/> booking pages or create your toursite</p>
-              <div class="cols-sm-10 input_group">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
-                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase>
-                  <span class="input-group-addon">.tourgecko.com</span>
-                </div>
-              </div>
-            </div>
             <div class="form-group ">
               <label class="checkbox-inline">
                 <input type="checkbox" name="checkbox" value="check" id="agree" ng-model="vm.terms">
@@ -84,7 +95,7 @@
         </div>
       </div>
       <div class="panel-footer">
-        <p>Already have an account? <a class="forgot_pwd" ui-sref="authentication.hostSignin">Login</a></p>
+        <p>Already have an account? <a class="forgot_pwd" ui-sref="authentication.guestSignin">Login</a></p>
       </div>
     </div>
   </div>
