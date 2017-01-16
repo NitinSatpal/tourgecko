@@ -81,10 +81,22 @@
       .state('host.allBookings', {
         url: '/bookings',
         templateUrl: 'modules/hosts/client/views/host/bookings.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'ProductBookingController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Admin | Bookings'
+        }
+      })
+      .state('host.bookingdetails', {
+        url: '/booking/:bookingId',
+        templateUrl: 'modules/hosts/client/views/host/bookingDetails.client.view.html',
+        controller: 'ProductBookingController',
+        controllerAs: 'vm',
+        params: {
+          bookingId: null
+        },
+        data: {
+          pageTitle: 'Admin | Booking Details'
         }
       })
       .state('host.calendar', {

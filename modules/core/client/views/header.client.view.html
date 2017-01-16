@@ -10,13 +10,44 @@
         <ul class="nav navbar-nav navbar-right" ng-show="vm.authentication.user">
           <li class="dropdown notifications">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="zmdi zmdi-notifications"></i><span class="label label-info ">3</span>
+              <i class="zmdi zmdi-notifications"></i><span class="label label-info ">{{vm.messages.length + vm.notifications.length}}</span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Favourites Snippet</a></li>
-              <li><a href="#">Email marketing</a></li>
-              <li><a href="#">Subscriber focused email design</a></li>
-              <li><a ui-sref="host.notifications" class="text-center">View All</a></li>
+              <li ng-repeat="notification in vm.notifications track by $index" style="background-color: #F1FBFF;">
+                <div class="row">
+                  <div class="col-sm-2 col-md-2 col-lg-2 col-xs-2">
+                    <img ng-src="{{notification.notificationFromProfileURL}}" alt="{{notification.notificationFrom}}" class="header-profile-image" />
+                  </div>
+                  <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10">
+                     <a ui-sref="host.notifications" ng-click="vm.markNotificationRead($index)" style="color:#ED9C28;">{{notification.notificationBody}}</a>
+                  </div>
+                </div>
+              </li>
+              <li ng-repeat="message in vm.messages track by $index" style="background-color: #F1FBFF;">
+                <div class="row">
+                  <div class="col-sm-2 col-md-2 col-lg-2 col-xs-2">
+                    <img ng-src="{{message.messageFromProfileURL}}" alt="{{notification.notificationFrom}}" class="header-profile-image" />
+                  </div>
+                  <div class="col-sm-10 col-md-10 col-lg-10 col-xs-10">
+                     <a ui-sref="host.notifications" ng-click="vm.markNotificationRead($index)" style="color:#ED9C28;">{{message.messageBody}}</a>
+                  </div>
+                </div>
+              </li>
+              <li ng-show="vm.notifications.length > 0 || vm.messages.length > 0">
+                 <div class="row">
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+                    <a ui-sref="host.notifications" class="pull-left">View All</a>
+                  </div>
+                  <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pull-right">
+                    <a href="" ng-click="vm.markAllNotificationsAsRead()">Mark All as Read</a>
+                  </div>
+              </li>
+              <li ng-show="vm.notifications.length == 0 && vm.messages.length == 0">
+                <span style="color:#ED9C28"> There are no new notifications </span>
+              </li>
+              <li ng-show="vm.notifications.length == 0 && vm.messages.length == 0">
+                <a ui-sref="host.notifications" class="text-center" style="color:#40C4FF;">Go To Notification Page</a>
+              </li>
             </ul>
           </li>
           <li class="dropdown account">

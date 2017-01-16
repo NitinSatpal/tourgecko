@@ -305,6 +305,7 @@
       bookingObject.numberOfBookings = vm.seatQuantity[selectedPricingIndex];
       bookingObject.numberOfAddons = vm.addonsChecked.length;
       bookingObject.product = vm.bookingProductDetails._id;
+      bookingObject.hostOfThisBooking = vm.bookingProductDetails.user;
       if (tourType == 'Open Date') {
         bookingObject.isOpenDateTour = true;
         var openDatedTourDepartureDate = new Date(vm.selectedDate);
@@ -326,8 +327,9 @@
       bookingObject.totalAmountPaidForAddons = vm.calculatedAddonPrice;
       bookingObject.paymentMode = 'tourgecko Wallet';
 
+      var bookingData = {bookingDetails: bookingObject, productTitle: vm.bookingProductDetails.productTitle}
 
-      $http.post('/api/host/booking', bookingObject).success(function (response) {
+      $http.post('/api/host/booking', bookingData).success(function (response) {
         $state.go('guest.bookingDone');
       }).error(function (response) {
         vm.error = response.message;

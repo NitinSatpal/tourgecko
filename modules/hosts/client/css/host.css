@@ -13,6 +13,77 @@ p {
 	font-weight:300;
 }
 
+.padding {
+	padding:1rem !important;
+}
+.padding-top {
+	padding-top: 1rem !important;
+}
+.padding-right {
+	padding-right: 1rem !important;
+}
+.padding-left {
+	padding-left: 1rem !important;
+}
+.padding-bottom {
+	padding-bottom: 1rem !important;
+}
+.padding-none {
+	padding: 0 !important;
+}
+.padding-none-top {
+	padding-top: 0 !important;
+}
+.padding-none-right {
+	padding-right: 0 !important;
+}
+.padding-none-bottom {
+	padding-bottom: 0 !important;
+}
+.padding-none-left {
+	padding-left: 0 !important;
+}
+
+.margin-auto {
+	margin: auto;
+}
+.margin {
+	margin:1rem !important;
+}
+.margin-top {
+	margin-top: 1rem !important;
+}
+.margin-right {
+	margin-right: 1rem !important;
+}
+.margin-left {
+	margin-left: 1rem !important;
+}
+.margin-bottom {
+	margin-bottom: 1rem !important;
+}
+.margin-none {
+	margin:0 !important;
+}
+.margin-none-top {
+	margin-top: 0 !important;
+}
+.margin-none-right {
+	margin-right: 0 !important;
+}
+.margin-none-left {
+	margin-left: 0 !important;
+}
+.margin-none-bottom {
+	margin-bottom: 0 !important;
+}
+.border-bottom {
+	border-bottom: 1px solid #eee;
+}
+
+.block {
+	display: block;
+}
 /* Since modal is hiding the scroll after it disappears */
 .modal-open {
     overflow: scroll !important;
@@ -36,7 +107,15 @@ p {
 	margin-left: -5px;
 	cursor: pointer;
 }
-
+#bookings .card ul.cleared {
+	padding: 0;
+	margin: 0;
+}
+#bookings .card ul.cleared li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
 .eventname {
     font-size: 12px;
     font-weight: 900;
@@ -53,7 +132,27 @@ p {
 .greenFC {
 	color: #42AE5E;
 }
-
+.orange-text {
+	color: orange;
+}
+.orangeBookingCircle {
+	background-color: orange;
+}
+.greenBookingCircle {
+	background-color: #4CAF50;
+}
+.redBookingCircle {
+	background-color: #cc0000;
+}
+.bookingcircle {
+	border-radius: 50%;
+}
+.greyBookingcircle {
+	background-color: #999;
+}
+.white {
+	background-color: #FFF;
+}
 .btn-default {
 	background: #fff;
 }
@@ -476,7 +575,7 @@ body {
 	background:none; color:#40C4FF;
 }
 .navbar-right .notifications .dropdown-menu {
-	width:240px;
+	width:350px;
 }
 .navbar-right .dropdown-menu {
 	padding:0;
@@ -886,6 +985,32 @@ ul.cal_list_toggle li a.active {
 #fullCalModal .modal-footer button a:hover{text-decoration: none;}
 
 
+/*BOOKINGS*/
+.card{background: #fff; padding: 1rem; border-radius: 4px; box-shadow: 1px 1px 1px rgba(0,0,0,.1); margin-bottom: 1rem;}
+.card:after{content: '';display: block;clear: both;}
+.booking-status-icon {height: 85px; width: 85px; padding: 1rem; font-size: 4rem; color: #fff;}
+li .content-secondary{line-height:3rem; color: #777;}
+li .content-primary{ width:12rem; display: inline-block; font-weight: 500; color: #666;}
+.booking-user{ color: #666; font-weight: 500;}
+.booking-filters h4, .booking-filters .dropdown { display: inline-block; margin-right: 1rem;}
+.currency-icon{ width: 35px; height: 35px; color: #fff; font-size: 18px; padding-top: .5rem; padding-left: 1.2rem;}
+.icn-big-booking-details{ color: #999; font-size: 3rem; float: left; margin-right: 1rem; width: 35px; text-align: center}
+#bookings .card{cursor:pointer}
+#bookings .home_add_tour input {
+	float: right;
+    width: 64%;
+    margin-right: .5rem;
+    top: .6rem;
+    position: relative;
+}
+#bookings .card .booking-user-image {
+	width:33px;
+	height:33px;
+	border-radius:50%;
+}
+
+
+
 /*    ===============    settings    ============    */
 
 #settings .home_add_tour a i {font-size: 16px;vertical-align: -1px;}
@@ -1229,6 +1354,7 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 #tours form .panel .no_margin_row .close_group i{font-weight: bold;}
 #tours #tour_main_content .add_price_option{margin-left: 15px;}
 #tours .addon-onoff, #tours .deposit-onoff{display: inline-block; top: 9px;}
+p.sub_desc, span.sub_desc{font-size: 12px;line-height: 1.2rem; color:#aaaaaa !important;}
 #tours #tour_main_content .sub_desc{font-size: 12px;line-height: 1.5rem;}
 #tours #tour_main_content .addon-panel{padding-bottom: 35px;}
 #tours #tour_main_content .addon-panel .addon_edit{position: relative;}
@@ -1288,6 +1414,14 @@ and (max-device-width : 1024px){
 
 
 /*   =================  tours 2 styles  ===================  */
+.multiline-header.home_add_tour h2 i{display: table-cell;vertical-align: middle;}
+.multiline-header.home_add_tour h2 p{display: table-cell;padding-left: 10px;font-weight: 500;}
+.multiline-header.home_add_tour h2 span.sub_head{display: inline-block;font-size: 14px; color: rgba(0,0,0,.4); font-weight: 400; top: -.5rem; position: relative;}
+.multiline-header.home_add_tour h2 span.sub_head.no_of_tours{ font-weight: bold}
+.multiline-header.home_add_tour a{position: relative; /*top: 10px;*/}
+
+
+
 #tours_list .home_add_tour{display: table;width: 100%;}
 #tours_list .home_add_tour h2 i{display: table-cell;vertical-align: middle;}
 #tours_list .home_add_tour h2 p{display: table-cell;padding-left: 10px;font-weight: bold;}

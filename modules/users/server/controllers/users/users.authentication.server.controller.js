@@ -78,9 +78,9 @@ exports.signup = function (req, res) {
                 // Do nothing
               }
             });
+            res.json(user);
           }
         });
-        res.json(user);
       }
     });
   } else {
@@ -113,6 +113,7 @@ exports.signup = function (req, res) {
             }, function (err, emailHTML) {
               done(err, emailHTML, user);
             });
+            res.json(user); 
           }
         });
       },
@@ -139,8 +140,7 @@ exports.signup = function (req, res) {
       if (err) {
         return next(err);
       }
-    });
-    res.json(user);  
+    }); 
   }
 };
 

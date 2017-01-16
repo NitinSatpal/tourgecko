@@ -15,6 +15,9 @@ var MessageSchema = new Schema({
     default: '',
     trim: true
   },
+  messageFromProfileURL: {
+    type: String
+  },
   messageTo: {
     type: String,
     default: '',

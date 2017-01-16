@@ -5,13 +5,14 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService', 'ProductSessionService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService', 'NotificationService', 'ProductSessionService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService, ProductSessionService) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService, NotificationService, ProductSessionService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.bookings = BookingService.query();
     vm.messages = MessageService.query();
+    vm.notifications = NotificationService.query();
     vm.productSessions = ProductSessionService.query();
     vm.totalRevenue = 0;
     vm.bellNotifications = 0;

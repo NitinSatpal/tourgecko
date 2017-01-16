@@ -14,6 +14,10 @@ var BookingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  hostOfThisBooking : {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
   product: {
     type: Schema.ObjectId,
     ref: 'Product'
@@ -27,6 +31,14 @@ var BookingSchema = new Schema({
   },
   openDatedTourDepartureDate: {
     type: Date
+  },
+  bookingReference: {
+    type: Number,
+    default: 0
+  },
+  bookingStatus: {
+    type: String,
+    default: 'Pending'
   },
   providedGuestDetails: {},
   numberOfBookings: {
@@ -68,3 +80,9 @@ var BookingSchema = new Schema({
 });
 
 mongoose.model('Booking', BookingSchema);
+
+
+BookingSchema.pre('save', function (next) {
+  this.bookingReference = this.bookingReference + 1;
+  next();
+});

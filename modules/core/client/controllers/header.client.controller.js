@@ -5,18 +5,20 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', 'Authentication', '$location', 'menuService'];
+  HeaderController.$inject = ['$scope', '$state', 'Authentication', '$location', 'menuService', 'MessageService', 'NotificationService'];
 
-  function HeaderController($scope, $state, Authentication, $location, menuService) {
+  function HeaderController($scope, $state, Authentication, $location, menuService,MessageService, NotificationService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
+    vm.messages = MessageService.query();
+    vm.notifications = NotificationService.query();
     
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
     headerWithoutSideNav.add('/');
     headerWithoutSideNav.add('/admin/home');
-     headerWithoutSideNav.add('/forbidden');
+    headerWithoutSideNav.add('/forbidden');
 
     var hideHeaderAndEditCSS = new Set();
     hideHeaderAndEditCSS.add('/host/tour/preview');
@@ -47,5 +49,13 @@
       if ($state.$current.url.source !== '/')
         $state.go('abstractHome');
     };
+
+    vm.markNotificationRead = function (index) {
+      vm.notifications.splice(index, 1);
+    }
+
+    vm.markAllNotificationsAsRead = function () {
+      vm.notifications.length = 0;
+    }
   }
 }());
