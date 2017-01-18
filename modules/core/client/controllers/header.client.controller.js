@@ -5,15 +5,15 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', 'Authentication', '$location', 'menuService', 'MessageService', 'NotificationService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'Authentication', '$location', 'menuService', 'NotificationService', 'UnreadNotificationService'];
 
-  function HeaderController($scope, $state, Authentication, $location, menuService,MessageService, NotificationService) {
+  function HeaderController($scope, $state, $http, Authentication, $location, menuService, NotificationService, UnreadNotificationService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
-    vm.messages = MessageService.query();
     vm.notifications = NotificationService.query();
-    
+    vm.unreadNotifications = UnreadNotificationService.query();
+
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
     headerWithoutSideNav.add('/');
@@ -43,6 +43,16 @@
           $('#mainHeader').addClass('leftMarginToHeader');
         }
       }
+      if (notificationId) {
+        saveReadNotifications(notificationId);
+      }
+    }
+
+    function saveReadNotifications (notificationId) {
+      $http.post('/api/notifications/markAsRead/'+notificationId).success(function (response) {
+        vm.notifications = NotificationService.query();
+        vm.unreadNotifications = UnreadNotificationService.query();
+      })
     }
 
     vm.goToHomePage = function() {
@@ -50,12 +60,20 @@
         $state.go('abstractHome');
     };
 
-    vm.markNotificationRead = function (index) {
-      vm.notifications.splice(index, 1);
+    vm.changeCSSDynamically = function (index) {
+      var css = {
+        "background-color": "#ffffff"
+      }
+      if(vm.notifications[index] && vm.notifications[index].notificationRead)
+        return css;
     }
 
-    vm.markAllNotificationsAsRead = function () {
-      vm.notifications.length = 0;
+    var notificationId;
+    vm.markNotificationRead = function (index) {
+      notificationId = vm.notifications[index]._id;
+      $('#notificationContainer').fadeOut('slow');
+      vm.notifications[index].notificationRead = true;
+      $state.go('host.allNotifications');
     }
   }
 }());

@@ -37,8 +37,11 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/host/confirmBooking/:bookingId')
-    .post(hosts.confirmTheBooking);
+  app.route('/api/host/categorizedBooking/')
+    .post(hosts.fetchCategorizedBookings);
+
+  app.route('/api/host/modifyBooking/')
+    .post(hosts.modifyBooking);
 
   app.route('/api/host/booking/:bookingId')
     .get(hosts.fetchSingleBookingDetails);

@@ -525,6 +525,8 @@ body {
 }
 .navbar-right .notifications {
 	position: relative;
+	margin-top: 13px;
+	margin-right: 40px !important;
 }
 .navbar-right .notifications > a i {
 	font-size: 24px;
@@ -536,11 +538,14 @@ body {
 	border-radius: 100%;
 	position: absolute;
 	padding: 0;
-	top: 10px;
-	left: 20px;
+	left: 11px;
+	top:-5px;
 	width:18px;
 	height: 18px;
 	line-height: 165%;
+}
+.navbar-right .account {
+	margin-top: 10px;
 }
 .navbar-right .account > a {
 	font-size: 14px;
@@ -995,7 +1000,6 @@ li .content-primary{ width:12rem; display: inline-block; font-weight: 500; color
 .booking-filters h4, .booking-filters .dropdown { display: inline-block; margin-right: 1rem;}
 .currency-icon{ width: 35px; height: 35px; color: #fff; font-size: 18px; padding-top: .5rem; padding-left: 1.2rem;}
 .icn-big-booking-details{ color: #999; font-size: 3rem; float: left; margin-right: 1rem; width: 35px; text-align: center}
-#bookings .card{cursor:pointer}
 #bookings .home_add_tour input {
 	float: right;
     width: 64%;
@@ -1008,8 +1012,13 @@ li .content-primary{ width:12rem; display: inline-block; font-weight: 500; color
 	height:33px;
 	border-radius:50%;
 }
-
-
+#bookings .booking-filters .multiselect {
+	min-width: 100px !important;
+}
+#bookings .card .gotToBookingDetails {
+	margin-left: 45%;
+	color: #40C4FF;
+}
 
 /*    ===============    settings    ============    */
 
@@ -1839,5 +1848,21 @@ span.multiselect-native-select select {
 		right: 0 !important;
 		top: 50%;
 		transform: translateY(-50%);
+	}
+	.navbar-right .notifications > a span.label-info {
+		background-color: #ED9C28;
+		border-radius: 100%;
+		position: absolute;
+		padding: 0;
+		left: 21px;
+		top:-5px;
+		width:18px;
+		height: 18px;
+		line-height: 165%;
+	}
+	.navbar-right .notifications {
+		position: relative;
+		margin-top: 13px;
+		margin-right: 20px !important;
 	}
 }

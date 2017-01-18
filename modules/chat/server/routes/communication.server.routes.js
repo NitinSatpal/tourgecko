@@ -13,4 +13,10 @@ module.exports = function (app) {
 
   app.route('/api/notification/')
   	.get(comm.fetchNotificationDetails);
+
+  app.route('/api/notifications/markAsRead/:notificationId')
+  	.post(comm.markAsRead);
+
+  app.route('/api/notification/notRead')
+  	.get(comm.fetchUnreadNotifications);
 };

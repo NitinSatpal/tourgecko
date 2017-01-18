@@ -33,12 +33,14 @@ var BookingSchema = new Schema({
     type: Date
   },
   bookingReference: {
-    type: Number,
-    default: 0
+    type: Number
   },
   bookingStatus: {
     type: String,
     default: 'Pending'
+  },
+  bookingComments: {
+    type: String
   },
   providedGuestDetails: {},
   numberOfBookings: {
@@ -81,8 +83,3 @@ var BookingSchema = new Schema({
 
 mongoose.model('Booking', BookingSchema);
 
-
-BookingSchema.pre('save', function (next) {
-  this.bookingReference = this.bookingReference + 1;
-  next();
-});

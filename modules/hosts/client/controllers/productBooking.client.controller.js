@@ -43,13 +43,32 @@
       }
     }
 
-    vm.confirmBooking = function () {
-      if (vm.specificBookingDetails.bookingStatus == 'Confirmed' || vm.specificBookingDetails.bookingStatus == 'Declined')
+    vm.modifyBooking = function (status) {
+      if (vm.specificBookingDetails.bookingStatus != 'Pending')
         return;
-      $http.post('/api/host/confirmBooking/' + $stateParams.bookingId).success(function (response) {
+
+      var bookingModificationData = {bookingId: $stateParams.bookingId, bookingStatus: status, bookingComments: vm.bookingComments}
+      $http.post('/api/host/modifyBooking/', bookingModificationData).success(function (response) {
+        $('.modal-backdrop').remove();
         $state.go('host.allBookings');
       });
     };
-    
+
+    vm.askActionConfirmation = function (bookingStatus, anchorId, modalId) {
+      if (bookingStatus != 'Pending')
+        return;
+      else
+        $(anchorId).attr("data-target", modalId);
+    };
+
+    vm.getCategorizedBookings = function () {
+      if (vm.selectedCategorizedKeys.length == 0) {
+        vm.bookings = BookingService.query();
+      } else {
+        $http.post('/api/host/categorizedBooking/', {categoryKeys: vm.selectedCategorizedKeys}).success(function (response) {
+          vm.bookings = response;
+        });
+      }
+    }
   }
 }());

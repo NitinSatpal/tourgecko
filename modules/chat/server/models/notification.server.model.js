@@ -45,6 +45,9 @@ var NotificationSchema = new Schema({
   notificationRead: {
     type: Boolean,
     default: false
+  },
+  created: {
+    type: Date
   }
 });
 

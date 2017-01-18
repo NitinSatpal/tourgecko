@@ -78,6 +78,15 @@
           pageTitle: 'Admin | Messages'
         }
       })
+      .state('host.allNotifications', {
+        url: '/notifications',
+        templateUrl: 'modules/hosts/client/views/host/notifications.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'Admin | Notifications'
+        }
+      })
       .state('host.allBookings', {
         url: '/bookings',
         templateUrl: 'modules/hosts/client/views/host/bookings.client.view.html',
