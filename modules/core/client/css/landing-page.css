@@ -1,0 +1,134 @@
+/*Landing*/
+
+.landingPage {
+	margin-bottom: 10rem;
+}
+h4 {
+	font-weight: 300;
+}
+.landingPage .landingPageHeader {
+	margin-left: 4% !important;
+	overflow-y: hidden !important;
+}
+.landingPage .landingPageHeader .navbar-right {
+	margin-right: 8%;
+}
+.navbar-brand {
+
+}
+.navbar-brand::after {
+	content: 'BETA';
+	font-size: 1rem;
+	color: #999;
+	vertical-align: super;
+}
+.navbar-brand > img {
+	display: inline-block;
+	width: 17.5rem;
+}
+
+.landing-nav {
+	border-color: transparent;
+}
+.landing-nav .navbar-brand.landing-branding {
+	padding: 0;
+	border-color: transparent;
+}
+#landing {
+	margin-top: 5rem;
+}
+#landing .hero-copy {
+	margin-top: 10rem;
+	margin-left: 4%;
+}
+#landing .hero h1 {
+	text-align: left;
+	color: #fff;
+	font-weight: 400;
+	margin-bottom: 3rem;
+}
+#hero {
+	height: 500px;
+	background:url(../img/landingPage/random-Top-Image-1.png) no-repeat;
+	background-size:cover;
+	background-color:#000;
+}
+#landing .hero-message {
+	background-color: #454545;
+	padding: 2rem 1rem;
+	color: #fff;
+}
+#landing .hero-message h4 {
+	color: #eee;
+}
+#landing .info-blocks {
+	margin:5rem auto 10rem 5rem;
+	padding: 0;
+}
+#landing .info-block {
+	margin-top: 5rem;
+	width: 45%;
+}
+#landing .info-block h5 {
+	color: #00bfff;
+}
+#landing .info-block p {
+	color:#555;
+}
+#landing img.icn_info-block {
+	width: 6.5rem;
+	margin-top: 1.1rem;
+	opacity: .5;
+}
+#landing .info-block-copy {
+
+}
+.footer {
+	width: 100%;
+	padding-top: 4rem;
+	border-top: 1px solid #EEE;
+}
+.footer .heading {
+	font-weight: 300;
+	color: #666;
+	margin-bottom: 2rem;
+}
+
+@media (max-width: 767px){
+    #landing .hero-copy {
+    	margin-top: 4rem;
+    	margin-left: 0;
+    }
+    #landing .hero h1 {
+    	font-size: 2.8rem;
+    }
+    #landing .hero {
+    	height: 300px;
+    	background-image:url(../img/landingPage/random-Top-Image-1.png);
+    	background-position:-100px 0;
+    }
+    #landing .info-blocks {
+		margin:5rem auto 10rem auto;
+		padding: 0;
+	}
+    #landing .info-block {
+    	padding: 0;
+    	width: auto;
+    }
+}
+
+@media (max-width: 420px) {
+	#landing .info-blocks {
+		margin:5rem auto 10rem auto;
+		padding: 0;
+	}
+    #landing img.icn_info-block {
+    	width: 5rem;
+    	margin-top: 1.1rem;
+    	opacity: .5;
+    }
+    #landing .hero-copy {
+    	margin-left: 0;
+    }
+    
+}

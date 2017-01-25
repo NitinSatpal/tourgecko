@@ -1,8 +1,131 @@
-<section>
-  <div class="jumbotron text-center landingPage">
-  	<div class="row">
-    	This is the landing page. We will provide some details like available tours for guests and <br>
-    	some details for hosts of tourgecko and options to signin and signup here.
-    </div>
-  </div>
+<section class="landingPage">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+  	<nav class="navbar navbar-default navbar-fixed-top landing-nav">
+        <div class="container landingPageHeader">
+          	<div class="navbar-header">
+            	<button  id="ChangeToggle" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	              	<div class="navbar-hamburger">
+	              	<span class="sr-only">Toggle navigation</span>
+	              	<span class="icon-bar"></span>
+	              	<span class="icon-bar"></span>
+	              	<span class="icon-bar"></span></div>
+	              	<div id="navbar-close" class="hidden">
+	          			<i class="zmdi zmdi-close"></i>
+	        		</div>
+            	</button>
+            	<a class="navbar-brand landing-branding" href="0_landing.html"><img src="modules/core/client/img/brand/logo-beta.svg" alt="Tourgecko"></a>
+          	</div>
+          	<div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+	            <ul class="nav navbar-nav navbar-right">
+	              	<li>
+	              		<a href="#">About Us</a>
+	              	</li>
+	              	<li class="nav-btn-primary main-cta" >
+	              		<a ui-sref="authentication.hostSignup">Sign Up</a>
+	              	</li>
+	              	<li class="nav-btn-default">
+	              		<a ui-sref="authentication.hostSignin">Login</a>
+	              	</li>
+	            </ul>
+          	</div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+  	<div id="landing" class="container-fluid">
+        <div id="hero" class="hero row">
+            <div class="container">
+	            <div class="row">
+		            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 hero-copy">
+		            	<h1>Simple and unified platform to manage and grow your  tour and activity business</h1>
+		            	<a href="#" class="btn btn-warning btn-lg">Lets Get Talking!</a>
+		            </div>        
+	            </div> 
+            </div> 
+        </div>   
+        <div class="row hero-message">
+	        <div class="container">
+	            <h4>tourgecko is simple yet modern DIY platform designed for adventure tour operators ,activity providers,  adventure clubs and guides
+	            </h4>        
+	        </div>
+        </div>
+        
+    	<div class="container-fluid info-blocks">
+        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+	        	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+	        		<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_planning.svg" >
+	        	</div>    
+		        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Tour Planning and Management</h5>    
+			        <p>Create tour itineraries once and share them across different channels and social media by just  tap of finger. Create custom pricing options and schedule sessions.</p>
+		        </div>
+	        </div>   
+        
+        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+        		<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+        			<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_shopping.svg" >
+        		</div>    
+        		<div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Online Bookings and Toursite</h5>    
+			        <p>Get your own mobile friendly tour site . Make  tour inventory bookable and collect payments through an intuitive  and simple booking process</p>
+			    </div>    
+        	</div> 
+        
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+		        	<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn-cal.svg" >
+		        </div>    
+		        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Scheduling and Calendar</h5>    
+			        <p>Keep track of your tours and schedule through easy to use calendar</p>
+		        </div>    
+	        </div> 
+        
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+	        	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+	        		<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_displays.svg" >
+		        </div>    
+		        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Mobile friendly tour pages</h5>    
+			        <p>Create a tour listing and platform will create a mobile friendly tour and booking page that you can send to your customers or share on social media</p>
+		        </div>    
+	        </div> 
+        
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+		        	<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_msg.svg" >
+		        </div>    
+		        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Guest Messaging and Communication</h5>    
+			        <p>Keep your guests informed throughout booking and post booking process through automated messages.  Listen to them and collect feedbacks.</p>
+		        </div>    
+	        </div> 
+        
+	        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+		        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+		        	<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_payments.svg" >
+		        </div>    
+		        <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 info-block-copy">    
+			        <h5>Automated Bank Payouts</h5>    
+			        <p>No more hassle with paper invoices and manual processes. Your money comes directly in your account.</p>
+		        </div>    
+	        </div> 
+        
+    	</div>    
+        
+	    <footer class="footer row">
+	      <div class="container text-center">
+	          <h2 class="heading">A foundation for your tour and activity  business</h2>
+	          <a ui-sref="authentication.hostSignup" class="btn btn-warning btn-lg">Sign up now!</a>
+	      </div>
+	    </footer>
+    </div>    
 </section>
+<script type="text/javascript">
+   	$(function() {
+    	var images = ['random-Top-Image-1.png', 'random-Top-Image-2.png', 'random-Top-Image-3.png', 'random-Top-Image-4.png'];
+    	$('#hero').css({
+    		'background-image': 'url(modules/core/client/img/landingPage/' + images[Math.floor(Math.random() * images.length)] + ')'
+    	});
+   	});
+</script>
+
