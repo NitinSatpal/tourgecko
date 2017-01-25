@@ -2,6 +2,7 @@
 
 .landingPage {
 	margin-bottom: 10rem;
+	margin-top: -70px;
 }
 h4 {
 	font-weight: 300;
@@ -13,16 +14,16 @@ h4 {
 .landingPage .landingPageHeader .navbar-right {
 	margin-right: 8%;
 }
-.navbar-brand {
+.navbar-Beta-brand {
 
 }
-.navbar-brand::after {
+.navbar-Beta-brand::after {
 	content: 'BETA';
-	font-size: 1rem;
+	font-size: 1rem ;
 	color: #999;
 	vertical-align: super;
 }
-.navbar-brand > img {
+.navbar-Beta-brand > img {
 	display: inline-block;
 	width: 17.5rem;
 }
@@ -30,7 +31,7 @@ h4 {
 .landing-nav {
 	border-color: transparent;
 }
-.landing-nav .navbar-brand.landing-branding {
+.landing-nav .navbar-Beta-brand.landing-branding {
 	padding: 0;
 	border-color: transparent;
 }
