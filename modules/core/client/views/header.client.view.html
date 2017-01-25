@@ -15,9 +15,10 @@
                         </a>
                         <div id="notificationContainer">
                             <div><img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg"></div>
-                            <div id="notificationTitle">Notifications</div>
+                            <div id="notificationTitle" ng-if="vm.notifications.length > 0">Notifications</div>
+                            <div id="notificationTitle" ng-if="vm.notifications.length == 0">No Notifications</div>
                             <div id="notificationsBody" class="notifications">
-                                <div ng-repeat="notification in vm.notifications | limitTo:5 track by $index">
+                                <div ng-repeat="notification in vm.notifications track by $index">
                                     <div class="notification-Item" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
                                         <div class="notification-Image-container">
                                             <img src="{{notification.notificationFromProfileURL}}" class="notification-Image">
@@ -39,7 +40,7 @@
                                 </div>
                             </div>
                             <div id="notificationFooter">
-                                <a ui-sref="host.allNotifications" onclick="hideNotificationContainer()">See All</a>
+                                <a href="" ui-sref="host.allNotifications" ng-if="vm.notifications.length > 0" onclick="hideNotificationContainer()">See All</a>
                             </div>
                         </div>
                     </li>

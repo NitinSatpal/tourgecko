@@ -68,6 +68,9 @@ module.exports = {
       }
     }
   },
+  bitly: {
+    accessToken: process.env.BITLY_ACCESS_TOKEN
+  },
   livereload: true,
   seedDB: {
     seed: process.env.MONGO_SEED === 'true',

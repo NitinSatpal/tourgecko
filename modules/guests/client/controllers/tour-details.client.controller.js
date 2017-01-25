@@ -58,5 +58,11 @@
 
       return minimumTillNow;
     }
+
+    vm.goToBookingPage = function () {
+      console.log('came here');
+      $('#bookTheTour').attr("data-target", '#askForLogin');
+      // ui-sref="guest.booking({productId: vm.productDetails._id})" 
+    }
   }
 }());

@@ -88,6 +88,12 @@ p {
 .modal-open {
     overflow: scroll !important;
 }
+#askSocialSharingOptions .modal-dialog {
+	width:250px;
+}
+.shareButton {
+	width:175px;
+}
 .verticalScroll {
 	overflow: scroll !important;
 }

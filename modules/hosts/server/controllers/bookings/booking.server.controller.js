@@ -38,7 +38,7 @@ exports.createBooking = function (req, res) {
             message: errorHandler.getErrorMessage(err)
           });
         } else {
-          sendNotification(req.body.bookingDetails, req.user, req.body.productTitle);
+          sendNotification(req.body.bookingDetails, req.user, req.body.productTitle, booking._id);
           res.json(booking);
         }
       });
@@ -46,9 +46,10 @@ exports.createBooking = function (req, res) {
   }
 };
 
-function sendNotification(bookingObject, user, productTitle) {
+function sendNotification(bookingObject, user, productTitle, bookingId) {
   var notification = new Notification();
   notification.notificationFrom = user.displayName;
+  notification.bookingId = bookingId;
   notification.notificationToId = bookingObject.hostOfThisBooking;
   notification.notificationFromProfileURL = user.profileImageURL;
   notification.notificationType = 'Booking Request';

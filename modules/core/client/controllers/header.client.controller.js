@@ -73,7 +73,8 @@
       notificationId = vm.notifications[index]._id;
       $('#notificationContainer').fadeOut('slow');
       vm.notifications[index].notificationRead = true;
-      $state.go('host.allNotifications');
+      if (vm.notifications[index].notificationType == 'Booking Request')
+        $state.go('host.bookingdetails', {bookingId: vm.notifications[index].bookingId});
     }
   }
 }());

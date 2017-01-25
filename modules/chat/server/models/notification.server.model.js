@@ -25,12 +25,16 @@ var NotificationSchema = new Schema({
   },
   notificationToId: {
     type:Schema.ObjectId,
-    ref: 'user'
+    ref: 'User'
   },
   notificationType: {
     type: String,
     default: '',
     trim: true
+  },
+  bookingId: {
+    type: Schema.ObjectId,
+    ref: 'Booking'
   },
   notificationBody: {
     type: String,

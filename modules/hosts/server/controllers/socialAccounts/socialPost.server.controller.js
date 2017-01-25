@@ -1,19 +1,34 @@
-
-//'use strict';
+'use strict';
 
 /**
  * Module dependencies
  */
-/*var path = require('path'),
+var path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
   config = require(path.resolve('./config/config')),
   Twitter = require('twitter'),
   FB = require('fb'),
+  Bitly = require('bitly'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+
+// Shorten the URL
+exports.shortenTheURL = function (req, res) {
+  var bitly = new Bitly(config.bitly.accessToken);
+  console.log();
+  bitly.shorten(req.query.longURL)
+    .then(function(response) {
+      var short_url = response.data.url;
+      res.json(short_url);
+      // Do something with data 
+    }, function(error) {
+      throw error;
+    });
+};
+
 // Post on Twitter
-exports.postOnTwitter = function (req, res) {
+/* exports.postOnTwitter = function (req, res) {
   var output = "";
   var pathToScript = path.resolve('./scripts/socialPosts.py');
   console.log('path is ' +pathToScript);

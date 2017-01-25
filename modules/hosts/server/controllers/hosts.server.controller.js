@@ -12,6 +12,6 @@ module.exports = _.extend(
   require('./toursite/toursite.server.controller'),
   require('./product/product.server.controller'),
   require('./bookings/booking.server.controller'),
-  //require('./socialAccounts/socialPost.server.controller'),
+  require('./socialAccounts/socialPost.server.controller'),
   require('./hostSettings/hostSettings.server.controller')
 );

@@ -1,64 +1,61 @@
 <div class="hostHome" id="tours">
-		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
-			<div id="tours_list" class="container-fluid">
-				<div class="row body-content tourlist-content">
-					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">
-								<div class="panel">
-									<div class="row">
-										<div class="col-sm-6 col-md-6 col-lg-6 tour_left" ng-show="vm.products[$index].productPictureURLs.length > 0">
-											<img ng-src="{{vm.products[$index].productPictureURLs[0]}}" class="img-responsive" alt="{{vm.products[$index].productTitle}}"/>
-										</div>
-										<div class="col-sm-6 col-md-6 col-lg-6 tour_left no-image" ng-show="vm.products[$index].productPictureURLs.length == 0">
-											<div class="no_image">
-												<div>
-													<i class="zmdi zmdi-image-alt"></i>
-													<span>no picture</span>
-												</div>
-											</div>
-										</div>
-										<div class="col-sm-6 col-md-6 col-lg-6 tour_right">
-											<p class="tour_details">{{vm.products[$index].productTitle}}</p>
-											<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> {{vm.products[$index].destination}}</p>
-											<div class="info_visible">
-												<label class="visible" for="{{$index}}">Visible</label>
-												<div class="tourlistonoffswitch">
-													<input type="checkbox" name="" class="tourlistonoffswitch-checkbox" id="{{$index}}" ng-model="vm.products[$index].isPublished" ng-click="vm.makeProductVisible(vm.products[$index])">
-													<label class="tourlistonoffswitch-label" for="{{$index}}"></label>
-												</div>
-											</div>
+	<div id="tours_list" class="container-fluid">
+		<div class="row body-content tourlist-content">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+				<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">
+						<div class="panel">
+							<div class="row">
+								<div class="col-sm-6 col-md-6 col-lg-6 tour_left" ng-show="vm.products[$index].productPictureURLs.length > 0">
+									<img ng-src="{{vm.products[$index].productPictureURLs[0]}}" class="img-responsive" alt="{{vm.products[$index].productTitle}}"/>
+								</div>
+								<div class="col-sm-6 col-md-6 col-lg-6 tour_left no-image" ng-show="vm.products[$index].productPictureURLs.length == 0">
+									<div class="no_image">
+										<div>
+											<i class="zmdi zmdi-image-alt"></i>
+											<span>no picture</span>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-sm-12 col-md-12 col-lg-12">
-											<div class="tour_utils">
-												<div class="tour_share dropdown">
-													<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-share"></i></a>
-													<ul class="dropdown-menu">
-														<li><a href="#" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li>
-														<!-- For mobile phones where whatsapp option will be present -->
-														<!-- <li><a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li> -->
-														<li><a href="#" ng-click="vm.shareOnSocialAccount('twitter', vm.products[$index])">twitter</a></li>
-													</ul>
-												</div>
-												<div class="tour_preview">
-													<a class="btn btn-primary outline" ng-click="vm.showTourPreview($index)">
-														<i class="zmdi zmdi-sign-in"></i>preview
-													</a>
-												</div>
-												<div class="tour_edit">
-													<a class="btn btn-primary outline" ng-click="vm.editTourDetails($index)"><i class="zmdi zmdi-edit"></i>Edit</a>
-												</div>
-												<div class="tour_more dropdown">
-													<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-more-vert"></i></a>
-													<ul class="dropdown-menu">
-														<li><a href="#">facebook</a></li>
-														<li><a href="#">twitter</a></li>
-													</ul>
-												</div>
-											</div>
+								</div>
+								<div class="col-sm-6 col-md-6 col-lg-6 tour_right">
+									<p class="tour_details">{{vm.products[$index].productTitle}}</p>
+									<p class="tour_location"><i class="zmdi zmdi-pin-drop"></i> {{vm.products[$index].destination}}</p>
+									<div class="info_visible">
+										<label class="visible" for="{{$index}}">Visible</label>
+										<div class="tourlistonoffswitch">
+											<input type="checkbox" name="" class="tourlistonoffswitch-checkbox" id="{{$index}}" ng-model="vm.products[$index].isPublished" ng-click="vm.makeProductVisible(vm.products[$index])">
+											<label class="tourlistonoffswitch-label" for="{{$index}}"></label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 col-md-12 col-lg-12">
+									<div class="tour_utils">
+										<div class="tour_share dropdown">
+											<a href="#" data-toggle="modal" data-target="#askSocialSharingOptions" class="dropdown-toggle btn btn-primary outline" ng-click="vm.index = $index"><i class="zmdi zmdi-share"></i></a>
+											<!-- <ul class="dropdown-menu">
+												<li><a href="#" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li>
+												<!-- For mobile phones where whatsapp option will be present -->
+												<!-- <li><a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li> -->
+												<!--<li><a href="#" ng-click="vm.shareOnSocialAccount('twitter', vm.products[$index])">twitter</a></li>
+											</ul> -->
+										</div>
+										<div class="tour_preview">
+											<a class="btn btn-primary outline" ng-click="vm.showTourPreview($index)">
+												<i class="zmdi zmdi-sign-in"></i>preview
+											</a>
+										</div>
+										<div class="tour_edit">
+											<a class="btn btn-primary outline" ng-click="vm.editTourDetails($index)"><i class="zmdi zmdi-edit"></i>Edit</a>
+										</div>
+										<div class="tour_more dropdown">
+											<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-more-vert"></i></a>
+											<ul class="dropdown-menu">
+												<li><a href="#">facebook</a></li>
+												<li><a href="#">twitter</a></li>
+											</ul>
 										</div>
 									</div>
 								</div>
@@ -67,18 +64,60 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
 
-		<div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
-				<div class="modal-content">
-					<div class="modal-body">
-						<img ng-src="" alt="" />
-						<p></p>
-					</div>
+	<div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">×</button>
+			<div class="modal-content">
+				<div class="modal-body">
+					<img ng-src="" alt="" />
+					<p></p>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div id="askSocialSharingOptions" class="modal fade" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">where you want to Share</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="row text-center">
+			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			            	<a class="btn btn-primary btn-facebook shareButton" href="/api/auth/facebook" target="_self">
+			                	<span class="fa fa-facebook"></span> Share on Facebook
+			               	</a>
+			            </div>
+			            <br>
+			            <br>
+			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 twitter">
+			            	<a id="postOnTwitter" class="btn btn-primary btn-twitter shareButton" ng-click="vm.tweetTheProduct()">
+			            	   	<span class="fa fa-twitter"></span>
+								Tweet on Twitter
+							</a>
+			            </div>
+			            <br>
+			            <br>
+			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			                <a class="btn btn-primary btn-google shareButton" href="/api/auth/google" target="_self">
+			                  	<span class="fa fa-google"></span> Share on Google Plus
+			                </a>
+			            </div>
+			        </div>
+	            </div>
+	            <br>
+	            <div class="modal-footer">
+	                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
 </div>
 <script>
 	$(document).ready(function() {

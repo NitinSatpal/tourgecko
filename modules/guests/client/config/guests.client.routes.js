@@ -49,8 +49,7 @@
         	productId: null
         },
         data: {
-          pageTitle: 'Tour | Booking',
-          roles: ['user']
+          pageTitle: 'Tour | Booking'
         }
       })
       .state('guest.bookingDone', {

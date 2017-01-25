@@ -60,15 +60,6 @@
           pageTitle: 'Admin | Tours'
         }
       })
-      .state('host.notifications', {
-        url: '/notifications',
-        templateUrl: 'modules/hosts/client/views/host/notifications.client.view.html',
-        controller: '',
-        controllerAs: '',
-        data: {
-          pageTitle: 'Admin | Notifications'
-        }
-      })
       .state('host.allMessages', {
         url: '/messages',
         templateUrl: 'modules/hosts/client/views/host/messages.client.view.html',
@@ -76,15 +67,6 @@
         controllerAs: '',
         data: {
           pageTitle: 'Admin | Messages'
-        }
-      })
-      .state('host.allNotifications', {
-        url: '/notifications',
-        templateUrl: 'modules/hosts/client/views/host/notifications.client.view.html',
-        controller: '',
-        controllerAs: '',
-        data: {
-          pageTitle: 'Admin | Notifications'
         }
       })
       .state('host.allBookings', {

@@ -10,9 +10,9 @@
   function TourListController($scope, $state, $window, $http, Authentication, CompanyProductService) {
     var vm = this;
     vm.authentication = Authentication;
+    vm.index = -1;
 
     vm.products = CompanyProductService.query();    
-
 
     vm.makeProductVisible = function (product) {
     	if (product.isPublished == true) {
@@ -36,7 +36,7 @@
     	}
     }
 
-  /*  vm.shareOnSocialAccount = function (account, product) {
+    /*  vm.shareOnSocialAccount = function (account, product) {
         if (account == 'twitter') {
             $http.post('/api/social/host/twitter', product).success(function (response) {
                 console.log(response);
@@ -61,5 +61,17 @@
         $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
 
+    vm.tweetTheProduct = function () {
+        var tweet = vm.products[vm.index].productTitle + '%0A' + vm.products[vm.index].destination + '%0A';
+        var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
+        $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
+            tweet = tweet + response + '%0A';
+            $window.open("http://twitter.com/share?text="+tweet+"&via=tourgecko&hashtags=''&url=''");
+            $('#askSocialSharingOptions').fadeOut('slow');
+            $('.modal-backdrop').remove();
+        }).error(function (response) {
+            vm.error = response.message;
+        });
+    }
   }
 }());

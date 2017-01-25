@@ -52,9 +52,6 @@ module.exports = function (app) {
   app.route('/api/product/productMap/:productId')
     .post(hosts.uploadProductMap);
 
-  /*app.route('/api/social/host/twitter')
-    .post(hosts.postOnTwitter);*/
-
   /*app.route('/api/social/host/facebook')
     .post(hosts.postOnFB);*/
 
@@ -79,5 +76,8 @@ module.exports = function (app) {
 
   app.route('/api/host/region')
     .post(hosts.saveRegionalDetails);
+
+  app.route('/api/social/host/shortenURL')
+    .get(hosts.shortenTheURL);
 
 };
