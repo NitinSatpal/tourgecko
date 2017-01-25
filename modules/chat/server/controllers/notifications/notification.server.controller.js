@@ -34,13 +34,15 @@ exports.markAsRead = function (req, res) {
 };
 
 exports.fetchUnreadNotifications = function (req, res) {
-  Notification.find({'notificationToId': req.user._id, notificationRead: false}).sort('-created').exec(function (err, notifications) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(notifications);
-  });
+  if (req.user) {
+    Notification.find({'notificationToId': req.user._id, notificationRead: false}).sort('-created').exec(function (err, notifications) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(notifications);
+    });
+  }
 };
 
