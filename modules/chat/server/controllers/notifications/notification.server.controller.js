@@ -10,14 +10,16 @@ var path = require('path'),
 
 
 exports.fetchNotificationDetails = function (req, res) {
-  Notification.find({'notificationToId': req.user._id}).sort('-created').exec(function (err, notifications) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(notifications);
-  });
+  if (req.user) {
+    Notification.find({'notificationToId': req.user._id}).sort('-created').exec(function (err, notifications) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(notifications);
+    });
+  }
 };
 
 exports.markAsRead = function (req, res) {

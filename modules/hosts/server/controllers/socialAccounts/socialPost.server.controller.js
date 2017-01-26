@@ -16,7 +16,6 @@ var path = require('path'),
 // Shorten the URL
 exports.shortenTheURL = function (req, res) {
   var bitly = new Bitly(config.bitly.accessToken);
-  console.log();
   bitly.shorten(req.query.longURL)
     .then(function(response) {
       var short_url = response.data.url;

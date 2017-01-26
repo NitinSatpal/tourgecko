@@ -32,114 +32,100 @@ exports.fetchCompanyDetails = function (req, res) {
 // Save company details
 exports.saveCompanyDetails = function (req, res) {
   var changedCompanyDetails = req.body[0];
-  Company.findOne({user: req.user._id}).exec(function (err, company) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    company.hostType = changedCompanyDetails.hostType;
-    company.companyName = changedCompanyDetails.companyName;
-    company.aboutHost = changedCompanyDetails.aboutHost;
-    company.establishedIn = changedCompanyDetails.establishedIn;
-    company.logoURL = changedCompanyDetails.logoURL;
-    company.inquiryTime = changedCompanyDetails.inquiryTime;
-    company.hostCompanyAddress = changedCompanyDetails.hostCompanyAddress;
-    company.markModified('hostCompanyAddress');
-    company.save();
-    res.json(company);
-  });
-};
-
-// Upload company logo
-exports.uploadCompanyLogo = function (req, res) {
-  console.log('here - 1');
-  var user = req.user;
-  var upload = multer(config.uploads.hostCompanyLogoUploads).single('newLogo');
-  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
-  var existingLogoUrl;
-  console.log('here - 2');
-  // Filtering to upload only images
-  upload.fileFilter = imageUploadFileFilter;
-
-  if (user) {
-    console.log('here - 3');
+  if (req.user) {
     Company.findOne({user: req.user._id}).exec(function (err, company) {
       if (err) {
-        console.log('here - 4');
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
       }
-      existingLogoUrl = company.logoURL;
-      uploadImage()
-        .then(updateCompany)
-        .then(deleteOldImage)
-        .then(function () {
-          res.json(user);
-        })
-        .catch(function (err) {
-          console.log('here - 5 ' + err);
-          res.status(400).send(err);
-        });
+      company.hostType = changedCompanyDetails.hostType;
+      company.companyName = changedCompanyDetails.companyName;
+      company.aboutHost = changedCompanyDetails.aboutHost;
+      company.establishedIn = changedCompanyDetails.establishedIn;
+      company.logoURL = changedCompanyDetails.logoURL;
+      company.inquiryTime = changedCompanyDetails.inquiryTime;
+      company.hostCompanyAddress = changedCompanyDetails.hostCompanyAddress;
+      company.markModified('hostCompanyAddress');
+      company.save();
+      res.json(company);
+    });
+  }
+};
 
-      function uploadImage () {
-        console.log('here - 6');
-        return new Promise(function (resolve, reject) {
-          upload(req, res, function (uploadError) {
-            if (uploadError) {
-              console.log('here - 7 ' +uploadError);
-              reject(errorHandler.getErrorMessage(uploadError));
-            } else {
-              console.log('here - 8');
-              resolve();
-            }
+// Upload company logo
+exports.uploadCompanyLogo = function (req, res) {
+  var user = req.user;
+  var upload = multer(config.uploads.hostCompanyLogoUploads).single('newLogo');
+  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
+  var existingLogoUrl;
+  // Filtering to upload only images
+  upload.fileFilter = imageUploadFileFilter;
+
+  if (user) {
+    if (req.user) {
+      Company.findOne({user: req.user._id}).exec(function (err, company) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
           });
-        });
-      }
-
-      function updateCompany () {
-        console.log('here - 9');
-        return new Promise(function (resolve, reject) {
-          company.logoURL = config.uploads.hostCompanyLogoUploads.dest + req.file.filename;
-          console.log('here - 10');
-          company.save(function (err, thecompany) {
-            if (err) {
-              console.log('here - 11 ' + err);
-              reject(err);
-            } else {
-              console.log('here - 12');
-              resolve();
-            }
+        }
+        existingLogoUrl = company.logoURL;
+        uploadImage()
+          .then(updateCompany)
+          .then(deleteOldImage)
+          .then(function () {
+            res.json(user);
+          })
+          .catch(function (err) {
+            res.status(400).send(err);
           });
-        });
-      }
 
-      function deleteOldImage () {
-        console.log('here - 13');
-        return new Promise(function (resolve, reject) {
-          if (existingLogoUrl !== Company.schema.path('logoURL').defaultValue) {
-            console.log('here - 14');
-            fs.unlink(existingLogoUrl, function (unlinkError) {
-              if (unlinkError) {
-                console.log('here - 15 ' +unlinkError);
-                reject({
-                  message: 'Error occurred while deleting old Company logo'
-                });
+        function uploadImage () {
+          return new Promise(function (resolve, reject) {
+            upload(req, res, function (uploadError) {
+              if (uploadError) {
+                reject(errorHandler.getErrorMessage(uploadError));
               } else {
-                console.log('here - 16');
                 resolve();
               }
             });
-          } else {
-            console.log('here - 17');
-            resolve();
-          }
-        });
-      }
-    });
+          });
+        }
+
+        function updateCompany () {
+          return new Promise(function (resolve, reject) {
+            company.logoURL = config.uploads.hostCompanyLogoUploads.dest + req.file.filename;
+            company.save(function (err, thecompany) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve();
+              }
+            });
+          });
+        }
+
+        function deleteOldImage () {
+          return new Promise(function (resolve, reject) {
+            if (existingLogoUrl !== Company.schema.path('logoURL').defaultValue) {
+              fs.unlink(existingLogoUrl, function (unlinkError) {
+                if (unlinkError) {
+                  reject({
+                    message: 'Error occurred while deleting old Company logo'
+                  });
+                } else {
+                  resolve();
+                }
+              });
+            } else {
+              resolve();
+            }
+          });
+        }
+      });
+    }
   } else {
-    console.log('here - 18');
     res.status(400).send({
       message: 'User is not signed in'
     });
@@ -151,60 +137,65 @@ exports.uploadCompanyLogo = function (req, res) {
 //Save contact details
 exports.saveContactDetails = function (req, res) {
   var changedContactDetails = req.body[0];
-  Company.findOne({user: req.user._id}).exec(function (err, company) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    company.notificationEmail = changedContactDetails.notificationEmail;
-    company.notificationMobile = changedContactDetails.notificationMobile;
-    company.inquiryEmail = changedContactDetails.inquiryEmail;
-    company.inquiryMobile = changedContactDetails.inquiryMobile;
-    company.inquiryTime = changedContactDetails.inquiryTime;
-    company.hostSocialAccounts = changedContactDetails.hostSocialAccounts;
-    company.markModified('hostSocialAccounts');
-    company.save();
-    res.json(company);
-  });
+  if (req.user) {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.notificationEmail = changedContactDetails.notificationEmail;
+      company.notificationMobile = changedContactDetails.notificationMobile;
+      company.inquiryEmail = changedContactDetails.inquiryEmail;
+      company.inquiryMobile = changedContactDetails.inquiryMobile;
+      company.inquiryTime = changedContactDetails.inquiryTime;
+      company.hostSocialAccounts = changedContactDetails.hostSocialAccounts;
+      company.markModified('hostSocialAccounts');
+      company.save();
+      res.json(company);
+    });
+  }
 };
 
 // Save payment details
 exports.savePaymentDetails = function (req, res) {
   var otherChangedPaymentDetails = req.body.otherAccDetails[0];
   var changedPaymentDetailsCountry = req.body.accCountryDetails;
-  Company.findOne({user: req.user._id}).exec(function (err, company) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
-    company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
-    company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
-    company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
-    company.markModified('hostBankAccountDetails');
-    company.save();
-    res.json(company);
-  });
+  if (req.user) {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
+      company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
+      company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
+      company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
+      company.markModified('hostBankAccountDetails');
+      company.save();
+      res.json(company);
+    });
+  }
 };
 
 // Save toursite details
 exports.saveToursiteDetails = function (req, res) {
   var changedToursiteDetails = req.body[0];
-
-  Company.findOne({user: req.user._id}).exec(function (err, company) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    company.toursite = changedToursiteDetails.toursite;
-    company.isToursiteInactive = changedToursiteDetails.isToursiteInactive;
-    company.companyWebsite = changedToursiteDetails.companyWebsite;
-    company.save();
-    res.json(company);
-  });
+  if (req.user) {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.toursite = changedToursiteDetails.toursite;
+      company.isToursiteInactive = changedToursiteDetails.isToursiteInactive;
+      company.companyWebsite = changedToursiteDetails.companyWebsite;
+      company.save();
+      res.json(company);
+    });
+  }
 };
 
 // Save account details
@@ -244,16 +235,17 @@ exports.getSupportedLanguages = function (req, res) {
 // save regional details
 exports.saveRegionalDetails = function (req, res) {
   var changedRegionalDetails = req.body[0];
-  
-  Company.findOne({user: req.user._id}).exec(function (err, company) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    company.defaultLanguage = changedRegionalDetails.defaultLanguage;
-    company.defaultCurrency = changedRegionalDetails.defaultCurrency;
-    company.save();
-    res.json(company);
-  });
+  if (req.user) {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.defaultLanguage = changedRegionalDetails.defaultLanguage;
+      company.defaultCurrency = changedRegionalDetails.defaultCurrency;
+      company.save();
+      res.json(company);
+    });
+  }
 };

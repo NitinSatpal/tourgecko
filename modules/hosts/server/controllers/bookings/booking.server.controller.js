@@ -69,14 +69,16 @@ function sendNotification(bookingObject, user, productTitle, bookingId) {
 
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
-  Booking.find({hostOfThisBooking: req.user._id}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(bookings);
-  });
+  if (req.user) {
+    Booking.find({hostOfThisBooking: req.user._id}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(bookings);
+    });
+  }
 };
 
 // Fetch single booking details

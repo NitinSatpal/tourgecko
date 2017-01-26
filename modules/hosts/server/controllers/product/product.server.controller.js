@@ -97,14 +97,16 @@ exports.fetchSingleProductDetails = function (req, res) {
 
 // Fetch Single product details
 exports.fetchCompanyProductDetails = function (req, res) {
-  Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('').exec(function (err, products) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(products);
-  });
+  if (req.user) {
+    Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('').exec(function (err, products) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(products);
+    });
+  }
 };
 
 

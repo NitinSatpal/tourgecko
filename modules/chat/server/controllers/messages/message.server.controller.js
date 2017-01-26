@@ -23,13 +23,15 @@ exports.saveMessageDetails = function (req, res) {
 };
 
 exports.fetchMessageDetails = function (req, res) {
-  Message.find({'messageToId': req.user._id}).sort('-created').exec(function (err, messages) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(messages);
-  });
+  if (req.user) {
+    Message.find({'messageToId': req.user._id}).sort('-created').exec(function (err, messages) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(messages);
+    });
+  }
 };
 

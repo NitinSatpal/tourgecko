@@ -26,14 +26,16 @@ exports.getToursite = function (req, res) {
       res.json(company);
     });
   } else {
-    Company.findOne({ user: req.user._id }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
-      if (err) {
-        res.status(500).render('modules/core/server/views/500', {
-          error: 'Oops! Something went wrong...'
-        });
-      }
-      res.json(company);
-    });
+    if (req.user) {
+      Company.findOne({ user: req.user._id }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
+        if (err) {
+          res.status(500).render('modules/core/server/views/500', {
+            error: 'Oops! Something went wrong...'
+          });
+        }
+        res.json(company);
+      });
+    }
   }
 };
 
