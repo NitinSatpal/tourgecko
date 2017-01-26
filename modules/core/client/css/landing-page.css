@@ -2,14 +2,12 @@
 
 .landingPage {
 	margin-bottom: 10rem;
-	
 }
 
 h4 {
 	font-weight: 300;
 }
 .landingPage .landingPageHeader {
-	margin-left: 4% !important;
 	overflow-y: hidden !important;
 }
 .landingPage .landingPageHeader .navbar-right {
@@ -119,6 +117,12 @@ h4 {
     }
     .landingPage {
 		margin-top: 0;
+	}
+	.landingPage .navbar-collapse {
+		background-color: #F8F8F8;
+	}
+	.landingPage .navbar-fixed-top {
+		margin-bottom: -5px !important;
 	}
 }
 

@@ -19,8 +19,8 @@
             		<img src="modules/core/client/img/brand/logo-beta.svg" alt="Tourgecko">
             	</a>
           	</div>
-          	<div id="landingPageNavbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-	            <ul class="nav navbar-nav navbar-right">
+          	<div id="landingPageNavbar" class="navbar-collapse collapse navbar-ex1-collapse" style="height: 1px;">
+	            <ul class="nav navbar-nav">
 	              	<li>
 	              		<a href="#">About Us</a>
 	              	</li>
@@ -131,5 +131,10 @@
     		'background-image': 'url(modules/core/client/img/landingPage/' + images[Math.floor(Math.random() * images.length)] + ')'
     	});
    	});
+
+   	$( document ).ready(function() {
+	    if(window.innerWidth >= 767)
+	    	$('#landingPageNavbar').addClass("navbar-right");
+	});
 </script>
 
