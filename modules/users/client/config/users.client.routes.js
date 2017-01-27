@@ -18,7 +18,7 @@
         controller: 'SettingsController',
         controllerAs: 'vm',
         data: {
-          roles: ['user', 'admin', 'Super Admin']
+          roles: ['user', 'hostAdmin', 'Super Admin']
         }
       })
       .state('settings.home', {
