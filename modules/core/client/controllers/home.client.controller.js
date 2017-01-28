@@ -10,5 +10,9 @@
   function HomeController($scope, $state, $http, $location, Authentication, $stateParams) {
     var vm = this;
     vm.authentication = Authentication;
+
+    if(!vm.authentication.user) {
+    	$('#landingPage').removeClass('dynamicLandingPageCSS');
+    }
   }
 }());

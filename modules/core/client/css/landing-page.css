@@ -2,7 +2,9 @@
 
 .landingPage {
 	margin-bottom: 10rem;
-	margin-top: -70px !important;
+}
+.dynamicLandingPageCSS {
+	margin-top: -70px;
 }
 
 h4 {
@@ -116,6 +118,12 @@ h4 {
     	padding: 0;
     	width: auto;
     }
+    .landingPage {
+		margin-top: 0;
+	}
+	.dynamicLandingPageCSS {
+		margin-top: -70px;
+	}
 	.landingPage .navbar-collapse {
 		background-color: #F8F8F8;
 	}
@@ -139,5 +147,8 @@ h4 {
     }
     .landingPage {
 		margin-top: 0;
-	}  
+	}
+	.dynamicLandingPageCSS {
+		margin-top: -70px;
+	}
 }

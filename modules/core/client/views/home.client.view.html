@@ -1,4 +1,4 @@
-<section class="landingPage">
+<section id="landingPage" class="landingPage dynamicLandingPageCSS">
 	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
   	<nav class="navbar navbar-default navbar-fixed-top landing-nav">
@@ -20,67 +20,20 @@
             	</a>
           	</div>
           	<div id="landingPageNavbar" class="navbar-collapse collapse navbar-ex1-collapse" style="height: 1px;">
-	            <ul class="nav navbar-nav" ng-show="!vm.authentication.user">
+	            <ul class="nav navbar-nav">
 	              	<li>
 	              		<a href="#">About Us</a>
 	              	</li>
-	              	<li class="nav-btn-primary main-cta" >
+	              	<li>
+	              		<a ui-sref="host.hostHome" ng-hide="!vm.authentication.user">Go to Admin Panel</a>
+	              	</li>
+	              	<li class="nav-btn-primary main-cta" ng-show="!vm.authentication.user">
 	              		<a ui-sref="authentication.hostSignup">Sign Up</a>
 	              	</li>
-	              	<li class="nav-btn-default">
+	              	<li class="nav-btn-default" ng-show="!vm.authentication.user">
 	              		<a ui-sref="authentication.hostSignin">Login</a>
 	              	</li>
 	            </ul>
-
-	            <ul id="headerNotifications" class="headerOptions" ng-show="vm.authentication.user">
-                    <li class="dropdown notifications">
-                        <a href="#" id="notificationLink">
-                          <i class="zmdi zmdi-notifications"></i>
-                          <span class="label label-info" ng-show="vm.unreadNotifications.length > 0">{{vm.unreadNotifications.length}}</span>
-                        </a>
-                        <div id="notificationContainer">
-                            <div><img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg"></div>
-                            <div id="notificationTitle" ng-if="vm.notifications.length > 0">Notifications</div>
-                            <div id="notificationTitle" ng-if="vm.notifications.length == 0">No Notifications</div>
-                            <div id="notificationsBody" class="notifications">
-                                <div ng-repeat="notification in vm.notifications track by $index">
-                                    <div class="notification-Item" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
-                                        <div class="notification-Image-container">
-                                            <img src="{{notification.notificationFromProfileURL}}" class="notification-Image">
-                                        </div>
-                                        <div class="notification-Text">
-                                            <span class="notificationType">
-                                                {{notification.notificationType}}
-                                            </span>
-                                            <br>
-                                            <span class="notificationBodyData">
-                                                From: {{notification.notificationFrom}} 
-                                            </span>
-                                            <br>
-                                            <span class="notificationBodyTimeStamp">
-                                                {{notification.created}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="notificationFooter">
-                                <a href="" ui-sref="host.allNotifications" ng-if="vm.notifications.length > 0" onclick="hideNotificationContainer()">See All</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
-                            <span ng-bind="vm.authentication.user.displayName.length > 10 ?  (vm.authentication.user.firstName.length > 10 ? 'Host' : vm.authentication.user.firstName) : vm.authentication.user.displayName"></span>
-                            <b class="caret hidden-xs"></b>
-                        </a>
-                        <ul class="dropdown-menu" ui-sref-active="active">
-                            <li ng-repeat="item in vm.accountMenu.items"><a ui-sref="{{item.state}}" ng-bind="item.title"></a></li>
-                            <li><a href="/api/auth/signout" target="_self">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
           	</div><!--/.nav-collapse -->
         </div>
     </nav>
