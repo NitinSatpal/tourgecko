@@ -19,6 +19,7 @@ $(document).ready(function() {
         	if(document) {
         		var repeatedDays = 0;
         		var notAllowedDays = new Set();
+        		var allowedDays = new Set();
         		if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
         			var firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
 	        		var secondDate = new Date(document.sessionDepartureDetails.startDate);
@@ -26,22 +27,25 @@ $(document).ready(function() {
 	        		repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 	        		repeatedDays = repeatedDays + 1;
 
-	        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-	        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
-	        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
-	        		}
+	        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
+				      	for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
+				        	notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
+				    }
+				    if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
+				      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
+				        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
+				    }
 
         		}
         		var eventDate = new Date(document.sessionDepartureDetails.startDate);
-        		eventDate = eventDate.setDate(eventDate.getDate() - 1);
-        		eventDate = new Date (eventDate);
+        		eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
 
         		for (var index = 0; index <= repeatedDays; index ++) {
         			var needToSave = true;
-        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && notAllowedDays.has(eventDate.getDay()))
-        				needToSave = false;
-        			
-        			eventDate = eventDate.setDate(eventDate.getDate() + 1);
+        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
+		        		document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
+		        		eventDate > firstDate)
+		        		needToSave = false;
 
         			if (needToSave) {
 			        	if (cssCounter == 0) {
@@ -52,6 +56,7 @@ $(document).ready(function() {
 			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' ,
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
+			        			allDay: true,
 			        			productId: document.product._id,
 			        			backgroundColor: 'rgba(237,156,40, 0.2)'
 			        		});
@@ -64,6 +69,7 @@ $(document).ready(function() {
 			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
+			        			allDay: true,
 			        			productId: document.product._id,
 			        			backgroundColor: 'rgba(66,174,94,0.2)'
 			        		});
@@ -76,12 +82,15 @@ $(document).ready(function() {
 			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
+			        			allDay: true,
 			        			productId: document.product._id,
 			        			backgroundColor: 'rgba(216,64,64,0.2)'
 			        		});
 			        		cssCounter = 0;
 			        	}
 			        }
+		        	eventDate = new Date (eventDate);
+		        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
 		        	eventDate = new Date (eventDate);
 		        }
 	        }

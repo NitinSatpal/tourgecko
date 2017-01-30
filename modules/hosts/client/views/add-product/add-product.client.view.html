@@ -969,9 +969,22 @@
 								  </div>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
+							<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
 								<div class="form-group"><label class="control-label">Except On</label><br>
-								   <select id="weeks" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+								   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+										<option value="monday">Monday</option>
+										<option value="tuesday">Tuesday</option>
+										<option value="wednesday">Wednesday</option>
+										<option value="thursday">Thursday</option>
+										<option value="friday">Friday</option>
+										<option value="saturday">Saturday</option>
+										<option value="sunday">Sunday</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
+								<div class="form-group"><label class="control-label">Repeat On</label><br>
+								   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
 										<option value="monday">Monday</option>
 										<option value="tuesday">Tuesday</option>
 										<option value="wednesday">Wednesday</option>
@@ -1165,7 +1178,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 </script>
 <script>
     $(document).ready(function() {
-    	$('#dsStartDateCalendarIcon').click(function(){
+    	$('#dsStartDateCalendarIcon').click(function() {
 	       $(document).ready(function(){
 	           $("#dsStartDate").datepicker().focus();
 	       });
@@ -1233,28 +1246,36 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	        		if(document) {
 	        			var repeatedDays = 0;
         				var notAllowedDays = new Set();
+        				var allowedDays = new Set();
+        				var firstDate;
         				if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-        					var firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
+        					firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
 	        				var secondDate = new Date(document.sessionDepartureDetails.startDate);
 	        				var oneDay = 24*60*60*1000;
 	        				repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 	        				repeatedDays = repeatedDays + 1;
 
-	        				if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-	        					for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
-	        						notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
-	        				}
-        				}
+	        				if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
+			        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
+			        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
+			        		}
+			        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
+						      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
+						        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
+						    }
+		        		}
         				var eventDate = new Date(document.sessionDepartureDetails.startDate);
-        				eventDate = eventDate.setDate(eventDate.getDate() - 1);
-        				eventDate = new Date (eventDate);
+        				eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
+
 
         				for (var index = 0; index <= repeatedDays; index ++) {
         					var needToSave = true;
-        					if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && notAllowedDays.has(eventDate.getDay()))
-        						needToSave = false;
+        					if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
+		        				document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
+		        				eventDate > firstDate)
+		        				needToSave = false;
         			
-        					eventDate = eventDate.setDate(eventDate.getDate() + 1);
+        					// eventDate = eventDate.setDate(eventDate.getDate() + 1);
 
         					if (needToSave) {
 				        		if (cssCounter == 0) {
@@ -1269,6 +1290,8 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 				        		}
 				        	}
 				        	eventDate = new Date (eventDate);
+				        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
+		        			eventDate = new Date (eventDate);
 				        }
 		        	}
 	        	});
@@ -1326,7 +1349,9 @@ function openFixedDeparturePanel () {
 	$(document).ready(function() {
 	  $('#months').multiselect
 		({});
-		$('#weeks').multiselect
+		$('#weeksRepeatOn').multiselect
+		({nonSelectedText: 'Select Days'});
+		$('#dailyExcept').multiselect
 		({nonSelectedText: 'Select Days'});
 	});
 </script>
@@ -1339,10 +1364,12 @@ function openFixedDeparturePanel () {
 			$(".ds_repeat_daily").hide();
 		}else if($(this).val() == "Repeat Daily"){
 			$(".ds_repeat_daily").show();
+			$(".ds_repeat_daily_except").show();
 			$(".dsRepeatWeekly").hide();
 		}else if($(this).val() == "Repeat Weekly"){
 			$(".ds_repeat_daily").show();
 			$(".dsRepeatWeekly").show();
+			$(".ds_repeat_daily_except").hide();
 		}
 	});
 	$("#departureSession").on("click",".dsChangePrice_link",function(e){

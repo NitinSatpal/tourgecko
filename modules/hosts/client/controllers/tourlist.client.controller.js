@@ -67,8 +67,8 @@
         $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
             tweet = tweet + response + '%0A';
             $window.open("http://twitter.com/share?text="+tweet+"&via=tourgecko&hashtags=''&url=''");
-            $('#askSocialSharingOptions').fadeOut('slow');
-            $('.modal-backdrop').remove();
+            //$('#askSocialSharingOptions').fadeOut('slow');
+            //$('.modal-backdrop').remove();
         }).error(function (response) {
             vm.error = response.message;
         });
