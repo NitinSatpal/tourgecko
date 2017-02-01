@@ -37,6 +37,9 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
+  app.route('/api/host/booking/:productId')
+    .get(hosts.fetchProductBookingDetails);
+
   app.route('/api/host/categorizedBooking/')
     .post(hosts.fetchCategorizedBookings);
 
@@ -52,8 +55,9 @@ module.exports = function (app) {
   app.route('/api/product/productMap/:productId')
     .post(hosts.uploadProductMap);
 
-  /*app.route('/api/social/host/facebook')
-    .post(hosts.postOnFB);*/
+  app.route('/api/social/host/facebook/pages')
+    //.post(hosts.postOnFB),
+    .get(hosts.getFBPages);
 
   app.route('/api/host/company')
     .get(hosts.fetchCompanyDetails)

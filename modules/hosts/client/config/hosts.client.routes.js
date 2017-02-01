@@ -90,6 +90,18 @@
           pageTitle: 'Admin | Booking Details'
         }
       })
+      .state('host.tourBookingDetails', {
+        url: '/tour/:productId/bookings',
+        templateUrl: 'modules/hosts/client/views/tour-booking-details/tourBookingDetails.client.view.html',
+        controller: 'TourBookingDetailsController',
+        controllerAs: 'vm',
+        params: {
+          productId: null
+        },
+        data: {
+          pageTitle: 'Admin | Tour Bookings'
+        }
+      })
       .state('host.calendar', {
         url: '/calendar',
         templateUrl: 'modules/hosts/client/views/host/calendar.client.view.html',

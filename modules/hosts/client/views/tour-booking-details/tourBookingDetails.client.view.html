@@ -1,0 +1,157 @@
+<div class="hostHome" id="tourBookingDetails">
+	<div id="tourBookingDetails" class="container-fluid">
+		<div class="row body-content">
+			<div class="col-md-12 col-sm-12 col-lg-12">
+				<div ng-include="'/modules/hosts/client/views/tour-booking-details/top-nav-tourBookingDetails.client.view.html'"></div>
+				<div class="row booking-analytics">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                            <h1 class="green-text booking-analytics-icon">&#8377;</h1>    
+                            <div class="text-center booking-analytics-info">    
+                                <p class="section-desc green-text">Amount Recieved</p>
+                                <h4 class="green-text">{{vm.getAmountEarnedAndConfirmedBookings()}}</h4>
+                            </div>    
+                        </div>    
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+	                        <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-time"></i></h1>    
+	                        <div class="text-center booking-analytics-info">           
+		                        <p class="section-desc">Starts in</p>
+		                        <h4 class="">{{vm.getDaysRemainingToStartOfTour(vm.bookings[0].productSession.sessionDepartureDetails.startDate)}}&nbsp;<span class="sub-desc">days</span></h4>
+	                        </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                            <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-check"></i></h1>    
+                            <div class="text-center booking-analytics-info">           
+	                            <p class="section-desc">Confirmed</p>
+	                            <h4 class="">{{vm.confirmedBookings}}&nbsp;<span class="sub-desc">Booking/s</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+                <div class="outline col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top margin-bottom padding-top padding-bottom ">
+                    <div class="col5 col-sm-6 col-xs-6 booking-trip-start">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center ">
+                            <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-alt"></i></h2> <br>   
+                            <div class="text-left booking-analytics-info">           
+                            <p class="sub_desc">Trip Start Date</p>
+                            <h5 class="">
+                            	{{vm.getDisplayDate(vm.bookings[0].productSession.sessionDepartureDetails.startDate, vm.bookings[0].product.productDuration)}}&nbsp;
+	                            <span class="sub_desc">
+	                            	{{vm.getDisplayMonthAndYear(vm.bookings[0].productSession.sessionDepartureDetails.startDate, vm.bookings[0].product.productDuration)}}
+	                            </span>
+                            </h5>
+                             </div>
+                        </div>
+                    </div> 
+                    <div class="col5 col-sm-6 col-xs-6">
+                       	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-check"></i></h2> <br>   
+                            <div class="text-left booking-analytics-info">           
+                            <p class="sub_desc">Trip End Date</p>
+                            <h5 class="">{{vm.tourEndDate}}&nbsp;<span class="sub_desc">{{vm.tourEndMonthAndYear}}</span></h5>
+                             </div>
+                        </div>
+                    </div> 
+                    <div class="col5 col-sm-6 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-airline-seat-recline-normal check"></i></h2> <br>   
+                            <div class="text-left booking-analytics-info">           
+                            <p class="sub_desc">Confirmed</p>
+                            <h5 class="">{{vm.confirmedSeats}}&nbsp;<span class="sub_desc">Seats</span></h5>
+                             </div>
+                        </div>
+                    </div> 
+                    <div class="col5 col-sm-6 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-airline-seat-recline-normal"></i></h2> <br> 
+                            <div class="text-left booking-analytics-info">           
+                            <p class="sub_desc">Seats Available</p>
+                            <h5 class="">{{vm.getSeatsAvailability()}}&nbsp;&nbsp;<span class="sub_desc"><a href="#">Update</a></span></h5>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col5 col-sm-6 col-xs-6">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                            <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-flight-takeoff"></i></h2> <br>
+                            <div class="text-left booking-analytics-info">           
+                            <p class="sub_desc">Departure Type</p>
+                            <h5 class="">{{vm.bookings[0].product.productAvailabilityType}}&nbsp;<span class="sub_desc"></span></h5>
+                             </div>
+                        </div>
+                    </div>      
+                </div>
+                        
+                <div class="margin-top">
+                   	<ul class="nav nav-tabs">
+                      	<li class="active"><a data-toggle="tab" href="#current-tour-bookings">Bookings</a></li>
+                      	<li><a data-toggle="tab" href="#current-tour-guests">Guests</a></li>
+                   	</ul>
+                    <ul class="pull-right print-email" >
+                        <li><a href="#"><i class="zmdi zmdi-email"></i></a></li>
+                        <li><a href="#"><i class="zmdi zmdi-print"></i></a></li>
+                    </ul>
+                </div>
+                <!-- tab content begins -->
+               	<div class="tab-content">
+                  	<div id="current-tour-bookings" class="tab-pane fade in active">
+                    	<br><br>
+                    	<div ng-repeat="booking in vm.bookings track by $index">
+							<div class="card">
+	                    		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
+	                        		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+	                         			<h5>Booking Ref: <strong>{{booking.bookingReference}}</strong></h5>
+	                        		</div>
+	                       			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+	                         			<a class="pull-right booking-user">
+	                         				<img alt="user image" src="{{booking.user ? booking.user.profileImageURL : '/modules/users/client/img/profile/default.png'}}" class="margin-right booking-user-image">{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}
+	                         			</a>
+	                        		</div>
+	                     		</div>
+	                   			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top">
+	                       			<div class="col-lg-2 text-center margin-bottom">
+	                       				<div class="redBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Declined'">
+	                                		<i class="zmdi zmdi-calendar-close margin-top"></i>
+	                            		</div>
+	                           
+			                            <div class="orangeBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Pending'">
+			                            	<i class="zmdi zmdi-time-interval margin-top"></i>
+			                           	</div>
+			                           	<div class="greenBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Confirmed'">
+			                               	<i class="zmdi zmdi-case-check margin-top"></i>
+			                           	</div>
+
+			                            <span class="sub_desc">{{booking.bookingStatus}}</span>
+	                       			</div>
+	                       			<div class="col-lg-6">
+	                       				<ul class="cleared">
+	                       					<li>
+	                       						<span class="content-primary">Created on</span>
+	                           					<span class="content-secondary">{{vm.getFullDisplayDate(booking.created)}}</span>
+	                           				</li>    
+	                       					<li>
+	                       						<span class="content-primary">No. of seats</span>
+	                           					<span class="content-secondary">{{booking.numberOfBookings}}</span>
+	                           				</li>
+	                       					<li>
+	                       						<span class="content-primary">Total Amount</span>
+	                           					<span class="content-secondary"><strong class="orange-text">{{booking.totalAmountPaid}}</strong></span>
+	                           				</li>
+	                       				</ul>
+	                       			</div>
+	                    		</div>   
+							</div>
+						</div>
+                   	</div>
+                    <div id="current-tour-guests" class="tab-pane fade in">
+                    <br>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="50px" height="13px" viewBox="0 0 50 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-764.000000, -403.000000)">
+            <g id="Group" transform="translate(764.000000, 403.000000)">
+                <path d="M0.488510329,6.5 L44.0116028,6.5" id="Line" stroke="#F6A623" stroke-linecap="square" stroke-dasharray="2,4"></path>
+                <path id="Line-decoration-1" d="M44.0116028,3.5 L44.0116028,9.5" stroke="#F6A623" stroke-linecap="square" stroke-dasharray="2,4"></path>
+                <polygon id="Triangle" fill="#F6A623" transform="translate(46.000000, 6.500000) rotate(90.000000) translate(-46.000000, -6.500000) " points="46 3 52 10 40 10"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

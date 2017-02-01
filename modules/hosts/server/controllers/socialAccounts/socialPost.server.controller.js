@@ -26,6 +26,22 @@ exports.shortenTheURL = function (req, res) {
     });
 };
 
+// Get FB Pages
+exports.getFBPages = function (req, res) {
+  if (!req.user.additionalProvidersData) {
+    res.json('not connected');
+  } else {
+    FB.setAccessToken(req.user.additionalProvidersData.facebook.accessToken);
+    FB.api('me/accounts', 'get', function (res) {
+      if(!res || res.error) {
+        console.log(!res ? 'error occurred' : res.error);
+        return;
+      }
+      console.log('Post Id: ' + JSON.stringify(res));
+    });
+  }
+}
+
 // Post on Twitter
 /* exports.postOnTwitter = function (req, res) {
   var output = "";

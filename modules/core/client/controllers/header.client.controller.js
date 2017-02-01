@@ -19,6 +19,8 @@
     headerWithoutSideNav.add('/');
     headerWithoutSideNav.add('/admin/home');
     headerWithoutSideNav.add('/forbidden');
+    headerWithoutSideNav.add('/security/privacypolicy');
+    headerWithoutSideNav.add('/not-found');
 
     var hideHeaderAndEditCSS = new Set();
     hideHeaderAndEditCSS.add('/host/tour/preview');

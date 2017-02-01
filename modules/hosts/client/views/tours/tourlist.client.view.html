@@ -89,7 +89,7 @@
 	            <div class="modal-body">
 	                <div class="row text-center">
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			            	<a class="btn btn-primary btn-facebook shareButton" href="/api/auth/facebook" target="_self">
+			            	<a id="facebookSharing" class="btn btn-primary btn-facebook shareButton" ng-href="{{askForAuthentication}}" ng-click="vm.postTheProductOnFB()" target="_self">
 			                	<span class="fa fa-facebook"></span> Share on Facebook
 			               	</a>
 			            </div>

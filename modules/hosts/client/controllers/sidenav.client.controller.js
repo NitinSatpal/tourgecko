@@ -20,6 +20,8 @@
     hideSideNavHere.add('/host/tour/preview');
     hideSideNavHere.add('/admin/home');
     hideSideNavHere.add('/forbidden');
+    hideSideNavHere.add('/security/privacypolicy');
+    hideSideNavHere.add('/not-found');
     
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 

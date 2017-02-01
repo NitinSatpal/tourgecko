@@ -5,6 +5,9 @@
   margin-top:20px;
   min-height: 431px !important;
 }
+.termsAndPloicies {
+  min-height: 431px !important;
+}
 .noHorizontalScroll {
   overflow-x: hidden !important;
 }

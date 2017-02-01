@@ -11,6 +11,7 @@
     var vm = this;
     vm.authentication = Authentication;
     vm.index = -1;
+    $scope.askForAuthentication = "";
 
     vm.products = CompanyProductService.query();    
 
@@ -69,6 +70,18 @@
             $window.open("http://twitter.com/share?text="+tweet+"&via=tourgecko&hashtags=''&url=''");
             //$('#askSocialSharingOptions').fadeOut('slow');
             //$('.modal-backdrop').remove();
+        }).error(function (response) {
+            vm.error = response.message;
+        });
+    }
+    vm.postTheProductOnFB = function () {
+        $http.get('/api/social/host/facebook/pages').success(function (response) {
+            if (response == 'not connected') {
+                console.log('i m here');
+                $scope.askForAuthentication = "/api/auth/facebook";
+            } else {
+                return "";
+            }
         }).error(function (response) {
             vm.error = response.message;
         });

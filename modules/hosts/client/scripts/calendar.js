@@ -129,10 +129,10 @@ $(document).ready(function() {
 				
 				// Convert start date in ISO format Date to show
 				var startDate = new Date(event._start._i);
-				startDate.setDate(startDate.getDate() - 1);
+				// startDate.setDate(startDate.getDate() - 1);
 				var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
 
-				var duration = event.duration === 'undefined Days' ? 'Duration not provided' :  event.duration;
+				var duration = (event.duration === 'undefined Days' || event.duration === 'undefined undefined') ? 'Duration not provided' :  event.duration;
 				
 				// Name of the tour or event
 				var event_name = $(jsEvent.currentTarget).find(".eventname").text();
@@ -162,7 +162,7 @@ $(document).ready(function() {
 
 				$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
 				$('#calendarTourPopupBody').html(bodyHtml);
-				$('#eventUrl').attr('href','host/tour/preview/'+ event.productId);
+				$('#eventUrl').attr('href','host/tour/' + event.productId + '/bookings/');
 				$('#fullCalModal').modal();
 			}
 		});

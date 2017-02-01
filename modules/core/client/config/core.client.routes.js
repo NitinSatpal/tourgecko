@@ -48,6 +48,24 @@
         controller: 'HomeController',
         controllerAs: 'vm'
       })
+      .state('security', {
+        url: '/security',
+        templateUrl: 'modules/core/client/views/security.client.view.html',
+        controller: '',
+        controllerAs: ''
+      })
+      .state('security.privacypolicy', {
+        url: '/privacypolicy',
+        templateUrl: 'modules/core/client/views/privacypolicy.client.view.html',
+        controller: '',
+        controllerAs: ''
+      })
+      .state('security.terms-and-conditions', {
+        url: '/terms-and-conditions',
+        templateUrl: 'modules/core/client/views/termsAndConditions.client.view.html',
+        controller: '',
+        controllerAs: ''
+      })
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/client/views/404.client.view.html',
