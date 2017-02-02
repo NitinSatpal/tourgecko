@@ -11,7 +11,13 @@
     var vm = this;
     vm.tourEndDate = '';
 
-    $http.get('/api/host/booking/' + $stateParams.productId).success(function (response) {
+    $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
+      vm.productSession = response;
+    }).error(function (response) {
+      vm.error = response.message;
+    });
+
+    $http.get('/api/host/booking/' + $stateParams.productSessionId).success(function (response) {
       vm.bookings = response;
     }).error(function (response) {
       vm.error = response.message;
@@ -33,7 +39,7 @@
 
       var endDate = new Date(isoDate);
       var tourEndDate;
-      if (duration && vm.bookings[0].product.productDurationType == 'Days') {
+      if (duration && vm.productSession.product.productDurationType == 'Days') {
         tourEndDate = endDate.setDate(endDate.getDate() + duration);
       } else
         tourEndDate = endDate;
@@ -50,7 +56,7 @@
 
       var endDate = new Date(isoDate);
       var tourEndDate;
-      if (duration && vm.bookings[0].product.productDurationType == 'Days') {
+      if (duration && vm.productSession.product.productDurationType == 'Days') {
         tourEndDate = endDate.setDate(endDate.getDate() + duration);
       } else
         tourEndDate = endDate;
@@ -65,11 +71,13 @@
       var totalAmountPaid = 0;
       vm.confirmedBookings = 0
       vm.confirmedSeats = 0;
-      for (var index = 0; index < vm.bookings.length; index++) {
-        totalAmountPaid = totalAmountPaid + vm.bookings[index].totalAmountPaid;
-        if(vm.bookings[index].bookingStatus == 'Confirmed') {
-          vm.confirmedBookings ++;
-          vm.confirmedSeats = vm.confirmedSeats + vm.bookings[index].bookingStatus + numberOfBookings;
+      if (vm.bookings) {
+        for (var index = 0; index < vm.bookings.length; index++) {
+          totalAmountPaid = totalAmountPaid + vm.bookings[index].totalAmountPaid;
+          if(vm.bookings[index].bookingStatus == 'Confirmed') {
+            vm.confirmedBookings ++;
+            vm.confirmedSeats = vm.confirmedSeats + vm.bookings[index].bookingStatus + numberOfBookings;
+          }
         }
       }
       return totalAmountPaid;
@@ -84,12 +92,15 @@
     }
 
     vm.getSeatsAvailability = function() {
-      if(vm.bookings[0].product.productAvailabilityType == 'Open Date' || 
-        (vm.bookings[0].product.productAvailabilityType == 'Fixed Departure' && vm.bookings[0].product.productSeatsLimitType == 'unlimited'))
-        return 'No Limit';
-      else
-        vm.bookings[0].product.productSeatLimit - vm.confirmedSeats;
+      if (vm.productSession) {
+        if(vm.productSession.product.productAvailabilityType == 'Open Date' || 
+          (vm.productSession.product.productAvailabilityType == 'Fixed Departure' && vm.productSession.product.productSeatsLimitType == 'unlimited'))
+          return 'No Limit';
+        else
+          vm.productSession.product.productSeatLimit - vm.confirmedSeats;
+      }
     }
+    
 
   }
 }());

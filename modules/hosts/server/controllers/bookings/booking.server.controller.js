@@ -82,10 +82,9 @@ exports.fetchCompanyBookingDetails = function (req, res) {
 };
 
 // Fetch specific product booking details
-exports.fetchProductBookingDetails = function (req, res) {
-  console.log('came here ' + req.params.productId);
+exports.fetchProductSessionBookingDetails = function (req, res) {
   if (req.user) {
-    Booking.find({product: req.params.productId}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({productSession: req.params.productSessionId}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)

@@ -90,13 +90,13 @@
           pageTitle: 'Admin | Booking Details'
         }
       })
-      .state('host.tourBookingDetails', {
-        url: '/tour/:productId/bookings',
+      .state('host.sessionBookingDetails', {
+        url: '/tour/:productSessionId/bookings',
         templateUrl: 'modules/hosts/client/views/tour-booking-details/tourBookingDetails.client.view.html',
         controller: 'TourBookingDetailsController',
         controllerAs: 'vm',
         params: {
-          productId: null
+          productSessionId: null
         },
         data: {
           pageTitle: 'Admin | Tour Bookings'

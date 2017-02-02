@@ -57,7 +57,7 @@ $(document).ready(function() {
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,
-			        			productId: document.product._id,
+			        			productSessionId: document._id,
 			        			backgroundColor: 'rgba(237,156,40, 0.2)'
 			        		});
 			        		cssCounter++;
@@ -70,7 +70,7 @@ $(document).ready(function() {
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,
-			        			productId: document.product._id,
+			        			productSessionId: document._id,
 			        			backgroundColor: 'rgba(66,174,94,0.2)'
 			        		});
 			        		cssCounter++;
@@ -83,7 +83,7 @@ $(document).ready(function() {
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,
-			        			productId: document.product._id,
+			        			productSessionId: document._id,
 			        			backgroundColor: 'rgba(216,64,64,0.2)'
 			        		});
 			        		cssCounter = 0;
@@ -162,7 +162,7 @@ $(document).ready(function() {
 
 				$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
 				$('#calendarTourPopupBody').html(bodyHtml);
-				$('#eventUrl').attr('href','host/tour/' + event.productId + '/bookings/');
+				$('#eventUrl').attr('href','host/tour/' + event.productSessionId + '/bookings/');
 				$('#fullCalModal').modal();
 			}
 		});

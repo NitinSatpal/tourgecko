@@ -30,6 +30,9 @@ module.exports = function (app) {
   app.route('/api/host/companyproductsessions/')
     .get(hosts.fetchCompanyProductSessionDetails);
 
+  app.route('/api/host/productsession/:productSessionId')
+    .get(hosts.fetchSingleProductSessionDetails);
+
   app.route('/api/host/product/:productId')
     .get(hosts.fetchSingleProductDetails);
 
@@ -37,8 +40,8 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/host/booking/:productId')
-    .get(hosts.fetchProductBookingDetails);
+  app.route('/api/host/booking/:productSessionId')
+    .get(hosts.fetchProductSessionBookingDetails);
 
   app.route('/api/host/categorizedBooking/')
     .post(hosts.fetchCategorizedBookings);

@@ -122,6 +122,18 @@ exports.fetchAllProductSessionDetails = function (req, res) {
   });
 };
 
+// Fetching all product session details here.
+exports.fetchSingleProductSessionDetails = function (req, res) {
+  ProductSession.findOne({ '_id': req.params.productSessionId }).populate('product').exec(function (err, productSession) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(productSession);
+  });
+};
+
 // Fetching specific company's product details here.
 exports.fetchCompanyProductSessionDetails = function (req, res) {
   if(req.user) {

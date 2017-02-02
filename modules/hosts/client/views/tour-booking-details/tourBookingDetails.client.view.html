@@ -18,7 +18,7 @@
 	                        <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-time"></i></h1>    
 	                        <div class="text-center booking-analytics-info">           
 		                        <p class="section-desc">Starts in</p>
-		                        <h4 class="">{{vm.getDaysRemainingToStartOfTour(vm.bookings[0].productSession.sessionDepartureDetails.startDate)}}&nbsp;<span class="sub-desc">days</span></h4>
+		                        <h4 class="">{{vm.getDaysRemainingToStartOfTour(vm.productSession.sessionDepartureDetails.startDate)}}&nbsp;<span class="sub-desc">days</span></h4>
 	                        </div>
                         </div>
                     </div>
@@ -40,9 +40,9 @@
                             <div class="text-left booking-analytics-info">           
                             <p class="sub_desc">Trip Start Date</p>
                             <h5 class="">
-                            	{{vm.getDisplayDate(vm.bookings[0].productSession.sessionDepartureDetails.startDate, vm.bookings[0].product.productDuration)}}&nbsp;
+                            	{{vm.getDisplayDate(vm.productSession.sessionDepartureDetails.startDate, vm.productSession.product.productDuration)}}&nbsp;
 	                            <span class="sub_desc">
-	                            	{{vm.getDisplayMonthAndYear(vm.bookings[0].productSession.sessionDepartureDetails.startDate, vm.bookings[0].product.productDuration)}}
+	                            	{{vm.getDisplayMonthAndYear(vm.productSession.sessionDepartureDetails.startDate, vm.productSession.product.productDuration)}}
 	                            </span>
                             </h5>
                              </div>
@@ -80,7 +80,7 @@
                             <h2 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-flight-takeoff"></i></h2> <br>
                             <div class="text-left booking-analytics-info">           
                             <p class="sub_desc">Departure Type</p>
-                            <h5 class="">{{vm.bookings[0].product.productAvailabilityType}}&nbsp;<span class="sub_desc"></span></h5>
+                            <h5 class="">{{vm.productSession.product.productAvailabilityType}}&nbsp;<span class="sub_desc"></span></h5>
                              </div>
                         </div>
                     </div>      
