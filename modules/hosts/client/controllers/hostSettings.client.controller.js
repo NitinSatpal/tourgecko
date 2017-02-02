@@ -129,6 +129,7 @@
       // Reset form
       vm.logoPicSelected = false;
       vm.progress = 0;
+      $state.reload();
     }
 
     // Called after the user has failed to uploaded a new picture
