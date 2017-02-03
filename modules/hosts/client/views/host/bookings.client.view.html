@@ -7,7 +7,7 @@
 					<h2>Bookings<br><span class="sub_head">showing</span><span class="sub_head no_of_tours">&nbsp;{{vm.bookings.length}}&nbsp;</span><span class="sub_head">bookings</span></h2>                         
 					<div class="pull-right">
                     	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-search"></i>&nbsp;Search</a>
-                    	<input type="text" class="form-control" placeholder="Booking Reference">   
+                    	<input type="text" class="form-control" placeholder="Booking Reference" ng-model="searchBooking">   
                 	</div>    
 				</div>
                             
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 
-                <div ng-repeat="booking in vm.bookings track by $index">   
+                <div ng-repeat="booking in vm.bookings | filter: searchBooking">   
 					<div class="card">
 	                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
 	                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -32,7 +32,7 @@
 	                        </div>
 	                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 	                            <a href="#" class="pull-right booking-user">
-	                            	<img alt="user image" src="{{booking.user.profileImageURL}}" class="margin-right booking-user-image">{{booking.user.displayName.length > 15 ? booking.user.firstName : booking.user.displayName}}
+	                            	<img alt="user image" src="{{booking.user.profileImageURL != undefine ? booking.user.profileImageURL : 'modules/users/client/img/profile/default.png'}}" class="margin-right booking-user-image">{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}
 	                            </a>
 	                        </div>
 	                    </div>

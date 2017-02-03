@@ -9,12 +9,14 @@ var path = require('path'),
   Notification = mongoose.model('Notification'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+var alphabetArray = ['A', 'B', 'C', 'D', 'E'];
 // Creating product here.
 exports.createBooking = function (req, res) {
-  if (req.body.nextBookingReference) {
+  Booking.count({hostOfThisBooking: req.body.bookingDetails.hostOfThisBooking}, function(err, count) {
     var booking = new Booking(req.body.bookingDetails);
     booking.user = req.user;
-    booking.bookingReference = req.body.nextBookingReference + 1;
+    var referenceNumber = count + 1000;
+    booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
     booking.created = Date.now();
     booking.save(function (err) {
       if (err) {
@@ -22,36 +24,22 @@ exports.createBooking = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        sendNotification(req.body.bookingDetails, req.user, req.body.productTitle);
+        sendNotification(req.body.bookingDetails, req.user, req.body.productTitle, booking._id);
         res.json(booking);
       }
     });
-  } else {
-    Booking.count({hostOfThisBooking: req.body.bookingDetails.hostOfThisBooking}, function(err, count) {
-      var booking = new Booking(req.body.bookingDetails);
-      booking.user = req.user;
-      booking.bookingReference = count + 1;
-      booking.created = Date.now();
-      booking.save(function (err) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        } else {
-          sendNotification(req.body.bookingDetails, req.user, req.body.productTitle, booking._id);
-          res.json(booking);
-        }
-      });
-    });
-  }
+  });
 };
 
 function sendNotification(bookingObject, user, productTitle, bookingId) {
   var notification = new Notification();
-  notification.notificationFrom = user.displayName;
+  if (user) {
+    notification.notificationFrom = user.displayName;
+    notification.notificationFromProfileURL = user.profileImageURL;
+  }
+    
   notification.bookingId = bookingId;
   notification.notificationToId = bookingObject.hostOfThisBooking;
-  notification.notificationFromProfileURL = user.profileImageURL;
   notification.notificationType = 'Booking Request';
   notification.notificationBody = 'You have a booking request for ' + productTitle + '.';
   notification.notificationStatus = 'Action Pending by Host';

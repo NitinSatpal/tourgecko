@@ -33,7 +33,7 @@ var BookingSchema = new Schema({
     type: Date
   },
   bookingReference: {
-    type: Number
+    type: String
   },
   bookingStatus: {
     type: String,

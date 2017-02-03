@@ -58,8 +58,7 @@
         controller: '',
         controllerAs: '',
         data: {
-          pageTitle: 'Tour | Booking Done',
-          roles: ['user']
+          pageTitle: 'Tour | Booking Done'
         }
       });
   }

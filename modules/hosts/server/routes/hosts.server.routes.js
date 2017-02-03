@@ -40,7 +40,7 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
-  app.route('/api/host/booking/:productSessionId')
+  app.route('/api/host/productsession/bookings/:productSessionId')
     .get(hosts.fetchProductSessionBookingDetails);
 
   app.route('/api/host/categorizedBooking/')

@@ -17,7 +17,7 @@
       vm.error = response.message;
     });
 
-    $http.get('/api/host/booking/' + $stateParams.productSessionId).success(function (response) {
+    $http.get('/api/host/productsession/bookings/' + $stateParams.productSessionId).success(function (response) {
       vm.bookings = response;
     }).error(function (response) {
       vm.error = response.message;
