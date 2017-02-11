@@ -13,6 +13,12 @@ p {
 	font-weight:300;
 }
 
+.loader-spinner-hostHome {
+  position: fixed;
+  z-index: 9999;
+  margin-left: 25%;
+}
+
 .padding {
 	padding:1rem !important;
 }
@@ -2215,6 +2221,9 @@ span.multiselect-native-select select {
 	.outline .col5 {
 		padding-right: 5px;
 		padding-left: 5px;
+	}
+	.loader-spinner-hostHome {
+	  margin-left: 38%;
 	}
 }
 

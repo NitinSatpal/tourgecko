@@ -10,9 +10,9 @@
         };
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload'];
+  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'spinnerService'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload) {
+  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload, spinnerService) {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initializitaion */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -514,6 +514,9 @@ vm.createDepartureSession = function () {
         return false;
       }
       
+      spinnerService.show('productSaveSpinner');
+      
+      $('#tourgeckoBody').addClass('disableBody');
       setProductInformation();
 
       if(productId) {
@@ -525,7 +528,7 @@ vm.createDepartureSession = function () {
           uploadImage();
 
           if($scope.mapFilesToBeUploded.length > 0)
-            uploadMap();
+            uploadMap();          
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -534,13 +537,14 @@ vm.createDepartureSession = function () {
           uploadFilesProductId = response._id;
           $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
           $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
+          if($scope.mapFilesToBeUploded.length > 0)
+            uploadMap();
           if($scope.imageFilesToBeUploaded.length > 0) 
             uploadImage();
           else {
+            $('#tourgeckoBody').removeClass('disableBody');
             $state.go('host.tours');
           }
-          if($scope.mapFilesToBeUploded.length > 0)
-            uploadMap();
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -685,5 +689,15 @@ vm.createDepartureSession = function () {
       else
         return vm.otherCSS;
     }
+
+    /* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Function to show loader. This function will be called by external script */
+    /* ------------------------------------------------------------------------------------------------------------------------- */
+    $scope.showSpinner = function () {
+      spinnerService.show('imageUploadSpinner');
+    }
+    /* ------------------------------------------------------------------------------------------------------------------------- */    
+      /* Function to show loader. This function will be called by external script, ends here */
+    /* ------------------------------------------------------------------------------------------------------------------------- */
   }
 }());

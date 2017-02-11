@@ -1,5 +1,4 @@
 <div class="hostHome container-fluid" id="tours">
-
 	<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
 	<div class="row body-content addproduct-content">
 		<div class="col-md-12 col-sm-12 col-lg-12 home-content">
@@ -16,7 +15,9 @@
 							<li><a data-toggle="tab" href="#tours_guidelines">Guidelines</a></li>
 							<li><a data-toggle="tab" href="#tours_media">Media</a></li>
 						</ul>
-
+						<div class="loader-spinner loader-spinner-hostHome">
+							<spinner name="productSaveSpinner" img-src="modules/core/client/img/loaders/loader.gif" id="productSaveSpinner"></spinner>
+						</div>
 						<!-- tab content begins -->
 						<form class="form-horizontal" name="vm.form.tourForm" novalidate>
 							<div class="tab-content">

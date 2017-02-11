@@ -3,7 +3,8 @@ var globalMapFileStorage = [];
 var globalImageFileStorageEdit = [];
 var globalMapFileStorageEdit = [];
 function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
-	
+	$('#tourgeckoBody').addClass('disableBodyWithScroll');
+	// angular.element(document.getElementById('tours')).scope().showSpinner();
 	// Get the Div
 	var preview = document.querySelector(ElementID);
 
@@ -33,12 +34,13 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 		    	$(parentDiv).css('float','left');
 		    	$(parentDiv).css('margin-left','20px');
 		    	$(parentDiv).css('margin-top','15px');
+
 		        var image = new Image();
-		        var tempImage = {imageUrl: this.result, imageName: file.name};
 		        image.height = 100;
 		        image.title = file.name;
-		        image.src = this.result;
+		       	image.src = this.result;
 		        image.id = 'fileId' + file.index;
+
 		        parentDiv.append(image);
 		        parentDiv.appendTo(preview);
 		        

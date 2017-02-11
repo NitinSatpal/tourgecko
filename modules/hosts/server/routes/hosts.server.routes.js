@@ -87,4 +87,9 @@ module.exports = function (app) {
   app.route('/api/social/host/shortenURL')
     .get(hosts.shortenTheURL);
 
+  app.route('/api/host/pinboard')
+    .get(hosts.fetchPinboardData);
+
+  app.route('/api/host/pinboard/dismiss')
+    .post(hosts.setDismissedMessageIds);
 };

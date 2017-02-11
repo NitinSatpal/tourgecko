@@ -65,6 +65,22 @@ a:hover .header-profile-image {
   font-size:11px !important;
   /*margin-top:3px !important;*/
 }
+.disableBody {
+  opacity:    0.7;
+  background-color: lightgrey;
+  z-index:    10;
+  position:   fixed;
+  pointer-events: none;
+}
+.disableBodyWithScroll {
+  opacity:    0.5;
+  background-color: lightgrey;
+  z-index:    10;
+  pointer-events: none;
+}
+.loader-spinner img {
+  height: 50px;
+}
 
 @media  (max-width: 767px) {
   .noHorizontalScroll {

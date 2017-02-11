@@ -38,26 +38,16 @@
 				<div class="head_content">
 					<h4>Pinboard</h4>
 				</div>
-				<div class="row">
-					<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+				<div class="row" ng-repeat="data in vm.pinboardData">
+					<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12" >
 						<div class="info_content">
 							<div class="info">
-								<p>Complete your profile information</p>
-								<p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i> todo</p>
-								<p class="time"><i class="zmdi zmdi-timer"></i> 2Min</p>
+								<p>{{data.message}}</p>
+								<p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i> {{data.type}}</p>
+								<p class="time" ng-show="data.type == 'todo'"><i class="zmdi zmdi-timer"></i> {{data.timeRequired}}</p>
 							</div>
-							<a class="update_profile btn btn-primary outline pull-right" href="#">Update Profile</a>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-						<div class="info_content">
-							<div class="info">
-								<p>Long weekend is coming, have you planned any tours ?</p>
-								<p class="todo text-uppercase"><i class="zmdi zmdi-lamp invert"></i> advice</p>
-							</div>
-							<a class="dismiss " href="#">Dismiss</a>
+							<a ng-show="data.type != 'todo'" class="dismiss" href="" ng-click="vm.dismissPinboardMessage($index)">Dismiss</a>
+							<a class="update_profile btn btn-primary outline pull-right" href="{{data.linkURL}}" ng-show="data.linkRequired == true">{{data.linkButtonLabel}}</a>
 						</div>
 					</div>
 				</div>
@@ -71,8 +61,8 @@
 						<h4>Bookings</h4>
 						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
 							<p class="name">{{booking.numberOfBookings}}</p>
-							<p class="outing">Trek to bandghavgad</p>
-							<p class="date">20 Jan, 2016</p>
+							<p class="outing">{{booking.product.productTitle}}</p>
+							<p class="date">{{vm.getDepartureDate($index)}}</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
 						</div>
 					<div class="seemoreinfo">

@@ -71,7 +71,7 @@
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
 
-<body class="ng-cloak noHorizontalScroll" id="tourgeckoBody">
+<body class="ng-cloak noHorizontalScroll" id="tourgeckoBody" >
   <section class="content main-wrapper">
     <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
       <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
@@ -106,6 +106,7 @@
 
   <!--Application JavaScript Files-->
   {{#each jsFiles}}<script type="text/javascript" src="{{this}}"></script>{{/each}}
+  <script src="lib/angular-spinners/dist/angular-spinners.min.js"></script>
 
   {{#if livereload}}
   <!--Livereload script rendered -->
