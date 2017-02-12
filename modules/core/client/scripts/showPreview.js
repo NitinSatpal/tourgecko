@@ -2,17 +2,42 @@ var globalImageFileStorage = [];
 var globalMapFileStorage = [];
 var globalImageFileStorageEdit = [];
 var globalMapFileStorageEdit = [];
+var globalCounter = 0;
+
 function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
-	$('#tourgeckoBody').addClass('disableBodyWithScroll');
 	// angular.element(document.getElementById('tours')).scope().showSpinner();
 	// Get the Div
+	$('#tourgeckoBody').addClass('waitCursor');
+
+	localCounter = globalCounter;
 	var preview = document.querySelector(ElementID);
 
 	// get the uploaded files
 	var files  = document.querySelector(inputFileSelectorId).files;
-	
-	// Initialize counter. This wil be used for giving dynamic id's to the elements
-	var counter = 0;
+
+	fileCounter = files.length;
+
+	for (var index = 0; index < files.length; index++) {
+		var parentDivId = 'parentdiv' + globalCounter;
+  		var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
+    	$(parentDiv).css('float','left');
+    	$(parentDiv).css('margin-left','20px');
+    	$(parentDiv).css('margin-top','15px');
+    	$(parentDiv).css('height', '100px');
+    	$(parentDiv).css('background-color','#lightgrey');
+
+    	var image = new Image();
+        image.height = 100;
+        image.id = 'fileId' + globalCounter;
+    	
+    	var loaderDiv = $('<div></div>').attr('id', 'loader'+globalCounter).attr('class', 'imageUploader');
+
+    	loaderDiv.appendTo(parentDiv);
+        parentDiv.append(image);
+    	parentDiv.appendTo(preview);
+
+    	globalCounter++;
+	}
 
 	// This function accepts one file at a time and append the Image to the above fetched div. It also attach anchort taf with icon for image removal
 	function readAndPreview(file) {
@@ -21,37 +46,36 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 		else
 			globalMapFileStorage.push(file);
 
-		file.index = counter;
-		counter++;
+		file.index = localCounter;
+
 	    // Make sure `file.name` matches our extensions criteria
 	    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
 	    	var reader = new FileReader();
 
 	    	// Event listener. It run's on load to do the required thing.
 	      	reader.addEventListener("load", function () {
-	      		var parentDivId = 'parentdiv'+counter-1;
-	      		var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
-		    	$(parentDiv).css('float','left');
-		    	$(parentDiv).css('margin-left','20px');
-		    	$(parentDiv).css('margin-top','15px');
+	      		fileCounter--;
+	      		$('#loader' + localCounter).remove();
+		        $('#fileId'+ localCounter).attr('src', this.result);
+		        $('#fileId'+ localCounter).attr('title', file.name);
 
-		        var image = new Image();
-		        image.height = 100;
-		        image.title = file.name;
-		       	image.src = this.result;
-		        image.id = 'fileId' + file.index;
+		        if (fileCounter == 0)
+	    			$('#tourgeckoBody').removeClass('waitCursor');
 
-		        parentDiv.append(image);
-		        parentDiv.appendTo(preview);
-		        
-		        if (isDeleteButtonRequired == true)
-		        	$('<span>', {id: file.index}).addClass('glyphicon glyphicon-remove-sign timeslotRemove').appendTo($('<a>', {id: 'anchorTag'+file.index}).addClass('close_img').appendTo(parentDiv)).click(removeFileFromPreview);
+	    		if (isDeleteButtonRequired == true) {
+		        	$('<span>', {id: localCounter})
+		        		.addClass('glyphicon glyphicon-remove-sign timeslotRemove')
+		        		.appendTo($('<a>', {id: 'anchorTag'+localCounter})
+		        		.addClass('close_img')
+		        		.appendTo(document.getElementById('parentdiv'+localCounter)))
+		        		.click(removeFileFromPreview);
+	    		}
+		        localCounter++;
 
 		      }, false);
 	      	
 	      	reader.readAsDataURL(file);
 	    }
-
 	}
 
 	// Multiple files uploaded. Send one by one.

@@ -15,9 +15,7 @@
 							<li><a data-toggle="tab" href="#tours_guidelines">Guidelines</a></li>
 							<li><a data-toggle="tab" href="#tours_media">Media</a></li>
 						</ul>
-						<div class="loader-spinner loader-spinner-hostHome">
-							<spinner name="productSaveSpinner" img-src="modules/core/client/img/loaders/loader.gif" id="productSaveSpinner"></spinner>
-						</div>
+						<div class="loader-spinner-hostHome waitCursor" ng-if="vm.showLoaderForProductSave"></div>
 						<!-- tab content begins -->
 						<form class="form-horizontal" name="vm.form.tourForm" novalidate>
 							<div class="tab-content">
@@ -816,7 +814,7 @@
 									<h5><i class="zmdi zmdi-collection-image-o icn_orange"></i> Photos and Map</h5>
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
-											<div class="panel">
+											<div class="panel" id="mediaPanel">
 												<div class="row no_margin_row">
 													<label for="tours_sa_limited" class="control-label">Photos</label>
 	                                                <p class="sub_desc">Make Tour Listing appealing by adding photos. First photo is used as cover photo for listing.</p>

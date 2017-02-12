@@ -10,9 +10,9 @@
         };
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'spinnerService'];
+  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload, spinnerService) {
+  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload) {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initializitaion */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -514,9 +514,9 @@ vm.createDepartureSession = function () {
         return false;
       }
       
-      spinnerService.show('productSaveSpinner');
-      
+      vm.showLoaderForProductSave = true;
       $('#tourgeckoBody').addClass('disableBody');
+
       setProductInformation();
 
       if(productId) {
@@ -525,10 +525,10 @@ vm.createDepartureSession = function () {
           $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
           $scope.imageFilesToBeUploadedEdit = $window.globalImageFileStorageEdit;
           $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
-          uploadImage();
-
           if($scope.mapFilesToBeUploded.length > 0)
-            uploadMap();          
+            uploadMap();
+
+          uploadImage();
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -543,6 +543,7 @@ vm.createDepartureSession = function () {
             uploadImage();
           else {
             $('#tourgeckoBody').removeClass('disableBody');
+            vm.showLoaderForProductSave = false;
             $state.go('host.tours');
           }
         }).error(function (response) {
@@ -662,6 +663,8 @@ vm.createDepartureSession = function () {
     function onSuccessItem(response, pictureType) {
       vm.success = true;
       if(pictureType == 'image') {
+        $('#tourgeckoBody').removeClass('disableBody');
+        vm.showLoaderForProductSave = false;
         $state.go('host.tours');
       }
     }
@@ -689,15 +692,5 @@ vm.createDepartureSession = function () {
       else
         return vm.otherCSS;
     }
-
-    /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Function to show loader. This function will be called by external script */
-    /* ------------------------------------------------------------------------------------------------------------------------- */
-    $scope.showSpinner = function () {
-      spinnerService.show('imageUploadSpinner');
-    }
-    /* ------------------------------------------------------------------------------------------------------------------------- */    
-      /* Function to show loader. This function will be called by external script, ends here */
-    /* ------------------------------------------------------------------------------------------------------------------------- */
   }
 }());

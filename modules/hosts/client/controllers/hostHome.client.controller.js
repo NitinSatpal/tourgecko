@@ -46,7 +46,8 @@
           
           displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
         }
-      }
+      } else
+        displayDate = '';
       
       return displayDate;
     }

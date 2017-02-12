@@ -35,12 +35,13 @@
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs">
-                    <img src="{{image}}">
+                    <img ng-src="{{image}}">
                 </li>
             </ul>
         </div>
         <!--Carousel end-->
         <div class="marginFromBothEnd">
+
             <div id="details" class="container ">
                 <div class="row">
                     <div class="col l8 m8 s12">

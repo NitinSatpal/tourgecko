@@ -72,14 +72,26 @@ a:hover .header-profile-image {
   position:   fixed;
   pointer-events: none;
 }
-.disableBodyWithScroll {
-  opacity:    0.5;
-  background-color: lightgrey;
-  z-index:    10;
-  pointer-events: none;
+.waitCursor {
+  cursor: wait;
 }
-.loader-spinner img {
-  height: 50px;
+
+.imageUploader {
+    border: 4px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid #40C4FF; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    vertical-align: middle;
+    left: 90px;
+    top: 42px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @media  (max-width: 767px) {
