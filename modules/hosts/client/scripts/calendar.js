@@ -49,11 +49,21 @@ $(document).ready(function() {
 
         			if (needToSave) {
 			        	if (cssCounter == 0) {
+			        		var limit;
+			        		if(document.product.productAvailabilityType == 'Open Date')
+			        			limit = '';
+			        		else {
+			        			if (document.product.productSeatsLimitType == 'unlimited')
+				        			limit = 'No Limit';
+				        		else
+				        			limit = document.product.productSeatLimit;
+			        		}
+			        		
 			        		events.push	({
 			        			title: '<span class="eventname orangeFC">' + 
 			        			document.product.productTitle + '</span> <br>' + 
 			        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
-			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' ,
+			        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>' ,
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,
@@ -66,7 +76,7 @@ $(document).ready(function() {
 			        			title: '<span class="eventname greenFC">' +
 			        			document.product.productTitle + '</span> <br>' +
 			        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
-			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+			        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>',
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,
@@ -79,7 +89,7 @@ $(document).ready(function() {
 			        			title: '<span class="eventname redFC">' +
 			        			document.product.productTitle + '</span> <br>' +
 			        			'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
-			        			'<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
+			        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
 			        			start: eventDate,
 			        			duration: document.sessionDepartureDetails.duration,
 			        			allDay: true,

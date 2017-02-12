@@ -18,6 +18,10 @@ var ProductSessionSchema = new Schema({
     type: Array,
     default: []
   },
+  numberOfBookings: {
+    type: Number,
+    default: 0
+  },
   hostCompany: {
   	type:Schema.ObjectId,
     ref: 'HostCompany'

@@ -7,6 +7,7 @@ var path = require('path'),
   mongoose = require('mongoose'),
   Booking = mongoose.model('Booking'),
   Notification = mongoose.model('Notification'),
+  ProductSession = mongoose.model('ProductSession'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 var alphabetArray = ['A', 'B', 'C', 'D', 'E'];
@@ -25,6 +26,7 @@ exports.createBooking = function (req, res) {
         });
       } else {
         sendNotification(req.body.bookingDetails, req.user, req.body.productTitle, booking._id);
+        updateSession(booking.productSession, booking.numberOfBookings);
         res.json(booking);
       }
     });
@@ -53,6 +55,27 @@ function sendNotification(bookingObject, user, productTitle, bookingId) {
       // notification successfully sent
     }
   });
+}
+
+function updateSession(productSessionId, numOfBookings) {
+  if (productSessionId) {
+    ProductSession.findOne({_id: productSessionId}).exec(function (err, session) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+
+      session.numberOfBookings = session.numberOfBookings + numOfBookings;
+      session.save(function (err) {
+        if (err) {
+          // session saving failed
+        } else {
+          // session successfully saved
+        }
+      });
+    });
+  }
 }
 
 // Fetch all bookings
