@@ -15,9 +15,12 @@
   function TourPreviewController($scope, $state, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
-    console.log()
     var productId = $location.path().split('/')[4];
     vm.productDetails;
+
+    var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     $http.get('/api/host/product/' + productId).success(function (response) {
       vm.productDetails = response[0];
@@ -59,6 +62,14 @@
         vm.priceTobeShown = minimumTillNow;
 
       return minimumTillNow;
+    }
+
+    vm.getDepartureDates = function (isoDate) {
+      var date = new Date (isoDate);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+      var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+
+      return displayDate;
     }
   }
 }());

@@ -213,12 +213,12 @@ function setRichTextData () {
             groupRange.push(Number.MAX_VALUE)
           else
             groupRange.push(vm.pricingParams[index].maxGroupSize);
-
         }
       }
+
       if (groupRange.length > 0) {
         for (index = 0; index < groupRange.length - 1; index ++) {
-          if (groupRange[index + 1] < groupRange[index]) {
+          if (parseInt(groupRange[index + 1]) < parseInt(groupRange[index])) {
             vm.pricingValid = false;
             return false;
           }
@@ -226,6 +226,7 @@ function setRichTextData () {
       }
 
       if(isEveryonePricingPresent == true && vm.pricingParams.length > 1) {
+        console.log('2');
         vm.pricingValid = false
         return false;
       }
