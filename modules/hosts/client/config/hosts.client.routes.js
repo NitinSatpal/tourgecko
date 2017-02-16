@@ -186,6 +186,15 @@
         data: {
           pageTitle: 'Admin | Tour'
         }
+      })
+      .state('hostAndGuest.previewBeforeSave', {
+        url: '/host/tour/preview',
+        templateUrl: 'modules/hosts/client/views/tours/tourpreview.client.view.html',
+        controller: 'TourPreviewController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Admin | Tour'
+        }
       });
   }
 

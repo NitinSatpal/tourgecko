@@ -1,6 +1,134 @@
-<div>
-  <div style="margin-top:100px;" class="container">
-  <h1> Here the tour details of host with id {{vm.toursite}} will come </h1>
- </div>
+<div class="toursite"> 
+    <header>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/toursite.css"/>
+        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        <div class="blue lighten-5"> 
+            <div id="top-contact-bar" class="container dev-view top-Panel-toursite">
+                <ul class="left-align">
+                    <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> {{vm.companyData.inquiryMobile}} - {{vm.getInquiryHours()}}</a></li>
+                    <li class="vendor-email"><a href="mailto: {{vm.companyData.inquiryEmail}}"><i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}</a></li>
+                </ul>    
+                <ul class="right-align hide-on-med-and-down">
+                    <li class="vendor-social"><a href=""><i class="zmdi zmdi-facebook"></i></a></li>
+                    <li class="vendor-social"><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                    <li class="vendor-social"><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>    
+                </ul>    
+            </div>
+        </div>     
+        
+        <nav class="white fixed z-depth-1 toursite-nav">
+            <div class="nav-wrapper container nav-toursite">
+                <a href="#" class="blue-grey-text text-darken-4">
+                    <img alt="Logo" class="host-toursite-Logo" src="{{vm.companyData.logoURL}}">
+                </a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-home left orange-text"></i>Home</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-case left orange-text"></i>Tours</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-info left orange-text"></i>About Us</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-email left orange-text"></i>Contact Us</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-home left orange-text"></i>Home</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-case left orange-text"></i>Tours</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-info left orange-text"></i>About Us</a></li>
+                    <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-email left orange-text"></i>Contact Us</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
+    <main>
+        <div id="details_hero" class="slider vendor-landing" data-indicators="true">
+            <ul class="slides">
+                <li>
+                    <img src="modules/hosts/client/companyBanners/main_hero1.png">
+                </li>
+                <li>
+                    <img src="modules/hosts/client/companyBanners/main_hero2.png">
+                </li>
+                <li>
+                    <img src="modules/hosts/client/companyBanners/main_hero3.png">
+                </li>
+                <li>
+                    <img src="modules/hosts/client/companyBanners/main_hero4.png">
+                </li>
+            </ul>
+        </div>
+        <!--Carousel end-->
+
+        <div id="agent" class="container body-toursite">
+            <div class="row">
+                <p class="light">We are adventure tour company specializing in activities like cycling, trekking and mountaineering.  We conduct various tours throughout India and Nepal.
+                  <span class="read-more-content">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                  </span>      
+                </p> 
+            </div>
+              
+            <div class="row ">
+                <h4 class="center-align padding">Tours</h4>
+                <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata">
+                    <div class="card tour padding toursite-Product-Image">
+                        <div class="tour-image" ng-if="data.productPictureURLs[0]">
+                            <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0]}}">
+                        </div>
+                        <div class="tour-image" ng-if="!data.productPictureURLs[0]">
+                            <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">
+                        </div>    
+                        <div class="margin-bottom">
+                            <span class="left white-text days-difficulty">{{data.duration}}</span>
+                            <span class="right white-text days-difficulty">{{data.productGrade}}</span>     
+                            <a href="1_tour-details.html"><h5 class="clear">{{data.productTitle}}</h5></a>
+                            <div class="col l6 m6 s12 padding-none">
+                                <span class="blue-grey-text text-darken-1"><i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{data.destination}}
+                                </span>
+                                <p> </p>
+                                <p><i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp;Departure: <span class="date">{{vm.getDepartureDateToShow($index)}}</span></p>
+                            </div>
+                            <div class="col l6 m6 s12 padding-none">
+                                <span class="blue-grey-text text-darken-1 right">Starting from <!--<span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span></span>--><br>
+                                <div class="valign-wrapper right">
+                                   <!--<div class="chip orange"><h6 class="white-text"><strong>10%</strong> OFF</h6></div>-->
+                                    <h5 class="green-text"><span class="currency">&#8377;</span> {{vm.getStartingFromPrice($index)}}</h5>
+                                </div>    
+                            </div>
+                        </div>
+            
+                        <!--<div id="tour_tags">
+                              <a href="#"><div class="chip">Trecking</div></a>
+                              <a href="#"><div class="chip">Rafting</div></a>
+                        </div>  -->  
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="toursite-footer">
+        <br>
+        <a href="#"><img src="img/operator-logo-4.png" class="respnosive-img logo"></a>
+          
+        <ul class="links">
+            <li><a href="#" >Home</a></li>
+            <li><a href="#" >Tours</a></li>
+            <li><a href="#" >About Us</a></li>
+            <li><a href="#" >Contact Us</a></li>
+        </ul>
+          
+        <ul class="contact-info">
+            <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> 099302 60748 - (9:00AM to 6:00PM)</a></li>
+            <li class="vendor-email"><a href="#"><i class="zmdi zmdi-email"></i> contact@tourgecko.com</a></li>
+            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>    
+        </ul>  
+        <div class="col l12 m12 s12 statement">This site is automatically built by <a href="#">tourgecko</a></div>
+    </footer>
+    <!--Scripts-->
+    <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
+    <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
+    <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
+    <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
 </div>

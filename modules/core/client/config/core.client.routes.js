@@ -39,7 +39,7 @@
         controller: 'ToursiteController',
         controllerAs: 'vm',
         params: {
-          id: null
+          toursite: null
         }
       })
       .state('abstractHome.home', {

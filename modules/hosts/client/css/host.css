@@ -13,6 +13,19 @@ p {
 	font-weight:300;
 }
 
+.toursite-Product-Image img {
+	display: block;
+	min-width:438px;
+	max-height:130px;
+	width: auto;
+	height: auto;
+}
+
+.host-toursite-Logo {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+}
 .loader-spinner-hostHome {
 	border: 4px solid #f3f3f3;
     border-top: 4px solid #40C4FF;

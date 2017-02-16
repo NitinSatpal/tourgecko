@@ -1,0 +1,81 @@
+.card a:hover{text-decoration: underline}
+a .chip:hover{opacity: .8}
+#details_hero.vendor-landing, #details_hero.vendor-landing .slides{height: 440px !important}
+#details_hero.vendor-landing ul.indicators{top: 360px;}
+
+.top-Panel-toursite {
+	width:70% !important;
+}
+
+.nav-toursite {
+	width:70% !important;
+	overflow-y: hidden;
+}
+
+.body-toursite {
+	width:70% !important;
+}
+
+.toursite-footer {
+	color:#78909c !important;
+}
+
+#agent p.light {color:#78909c !important; margin-top:15px; font-size: 15px !important;}
+#agent h5.light{ color: #78909c;}
+#agent .days-difficulty{ text-shadow: 0px 1px 2px rgba(150, 150, 150, 1); position: relative; margin-top: -3.5rem}
+#agent .days-difficulty:nth-child(1){ left: 1rem}
+#agent .days-difficulty:nth-child(2){ right: 1rem}
+#tour_tags{clear: both}
+#top-contact-bar ul li{ display: inline-block; margin-right: 2rem; line-height: 3rem}
+#top-contact-bar ul{ margin: 0; padding: 0;}
+#top-contact-bar ul li a{ color: inherit}
+#top-contact-bar ul li a:hover{opacity: .8}
+
+#top-contact-bar .left-align{float: left}
+
+.tour-image{overflow: hidden}
+.brand-logo img{width: 160px; vertical-align: middle}
+.brand-logo{padding: 2px 0 !important}
+footer .contact-info ul{text-align: center;}
+footer .contact-info ul li{line-height: 2rem}
+footer .vendor-social{ display: inline-block; padding: 1rem}
+footer a {color:#78909c}
+footer .vendor-email, footer .vendor-phone{ line-height: 2rem}
+
+footer{ background-color: #fff; margin-bottom: 0; padding: 2rem; text-align: center}
+footer .logo{ max-width: 160px}
+footer .links li{ display: inline-block; padding: 0 .5rem}
+footer .links li a{color: inherit !important}
+footer a:hover{text-decoration: underline}
+
+nav.white .button-collapse{color: orange}
+
+.statement{font-size: 11px; background-color: #f6f6f6; margin-right: -2rem; margin-left: -2rem; padding: .5rem 0; margin-bottom: -2rem;}
+
+
+@media(max-width: 500px)  {
+    nav{height: 76px; line-height: 76px;}
+    nav .button-collapse, nav .button-collapse i{line-height: 76px; height: 76px}
+/*Tour Details*/  
+#details_hero h1{ font-size: 2.2rem !important;}
+    .vendor-email, .vendor-phone{display: block !important; margin-right: 0 !important}    
+    .vendor-social:last-child{ margin-right: 0 !important}
+    #top-contact-bar ul{text-align: center;}
+    #top-contact-bar ul li{line-height: 2rem}
+    #top-contact-bar .left-align{float:none;}
+    #details_hero.vendor-landing ul.indicators{top: 170px;}
+    .blue-grey-text.text-darken-1.right,.valign-wrapper.right{float: none !important;}
+    .tour-image img{height: 200px; max-width: none !important}
+    h5.light{font-size: 1.2rem}    
+}
+
+@media only screen and (min-width: 601px) {
+    nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+        height: 84px;
+        line-height: 84px;
+    }
+}
+
+nav ul a.active {
+    background-color: rgba(0,0,0,0.1);
+}

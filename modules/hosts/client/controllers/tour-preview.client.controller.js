@@ -10,9 +10,9 @@
         };
     });
 
-  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication'];
+  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication', 'ProductDataShareService'];
 
-  function TourPreviewController($scope, $state, $window, $http, $location, Authentication) {
+  function TourPreviewController($scope, $state, $window, $http, $location, Authentication, ProductDataShareService) {
     var vm = this;
     vm.authentication = Authentication;
     var productId = $location.path().split('/')[4];
@@ -22,14 +22,20 @@
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-    $http.get('/api/host/product/' + productId).success(function (response) {
-      vm.productDetails = response[0];
-      vm.companyDetails = response[0].hostCompany;
-      if(response[0].productPictureURLs.length != 0)
-        vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];
-    }).error(function (response) {
-      vm.error = response.message;
-    });
+    if (productId) {
+      $http.get('/api/host/product/' + productId).success(function (response) {
+        vm.productDetails = response[0];
+        vm.companyDetails = response[0].hostCompany;
+        if(response[0].productPictureURLs.length != 0)
+          vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];
+      }).error(function (response) {
+        vm.error = response.message;
+      });
+    } else {
+      $scope.abc = ProductDataShareService;
+      console.log($scope.abc.value[0]);
+    }
+    
 
     vm.getHtmlTrustedData = function(htmlData){
       return $sce.trustAsHtml(htmlData);
@@ -61,6 +67,7 @@
       if (vm.priceTobeShown == -1)
         vm.priceTobeShown = minimumTillNow;
 
+      vm.minimumTillNow = minimumTillNow;
       return minimumTillNow;
     }
 

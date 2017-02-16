@@ -10,9 +10,9 @@
         };
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload'];
+  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload) {
+  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload, ProductDataShareService) {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initializitaion */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -415,7 +415,6 @@ vm.createDepartureSession = function () {
   }
 
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
-  console.log(eventDate);
   //eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
   //console.log(eventDate);
   
@@ -473,7 +472,7 @@ vm.createDepartureSession = function () {
 
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].duration = vm.tour.productDuration + ' ' + vm.tour.productDurationType;
 
-  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  vm.productScheduledDates.push(new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate));
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
 
   if (vm.ShowCalendarButton && vm.fixedDepartureSessionCounter == 0) {
@@ -692,6 +691,15 @@ vm.createDepartureSession = function () {
         return vm.zeroCSS;
       else
         return vm.otherCSS;
+    }
+
+    $scope.goToPreviewPage = function () {
+      
+      $scope.someData="i am from controoler 1";
+      $scope.abc = ProductDataShareService;
+      $scope.abc.value.push('amma');
+
+      $window.open($state.href('hostAndGuest.previewBeforeSave'),'_blank','heigth=600,width=600');
     }
   }
 }());

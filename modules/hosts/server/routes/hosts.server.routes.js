@@ -11,7 +11,7 @@ module.exports = function (app) {
     .get(hosts.getToursite)
     .post(hosts.saveToursiteDetails)
 
-  app.route('/api/host/toursitedata')
+  app.route('/api/host/toursitedata/:toursite')
     .get(hosts.getToursiteData);
 
   app.route('/api/host/product/')

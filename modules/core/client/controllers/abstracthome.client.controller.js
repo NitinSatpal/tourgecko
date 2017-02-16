@@ -17,7 +17,7 @@
         if (response === null || response === '' || response === undefined) {
           $location.path('/not-found');
         } else {
-          $state.go('abstractHome.toursite', { id: { userId: response.user._id } });
+          $state.go('abstractHome.toursite', { toursite:  tourHostToursite});
         }
       }).error(function (response) {
         vm.error = response.message;

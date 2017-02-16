@@ -1,8 +1,8 @@
 <div class="tourPreviewDetails">
     <header>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
-        <link rel="stylesheet" href="modules/core/client/css/tour-preview-details-booking-1.css"/>
-        <link rel="stylesheet" href="modules/core/client/css/tour-preview-details-booking-2.css"/>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
+        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
   
         <div id="dev" class="blue lighten-5 center dev-view z-depth-3">
@@ -313,7 +313,7 @@
                     <div class="col l4 m4 s12 ">
                         <div class="right-bar">
                             <div class="card-panel pricing-card hide-on-small-only ">
-                                <p class="blue-grey-text text-darken-1">Starting from <span class="tourType"><span class="currency">&#8377;
+                                <p class="blue-grey-text text-darken-1">Starting from <span class="tourType" ng-show="vm.minimumTillNow != ''"><span class="currency">&#8377;
                                     </span> {{vm.getMinimumPricing(vm.productDetails)}}</span>
                                 </p>
                                 <div class="valign-wrapper">
@@ -324,7 +324,7 @@
                                         </h6>
                                     </div> -->
                                     <h5 class="green-text">
-                                        <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
+                                        <span class="currency" ng-show="vm.priceTobeShown != -1 && vm.priceTobeShown != ''>&#8377;</span> {{vm.priceTobeShown}}
                                     </h5>
                                 </div>
                                 <div class="divider"></div>
