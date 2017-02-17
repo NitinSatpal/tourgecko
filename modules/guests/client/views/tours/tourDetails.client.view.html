@@ -159,7 +159,7 @@
                                 <div class="collapsible-header active">
                                     <i class="zmdi zmdi-calendar-check orange-text"></i>Inclusions
                                 </div>
-                                <div class="collapsible-body card-content inclusions">
+                                <div class="collapsible-body card-content inclusions wordWrap">
                                     <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productInclusions)">
                                     <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productInclusions | htmlData">{{vm.productDetails.productInclusions}}</p>
                                 </div>
@@ -169,7 +169,7 @@
                                 <div class="collapsible-header active">
                                     <i class="zmdi zmdi-calendar-close orange-text"></i>Exclusions
                                 </div>
-                                <div class="collapsible-body card-content exclusions">
+                                <div class="collapsible-body card-content exclusions wordWrap">
                                     <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productExclusions)">
                                     <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productExclusions | htmlData">{{vm.productDetails.productExclusions}}</p>
                                 </div>
