@@ -238,7 +238,7 @@ blockquote{margin: .5rem 0; padding-left: .5rem; border-left: 2px solid #ff9800 
 .ticket .collection .collection-item:last-child{ border: none;}    
 }
 
-@media(min-width: 2200px){
+@media(min-width: 2200px) {
 /*Booking*/    
 .swMain ul.anchor li a .stepNumber:after{width: 550%}
 #booking .ticket-part-1::after,#booking .ticket-part-1::before{right: 40%;}*/

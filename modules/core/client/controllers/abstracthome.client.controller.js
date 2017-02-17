@@ -12,7 +12,7 @@
     var hostURL = $location.host();
     var tourHostToursite = hostURL.split('.')[0];
 
-    if (tourHostToursite !== 'tourgecko' && tourHostToursite !== 'test') {
+    if (tourHostToursite !== 'tourgecko' && tourHostToursite !== 'test' && tourHostToursite !== 'localhost') {
       $http.get('/api/host/toursite', { params: { 'toursite': tourHostToursite } }).success(function (response) {
         if (response === null || response === '' || response === undefined) {
           $location.path('/not-found');

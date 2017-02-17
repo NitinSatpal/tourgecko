@@ -15,18 +15,18 @@
         </div>
         <!--Carousel end-->
         <div class="marginFromBothEnd">
-            <div id="details" class="container ">
+            <div id="details" class="container tour-Preview-Details-host">
                 <div class="row">
                     <div class="col l8 m8 s12">
 
                         <div class="card-panel">
                             <div class="valign-wrapper">
-                                <div class="col l2 m3 s3">
+                                <div class="col l2 m3 s3 firstCardPartOne">
                                     <span class="blue lighten-5 days circle valign center">
                                         <h3>{{vm.productDetails.productDuration}}</h3><p>{{vm.productDetails.productDurationType}}</p>
                                     </span>
                                 </div>
-                                <div class="col l10 m9 s9"><h5>&nbsp;{{vm.productDetails.productTitle}}</h5>
+                                <div class="col l10 m9 s9 wordWrap"><h5>&nbsp;{{vm.productDetails.productTitle}}</h5>
                                     <a href="#" class="blue-grey-text text-darken-1">
                                        &nbsp;&nbsp; <i class="zmdi zmdi-pin orange-text"></i>&nbsp;&nbsp;{{vm.productDetails.destination}}
                                     </a>
@@ -46,17 +46,17 @@
                             <!-- till here-->
 
                             <div class="row tour-glance">
-                                <div class="col l3 m3 s6 ">
+                                <div class="col l3 m3 s6 wordWrap">
                                     <label><i class="zmdi zmdi-pin orange-text"></i> Start</label>
                                     <h6>{{vm.productDetails.pickupLocation}}</h6>
                                 </div>
-                                <div class="col l3 m3 s6">
+                                <div class="col l3 m3 s6 wordWrap">
                                     <label><i class="zmdi zmdi-pin-drop orange-text"></i> End</label>
                                     <h6>{{vm.productDetails.dropLocation}}</h6>
                                 </div>
 
 
-                                <div class="col l3 m3 s6">
+                                <div class="col l3 m3 s6 wordWrap">
                                     <label><i class="zmdi zmdi-time orange-text"></i> Suitable for</label>
                                     <h6>
                                         {{vm.productDetails.productMinAgeRequired}} 
@@ -78,11 +78,9 @@
                                 <div class="collapsible-header active">
                                     <i class="zmdi zmdi-info-outline orange-text"></i>Overview
                                 </div>
-                                <div class="collapsible-body card-content">
-                                    <p class="minimize">
-                                        <span><ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productSummary)">
-                                        <span ng-bind-html="vm.productDetails.productSummary | htmlData">{{vm.productDetails.productSummary}}</span> </span>
-                                    </p>
+                                <div class="collapsible-body card-content bullets">
+                                    <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productSummary)">
+                                    <p class="listAlignment-overview" ng-bind-html="vm.productDetails.productSummary | htmlData">{{vm.productDetails.productSummary}}</p>
                                 </div>
                             </li>
 
@@ -139,9 +137,9 @@
                                                 <strong>{{itinerary.title}}</strong>
                                                 <br>
                                             </div>
-                                            <div class="collapsible-body">
-                                                <span class="itinerary-details"><ng-bind-html="vm.getHtmlTrustedData(itinerary.description)">
-                                                <span ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</span> </span>
+                                            <div class="collapsible-body bullets">
+                                                <ng-bind-html="vm.getHtmlTrustedData(itinerary.description)">
+                                                <p class= "listAlignment-itinerary" ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</p>
                                             </div>
                                         </li>                                        
                                     </ol>
@@ -152,9 +150,9 @@
                                     <i class="zmdi zmdi-comment-list orange-text"></i>Guidelines
                                 </div>
 
-                                <div class="collapsible-body card-content">
+                                <div class="collapsible-body card-content bullets">
                                     <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productGuidelines)">
-                                    <p class="renderedChild" ng-bind-html="vm.productDetails.productGuidelines | htmlData">{{vm.productDetails.productGuidelines}}</span>
+                                    <p class="renderedChild" ng-bind-html="vm.productDetails.productGuidelines | htmlData">{{vm.productDetails.productGuidelines}}</p>
                                 </div>
                             </li>
                             <li class="card">
@@ -163,7 +161,7 @@
                                 </div>
                                 <div class="collapsible-body card-content inclusions">
                                     <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productInclusions)">
-                                    <p class="renderedChild" ng-bind-html="vm.productDetails.productInclusions | htmlData">{{vm.productDetails.productInclusions}}</span>
+                                    <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productInclusions | htmlData">{{vm.productDetails.productInclusions}}</p>
                                 </div>
                             </li>
                                 
@@ -173,7 +171,7 @@
                                 </div>
                                 <div class="collapsible-body card-content exclusions">
                                     <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productExclusions)">
-                                    <p class="renderedChild" ng-bind-html="vm.productDetails.productExclusions | htmlData">{{vm.productDetails.productExclusions}}</span>
+                                    <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productExclusions | htmlData">{{vm.productDetails.productExclusions}}</p>
                                 </div>
                             </li>
 
@@ -184,14 +182,14 @@
                                 <div class="collapsible-body card-content">
                                     <ul class="collection with-header" ng-repeat="pricing in vm.productDetails.productPricingOptions">
                                         <div class="row">
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Price For</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">{{pricing.pricingType}}</blockquote>
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Adult' || 
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Adult' || 
                                             pricing.pricingType == 'Child' || pricing.pricingType == 'Everyone' || pricing.pricingType == 'Single'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Price</strong>
@@ -201,7 +199,7 @@
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Couple'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Couple'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Price/Couple</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">
@@ -210,7 +208,7 @@
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Group'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Group-Size</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">
@@ -219,14 +217,14 @@
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Group'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Description</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">{{pricing.description}}</blockquote>
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Group'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong ng-show="pricing.groupOption == 'Per Group'">Price/Group</strong>
                                                     <strong ng-show="pricing.groupOption == 'Per Person'">Price/Person</strong>
@@ -236,7 +234,7 @@
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Seats Used</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">
@@ -245,14 +243,14 @@
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Description</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">{{pricing.description}}</blockquote>
                                                 </li>
                                             </div>
 
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1">
                                                     <strong>Price/Person</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">
@@ -272,9 +270,9 @@
                                     Cancellation &amp; Refund
                                 </div>
                                 <div class="collapsible-body card-content">
-                                    <div class="padding">
-                                        <span><ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productCancellationPolicy)">
-                                        <span ng-bind-html="vm.productDetails.productCancellationPolicy | htmlData">{{vm.productDetails.productCancellationPolicy}}</span> </span>
+                                    <div class="bullets">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productCancellationPolicy)">
+                                        <p ng-bind-html="vm.productDetails.productCancellationPolicy | htmlData">{{vm.productDetails.productCancellationPolicy}}</p>
                                         <!--<a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
                                         <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a>-->
                                     </div>
@@ -367,14 +365,14 @@
                     <!--Sticky Footer for mobile view-->    
                     <div class="price-box hide-on-med-and-up white z-depth-4">
                         <span class="blue-grey-text text-darken-1">Starting from 
-                            <span style="text-decoration:line-through" class="red-text">&#8377; 1500</span>
+                            <span style="text-decoration:line-through" class="red-text" ng-show="vm.minimumTillNow != ''">&#8377; {{vm.getMinimumPricing(vm.productDetails)}}</span>
                         </span>
                         <br>
-                        <span class="orange-text discount">
+                        <!--<span class="orange-text discount">
                             <strong>10%</strong> OFF
-                        </span>
+                        </span>-->
                         <span class="green-text price">
-                            <span class="currency">&#8377;</span> 1350
+                            <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
                         </span>
                         <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
                     </div>

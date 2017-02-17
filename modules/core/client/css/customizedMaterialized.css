@@ -1,0 +1,24 @@
+.tour-Preview-Details-host .firstCardPartOne {
+	margin-right: 20px !important;
+}
+
+.tour-Preview-Details-host .wordWrap {
+	overflow-wrap: break-word;	
+}
+
+.tour-Preview-Details-host .bullets ul li{
+	list-style: disc;
+}
+
+.tour-Preview-Details-host .bullets ol li {
+	list-style: decimal;
+}
+
+.tour-Preview-Details-host .listAlignment-overview {
+	margin-left: -45px !important;
+}
+
+.tour-Preview-Details-host .listAlignment-inclusions,
+.tour-Preview-Details-host .listAlignment-exclusions {
+	margin-left: -55px !important;
+}
