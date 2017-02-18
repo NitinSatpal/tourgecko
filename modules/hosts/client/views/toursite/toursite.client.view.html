@@ -56,15 +56,14 @@
                 <li>
                     <img src="modules/hosts/client/companyBanners/main_hero4.png">
                 </li>
-            </ul>
+            </ul> 
         </div>
         <!--Carousel end-->
 
         <div id="agent" class="container body-toursite">
             <div class="row">
-                <p class="light">We are adventure tour company specializing in activities like cycling, trekking and mountaineering.  We conduct various tours throughout India and Nepal.
-                  <span class="read-more-content">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                  </span>      
+                <p class="light">
+                    <p class="minimize">{{vm.companyData.aboutHost}}</p>
                 </p> 
             </div>
               
@@ -109,17 +108,15 @@
     <footer class="toursite-footer">
         <br>
         <a href="#"><img src="{{vm.companyData.logoURL}}" class="respnosive-img logo"></a>
-          
+        <br>
+        <br>
         <ul class="links">
-            <li><a href="#" >Home</a></li>
-            <li><a href="#" >Tours</a></li>
-            <li><a href="#" >About Us</a></li>
-            <li><a href="#" >Contact Us</a></li>
+            <li><a>Contact Us</></li>
         </ul>
           
         <ul class="contact-info">
-            <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> 099302 60748 - (9:00AM to 6:00PM)</a></li>
-            <li class="vendor-email"><a href="#"><i class="zmdi zmdi-email"></i> contact@tourgecko.com</a></li>
+            <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> {{vm.companyData.inquiryMobile}} - {{vm.getInquiryHours()}}</a></li>
+            <li class="vendor-email"><a href="#"><i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}</a></li>
             <li class="vendor-social"><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
             <li class="vendor-social"><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
             <li class="vendor-social"><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>    
@@ -130,5 +127,35 @@
     <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
     <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
     <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
-    <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $(function() {
+                var minimized_elements = $('p.minimize');
+                
+                minimized_elements.each(function(){    
+                    var textdata = $(this).text();   
+                    
+                    if(textdata.length < 250) return;
+                    
+                    $(this).html(
+                        textdata.slice(0,250)+'<span>... </span><a href="#" class="more" style="color:#ff9800;">Read More</a>'+
+                        '<span style="display:none;">'+ textdata.slice(250,textdata.length)+' <a href="#" class="less" style="color:#ff9800;">Less</a></span>'
+                    );
+                    
+                }); 
+                
+                $('a.more', minimized_elements).click(function(event){
+                    event.preventDefault();
+                    $(this).hide().prev().hide();
+                    $(this).next().show();        
+                });
+                
+                $('a.less', minimized_elements).click(function(event){
+                    event.preventDefault();
+                    $(this).parent().hide().prev().show().prev().show();    
+                });
+            });
+        });
+    </script>
 </div>

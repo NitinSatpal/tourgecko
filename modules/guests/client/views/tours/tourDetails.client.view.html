@@ -6,10 +6,15 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     </header>
     <main>
+        <div id="previewDetailsLoader" class="loader-spinner-tourPreviewDetails waitCursor"></div>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
-                <li ng-repeat="image in vm.productDetails.productPictureURLs">
-                    <img src="{{image}}">
+                <li ng-repeat="image in vm.productImageURLs" ng-if="vm.productImageURLs.length > 0">
+                    <img ng-src="{{image}}">
+                </li>
+                <li class="no-Image-Preview-Details" ng-if="vm.productImageURLs.length == 0">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    <br>
                 </li>
             </ul>
         </div>
@@ -132,14 +137,14 @@
                                 </div>
                                 <div class="collapsible-body card-content itinerary-list">
                                     <ol class="collapsible list-group vertical-steps" data-collapsible="accordian">
-                                        <li class="list-group-item" ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index">
+                                        <li class="list-group-item" ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index" style="background:none;">
                                             <div class="blue-grey-text text-darken-1 collapsible-header">
                                                 <strong>{{itinerary.title}}</strong>
                                                 <br>
                                             </div>
                                             <div class="collapsible-body bullets">
                                                 <ng-bind-html="vm.getHtmlTrustedData(itinerary.description)">
-                                                <p class= "listAlignment-itinerary" ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</p>
+                                                <p class= "listAlignment-itinerary wordWrap" ng-style="vm.getDynamicCSS(itinerary.description)" ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</p>
                                             </div>
                                         </li>                                        
                                     </ol>
@@ -309,7 +314,7 @@
                                         <p class="blue-grey-text text-darken-1">
                                             <strong>Departures:</strong>
                                         </p>
-                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates">{{date}}</div>
+                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates">{{vm.getDepartureDates(date)}}</div>
                                         
                                     </div>
 
@@ -340,18 +345,18 @@
                                     </a>
                                     <span class="grey-text">Call Us on:</span> 
                                     <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
-                                        <strong>{{vm.productDetails.hostCompany.inquiryMobile}}</strong>
+                                        <strong>{{vm.companyDetails.inquiryMobile}}</strong>
                                     </a>
                                 </div>
                                 <blockquote>
-                                    <label ng-show="vm.productDetails.hostCompany.inquiryTime == 'rangeTime'">>
+                                    <label ng-show="vm.companyDetails.inquiryTime == 'rangeTime'">>
                                         <strong>From</strong> 
-                                        <span class="orange-text">{{vm.productDetails.hostCompany.inquiryTimeRangeFrom}}</span> 
+                                        <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeFrom}}</span> 
                                         <strong>to</strong> 
-                                        <span class="orange-text">{{vm.productDetails.hostCompany.inquiryTimeRangeTo}}</span> 
+                                        <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeTo}}</span> 
                                         <strong>IST</strong>  
                                     </label>
-                                    <label ng-show="vm.productDetails.hostCompany.inquiryTime == 'Anytime'">
+                                    <label ng-show="vm.companyDetails.inquiryTime == 'Anytime'">
                                         <strong>Anytime</strong> 
                                         
                                     </label>

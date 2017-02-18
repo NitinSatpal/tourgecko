@@ -17,11 +17,20 @@
     vm.authentication = Authentication;
     var productId = $location.path().split('/')[3];
     vm.productDetails;
+    vm.productImageURLs = [];
+
+    $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
+
+    var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     
     $http.get('/api/guest/product/' + productId).success(function (response) {
       vm.productDetails = response[0];
-      if(response[0].productPictureURLs.length != 0)
-        vm.productMainImageURL = response[0].productPictureURLs[0].split('./')[1];
+      vm.companyDetails = response[0].hostCompany;
+      vm.productImageURLs = response[0].productPictureURLs
+      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
+      $('#previewDetailsLoader').hide();
     }).error(function (response) {
       vm.error = response.message;
     });
@@ -31,33 +40,53 @@
     };
 
     vm.getMinimumPricing = function (productDetails) {
-
-      if(productDetails && productDetails.productAdvertisedprice !== undefined)
-        return vm.productDetails.productAdvertisedprice;
+      if (productDetails)
+        return findMinimum(productDetails);
       else {
-        if (productDetails)
-          return findMinimum(productDetails.productPricingOptions);
+        vm.priceTobeShown = '';
+        return '';
       }
     }
 
-    function findMinimum (pricingOptions) {
-      var minimumTillNow = Number.POSITIVE_INFINITY;
+    function findMinimum (productDetails) {
+      vm.minimumTillNow = Number.POSITIVE_INFINITY;
       vm.priceTobeShown = -1;
-      for (var index = 0; index < pricingOptions.length; index ++) {
-        if (pricingOptions[index].price < minimumTillNow)
-          minimumTillNow = pricingOptions[index].price;
-        if(vm.priceTobeShown == -1) {
-          if (pricingOptions[index].pricingType == 'Everyone' || pricingOptions[index].pricingType == 'Adult')
-            vm.priceTobeShown = pricingOptions[index].price;
-        }
+      
+      for (var index = 0; index < productDetails.productPricingOptions.length; index ++) {
+        if (productDetails.productPricingOptions[index].price < vm.minimumTillNow)
+          vm.minimumTillNow =  productDetails.productPricingOptions[index].price;
+        
+        if (productDetails.productPricingOptions[index].pricingType == 'Everyone' || productDetails.productPricingOptions[index].pricingType == 'Adult')
+          vm.priceTobeShown = productDetails.productPricingOptions[index].price;
       }
-      if (minimumTillNow == 'Infinity')
-        minimumTillNow = '';
+      
+      if (vm.minimumTillNow == 'Infinity')
+        vm.minimumTillNow = '';
       if (vm.priceTobeShown == -1)
-        vm.priceTobeShown = minimumTillNow;
+        vm.priceTobeShown = vm.minimumTillNow;
 
-      vm.minimumTillNow = minimumTillNow;
-      return minimumTillNow;
+      if(productDetails.productAdvertisedprice !== undefined)
+        return vm.productDetails.productAdvertisedprice;
+      else
+        return vm.minimumTillNow;      
+    }
+
+    vm.getDepartureDates = function (isoDate) {
+      var date = new Date (isoDate);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+      var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+
+      return displayDate;
+    }
+
+    vm.getDynamicCSS = function (description) {
+      var dynamicCss = {
+        "margin-left": "-45px"
+      };
+
+      if(description.split('\n')[0] == '<ol>') {
+        return dynamicCss;
+      }
     }
 
     vm.goToBookingPage = function () {

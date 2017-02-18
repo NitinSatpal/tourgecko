@@ -72,6 +72,12 @@ a:hover .header-profile-image {
   position:   fixed;
   pointer-events: none;
 }
+.disableBodyWithoutPosition {
+  opacity:    0.7;
+  background-color: lightgrey;
+  z-index:    10;
+  pointer-events: none;
+}
 .waitCursor {
   cursor: wait;
 }
