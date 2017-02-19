@@ -34,10 +34,10 @@
         <div id="previewDetailsLoader" class="loader-spinner-tourPreviewDetails waitCursor"></div>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
-                <li ng-repeat="image in vm.productImageURLs" ng-if="vm.productImageURLs.length > 0">
+                <li ng-repeat="image in vm.productDetails.productPictureURLs" ng-if="vm.productDetails.productPictureURLs.length > 0">
                     <img ng-src="{{image}}">
                 </li>
-                <li class="no-Image-Preview-Details" ng-if="vm.productImageURLs.length == 0">
+                <li class="no-Image-Preview-Details" ng-if="vm.productDetails.productPictureURLs.length == 0">
                     <i class="fa fa-picture-o" aria-hidden="true"></i>
                     <br>
                 </li>
