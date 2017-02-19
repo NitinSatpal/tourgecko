@@ -17,7 +17,7 @@
     vm.authentication = Authentication;
     var productId = $location.path().split('/')[4];
     vm.productDetails;
-    $scope.productImageURLs = [];
+    vm.productImageURLs = [];
 
     $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
 
@@ -29,12 +29,7 @@
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
         vm.companyDetails = response[0].hostCompany;
-        $scope.productImageURLs.productImageURLs = response[0].productPictureURLs;
-        if(!$scope.$$phase) {
-          $scope.$apply($scope.productImageURLs, function() {
-               
-          });
-        }
+        vm.productImageURLs = response[0].productPictureURLs
         $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
         $('#previewDetailsLoader').hide();
       }).error(function (response) {
@@ -45,6 +40,7 @@
       console.log($scope.abc.value[0]);
     }
     
+
     vm.getHtmlTrustedData = function(htmlData){
       return $sce.trustAsHtml(htmlData);
     };
