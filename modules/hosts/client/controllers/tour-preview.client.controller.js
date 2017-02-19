@@ -29,7 +29,7 @@
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
         vm.companyDetails = response[0].hostCompany;
-        vm.productImageURLs = response[0].productPictureURLs;
+        $scope.productImageURLs.productImageURLs = response[0].productPictureURLs;
         if(!$scope.$$phase) {
           $scope.$apply($scope.productImageURLs, function() {
                
