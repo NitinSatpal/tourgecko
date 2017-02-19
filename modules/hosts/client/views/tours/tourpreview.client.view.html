@@ -34,6 +34,7 @@
         <div id="previewDetailsLoader" class="loader-spinner-tourPreviewDetails waitCursor"></div>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
+                {{productImageURLs.length}}
                 <li ng-repeat="image in productImageURLs" ng-if="productImageURLs.length > 0">
                     <img ng-src="{{image}}">
                 </li>

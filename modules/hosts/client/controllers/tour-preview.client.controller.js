@@ -29,7 +29,12 @@
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
         vm.companyDetails = response[0].hostCompany;
-        $scope.productImageURLs = response[0].productPictureURLs
+        vm.productImageURLs = response[0].productPictureURLs;
+        if(!$scope.$$phase) {
+          $scope.$apply($scope.productImageURLs, function() {
+               
+          });
+        }
         $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
         $('#previewDetailsLoader').hide();
       }).error(function (response) {
@@ -38,10 +43,6 @@
     } else {
       $scope.abc = ProductDataShareService;
       console.log($scope.abc.value[0]);
-    }
-    
-    if(!$scope.$$phase) {
-      $scope.$apply();
     }
     
     vm.getHtmlTrustedData = function(htmlData){
