@@ -41,6 +41,20 @@
       }
     }
 
+    vm.getProductTitleToshow = function (title) {
+      if (title.length > 25)
+        return title.slice(0,25) + ' ...';
+      else
+        return title;
+    }
+
+    vm.getProductDestinationToshow = function (destination) {
+      if (destination.length > 25)
+        return destination.slice(0,20) + ' ...';
+      else
+        return destination;
+    }
+
     vm.getDepartureDateToShow = function (index) {
       if (vm.toursitedata[index].productAvailabilityType == 'Open Date')
         return 'Open Dated Tour';
@@ -49,11 +63,16 @@
           var eventDate = new Date(vm.toursitedata[index].productScheduledDates[0]);
           eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
 
-          var displayDate = weekdays[eventDate.getDay()] + ', ' + eventDate.getDate() + ' ' + months[eventDate.getMonth()] + ' ' + eventDate.getFullYear();
+          var displayDate = /*weekdays[eventDate.getDay()] + ', ' + */ eventDate.getDate() + ' ' + months[eventDate.getMonth()] + ' ' + eventDate.getFullYear();
         }
         if (vm.toursitedata[index].productScheduledDates.length > 1) {
           var numberOfTours = vm.toursitedata[index].productScheduledDates.length - 1;
-          var tourDepartureString = ' and '  + numberOfTours + ' more date/s';
+          var remainingDatesString;
+          if (numberOfTours == 1)
+            remainingDatesString = numberOfTours + ' more date';
+          else
+            remainingDatesString = numberOfTours + ' more dates';
+          var tourDepartureString = ' and '  + remainingDatesString;
           return displayDate + tourDepartureString;
         }
         else

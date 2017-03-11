@@ -36,6 +36,8 @@ exports.createProduct = function (req, res) {
 
 function createDepartureSessions (departureSessions, departureSessionPricings, product) {
   var productSessions = [];
+  console.log('on server  - 1 ' +departureSessions);
+  console.log('on server - 2 ' + departureSessionPricings);
   for(var index = 0; index < departureSessions.length; index++) {
     var productSession = new ProductSession();
     productSession.product = product._id;
@@ -44,10 +46,12 @@ function createDepartureSessions (departureSessions, departureSessionPricings, p
     productSession.sessionPricingDetails = departureSessionPricings[index];
     productSessions.push(productSession.toObject());
   }
+  console.log('on server - 4 ' + JSON.stringify(productSessions));
   ProductSession.collection.insert(productSessions, onInsert);
 }
 
-function onInsert(){
+function onInsert(err, docs) {
+  console.log('on server - 5 - why ' + err)
   // Tour Sessions inserted successfully.
 } 
 
@@ -122,7 +126,7 @@ exports.fetchAllProductSessionDetails = function (req, res) {
   });
 };
 
-// Fetching all product session details here.
+// Fetching single product session details here.
 exports.fetchSingleProductSessionDetails = function (req, res) {
   ProductSession.findOne({ '_id': req.params.productSessionId }).populate('product').exec(function (err, productSession) {
     if (err) {
@@ -131,6 +135,18 @@ exports.fetchSingleProductSessionDetails = function (req, res) {
       });
     }
     res.json(productSession);
+  });
+};
+
+// Fetching sessions of given product here.
+exports.fetchSessionDetailsOfGivenProduct = function (req, res) {
+  ProductSession.find({ 'product': req.params.productId }).populate('product').exec(function (err, productSessions) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(productSessions);
   });
 };
 
@@ -147,8 +163,6 @@ exports.fetchCompanyProductSessionDetails = function (req, res) {
     });
   }
 };
-
-
 
 exports.uploadProductPicture = function (req, res) {
   var user = req.user;

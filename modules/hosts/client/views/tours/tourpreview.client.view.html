@@ -329,9 +329,11 @@
                                             <strong>10%</strong>OFF
                                         </h6>
                                     </div> -->
+                                    <!-- we will just show starting from, no other price
                                     <h5 class="green-text">
                                         <span class="currency" ng-show="vm.priceTobeShown != -1 && vm.priceTobeShown != ''">&#8377;</span> {{vm.priceTobeShown}}
                                     </h5>
+                                    -->
                                 </div>
                                 <div class="divider"></div>
                                 <div class="valign-wrapper">
@@ -340,15 +342,17 @@
                                     </h4>
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Fixed Departure'">
                                         <p class="blue-grey-text text-darken-1">
-                                            <strong>Departures:</strong>
+                                            <strong>Next Departures:</strong>
                                         </p>
-                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates">{{vm.getDepartureDates(date)}}</div>
+                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates  | limitTo:5 track by $index">{{vm.getDepartureDates(date)}}</div>
+                                        <br>
+                                        <a id="showMoreDatesBtn" onclick="openMoreDatesModal()" href="" class="pull-right" ng-if="vm.productDetails.productScheduledDates.length > 5"> More Dates...</a>
                                         
                                     </div>
 
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Open Date'">
                                         <p class="blue-grey-text text-darken-1">
-                                            <strong>Departures:</strong>
+                                            <strong>Next Departures:</strong>
                                         </p>
                                         <p>
                                             <span class="tourType"> Open Date Tour </span>
@@ -403,9 +407,11 @@
                         <!--<span class="orange-text discount">
                             <strong>10%</strong> OFF
                         </span>-->
+                        <!-- we will just show starting from, no other price
                         <span class="green-text price">
                             <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
                         </span>
+                        -->
                         <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
                     </div>
                     <!--Sticky Footer End-->    
@@ -415,10 +421,41 @@
     </main>
     <footer>
     </footer>
+
+    <!-- The Modal -->
+    <div id="showMoreDatesModal" class="moreDatesModal">
+        <!-- Modal content -->
+        <div class="moreDatesModal-content">
+            <div class="moreDatesModal-header">
+                <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
+                <h4 class="moreDates-title">Chose departure date</h4>
+            </div>
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates" ng-style="vm.getDynamicCSSForMoreDates($index
+            )">
+                <span>{{vm.getDepartureDates(date)}}</span>
+                <span>
+                    <input type="radio" name="chooseDate" value="" class="pull-right" disabled>
+                </span>
+            </div>
+            <div class="moreDatesModal-footer">
+               <button id="closeMoreDates" type="button" class="btn btn-secondary moreDates-close" onclick="fadeOutTheModal()">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <!--Scripts-->
 <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
+<script>
+    function openMoreDatesModal() {
+        $('#showMoreDatesModal').slideDown('slow');
+    }
+
+    function fadeOutTheModal () {
+        $('#showMoreDatesModal').slideUp('slow');
+    }
+</script>

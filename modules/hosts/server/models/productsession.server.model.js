@@ -28,7 +28,6 @@ var ProductSessionSchema = new Schema({
   },
   product: {
     type: Schema.ObjectId,
-    unique: true,
     ref: 'Product'
   }
 });

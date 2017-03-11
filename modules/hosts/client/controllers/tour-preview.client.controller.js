@@ -94,5 +94,18 @@
         return dynamicCss;
       }
     }
+
+    vm.getDynamicCSSForMoreDates = function (index) {
+      var oddCSS = {
+        "background-color" : "#fff",
+      };
+      var evenCSS = {
+        "background-color" : "#eee",
+      };
+      if (index % 2 == 1)
+        return oddCSS;
+      else
+        return evenCSS;
+    }
   }
 }());

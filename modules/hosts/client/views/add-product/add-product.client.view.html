@@ -1228,75 +1228,110 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 <script>
 	var events = [];
 	$(document).ready(function() {
-		$.ajax({
-	    	url:'/api/host/companyproductsessions/',
-	        type:'GET',
-	        dataType: 'json',
-	      	success: function( json ) {
-	      		var cssCounter = 0;
-	      		var weekDaysNumber = new Map();
-		      	weekDaysNumber.set('sunday', 0);
-		      	weekDaysNumber.set('monday', 1);
-		      	weekDaysNumber.set('tuesday', 2);
-		      	weekDaysNumber.set('wednesday', 3);
-		      	weekDaysNumber.set('thursday', 4);
-		      	weekDaysNumber.set('friday', 5);
-		      	weekDaysNumber.set('saturday', 6);
-	        	$.each(json, function(index, document) {
-	        		if(document) {
-	        			var repeatedDays = 0;
-        				var notAllowedDays = new Set();
-        				var allowedDays = new Set();
-        				var firstDate;
-        				if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-        					firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
-	        				var secondDate = new Date(document.sessionDepartureDetails.startDate);
-	        				var oneDay = 24*60*60*1000;
-	        				repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-	        				repeatedDays = repeatedDays + 1;
+		if(window.location.pathname.split('/')[4]) {
+			$.ajax({
+		    	url:'/api/host/product/productsession/' + window.location.pathname.split('/')[4],
+		        type:'GET',
+		        dataType: 'json',
+		      	success: function( json ) {
+		      		var cssCounter = 0;
+		      		var weekDaysNumber = new Map();
+			      	weekDaysNumber.set('sunday', 0);
+			      	weekDaysNumber.set('monday', 1);
+			      	weekDaysNumber.set('tuesday', 2);
+			      	weekDaysNumber.set('wednesday', 3);
+			      	weekDaysNumber.set('thursday', 4);
+			      	weekDaysNumber.set('friday', 5);
+			      	weekDaysNumber.set('saturday', 6);
+		        	$.each(json, function(index, document) {
+		        		if(document) {
+		        			var repeatedDays = 0;
+	        				var notAllowedDays = new Set();
+	        				var allowedDays = new Set();
+	        				var firstDate;
+	        				if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
+	        					firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
+		        				var secondDate = new Date(document.sessionDepartureDetails.startDate);
+		        				var oneDay = 24*60*60*1000;
+		        				repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+		        				repeatedDays = repeatedDays + 1;
 
-	        				if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
-			        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
-			        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
-			        		}
-			        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
-						      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
-						        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
-						    }
-		        		}
-        				var eventDate = new Date(document.sessionDepartureDetails.startDate);
-        				eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
-
-
-        				for (var index = 0; index <= repeatedDays; index ++) {
-        					var needToSave = true;
-        					if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
-		        				document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
-		        				eventDate > firstDate)
-		        				needToSave = false;
-        			
-        					// eventDate = eventDate.setDate(eventDate.getDate() + 1);
-
-        					if (needToSave) {
-				        		if (cssCounter == 0) {
-				        			events.push ({title: '<span class="eventname orangeFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>' , start: eventDate, backgroundColor: 'rgba(237,156,40, 0.2)'});
-				        			cssCounter++;
-				        		} else if (cssCounter == 1) {
-				        			events.push ({title: '<span class="eventname greenFC" >' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: eventDate,  backgroundColor: 'rgba(66,174,94,0.2)'});
-				        			cssCounter++;
-				        		} else {
-				        			events.push({title: '<span class="eventname redFC">' + document.product.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i>&nbsp; 7/10</span>' , start: eventDate, backgroundColor: 'rgba(216,64,64,0.2)'});
-				        			cssCounter = 0;
+		        				if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
+				        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
+				        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
 				        		}
-				        	}
-				        	eventDate = new Date (eventDate);
-				        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
-		        			eventDate = new Date (eventDate);
-				        }
-		        	}
-	        	});
-	        }
-	    });
+				        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
+							      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
+							        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
+							    }
+			        		}
+	        				var eventDate = new Date(document.sessionDepartureDetails.startDate);
+	        				eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
+
+
+	        				for (var index = 0; index <= repeatedDays; index ++) {
+	        					var needToSave = true;
+	        					if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
+			        				document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
+			        				eventDate > firstDate)
+			        				needToSave = false;
+	        			
+	        					// eventDate = eventDate.setDate(eventDate.getDate() + 1);
+
+	        					if (needToSave) {
+					        		if (cssCounter == 0) {
+					        			if (window.innerWidth > 767)
+					        				events.push ({
+					        					title: '<span class="eventname orangeFC">' + document.product.productTitle,
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(237,156,40, 0.2)'
+					        				});
+					        			else
+					        				events.push ({
+					        					title: '<i class="zmdi zmdi-circle orangeFC"></i>',
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(237,156,40, 0.2)'
+					        				});
+					        			cssCounter++;
+					        		} else if (cssCounter == 1) {
+					        			if (window.innerWidth > 767)
+					        				events.push ({
+					        					title: '<span class="eventname greenFC" >' + document.product.productTitle,
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(66,174,94,0.2)'
+					        				});
+					        			else
+					        				events.push ({
+					        					title: '<i class="zmdi zmdi-circle greenFC"></i>',
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(66,174,94,0.2)'
+					        				});
+					        			cssCounter++;
+					        		} else {
+					        			if (window.innerWidth > 767)
+					        				events.push({
+					        					title: '<span class="eventname redFC">' + document.product.productTitle,
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(216,64,64,0.2)'
+					        				});
+					        			else
+					        				events.push({
+					        					title: '<i class="zmdi zmdi-circle redFC"></i>',
+					        					start: eventDate,
+					        					backgroundColor: 'rgba(216,64,64,0.2)'
+					        				});
+					        			cssCounter = 0;
+					        		}
+					        	}
+					        	eventDate = new Date (eventDate);
+					        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
+			        			eventDate = new Date (eventDate);
+					        }
+			        	}
+		        	});
+		        }
+		    });
+		}
 	  
 	});
 

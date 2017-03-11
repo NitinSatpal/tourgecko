@@ -80,12 +80,12 @@
                         <div class="margin-bottom">
                             <span class="left white-text days-difficulty">{{data.duration}}</span>
                             <span class="right white-text days-difficulty">{{data.productGrade}}</span>     
-                            <a href="1_tour-details.html"><h5 class="clear">{{data.productTitle}}</h5></a>
+                            <a href="1_tour-details.html"><h5 class="clear">{{vm.getProductTitleToshow(data.productTitle)}}</h5></a>
                             <div class="col l6 m6 s12 padding-none">
-                                <span class="blue-grey-text text-darken-1"><i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{data.destination}}
+                                <span class="blue-grey-text text-darken-1"><i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{vm.getProductDestinationToshow(data.destination)}}
                                 </span>
                                 <p> </p>
-                                <p><i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp;Departure: <span class="date">{{vm.getDepartureDateToShow($index)}}</span></p>
+                                <p><i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp; Next Departure: <span class="date"><br ng-if="vm.getDepartureDateToShow($index) == 'Open Dated Tour'">{{vm.getDepartureDateToShow($index)}}</span></p>
                             </div>
                             <div class="col l6 m6 s12 padding-none">
                                 <span class="blue-grey-text text-darken-1 right">Starting from <!--<span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span></span>--><br>

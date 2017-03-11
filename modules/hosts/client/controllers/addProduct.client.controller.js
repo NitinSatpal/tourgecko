@@ -416,7 +416,6 @@ vm.createDepartureSession = function () {
 
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   //eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
-  //console.log(eventDate);
   
   for (var index = 0; index <= repeatedDays; index ++) {
     var needToSave = true;
@@ -434,27 +433,50 @@ vm.createDepartureSession = function () {
 
     if (needToSave) {
       if ($window.events.length % 3 == 0) {
-        $window.events.push({title: '<span class="eventname orangeFC">' +
-                                    vm.tour.productTitle +
-                                    '</span><br><i class="zmdi zmdi-circle orangeFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                    start: eventDate,
-                                    allDay: true,
-                                    backgroundColor: 'rgba(237,156,40, 0.2)'});
-
+        if (window.innerWidth > 767)
+          $window.events.push({
+            title: '<span class="eventname orangeFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(237,156,40, 0.2)'
+          });
+        else
+          $window.events.push({
+            title: '<i class="zmdi zmdi-circle orangeFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(237,156,40, 0.2)'
+          });
       } else if ($window.events.length % 3 == 1) {
-        $window.events.push({title: '<span class="eventname greenFC">' +
-                                    vm.tour.productTitle +
-                                    '</span><br><i class="zmdi zmdi-circle greenFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                    start: eventDate,
-                                    allDay: true,
-                                    backgroundColor: 'rgba(66,174,94,0.2)'});
+        if (window.innerWidth > 767)
+          $window.events.push({
+            title: '<span class="eventname greenFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(66,174,94,0.2)'
+          });
+        else
+          $window.events.push({
+            title: '<i class="zmdi zmdi-circle greenFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(66,174,94,0.2)'
+          });
       } else {
-        $window.events.push({title: '<span class="eventname redFC">' +
-                                    vm.tour.productTitle +
-                                    '</span><br><i class="zmdi zmdi-circle redFC"></i>&nbsp;<i class="zmdi zmdi-account"></i> &nbsp; 7/10</span>',
-                                    start: eventDate,
-                                    allDay: true,
-                                    backgroundColor: 'rgba(216,64,64,0.2)'});
+        if (window.innerWidth > 767)
+          $window.events.push({
+            title: '<span class="eventname redFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(216,64,64,0.2)'
+          });
+        else
+          $window.events.push({
+            title: '<i class="zmdi zmdi-circle redFC"></i>',
+            start: eventDate,
+            allDay: true,
+            backgroundColor: 'rgba(216,64,64,0.2)'
+          });
       }
     }
     eventDate = new Date (eventDate);
@@ -465,10 +487,9 @@ vm.createDepartureSession = function () {
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
   
   // Convert date string to ISO and add one day to the string date before converting to avoid one day fall back
-  var dateToSave = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
-  dateToSave.setDate(dateToSave.getDate() + 1)
-
-  vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate = new Date(dateToSave);
+  //var dateToSave = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  //dateToSave.setDate(dateToSave.getDate() + 1)
+  //vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate = new Date(dateToSave);
 
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].duration = vm.tour.productDuration + ' ' + vm.tour.productDurationType;
 
@@ -695,7 +716,7 @@ vm.createDepartureSession = function () {
 
     $scope.goToPreviewPage = function () {
       
-      $scope.someData="i am from controoler 1";
+      $scope.someData="i am from controler 1";
       $scope.abc = ProductDataShareService;
       $scope.abc.value.push('amma');
 

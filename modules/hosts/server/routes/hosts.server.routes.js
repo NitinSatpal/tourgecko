@@ -33,6 +33,9 @@ module.exports = function (app) {
   app.route('/api/host/productsession/:productSessionId')
     .get(hosts.fetchSingleProductSessionDetails);
 
+  app.route('/api/host/product/productsession/:productId')
+    .get(hosts.fetchSessionDetailsOfGivenProduct);
+
   app.route('/api/host/product/:productId')
     .get(hosts.fetchSingleProductDetails);
 

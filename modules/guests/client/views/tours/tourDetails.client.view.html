@@ -301,9 +301,10 @@
                                             <strong>10%</strong>OFF
                                         </h6>
                                     </div> -->
+                                    <!-- we will just show starting from, no other price
                                     <h5 class="green-text">
                                         <span class="currency" ng-show="vm.priceTobeShown != -1 && vm.priceTobeShown != ''">&#8377;</span> {{vm.priceTobeShown}}
-                                    </h5>
+                                    </h5> -->
                                 </div>
                                 <div class="divider"></div>
                                 <div class="valign-wrapper">
@@ -312,15 +313,17 @@
                                     </h4>
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Fixed Departure'">
                                         <p class="blue-grey-text text-darken-1">
-                                            <strong>Departures:</strong>
+                                            <strong>Next Departures:</strong>
                                         </p>
-                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates">{{vm.getDepartureDates(date)}}</div>
+                                        <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates | limitTo:5 track by $index">{{vm.getDepartureDates(date)}}</div>
+                                        <br>
+                                        <a id="showMoreDatesBtn" onclick="openMoreDatesModal()" href="" class="pull-right" ng-if="vm.productDetails.productScheduledDates.length > 5"> More Dates...</a>
                                         
                                     </div>
 
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Open Date'">
                                         <p class="blue-grey-text text-darken-1">
-                                            <strong>Departures:</strong>
+                                            <strong>Next Departures:</strong>
                                         </p>
                                         <p>
                                             <span class="tourType"> Open Date Tour </span>
@@ -376,9 +379,11 @@
                         <!--<span class="orange-text discount">
                             <strong>10%</strong> OFF
                         </span>-->
+                        <!-- we will just show starting from, no other price
                         <span class="green-text price">
                             <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
                         </span>
+                        -->
                         <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
                     </div>
                     <!--Sticky Footer End-->    
@@ -387,24 +392,23 @@
         </div>
     </main>
     <footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" ></footer>
-</div>
-
-<div id="askForLogin" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Confirm booking</h4>
+    <!-- The Modal -->
+    <div id="showMoreDatesModal" class="moreDatesModal">
+        <!-- Modal content -->
+        <div class="moreDatesModal-content">
+            <div class="moreDatesModal-header">
+                <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
+                <h4 class="moreDates-title">Chose departure date</h4>
             </div>
-            <div class="modal-body">
-                <p> Are you sure you want to confirm this booking? Please note that amount
-                    will be charged to guest only after you confirm this booking, </p>
-                <a ng-click="vm.modifyBooking('Confirmed')" class="btn btn-warning pull-left margin-right btn-sm">Confirm</a>
-                <a onclick="closeModal('#confirm-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
-                <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments"></textarea>  
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates" ng-style="vm.getDynamicCSSForMoreDates($index
+            )">
+                <span>{{vm.getDepartureDates(date)}}</span>
+                <span>
+                    <input type="radio" name="chooseDate" value="" class="pull-right">
+                </span>
             </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+            <div class="moreDatesModal-footer">
+               <button id="closeMoreDates" type="button" class="btn btn-secondary moreDates-close" onclick="fadeOutTheModal()">Close</button>
             </div>
         </div>
     </div>
@@ -415,3 +419,13 @@
 <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
+
+<script>
+    function openMoreDatesModal() {
+        $('#showMoreDatesModal').slideDown('slow');
+    }
+
+    function fadeOutTheModal () {
+        $('#showMoreDatesModal').slideUp('slow');
+    }
+</script>

@@ -22,11 +22,26 @@ $(document).ready(function() {
         		var allowedDays = new Set();
         		if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
         			var firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
-	        		var secondDate = new Date(document.sessionDepartureDetails.startDate);
+        			/*var firstDate = new Date(tempDate.getUTCFullYear(),
+						tempDate.getUTCMonth(),
+						tempDate.getUTCDate(),
+						tempDate.getUTCHours(),
+						tempDate.getUTCMinutes(),
+						tempDate.getUTCSeconds());
+					*/
+        			var secondDate = new Date(document.sessionDepartureDetails.startDate);
+        			/*
+	        		var secondDate = new Date(tempDate.getUTCFullYear(),
+						tempDate.getUTCMonth(),
+						tempDate.getUTCDate(),
+						tempDate.getUTCHours(),
+						tempDate.getUTCMinutes(),
+						tempDate.getUTCSeconds());
+	        		*/
 	        		var oneDay = 24*60*60*1000;
 	        		repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 	        		repeatedDays = repeatedDays + 1;
-
+	        		
 	        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
 				      	for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
 				        	notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
@@ -38,8 +53,13 @@ $(document).ready(function() {
 
         		}
         		var eventDate = new Date(document.sessionDepartureDetails.startDate);
-        		eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
-
+        		/*eventDate = new Date(eventDate.getUTCFullYear(),
+        							eventDate.getUTCMonth(),
+        							eventDate.getUTCDate(),
+        							eventDate.getUTCHours(),
+        							eventDate.getUTCMinutes(),
+        							eventDate.getUTCSeconds());
+ 				*/
         		for (var index = 0; index <= repeatedDays; index ++) {
         			var needToSave = true;
         			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
@@ -48,54 +68,98 @@ $(document).ready(function() {
 		        		needToSave = false;
 
         			if (needToSave) {
+        				var endDate = angular.copy(eventDate);
+        				/*
+        				var endDate = new Date(eventDate.getUTCFullYear(),
+        							eventDate.getUTCMonth(),
+        							eventDate.getUTCDate(),
+        							eventDate.getUTCHours(),
+        							eventDate.getUTCMinutes(),
+        							eventDate.getUTCSeconds());
+						*/
+		        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Days')
+		        			endDate.setDate(endDate.getDate() + document.product.productDuration);
+        				var limit;
+		        		if(document.product.productAvailabilityType == 'Open Date')
+		        			limit = '-';
+		        		else {
+		        			if (document.product.productSeatsLimitType == 'unlimited')
+			        			limit = 'No Limit';
+			        		else
+			        			limit = document.product.productSeatLimit ? document.product.productSeatLimit : '-';
+		        		}
+        				var eventObject;
 			        	if (cssCounter == 0) {
-			        		var limit;
-			        		if(document.product.productAvailabilityType == 'Open Date')
-			        			limit = '';
-			        		else {
-			        			if (document.product.productSeatsLimitType == 'unlimited')
-				        			limit = 'No Limit';
-				        		else
-				        			limit = document.product.productSeatLimit;
-			        		}
-			        		
-			        		events.push	({
-			        			title: '<span class="eventname orangeFC">' + 
-			        			document.product.productTitle + '</span> <br>' + 
-			        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
-			        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>' ,
-			        			start: eventDate,
-			        			duration: document.sessionDepartureDetails.duration,
-			        			allDay: true,
-			        			productSessionId: document._id,
-			        			backgroundColor: 'rgba(237,156,40, 0.2)'
-			        		});
+			        		if (window.innerWidth > 767)
+			        			eventObject = {
+			        				title: '<span class="eventname orangeFC">' + 
+				        			document.product.productTitle + '</span> <br>' + 
+				        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
+				        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
+				        			start: eventDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			end: endDate,
+				        			// allDay: true,
+				        			productSessionId: document._id,
+				        			backgroundColor:  '#ffe4b2'
+			        			}
+				        	else
+				        		eventObject = {
+			        				title: '<i class="zmdi zmdi-circle orangeFC"></i>',
+				        			start: eventDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			// allDay: true,
+				        			productSessionId: document._id
+			        			}	
+			        		events.push	(eventObject);
 			        		cssCounter++;
 			        	} else if (cssCounter == 1) {
-			        		events.push	({
-			        			title: '<span class="eventname greenFC">' +
-			        			document.product.productTitle + '</span> <br>' +
-			        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
-			        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>',
-			        			start: eventDate,
-			        			duration: document.sessionDepartureDetails.duration,
-			        			allDay: true,
-			        			productSessionId: document._id,
-			        			backgroundColor: 'rgba(66,174,94,0.2)'
-			        		});
+			        		if (window.innerWidth > 767)
+			        			eventObject = {
+			        				title: '<span class="eventname greenFC">' +
+				        			document.product.productTitle + '</span> <br>' +
+				        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+				        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>',
+				        			start: eventDate,
+				        			end: endDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			// allDay: true,
+				        			productSessionId: document._id,
+				        			backgroundColor: '#adebad'
+			        			}
+				        	else
+				        		eventObject = {
+			        				title: '<i class="zmdi zmdi-circle greenFC"></i>',
+				        			start: eventDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			// allDay: true,
+				        			productSessionId: document._id
+			        			}	
+			        		events.push	(eventObject);
 			        		cssCounter++;
 			        	} else {
-			        		events.push	({
-			        			title: '<span class="eventname redFC">' +
-			        			document.product.productTitle + '</span> <br>' +
-			        			'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
-			        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
-			        			start: eventDate,
-			        			duration: document.sessionDepartureDetails.duration,
-			        			allDay: true,
-			        			productSessionId: document._id,
-			        			backgroundColor: 'rgba(216,64,64,0.2)'
-			        		});
+			        		if (window.innerWidth > 767)
+			        			eventObject = {
+			        				title: '<span class="eventname redFC">' +
+			        				document.product.productTitle + '</span> <br>' +
+			        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
+			        				'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
+				        			start: eventDate,
+				        			end: endDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			// allDay: true,
+				        			productSessionId: document._id,
+				        			backgroundColor: '#ffb2b2'
+			        			}
+				        	else
+				        		eventObject = {
+			        				title: '<i class="zmdi zmdi-circle redFC"></i>',
+				        			start: eventDate,
+				        			duration: document.sessionDepartureDetails.duration,
+				        			// allDay: true,
+				        			productSessionId: document._id
+			        			}	
+			        		events.push	(eventObject);
 			        		cssCounter = 0;
 			        	}
 			        }
@@ -128,7 +192,6 @@ $(document).ready(function() {
 				$('#calendar').fullCalendar('unselect');
 			},
 			editable: true,
-			eventLimit: true, // allow "more" link when too many events
 			events: events,
 			eventRender: function (event, element) {
 				element.find('.fc-title').html(event.title);
