@@ -400,7 +400,7 @@
                 <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
                 <h4 class="moreDates-title">Chose departure date</h4>
             </div>
-            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates" ng-style="vm.getDynamicCSSForMoreDates($index
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForMoreDates($index
             )">
                 <span>{{vm.getDepartureDates(date)}}</span>
                 <span>

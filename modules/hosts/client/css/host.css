@@ -16,9 +16,12 @@ p {
 .toursite-Product-Image img {
 	display: block;
 	min-width:438px;
+	max-width:438px;
+	min-height:130px;
 	max-height:130px;
 	width: auto;
 	height: auto;
+	object-fit: cover;
 }
 
 .host-toursite-Logo {

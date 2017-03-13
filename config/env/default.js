@@ -56,25 +56,27 @@ module.exports = {
     profileUpload: {
       dest: './modules/users/client/img/profile/uploads/', // Profile upload destination path
       limits: {
-        fileSize: 1 * 1024 * 1024 // Max file size in bytes (1 MB)
+        fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
       }
     },
     productPictureUploads: {
       dest: './modules/hosts/client/pictures/products/tours/photos/', // prpoduct images upload destination path
       limits: {
-        fileSize: 10 * 1024 * 1024 // Max file size in bytes (1 MB)
+        files: 5,
+        fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
       }
     },
     productMapUploads: {
       dest: './modules/hosts/client/pictures/products/tours/maps/', // product map upload destination path
       limits: {
-        fileSize: 10 * 1024 * 1024 // Max file size in bytes (1 MB)
+        fileSize: 5 * 1024 * 1024, // Max file size in bytes (5 MB)
+        files: 5
       }
     },
     hostCompanyLogoUploads: {
       dest: './modules/hosts/client/companyLogo/', // company logo upload destination path
       limits: {
-        fileSize: 10 * 1024 * 1024 // Max file size in bytes (1 MB)
+        fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
       }
     }
   }

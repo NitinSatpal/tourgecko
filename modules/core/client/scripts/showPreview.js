@@ -46,8 +46,6 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 		else
 			globalMapFileStorage.push(file);
 
-		file.index = localCounter;
-
 	    // Make sure `file.name` matches our extensions criteria
 	    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
 	    	var reader = new FileReader();
@@ -70,8 +68,8 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 		        		.appendTo(document.getElementById('parentdiv'+localCounter)))
 		        		.click(removeFileFromPreview);
 	    		}
+	    		file.index = localCounter;
 		        localCounter++;
-
 		      }, false);
 	      	
 	      	reader.readAsDataURL(file);
@@ -93,7 +91,8 @@ function removeFileFromPreview (whichFile) {
 	// Remove Image element
 	fileElement.remove();
 
-	$('parentdiv'+this.id).remove();
+	var parentElement = document.getElementById('parentdiv'+this.id);
+	parentElement.remove();
 
 	// Remove icon
 	this.remove();

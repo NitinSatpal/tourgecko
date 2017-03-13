@@ -226,7 +226,6 @@ function setRichTextData () {
       }
 
       if(isEveryonePricingPresent == true && vm.pricingParams.length > 1) {
-        console.log('2');
         vm.pricingValid = false
         return false;
       }
@@ -493,7 +492,7 @@ vm.createDepartureSession = function () {
 
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].duration = vm.tour.productDuration + ' ' + vm.tour.productDurationType;
 
-  vm.productScheduledDates.push(new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate));
+  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
 
   if (vm.ShowCalendarButton && vm.fixedDepartureSessionCounter == 0) {
@@ -548,14 +547,15 @@ vm.createDepartureSession = function () {
           $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
           if($scope.mapFilesToBeUploded.length > 0)
             uploadMap();
-
-          uploadImage();
+          if($scope.imageFilesToBeUploaded.length > 0)
+            uploadImage();
         }).error(function (response) {
           vm.error = response.message;
         });
       } else {
         $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing}).success(function (response) {
           uploadFilesProductId = response._id;
+          console.log('saving ' + $window.globalImageFileStorage);
           $scope.imageFilesToBeUploaded = $window.globalImageFileStorage;
           $scope.mapFilesToBeUploded = $window.globalMapFileStorage;
           if($scope.mapFilesToBeUploded.length > 0)
@@ -692,7 +692,32 @@ vm.createDepartureSession = function () {
 
     // Called after the user has failed to uploaded a new picture
     function onErrorItem(response, pictureType) {
-      vm.error = true;
+      $('#tourgeckoBody').removeClass('disableBody');
+      vm.showLoaderForProductSave = false;
+      console.log(response);
+      if (response == 'LIMIT_FILE_SIZE') {
+        var remainingAllowedImages = 5 - $window.globalImageFileStorage.length;
+        if (remainingAllowedImages > 0)
+          vm.imageError = 'Images greater than 5 MB are auto-removed. You can upload ' + remainingAllowedImages + ' more image';
+        else if (remainingAllowedImages < 0)
+          vm.imageError = 'Images greater than 5 MB are auto-removed. Only 5 images are allowed. Please remove ' + Math.abs(remainingAllowedImages) + ' image';
+        else
+          vm.imageError = 'Images greater than 5 MB are auto-removed';
+        for(var index = 0; index < $window.globalImageFileStorage.length; index++) {
+          if ($window.globalImageFileStorage[index].size > 5242880) {
+            var fileElement = document.getElementById('fileId' + $window.globalImageFileStorage[index].index);
+            fileElement.remove();
+            var parentElement = document.getElementById('parentdiv'+$window.globalImageFileStorage[index].index);
+            parentElement.remove();
+            $window.globalImageFileStorage.splice($window.globalImageFileStorage[index], 1);
+          }
+        }
+      } else if (response == 'LIMIT_FILE_COUNT') {
+        console.log('here here here ' +  $window.globalImageFileStorage.length );
+        console.log('hahahaha ' +  $window.globalImageFileStorage);
+        var extraImages = $window.globalImageFileStorage.length - 5;
+        vm.imageError = 'Only 5 images are allowed. Please remove ' + extraImages + ' image';
+      }
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Common success and error function for product Image and map upload, initilization, upload, delte and save, ends here */

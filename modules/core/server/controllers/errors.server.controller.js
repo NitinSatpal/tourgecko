@@ -38,6 +38,7 @@ var getUniqueErrorMessage = function (err) {
  */
 exports.getErrorMessage = function (err) {
   var message = '';
+  console.log('error is ' + err + ' and code is ' + err.code);
   if (err.code) {
     switch (err.code) {
       case 11000:
@@ -45,10 +46,13 @@ exports.getErrorMessage = function (err) {
         message = getUniqueErrorMessage(err);
         break;
       case 'LIMIT_FILE_SIZE':
-        message = 'Image too big. Please maximum ' + (config.uploads.profileUpload.limits.fileSize / (1024 * 1024)).toFixed(2) + ' Mb files.';
+        message = 'Image too big. Please check maximum allowable file size';
         break;
       case 'LIMIT_UNEXPECTED_FILE':
         message = 'Missing `newProfilePicture` field';
+        break;
+      case 'LIMIT_FILE_COUNT':
+        message = 'Too many files. Please check maximum allowable files limit';
         break;
       default:
         message = 'Something went wrong';

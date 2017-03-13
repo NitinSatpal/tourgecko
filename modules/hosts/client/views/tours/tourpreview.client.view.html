@@ -8,7 +8,7 @@
             <p>This is what other people see when they visit your Booking Site. <a class="blue-text" style="cursor:pointer" onclick="window.close()">Return to your dashboard.</a><p>
         </div>
         <!--<div class="navbar-fixed">-->
-       <!-- <nav class="blue-grey darken-4 fixed">
+        <!-- <nav class="blue-grey darken-4 fixed">
             <div class="nav-wrapper container">
                 <a href="#" class="brand-logo orange-text">tourgecko</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -430,7 +430,7 @@
                 <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
                 <h4 class="moreDates-title">Chose departure date</h4>
             </div>
-            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates" ng-style="vm.getDynamicCSSForMoreDates($index
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForMoreDates($index
             )">
                 <span>{{vm.getDepartureDates(date)}}</span>
                 <span>

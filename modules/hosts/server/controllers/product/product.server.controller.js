@@ -36,8 +36,6 @@ exports.createProduct = function (req, res) {
 
 function createDepartureSessions (departureSessions, departureSessionPricings, product) {
   var productSessions = [];
-  console.log('on server  - 1 ' +departureSessions);
-  console.log('on server - 2 ' + departureSessionPricings);
   for(var index = 0; index < departureSessions.length; index++) {
     var productSession = new ProductSession();
     productSession.product = product._id;
@@ -46,12 +44,10 @@ function createDepartureSessions (departureSessions, departureSessionPricings, p
     productSession.sessionPricingDetails = departureSessionPricings[index];
     productSessions.push(productSession.toObject());
   }
-  console.log('on server - 4 ' + JSON.stringify(productSessions));
   ProductSession.collection.insert(productSessions, onInsert);
 }
 
 function onInsert(err, docs) {
-  console.log('on server - 5 - why ' + err)
   // Tour Sessions inserted successfully.
 } 
 
@@ -171,6 +167,7 @@ exports.uploadProductPicture = function (req, res) {
   var productPictureUrlsStore = [];
   var productId = req.query.productId;
 
+
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
   if (user) {
@@ -190,7 +187,10 @@ exports.uploadProductPicture = function (req, res) {
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
-          reject(errorHandler.getErrorMessage(uploadError));
+          console.log('kakakakakakaakkaak ' + uploadError);
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
         } else {
           if (req.body.previousFiles) {
             if (typeof req.body.previousFiles == 'string')

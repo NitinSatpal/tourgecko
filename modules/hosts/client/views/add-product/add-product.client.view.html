@@ -820,11 +820,14 @@
 	                                                <p class="sub_desc">Make Tour Listing appealing by adding photos. First photo is used as cover photo for listing.</p>
 	                                                <div class="col-lg-12 col-md-12 col-sm-12">
 	                                                    <div class="fileUpload btn btn-primary">
-	                                                    	<span><i class="zmdi zmdi-cloud-upload"></i> Add Photo</span>
+	                                                    	<span class="pull-left"><i class="zmdi zmdi-cloud-upload"></i> Add Photo</span>
 	                                                      	<input id="productImages" type="file" class="upload" onchange="showPreview('#product_img_preview' , '#productImages', true)" accept="image/*" multiple/>
 	                                                   	</div>
 	                                                   	<br>
-	                                                   
+	                                                   	<span class="sub_desc">(Maximum 5 images of 5 MB each)</span>
+	                                                   	<div ng-show="vm.imageError" class="text-danger">
+													        <strong ng-bind="vm.imageError"></strong>
+													    </div>
                                                    		<div class="account_img_info">                                                   			
 															<div class="img_info" id="product_img_preview">
 															</div>
@@ -851,7 +854,7 @@
 													</div>
 
 													<label for="tours_media_map" class="control-label">Tour map</label>
-														<p class="sub_desc" ng-show="vm.helpVisible">If you have tour map created externally  , upload it as image here</p>
+														<p class="sub_desc" ng-show="vm.helpVisible">If you have tour map created externally, upload it as image here</p>
 													<div class="col-sm-12 col-md-12 col-lg-12">
 
 														<div class="fileUpload btn">
@@ -859,7 +862,7 @@
 								                            <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
 									                    </div>
 								                        <br>
-
+	                                                   	<span class="sub_desc">(Maximum 3 maps of 5 MB each)</span>
 								                        <div class="account_img_info">
 															<div class="img_info" id="product_Map_preview">
 
