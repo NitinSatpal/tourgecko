@@ -165,16 +165,13 @@ exports.uploadProductPicture = function (req, res) {
   var upload = multer(config.uploads.productPictureUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
   var productPictureUrlsStore = [];
-  var productId = req.query.productId;
-
 
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
   if (user) {
     uploadImage()
-      .then(updateProduct)
+      .then(onUploadSuccess)
       .catch(function (err) {
-        console.log(err);
         res.status(400).send(err);
       });
   } else {
@@ -187,9 +184,9 @@ exports.uploadProductPicture = function (req, res) {
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
-          console.log('kakakakakakaakkaak ' + uploadError);
           // Send error code as we are customising the error messages.
           // reject(errorHandler.getErrorMessage(uploadError));
+          console.log(uploadError);
           reject(uploadError.code);
         } else {
           if (req.body.previousFiles) {
@@ -207,19 +204,9 @@ exports.uploadProductPicture = function (req, res) {
     });
   }
 
-  function updateProduct () {
-    return new Promise(function (resolve, reject) {
-      Product.findOne({ '_id': productId }).exec(function (err, product) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        product.productPictureURLs = productPictureUrlsStore;
-        product.save();
-        res.json('done');
-      });
-    });
+  function onUploadSuccess () {
+    res.json(productPictureUrlsStore);
+    return true;
   }
 };
 
@@ -228,13 +215,12 @@ exports.uploadProductMap = function (req, res) {
   var upload = multer(config.uploads.productMapUploads).array('files');
   var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
   var productMapUrlsStore = [];
-  var productId = req.params.productId;
 
   // Filtering to upload only images
   upload.fileFilter = imageUploadFileFilter;
   if (user) {
-    uploadImage()
-      .then(updateProduct)
+    uploadMap()
+      .then(onUploadSuccess)
       .catch(function (err) {
         res.status(400).send(err);
       });
@@ -244,12 +230,18 @@ exports.uploadProductMap = function (req, res) {
     });
   }
 
-  function uploadImage () {
+  function uploadMap () {
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
           reject(errorHandler.getErrorMessage(uploadError));
         } else {
+          if (req.body.previousFiles) {
+            if (typeof req.body.previousFiles == 'string')
+              productMapUrlsStore.push(req.body.previousFiles);
+            else
+              productMapUrlsStore = req.body.previousFiles;
+          }
           for (var index = 0; index < req.files.length; index++)
             productMapUrlsStore.push(config.uploads.productMapUploads.dest + req.files[index].filename);
           resolve();
@@ -258,19 +250,9 @@ exports.uploadProductMap = function (req, res) {
     });
   }
 
-  function updateProduct () {
-    return new Promise(function (resolve, reject) {
-      Product.findOne({ '_id': productId }).exec(function (err, product) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        product.productMapURLs = productMapUrlsStore;
-        product.save();
-        res.json('done');
-      });
-    });
+  function onUploadSuccess () {
+    res.json(productMapUrlsStore);
+    return true;
   }
 };
 

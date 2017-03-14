@@ -13,6 +13,19 @@ p {
 	font-weight:300;
 }
 
+.markAsToBeRemoved {
+	background-color: #fff;
+	color: #ff3232;
+	text-align: center;
+	padding-right: 3px;
+	padding-left: 3px;
+	position: absolute;
+	width: auto;
+	left: 55px;
+	top: 45px;
+	border-radius: 3px;
+}
+
 .toursite-Product-Image img {
 	display: block;
 	min-width:438px;

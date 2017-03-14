@@ -38,13 +38,17 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
     	globalCounter++;
 	}
-
+	var fileType;
 	// This function accepts one file at a time and append the Image to the above fetched div. It also attach anchort taf with icon for image removal
 	function readAndPreview(file) {
-		if (inputFileSelectorId == '#productImages')
+		if (inputFileSelectorId == '#productImages') {
 			globalImageFileStorage.push(file);
-		else
+			fileType = 'image';
+		}
+		else {
 			globalMapFileStorage.push(file);
+			fileType = 'map';
+		}
 
 	    // Make sure `file.name` matches our extensions criteria
 	    if ( /\.(jpe?g|png|gif)$/i.test(file.name) ) {
@@ -61,7 +65,7 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	    			$('#tourgeckoBody').removeClass('waitCursor');
 
 	    		if (isDeleteButtonRequired == true) {
-		        	$('<span>', {id: localCounter})
+		        	$('<span>', {id: localCounter, name: fileType})
 		        		.addClass('glyphicon glyphicon-remove-sign timeslotRemove')
 		        		.appendTo($('<a>', {id: 'anchorTag'+localCounter})
 		        		.addClass('close_img')
@@ -84,7 +88,8 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
 
 // To remove the selected file
-function removeFileFromPreview (whichFile) {
+function removeFileFromPreview () {
+	var whichFileType = this.attributes["name"].value;
 	// Get Image element
 	var fileElement = document.getElementById('fileId' + this.id);
 
@@ -96,9 +101,8 @@ function removeFileFromPreview (whichFile) {
 
 	// Remove icon
 	this.remove();
-
 	// Remove the file from global array
-	if (whichFile == 'image')
+	if (whichFileType == 'image')
 		globalImageFileStorage.splice(this.id, 1);
 	else
 		globalMapFileStorage.splice(this.id, 1);
@@ -106,8 +110,6 @@ function removeFileFromPreview (whichFile) {
 
 
 function addImagesMapEditMode (productImages, productMaps) {
-	globalMapFileStorageEdit = productMaps;
-
 	var index = 0;
 	for (index = 0; index < productImages.length; index++) {
 		globalImageFileStorageEdit.push(productImages[index]);
@@ -115,6 +117,7 @@ function addImagesMapEditMode (productImages, productMaps) {
 	}
 
 	for(index = 0; index < productMaps.length; index++) {
+		globalMapFileStorageEdit.push(productMaps[index])
 		addMapOneByOne(productMaps[index]);
 	}
 }

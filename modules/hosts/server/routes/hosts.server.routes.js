@@ -58,7 +58,7 @@ module.exports = function (app) {
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
-  app.route('/api/product/productMap/:productId')
+  app.route('/api/product/productMapUploads/')
     .post(hosts.uploadProductMap);
 
   app.route('/api/social/host/facebook/pages')
