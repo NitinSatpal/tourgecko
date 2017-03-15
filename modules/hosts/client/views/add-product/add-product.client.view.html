@@ -68,8 +68,18 @@
 									                    <p class="help-block error-text" ng-message="required">Description of the tour is required</p>
 									                </div>
 												</div>
+												<div class="form-group" show-errors>
+													<label for="product_tagging" class="control-label">Tag the tour</label>
+													<p class="sub_desc lheight" ng-show="vm.helpVisible">You can tag this tour like 'Hiking', 'Cycling' etc. for better understading of what you are offering. You can select from the given option or type any tag and enter.</p>
+													<div class="input_group">
+														<div>
+															<select id="productTagging" name="productTagging" ng-model="vm.tour.productTags" class="form-control" multiple="multiple" style="width:100%">
+															</select>
+														</div>
+													</div>
+												</div>
 
-												<div class="row no_margin_row">
+												<div class="row ">
 													<div class="col-sm-6 col-md-6 col-lg-6">
 														<div class="form-group">
 															<label for="tour_start_location" class="control-label">Start location</label>
@@ -83,7 +93,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="row no_margin_row">
+												<div class="row ">
 													<div class="col-sm-6 col-md-6 col-lg-6">
 														<div class="form-group">
 															<label for="tour_end_location" class="control-label">End location</label>
@@ -98,7 +108,7 @@
 													</div>
 												</div>
 
-												<div class="row no_margin_row">
+												<div class="row">
 													<div class="col-sm-6 col-md-6 col-lg-6">
 														<div class="form-group">
 															<label for="tour_physical_demand" class="control-label">How physically demanding is this tour?</label>
@@ -118,7 +128,7 @@
 													</div>
 												</div>
 
-												<div class="row no_margin_row">
+												<div class="row">
 													<div class="col-sm-6 col-md-6 col-lg-6">
 														<label class="control-label">What age group is this tour suitable for?</label>
 														<div class="row">
@@ -1477,6 +1487,13 @@ function openFixedDeparturePanel () {
             {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
        	]
 	});
+</script>
+<script>
+    $("#productTagging").select2({
+    	data: ['Hiking', 'Trekking', 'Cycling', 'Camping'],
+      	tags: true,
+      	placeholder: "Type and Enter"
+    });
 </script>
 <script>
 	function initAutocomplete() {

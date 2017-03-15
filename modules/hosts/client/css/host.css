@@ -12,6 +12,9 @@ p {
 	color:#666;
 	font-weight:300;
 }
+.productTags {
+	text-align: center;
+}
 
 .markAsToBeRemoved {
 	background-color: #fff;

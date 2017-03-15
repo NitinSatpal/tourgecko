@@ -29,6 +29,10 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
+  productTags: {
+    type: Array,
+    default: []
+  },
   productAdvertisedprice: {
     type: Number
   },

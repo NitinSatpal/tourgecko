@@ -95,7 +95,7 @@
       }
     }
 
-    vm.getDynamicCSSForMoreDates = function (index) {
+    vm.getDynamicCSSForStripedTable = function (index) {
       var oddCSS = {
         "background-color" : "#fff",
       };

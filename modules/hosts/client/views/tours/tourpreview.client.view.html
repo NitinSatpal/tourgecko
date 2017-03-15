@@ -211,7 +211,33 @@
                                     <i class="zmdi zmdi-money-box orange-text"></i>Prices
                                 </div>
                                 <div class="collapsible-body card-content">
-                                    <ul class="collection with-header" ng-repeat="pricing in vm.productDetails.productPricingOptions">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                              <tr>
+                                                <th>Price For</th>
+                                                <th>Group Size</th>
+                                                <th>Price</th>
+                                                <th>Price per</th>
+                                                <th>Description</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="pricing in vm.productDetails.productPricingOptions track by $index" ng-style="vm.getDynamicCSSForStripedTable($index)">
+                                                    <td>{{pricing.pricingType}}</td>
+                                                    <td ng-show="pricing.pricingType == 'Group'"> {{pricing.minGroupSize}} to {{pricing.maxGroupSize}} </td>
+                                                    <td ng-show="pricing.pricingType != 'Group'"> NA </td>
+                                                    <td>{{pricing.price}}</td>
+                                                    <td ng-show="pricing.pricingType == 'Adult' || pricing.pricingType == 'Child' || pricing.pricingType == 'Everyone' || pricing.pricingType == 'Single'">Person</td>
+                                                    <td ng-show="pricing.pricingType == 'Couple'">Couple</td>
+                                                    <td ng-show="pricing.groupOption == 'Per Group'">Group</td>
+                                                    <td ng-show="pricing.groupOption == 'Per Person'">Person</td>
+                                                    <td>{{pricing.description}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--<ul class="collection with-header" ng-repeat="pricing in vm.productDetails.productPricingOptions">
                                         <div class="row">
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
                                                 <li class="collection-item blue-grey-text text-darken-1">
@@ -291,7 +317,7 @@
                                             </div>
                                         </div>
                                         <div class="divider" ng-show="$index <  vm.productDetails.productPricingOptions.length - 1"></div>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </li>
                                 
@@ -430,7 +456,7 @@
                 <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
                 <h4 class="moreDates-title">Chose departure date</h4>
             </div>
-            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForMoreDates($index
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForStripedTable($index
             )">
                 <span>{{vm.getDepartureDates(date)}}</span>
                 <span>
