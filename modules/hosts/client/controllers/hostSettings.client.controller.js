@@ -155,11 +155,11 @@
         var fb;
         var tweet;
         var insta;
-        if(vm.contactDetails[0].hostSocialAccounts.facebook)
+        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.facebook)
           fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
-        if(vm.contactDetails[0].hostSocialAccounts.twitter)
+        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.twitter)
           tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
-        if(vm.contactDetails[0].hostSocialAccounts.instagram)
+        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.instagram)
           insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
 
         if (fb)
