@@ -77,6 +77,7 @@ $(document).ready(function() {
         							eventDate.getUTCMinutes(),
         							eventDate.getUTCSeconds());
 						*/
+
 		        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Days')
 		        			endDate.setDate(endDate.getDate() + document.product.productDuration);
         				var limit;
@@ -97,7 +98,7 @@ $(document).ready(function() {
 				        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
 				        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
 				        			start: eventDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			end: endDate,
 				        			// allDay: true,
 				        			productSessionId: document._id,
@@ -107,7 +108,7 @@ $(document).ready(function() {
 				        		eventObject = {
 			        				title: '<i class="zmdi zmdi-circle orangeFC"></i>',
 				        			start: eventDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			// allDay: true,
 				        			productSessionId: document._id
 			        			}	
@@ -122,7 +123,7 @@ $(document).ready(function() {
 				        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>',
 				        			start: eventDate,
 				        			end: endDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			// allDay: true,
 				        			productSessionId: document._id,
 				        			backgroundColor: '#adebad'
@@ -131,7 +132,7 @@ $(document).ready(function() {
 				        		eventObject = {
 			        				title: '<i class="zmdi zmdi-circle greenFC"></i>',
 				        			start: eventDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			// allDay: true,
 				        			productSessionId: document._id
 			        			}	
@@ -146,7 +147,7 @@ $(document).ready(function() {
 			        				'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>',
 				        			start: eventDate,
 				        			end: endDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			// allDay: true,
 				        			productSessionId: document._id,
 				        			backgroundColor: '#ffb2b2'
@@ -155,7 +156,7 @@ $(document).ready(function() {
 				        		eventObject = {
 			        				title: '<i class="zmdi zmdi-circle redFC"></i>',
 				        			start: eventDate,
-				        			duration: document.sessionDepartureDetails.duration,
+				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			// allDay: true,
 				        			productSessionId: document._id
 			        			}	
@@ -205,13 +206,17 @@ $(document).ready(function() {
 				// startDate.setDate(startDate.getDate() - 1);
 				var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
 
-				var duration = (event.duration === 'undefined Days' || event.duration === 'undefined undefined') ? 'Duration not provided' :  event.duration;
+
+				var duration = (event.duration === 'undefined') ? 'Duration not provided' :  event.duration;
 				
 				// Name of the tour or event
 				var event_name = $(jsEvent.currentTarget).find(".eventname").text();
 
+				console.log('again i m ' + event_name);
 				// CSS of event
 				var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
+
+				console.log('here i m ' + event_color);
 
 				// Booking data will come here
 				var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
@@ -232,7 +237,7 @@ $(document).ready(function() {
 									"<i class='zmdi zmdi-account'></i>" +
 									bookings + 
 								"</p>";
-
+				$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).removeClass();
 				$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
 				$('#calendarTourPopupBody').html(bodyHtml);
 				$('#eventUrl').attr('href','host/tour/' + event.productSessionId + '/bookings/');

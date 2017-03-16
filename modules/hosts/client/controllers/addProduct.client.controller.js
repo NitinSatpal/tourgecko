@@ -486,8 +486,6 @@ vm.createDepartureSession = function () {
   //dateToSave.setDate(dateToSave.getDate() + 1)
   //vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate = new Date(dateToSave);
 
-  vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].duration = vm.tour.productDuration + ' ' + vm.tour.productDurationType;
-
   vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
 
@@ -636,18 +634,9 @@ vm.createDepartureSession = function () {
     }
 
     function onImageUploadError(response) {
-      onErrorItem(response, 5);
-    }
-
-    function onMapUploadError(response) {
-      onErrorItem(response, 3);
-    }
-
-    // Called after the user has failed to uploaded a new picture
-    function onErrorItem(response, maxLimit) {
       $('#tourgeckoBody').removeClass('disableBody');
       vm.showLoaderForProductSave = false;
-      if (response == 'LIMIT_FILE_SIZE') {
+      /* if (response == 'LIMIT_FILE_SIZE') {
         for(var index = 0; index < $window.globalImageFileStorage.length; index++) {
           if ($window.globalImageFileStorage[index].size > 5242880) {
             var parentElement = document.getElementById('parentdiv' + $window.globalImageFileStorage[index].index);
@@ -659,16 +648,31 @@ vm.createDepartureSession = function () {
           }
         }
         vm.imageError = 'Marked images exceeds 5MB limit. Please remove them.'
-      }
+      } */
 
       if (response == 'LIMIT_FILE_COUNT') {
-        var extraImages = $window.globalImageFileStorage.length - maxLimit;
+        var extraImages = $window.globalImageFileStorage.length - 5;
         var extraImagesString;
         if (extraImages == 1)
           extraImagesString = extraImages + ' image';
         else
           extraImagesString = extraImages + ' images';
         vm.imageError = 'Only 5 image upload are allowed. Please remove at least ' + extraImagesString;
+      }
+    }
+
+    function onMapUploadError(response) {
+      console.log('here ' + response);
+      $('#tourgeckoBody').removeClass('disableBody');
+      vm.showLoaderForProductSave = false;
+      if (response == 'LIMIT_FILE_COUNT') {
+        var extraImages = $window.globalMapFileStorage.length - 3;
+        var extraImagesString;
+        if (extraImages == 1)
+          extraImagesString = extraImages + ' image';
+        else
+          extraImagesString = extraImages + ' images';
+        vm.mapError = 'Only 3 image upload are allowed. Please remove at least ' + extraImagesString;
       }
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    

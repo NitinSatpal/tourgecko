@@ -70,7 +70,7 @@ module.exports = {
       dest: './modules/hosts/client/pictures/products/tours/maps/', // product map upload destination path
       limits: {
         // fileSize: 5 * 1024 * 1024, // Max file size in bytes (5 MB)
-        files: 5
+        files: 3
       }
     },
     hostCompanyLogoUploads: {

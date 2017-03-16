@@ -186,7 +186,6 @@ exports.uploadProductPicture = function (req, res) {
         if (uploadError) {
           // Send error code as we are customising the error messages.
           // reject(errorHandler.getErrorMessage(uploadError));
-          console.log(uploadError);
           reject(uploadError.code);
         } else {
           if (req.body.previousFiles) {
@@ -234,7 +233,7 @@ exports.uploadProductMap = function (req, res) {
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
-          reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
         } else {
           if (req.body.previousFiles) {
             if (typeof req.body.previousFiles == 'string')

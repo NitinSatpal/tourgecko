@@ -873,6 +873,9 @@
 									                    </div>
 								                        <br>
 	                                                   	<span class="sub_desc">(Maximum 3 maps of 5 MB each)</span>
+	                                                   	<div ng-show="vm.mapError" class="text-danger">
+													        <strong ng-bind="vm.mapError"></strong>
+													    </div>
 								                        <div class="account_img_info">
 															<div class="img_info" id="product_Map_preview">
 
@@ -1279,7 +1282,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 							    }
 			        		}
 	        				var eventDate = new Date(document.sessionDepartureDetails.startDate);
-	        				eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
+	        				/* eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds()); */
 
 
 	        				for (var index = 0; index <= repeatedDays; index ++) {
@@ -1345,7 +1348,6 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 		        }
 		    });
 		}
-	  
 	});
 
 	function openCalendarForFixedDepartures () {

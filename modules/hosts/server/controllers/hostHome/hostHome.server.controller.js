@@ -10,14 +10,16 @@ var path = require('path'),
 
 // Fetch categorized bookings
 exports.fetchPinboardData = function (req, res) {
-  Pinboard.find({ $or: [{to: null}, {to: req.user._id}], dismissedBy: {$not: { $elemMatch: {$eq: req.user._id}}} }).sort('-created').exec(function (err, pinboardData) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    res.json(pinboardData);
-  });
+  if(req.user) {
+    Pinboard.find({ $or: [{to: null}, {to: req.user._id}], dismissedBy: {$not: { $elemMatch: {$eq: req.user._id}}} }).sort('-created').exec(function (err, pinboardData) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(pinboardData);
+    });
+  }
 };
 
 // Set dissmiss messages ids
