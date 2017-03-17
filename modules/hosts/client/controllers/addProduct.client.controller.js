@@ -532,15 +532,8 @@ vm.createDepartureSession = function () {
       $('#tourgeckoBody').addClass('disableBody');
 
       setProductInformation();
+      saveTheProduct();
 
-      if($window.globalImageFileStorage.length > 0)
-        uploadImage();
-      else {
-        if($window.globalMapFileStorage.length > 0)
-          uploadMap();
-        else
-          saveTheProduct();
-      }
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function ends here */
@@ -574,8 +567,10 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Product Image upload */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    function uploadImage () {
-      vm.success = vm.error = null;
+    vm.uploadImage = function () {
+      vm.showLoaderForProductSave = true;
+      $('#tourgeckoBody').addClass('disableBody');
+      vm.imageSuccess = vm.imageError = null;
       Upload.upload({
         url: 'api/product/productPictureUploads/',
         arrayKey: '',
@@ -592,45 +587,14 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Product Image upload, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
-
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Map upload */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-    function uploadMap () {
-      vm.success = vm.error = null;
-      Upload.upload({
-        url: 'api/product/productMapUploads/',
-        arrayKey: '',
-        data: {
-          files: $window.globalMapFileStorage,
-          previousFiles: $window.globalMapFileStorageEdit
-        }
-      }).then(function (response) {
-        onMapUploadSuccess(response.data);
-      }, function (response) {
-        if (response.status > 0) onMapUploadError(response.data);
-      });
-    };
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Map upload, ends here */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Common success and error function for product Image and map upload, initilization, upload, delte and save*/
-/* ------------------------------------------------------------------------------------------------------------------------- */
-
     function onImageUploadSuccess(response) {
-      vm.tour.productPictureURLs = response;
-      if($window.globalMapFileStorage.length > 0)
-        uploadMap();
+      if ($window.globalImageFileStorage.length == 0)
+        vm.imageError = 'You have not selected any photos to upload';
       else
-        saveTheProduct();
-    }
-
-    function onMapUploadSuccess(response) {
-      vm.tour.productMapURLs = response;
-      saveTheProduct();
+        vm.imageSuccess = 'Photos have been uploaded successfully'
+      $('#tourgeckoBody').removeClass('disableBody');
+      vm.showLoaderForProductSave = false;
+      vm.tour.productPictureURLs = response;
     }
 
     function onImageUploadError(response) {
@@ -661,8 +625,46 @@ vm.createDepartureSession = function () {
       }
     }
 
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Map upload */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.uploadMap = function () {
+      vm.showLoaderForProductSave = true;
+      $('#tourgeckoBody').addClass('disableBody');
+      vm.mapSuccess = vm.mapError = null;
+      Upload.upload({
+        url: 'api/product/productMapUploads/',
+        arrayKey: '',
+        data: {
+          files: $window.globalMapFileStorage,
+          previousFiles: $window.globalMapFileStorageEdit
+        }
+      }).then(function (response) {
+        onMapUploadSuccess(response.data);
+      }, function (response) {
+        if (response.status > 0) onMapUploadError(response.data);
+      });
+    };
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Product Map upload, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+    /* Common success and error function for product Image and map upload, initilization, upload, delte and save*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+    function onMapUploadSuccess(response) {
+      if ($window.globalMapFileStorage.length == 0)
+        vm.mapError = 'You have not selected any maps to upload'
+      else
+        vm.mapSuccess = 'Maps have been uploaded successfully'
+      $('#tourgeckoBody').removeClass('disableBody');
+      vm.showLoaderForProductSave = false;
+      vm.tour.productMapURLs = response;
+    }
+
     function onMapUploadError(response) {
-      console.log('here ' + response);
       $('#tourgeckoBody').removeClass('disableBody');
       vm.showLoaderForProductSave = false;
       if (response == 'LIMIT_FILE_COUNT') {

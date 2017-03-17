@@ -66,11 +66,10 @@
                     <p class="minimize">{{vm.companyData.aboutHost}}</p>
                 </p> 
             </div>
-              
-            <div class="row ">
-                <h4 class="center-align padding">Tours</h4>
-                <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata">
-                    <div class="card tour padding toursite-Product-Image">
+            <h4 class="center-align padding">Tours</h4>
+            <div class="row alignDivs">
+                <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index">
+                    <div id="toursiteProduct{{$index}}" class="card tour padding toursite-Product-Image">
                         <div class="tour-image" ng-if="data.productPictureURLs[0]">
                             <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0]}}">
                         </div>
@@ -96,11 +95,8 @@
                             </div>
                         </div>
             
-                        <div id="tour_tags" ng-repeat="tag in data.productTags" ng-if="$index % 4 == 0" class="row">
-                            <div class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-4" ng-if="data.productTags[$index]">{{data.productTags[$index]}}</div>
-                            <div class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-4" ng-if="data.productTags[$index + 1]">{{data.productTags[$index + 1]}}</div>
-                            <div class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-4" ng-if="data.productTags[$index + 2]">{{data.productTags[$index + 2]}}</div>
-                            <div class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-4" ng-if="data.productTags[$index + 3]">{{data.productTags[$index + 3]}}</div>
+                        <div id="tour_tags" class="row">
+                            <div ng-repeat="tag in data.productTags" class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-3">{{tag}}</div>
                         </div> 
                     </div> 
                 </div>

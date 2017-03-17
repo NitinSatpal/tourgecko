@@ -89,7 +89,6 @@
       var dynamicCss = {
         "margin-left": "-45px"
       };
-
       if(description.split('\n')[0] == '<ol>') {
         return dynamicCss;
       }

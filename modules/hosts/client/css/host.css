@@ -8,6 +8,11 @@ h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
 
+.toursite .body-toursite .alignDivs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 p {
 	color:#666;
 	font-weight:300;
@@ -1530,6 +1535,28 @@ p.sub_desc{ color:#aaaaaa !important;}
 #tours #tours_media .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF;position: absolute;top: 0;left: 0;font-weight: 500;}
 #tours #tours_media .fileUpload:hover,#tours #tours_media  .fileUpload:visited,#tours #tours_media .fileUpload:active,#tours #tours_media .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #tours #tours_media .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
+
+#tours #tours_media .fileSubmit {
+	overflow: hidden;
+	display: inline-block;
+	background: none;
+	color: #ED9C28;
+	position: relative;
+	top: 5px;
+	left: 100px;
+	font-weight: 500;
+}
+#tours #tours_media .fileSubmit:hover,
+#tours #tours_media  .fileSubmit:visited,
+#tours #tours_media .fileSubmit:active,
+#tours #tours_media .fileSubmit:focus {
+	background: none;
+	color: #ED9C28;
+	text-decoration: underline;
+	box-shadow: none;
+	cursor: pointer;
+}
+
 #tours #tours_media hr{margin: 30px 0 0 0;}
 #tours #tours_media .account_img_info .img_info a{position: absolute;top: 10px;right: 15px;color: #cccccc;font-weight: bold;font-size: 17px;text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.5);}
 #tours #tours_media .account_img_info .img_info p{text-align: left; margin-left: 0.5em;}

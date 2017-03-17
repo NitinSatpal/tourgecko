@@ -830,13 +830,19 @@
 	                                                <p class="sub_desc">Make Tour Listing appealing by adding photos. First photo is used as cover photo for listing.</p>
 	                                                <div class="col-lg-12 col-md-12 col-sm-12">
 	                                                    <div class="fileUpload btn btn-primary">
-	                                                    	<span class="pull-left"><i class="zmdi zmdi-cloud-upload"></i> Add Photo</span>
+	                                                    	<span class="pull-left"><i class="fa fa-plus" aria-hidden="true"></i> Add Photo</span>
 	                                                      	<input id="productImages" type="file" class="upload" onchange="showPreview('#product_img_preview' , '#productImages', true)" accept="image/*" multiple/>
+	                                                   	</div>
+	                                                   	<div class="fileSubmit" ng-click="vm.uploadImage()">
+	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
 	                                                   	</div>
 	                                                   	<br>
 	                                                   	<span class="sub_desc">(Maximum 5 images of 5 MB each)</span>
 	                                                   	<div ng-show="vm.imageError" class="text-danger">
 													        <strong ng-bind="vm.imageError"></strong>
+													    </div>
+													    <div ng-show="vm.imageSuccess" class="text-success">
+													        <strong ng-bind="vm.imageSuccess"></strong>
 													    </div>
                                                    		<div class="account_img_info">                                                   			
 															<div class="img_info" id="product_img_preview">
@@ -871,10 +877,16 @@
 								                            <span><i class="zmdi zmdi-cloud-upload"></i> Add Map</span>
 								                            <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
 									                    </div>
+									                    <div class="fileSubmit" ng-click="vm.uploadMap()">
+	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
+	                                                   	</div>
 								                        <br>
 	                                                   	<span class="sub_desc">(Maximum 3 maps of 5 MB each)</span>
 	                                                   	<div ng-show="vm.mapError" class="text-danger">
 													        <strong ng-bind="vm.mapError"></strong>
+													    </div>
+													    <div ng-show="vm.mapSuccess" class="text-success">
+													        <strong ng-bind="vm.mapSuccess"></strong>
 													    </div>
 								                        <div class="account_img_info">
 															<div class="img_info" id="product_Map_preview">
