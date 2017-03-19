@@ -79,16 +79,6 @@
       return displayDate;
     }
 
-    vm.getDynamicCSS = function (description) {
-      var dynamicCss = {
-        "margin-left": "-45px"
-      };
-
-      if(description.split('\n')[0] == '<ol>') {
-        return dynamicCss;
-      }
-    }
-
     vm.getDynamicCSSForStripedTable = function (index) {
       var oddCSS = {
         "background-color" : "#fff",

@@ -87,6 +87,7 @@
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
           
+          
           vm.showCreatedItinerary = true;
           var maxVal = findDayCounterValue();
           if (maxVal == '-Infinity')

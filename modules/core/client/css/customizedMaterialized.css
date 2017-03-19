@@ -14,6 +14,10 @@
 	list-style: decimal;
 }
 
+.tour-Preview-Details-host .bullets .listAlignment-itinerary {
+	margin-left: -45px;
+}
+
 /*.tour-Preview-Details-host .listAlignment-overview {
 	margin-left: -45px !important;
 }*/
@@ -21,4 +25,11 @@
 .tour-Preview-Details-host .listAlignment-inclusions,
 .tour-Preview-Details-host .listAlignment-exclusions {
 	margin-left: -10px !important;
+}
+
+/* I have remove 'ul:not(.browser-default){padding-left:0;list-style-type:none}' from materialize.min.css and changed it to the following for proper
+   indentation */
+ul.collapsible:not(.browser-default) {
+	padding-left:0;
+	list-style-type:none;
 }

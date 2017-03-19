@@ -207,16 +207,14 @@ $(document).ready(function() {
 				var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
 
 
-				var duration = (event.duration === 'undefined') ? 'Duration not provided' :  event.duration;
+				var duration = event.duration === undefined ? 'Duration not provided' :  event.duration;
 				
 				// Name of the tour or event
 				var event_name = $(jsEvent.currentTarget).find(".eventname").text();
 
-				console.log('again i m ' + event_name);
 				// CSS of event
 				var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
 
-				console.log('here i m ' + event_color);
 
 				// Booking data will come here
 				var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
