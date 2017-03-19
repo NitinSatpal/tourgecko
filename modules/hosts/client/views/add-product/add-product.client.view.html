@@ -999,26 +999,26 @@
 						<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
 							<div class="form-group"><label class="control-label">Except On</label><br>
 							   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
-									<option value="monday">Monday</option>
-									<option value="tuesday">Tuesday</option>
-									<option value="wednesday">Wednesday</option>
-									<option value="thursday">Thursday</option>
-									<option value="friday">Friday</option>
-									<option value="saturday">Saturday</option>
-									<option value="sunday">Sunday</option>
+									<option value="Monday">Monday</option>
+									<option value="Tuesday">Tuesday</option>
+									<option value="Wednesday">Wednesday</option>
+									<option value="Thursday">Thursday</option>
+									<option value="Friday">Friday</option>
+									<option value="Saturday">Saturday</option>
+									<option value="Sunday">Sunday</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
 							<div class="form-group"><label class="control-label">Repeat On</label><br>
 							   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
-									<option value="monday">Monday</option>
-									<option value="tuesday">Tuesday</option>
-									<option value="wednesday">Wednesday</option>
-									<option value="thursday">Thursday</option>
-									<option value="friday">Friday</option>
-									<option value="saturday">Saturday</option>
-									<option value="sunday">Sunday</option>
+									<option value="Monday">Monday</option>
+									<option value="Tuesday">Tuesday</option>
+									<option value="Wednesday">Wednesday</option>
+									<option value="Thursday">Thursday</option>
+									<option value="Friday">Friday</option>
+									<option value="Saturday">Saturday</option>
+									<option value="Sunday">Sunday</option>
 								</select>
 							</div>
 						</div>
@@ -1264,13 +1264,13 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 		      	success: function( json ) {
 		      		var cssCounter = 0;
 		      		var weekDaysNumber = new Map();
-			      	weekDaysNumber.set('sunday', 0);
-			      	weekDaysNumber.set('monday', 1);
-			      	weekDaysNumber.set('tuesday', 2);
-			      	weekDaysNumber.set('wednesday', 3);
-			      	weekDaysNumber.set('thursday', 4);
-			      	weekDaysNumber.set('friday', 5);
-			      	weekDaysNumber.set('saturday', 6);
+			      	weekDaysNumber.set('Sunday', 0);
+			      	weekDaysNumber.set('Monday', 1);
+			      	weekDaysNumber.set('Tuesday', 2);
+			      	weekDaysNumber.set('Wednesday', 3);
+			      	weekDaysNumber.set('Thursday', 4);
+			      	weekDaysNumber.set('Friday', 5);
+			      	weekDaysNumber.set('Saturday', 6);
 		        	$.each(json, function(index, document) {
 		        		if(document) {
 		        			var repeatedDays = 0;

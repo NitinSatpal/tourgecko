@@ -372,10 +372,10 @@
                                         </p>
                                         <div class="chip" ng-repeat="date in vm.productDetails.productScheduledDates  | limitTo:5 track by $index">{{vm.getDepartureDates(date)}}</div>
                                         <br>
-                                        <a id="showMoreDatesBtn" onclick="openMoreDatesModal()" href="" class="pull-right" ng-if="vm.productDetails.productScheduledDates.length > 5"> More Dates...</a>
+                                        <span ng-if="vm.productDetails.isRepeatingProduct == true">This is a repeative tour. <a href="" onclick="openMoreDatesInfoModal('#showRepeatInfoModal')">Click </a> for more details</span>
+                                        <a id="showMoreDatesBtn" onclick="openMoreDatesInfoModal('#showMoreDatesModal')" href="" class="pull-right" ng-if="vm.productDetails.productScheduledDates.length > 5"> More Dates...</a>
                                         
                                     </div>
-
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Open Date'">
                                         <p class="blue-grey-text text-darken-1">
                                             <strong>Next Departures:</strong>
@@ -453,18 +453,40 @@
         <!-- Modal content -->
         <div class="moreDatesModal-content">
             <div class="moreDatesModal-header">
-                <span class="moreDatesModalClose" onclick="fadeOutTheModal()">&times;</span>
+                <span class="moreDatesModalClose" onclick="fadeOutTheModal('#showMoreDatesModal')">&times;</span>
                 <h4 class="moreDates-title">Chose departure date</h4>
             </div>
-            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForStripedTable($index
-            )">
+            <div class="moreDatesModal-body" ng-repeat="date in vm.productDetails.productScheduledDates track by $index" ng-style="vm.getDynamicCSSForStripedTable($index)">
                 <span>{{vm.getDepartureDates(date)}}</span>
                 <span>
                     <input type="radio" name="chooseDate" value="" class="pull-right" disabled>
                 </span>
             </div>
             <div class="moreDatesModal-footer">
-               <button id="closeMoreDates" type="button" class="btn btn-secondary moreDates-close" onclick="fadeOutTheModal()">Close</button>
+               <button id="closeMoreDates" type="button" class="btn btn-secondary moreDates-close" onclick="fadeOutTheModal('#showMoreDatesModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="showRepeatInfoModal" class="moreDatesModal">
+        <!-- Modal content -->
+        <div class="moreDatesModal-content">
+            <div class="moreDatesModal-header">
+                <span class="moreDatesModalClose" onclick="fadeOutTheModal('#showRepeatInfoModal')">&times;</span>
+                <h4 class="moreDates-title">Tour's Repeativeness Info</h4>
+            </div>
+            <div class="moreDatesModal-body" ng-style="vm.getDynamicCSSForStripedTable(0)">
+                <span ng-if="vm.productDetails.productRepeatType == 'Weekly'">The tour is repeating {{vm.productDetails.productRepeatType}} on {{vm.productDetails.productRepeatDays}}.</span>
+                <span ng-if="vm.productDetails.productRepeatType == 'Daily'">The tour is repeating {{vm.productDetails.productRepeatType}} except on {{vm.productDetails.productNonRepeatDays}}.</span>
+                <br>
+                <br>
+                <span> The tour is starting from {{vm.getDepartureDates(vm.productDetails.productRepeatStartDate)}} and will continue till {{vm.getDepartureDates(vm.productDetails.productRepeatEndDate)}}.
+                <br>
+                <br>
+                <span> Go to <a href=""> Booking </a> page to select the required date.</span>
+            </div>
+            <div class="moreDatesModal-footer">
+               <button id="closeMoreDates" type="button" class="btn btn-secondary moreDates-close" onclick="fadeOutTheModal('#showRepeatInfoModal')">Close</button>
             </div>
         </div>
     </div>
@@ -477,11 +499,11 @@
 <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
 <script>
-    function openMoreDatesModal() {
-        $('#showMoreDatesModal').slideDown('slow');
+    function openMoreDatesInfoModal(id) {
+        $(id).slideDown('slow');
     }
 
-    function fadeOutTheModal () {
-        $('#showMoreDatesModal').slideUp('slow');
+    function fadeOutTheModal (id) {
+        $(id).slideUp('slow');
     }
-</script>
+</script> 

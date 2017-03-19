@@ -64,6 +64,25 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
+  isRepeatingProduct:{
+    type: Boolean,
+    default: false
+  },
+  productRepeatStartDate: {
+    type: String
+  },
+  productRepeatEndDate: {
+    type: String
+  },
+  productRepeatType: {
+    type: String
+  },
+  productRepeatDays: {
+    type: String
+  },
+  productNonRepeatDays: {
+    type: String
+  },
 
 /* In case of open date products, time-slot and schedule dates once guest book it */
   productTimeSlotsAvailability: {

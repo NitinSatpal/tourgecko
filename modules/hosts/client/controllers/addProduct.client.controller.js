@@ -86,6 +86,7 @@
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
+          
           vm.showCreatedItinerary = true;
           var maxVal = findDayCounterValue();
           if (maxVal == '-Infinity')
@@ -380,13 +381,13 @@ vm.createDepartureSession = function () {
 
   // if any tour is repeted, then populate the calendar accordingly
   var weekDaysNumber = new Map();
-      weekDaysNumber.set('sunday', 0);
-      weekDaysNumber.set('monday', 1);
-      weekDaysNumber.set('tuesday', 2);
-      weekDaysNumber.set('wednesday', 3);
-      weekDaysNumber.set('thursday', 4);
-      weekDaysNumber.set('friday', 5);
-      weekDaysNumber.set('saturday', 6);
+      weekDaysNumber.set('Sunday', 0);
+      weekDaysNumber.set('Monday', 1);
+      weekDaysNumber.set('Tuesday', 2);
+      weekDaysNumber.set('Wednesday', 3);
+      weekDaysNumber.set('Thursday', 4);
+      weekDaysNumber.set('Friday', 5);
+      weekDaysNumber.set('Saturday', 6);
   var repeatedDays = 0;
   var notAllowedDays = new Set();
   var allowedDays = new Set();
@@ -398,14 +399,34 @@ vm.createDepartureSession = function () {
     var oneDay = 24 * 60 * 60 * 1000;
     repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
     repeatedDays = repeatedDays + 1;
+    vm.tour.isRepeatingProduct = true;
+
+    vm.tour.productRepeatEndDate = vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate;
+    vm.tour.productRepeatStartDate = vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate;
 
     if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays) {
-      for (var index = 0; index < vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays.length; index++)
+      vm.tour.productRepeatType = 'Daily';
+      for (var index = 0; index < vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays.length; index++) {
         notAllowedDays.add(weekDaysNumber.get(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays[index]));
+        if (index == 0)
+          vm.tour.productNonRepeatDays = vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays[index] + 's';
+        else if (index == vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays.length - 1 && index != 0)
+          vm.tour.productNonRepeatDays = vm.tour.productNonRepeatDays + ' and ' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays[index] + 's';
+        else
+          vm.tour.productNonRepeatDays = vm.tour.productNonRepeatDays + ', ' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays[index] + 's';
+      }
     }
     if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays) {
-      for (var index = 0; index < vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length; index++)
+      vm.tour.productRepeatType = 'Weekly';
+      for (var index = 0; index < vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length; index++) {
         allowedDays.add(weekDaysNumber.get(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays[index]));
+        if (index == 0)
+          vm.tour.productRepeatDays = vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays[index] + 's';
+        else if (index == vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length - 1 && index != 0)
+          vm.tour.productRepeatDays = vm.tour.productRepeatDays + ' and ' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays[index] + 's';
+        else
+          vm.tour.productRepeatDays = vm.tour.productRepeatDays + ', ' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays[index] + 's';
+      }
     }
   }
 
@@ -480,6 +501,8 @@ vm.createDepartureSession = function () {
   }
   
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
+
+
   
   // Convert date string to ISO and add one day to the string date before converting to avoid one day fall back
   //var dateToSave = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);

@@ -7,13 +7,13 @@ $(document).ready(function() {
       success: function( json ) {
       	var cssCounter = 0;
       	var weekDaysNumber = new Map();
-      	weekDaysNumber.set('sunday', 0);
-      	weekDaysNumber.set('monday', 1);
-      	weekDaysNumber.set('tuesday', 2);
-      	weekDaysNumber.set('wednesday', 3);
-      	weekDaysNumber.set('thursday', 4);
-      	weekDaysNumber.set('friday', 5);
-      	weekDaysNumber.set('saturday', 6);
+      	weekDaysNumber.set('Sunday', 0);
+      	weekDaysNumber.set('Monday', 1);
+      	weekDaysNumber.set('Tuesday', 2);
+      	weekDaysNumber.set('Wednesday', 3);
+      	weekDaysNumber.set('Thursday', 4);
+      	weekDaysNumber.set('Friday', 5);
+      	weekDaysNumber.set('Saturday', 6);
       	
         $.each(json, function(index, document) {
         	if(document) {
