@@ -839,6 +839,12 @@
 	                                                   	</div>
 	                                                   	<br>
 	                                                   	<span class="sub_desc">(Maximum 5 images of 5 MB each)</span>
+	                                                   	<div id="pictureUploadLimitExceeded" class="text-danger" style="display: none;">
+													        <strong>Maximum 5 pictures are allowed. Extra images are removed automatically.</strong>
+													    </div>
+													    <div id="pictureUploadSizeLimitExceeded" class="text-danger" style="display: none;">
+													        <strong>Marked images exceed maximum size limit. Please replace or remove them.</strong>
+													    </div>
 	                                                   	<div ng-show="vm.imageError" class="text-danger">
 													        <strong ng-bind="vm.imageError"></strong>
 													    </div>
@@ -875,7 +881,7 @@
 													<div class="col-sm-12 col-md-12 col-lg-12">
 
 														<div class="fileUpload btn">
-								                            <span><i class="zmdi zmdi-cloud-upload"></i> Add Map</span>
+								                            <span><i class="fa fa-plus" aria-hidden="true"></i> Add Map</span>
 								                            <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
 									                    </div>
 									                    <div class="fileSubmit" ng-click="vm.uploadMap()">
@@ -883,6 +889,12 @@
 	                                                   	</div>
 								                        <br>
 	                                                   	<span class="sub_desc">(Maximum 3 maps of 5 MB each)</span>
+	                                                   	<div id="mapUploadLimitExceeded" class="text-danger" style="display: none;">
+													        <strong>Maximum 3 maps are allowed. Extra maps are removed automatically.</strong>
+													    </div>
+													    <div id="mapUploadSizeLimitExceeded" class="text-danger" style="display: none;">
+													        <strong>Marked images exceed maximum size limit. Please replace or remove them.</strong>
+													    </div>
 	                                                   	<div ng-show="vm.mapError" class="text-danger">
 													        <strong ng-bind="vm.mapError"></strong>
 													    </div>

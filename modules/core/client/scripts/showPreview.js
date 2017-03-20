@@ -3,6 +3,10 @@ var globalMapFileStorage = [];
 var globalImageFileStorageEdit = [];
 var globalMapFileStorageEdit = [];
 var globalCounter = 0;
+var imageSizeLimitExceeded = false;
+var mapSizeLimitExceeded = false;
+var sizeLimitErrorImages = new Set();
+var sizeLimitErrorMaps = new Set();
 
 function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	// angular.element(document.getElementById('tours')).scope().showSpinner();
@@ -15,9 +19,32 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	// get the uploaded files
 	var files  = document.querySelector(inputFileSelectorId).files;
 
-	fileCounter = files.length;
+	var waitCursorCounter;
 
-	for (var index = 0; index < files.length; index++) {
+	var maxLimit = 0;
+
+	if (inputFileSelectorId == '#productImages') {
+		if(files.length > 5) {
+			maxLimit = 5;
+			waitCursorCounter = 5;
+			$('#pictureUploadLimitExceeded').show();
+		} else {
+			maxLimit = files.length;
+			waitCursorCounter = files.length;
+		}
+	} else {
+		if (files.length > 3) {
+			maxLimit = 3;
+			waitCursorCounter = 3;
+			$('#mapUploadLimitExceeded').show();
+		} else {
+			maxLimit = files.length;
+			waitCursorCounter = files.length;
+		}
+	}
+
+
+	for (var index = 0; index < maxLimit; index++) {
 		var parentDivId = 'parentdiv' + globalCounter;
   		var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
     	$(parentDiv).css('float','left');
@@ -38,7 +65,7 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
     	globalCounter++;
 	}
-	var fileType;
+	var fileType;	
 	// This function accepts one file at a time and append the Image to the above fetched div. It also attach anchort taf with icon for image removal
 	function readAndPreview(file) {
 		if (inputFileSelectorId == '#productImages') {
@@ -56,12 +83,12 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
 	    	// Event listener. It run's on load to do the required thing.
 	      	reader.addEventListener("load", function () {
-	      		fileCounter--;
+	      		waitCursorCounter--;
 	      		$('#loader' + localCounter).remove();
 		        $('#fileId'+ localCounter).attr('src', this.result);
 		        $('#fileId'+ localCounter).attr('title', file.name);
 
-		        if (fileCounter == 0)
+		        if (waitCursorCounter == 0)
 	    			$('#tourgeckoBody').removeClass('waitCursor');
 
 	    		if (isDeleteButtonRequired == true) {
@@ -73,6 +100,22 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 		        		.click(removeFileFromPreview);
 	    		}
 	    		file.index = localCounter;
+		        if (file.size > 5242880) {
+		        	var tempElement = document.getElementById('parentdiv' + file.index);
+            		var markAsToBeRemoved = $('<span>Size Limit Exceeded<span>')
+            			.attr('id', 'elementToBeRemoved' + file.index)
+            			.attr('class', 'markAsToBeRemoved');
+            		markAsToBeRemoved.appendTo(tempElement);
+            		if (inputFileSelectorId == '#productImages') {
+            			sizeLimitErrorImages.add(localCounter);
+            			$('#pictureUploadSizeLimitExceeded').show();
+            			imageSizeLimitExceeded = true;
+            		} else {
+            			sizeLimitErrorMaps.add(localCounter);
+            			$('#mapUploadSizeLimitExceeded').show();
+            			mapSizeLimitExceeded = true;
+            		}
+		        }
 		        localCounter++;
 		      }, false);
 	      	
@@ -82,7 +125,9 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 
 	// Multiple files uploaded. Send one by one.
 	if (files) {
-		[].forEach.call(files, readAndPreview);
+		for (var index = 0; index < maxLimit; index++)
+			readAndPreview(files[index]);
+		//[].forEach.call(files, readAndPreview);
 	}
 }
 
@@ -102,10 +147,25 @@ function removeFileFromPreview () {
 	// Remove icon
 	this.remove();
 	// Remove the file from global array
-	if (whichFileType == 'image')
+	if (whichFileType == 'image') {
 		globalImageFileStorage.splice(this.id, 1);
-	else
+		if (sizeLimitErrorImages.has(parseInt(this.id)))
+			sizeLimitErrorImages.delete(parseInt(this.id));
+
+		if(sizeLimitErrorImages.size == 0) {
+			imageSizeLimitExceeded = false;
+			$('#pictureUploadSizeLimitExceeded').hide();
+		}
+	} else {
 		globalMapFileStorage.splice(this.id, 1);
+		if (sizeLimitErrorMaps.has(parseInt(this.id)))
+			sizeLimitErrorMaps.delete(parseInt(this.id));
+
+		if(sizeLimitErrorMaps.size == 0) {
+			mapSizeLimitExceeded = false;
+			$('#mapUploadSizeLimitExceeded').hide();
+		}
+	}
 }
 
 
@@ -168,3 +228,18 @@ function removeMapFromEditPreview (whichFile) {
 	$('#parentDivMap'+this.id).remove();
 	globalMapFileStorage.splice(this.id, 1);
 }
+
+
+/*if (response == 'LIMIT_FILE_SIZE') {
+        for(var index = 0; index < $window.globalImageFileStorage.length; index++) {
+          if ($window.globalImageFileStorage[index].size > 5242880) {
+            var parentElement = document.getElementById('parentdiv' + $window.globalImageFileStorage[index].index);
+            var markAsToBeRemoved = $('<span>To Be Removed<span>')
+            .attr('id', 'elementToBeRemoved' + $window.globalImageFileStorage[index].index)
+            .attr('class', 'markAsToBeRemoved');
+            markAsToBeRemoved.appendTo(parentElement);
+            // $window.globalImageFileStorage.splice($window.globalImageFileStorage[index], 1);
+          }
+        }
+        vm.imageError = 'Marked images exceeds 5MB limit. Please remove them.'
+      } */ 
