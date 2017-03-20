@@ -192,6 +192,9 @@
         templateUrl: 'modules/hosts/client/views/tours/tourpreview.client.view.html',
         controller: 'TourPreviewController',
         controllerAs: 'vm',
+        params: {
+          tourObject: null
+        },
         data: {
           pageTitle: 'Admin | Tour'
         }

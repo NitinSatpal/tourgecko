@@ -20,6 +20,8 @@
     vm.productImageURLs = [];
 
     $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
+    $('#tourDetailsScreen').addClass('waitCursor');
+    vm.showLoaderForTourDetails = true;
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
@@ -30,7 +32,8 @@
       vm.companyDetails = response[0].hostCompany;
       vm.productImageURLs = response[0].productPictureURLs
       $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-      $('#previewDetailsLoader').hide();
+      $('#tourDetailsScreen').removeClass('waitCursor');
+      vm.showLoaderForTourDetails = false;
     }).error(function (response) {
       vm.error = response.message;
     });

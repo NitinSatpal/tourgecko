@@ -12,7 +12,6 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-wrap: wrap;
 }
-
 p {
 	color:#666;
 	font-weight:300;
@@ -51,28 +50,16 @@ p {
 	border-radius: 50%;
 }
 .loader-spinner-hostHome {
-	border: 4px solid #f3f3f3;
+	/* border: 4px solid #f3f3f3;
     border-top: 4px solid #40C4FF;
-    border-radius: 50%;
+    border-radius: 50%; 
     width: 65px;
-    height: 65px;
-    animation: spin 2s linear infinite;
+    height: 65px; */
+    /* animation: spin 2s linear infinite; */
+    font-size: 80px;
     position: absolute;
     left: 35%;
     top: 15%;
-    z-index: 9999;
-}
-
-.loader-spinner-tourPreviewDetails {
-	border: 4px solid #f3f3f3;
-    border-top: 4px solid #40C4FF;
-    border-radius: 50%;
-    width: 65px;
-    height: 65px;
-    animation: spin 2s linear infinite;
-    position: absolute;
-    left: 45%;
-    top: 60%;
     z-index: 9999;
 }
 

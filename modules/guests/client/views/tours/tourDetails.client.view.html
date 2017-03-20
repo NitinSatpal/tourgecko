@@ -1,4 +1,4 @@
-<div class="tourPreviewDetails">
+<div class="tourPreviewDetails" id="tourDetailsScreen">
     <header>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     </header>
     <main>
-        <div id="previewDetailsLoader" class="loader-spinner-tourPreviewDetails waitCursor"></div>
+        <span ng-if="vm.showLoaderForTourDetails" class="loader-spinner-tourPreviewDetails"><i class="fa fa-refresh fa-spin"></i></span>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs" ng-if="vm.productDetails.productPictureURLs.length > 0">
@@ -354,9 +354,9 @@
                                 </div>
                                 <blockquote>
                                     <label ng-show="vm.companyDetails.inquiryTime == 'rangeTime'">>
-                                        <strong>From</strong> 
+                                        <strong>From&nbsp;</strong> 
                                         <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeFrom}}</span> 
-                                        <strong>to</strong> 
+                                        <strong>&nbsp;to&nbsp;</strong> 
                                         <span class="orange-text">{{vm.companyDetails.inquiryTimeRangeTo}}</span> 
                                         <strong>IST</strong>  
                                     </label>

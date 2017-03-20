@@ -52,6 +52,8 @@
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
     var sessionSpecialPricing = [];
+    var productPictureURLs;
+    var productMapURLs;
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -554,6 +556,7 @@ vm.createDepartureSession = function () {
       
       vm.showLoaderForProductSave = true;
       $('#tourgeckoBody').addClass('disableBody');
+      $('#tours').addClass('waitCursor');
 
       setProductInformation();
       saveTheProduct();
@@ -581,6 +584,7 @@ vm.createDepartureSession = function () {
         });
       }
       $('#tourgeckoBody').removeClass('disableBody');
+      $('#tours').removeClass('waitCursor');
       vm.showLoaderForProductSave = false;
       $state.go('host.tours');
     }
@@ -594,6 +598,7 @@ vm.createDepartureSession = function () {
     vm.uploadImage = function () {
       vm.showLoaderForProductSave = true;
       $('#tourgeckoBody').addClass('disableBody');
+      $('#tours').addClass('waitCursor');
       vm.imageSuccess = vm.imageError = null;
       Upload.upload({
         url: 'api/product/productPictureUploads/',
@@ -617,12 +622,14 @@ vm.createDepartureSession = function () {
       else
         vm.imageSuccess = 'Photos have been uploaded successfully'
       $('#tourgeckoBody').removeClass('disableBody');
+      $('#tours').removeClass('waitCursor');
       vm.showLoaderForProductSave = false;
-      vm.tour.productPictureURLs = response;
+      productPictureURLs = response;
     }
 
     function onImageUploadError(response) {
       $('#tourgeckoBody').removeClass('disableBody');
+      $('#tours').removeClass('waitCursor');
       vm.showLoaderForProductSave = false;
       /* if (response == 'LIMIT_FILE_SIZE') {
         for(var index = 0; index < $window.globalImageFileStorage.length; index++) {
@@ -655,6 +662,7 @@ vm.createDepartureSession = function () {
     vm.uploadMap = function () {
       vm.showLoaderForProductSave = true;
       $('#tourgeckoBody').addClass('disableBody');
+      $('#tours').addClass('waitCursor');
       vm.mapSuccess = vm.mapError = null;
       Upload.upload({
         url: 'api/product/productMapUploads/',
@@ -684,12 +692,14 @@ vm.createDepartureSession = function () {
       else
         vm.mapSuccess = 'Maps have been uploaded successfully'
       $('#tourgeckoBody').removeClass('disableBody');
+      $('#tours').removeClass('waitCursor');
       vm.showLoaderForProductSave = false;
-      vm.tour.productMapURLs = response;
+      productMapURLs = response;
     }
 
     function onMapUploadError(response) {
       $('#tourgeckoBody').removeClass('disableBody');
+      $('#tours').removeClass('waitCursor');
       vm.showLoaderForProductSave = false;
       if (response == 'LIMIT_FILE_COUNT') {
         var extraImages = $window.globalMapFileStorage.length - 3;
@@ -736,6 +746,8 @@ vm.createDepartureSession = function () {
       vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;
       vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;
+      vm.tour.productMapURLs = productMapURLs;
+      vm.tour.productPictureURLs = productPictureURLs
 
       if (vm.tour.isProductAvailabileAllTime)
         vm.tour.productUnavailableMonths.length = 0;
@@ -776,11 +788,8 @@ vm.createDepartureSession = function () {
     }
 
     $scope.goToPreviewPage = function () {
-      
-      $scope.someData="i am from controler 1";
-      $scope.abc = ProductDataShareService;
-      $scope.abc.value.push('amma');
-
+      setProductInformation();
+      $window.localStorage.setItem('productData', JSON.stringify(vm.tour));
       $window.open($state.href('hostAndGuest.previewBeforeSave'),'_blank','heigth=600,width=600');
     }
   }

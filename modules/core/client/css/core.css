@@ -81,7 +81,19 @@ a:hover .header-profile-image {
 .waitCursor {
   cursor: wait;
 }
-
+.loader-spinner-tourPreviewDetails {
+    /*border: 4px solid #f3f3f3;
+    border-top: 4px solid #40C4FF;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;*/
+    /*animation: spin 2s linear infinite;*/
+    position: absolute;
+    font-size: 80px;
+    left: 45%;
+    top: 60%;
+    z-index: 9999;
+}
 .imageUploader {
     border: 4px solid #f3f3f3; /* Light grey */
     border-top: 4px solid #40C4FF; /* Blue */

@@ -10,9 +10,9 @@
         };
     });
 
-  TourPreviewController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication', 'ProductDataShareService'];
+  TourPreviewController.$inject = ['$scope', '$state', '$stateParams', '$window', '$http', '$location', 'Authentication', 'ProductDataShareService'];
 
-  function TourPreviewController($scope, $state, $window, $http, $location, Authentication, ProductDataShareService) {
+  function TourPreviewController($scope, $state, $stateParams, $window, $http, $location, Authentication, ProductDataShareService) {
     var vm = this;
     vm.authentication = Authentication;
     var productId = $location.path().split('/')[4];
@@ -20,6 +20,8 @@
     vm.productImageURLs = [];
 
     $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
+    $('#previewScreen').addClass('waitCursor');
+    vm.showLoaderForPreview = true;
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
@@ -29,15 +31,30 @@
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
         vm.companyDetails = response[0].hostCompany;
-        vm.productImageURLs = response[0].productPictureURLs
+        vm.productImageURLs = response[0].productPictureURLs;
+        $('.slider').slider({full_width: true});
         $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-        $('#previewDetailsLoader').hide();
+        $('#previewScreen').removeClass('waitCursor');
+        vm.showLoaderForPreview = false;
       }).error(function (response) {
         vm.error = response.message;
       });
     } else {
-      $scope.abc = ProductDataShareService;
-      console.log($scope.abc.value[0]);
+      $http.get('/api/host/company').success(function (response) {
+        vm.companyDetails = response[0];
+      }).error(function (response) {
+        vm.error = response.message;
+      });
+      vm.productDetails = JSON.parse($window.localStorage.getItem('productData'));
+      vm.productImageURLs = vm.productDetails.productPictureURLs;
+      $('.slider').slider({full_width: true});
+      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
+      $('#previewScreen').removeClass('waitCursor');
+      vm.showLoaderForPreview = false;
+    }
+
+    vm.resetLocalStorage = function () {
+      $window.localStorage.setItem('productData', '');
     }
     
 
@@ -58,14 +75,15 @@
       vm.minimumTillNow = Number.POSITIVE_INFINITY;
       vm.priceTobeShown = -1;
       
-      for (var index = 0; index < productDetails.productPricingOptions.length; index ++) {
-        if (productDetails.productPricingOptions[index].price < vm.minimumTillNow)
-          vm.minimumTillNow =  productDetails.productPricingOptions[index].price;
-        
-        if (productDetails.productPricingOptions[index].pricingType == 'Everyone' || productDetails.productPricingOptions[index].pricingType == 'Adult')
-          vm.priceTobeShown = productDetails.productPricingOptions[index].price;
+      if(productDetails.productPricingOptions) {
+        for (var index = 0; index < productDetails.productPricingOptions.length; index ++) {
+          if (productDetails.productPricingOptions[index].price < vm.minimumTillNow)
+            vm.minimumTillNow =  productDetails.productPricingOptions[index].price;
+          
+          if (productDetails.productPricingOptions[index].pricingType == 'Everyone' || productDetails.productPricingOptions[index].pricingType == 'Adult')
+            vm.priceTobeShown = productDetails.productPricingOptions[index].price;
+        }
       }
-      
       if (vm.minimumTillNow == 'Infinity')
         vm.minimumTillNow = '';
       if (vm.priceTobeShown == -1)
