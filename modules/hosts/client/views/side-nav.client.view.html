@@ -79,4 +79,10 @@
 			$("#parentMenu").removeClass("toggle");
 	   event.stopPropagation();
 	});
+	$('#tourgeckoBody').on('click', function(event) {
+		if($(".main-wrapper").hasClass("toggle")) {
+			$(".main-wrapper").toggleClass("toggle");
+			event.stopPropagation();
+		}
+	});
 </script>

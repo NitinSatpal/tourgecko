@@ -81,8 +81,6 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.getDepartureDate = function (isoDate, isFullCallendarCalling) {
       var date = new Date(isoDate);
-      date = date.setDate(date.getDate() - 1);
-      date = new Date (date);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
 
       // in case of open dated tour, we have to populate the full calendar events for the date selected by the user
