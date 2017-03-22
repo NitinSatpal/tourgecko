@@ -33,6 +33,9 @@
   border-radius: 50%;
   margin-right: 5px;
 }
+.previewDetailsScreenSlider {
+  background-image: url("modules/hosts/client/companyBanners/main_hero4.png");
+}
 .open .header-profile-image,
 a:hover .header-profile-image {
   opacity: 1;
