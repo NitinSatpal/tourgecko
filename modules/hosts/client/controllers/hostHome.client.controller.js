@@ -9,6 +9,9 @@
 
   function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService, NotificationService, ProductSessionService, PinboardService) {
     var vm = this;
+    if ($('#calendar').is(':empty')) {
+      $('#loaderForCalendarHomePage').show();
+    }
     vm.authentication = Authentication;
     vm.bookings = BookingService.query();
     vm.messages = MessageService.query();

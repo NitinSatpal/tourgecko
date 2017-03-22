@@ -63,6 +63,22 @@ p {
     z-index: 9999;
 }
 
+.loader-spinner-hostCalendarTab {
+	font-size: 80px;
+    position: absolute;
+    left: 55%;
+    top: 35%;
+    z-index: 9999;
+}
+
+.loader-spinner-hostHomeCalendarTab {
+	font-size: 80px;
+    position: relative;
+    left: 46%;
+    top: 35%;
+    z-index: 9999;
+}
+
 #details_hero .slides .no-Image-Preview-Details {
 	top:25% !important;
 	left:45% !important;

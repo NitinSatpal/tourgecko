@@ -105,8 +105,8 @@
       .state('host.calendar', {
         url: '/calendar',
         templateUrl: 'modules/hosts/client/views/host/calendar.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'TourCalendarController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Admin | Calendar'
         }
