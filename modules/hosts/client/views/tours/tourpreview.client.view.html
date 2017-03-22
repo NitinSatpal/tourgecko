@@ -507,6 +507,9 @@
     function fadeOutTheModal (id) {
         $(id).slideUp('slow');
     }
+    $('.slider').slider({
+        full_width: true
+    });
 </script>
 <script>
 //slider
@@ -515,8 +518,5 @@ $(document).ready(function(){
     // The slider will initialise first and then the data will be returned from http get.
     // for now putting it back as the sames slider initiator is been used on the toursite. can't put it preview controller and anyways it didnt really
     // solve the problem
-    $('.slider').slider({
-        full_width: true
-    });
 });
 </script>
