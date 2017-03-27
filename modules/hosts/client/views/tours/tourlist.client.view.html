@@ -28,8 +28,11 @@
 											<label class="tourlistonoffswitch-label" for="{{$index}}"></label>
 										</div>
 									</div>
+									<br class="hidden-sm hidden-md hidden-lg">
 									<span ng-if="!vm.products[$index].isPublished" style="color: #ED9C28;"> Tour is not visible on your toursite </span>
 									<span ng-if="vm.products[$index].isPublished" style="color: #42AE5E;"> Tour is now visible on your toursite </span>
+									<br class="hidden-sm hidden-md hidden-lg">
+									<br class="hidden-sm hidden-md hidden-lg">
 								</div>
 							</div>
 							<div class="row">
@@ -125,6 +128,12 @@
 			            </div>
 			            <br>
 			            <br>
+			            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+			            	<!-- <a href="whatsapp://send" data-text="Take a look at this awesome website:" data-href="" class="btn btn-primary btn-whatsapp shareButton">-->
+			            	<a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])" class="btn btn-primary btn-whatsapp shareButton">
+			                	<span class="fa fa-whatsapp"></span> Whatsapp
+			               	</a>
+			            </div>
 			        </div>
 	            </div>
 	            <br>

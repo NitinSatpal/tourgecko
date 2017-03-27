@@ -40,6 +40,12 @@
 .btn-twitter:hover {
   background-color: #0084B4;
 }
+.btn-whatsapp {
+  background-color: #128c7e;
+}
+.btn-whatsapp:hover {
+  background-color: #25d366;
+}
 .btn-google {
   background-color: #D34836;
 }
