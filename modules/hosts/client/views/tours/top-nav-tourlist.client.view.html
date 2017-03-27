@@ -51,17 +51,9 @@
 					</div>
 				</div>
 				<div class="modal-footer text-center">
-					<a class="btn btn-primary" onclick="fadeOutTheModal()" ng-click="vm.goToTourCreationPage()">Add New Tour</a>
+					<a class="btn btn-primary" ng-click="vm.goToTourCreationPage()">Add New Tour</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<script>
-	function fadeOutTheModal () {
-		$('#select-tour-type').slideUp('slow');
-		setTimeout(function(){
-			$('.modal-backdrop').remove();
-		}, 800);
-	}
-</script>

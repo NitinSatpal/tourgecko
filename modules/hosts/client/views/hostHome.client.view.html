@@ -60,7 +60,7 @@
 					<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
 						<h4>Bookings</h4>
 						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
-							<p class="name">{{booking.numberOfBookings}}</p>
+							<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
 							<p class="outing">{{booking.product.productTitle}}</p>
 							<p class="date">{{vm.getDepartureDate($index)}}</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>

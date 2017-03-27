@@ -12,8 +12,19 @@
     vm.authentication = Authentication;
     vm.index = -1;
     $scope.askForAuthentication = "";
+    vm.numberOfItemsInOnePage = '10';
+    vm.currentPageNumber = 1;
+    var totalRecords;
 
-    vm.products = CompanyProductService.query();    
+    // vm.products = CompanyProductService.query();
+    $http.get('/api/host/companyproducts/').success(function (response) {
+        vm.products = response.productArray;
+        vm.totalPages = Math.ceil(response.productCount/10);
+        vm.pageCounterArray = new Array(vm.totalPages);
+        totalRecords = response.productCount;
+    }).error(function (response) {
+        vm.error = response.message;
+    }); 
 
     vm.makeProductVisible = function (product) {
     	if (product.isPublished == true) {
@@ -52,6 +63,56 @@
             });
         }
     }*/
+    
+    vm.changeItemsPerPage = function (itemsPerPage) {
+        vm.totalPages = Math.ceil(totalRecords/itemsPerPage);
+        vm.pageCounterArray = new Array(vm.totalPages);
+        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+            vm.products = response;
+            $('html, body').animate({scrollTop : 0},800);
+        }).error(function (response) {
+            vm.error = response.message;
+        }); 
+    }
+
+    vm.changePageNumber = function (clickedIndex) {
+        if (vm.currentPageNumber == clickedIndex + 1)
+            return;
+        vm.currentPageNumber = clickedIndex + 1;
+        var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
+        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+            vm.products = response;
+            $('html, body').animate({scrollTop : 0},800);
+        }).error(function (response) {
+            vm.error = response.message;
+        }); 
+    }
+
+    vm.incrementPageNumber = function () {
+        if (vm.currentPageNumber == vm.totalPages)
+            return;
+        vm.currentPageNumber = vm.currentPageNumber + 1;
+        var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
+        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+            vm.products = response;
+            $('html, body').animate({scrollTop : 0},800);
+        }).error(function (response) {
+            vm.error = response.message;
+        });
+    }
+
+    vm.decrementPageNumber = function () {
+        if (vm.currentPageNumber == 1)
+            return;
+        vm.currentPageNumber = vm.currentPageNumber - 1;
+        var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
+        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+            vm.products = response;
+            $('html, body').animate({scrollTop : 0},800);
+        }).error(function (response) {
+            vm.error = response.message;
+        });
+    }
 
     vm.showTourPreview = function(index) {
         $window.open($state.href('hostAndGuest.tourPreview', {productId: vm.products[index]._id}),'_blank','heigth=600,width=600');

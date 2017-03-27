@@ -6,14 +6,14 @@
 			<div class="add-product">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tours_page">
-						<a href="#" class="nav-tabs-dropdown btn btn-block btn-default">Tabs</a>
+						<a href="#" class="nav-tabs-dropdown btn btn-block btn-default" id="tabSelector">Tabs</a>
 						<ul class="nav nav-tabs nav-tabs-horizontal" id="addProductabs">
-							<li class="active"><a data-toggle="tab" href="#tours_bd">Basic Details</a></li>
-							<li><a data-toggle="tab" href="#tours_pricing">Pricing</a></li>
-							<li><a data-toggle="tab" href="#tours_sa">Schedule Availability</a></li>
-							<li><a data-toggle="tab" href="#tours_itinerary">Itinerary</a></li>
-							<li><a data-toggle="tab" href="#tours_guidelines">Guidelines</a></li>
-							<li><a data-toggle="tab" href="#tours_media">Media</a></li>
+							<li class="active"><a data-toggle="tab" href="#tours_bd" id="tours_bd_Selector">Basic Details</a></li>
+							<li><a data-toggle="tab" href="#tours_pricing" id="tours_pricing_Selector">Pricing</a></li>
+							<li><a data-toggle="tab" href="#tours_sa" id="tours_sa_Selector">Schedule Availability</a></li>
+							<li><a data-toggle="tab" href="#tours_itinerary" id="tours_itinerary_Selector">Itinerary</a></li>
+							<li><a data-toggle="tab" href="#tours_guidelines" id="tours_guidelines_Selector">Guidelines</a></li>
+							<li><a data-toggle="tab" href="#tours_media" id="tours_media_Selector">Media</a></li>
 						</ul>
 						<span ng-if="vm.showLoaderForProductSave" class="loader-spinner-hostHome"><i class="fa fa-refresh fa-spin"></i></span>
 						<!-- <div class="loader-spinner-hostHome waitCursor" ng-if="vm.showLoaderForProductSave"></div> -->
@@ -25,7 +25,7 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
-												<label class="control-label">Type: </label> <h5 class="from-to"> {{vm.productType}}</h5>
+												<label class="control-label" style="float: left;">Type: &nbsp; </label> <h5> {{vm.productType}}</h5>
 												<div class="form-group" show-errors>
 													<label for="name_of_the_tour" class="control-label">Name this tour</label>
 													<div class="input_group">
@@ -1132,6 +1132,12 @@
 
 	nowChangeTab = function (tabId) {
 		$('#addProductabs a[href="#'+tabId+'"]').tab('show');
+		if(window.innerWidth <= 767) {
+			$('#'+tabId+'_Selector').addClass('active');
+			$('.nav-tabs-dropdown').each(function(i, elm) {
+			    $(elm).text($('#'+tabId+'_Selector').text());
+			});
+		}
 	}
 
 	changeTabWithNoTabId = function(pressedButton) {
@@ -1174,6 +1180,7 @@ $('.nav-tabs-dropdown').on('click', function(e) {
     e.preventDefault();
     $(e.target).toggleClass('open').next('ul').slideToggle();
 });
+
 
 $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
     e.preventDefault();

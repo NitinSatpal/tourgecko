@@ -24,6 +24,9 @@ module.exports = function (app) {
   app.route('/api/host/companyproducts/')
     .get(hosts.fetchCompanyProductDetails);
 
+  app.route('/api/host/companyproductsForCurrentPage/:pageNumber/:itemsPerPage')
+    .get(hosts.fetchCompanyProductDetailsForCurrentPage);
+
   app.route('/api/host/productsessions/')
     .get(hosts.fetchAllProductSessionDetails);
 

@@ -57,7 +57,7 @@
 
     vm.getDepartureDateToShow = function (index) {
       if (vm.toursitedata[index].productAvailabilityType == 'Open Date')
-        return 'Open Dated Tour';
+        return 'Open';
       else {
         var displayDate = '';
         if (vm.toursitedata[index].productScheduledDates[0]) {
@@ -106,6 +106,16 @@
 
       vm.minimumTillNow = minimumTillNow;
       return minimumTillNow;
+    }
+
+    vm.getConditionalCSS = function (index) {
+      
+      if (vm.toursitedata.length % 2 == 1 && window.innerWidth >= 767 && index == vm.toursitedata.length - 1) {
+        var alignLeft = {
+          'margin-left' : '0px'
+        }
+        return alignLeft;
+      }
     }
   }
 }());

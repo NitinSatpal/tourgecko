@@ -28,6 +28,8 @@
 											<label class="tourlistonoffswitch-label" for="{{$index}}"></label>
 										</div>
 									</div>
+									<span ng-if="!vm.products[$index].isPublished" style="color: #ED9C28;"> Tour is not visible on your toursite </span>
+									<span ng-if="vm.products[$index].isPublished" style="color: #42AE5E;"> Tour is now visible on your toursite </span>
 								</div>
 							</div>
 							<div class="row">
@@ -50,16 +52,36 @@
 										<div class="tour_edit">
 											<a class="btn btn-primary outline" ng-click="vm.editTourDetails($index)"><i class="zmdi zmdi-edit"></i>Edit</a>
 										</div>
-										<div class="tour_more dropdown">
+										<!-- For now, no more action item here -->
+										<!-- <div class="tour_more dropdown">
 											<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-primary outline"><i class="zmdi zmdi-more-vert"></i></a>
 											<ul class="dropdown-menu">
 												<li><a href="#">facebook</a></li>
 												<li><a href="#">twitter</a></li>
 											</ul>
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					<div class="row text-center">
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<div class="pagination">
+								<a href="#" ng-click="vm.decrementPageNumber()">&laquo;</a>
+								<a href="#" ng-repeat="page in vm.pageCounterArray track by $index" ng-class="{active: $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber($index)">{{$index + 1}}</a>
+								<a href="#" ng-click="vm.incrementPageNumber()">&raquo;</a>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<span> Show &nbsp; 
+							<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+								<option value="5">5</option>
+								<option value="10">10</option>
+							</select>
+							&nbsp; tours per page
+						</span>
 						</div>
 					</div>
 				</div>
@@ -90,7 +112,7 @@
 	                <div class="row text-center">
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			            	<a id="facebookSharing" class="btn btn-primary btn-facebook shareButton" ng-href="{{askForAuthentication}}" ng-click="vm.postTheProductOnFB()" target="_self">
-			                	<span class="fa fa-facebook"></span> Share on Facebook
+			                	<span class="fa fa-facebook"></span> Facebook
 			               	</a>
 			            </div>
 			            <br>
@@ -98,16 +120,11 @@
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 twitter">
 			            	<a id="postOnTwitter" class="btn btn-primary btn-twitter shareButton" ng-click="vm.tweetTheProduct()">
 			            	   	<span class="fa fa-twitter"></span>
-								Tweet on Twitter
+								Twitter
 							</a>
 			            </div>
 			            <br>
 			            <br>
-			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			                <a class="btn btn-primary btn-google shareButton" href="/api/auth/google" target="_self">
-			                  	<span class="fa fa-google"></span> Share on Google Plus
-			                </a>
-			            </div>
 			        </div>
 	            </div>
 	            <br>

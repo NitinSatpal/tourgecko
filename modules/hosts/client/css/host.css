@@ -11,6 +11,7 @@ h1, h2, h3, h4, h5, h6 {
 .toursite .body-toursite .alignDivs {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between !important;
 }
 p {
 	color:#666;

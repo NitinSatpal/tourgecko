@@ -774,7 +774,14 @@ vm.createDepartureSession = function () {
     /* This function handles the button click of add tour */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
+      console.log(vm.productType);
+      if (vm.productType == '') {
+        alert('please select at least one type for the tour');
+        return false;
+      }
+      $('#select-tour-type').slideUp('slow');
       $timeout(function () {
+        $('.modal-backdrop').remove();
         $state.go('host.addProduct');
       }, 800);
       $window.localStorage.setItem('productType', vm.productType);

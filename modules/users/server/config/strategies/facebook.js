@@ -21,6 +21,7 @@ module.exports = function (config) {
     var providerData = profile._json;
     providerData.accessToken = accessToken;
     providerData.refreshToken = refreshToken;
+    console.log('wow check this out ' + JSON.stringify(profile));
 
     // Create the user OAuth profile
     var providerUserProfile = {
