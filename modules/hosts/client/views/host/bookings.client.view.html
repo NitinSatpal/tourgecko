@@ -68,7 +68,25 @@
 	                    </div>
 	                    <a href="#" ng-click="vm.goToBookingDetailScreen($index)" class="gotToBookingDetails"> Go to Details </a>
 					</div>
-				 </div> 
+				 </div>
+				 <div class="row text-center">
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<div class="pagination">
+							<a href="#" ng-click="vm.decrementPageNumber()">&laquo;</a>
+							<a href="#" ng-repeat="page in vm.pageCounterArray track by $index" ng-class="{active: $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber($index)">{{$index + 1}}</a>
+							<a href="#" ng-click="vm.incrementPageNumber()">&raquo;</a>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<span> Show &nbsp; 
+						<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+							<option value="5">5</option>
+							<option value="10">10</option>
+						</select>
+						&nbsp; tours per page
+					</span>
+					</div>
+				</div>
             </div>
 		</div>
 	</div>

@@ -107,7 +107,7 @@ exports.fetchCompanyProductDetails = function (req, res) {
         }
         res.json({productArray: products, productCount: count});
       });
-    })
+    });
   }
 };
 

@@ -14,14 +14,14 @@
     $scope.askForAuthentication = "";
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
-    var totalRecords;
+    var totalProductRecords;
 
     // vm.products = CompanyProductService.query();
     $http.get('/api/host/companyproducts/').success(function (response) {
         vm.products = response.productArray;
         vm.totalPages = Math.ceil(response.productCount/10);
         vm.pageCounterArray = new Array(vm.totalPages);
-        totalRecords = response.productCount;
+        totalProductRecords = response.productCount;
     }).error(function (response) {
         vm.error = response.message;
     }); 
@@ -65,7 +65,7 @@
     }*/
     
     vm.changeItemsPerPage = function (itemsPerPage) {
-        vm.totalPages = Math.ceil(totalRecords/itemsPerPage);
+        vm.totalPages = Math.ceil(totalProductRecords/itemsPerPage);
         vm.pageCounterArray = new Array(vm.totalPages);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;

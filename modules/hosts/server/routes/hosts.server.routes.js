@@ -46,6 +46,9 @@ module.exports = function (app) {
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
 
+  app.route('/api/host/bookingsForCurrentPage/:pageNumber/:itemsPerPage')
+    .get(hosts.fetchCompanyBookingDetailsForCurrentPage);
+
   app.route('/api/host/productsession/bookings/:productSessionId')
     .get(hosts.fetchProductSessionBookingDetails);
 

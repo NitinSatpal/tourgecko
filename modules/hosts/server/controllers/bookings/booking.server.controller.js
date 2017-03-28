@@ -81,13 +81,66 @@ function updateSession(productSessionId, numOfBookings) {
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
   if (req.user) {
-    Booking.find({hostOfThisBooking: req.user._id}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
+      Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({bookingArray: bookings, bookingsCount: count});
+      });
+    });
+  }
+};
+
+// Fetch all bookings for current page
+exports.fetchCompanyBookingDetailsForCurrentPage = function (req, res) {
+  if (req.user) {
+    var pageNumber = req.params.pageNumber;
+    var itemsPerPage = req.params.itemsPerPage;
+    Booking.find({hostOfThisBooking: req.user._id}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
       }
       res.json(bookings);
+    });
+  }
+};
+
+// Fetch categorized bookings
+exports.fetchCategorizedBookings = function (req, res) {
+  var pageNumber = req.body.pageNumber;
+  var itemsPerPage = req.body.itemsPerPage;
+  var queryAll = req.body.queryAll;
+
+  if (queryAll) {
+    Booking.count(function(error, count) {
+      if (count <= itemsPerPage * (pageNumber - 1))
+        pageNumber = 1;
+      Booking.find().skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({bookingArray: bookings, bookingsCount: count});
+      });
+    });
+  } else {
+    Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
+      if (count <= itemsPerPage * (pageNumber - 1))
+        pageNumber = 1;
+      Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({bookingArray: bookings, bookingsCount: count});
+      });
     });
   }
 };
@@ -133,16 +186,3 @@ exports.modifyBooking = function (req, res) {
   });
 };
 
-// Fetch categorized bookings
-exports.fetchCategorizedBookings = function (req, res) {
-  console.log(req.body.categoryKeys);
-  Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    }
-    console.log(bookings);
-    res.json(bookings);
-  });
-};
