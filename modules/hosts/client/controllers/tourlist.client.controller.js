@@ -17,15 +17,20 @@
     vm.pageFrom = 0;
     vm.showAtLast = true;
     var totalProductRecords;
+    var paginationWindow;
+    if ($window.innerWidth > 767)
+      paginationWindow = 5;
+    else
+      paginationWindow = 3;
 
     // vm.products = CompanyProductService.query();
     $http.get('/api/host/companyproducts/').success(function (response) {
         vm.products = response.productArray;
         vm.totalPages = Math.ceil(response.productCount/10);
-        if(vm.totalPages <= 5)
+        if(vm.totalPages <= paginationWindow)
             vm.pageTo = vm.totalPages;
         else
-            vm.pageTo = 5;
+            vm.pageTo = paginationWindow;
         vm.pageCounterArray = new Array(vm.totalPages);
         totalProductRecords = response.productCount;
     }).error(function (response) {
@@ -88,8 +93,8 @@
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
           vm.pageTo = vm.currentPageNumber;
-          if (vm.pageCounterArray.length >= 5)
-            vm.pageFrom =   Math.ceil((vm.pageTo -5) / 5) * 5;
+          if (vm.pageCounterArray.length >= paginationWindow)
+            vm.pageFrom =   Math.ceil((vm.pageTo - paginationWindow) / paginationWindow) * paginationWindow;
           else
             vm.pageFrom = 0;
         }
@@ -97,8 +102,8 @@
         if(vm.currentPageNumber == 1) {
           vm.showAtLast = true;
           vm.pageFrom = 0
-          if (vm.pageCounterArray.length >= 5)
-            vm.pageTo = 5;
+          if (vm.pageCounterArray.length >= paginationWindow)
+            vm.pageTo = paginationWindow;
           else
             vm.pageTo = vm.pageCounterArray.length;
         }
@@ -118,11 +123,11 @@
         if (vm.currentPageNumber == vm.totalPages)
             return;
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
-        if (vm.currentPageNumber % 5 == 0 || isWindowSizeReached) {
+        if (vm.currentPageNumber % paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
 
           // if we ar at multiple of 5 page number, then set off the variable to enter in the nect if loop
-          if (vm.currentPageNumber % 5 == 0)
+          if (vm.currentPageNumber % paginationWindow == 0)
             windowSizeIncremented = false;
 
           // increment the page number
@@ -133,11 +138,11 @@
             // if we are two pages short of total pages, change the '....' to the starting side and set the from and to limits From: -4 here
             if (vm.currentPageNumber + 1 == vm.pageCounterArray.length) {
               vm.showAtLast = false;
-              vm.pageFrom = vm.currentPageNumber - 4;
+              vm.pageFrom = vm.currentPageNumber - paginationWindow - 1;
               vm.pageTo = vm.currentPageNumber + 1;
             } else {
               // if we are not two pages short of total pages, just set the from and to limits From : -5 here
-              vm.pageFrom = vm.currentPageNumber - 5;
+              vm.pageFrom = vm.currentPageNumber - paginationWindow;
               vm.pageTo = vm.currentPageNumber;
             }
           }
@@ -159,13 +164,13 @@
         if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
             return;
         windowSizeIncremented = true;
-        if (Math.ceil(vm.currentPageNumber / 5) * 5 + 5 <= vm.pageCounterArray.length) {
-            vm.pageFrom = Math.ceil(vm.currentPageNumber / 5) * 5;
-            vm.pageTo = vm.pageFrom + 5;
+        if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow + paginationWindow <= vm.pageCounterArray.length) {
+            vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
+            vm.pageTo = vm.pageFrom + paginationWindow;
             vm.showAtLast = true;
         } else {
-            if (Math.ceil(vm.currentPageNumber / 5) * 5 <= vm.pageCounterArray.length) {
-                vm.pageFrom = Math.ceil(vm.currentPageNumber / 5) * 5;
+            if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow <= vm.pageCounterArray.length) {
+                vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
                 vm.pageTo = vm.pageCounterArray.length;
                 vm.showAtLast = false;
             } else {
@@ -190,13 +195,13 @@
             return;
         vm.currentPageNumber = vm.currentPageNumber - 1;
         if (!vm.showAtLast) {
-            var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - 5) / 5) * 5;
+            var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - paginationWindow) / paginationWindow) * paginationWindow;
             if (vm.currentPageNumber == lastMultipleOfFive)
               vm.showAtLast = true;
         }
 
-        if (vm.currentPageNumber % 5 == 0) {
-            vm.pageFrom = vm.currentPageNumber - 5;
+        if (vm.currentPageNumber % paginationWindow == 0) {
+            vm.pageFrom = vm.currentPageNumber - paginationWindow;
             vm.pageTo = vm.currentPageNumber;
         }
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
@@ -212,14 +217,14 @@
         if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
             return;
       
-        if (Math.ceil((vm.currentPageNumber - 5) / 5) * 5 > 0) {
-            vm.pageTo = Math.ceil((vm.currentPageNumber - 5) / 5) * 5;
-            vm.pageFrom = vm.pageTo - 5;
+        if (Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow > 0) {
+            vm.pageTo = Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
+            vm.pageFrom = vm.pageTo - paginationWindow;
             vm.showAtLast = true;
         } else {
-            if (vm.pageCounterArray.length >=5) {
+            if (vm.pageCounterArray.length >= paginationWindow) {
                 vm.pageFrom = 0;
-                vm.pageTo = 5;
+                vm.pageTo = paginationWindow;
                 vm.showAtLast = true;
             } else {
                 vm.pageFrom = 0;
