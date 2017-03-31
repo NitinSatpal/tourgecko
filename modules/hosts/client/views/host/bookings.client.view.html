@@ -72,9 +72,16 @@
 				 <div class="row text-center">
 					<div class="col-sm-12 col-md-12 col-lg-12">
 						<div class="pagination">
-							<a href="#" ng-click="vm.decrementPageNumber()">&laquo;</a>
-							<a href="#" ng-repeat="page in vm.pageCounterArray track by $index" ng-class="{active: $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber($index)">{{$index + 1}}</a>
-							<a href="#" ng-click="vm.incrementPageNumber()">&raquo;</a>
+							<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
+							<a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
+							<a href="#" ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
+							<a ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast"> ..... </a>
+							<a href="#" ng-repeat="page in vm.pageCounterArray.slice(vm.pageFrom,vm.pageTo) track by $index" ng-class="{active: vm.pageFrom + $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber(vm.pageFrom + $index)">{{vm.pageFrom + $index + 1}}</a>
+							<a ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast"> ..... </a>
+							<a href="#" ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast" ng-click="vm.changePageNumber(vm.pageCounterArray.length - 1)"> {{vm.pageCounterArray.length}} </a>
+							
+							<a href="#" ng-click="vm.incrementPageNumber()" style="margin-left: 10px;">&rsaquo;</a>
+							<a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-12 col-lg-12">
