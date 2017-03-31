@@ -68,7 +68,7 @@
             </div>
             <h4 class="center-align padding">Tours</h4>
             <div class="row alignDivs">
-                <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index" ng-style="vm.getConditionalCSS($index)">
+                <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index" ng-style="vm.getConditionalCSS($index)" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
                     <div id="toursiteProduct{{$index}}" class="card tour padding toursite-Product-Image">
                         <div class="tour-image" ng-if="data.productPictureURLs[0]">
                             <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0]}}">
@@ -79,7 +79,7 @@
                         <div class="margin-bottom">
                             <span class="left white-text days-difficulty">{{data.duration}}</span>
                             <span class="right white-text days-difficulty">{{data.productGrade}}</span>     
-                            <a href="1_tour-details.html"><h5 class="clear">{{vm.getProductTitleToshow(data.productTitle)}}</h5></a>
+                            <a><h5 class="clear">{{vm.getProductTitleToshow(data.productTitle)}}</h5></a>
                             <div class="col l6 m6 s12 padding-none">
                                 <span class="blue-grey-text text-darken-1"><i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{vm.getProductDestinationToshow(data.destination)}}
                                 </span>
@@ -99,6 +99,31 @@
                             <div ng-repeat="tag in data.productTags" class="chip productTags col-sm-3 col-lg-3 col-md-3 col-xs-3">{{tag}}</div>
                         </div> 
                     </div> 
+                </div>
+            </div>
+            <div class="row center">
+                <div class="col l12 m12 s12">
+                    <div class="pagination" ng-if="vm.toursitedata.length > 0">
+                        <a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
+                        <a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
+                        <a href="#" ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
+                        <a ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast">...</a>
+                        <a href="#" ng-repeat="page in vm.pageCounterArray.slice(vm.pageFrom,vm.pageTo) track by $index" ng-class="{active: vm.pageFrom + $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber(vm.pageFrom + $index)">{{vm.pageFrom + $index + 1}}</a>
+                        <a ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast">...</a>
+                        <a href="#" ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast" ng-click="vm.changePageNumber(vm.pageCounterArray.length - 1)"> {{vm.pageCounterArray.length}} </a>
+                        
+                        <a href="#" ng-click="vm.incrementPageNumber()" style="margin-left: 10px;">&rsaquo;</a>
+                        <a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
+                    </div>
+                </div>
+                <div class="col l12 m12 s12 itemsPerPageSelection">
+                    <span> Show &nbsp; 
+                        <select  ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+                            <option value="20">20</option>
+                            <option value="10">10</option>
+                        </select>
+                        &nbsp; tours per page
+                    </span>
                 </div>
             </div>
         </div>

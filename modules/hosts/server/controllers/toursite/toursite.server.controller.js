@@ -50,8 +50,36 @@ exports.getToursiteData = function (req, res) {
         error: 'Oops! Something went wrong...'
       });
     }
-    Product.find({hostCompany: company._id}).sort('-created').populate('user').populate('hostCompany').exec(function (err, products) {
+    Product.count({hostCompany: company._id}, function(error, count){
+      Product.find({hostCompany: company._id}).limit(20).sort('-created').populate('user').populate('hostCompany').exec(function (err, products) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({productArray: products, productCount: count});
+      });
+    });
+  });
+};
+
+
+// Fetch toursite data i.e. data of the toursite for a specific user.
+exports.getToursiteDataForCurrentPage = function (req, res) {
+  var tourSite = req.params.toursite;
+  var pageNumber = req.params.pageNumber;
+  var itemsPerPage = req.params.itemsPerPage;
+  
+  Company.findOne({ toursite: tourSite }, '-salt -password').exec(function (err, company) {
+    if (err) {
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong...'
+      });
+    }
+    
+    Product.find({hostCompany: company._id}).sort('-created').skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).populate('user').populate('hostCompany').exec(function (err, products) {
       if (err) {
+        console.log('the error is ' + err);
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });

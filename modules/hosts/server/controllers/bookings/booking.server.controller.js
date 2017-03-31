@@ -79,6 +79,20 @@ function updateSession(productSessionId, numOfBookings) {
 }
 
 // Fetch all bookings
+exports.fetchCompanyBookingDetailsForCalendar = function (req, res) {
+  if (req.user) {
+    Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(bookings);
+    });
+  }
+};
+
+// Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
   if (req.user) {
     Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {

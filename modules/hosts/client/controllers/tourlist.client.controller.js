@@ -76,9 +76,9 @@
     }*/
     
     vm.changeItemsPerPage = function (itemsPerPage) {
-        vm.totalPages = Math.ceil(totalProductRecords/itemsPerPage);
+        vm.totalPages = Math.ceil(totalProductRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
-        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+        $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
             vm.products = response;
             $('html, body').animate({scrollTop : 0},800);
         }).error(function (response) {

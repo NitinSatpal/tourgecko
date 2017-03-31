@@ -14,6 +14,9 @@ module.exports = function (app) {
   app.route('/api/host/toursitedata/:toursite')
     .get(hosts.getToursiteData);
 
+  app.route('/api/host/toursitedataForCurrentPage/:toursite/:pageNumber/:itemsPerPage')
+    .get(hosts.getToursiteDataForCurrentPage);
+
   app.route('/api/host/product/')
     .post(hosts.createProduct)
     .get(hosts.fetchAllProductDetails);
@@ -45,6 +48,9 @@ module.exports = function (app) {
   app.route('/api/host/booking')
     .post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
+
+  app.route('/api/host/bookingDetailsForCalendar')
+    .get(hosts.fetchCompanyBookingDetailsForCalendar);
 
   app.route('/api/host/bookingsForCurrentPage/:pageNumber/:itemsPerPage')
     .get(hosts.fetchCompanyBookingDetailsForCurrentPage);

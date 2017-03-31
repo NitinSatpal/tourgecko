@@ -3,16 +3,17 @@
 
   angular
     .module('hosts.services')
-    .factory('BookingService', BookingService);
+    .factory('CalendarBookingService', CalendarBookingService);
 
-  BookingService.$inject = ['$resource'];
+  CalendarBookingService.$inject = ['$resource'];
 
-  function BookingService($resource) {
-    return $resource('/api/host/booking/', {
+  function CalendarBookingService($resource) {
+    return $resource('/api/host/bookingDetailsForCalendar/', {
     }, {
       update: {
         method: 'PUT'
-      }
+      },
+      isArray: false
     });
   }
 }());

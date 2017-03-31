@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('ProductBookingController', ProductBookingController)
 
-  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$http', 'BookingService'];
+  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$http'];
 
-  function ProductBookingController($state, $scope, $stateParams, $window, $http, BookingService) {
+  function ProductBookingController($state, $scope, $stateParams, $window, $http) {
     var vm = this;
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
@@ -82,10 +82,10 @@
     };
 
     vm.changeItemsPerPage = function (itemsPerPage) {
-        vm.totalPages = Math.ceil(totalBookingRecords/itemsPerPage);
+        vm.totalPages = Math.ceil(totalBookingRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
         if (!vm.selectedCategorizedKeys || vm.selectedCategorizedKeys.length == 0) {
-          $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
+          $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
               vm.bookings = response;
               $('html, body').animate({scrollTop : 0},800);
           }).error(function (response) {
@@ -104,7 +104,7 @@
           vm.showAtLast = false;
           vm.pageTo = vm.currentPageNumber;
           if (vm.pageCounterArray.length >= paginationWindow)
-            vm.pageFrom =   Math.ceil((vm.pageTo -paginationWindow) / paginationWindow) * paginationWindow;
+            vm.pageFrom =   Math.ceil((vm.pageTo - paginationWindow) / paginationWindow) * paginationWindow;
           else
             vm.pageFrom = 0;
         }

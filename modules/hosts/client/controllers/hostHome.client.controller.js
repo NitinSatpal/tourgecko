@@ -5,15 +5,15 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'BookingService', 'MessageService', 'NotificationService', 'ProductSessionService', 'PinboardService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CalendarBookingService', 'MessageService', 'NotificationService', 'ProductSessionService', 'PinboardService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, BookingService, MessageService, NotificationService, ProductSessionService, PinboardService) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, CalendarBookingService, MessageService, NotificationService, ProductSessionService, PinboardService) {
     var vm = this;
     if ($('#calendar').is(':empty')) {
       $('#loaderForCalendarHomePage').show();
     }
     vm.authentication = Authentication;
-    vm.bookings = BookingService.query();
+    vm.bookings = CalendarBookingService.query();
     vm.messages = MessageService.query();
     vm.notifications = NotificationService.query();
     vm.productSessions = ProductSessionService.query();
