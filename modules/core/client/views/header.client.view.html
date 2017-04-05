@@ -40,12 +40,12 @@
                                 </div>
                             </div>
                             <div id="notificationFooter">
-                                <a href="" ui-sref="host.allNotifications" ng-if="vm.notifications.length > 0" onclick="hideNotificationContainer()">See All</a>
+                                <a ui-sref="host.allNotifications" ng-if="vm.notifications.length > 0" onclick="hideNotificationContainer()">See All</a>
                             </div>
                         </div>
                     </li>
                     <li class="dropdown account">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
                             <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
                             <span ng-bind="vm.authentication.user.displayName.length > 10 ?  (vm.authentication.user.firstName.length > 10 ? 'Host' : vm.authentication.user.firstName) : vm.authentication.user.displayName"></span>
                             <b class="caret hidden-xs"></b>

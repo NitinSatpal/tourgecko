@@ -65,9 +65,11 @@
 							<p class="date">{{vm.getDepartureDate($index)}}</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
 						</div>
-					<div class="seemoreinfo">
+						<div class="seemoreinfo">
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length == 0">No Bookings</a>
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5">Go to Bookings</a>
 							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5">See all Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length < 5 && vm.bookings.length >= 0">Go to Bookings</a>
+							
 						</div>
 					</div>
 
@@ -80,8 +82,9 @@
 						</div>
 
 						<div class="seemoreinfo">
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length == 0">No Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5">Go to Messages</a>
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5">See all Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length < 5 && vm.messages.length >= 0">Go to Messages</a>
 						</div>
 					</div>
 				</div>
@@ -122,3 +125,8 @@
 	</div>
 </div>
 <script type="text/javascript" src="modules/hosts/client/scripts/calendar.js"></script>
+<script>
+	$(document).ready(function(){
+	    $(this).scrollTop(0);
+	});
+</script>

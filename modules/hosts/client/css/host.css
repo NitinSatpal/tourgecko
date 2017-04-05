@@ -7,7 +7,105 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
+.booking-filters .dropdown {
+   display: inline-block !important;
+   min-width: 300px !important;
+}
+ 
+.booking-filters .dropdown-toggle {
+   	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 4.4px;
+	padding-left: 5px;
+   	text-decoration: none;
+   	background-color: #ffffff;
+   	display: inline-block;
+   	font-size: 14px;
+   	border: 1px solid lightgrey;
+   	position: relative;
+   	z-index: 9999;
+   	border-bottom-right-radius: 3px;
+   	border-bottom-left-radius: 3px;
+   	border-top-right-radius: 3px;
+   	border-top-left-radius: 3px;
+   	color: #40C4FF;
+}
+ 
+.booking-filters .dropdown-menu {
+   margin: 0;
+   list-style: none;
+   white-space: nowrap;
+   border: 1px solid lightgrey;
+   padding: 10px;
+   background-color: #ffffff;
+   top:35px;
+   left: 146px;
+   width: 100%;
+   border-top-left-radius: 0;
+ }
 
+ .booking-filters .dropdown-menu .o-checkbox {
+ 	width: 30px;
+ 	position: relative;
+ }
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox] {
+ 	visibility: hidden;
+ }
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox]:checked + label:after {
+ 	opacity: 1;
+ }
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox][disabled] + label {
+ 	background-color: #ddd;
+ }
+ .booking-filters .dropdown-menu .o-checkbox label {
+ 	width: 25px;
+ 	height: 25px;
+ 	cursor: pointer;
+ 	position: absolute;
+ 	top: 0;
+ 	left: 0;
+ 	background: #FBFFFE;
+ 	border: 1px solid #D1D1D1;
+ 	border-radius: 4px;
+ 	float: left;
+}
+.booking-filters .dropdown-menu .o-checkbox label:after {
+	content: ' ';
+	width: 15px;
+	height: 9px;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	border: 5px solid #f39200;
+	border-top: none;
+	border-right: none;
+	background: transparent;
+	opacity: 0;
+	transform: rotate(-45deg);
+	color: #f39200;
+	font-size: 20px;
+}
+
+.booking-filters .dropdown-menu .o-checkbox .filterName {
+	padding-left: 20px;
+	color: grey;
+}
+
+.booking-filters .dropdown-menu .btn-Select-filter {
+	background-color: #ED9C28;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.booking-filters .dropdown-menu .btn-Select-filter:hover {
+	background-color: #ED9C28;
+}
+.booking-filters .dropdown-menu .btn-clear-filter {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.booking-filters .dropdown-menu .o-checkbox {
+	align-self: center;
+}
 .toursite .body-toursite .alignDivs {
     display: flex;
     flex-wrap: wrap;
@@ -21,6 +119,9 @@ p {
 	text-align: center;
 }
 
+.companyLogoUploadButtonMargin {
+	margin-left: 4.2rem;
+}
 .markAsToBeRemoved {
 	background-color: #fff;
 	color: #ff3232;
@@ -49,6 +150,33 @@ p {
 	width: 70px;
 	height: 70px;
 	border-radius: 50%;
+}
+
+.toursite-footer {
+	margin-left: -20px;
+}
+
+.toursite-footer .host-toursite-Logo {
+	margin-left: 42px !important;
+}
+
+.toursite-footer .statement {
+	padding-left: 25px;
+}
+.itemsPerPageSelection .span-one{
+	margin-left: -160px !important;
+}
+.itemsPerPageSelection .selectizer {
+	width: 50px !important;
+	margin-left: 390px !important;
+	margin-top: -30px !important;
+}
+.itemsPerPageSelection .selectizer option {
+
+}
+.itemsPerPageSelection .span-two {
+	margin-left: 120px !important;
+	margin-top: -55px !important;
 }
 .loader-spinner-hostHome {
 	/* border: 4px solid #f3f3f3;
@@ -1912,13 +2040,55 @@ and (max-device-width : 1024px){
 .fixedTouronoffswitch-checkbox:checked + .fixedTouronoffswitch-label:before{right:0px;}
 
 
-.tourActivenessswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;left:-140px; bottom:32px;}
-.tourActivenessswitch-checkbox{display:none;}
-.tourActivenessswitch-label{display:block;overflow:hidden;cursor:pointer;height:20px;padding:0;line-height:20px;border:2px solid #CCCCCC;border-radius:20px;background-color:#eee;transition:background-color 0.3s ease-in;}
-.tourActivenessswitch-label:before{content:"";display:block;width:20px;margin:0px;background:#FFFFFF;position:absolute;top:0;bottom:0;right:20px;border:2px solid #CCCCCC;border-radius:20px;transition:all 0.3s ease-in 0s;height:20px;}
-.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label{background-color:#49E845;}
-.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label, .tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label:before{border-color:#49E845;}
-.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label:before{right:0px;}
+.tourActivenessswitch {
+	position:absolute;
+	width:40px;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	left:-150px;
+	bottom:28px;
+}
+.tourActivenessswitch-checkbox {
+	display:none;
+}
+.tourActivenessswitch-label {
+	display:block;
+	overflow:hidden;
+	cursor:pointer;
+	height:20px;
+	padding:0;
+	line-height:20px;
+	border:2px solid #CCCCCC;
+	border-radius:20px;
+	background-color:#eee;
+	transition:background-color 0.3s ease-in;
+}
+.tourActivenessswitch-label:before {
+	content:"";
+	display:block;
+	width:20px;
+	margin:0px;
+	background:#FFFFFF;
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:20px;
+	border:2px solid #CCCCCC;
+	border-radius:20px;
+	transition:all 0.3s ease-in 0s;
+	height:20px;
+}
+.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label {
+	background-color:#49E845;
+}
+.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label,
+.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label:before {
+	border-color:#49E845;
+}
+.tourActivenessswitch-checkbox:checked + .tourActivenessswitch-label:before {
+	right:0px;
+}
 
 .tourlistonoffswitch {
 	position:absolute;width:40px;
@@ -2327,6 +2497,18 @@ span.multiselect-native-select select {
 	}
 	.loader-spinner-tourPreviewDetails {
 		top: 45%;
+	}
+	.companyLogoUploadButtonMargin {
+		margin-left: 13.1rem;
+	}
+	.tourActivenessswitch {
+		position:absolute;
+		width:40px;
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		left: 60px;
+		bottom:45px;
 	}
 }
 

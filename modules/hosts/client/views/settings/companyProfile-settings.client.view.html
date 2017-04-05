@@ -108,8 +108,8 @@
 								            	<img-crop image="companyLogo | ngfDataUrl" result-image="croppedDataUrl" ng-init="croppedDataUrl=''"></img-crop>
 								          	</div>
 										</div>
-										<div class="fileUpload btn btn-primary uploadButtonMargin" ng-click="vm.uploadCompanyLogo(croppedDataUrl, companyLogo.name)">
-								          	<span>Upload</span>
+										<div class="fileUpload btn btn-primary companyLogoUploadButtonMargin" ng-click="vm.uploadCompanyLogo(croppedDataUrl, companyLogo.name)">
+								          	<span class="text-center">Upload</span>
 								        </div>
 									</div>
 								</div>
@@ -190,5 +190,11 @@
 <script>
 	$(document).ready(function(){
 		 $('[data-toggle="tooltip"]').tooltip();
+	});
+</script>
+
+<script>
+	$(document).ready(function(){
+	    $(this).scrollTop(0);
 	});
 </script>

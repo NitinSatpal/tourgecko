@@ -19,7 +19,7 @@
             </ul>
         </div>
         <!--Carousel end-->
-        <div class="marginFromBothEnd">
+        <div ng-style="vm.setMarginDynamically()">
             <div id="details" class="container tour-Preview-Details-host">
                 <div class="row">
                     <div class="col l8 m8 s12">
@@ -374,7 +374,7 @@
                                         <img src="modules/core/client/img/previewAndDetails/icn_call.svg" alt="Contact Person">
                                     </a>
                                     <span class="grey-text">Call Us on:</span> 
-                                    <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
+                                    <a href="tel:{{vm.companyDetails.inquiryMobile}}" class="blue-grey-text text-darken-1">
                                         <strong>{{vm.companyDetails.inquiryMobile}}</strong>
                                     </a>
                                 </div>
@@ -400,7 +400,7 @@
                     <!--Sticky Footer for mobile view-->    
                     <div class="price-box hide-on-med-and-up white z-depth-4">
                         <span class="blue-grey-text text-darken-1">Starting from 
-                            <span style="text-decoration:line-through" class="red-text" ng-show="vm.minimumTillNow != ''">&#8377; {{vm.getMinimumPricing(vm.productDetails)}}</span>
+                            <span class="red-text" ng-show="vm.minimumTillNow != ''">&#8377; {{vm.getMinimumPricing(vm.productDetails)}}</span>
                         </span>
                         <br>
                         <!--<span class="orange-text discount">
@@ -477,4 +477,9 @@
     function fadeOutTheModal (id) {
         $(id).slideUp('slow');
     }
+</script>
+<script>
+    $(document).ready(function(){
+        $(this).scrollTop(0);
+    });
 </script>

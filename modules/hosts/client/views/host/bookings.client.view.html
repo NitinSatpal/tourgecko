@@ -1,4 +1,4 @@
-<div class="hostHome container-fluid">
+<div class="hostHome container-fluid" id="bookingTab">
 	<div id="bookings" >
 		<div class="row body-content">
 			<div class="col-md-12 col-sm-12 col-lg-12">
@@ -13,14 +13,57 @@
                             
                 <div class="booking-filters">
                     <div class="margin padding text-center">
-                        <h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Show By:</h4>
-                        <select id="categoryKey" multiple="multiple" class="categoryKeysSelector" ng-model="vm.selectedCategorizedKeys" ng-change="vm.getCategorizedBookings()">
-                            <option value="Pending">Pending</option>
-                            <option value="Confirmed">Confirmed</option>
-                            <option value="Declined">Declined</option>
-                            <option value="Cancelled">Cancelled</option>
-                            <option value="Expired">Expired</option>
-                    	</select>
+                        <div id="filter-dropdown" class="dropdown">
+                        	<h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Filter By:</h4>
+	                        <a href="#" id="filter-dropdown-button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" role="button" aria-haspopup="true" aria-expanded="false">Booking Status</a>
+							<div class="dropdown-menu" id="filter-options">
+								<div class="row">
+									<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="o-checkbox">
+											<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
+											<label for="filter-checkbox-one"></label>
+											<span class="filterName">Pending</span>
+										</div>
+								    </div>
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+										<div class="o-checkbox">
+											<input type="checkbox" value="None" name="" id="filter-checkbox-two" class="" ng-model="vm.selectedFiltersForBookingRecords[1]">
+											<label for="filter-checkbox-two"></label>
+											<span class="filterName">Confirmed</span>
+										</div>
+								    </div>
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+										<div class="o-checkbox">
+											<input type="checkbox" value="None" name="" id="filter-checkbox-three" class="" ng-model="vm.selectedFiltersForBookingRecords[2]">
+											<label for="filter-checkbox-three"></label>
+											<span class="filterName">Declined</span>
+										</div>
+								    </div>
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+										<div class="o-checkbox">
+											<input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
+											<label for="filter-checkbox-four"></label>
+											<span class="filterName">Cancelled</span>
+										</div>
+								    </div>
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+										<div class="o-checkbox">
+											<input type="checkbox" value="None" name="" id="filter-checkbox-five" class="" ng-model="vm.selectedFiltersForBookingRecords[4]">
+											<label for="filter-checkbox-five"></label>
+											<span class="filterName">Expired</span>
+										</div>
+								    </div>
+							    </div>
+							    <div class="row">
+								    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 30px;">
+										<button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
+								    </div>
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 30px;">
+										<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
+								    </div>
+							    </div>
+							</div>
+						</div>
                     </div>
                 </div>
                 
@@ -36,7 +79,7 @@
 	                            </a>
 	                        </div>
 	                    </div>
-	                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top">
+	                    <div id="bookingCard" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top">
 	                        <div class="col-lg-2 text-center margin-bottom">
 	                            <div class="redBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Declined'">
 	                                <i class="zmdi zmdi-calendar-close margin-top"></i>
@@ -51,7 +94,7 @@
 
 	                            <span class="sub_desc">{{booking.bookingStatus}}</span>
 	                        </div>
-	                        <div class="col-lg-6">
+	                        <div ng-class="vm.getCSSClassForBigScreens()">
 	                            <ul class="cleared">
 	                                <li><span class="content-primary">Created on</span>
 	                                    <span class="content-secondary">{{vm.getDisplayDate(booking.created)}}</span></li>    
@@ -66,7 +109,7 @@
 	                            </ul>
 	                        </div>
 	                    </div>
-	                    <a href="#" ng-click="vm.goToBookingDetailScreen($index)" class="gotToBookingDetails"> Go to Details </a>
+	                    <a id="anchorTagForBookingDetails" href="#" ng-click="vm.goToBookingDetailScreen($index)" class="gotToBookingDetails"> Go to Details </a>
 					</div>
 				 </div>
 				 <div class="row text-center">
@@ -74,24 +117,27 @@
 						<div class="pagination" ng-if="vm.bookings.length > 0">
 							<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
 							<a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
-							<a href="#" ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
-							<a ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast">...</a>
+							<a href="#" ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
+							<a ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast">...</a>
 							<a href="#" ng-repeat="page in vm.pageCounterArray.slice(vm.pageFrom,vm.pageTo) track by $index" ng-class="{active: vm.pageFrom + $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber(vm.pageFrom + $index)">{{vm.pageFrom + $index + 1}}</a>
-							<a ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast">...</a>
-							<a href="#" ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast" ng-click="vm.changePageNumber(vm.pageCounterArray.length - 1)"> {{vm.pageCounterArray.length}} </a>
+							<a ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast">...</a>
+							<a href="#" ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast" ng-click="vm.changePageNumber(vm.totalPages - 1)"> {{vm.totalPages}} </a>
 							
 							<a href="#" ng-click="vm.incrementPageNumber()" style="margin-left: 10px;">&rsaquo;</a>
 							<a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-12">
+					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length > 0">
 						<span> Show &nbsp; 
-						<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
-							<option value="5">5</option>
-							<option value="10">10</option>
-						</select>
-						&nbsp; bookings per page
-					</span>
+							<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+								<option value="5">5</option>
+								<option value="10">10</option>
+							</select>
+							&nbsp; bookings per page
+						</span>
+					</div>
+					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length == 0">
+						<span> No Booking Records found </span>
 					</div>
 				</div>
             </div>
@@ -106,5 +152,61 @@
 			nonSelectedText: 'Select Category'
 		});
 	});
+	if (window.innerWidth <= 767) {
+		$('#anchorTagForBookingDetails').hide();
+		$('#bookingCard').attr("ng-click", "vm.goToBookingDetailScreen($index)");
+		$('#bookingCard').attr("style", "cursor:pointer");
+	}
+</script>
+
+<script>
+	$(document).ready(function() {
+	    $(this).scrollTop(0);
+	    $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+		$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+		checkedOnce = true;
+	});
+	var checkedOnce = false;
+	/*ulta work kar raha */
+	$('#filter-dropdown-button').on('click', function(event) {
+		checkedOnce = false;
+		if ($("#filter-dropdown").hasClass("open")) {
+			checkedOnce = true;
+			$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+			$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+			$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+		} else {
+			$('#filter-dropdown-button').css("border-bottom-color","transparent");
+			$('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
+			$('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
+		}
+	});
+
+	$('#filter-options').on('click', function(event) {
+	   	event.stopPropagation();
+	});
+
+	$(document).on("click","#bookingTab",function() {
+		if(!checkedOnce) {
+		    if ($("#filter-dropdown").hasClass("open")) {
+				$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+				$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+				$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+				checkedOnce = true;
+			} else {
+				$('#filter-dropdown-button').css("border-bottom-color","transparent");
+				$('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
+				$('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
+				checkedOnce = true;
+			}
+		}
+	});
+
+	function changeCSSForBookingFilterButton() {
+		$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+		$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+	}
 </script>
 	

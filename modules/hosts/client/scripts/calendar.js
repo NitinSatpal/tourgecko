@@ -103,19 +103,19 @@ $(document).ready(function() {
 					        			document.product.productTitle + '</span> <br>' +
 					        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 					        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>';
-					        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"></i>';
+					        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 	        					} else if (percentBooking > 40 && percentBooking <= 80) {
 	        						colorSelectionAndTitle = '<span class="eventname orangeFC">' + 
 					        			document.product.productTitle + '</span> <br>' + 
 					        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
 					        			'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings + '/' +limit +'</span>';
-					        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"></i>';
+					        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
 	        					} else {
 	        						colorSelectionAndTitle = '<span class="eventname redFC">' +
 				        				document.product.productTitle + '</span> <br>' +
 				        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
 				        				'<i class="zmdi zmdi-account"></i> &nbsp;' + document.numberOfBookings+ '/' +limit +'</span>';
-				        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"></i>';
+				        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"><span class="eventname redFC"></span></i>';
 	        					}
 
 	        				} else {
@@ -123,12 +123,13 @@ $(document).ready(function() {
 					        			document.product.productTitle + '</span> <br>' +
 					        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 					        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfBookings+ '/' +limit +'</span>';
-					        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"></i>';
+					        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 	        				}
 
 			        		if (window.innerWidth > 767)
 			        			eventObject = {
 			        				title: colorSelectionAndTitle,
+			        				titleText: document.product.productTitle,
 				        			start: eventDate,
 				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 				        			end: endDate,
@@ -139,8 +140,10 @@ $(document).ready(function() {
 				        	else
 				        		eventObject = {
 			        				title: colorSelectionAndTitleForMobile,
+			        				titleText: document.product.productTitle,
 				        			start: eventDate,
 				        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
+				        			end: endDate,
 				        			// allDay: true,
 				        			productSessionId: document._id
 			        			}	
@@ -160,6 +163,7 @@ $(document).ready(function() {
 					center: 'title',
 					right: 'month,agendaWeek,agendaDay'
 				},
+				scrollTime: '00:00',
 				navLinks: true, // can click day/week names to navigate views
 				selectHelper: true,
 				select: function(start, end) {
@@ -194,7 +198,7 @@ $(document).ready(function() {
 					var duration = event.duration === undefined ? 'Duration not provided' :  event.duration;
 					
 					// Name of the tour or event
-					var event_name = $(jsEvent.currentTarget).find(".eventname").text();
+					var event_name = event.titleText; //$(jsEvent.currentTarget).find(".eventname").text();
 
 					// CSS of event
 					var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];

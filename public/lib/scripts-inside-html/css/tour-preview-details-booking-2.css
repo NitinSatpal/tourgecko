@@ -1,11 +1,6 @@
 main{ margin-bottom: 5rem;}
 .main-content{ margin-top: 1rem;}
 
-.marginFromBothEnd {
-	margin-left: 15%;
-	margin-right: 15% !important;
-}
-
 /*Grid*/
 
 .fluid{ width: 100% !important}

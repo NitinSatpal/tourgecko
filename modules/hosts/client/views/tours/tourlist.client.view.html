@@ -39,7 +39,7 @@
 								<div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="tour_utils">
 										<div class="tour_share dropdown">
-											<a href="#" data-toggle="modal" data-target="#askSocialSharingOptions" class="dropdown-toggle btn btn-primary outline" ng-click="vm.index = $index"><i class="zmdi zmdi-share"></i></a>
+											<a data-toggle="modal" data-target="#askSocialSharingOptions" class="dropdown-toggle btn btn-primary outline" ng-click="vm.index = $index" onclick="disableBackground()"><i class="zmdi zmdi-share"></i></a>
 											<!-- <ul class="dropdown-menu">
 												<li><a href="#" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li>
 												<!-- For mobile phones where whatsapp option will be present -->
@@ -181,5 +181,17 @@
 			$lightbox.find('.close').removeClass('hidden');
 		});
 	});
+</script>
+<script>
+	$(document).ready(function(){
+	    $(this).scrollTop(0);
+	});
 
+	function disableBackground () {
+		
+	}
+	$('#close').click(function(e){
+	    e.preventDefault()
+	    $('body, #shadow').removeAttr('style')
+	})
 </script>

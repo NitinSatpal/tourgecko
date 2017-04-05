@@ -16,6 +16,8 @@
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
+    var changedProductStatus = [];
+    var changedProductIds = [];
     var totalProductRecords;
     var paginationWindow;
     if ($window.innerWidth > 767)
@@ -35,8 +37,24 @@
         totalProductRecords = response.productCount;
     }).error(function (response) {
         vm.error = response.message;
-    }); 
+    });
 
+    $scope.$on('$stateChangeSuccess', stateChangeSuccess);
+
+    function stateChangeSuccess() {
+        changeProductVisibility();
+    }
+
+    function changeProductVisibility () {
+        if (changedProductStatus.length > 0 ) {
+            $http.post('/api/host/productVisibility/', {changedIds: changedProductIds, changedStatus: changedProductStatus}).success(function (response) {
+                changedProductStatus.length = 0;
+                console.log(response);
+            }).error(function (response) {
+                vm.error = response.message;
+            });
+        }
+    }
     vm.makeProductVisible = function (product) {
     	if (product.isPublished == true) {
     		// In case host trying to make the tour visible
@@ -49,12 +67,22 @@
     			alert('This tour is not yet verified by tourgecko. We will notify you with the status shortly');
     			product.isVerified = false;
     		} */
+            var key = product._id;
+            var mappingObject = {};
+            mappingObject[key] = product.isPublished;
+            changedProductStatus.push(mappingObject);
+            changedProductIds.push(product._id);
             alert('Please make sure all the details are correct. Tours with more details are booked more often');
     	} else {
     		// In case host is trying to make the tour invisible. Just give the info of what will happen with this
     		// and ask for confirmation
 
     		//For now i m making it invisible without asking for confirmation.
+            var key = product._id;
+            var mappingObject = {};
+            mappingObject[key] = product.isPublished;
+            changedProductStatus.push(mappingObject);
+            changedProductIds.push(product._id);
     		alert('The tour will not be visible to guests and cannot be booked if you make it invisible');
     	}
     }
@@ -76,11 +104,12 @@
     }*/
     
     vm.changeItemsPerPage = function (itemsPerPage) {
+        changeProductVisibility();
         vm.totalPages = Math.ceil(totalProductRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         }); 
@@ -89,6 +118,7 @@
     vm.changePageNumber = function (clickedIndex) {
         if (vm.currentPageNumber == clickedIndex + 1)
             return;
+        changeProductVisibility();
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
@@ -111,7 +141,7 @@
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         }); 
@@ -122,6 +152,7 @@
     vm.incrementPageNumber = function () {
         if (vm.currentPageNumber == vm.totalPages)
             return;
+        changeProductVisibility();
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
         if (vm.currentPageNumber % paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
@@ -154,7 +185,7 @@
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -163,6 +194,7 @@
     vm.incrementWindowSize = function () {
         if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
             return;
+        changeProductVisibility();
         windowSizeIncremented = true;
         if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow + paginationWindow <= vm.pageCounterArray.length) {
             vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
@@ -184,7 +216,7 @@
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -193,6 +225,7 @@
     vm.decrementPageNumber = function () {
         if (vm.currentPageNumber == 1)
             return;
+        changeProductVisibility();
         vm.currentPageNumber = vm.currentPageNumber - 1;
         if (!vm.showAtLast) {
             var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - paginationWindow) / paginationWindow) * paginationWindow;
@@ -207,7 +240,7 @@
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -216,7 +249,7 @@
     vm.decrementWindowSize = function () {
         if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
             return;
-      
+        changeProductVisibility();
         if (Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow > 0) {
             vm.pageTo = Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
             vm.pageFrom = vm.pageTo - paginationWindow;
@@ -237,22 +270,25 @@
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
-            $('html, body').animate({scrollTop : 0},800);
+            $('html, body').scrollTop(0);
         }).error(function (response) {
             vm.error = response.message;
         });
     }
 
     vm.showTourPreview = function(index) {
+        changeProductVisibility();
         $window.open($state.href('hostAndGuest.tourPreview', {productId: vm.products[index]._id}),'_blank','heigth=600,width=600');
     }
 
     vm.editTourDetails = function(index) {
+        changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
         $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
 
     vm.tweetTheProduct = function () {
+        changeProductVisibility();
         var tweet = vm.products[vm.index].productTitle + '%0A' + vm.products[vm.index].destination + '%0A';
         var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
         $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
@@ -265,6 +301,7 @@
         });
     }
     vm.postTheProductOnFB = function () {
+        changeProductVisibility();
         $http.get('/api/social/host/facebook/pages').success(function (response) {
             if (response == 'not connected') {
                 console.log('i m here');

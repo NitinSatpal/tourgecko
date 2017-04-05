@@ -808,6 +808,10 @@ vm.createDepartureSession = function () {
     }
 
     $scope.goToPreviewPage = function () {
+      if (!vm.tour.productTitle) {
+        alert('Please enter at least the title of the tour');
+        return;
+      }
       setProductInformation();
       $window.localStorage.setItem('productData', JSON.stringify(vm.tour));
       $window.open($state.href('hostAndGuest.previewBeforeSave'),'_blank','heigth=600,width=600');

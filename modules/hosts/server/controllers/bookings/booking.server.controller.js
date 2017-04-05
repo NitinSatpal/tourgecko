@@ -128,7 +128,7 @@ exports.fetchCompanyBookingDetailsForCurrentPage = function (req, res) {
 exports.fetchCategorizedBookings = function (req, res) {
   var pageNumber = req.body.pageNumber;
   var itemsPerPage = req.body.itemsPerPage;
-  var queryAll = req.body.queryAll;
+  /*var queryAll = req.body.queryAll;
 
   if (queryAll) {
     Booking.count(function(error, count) {
@@ -143,7 +143,7 @@ exports.fetchCategorizedBookings = function (req, res) {
         res.json({bookingArray: bookings, bookingsCount: count});
       });
     });
-  } else {
+  } else { */
     Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
       if (count <= itemsPerPage * (pageNumber - 1))
         pageNumber = 1;
@@ -156,7 +156,7 @@ exports.fetchCategorizedBookings = function (req, res) {
         res.json({bookingArray: bookings, bookingsCount: count});
       });
     });
-  }
+  //}
 };
 
 // Fetch specific product booking details

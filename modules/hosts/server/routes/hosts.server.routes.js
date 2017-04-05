@@ -9,7 +9,7 @@ module.exports = function (app) {
   // Articles collection routes
   app.route('/api/host/toursite/')
     .get(hosts.getToursite)
-    .post(hosts.saveToursiteDetails)
+    .post(hosts.saveToursiteDetails);
 
   app.route('/api/host/toursitedata/:toursite')
     .get(hosts.getToursiteData);
@@ -23,6 +23,9 @@ module.exports = function (app) {
 
   app.route('/api/host/editproduct/')
     .post(hosts.editProduct);
+
+  app.route('/api/host/productVisibility/')
+    .post(hosts.changeProductVisibility);
 
   app.route('/api/host/companyproducts/')
     .get(hosts.fetchCompanyProductDetails);

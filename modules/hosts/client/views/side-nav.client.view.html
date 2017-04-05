@@ -43,12 +43,12 @@
 						<span class="glyphicon glyphicon-chevron-right sideNav-Settings-Right"></span>
 					</a>
 					<ul class="sub-menu" id="products">
-						<li class="active"><a ui-sref="host.companyProfile">Company Profile</a></li>
-						<li><a ui-sref="host.contacts">Contacts</a></li>
-						<li><a ui-sref="host.payments">Payments</a></li>
-						<li><a ui-sref="host.toursite">Toursite</a></li>
-						<li><a ui-sref="host.account">Account</a></li>
-						<li><a ui-sref="host.region">Regional</a></li>
+						<li id="companyprofileSetting"><a ui-sref="host.companyProfile">Company Profile</a></li>
+						<li id="contactsSetting"><a ui-sref="host.contacts">Contacts</a></li>
+						<li id="paymentsSetting"><a ui-sref="host.payments">Payments</a></li>
+						<li id="toursiteSetting"><a ui-sref="host.toursite">Toursite</a></li>
+						<li id="accountSetting"><a ui-sref="host.account">Account</a></li>
+						<li id="regionSetting"><a ui-sref="host.region">Regional</a></li>
 						<li><span class="glyphicon glyphicon-chevron-left sideNav-Settings-Left"></span></li>
 					</ul>
 				</li>
@@ -61,6 +61,7 @@
 <script>
 	$("#parentMenu").on('click', function(event) {
 	   $(this).toggleClass("toggle");
+	   $('#' + window.location.pathname.split('/')[3] + 'Setting').addClass('active');
 	   event.stopPropagation();
 	});
 	$("ul#one li ul li a").on('click', function(event) {
@@ -73,10 +74,12 @@
 	});
 
 	$("ul#one").on('click', function(event) {
-		if ($(window).width() <= 767)
+		if ($(window).width() <= 767) {
 			$(".main-wrapper").toggleClass("toggle");
-		if($("#parentMenu").hasClass("toggle"))
+		}
+		if($("#parentMenu").hasClass("toggle")) {
 			$("#parentMenu").removeClass("toggle");
+		}
 	   event.stopPropagation();
 	});
 	$('#tourgeckoBody').on('click', function(event) {
@@ -84,5 +87,10 @@
 			$(".main-wrapper").toggleClass("toggle");
 			event.stopPropagation();
 		}
+	});
+
+	$("#myNavbar .nav a").on("click", function(){
+	   $(".nav").find(".active").removeClass("active");
+	   $(this).parent().addClass("active");
 	});
 </script>

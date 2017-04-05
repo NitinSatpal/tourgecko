@@ -26,6 +26,13 @@
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
+        if ($location.path().split('/')[2] != 'settings') {
+          if ($("#parentMenu").hasClass("toggle"))
+            $("#parentMenu").removeClass("toggle");
+        } else {
+            $("#parentMenu .sub-menu").find(".active").removeClass("active");
+            $('#' + $location.path().split('/')[3] + 'Setting').addClass('active');
+        }
         if(hideSideNavHere.has($location.path()) || $location.path().split('/')[3] == 'preview' || $location.path().split('/')[1] == 'guest')
           vm.hideSideNav = true;
         else

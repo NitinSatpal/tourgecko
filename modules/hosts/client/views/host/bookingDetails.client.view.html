@@ -5,9 +5,9 @@
                 <div class="multiline-header home_add_tour fixed-in-div margin-bottom">
                     <i class="zmdi zmdi-shopping-cart heading-icn"></i>
                     <h2>Booking Detail<br>
-                        <span class="sub_head">Booking ID:
+                        <!--<span class="sub_head">Booking ID:
                             <strong>{{vm.specificBookingDetails._id}}</strong>
-                        </span>
+                        </span>-->
                     </h2>
                     <a id="confirmBookingTopPanel" class="btn btn-primary pull-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#confirmBookingTopPanel', '#confirm-confirmation')" ng-disabled="vm.specificBookingDetails.bookingStatus != 'Pending'">
                         <i class="zmdi zmdi-check-circle"></i>&nbsp;Confirm
@@ -173,5 +173,9 @@
         $(modalId).fadeOut('slow');
         $('.modal-backdrop').remove();
     }
+
+    $(document).ready(function(){
+        $(this).scrollTop(0);
+    });
 </script>
   

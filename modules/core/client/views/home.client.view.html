@@ -27,6 +27,9 @@
 	              	<li>
 	              		<a ui-sref="host.hostHome" ng-hide="!vm.authentication.user">Go to Admin Panel</a>
 	              	</li>
+	              	<li>
+	              		<a href="/api/auth/signout" target="_self" ng-hide="!vm.authentication.user">Logout</a>
+	              	</li>
 	              	<li class="nav-btn-primary main-cta" ng-show="!vm.authentication.user">
 	              		<a ui-sref="authentication.hostSignup">Sign Up</a>
 	              	</li>
@@ -122,7 +125,7 @@
 	    <footer class="footer row">
 	      <div class="container text-center">
 	          <h2 class="heading">A foundation for your tour and activity  business</h2>
-	          <a ui-sref="authentication.hostSignup" class="btn btn-warning btn-lg">Sign up now!</a>
+	          <a ui-sref="authentication.hostSignup" class="btn btn-warning btn-lg" ng-hide="vm.authentication.user">Sign up now!</a>
 	      </div>
 	    </footer>
     </div>    
@@ -139,5 +142,15 @@
 	    if(window.innerWidth >= 767)
 	    	$('#landingPageNavbar').addClass("navbar-right");
 	});
+
+	$("#landingPageNavbar .nav a").on("click", function(){
+	   $(".nav").find(".active").removeClass("active");
+	   $(this).parent().addClass("active");
+	});
 </script>
 
+<script>
+	$(document).ready(function(){
+	    $(this).scrollTop(0);
+	});
+</script>

@@ -117,11 +117,12 @@
                     </div>
                 </div>
                 <div class="col l12 m12 s12 itemsPerPageSelection">
-                    <span> Show &nbsp; 
-                        <select  ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+                    <span class="span-one"> Show &nbsp; </span>
+                        <select class="selectizer" ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
                             <option value="20">20</option>
                             <option value="10">10</option>
                         </select>
+                    <span class="span-two">
                         &nbsp; tours per page
                     </span>
                 </div>
@@ -129,7 +130,6 @@
         </div>
     </main>
     <footer class="toursite-footer">
-        <br>
         <a href="#"><img src="{{vm.companyData.logoURL}}" class="host-toursite-Logo"></a>
         <br>
         <br>
@@ -179,6 +179,11 @@
                     $(this).parent().hide().prev().show().prev().show();    
                 });
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $(this).scrollTop(0);
         });
     </script>
 </div>

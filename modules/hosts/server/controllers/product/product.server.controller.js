@@ -71,6 +71,28 @@ exports.editProduct = function(req, res) {
   });
 };
 
+// Change product visibility
+exports.changeProductVisibility = function (req, res) {
+  var productArray = req.body.changedStatus;
+  var productIdToStatus = new Map();
+  productArray.forEach(function(item) {
+    var key = Object.keys(item)[0];
+    productIdToStatus.set(key, item[key]);
+  });
+  Product.find({ '_id': {$in : req.body.changedIds} }).exec(function (err, products) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    var productStore = []
+    products.forEach(function(product) {
+      product.isPublished = productIdToStatus.get(product._id.toString());
+      product.save();
+    });
+  });
+}
+
 // Fetching products details here.
 exports.fetchAllProductDetails = function (req, res) {
   Product.find().sort({created: -1}).populate('user').exec(function (err, products) {

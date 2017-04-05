@@ -1389,7 +1389,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 				center: '',
 				right:'prev,next'
 			},
-			
+			scrollTime: '00:00',
 			eventLimit: true, // allow "more" link when too many events
 			events: events,
 			eventRender: function (event, element) {
@@ -1406,7 +1406,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 				center: '',
 				right:'prev,next'
 			},
-			
+			scrollTime: '00:00',
 			eventLimit: true, // allow "more" link when too many events
 			events: events,
 			eventRender: function (event, element) {
@@ -1607,4 +1607,10 @@ function openFixedDeparturePanel () {
     function addTimeSlots (id) {
     	angular.element('#addSelectorHere').scope().timeslots.push($(id).val());
     }
+</script>
+
+<script>
+	$(document).ready(function(){
+	    $(this).scrollTop(0);
+	});
 </script>

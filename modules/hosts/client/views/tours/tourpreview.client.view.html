@@ -45,7 +45,7 @@
             </ul>
         </div>
         <!--Carousel end-->
-        <div class="marginFromBothEnd">
+        <div ng-style="vm.setMarginDynamically()">
 
             <div id="details" class="container tour-Preview-Details-host">
                 <div class="row">
@@ -402,7 +402,7 @@
                                         <img src="modules/core/client/img/previewAndDetails/icn_call.svg" alt="Contact Person">
                                     </a>
                                     <span class="grey-text">Call Us on:</span> 
-                                    <a href="tel:+919867101299" class="blue-grey-text text-darken-1">
+                                    <a href="tel:{{vm.companyDetails.inquiryMobile}}" class="blue-grey-text text-darken-1">
                                         <strong>{{vm.companyDetails.inquiryMobile}}</strong>
                                     </a>
                                 </div>
@@ -428,7 +428,7 @@
                     <!--Sticky Footer for mobile view-->    
                     <div class="price-box hide-on-med-and-up white z-depth-4">
                         <span class="blue-grey-text text-darken-1">Starting from 
-                            <span style="text-decoration:line-through" class="red-text" ng-show="vm.minimumTillNow != ''">&#8377; {{vm.getMinimumPricing(vm.productDetails)}}</span>
+                            <span class="red-text" ng-show="vm.minimumTillNow != ''">&#8377; {{vm.getMinimumPricing(vm.productDetails)}}</span>
                         </span>
                         <br>
                         <!--<span class="orange-text discount">
@@ -439,7 +439,7 @@
                             <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
                         </span>
                         -->
-                        <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
+                        <a id="book" class="orange btn waves-effect waves-light right" disabled>Book Now</a>
                     </div>
                     <!--Sticky Footer End-->    
                 </div>
@@ -513,6 +513,10 @@
             full_width: true
         });
     });
-    
+</script>
+<script>
+    $(document).ready(function(){
+        $(this).scrollTop(0);
+    });
 </script>
 

@@ -114,5 +114,22 @@
       else
         return evenCSS;
     }
+
+    vm.setMarginDynamically = function () {
+      if ($window.innerWidth <= 767) {
+        var cssObject = {
+          "margin-left": "0%",
+          "margin-right": "3%"
+        }
+        return cssObject;
+      } else {
+        console.log('coming here');
+        var cssObject = {
+          "margin-left": "15%",
+          "margin-right": "15%"
+        }
+        return cssObject;
+      }
+    }
   }
 }());
