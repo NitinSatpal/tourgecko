@@ -13,6 +13,7 @@
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
+    vm.rememberFilterPreferences = false;
 
     vm.selectedFiltersForBookingRecords = [false, false, false, false, false];
 
@@ -41,10 +42,12 @@
       vm.paginationWindow = 3;
 
     var previousKeysPresence = $window.localStorage.getItem('arePreviousFiltersPresent');
-    if (previousKeysPresence == 'present') {
+    var preferenceRememberence = $window.localStorage.getItem('shallRememberFilterPreference');
+    if (previousKeysPresence == 'present' && preferenceRememberence == 'Yes') {
       var previousFilterKeys = JSON.parse($window.localStorage.getItem("bookingFilters"));
       for (var index = 0; index < previousFilterKeys.length; index++)
         vm.selectedFiltersForBookingRecords[reverseFilterMapping.get(previousFilterKeys[index])] = true;
+      vm.rememberFilterPreferences = true;
       categorizedBooking(previousFilterKeys, true);
     } else {
       vm.selectedFiltersForBookingRecords
@@ -62,6 +65,20 @@
           vm.pageTo = vm.paginationWindow;
         vm.pageCounterArray = new Array(vm.totalPages);
         totalBookingRecords = response.bookingsCount;
+        if(vm.currentPageNumber > vm.totalPages) {
+          vm.currentPageNumber = vm.totalPages;
+          vm.showAtLast = false;
+          vm.pageTo = vm.currentPageNumber;
+          if(vm.pageTo - vm.paginationWindow >= 0)
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
+        } else {
+          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if (vm.pageTo + 1 < vm.totalPages)
+            vm.showAtLast = true;
+          else
+            vm.showAtLast = false;
+        }
       });
     }
 
@@ -138,7 +155,7 @@
         if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
           $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
               vm.bookings = response;
-              // $('html, body').scrollTop(0);
+              $('html, body').scrollTop(0);
           }).error(function (response) {
               vm.error = response.message;
           });
@@ -149,7 +166,7 @@
 
     vm.changePageNumber = function (clickedIndex) {
         if (vm.currentPageNumber == clickedIndex + 1) {
-          // $('html, body').scrollTop(0);
+          $('html, body').scrollTop(0);
           return;
         }
         vm.currentPageNumber = clickedIndex + 1;
@@ -175,7 +192,7 @@
         if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
           $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
               vm.bookings = response;
-              // $('html, body').scrollTop(0);
+              $('html, body').scrollTop(0);
               $window.changeCSSForBookingFilterButton();
           }).error(function (response) {
               vm.error = response.message;
@@ -356,6 +373,8 @@
       $scope.selectedCategorizedKeys.length = 0;
       $window.localStorage.setItem('bookingFilters', ' ');
       $window.localStorage.setItem('arePreviousFiltersPresent', 'notPresent');
+      vm.rememberFilterPreferences = false;
+      $window.localStorage.setItem('shallRememberFilterPreference', 'No');
       fetchAllBookingRecords();
     }
 
@@ -370,9 +389,30 @@
         vm.totalPages = Math.ceil(response.bookingsCount/itemsPerPageSelected);
         vm.pageCounterArray = new Array(vm.totalPages);
         totalBookingRecords = response.bookingsCount;
+        if(vm.currentPageNumber > vm.totalPages) {
+          vm.currentPageNumber = vm.totalPages;
+          vm.showAtLast = false;
+          vm.pageTo = vm.currentPageNumber;
+          if(vm.pageTo - vm.paginationWindow >= 0)
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
+        } else {
+          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if (vm.pageTo + 1 < vm.totalPages)
+            vm.showAtLast = true;
+          else
+            vm.showAtLast = false;
+        }
         if (startFromTop)
           $('html, body').scrollTop(0);
       });
+    }
+
+    vm.setFilterPreferences = function () {
+      if (vm.rememberFilterPreferences == true)
+        $window.localStorage.setItem('shallRememberFilterPreference', 'Yes');
+      else
+        $window.localStorage.setItem('shallRememberFilterPreference', 'No');
     }
 
     vm.getCSSClassForBigScreens = function () {
