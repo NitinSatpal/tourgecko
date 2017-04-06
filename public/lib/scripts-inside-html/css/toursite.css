@@ -13,20 +13,15 @@ a .chip:hover {
 .top-Panel-toursite {
 	width:70% !important;
 }
-
-.nav-toursite {
-	width:70% !important;
-	overflow-y: hidden;
-}
-
 .body-toursite {
 	width:70% !important;
 }
-
+.nav-toursite {
+    width: 70% !important;
+}
 .toursite-footer {
 	color:#78909c !important;
 }
-
 #agent p.light {
     color:#78909c !important;
     margin-top:15px;

@@ -16,6 +16,7 @@
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
+    vm.tourEditInitiated = false;
     var changedProductStatus = [];
     var changedProductIds = [];
     var totalProductRecords;
@@ -49,7 +50,6 @@
         if (changedProductStatus.length > 0 ) {
             $http.post('/api/host/productVisibility/', {changedIds: changedProductIds, changedStatus: changedProductStatus}).success(function (response) {
                 changedProductStatus.length = 0;
-                console.log(response);
             }).error(function (response) {
                 vm.error = response.message;
             });
@@ -282,6 +282,8 @@
     }
 
     vm.editTourDetails = function(index) {
+        vm.tourEditInitiated = true;
+        $('#tourgeckoBody').addClass('disableBody');
         changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
         $state.go('host.editProduct', {productId: vm.products[index]._id});

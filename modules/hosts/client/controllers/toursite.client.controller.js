@@ -9,7 +9,7 @@
 
   function ToursiteController($scope, $state, $stateParams, $http, $window) {
     var vm = this;
-    vm.numberOfItemsInOnePage = '20';
+    vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
@@ -19,14 +19,13 @@
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     var totalToursiteRecords;
-    var paginationWindow;
     
     if ($window.innerWidth > 767) {
-      paginationWindow = 5;
+      vm.paginationWindow = 5;
       scrollTo = 580;
     }
     else {
-      paginationWindow = 3;
+      vm.paginationWindow = 3;
       scrollTo = 583;
     }
 
@@ -34,41 +33,72 @@
         vm.toursitedata = response.productArray;
         vm.companyData = response.productArray[0].hostCompany;
         vm.userData = response.productArray[0].user;
-        vm.totalPages = Math.ceil(response.productCount / 20);
-        if(vm.totalPages <= paginationWindow)
+        vm.totalPages = Math.ceil(response.productCount / 10);
+        if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
         else
-          vm.pageTo = paginationWindow;
+          vm.pageTo = vm.paginationWindow;
         vm.pageCounterArray = new Array(vm.totalPages);
-        totalToursiteRecords = response.productCount;     
+        totalToursiteRecords = response.productCount;
+        if(vm.currentPageNumber > vm.totalPages) {
+          vm.currentPageNumber = vm.totalPages;
+          vm.showAtLast = false;
+          vm.pageTo = vm.currentPageNumber;
+          if(vm.pageTo - vm.paginationWindow >= 0)
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
+        } else {
+          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if (vm.pageTo + 1 < vm.totalPages)
+            vm.showAtLast = true;
+          else
+            vm.showAtLast = false;
+        }  
     }).error(function (response) {
       vm.error = response.message;
     });
 
-
     vm.changeItemsPerPage = function (itemsPerPage) {
         vm.totalPages = Math.ceil(totalToursiteRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
+
+        // This will only be possible if user is changing items per page from lestt to more
+        if(vm.currentPageNumber > vm.totalPages) {
+          vm.currentPageNumber = vm.totalPages;
+          vm.showAtLast = false;
+          vm.pageTo = vm.currentPageNumber;
+          if(vm.pageTo - vm.paginationWindow >= 0)
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
+        } else {
+          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if (vm.pageTo + 1 < vm.totalPages)
+            vm.showAtLast = true;
+          else
+            vm.showAtLast = false;
+        }
+        //vm.currentPageNumber = 1;
         $http.get('/api/host/toursitedataForCurrentPage/' + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
           vm.toursitedata = response;
           vm.companyData = response[0].hostCompany;
           vm.userData = response[0].user;
-          $('html, body').animate({scrollTop : scrollTo},800);
+          $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
         });
-        
     }
 
     vm.changePageNumber = function (clickedIndex) {
-        if (vm.currentPageNumber == clickedIndex + 1)
-            return;
+        if (vm.currentPageNumber == clickedIndex + 1) {
+          $('html, body').scrollTop(scrollTo);
+          return;
+        }
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
           vm.pageTo = vm.currentPageNumber;
-          if (vm.pageCounterArray.length >= paginationWindow)
-            vm.pageFrom =   Math.ceil((vm.pageTo - paginationWindow) / paginationWindow) * paginationWindow;
+          if (vm.pageCounterArray.length >= vm.paginationWindow)
+            vm.pageFrom = Math.ceil((vm.pageTo - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
           else
             vm.pageFrom = 0;
         }
@@ -76,23 +106,22 @@
         if(vm.currentPageNumber == 1) {
           vm.showAtLast = true;
           vm.pageFrom = 0
-          if (vm.pageCounterArray.length >= paginationWindow)
-            vm.pageTo = paginationWindow;
+          if (vm.pageCounterArray.length >= vm.paginationWindow)
+            vm.pageTo = vm.paginationWindow;
           else
             vm.pageTo = vm.pageCounterArray.length;
         }
-
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
           vm.toursitedata = response;
           vm.companyData = response[0].hostCompany;
           vm.userData = response[0].user;
-          $('html, body').animate({scrollTop : scrollTo},800);
+          $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
         });
+        
     }
-
 
     var isWindowSizeReached = false;
     var windowSizeIncremented = false;
@@ -103,11 +132,11 @@
             return;
 
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
-        if (vm.currentPageNumber % paginationWindow == 0 || isWindowSizeReached) {
+        if (vm.currentPageNumber % vm.paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
 
           // if we ar at multiple of 5 page number, then set off the variable to enter in the nect if loop
-          if (vm.currentPageNumber % paginationWindow == 0)
+          if (vm.currentPageNumber % vm.paginationWindow == 0)
             windowSizeIncremented = false;
 
           // increment the page number
@@ -118,11 +147,11 @@
             // if we are two pages short of total pages, change the '....' to the starting side and set the from and to limits From: -4 here
             if (vm.currentPageNumber + 1 == vm.pageCounterArray.length) {
               vm.showAtLast = false;
-              vm.pageFrom = vm.currentPageNumber - paginationWindow - 1;
+              vm.pageFrom = vm.currentPageNumber - vm.paginationWindow - 1;
               vm.pageTo = vm.currentPageNumber + 1;
             } else {
               // if we are not two pages short of total pages, just set the from and to limits From : -5 here
-              vm.pageFrom = vm.currentPageNumber - paginationWindow;
+              vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
               vm.pageTo = vm.currentPageNumber;
             }
           }
@@ -136,7 +165,7 @@
           vm.toursitedata = response;
           vm.companyData = response[0].hostCompany;
           vm.userData = response[0].user;
-          $('html, body').animate({scrollTop : scrollTo},800);
+          $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -146,13 +175,13 @@
       if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
         return;
       windowSizeIncremented = true;
-      if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow + paginationWindow <= vm.pageCounterArray.length) {
-        vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
-        vm.pageTo = vm.pageFrom + paginationWindow;
+      if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow + vm.paginationWindow <= vm.pageCounterArray.length) {
+        vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
+        vm.pageTo = vm.pageFrom + vm.paginationWindow;
         vm.showAtLast = true;
       } else {
-        if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow <= vm.pageCounterArray.length) {
-          vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
+        if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow <= vm.pageCounterArray.length) {
+          vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
           vm.pageTo = vm.pageCounterArray.length;
           vm.showAtLast = false;
         } else {
@@ -168,7 +197,7 @@
         vm.toursitedata = response;
         vm.companyData = response[0].hostCompany;
         vm.userData = response[0].user;
-        $('html, body').animate({scrollTop : scrollTo},800);
+        $('html, body').scrollTop(scrollTo);
       }).error(function (response) {
         vm.error = response.message;
       });
@@ -181,13 +210,13 @@
       vm.currentPageNumber = vm.currentPageNumber - 1;
 
       if (!vm.showAtLast) {
-        var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - paginationWindow) / paginationWindow) * paginationWindow;
+        var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
         if (vm.currentPageNumber == lastMultipleOfFive)
           vm.showAtLast = true;
       }
 
-      if (vm.currentPageNumber % paginationWindow == 0) {
-        vm.pageFrom = vm.currentPageNumber - paginationWindow;
+      if (vm.currentPageNumber % vm.paginationWindow == 0) {
+        vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
         vm.pageTo = vm.currentPageNumber;
       }
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
@@ -195,7 +224,7 @@
         vm.toursitedata = response;
         vm.companyData = response[0].hostCompany;
         vm.userData = response[0].user;
-        $('html, body').animate({scrollTop : scrollTo},800);
+        $('html, body').scrollTop (scrollTo);
       }).error(function (response) {
         vm.error = response.message;
       });
@@ -205,14 +234,14 @@
       if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
         return;
       
-      if (Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow > 0) {
-        vm.pageTo = Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
-        vm.pageFrom = vm.pageTo - paginationWindow;
+      if (Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow > 0) {
+        vm.pageTo = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+        vm.pageFrom = vm.pageTo - vm.paginationWindow;
         vm.showAtLast = true;
       } else {
-        if (vm.pageCounterArray.length >= paginationWindow) {
+        if (vm.pageCounterArray.length >= vm.paginationWindow) {
           vm.pageFrom = 0;
-          vm.pageTo = paginationWindow;
+          vm.pageTo = vm.paginationWindow;
           vm.showAtLast = true;
         } else {
           vm.pageFrom = 0;
@@ -227,7 +256,7 @@
         vm.toursitedata = response;
         vm.companyData = response[0].hostCompany;
         vm.userData = response[0].user;
-        $('html, body').animate({scrollTop : scrollTo},800);
+        $('html, body').scrollTop(scrollTo);
       }).error(function (response) {
         vm.error = response.message;
       });
@@ -311,12 +340,25 @@
 
     vm.getConditionalCSS = function (index) {
       
-      if (vm.toursitedata.length % 2 == 1 && window.innerWidth >= 767 && index == vm.toursitedata.length - 1) {
+      if (vm.toursitedata.length % 2 == 1 && window.innerWidth > 767 && index == vm.toursitedata.length - 1) {
         var alignLeft = {
           'margin-left' : '0px'
         }
         return alignLeft;
       }
+    }
+
+    vm.getDynamicCSSForToursiteNav = function () {
+      if(window.innerWidth > 767)
+        return 'nav-toursite';
+    }
+
+    vm.getDynamicLeftMarginForCompanyLogo = function () {
+      var cssObject = {
+        "margin-left" : "34%"
+      }
+      if(window.innerWidth <= 767)
+        return cssObject;
     }
 
     vm.goToProductDetailsPage = function (index) {

@@ -34,8 +34,6 @@
 
     $scope.selectedCategorizedKeys = [];
     var totalBookingRecords;
-    var fetchAll = false;
-    //vm.paginationWindow;
     if ($window.innerWidth > 767) 
       vm.paginationWindow = 5;
     else
@@ -121,7 +119,11 @@
       var bookingModificationData = {bookingId: $stateParams.bookingId, bookingStatus: status, bookingComments: vm.bookingComments}
       $http.post('/api/host/modifyBooking/', bookingModificationData).success(function (response) {
         $('.modal-backdrop').remove();
-        $state.go('host.allBookings');
+        // After confirming or declining booking, if we go to bookings tab, its a bit cimplicated to bring the same booking there.
+        // Reason can be, filters already had applied pagination page changes after the action etc.
+        // Hence for Beta, we will just bring the user back to the booking and will ask him to click Bookings to go to Bookings.
+        //$state.go('host.allBookings');
+        $state.reload();
       });
     };
 

@@ -58,6 +58,13 @@
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------------------------------------------------------------------------- */
+/* This is added in case user is redirected here for tour edit. We will be disabling body when user will click on Edit button.
+ * We should enable the body here.
+ */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+$('#tourgeckoBody').removeClass('disableBody');
+
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Check whether product is getting created or edited */
@@ -774,7 +781,6 @@ vm.createDepartureSession = function () {
     /* This function handles the button click of add tour */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.goToTourCreationPage = function() {
-      console.log(vm.productType);
       if (vm.productType == '') {
         alert('please select at least one type for the tour');
         return false;

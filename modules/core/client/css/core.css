@@ -136,6 +136,14 @@ a:hover .header-profile-image {
     border-bottom-right-radius: 5px;
 }
 
+.loader-spinner-goToToursite {
+    font-size: 40px;
+    position: fixed;
+    left: 55%;
+    top: 40%;
+    z-index: 9999;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

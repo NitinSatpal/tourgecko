@@ -4,6 +4,7 @@
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/toursite.css"/>
+     
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
         <div class="blue lighten-5"> 
             <div id="top-contact-bar" class="container dev-view top-Panel-toursite">
@@ -20,11 +21,11 @@
         </div>     
         
         <nav class="white fixed z-depth-1 toursite-nav">
-            <div class="nav-wrapper container nav-toursite">
-                <a href="#" class="blue-grey-text text-darken-4">
+            <div class="nav-wrapper container" ng-class="vm.getDynamicCSSForToursiteNav()">
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <a href="#" class="blue-grey-text text-darken-4" ng-style="vm.getDynamicLeftMarginForCompanyLogo()">
                     <img alt="Logo" class="host-toursite-Logo" src="{{vm.companyData.logoURL}}">
                 </a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-home left orange-text"></i>Home</a></li>
                     <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-case left orange-text"></i>Tours</a></li>
@@ -101,30 +102,32 @@
                     </div> 
                 </div>
             </div>
-            <div class="row center">
-                <div class="col l12 m12 s12">
+            <div class="row text-center">
+                <div class="col-sm-12 col-md-12 col-lg-12">
                     <div class="pagination" ng-if="vm.toursitedata.length > 0">
                         <a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
                         <a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
-                        <a href="#" ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
-                        <a ng-if="vm.pageCounterArray.length > 5 && !vm.showAtLast">...</a>
+                        <a href="#" ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
+                        <a ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast">...</a>
                         <a href="#" ng-repeat="page in vm.pageCounterArray.slice(vm.pageFrom,vm.pageTo) track by $index" ng-class="{active: vm.pageFrom + $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber(vm.pageFrom + $index)">{{vm.pageFrom + $index + 1}}</a>
-                        <a ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast">...</a>
-                        <a href="#" ng-if="vm.pageCounterArray.length > 5 && vm.showAtLast" ng-click="vm.changePageNumber(vm.pageCounterArray.length - 1)"> {{vm.pageCounterArray.length}} </a>
+                        <a ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast">...</a>
+                        <a href="#" ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast" ng-click="vm.changePageNumber(vm.totalPages - 1)"> {{vm.totalPages}} </a>
                         
                         <a href="#" ng-click="vm.incrementPageNumber()" style="margin-left: 10px;">&rsaquo;</a>
                         <a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
                     </div>
                 </div>
-                <div class="col l12 m12 s12 itemsPerPageSelection">
-                    <span class="span-one"> Show &nbsp; </span>
-                        <select class="selectizer" ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
-                            <option value="20">20</option>
+                <div class="row">
+                    <div class="selectRow col-sm-12 col-md-12 col-lg-12">
+                        <span style="margin-left: -100px; display: block; margin-bottom: -24px">Show</span>
+                        <select id="itemPerPageSelector" ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
                             <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
                         </select>
-                    <span class="span-two">
-                        &nbsp; tours per page
-                    </span>
+                        <span style="display: block; margin-right: -160px; margin-top: -24.5px">tours per page</span>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -180,10 +183,10 @@
                 });
             });
         });
-    </script>
-    <script>
-        $(document).ready(function(){
-            $(this).scrollTop(0);
-        });
+       
+       $("#itemPerPageSelector").select2({
+            minimumResultsForSearch: Infinity,
+            width:'50px'
+       });
     </script>
 </div>

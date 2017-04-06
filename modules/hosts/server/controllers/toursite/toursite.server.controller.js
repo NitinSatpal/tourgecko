@@ -51,7 +51,7 @@ exports.getToursiteData = function (req, res) {
       });
     }
     Product.count({hostCompany: company._id}, function(error, count){
-      Product.find({hostCompany: company._id}).limit(20).sort('-created').populate('user').populate('hostCompany').exec(function (err, products) {
+      Product.find({hostCompany: company._id}).limit(10).sort('-created').populate('user').populate('hostCompany').exec(function (err, products) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
