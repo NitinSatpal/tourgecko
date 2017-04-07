@@ -1,10 +1,10 @@
 <div class="hostHome container-fluid" id="hostCalendar">
-	<span class="loader-spinner-hostCalendarTab" id="loaderForCalendarSideNav"><i class="fa fa-refresh fa-spin"></i></span>
 	<!--<div>
 		<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
 	</div>-->
-	<div class="row body-content">
+	<div class="row body-content" id="calendarTabBodyContent">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
+			<span class="loader-spinner-hostCalendarTab" id="loaderForCalendarSideNav" ng-style="vm.getLoaderPositionForTabCalendar()"><i class="fa fa-refresh"></i></span>
 			<div class="home_add_tour">
 			    <i class="zmdi zmdi-home heading-icn"></i>
 			    <h2><span>Calendar</span></h2>

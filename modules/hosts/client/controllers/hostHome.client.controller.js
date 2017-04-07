@@ -74,7 +74,8 @@
     vm.getLoaderPositionForHomePageCalendar = function() {
       var leftMargin = ($('.home-content').width() - 25.719) / 2;
       var cssObject = {
-        "left" : leftMargin
+        "left" : leftMargin,
+        "color": '#ff9800'
       }
       return cssObject;
     }

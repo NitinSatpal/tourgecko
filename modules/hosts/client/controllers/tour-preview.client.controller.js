@@ -131,5 +131,16 @@
         return cssObject;
       }
     }
+
+    vm.getLoaderPositionForPreview = function () {
+      var leftMargin = ($window.innerWidth - 34.297) / 2;
+      var topMargin = ($window.innerHeight - 40) / 2;
+      var cssObject = {
+        "left" : leftMargin,
+        "top" : topMargin,
+        "color": '#ff9800'
+      }
+      return cssObject;
+    }
   }
 }());

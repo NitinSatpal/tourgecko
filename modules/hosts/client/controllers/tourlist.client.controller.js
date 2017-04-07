@@ -286,7 +286,18 @@
         $('#tourgeckoBody').addClass('disableBody');
         changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
-        $state.go('host.editProduct', {productId: vm.products[index]._id});
+        //$state.go('host.editProduct', {productId: vm.products[index]._id});
+    }
+
+    vm.getLoaderPositionForTourEdit = function () {
+      var leftMargin = ($('#tourlist-row-content').width() - 34.297) / 2;
+      var topMargin = ($window.innerHeight - 40) / 2.5;
+      var cssObject = {
+        "left" : leftMargin,
+        "top" : topMargin,
+        "color": '#ff9800'
+      }
+      return cssObject;
     }
 
     vm.tweetTheProduct = function () {
@@ -315,5 +326,6 @@
             vm.error = response.message;
         });
     }
+
   }
 }());

@@ -82,16 +82,8 @@ a:hover .header-profile-image {
   cursor: wait;
 }
 .loader-spinner-tourPreviewDetails {
-    /*border: 4px solid #f3f3f3;
-    border-top: 4px solid #40C4FF;
-    border-radius: 50%;
-    width: 65px;
-    height: 65px;*/
-    /*animation: spin 2s linear infinite;*/
     position: absolute;
-    font-size: 80px;
-    left: 45%;
-    top: 60%;
+    font-size: 40px;
     z-index: 9999;
 }
 .imageUploader {
@@ -138,10 +130,11 @@ a:hover .header-profile-image {
 
 .loader-spinner-goToToursite {
     font-size: 40px;
-    position: fixed;
-    left: 55%;
-    top: 40%;
+    position: absolute;
+    left: 55vw;
+    top: 40vh;
     z-index: 9999;
+    color: #ff9800;
 }
 
 @keyframes spin {
@@ -158,5 +151,10 @@ a:hover .header-profile-image {
   }
   .pagination a {
     padding: 4px 8px;
+  }
+  .loader-spinner-goToToursite {
+    font-size: 40px;
+    left: 50vw;
+    top: 40vh;
   }
 }

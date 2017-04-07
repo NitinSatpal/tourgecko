@@ -813,6 +813,17 @@ vm.createDepartureSession = function () {
         return vm.otherCSS;
     }
 
+    vm.getLoaderPositionForProductSave = function () {
+      var leftMargin = ($('.add-product').width() - 34.297) / 2;
+      var topMargin = ($window.innerHeight - 40) / 3;
+      var cssObject = {
+        "left" : leftMargin,
+        "top" : topMargin,
+        "color": '#ff9800'
+      }
+      return cssObject;
+    }
+
     $scope.goToPreviewPage = function () {
       if (!vm.tour.productTitle) {
         alert('Please enter at least the title of the tour');

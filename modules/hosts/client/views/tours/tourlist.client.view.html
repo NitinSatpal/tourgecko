@@ -1,8 +1,8 @@
 <div class="hostHome" id="tours">
-<span class="loader-spinner-editTourInitiation" id="loaderForEditTour" ng-if="vm.tourEditInitiated"><i class="fa fa-refresh fa-spin"></i></span>'
 	<div id="tours_list" class="container-fluid">
 		<div class="row body-content tourlist-content">
-			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" id="tourlist-row-content">
+				<span class="loader-spinner-editTourInitiation" id="loaderForEditTour" ng-if="vm.tourEditInitiated" ng-style="vm.getLoaderPositionForTourEdit()"><i class="fa fa-refresh fa-spin"></i></span>
 				<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">

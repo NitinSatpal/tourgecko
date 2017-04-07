@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     </header>
     <main>
-        <span ng-if="vm.showLoaderForTourDetails" class="loader-spinner-tourPreviewDetails"><i class="fa fa-refresh fa-spin"></i></span>
+        <span ng-if="vm.showLoaderForTourDetails" class="loader-spinner-tourPreviewDetails" ng-style="vm.getLoaderPositionForTourDetails()"><i class="fa fa-refresh fa-spin"></i></span>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs" ng-if="vm.productDetails.productPictureURLs.length > 0">
