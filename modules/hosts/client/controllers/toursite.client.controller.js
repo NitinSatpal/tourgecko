@@ -354,8 +354,10 @@
     }
 
     vm.getDynamicLeftMarginForCompanyLogo = function () {
+      console.log($window.innerWidth);
+      var leftMargin = ($window.innerWidth - 70) / 2 - 60 -15;
       var cssObject = {
-        "margin-left" : "34%"
+        "margin-left" : leftMargin
       }
       if(window.innerWidth <= 767)
         return cssObject;
