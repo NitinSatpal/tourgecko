@@ -149,6 +149,24 @@ exports.fetchCompanyProductDetailsForCurrentPage = function (req, res) {
   }
 };
 
+// Fetch Company product details for current page after product edit
+exports.fetchCompanyProductDetailsForCurrentPageAfterEdit = function (req, res) {
+  if (req.user) {
+    var pageNumber = req.params.pageNumber;
+    var itemsPerPage = req.params.itemsPerPage;
+    Product.count({ 'hostCompany': req.user.company }, function(error, count) {
+      Product.find({ 'hostCompany': req.user.company }).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({productArray: products, productCount: count});
+      });
+    });
+  }
+};
+
 
 // Fetching all product session details here.
 exports.fetchAllProductSessionDetails = function (req, res) {

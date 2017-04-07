@@ -43,18 +43,21 @@
     var preferenceRememberence = $window.localStorage.getItem('shallRememberFilterPreference');
     if (previousKeysPresence == 'present' && preferenceRememberence == 'Yes') {
       var previousFilterKeys = JSON.parse($window.localStorage.getItem("bookingFilters"));
+      if ($window.localStorage.getItem('alreadySelectedItemsPerPage') != null)
+        vm.numberOfItemsInOnePage = parseInt($window.localStorage.getItem('alreadySelectedItemsPerPage'));
       for (var index = 0; index < previousFilterKeys.length; index++)
         vm.selectedFiltersForBookingRecords[reverseFilterMapping.get(previousFilterKeys[index])] = true;
       vm.rememberFilterPreferences = true;
       categorizedBooking(previousFilterKeys, true);
     } else {
-      vm.selectedFiltersForBookingRecords
+      if ($window.localStorage.getItem('alreadySelectedItemsPerPage') != null)
+        vm.numberOfItemsInOnePage = $window.localStorage.getItem('alreadySelectedItemsPerPage');
       fetchAllBookingRecords();
     }
 
 
     function fetchAllBookingRecords () {
-      $http.get('/api/host/booking/').success(function (response) {
+      $http.get('/api/host/allBookings/' + vm.numberOfItemsInOnePage).success(function (response) {
         vm.bookings = response.bookingArray;
         vm.totalPages = Math.ceil(response.bookingsCount / 10);
         if(vm.totalPages <= vm.paginationWindow)
@@ -137,7 +140,7 @@
     vm.changeItemsPerPage = function (itemsPerPage) {
         vm.totalPages = Math.ceil(totalBookingRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
-
+        $window.localStorage.setItem('alreadySelectedItemsPerPage', itemsPerPage);
         // This will only be possible if user is changing items per page from lestt to more
         if(vm.currentPageNumber > vm.totalPages) {
           vm.currentPageNumber = vm.totalPages;

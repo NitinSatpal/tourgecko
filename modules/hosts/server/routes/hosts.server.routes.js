@@ -33,6 +33,9 @@ module.exports = function (app) {
   app.route('/api/host/companyproductsForCurrentPage/:pageNumber/:itemsPerPage')
     .get(hosts.fetchCompanyProductDetailsForCurrentPage);
 
+  app.route('/api/host/companyproductsForCurrentPageAfterEdit/:pageNumber/:itemsPerPage')
+    .get(hosts.fetchCompanyProductDetailsForCurrentPageAfterEdit);
+
   app.route('/api/host/productsessions/')
     .get(hosts.fetchAllProductSessionDetails);
 
@@ -50,6 +53,9 @@ module.exports = function (app) {
 
   app.route('/api/host/booking')
     .post(hosts.createBooking)
+    .get(hosts.fetchCompanyBookingDetails);
+
+  app.route('/api/host/allBookings/:itemsPerPage')
     .get(hosts.fetchCompanyBookingDetails);
 
   app.route('/api/host/bookingDetailsForCalendar')

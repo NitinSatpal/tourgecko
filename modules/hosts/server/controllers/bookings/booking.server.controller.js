@@ -95,16 +95,29 @@ exports.fetchCompanyBookingDetailsForCalendar = function (req, res) {
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
   if (req.user) {
-    Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
-      Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({bookingArray: bookings, bookingsCount: count});
+    if(req.params.itemsPerPage !== undefined) {
+      Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
+        Booking.find({hostOfThisBooking: req.user._id}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({bookingArray: bookings, bookingsCount: count});
+        });
       });
-    });
+    } else {
+      Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
+        Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({bookingArray: bookings, bookingsCount: count});
+        });
+      });
+    }
   }
 };
 

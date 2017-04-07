@@ -27,18 +27,50 @@
       paginationWindow = 3;
 
     // vm.products = CompanyProductService.query();
-    $http.get('/api/host/companyproducts/').success(function (response) {
-        vm.products = response.productArray;
-        vm.totalPages = Math.ceil(response.productCount/10);
-        if(vm.totalPages <= paginationWindow)
-            vm.pageTo = vm.totalPages;
-        else
-            vm.pageTo = paginationWindow;
-        vm.pageCounterArray = new Array(vm.totalPages);
-        totalProductRecords = response.productCount;
-    }).error(function (response) {
-        vm.error = response.message;
-    });
+
+    var prevPageNumber = $window.localStorage.getItem('previousPageNumber');
+    var prevItemPerPage = $window.localStorage.getItem('previousItemsPerPage');
+
+    if((prevPageNumber != null && prevItemPerPage != null) && (prevPageNumber != 'noPreviousPageNumber' && prevItemPerPage != 'noPreviousItemsPerPage')) {
+        $http.get('/api/host/companyproductsForCurrentPageAfterEdit/' + prevPageNumber +'/' + parseInt(prevItemPerPage)).success(function (response) {
+            vm.products = response.productArray;
+            vm.totalPages = Math.ceil(response.productCount / prevItemPerPage);
+            vm.pageCounterArray = new Array(vm.totalPages);
+            $('html, body').scrollTop(0);
+            $window.localStorage.setItem('previousPageNumber', 'noPreviousPageNumber');
+            $window.localStorage.setItem('previousItemsPerPage', 'noPreviousItemsPerPage');
+            if ((prevPageNumber - paginationWindow) > 0)
+                vm.pageFrom =   Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
+            else
+                vm.pageFrom = 0;
+            if ((vm.pageFrom + paginationWindow) <= vm.totalPages)
+                vm.pageTo = vm.pageFrom + paginationWindow;
+            else
+                vm.pageTo = vm.totalPages;
+            vm.currentPageNumber = prevPageNumber;
+            vm.numberOfItemsInOnePage = prevItemPerPage;
+            if (vm.pageTo < vm.totalPages - 1)
+                vm.showAtLast = false;
+            else
+                vm.showAtLast = true;
+        }).error(function (response) {
+            vm.error = response.message;
+        }); 
+    } else {
+        $http.get('/api/host/companyproducts/').success(function (response) {
+            vm.products = response.productArray;
+            vm.totalPages = Math.ceil(response.productCount/10);
+            if(vm.totalPages <= paginationWindow)
+                vm.pageTo = vm.totalPages;
+            else
+                vm.pageTo = paginationWindow;
+            vm.pageCounterArray = new Array(vm.totalPages);
+            totalProductRecords = response.productCount;
+        }).error(function (response) {
+            vm.error = response.message;
+        });
+    }
+    
 
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -286,6 +318,8 @@
         $('#tourgeckoBody').addClass('disableBody');
         changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
+        $window.localStorage.setItem('previousPageNumber', vm.currentPageNumber);
+        $window.localStorage.setItem('previousItemsPerPage', vm.numberOfItemsInOnePage);
         $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
 
