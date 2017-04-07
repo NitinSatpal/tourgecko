@@ -286,7 +286,7 @@
         $('#tourgeckoBody').addClass('disableBody');
         changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
-        //$state.go('host.editProduct', {productId: vm.products[index]._id});
+        $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
 
     vm.getLoaderPositionForTourEdit = function () {
