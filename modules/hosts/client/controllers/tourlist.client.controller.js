@@ -20,18 +20,17 @@
     var changedProductStatus = [];
     var changedProductIds = [];
     var totalProductRecords;
-    var paginationWindow;
     if ($window.innerWidth > 767)
-      paginationWindow = 5;
+      vm.paginationWindow = 5;
     else
-      paginationWindow = 3;
+      vm.paginationWindow = 3;
 
     // vm.products = CompanyProductService.query();
 
     var prevPageNumber = $window.localStorage.getItem('previousPageNumber');
     var prevItemPerPage = $window.localStorage.getItem('previousItemsPerPage');
 
-    if((prevPageNumber != null && prevItemPerPage != null) && (prevPageNumber != 'noPreviousPageNumber' && prevItemPerPage != 'noPreviousItemsPerPage')) {
+    if((prevPageNumber != null && prevItemPerPage != null) && (prevPageNumber != 'noPreviousPageNumber' && prevItemPerPage != 'noPreviousItemsPerPage') && (prevPageNumber != undefined && prevItemPerPage != undefined)) {
         $http.get('/api/host/companyproductsForCurrentPageAfterEdit/' + prevPageNumber +'/' + parseInt(prevItemPerPage)).success(function (response) {
             vm.products = response.productArray;
             vm.totalPages = Math.ceil(response.productCount / prevItemPerPage);
@@ -39,12 +38,12 @@
             $('html, body').scrollTop(0);
             $window.localStorage.setItem('previousPageNumber', 'noPreviousPageNumber');
             $window.localStorage.setItem('previousItemsPerPage', 'noPreviousItemsPerPage');
-            if ((prevPageNumber - paginationWindow) > 0)
-                vm.pageFrom =   Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
+            if ((prevPageNumber - vm.paginationWindow) > 0)
+                vm.pageFrom =   Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
             else
                 vm.pageFrom = 0;
-            if ((vm.pageFrom + paginationWindow) <= vm.totalPages)
-                vm.pageTo = vm.pageFrom + paginationWindow;
+            if ((vm.pageFrom + vm.paginationWindow) <= vm.totalPages)
+                vm.pageTo = vm.pageFrom + vm.paginationWindow;
             else
                 vm.pageTo = vm.totalPages;
             vm.currentPageNumber = prevPageNumber;
@@ -57,15 +56,18 @@
             vm.error = response.message;
         }); 
     } else {
-        $http.get('/api/host/companyproducts/').success(function (response) {
+        if(prevItemPerPage != null && prevItemPerPage !== undefined && prevItemPerPage != 'noPreviousItemsPerPage')
+            vm.numberOfItemsInOnePage = prevItemPerPage;
+        $http.get('/api/host/allCompanyproducts/' + vm.numberOfItemsInOnePage).success(function (response) {
             vm.products = response.productArray;
-            vm.totalPages = Math.ceil(response.productCount/10);
-            if(vm.totalPages <= paginationWindow)
+            vm.totalPages = Math.ceil(response.productCount / vm.numberOfItemsInOnePage);
+            if(vm.totalPages <= vm.paginationWindow)
                 vm.pageTo = vm.totalPages;
             else
-                vm.pageTo = paginationWindow;
+                vm.pageTo = vm.paginationWindow;
             vm.pageCounterArray = new Array(vm.totalPages);
             totalProductRecords = response.productCount;
+            vm.pageFrom = 0;
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -134,11 +136,33 @@
             });
         }
     }*/
-    
+
     vm.changeItemsPerPage = function (itemsPerPage) {
         changeProductVisibility();
         vm.totalPages = Math.ceil(totalProductRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
+        $window.localStorage.setItem('previousItemsPerPage', itemsPerPage);
+        // This will only be possible if user is changing items per page from lestt to more
+        if(vm.currentPageNumber > vm.totalPages) {
+          vm.currentPageNumber = vm.totalPages;
+          vm.showAtLast = false;
+          vm.pageTo = vm.currentPageNumber;
+          if(vm.pageTo - vm.paginationWindow >= 0)
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
+        } else {
+            if ((vm.currentPageNumber - vm.paginationWindow) > 0)
+                vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+            else
+                vm.pageFrom = 0;
+            if (vm.pageFrom + vm.paginationWindow <=vm.totalPages)
+                vm.pageTo = vm.pageFrom + vm.paginationWindow;
+            else
+                vm.pageTo = vm.totalPages
+            if (vm.pageTo + 1 < vm.totalPages)
+                vm.showAtLast = true;
+            else
+                vm.showAtLast = false;
+        }
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
@@ -148,15 +172,17 @@
     }
 
     vm.changePageNumber = function (clickedIndex) {
-        if (vm.currentPageNumber == clickedIndex + 1)
-            return;
+        if (vm.currentPageNumber == clickedIndex + 1) {
+          $('html, body').scrollTop(0);
+          return;
+        }
         changeProductVisibility();
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
           vm.pageTo = vm.currentPageNumber;
-          if (vm.pageCounterArray.length >= paginationWindow)
-            vm.pageFrom =   Math.ceil((vm.pageTo - paginationWindow) / paginationWindow) * paginationWindow;
+          if (vm.pageCounterArray.length >= vm.paginationWindow)
+            vm.pageFrom = Math.ceil((vm.pageTo - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
           else
             vm.pageFrom = 0;
         }
@@ -164,8 +190,8 @@
         if(vm.currentPageNumber == 1) {
           vm.showAtLast = true;
           vm.pageFrom = 0
-          if (vm.pageCounterArray.length >= paginationWindow)
-            vm.pageTo = paginationWindow;
+          if (vm.pageCounterArray.length >= vm.paginationWindow)
+            vm.pageTo = vm.paginationWindow;
           else
             vm.pageTo = vm.pageCounterArray.length;
         }
@@ -186,11 +212,11 @@
             return;
         changeProductVisibility();
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
-        if (vm.currentPageNumber % paginationWindow == 0 || isWindowSizeReached) {
+        if (vm.currentPageNumber % vm.paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
 
           // if we ar at multiple of 5 page number, then set off the variable to enter in the nect if loop
-          if (vm.currentPageNumber % paginationWindow == 0)
+          if (vm.currentPageNumber % vm.paginationWindow == 0)
             windowSizeIncremented = false;
 
           // increment the page number
@@ -201,11 +227,11 @@
             // if we are two pages short of total pages, change the '....' to the starting side and set the from and to limits From: -4 here
             if (vm.currentPageNumber + 1 == vm.pageCounterArray.length) {
               vm.showAtLast = false;
-              vm.pageFrom = vm.currentPageNumber - paginationWindow - 1;
+              vm.pageFrom = vm.currentPageNumber - vm.paginationWindow - 1;
               vm.pageTo = vm.currentPageNumber + 1;
             } else {
               // if we are not two pages short of total pages, just set the from and to limits From : -5 here
-              vm.pageFrom = vm.currentPageNumber - paginationWindow;
+              vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
               vm.pageTo = vm.currentPageNumber;
             }
           }
@@ -228,13 +254,13 @@
             return;
         changeProductVisibility();
         windowSizeIncremented = true;
-        if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow + paginationWindow <= vm.pageCounterArray.length) {
-            vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
-            vm.pageTo = vm.pageFrom + paginationWindow;
+        if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow + vm.paginationWindow <= vm.pageCounterArray.length) {
+            vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
             vm.showAtLast = true;
         } else {
-            if (Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow <= vm.pageCounterArray.length) {
-                vm.pageFrom = Math.ceil(vm.currentPageNumber / paginationWindow) * paginationWindow;
+            if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow <= vm.pageCounterArray.length) {
+                vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
                 vm.pageTo = vm.pageCounterArray.length;
                 vm.showAtLast = false;
             } else {
@@ -260,13 +286,13 @@
         changeProductVisibility();
         vm.currentPageNumber = vm.currentPageNumber - 1;
         if (!vm.showAtLast) {
-            var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - paginationWindow) / paginationWindow) * paginationWindow;
+            var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
             if (vm.currentPageNumber == lastMultipleOfFive)
               vm.showAtLast = true;
         }
 
-        if (vm.currentPageNumber % paginationWindow == 0) {
-            vm.pageFrom = vm.currentPageNumber - paginationWindow;
+        if (vm.currentPageNumber % vm.paginationWindow == 0) {
+            vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
             vm.pageTo = vm.currentPageNumber;
         }
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
@@ -282,14 +308,14 @@
         if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
             return;
         changeProductVisibility();
-        if (Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow > 0) {
-            vm.pageTo = Math.ceil((vm.currentPageNumber - paginationWindow) / paginationWindow) * paginationWindow;
-            vm.pageFrom = vm.pageTo - paginationWindow;
+        if (Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow > 0) {
+            vm.pageTo = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+            vm.pageFrom = vm.pageTo - vm.paginationWindow;
             vm.showAtLast = true;
         } else {
-            if (vm.pageCounterArray.length >= paginationWindow) {
+            if (vm.pageCounterArray.length >= vm.paginationWindow) {
                 vm.pageFrom = 0;
-                vm.pageTo = paginationWindow;
+                vm.pageTo = vm.paginationWindow;
                 vm.showAtLast = true;
             } else {
                 vm.pageFrom = 0;

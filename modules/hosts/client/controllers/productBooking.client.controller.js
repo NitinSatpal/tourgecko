@@ -59,7 +59,7 @@
     function fetchAllBookingRecords () {
       $http.get('/api/host/allBookings/' + vm.numberOfItemsInOnePage).success(function (response) {
         vm.bookings = response.bookingArray;
-        vm.totalPages = Math.ceil(response.bookingsCount / 10);
+        vm.totalPages = Math.ceil(response.bookingsCount / vm.numberOfItemsInOnePage);
         if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
         else
@@ -73,8 +73,14 @@
           if(vm.pageTo - vm.paginationWindow >= 0)
             vm.pageFrom = vm.pageTo - vm.paginationWindow;
         } else {
-          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if ((vm.currentPageNumber - vm.paginationWindow) > 0)
+            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          else
+            vm.pageFrom = 0;
+          if ((vm.pageFrom + vm.paginationWindow) <= vm.totalPages)
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          else
+            vm.pageTo = vm.totalPages;
           if (vm.pageTo + 1 < vm.totalPages)
             vm.showAtLast = true;
           else
@@ -149,8 +155,15 @@
           if(vm.pageTo - vm.paginationWindow >= 0)
             vm.pageFrom = vm.pageTo - vm.paginationWindow;
         } else {
-          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if ((vm.currentPageNumber - vm.paginationWindow) > 0 )
+            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          else
+            vm.pageFrom = 0;
+
+          if(vm.pageFrom + vm.paginationWindow <= vm.totalPages)
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          else
+            vm.pageTo = vm.totalPages;
           if (vm.pageTo + 1 < vm.totalPages)
             vm.showAtLast = true;
           else
@@ -401,8 +414,15 @@
           if(vm.pageTo - vm.paginationWindow >= 0)
             vm.pageFrom = vm.pageTo - vm.paginationWindow;
         } else {
-          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if ((vm.currentPageNumber - vm.paginationWindow) > 0)
+            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          else
+            vm.pageFrom = 0;
+
+          if (vm.pageFrom + vm.paginationWindow <= vm.totalPages)
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          else
+            vm.pageTo = vm.totalPages;
           if (vm.pageTo + 1 < vm.totalPages)
             vm.showAtLast = true;
           else

@@ -133,6 +133,36 @@ exports.fetchCompanyProductDetails = function (req, res) {
   }
 };
 
+
+// Fetch Company product details
+exports.fetchAllProductDetailsOfCompany = function (req, res) {
+  if (req.user) {
+    if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
+      Product.count({ 'hostCompany': req.user.company }, function(error, count) {
+        Product.find({ 'hostCompany': req.user.company }).limit(req.params.itemsPerPage).sort('-created').populate('').exec(function (err, products) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({productArray: products, productCount: count});
+        });
+      });
+    } else {
+      Product.count({ 'hostCompany': req.user.company }, function(error, count) {
+        Product.find({ 'hostCompany': req.user.company }).limit(10).sort('-created').populate('').exec(function (err, products) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({productArray: products, productCount: count});
+        });
+      });
+    }
+  }
+};
+
 // Fetch Company product details for current page
 exports.fetchCompanyProductDetailsForCurrentPage = function (req, res) {
   if (req.user) {

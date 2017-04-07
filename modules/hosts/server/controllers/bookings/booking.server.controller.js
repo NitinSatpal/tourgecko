@@ -94,8 +94,22 @@ exports.fetchCompanyBookingDetailsForCalendar = function (req, res) {
 
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
+  Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
+    Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json({bookingArray: bookings, bookingsCount: count});
+    });
+  });
+}
+
+// Fetch all bookings
+exports.fetchAllBookingDetailsOfCompany = function (req, res) {
   if (req.user) {
-    if(req.params.itemsPerPage !== undefined) {
+    if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
       Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
         Booking.find({hostOfThisBooking: req.user._id}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
