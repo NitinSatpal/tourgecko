@@ -814,7 +814,11 @@ vm.createDepartureSession = function () {
     }
 
     vm.getLoaderPositionForProductSave = function () {
-      var leftMargin = ($('.add-product').width() - 34.297) / 2;
+      var leftMargin; 
+        if($window.innerWidth > 767)
+            leftMargin = ($('.add-product').width() - 34.297) / 2;
+        else
+            leftMargin = ($window.innerWidth - 34.297) / 2;
       var topMargin = ($window.innerHeight - 40) / 3;
       var cssObject = {
         "left" : leftMargin,
