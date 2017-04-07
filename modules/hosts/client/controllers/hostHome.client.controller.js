@@ -70,5 +70,13 @@
 
       });
     }
+
+    vm.getLoaderPositionForHomePageCalendar = function() {
+      var leftMargin = ($('.home-content').width() - 25.719) / 2;
+      var cssObject = {
+        "left" : leftMargin
+      }
+      return cssObject;
+    }
   }
 }());

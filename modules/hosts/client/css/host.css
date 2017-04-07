@@ -203,7 +203,6 @@ p {
 .loader-spinner-hostHomeCalendar {
 	font-size: 30px;
     position: relative;
-    left: 46%;
     z-index: 9999;
 }
 .loader-spinner-editTourInitiation {
