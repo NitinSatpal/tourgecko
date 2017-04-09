@@ -32,19 +32,22 @@
   background-color: #3B5998;
 }
 .btn-facebook:hover {
-  background-color: #8B9DC3;
+  background-color: #3B5998;
+  opacity:0.9;
 }
 .btn-twitter {
   background-color: #4099FF;
 }
 .btn-twitter:hover {
-  background-color: #0084B4;
+  background-color: #4099FF;
+  opacity:0.9;
 }
 .btn-whatsapp {
-  background-color: #128c7e;
+  background-color: #25d366;
 }
 .btn-whatsapp:hover {
   background-color: #25d366;
+  opacity:0.9;
 }
 .btn-google {
   background-color: #D34836;

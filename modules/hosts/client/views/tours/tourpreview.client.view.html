@@ -35,8 +35,8 @@
 
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
-                <li ng-repeat="image in vm.productDetails.productPictureURLs" ng-if="vm.productDetails.productPictureURLs.length > 0">
-                    <img data-ng-src="{{image}}">
+                <li ng-repeat="image in vm.productDetails.productPictureURLs">
+                    <img ng-src="{{image}}">
                 </li>
                 <li class="no-Image-Preview-Details" ng-if="vm.productDetails.productPictureURLs.length == 0">
                     <i class="fa fa-picture-o" aria-hidden="true"></i>

@@ -5,7 +5,8 @@
 				<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
 				<span class="loader-spinner-editTourInitiation" id="loaderForEditTour" ng-if="vm.tourEditInitiated" ng-style="vm.getLoaderPositionForTourEdit()"><i class="fa fa-refresh fa-spin"></i></span>
 				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index">
+					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index" id="tourListItem{{$index}}">
+						<div style="display: none" ng-if="vm.editedTour == product._id">{{vm.highlightEditedTour($index)}}</div>
 						<div class="panel">
 							<div class="row">
 								<div class="col-sm-6 col-md-6 col-lg-6 tour_left" ng-show="vm.products[$index].productPictureURLs.length > 0">
@@ -136,10 +137,11 @@
 			            </div>
 			            <br>
 			            <br>
-			            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
-			            	<!-- <a href="whatsapp://send" data-text="Take a look at this awesome website:" data-href="" class="btn btn-primary btn-whatsapp shareButton">-->
-			            	<a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])" class="btn btn-primary btn-whatsapp shareButton">
-			                	<span class="fa fa-whatsapp"></span> Whatsapp
+			            <!--hidden-lg hidden-md hidden-sm -->
+			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			            	<a href="#" data-text="Whatsapp Bro" data-link="YOUR-LINK-GOES-HERE" class="btn btn-primary btn-whatsapp shareButton"><span class="fa fa-whatsapp"></span> Whatsapp</a>
+			            	<!--<a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])" class="btn btn-primary btn-whatsapp shareButton">
+			                	<span class="fa fa-whatsapp"></span> Whatsapp -->
 			               	</a>
 			            </div>
 			        </div>
@@ -195,4 +197,19 @@
 	    e.preventDefault()
 	    $('body, #shadow').removeAttr('style')
 	})
+</script>
+<script>
+	$(document).ready(function() {
+	    $(document).on("click", '.btn-whatsapp', function() {
+	        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	            var text = $(this).attr("data-text");
+	            var url = $(this).attr("data-link");
+	            var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
+	            var whatsapp_url = "whatsapp://send?text=" + message;
+	            window.location.href = whatsapp_url;
+	        } else {
+	            alert("Please use an Mobile Device to Share this Article");
+	        }
+	    });
+	});
 </script>

@@ -5,11 +5,12 @@
     .module('hosts')
     .controller('TourListController', TourListController);
 
-  TourListController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CompanyProductService'];
+  TourListController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', '$interval', 'Authentication', 'CompanyProductService'];
 
-  function TourListController($scope, $state, $window, $http, Authentication, CompanyProductService) {
+  function TourListController($scope, $state, $window, $http, $timeout, $interval, Authentication, CompanyProductService) {
     var vm = this;
     vm.authentication = Authentication;
+    vm.editedTour = $window.localStorage.getItem('editedTourId');
     vm.index = -1;
     $scope.askForAuthentication = "";
     vm.numberOfItemsInOnePage = '10';
@@ -346,7 +347,36 @@
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
         $window.localStorage.setItem('previousPageNumber', vm.currentPageNumber);
         $window.localStorage.setItem('previousItemsPerPage', vm.numberOfItemsInOnePage);
+        $window.localStorage.setItem('editedTourId', vm.products[index]._id);
         $state.go('host.editProduct', {productId: vm.products[index]._id});
+    }
+    vm.highlightEditedTour = function (tourIndex) {
+        console.log('came');
+        $window.localStorage.setItem('editedTourId','noTourId');
+        vm.editedTour = $window.localStorage.getItem('editedTourId');
+        var scrollTo = 0;
+        var otherElementHeights = 63 + 55 + 20;
+        for (var index = 0; index < tourIndex; index++)
+            scrollTo = scrollTo + document.getElementById('tourListItem'+index).offsetHeight;
+        $('#tourListItem'+tourIndex).css('opacity', '0');
+        $('html, body').scrollTop(scrollTo + otherElementHeights);
+        //#40C4FF
+        /*$('#tourListItem'+tourIndex).css('opacity', '0.1');
+        $timeout(function () {
+            for( var index = 0; index < 10; index ++)
+            $('#tourListItem'+tourIndex).css('opacity', '');
+        }, 1000);*/
+        var opacityCounter = 0.1;
+        var intervalCounter = 0;
+        var interval = $interval(function() {
+            $('#tourListItem'+tourIndex).css('opacity', opacityCounter);
+            opacityCounter = opacityCounter + 0.1;
+            intervalCounter = intervalCounter + 1;
+            if(intervalCounter == 10) {
+                $('#tourListItem'+tourIndex).css('opacity', '');
+                $interval.cancel(interval);
+            }
+        }, 300);
     }
 
     vm.getLoaderPositionForTourEdit = function () {

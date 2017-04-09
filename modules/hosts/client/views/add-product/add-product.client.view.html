@@ -829,11 +829,14 @@
 													<label for="tours_sa_limited" class="control-label">Photos</label>
 	                                                <p class="sub_desc">Make Tour Listing appealing by adding photos. First photo is used as cover photo for listing.</p>
 	                                                <div class="col-lg-12 col-md-12 col-sm-12">
-	                                                    <div class="fileUpload btn btn-primary">
-	                                                    	<span class="pull-left"><i class="fa fa-plus" aria-hidden="true"></i> Add Photo</span>
-	                                                      	<input id="productImages" type="file" class="upload" onchange="showPreview('#product_img_preview' , '#productImages', true)" accept="image/*" multiple/>
+	                                                    <div class="fileUpload btn btn-primary add-Photo-button-div">
+	                                                    	<span id="addPhotoButton" class="pull-left"><i class="fa fa-plus" aria-hidden="true"></i> Add Photo</span>
+	                                                      	<input id="productImages" type="file" class="upload" onchange="showPreview('#product_img_preview' , '#productImages', true)" accept="image/*" multiple />
 	                                                   	</div>
-	                                                   	<div class="fileSubmit" ng-click="vm.uploadImage()">
+	                                                   	<div class="fileSubmit" ng-click="vm.uploadImage()" id="productPhotoUploadButtonTemp" disableclick style="display: none">
+	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
+	                                                   	</div>
+	                                                   	<div class="fileSubmit" ng-click="vm.uploadImage()" id="productPhotoUploadButton">
 	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
 	                                                   	</div>
 	                                                   	<br>
@@ -841,8 +844,11 @@
 	                                                   	<div id="pictureUploadLimitExceeded" class="text-danger" style="display: none;">
 													        <strong>Maximum 5 pictures are allowed. Extra images are removed automatically.</strong>
 													    </div>
-													    <div id="pictureUploadSizeLimitExceeded" class="text-danger" style="display: none;">
+													    <div id="pictureUploadSizeLimitExceeded" class="text-danger" style="display: none;" vm.imageSuccess='' vm.imageError=''>
 													        <strong>Marked images exceed maximum size limit. Please replace or remove them.</strong>
+													    </div>
+													    <div id="pictureUploadLimitMessageOnEdit" style="display: none;" class="sub_desc" vm.imageSuccess='' vm.imageError=''>
+													        <strong>Maximum 5 pictures are allowed. You cannot upload more images unless you remove some.</strong>
 													    </div>
 	                                                   	<div ng-show="vm.imageError" class="text-danger">
 													        <strong ng-bind="vm.imageError"></strong>
@@ -879,11 +885,14 @@
 														<p class="sub_desc" ng-show="vm.helpVisible">If you have tour map created externally, upload it as image here</p>
 													<div class="col-sm-12 col-md-12 col-lg-12">
 
-														<div class="fileUpload btn">
+														<div class="fileUpload btn .add-map-button-div">
 								                            <span><i class="fa fa-plus" aria-hidden="true"></i> Add Map</span>
 								                            <input id="productMaps" type="file" class="upload" onchange="showPreview('#product_Map_preview' , '#productMaps', true)" accept="image/*" multiple/>
 									                    </div>
-									                    <div class="fileSubmit" ng-click="vm.uploadMap()">
+									                    <div class="fileSubmit" ng-click="vm.uploadMap()" id="productMapUploadButtonTemp" style="display: none">
+	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
+	                                                   	</div>
+									                    <div class="fileSubmit" ng-click="vm.uploadMap()" id="productMapUploadButton">
 	                                                   		<span class="pull-right"><i class="fa fa-upload" aria-hidden="true"></i> Upload</span>
 	                                                   	</div>
 								                        <br>
@@ -893,6 +902,9 @@
 													    </div>
 													    <div id="mapUploadSizeLimitExceeded" class="text-danger" style="display: none;">
 													        <strong>Marked images exceed maximum size limit. Please replace or remove them.</strong>
+													    </div>
+													    <div id="mapUploadLimitMessageOnEdit" style="display: none;" class="sub_desc">
+													        <strong>Maximum 3 maps are allowed. You cannot upload more images unless you remove some.</strong>
 													    </div>
 	                                                   	<div ng-show="vm.mapError" class="text-danger">
 													        <strong ng-bind="vm.mapError"></strong>

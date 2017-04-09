@@ -24,22 +24,62 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	var maxLimit = 0;
 
 	if (inputFileSelectorId == '#productImages') {
-		if(files.length > 5) {
-			maxLimit = 5;
-			waitCursorCounter = 5;
-			$('#pictureUploadLimitExceeded').show();
+		if (globalImageFileStorage.length > 0) {
+			if (globalImageFileStorage.length + files.length > 5) {
+				maxLimit = 5 - globalImageFileStorage.length;
+				waitCursorCounter = 5 - globalImageFileStorage.length;
+				$('#pictureUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
+		} else if (globalImageFileStorageEdit.length > 0) {
+			if (globalImageFileStorageEdit.length + files.length > 5) {
+				maxLimit = 5 - globalImageFileStorageEdit.length;
+				waitCursorCounter = 5 - globalImageFileStorageEdit.length;
+				$('#pictureUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
 		} else {
-			maxLimit = files.length;
-			waitCursorCounter = files.length;
+			if(files.length > 5) {
+				maxLimit = 5;
+				waitCursorCounter = 5;
+				$('#pictureUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
 		}
 	} else {
-		if (files.length > 3) {
-			maxLimit = 3;
-			waitCursorCounter = 3;
-			$('#mapUploadLimitExceeded').show();
+		if (globalMapFileStorage.length > 0) {
+			if (globalMapFileStorage.length + files.length > 3) {
+				maxLimit = 3 - globalMapFileStorage.length;
+				waitCursorCounter = 3 - globalMapFileStorage.length;
+				$('#mapUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
+		} else if (globalMapFileStorageEdit.length > 0) {
+			if (globalMapFileStorageEdit.length + files.length > 3) {
+				maxLimit = 3 - globalMapFileStorageEdit.length;
+				waitCursorCounter = 3 - globalMapFileStorageEdit.length;
+				$('#mapUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
 		} else {
-			maxLimit = files.length;
-			waitCursorCounter = files.length;
+			if(files.length > 3) {
+				maxLimit = 3;
+				waitCursorCounter = 3;
+				$('#mapUploadLimitExceeded').show();
+			} else {
+				maxLimit = files.length;
+				waitCursorCounter = files.length;
+			}
 		}
 	}
 
@@ -127,8 +167,10 @@ function showPreview (ElementID, inputFileSelectorId, isDeleteButtonRequired) {
 	if (files) {
 		for (var index = 0; index < maxLimit; index++)
 			readAndPreview(files[index]);
-		//[].forEach.call(files, readAndPreview);
 	}
+
+	// if user is doing some un needed stuff, situation may occuer when we need to remove it once again
+	$('#tourgeckoBody').removeClass('waitCursor');
 }
 
 
@@ -199,6 +241,16 @@ function addImageOneByOne(source) {
     .appendTo(parentDivImg)).click(removeImageFromEditPreview);
 
     editImageCounter++;
+
+    // As maximum 5 images are allowed, this counter cannot go above five. So just check everytime and it's five then disable the upload button
+    if (editImageCounter == 5) {
+    	$('.add-Photo-button-div').fadeTo(500, 0.2);
+    	$('#productImages').attr('disabled', 'true');
+    	$('#productPhotoUploadButtonTemp').fadeTo(500, 0.2);
+    	$('#productPhotoUploadButtonTemp').show();
+    	$('#productPhotoUploadButton').hide();
+    	$('#pictureUploadLimitMessageOnEdit').show();
+    }
 }
 
 function addMapOneByOne(source){
@@ -217,16 +269,42 @@ function addMapOneByOne(source){
     .appendTo(parentDivMap)).click(removeMapFromEditPreview);
 
     editMapCounter++;
+    // As maximum 5 images are allowed, this counter cannot go above five. So just check everytime and it's five then disable the upload button
+    if (editMapCounter == 3) {
+    	$('.add-map-button-div').fadeTo(500, 0.2);
+    	$('#productMaps').attr('disabled', 'true');
+    	$('#productMapUploadButtonTemp').fadeTo(500, 0.2);
+    	$('#productMapUploadButtonTemp').show();
+    	$('#productMapUploadButton').hide();
+    	$('#mapUploadLimitMessageOnEdit').show();
+    }
 }
 
 function removeImageFromEditPreview (whichFile) {
 	$('#parentDivImg'+this.id).remove();
+	console.log('the removing id is ' + this.id);
 	globalImageFileStorageEdit.splice(this.id, 1);
+	if(globalImageFileStorageEdit.length < 5) {
+		$('.add-Photo-button-div').fadeTo(500, 1);
+    	$('#productImages').attr('disabled', false);
+    	$('#productPhotoUploadButtonTemp').fadeTo(500, 1);
+    	$('#productPhotoUploadButtonTemp').hide();
+    	$('#productPhotoUploadButton').show();
+    	$('#pictureUploadLimitMessageOnEdit').hide();
+	}
 }
 
 function removeMapFromEditPreview (whichFile) {
 	$('#parentDivMap'+this.id).remove();
-	globalMapFileStorage.splice(this.id, 1);
+	globalMapFileStorageEdit.splice(this.id, 1);
+	if (globalMapFileStorageEdit.length < 3) {
+		$('.add-map-button-div').fadeTo(500, 1);
+    	$('#productMaps').attr('disabled', false);
+    	$('#productMapUploadButtonTemp').fadeTo(500, 1);
+    	$('#productMapUploadButtonTemp').hide();
+    	$('#productMapUploadButton').show();
+    	$('#mapUploadLimitMessageOnEdit').hide();
+	}
 }
 
 
