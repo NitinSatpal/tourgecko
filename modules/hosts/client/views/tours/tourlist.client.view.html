@@ -123,7 +123,7 @@
 	            <div class="modal-body">
 	                <div class="row text-center">
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			            	<a id="facebookSharing" class="btn btn-primary btn-facebook shareButton" ng-href="{{askForAuthentication}}" ng-click="vm.postTheProductOnFB()" target="_self">
+			            	<a id="facebookSharing" class="btn btn-primary btn-facebook shareButton" ng-href="{{askForAuthentication}}" ng-click="vm.postTheProductOnFB()">
 			                	<span class="fa fa-facebook"></span> Facebook
 			               	</a>
 			            </div>
@@ -139,7 +139,9 @@
 			            <br>
 			            <!--hidden-lg hidden-md hidden-sm -->
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			            	<a href="#" data-text="Whatsapp Bro" data-link="YOUR-LINK-GOES-HERE" class="btn btn-primary btn-whatsapp shareButton"><span class="fa fa-whatsapp"></span> Whatsapp</a>
+			            	<a data-text="vm.whatsAppDataToShare" data-link="vm.productDataUrl" class="btn btn-primary btn-whatsapp shareButton" id="whatsappSharingButton" ng-click="vm.shareTheProductOnWhatsapp()">
+			            		<span class="fa fa-whatsapp"></span> Whatsapp
+			            	</a>
 			            	<!--<a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])" class="btn btn-primary btn-whatsapp shareButton">
 			                	<span class="fa fa-whatsapp"></span> Whatsapp -->
 			               	</a>
@@ -200,16 +202,6 @@
 </script>
 <script>
 	$(document).ready(function() {
-	    $(document).on("click", '.btn-whatsapp', function() {
-	        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-	            var text = $(this).attr("data-text");
-	            var url = $(this).attr("data-link");
-	            var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
-	            var whatsapp_url = "whatsapp://send?text=" + message;
-	            window.location.href = whatsapp_url;
-	        } else {
-	            alert("Please use an Mobile Device to Share this Article");
-	        }
-	    });
+		$('#whatsappSharingButton').css("background-color", "#25d366");
 	});
 </script>

@@ -93,15 +93,6 @@
     vm.makeProductVisible = function (product) {
     	if (product.isPublished == true) {
     		// In case host trying to make the tour visible
-    		/* if (product.isDraft == true) {
-    			// Check if the tour is in draft stage. If yes then do not allow the host to change the visibility.
-    			alert('This tour is in draft stage. Please complete the details first');
-    			product.isVerified = false;
-    		} else {
-    			// If the tour is not in draft stage but ie yet to be verified by tourgecko. ASk host to wait while we verify
-    			alert('This tour is not yet verified by tourgecko. We will notify you with the status shortly');
-    			product.isVerified = false;
-    		} */
             var key = product._id;
             var mappingObject = {};
             mappingObject[key] = product.isPublished;
@@ -360,12 +351,6 @@
             scrollTo = scrollTo + document.getElementById('tourListItem'+index).offsetHeight;
         $('#tourListItem'+tourIndex).css('opacity', '0');
         $('html, body').scrollTop(scrollTo + otherElementHeights);
-        //#40C4FF
-        /*$('#tourListItem'+tourIndex).css('opacity', '0.1');
-        $timeout(function () {
-            for( var index = 0; index < 10; index ++)
-            $('#tourListItem'+tourIndex).css('opacity', '');
-        }, 1000);*/
         var opacityCounter = 0.1;
         var intervalCounter = 0;
         var interval = $interval(function() {
@@ -401,8 +386,6 @@
         $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
             tweet = tweet + response + '%0A';
             $window.open("http://twitter.com/share?text="+tweet+"&via=tourgecko&hashtags=''&url=''");
-            //$('#askSocialSharingOptions').fadeOut('slow');
-            //$('.modal-backdrop').remove();
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -411,7 +394,6 @@
         changeProductVisibility();
         $http.get('/api/social/host/facebook/pages').success(function (response) {
             if (response == 'not connected') {
-                console.log('i m here');
                 $scope.askForAuthentication = "/api/auth/facebook";
             } else {
                 return "";
@@ -419,6 +401,22 @@
         }).error(function (response) {
             vm.error = response.message;
         });
+    }
+    vm.shareTheProductOnWhatsapp = function () {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
+            $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
+                var text = vm.products[vm.index].productTitle + '%0A';+ vm.products[vm.index].destination + '%0A';
+                var url = response;
+                var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
+                var whatsapp_url = "whatsapp://send?text=" + message;
+                window.location.href = whatsapp_url;    
+            }).error(function (response) {
+                vm.error = response.message;
+            });
+        } else {
+           alert("Please use a Mobile Device to Share data on whatsapp");
+        }
     }
 
   }

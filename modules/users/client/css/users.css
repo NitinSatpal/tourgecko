@@ -44,10 +44,15 @@
 }
 .btn-whatsapp {
   background-color: #25d366;
+  text-decoration: none;
 }
 .btn-whatsapp:hover {
   background-color: #25d366;
   opacity:0.9;
+}
+.btn-whatsapp:visited {
+  background-color: #25d366;
+  text-decoration: none;
 }
 .btn-google {
   background-color: #D34836;
