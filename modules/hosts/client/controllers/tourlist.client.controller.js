@@ -406,9 +406,10 @@
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
             $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
-                var text = vm.products[vm.index].productTitle + '%0A';+ vm.products[vm.index].destination + '%0A';
+                var tourName = vm.products[vm.index].productTitle;
+                var tourDestination = vm.products[vm.index].destination;
                 var url = response;
-                var message = encodeURIComponent(text) + " - " + encodeURIComponent(url);
+                var message = encodeURIComponent(text) + " " + encodeURIComponent(tourDestination) + " - " + encodeURIComponent(url);
                 var whatsapp_url = "whatsapp://send?text=" + message;
                 window.location.href = whatsapp_url;    
             }).error(function (response) {
