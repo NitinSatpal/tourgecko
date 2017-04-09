@@ -409,7 +409,7 @@
                 var tourName = vm.products[vm.index].productTitle;
                 var tourDestination = vm.products[vm.index].destination;
                 var url = response;
-                var message = encodeURIComponent(tourName) + " &nbsp;" + encodeURIComponent(tourDestination) + " - " + encodeURIComponent(url);
+                var message = encodeURIComponent(tourName) + "%20" + encodeURIComponent(tourDestination) + " - " + encodeURIComponent(url);
                 var whatsapp_url = "whatsapp://send?text=" + message;
                 window.location.href = whatsapp_url;    
             }).error(function (response) {
