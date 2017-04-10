@@ -185,45 +185,34 @@
                                     <i class="zmdi zmdi-money-box orange-text"></i>Prices
                                 </div>
                                 <div class="collapsible-body card-content">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
-                                            <thead>
-                                              <tr>
-                                                <th>Price For</th>
-                                                <th>Group Size</th>
-                                                <th>Price</th>
-                                                <th>Price per</th>
-                                                <th>Description</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="pricing in vm.productDetails.productPricingOptions track by $index" ng-style="vm.getDynamicCSSForStripedTable($index)">
-                                                    <td>{{pricing.pricingType}}</td>
-                                                    <td ng-show="pricing.pricingType == 'Group'"> {{pricing.minGroupSize}} to {{pricing.maxGroupSize}} </td>
-                                                    <td ng-show="pricing.pricingType != 'Group'"> NA </td>
-                                                    <td>{{pricing.price}}</td>
-                                                    <td ng-show="pricing.pricingType == 'Adult' || pricing.pricingType == 'Child' || pricing.pricingType == 'Everyone' || pricing.pricingType == 'Single'">Person</td>
-                                                    <td ng-show="pricing.pricingType == 'Couple'">Couple</td>
-                                                    <td ng-show="pricing.groupOption == 'Per Group'">Group</td>
-                                                    <td ng-show="pricing.groupOption == 'Per Person'">Person</td>
-                                                    <td>{{pricing.description}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!--<ul class="collection with-header" ng-repeat="pricing in vm.productDetails.productPricingOptions">
+                                    <ul class="collection with-header pricing-divider-css" ng-repeat="pricing in vm.productDetails.productPricingOptions">
                                         <div class="row">
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                                                <li class="collection-item blue-grey-text text-darken-1">
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom' ">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price For</strong>
                                                     <blockquote class="blue-grey-text text-lighten-1">{{pricing.pricingType}}</blockquote>
                                                 </li>
                                             </div>
 
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
+                                                    <strong>Price For</strong>
+                                                    <blockquote class="blue-grey-text text-lighten-1">{{pricing.pricingType}} ({{pricing.minGroupSize}} - {{pricing.maxGroupSize}})</blockquote>
+                                                </li>
+                                            </div>
+
+                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
+                                                    <strong>Custom Price</strong>
+                                                    <blockquote class="blue-grey-text text-lighten-1" style="word-wrap: break-word;">{{pricing.customLabel}} (seats:{{pricing.seatsUsed}})</blockquote>
+                                                </li>
+                                            </div>
+                                            
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Adult' || 
                                             pricing.pricingType == 'Child' || pricing.pricingType == 'Everyone' || pricing.pricingType == 'Single'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price</strong>
+                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -231,8 +220,10 @@
                                             </div>
 
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Couple'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price/Couple</strong>
+                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}">
+                                                    <i class="zmdi zmdi-info-outline orange-text "></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -240,25 +231,10 @@
                                             </div>
 
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
-                                                    <strong>Group-Size</strong>
-                                                    <blockquote class="blue-grey-text text-lighten-1">
-                                                        {{pricing.minGroupSize}} - {{pricing.maxGroupSize}}
-                                                    </blockquote>
-                                                </li>
-                                            </div>
-
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
-                                                    <strong>Description</strong>
-                                                    <blockquote class="blue-grey-text text-lighten-1">{{pricing.description}}</blockquote>
-                                                </li>
-                                            </div>
-
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Group'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong ng-show="pricing.groupOption == 'Per Group'">Price/Group</strong>
                                                     <strong ng-show="pricing.groupOption == 'Per Person'">Price/Person</strong>
+                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -266,24 +242,9 @@
                                             </div>
 
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
-                                                    <strong>Seats Used</strong>
-                                                    <blockquote class="blue-grey-text text-lighten-1">
-                                                        {{pricing.seatsUsed}}
-                                                    </blockquote>
-                                                </li>
-                                            </div>
-
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
-                                                    <strong>Description</strong>
-                                                    <blockquote class="blue-grey-text text-lighten-1">{{pricing.description}}</blockquote>
-                                                </li>
-                                            </div>
-
-                                            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12" ng-show="pricing.pricingType == 'Custom'">
-                                                <li class="collection-item blue-grey-text text-darken-1">
+                                                <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price/Person</strong>
+                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -291,7 +252,7 @@
                                             </div>
                                         </div>
                                         <div class="divider" ng-show="$index <  vm.productDetails.productPricingOptions.length - 1"></div>
-                                    </ul> -->
+                                    </ul>
                                 </div>
                             </li>
                                 
@@ -411,7 +372,7 @@
                             <span class="currency">&#8377;</span> {{vm.priceTobeShown}}
                         </span>
                         -->
-                        <a id="book" class="orange btn waves-effect waves-light right">Book Now</a>
+                        <a id="book" ui-sref="guest.booking({productId: vm.productDetails._id})" class="orange btn waves-effect waves-light right">Book Now</a>
                     </div>
                     <!--Sticky Footer End-->    
                 </div>

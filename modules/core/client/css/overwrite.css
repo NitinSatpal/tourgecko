@@ -100,3 +100,12 @@
 .body-toursite .select-wrapper .caret {
     display: none !important;
 }
+.pricing-collection-item-css blockquote {
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    font-size: 15px !important;
+}
+.pricing-divider-css .divider {
+    margin-top: -20px !important;
+}

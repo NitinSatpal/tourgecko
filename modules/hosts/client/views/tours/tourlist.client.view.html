@@ -41,7 +41,7 @@
 								<div class="col-sm-12 col-md-12 col-lg-12">
 									<div class="tour_utils">
 										<div class="tour_share dropdown">
-											<a data-toggle="modal" data-target="#askSocialSharingOptions" class="dropdown-toggle btn btn-primary outline" ng-click="vm.index = $index" onclick="disableBackground()"><i class="zmdi zmdi-share"></i></a>
+											<a data-toggle="modal" data-target="#askSocialSharingOptions" class="dropdown-toggle btn btn-primary outline" ng-click="vm.index = $index" onclick="applyDynamicCSS()"><i class="zmdi zmdi-share"></i></a>
 											<!-- <ul class="dropdown-menu">
 												<li><a href="#" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])">facebook</a></li>
 												<!-- For mobile phones where whatsapp option will be present -->
@@ -115,7 +115,7 @@
 
 	<div id="askSocialSharingOptions" class="modal fade" tabindex="-1" role="dialog">
 	    <div class="modal-dialog" role="document">
-	        <div class="modal-content">
+	        <div class="modal-content" id="sharingOptionsModalContent">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	                <h4 class="modal-title">where you want to Share</h4>
@@ -143,8 +143,8 @@
 			            		<span class="fa fa-whatsapp"></span> Whatsapp
 			            	</a>
 			            	<!--<a href="intent://send/+919535480729#Intent;scheme=smsto;package=com.whatsapp;action=android.intent.action.SENDTO;end" ng-click="vm.shareOnSocialAccount('facebook', vm.products[$index])" class="btn btn-primary btn-whatsapp shareButton">
-			                	<span class="fa fa-whatsapp"></span> Whatsapp -->
-			               	</a>
+			                	<span class="fa fa-whatsapp"></span> Whatsapp 
+			               	</a> -->
 			            </div>
 			        </div>
 	            </div>
@@ -192,8 +192,9 @@
 	    $(this).scrollTop(0);
 	});
 
-	function disableBackground () {
-		
+	function applyDynamicCSS () {
+		var marginLeft = (window.innerWidth - 248 - 10) / 2;
+		$('#askSocialSharingOptions').css('margin-left', marginLeft);
 	}
 	$('#close').click(function(e){
 	    e.preventDefault()

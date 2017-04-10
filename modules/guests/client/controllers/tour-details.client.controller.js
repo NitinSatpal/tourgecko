@@ -33,7 +33,7 @@
       vm.productImageURLs = response[0].productPictureURLs
       $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
       $('#tourDetailsScreen').removeClass('waitCursor');
-      //vm.showLoaderForTourDetails = false;
+      vm.showLoaderForTourDetails = false;
     }).error(function (response) {
       vm.error = response.message;
     });
