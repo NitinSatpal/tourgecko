@@ -9,7 +9,7 @@
         <span ng-if="vm.showLoaderForTourDetails" class="loader-spinner-tourPreviewDetails" ng-style="vm.getLoaderPositionForTourDetails()"><i class="fa fa-refresh fa-spin"></i></span>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
-                <li ng-repeat="image in vm.productDetails.productPictureURLs" ng-if="vm.productDetails.productPictureURLs.length > 0">
+                <li ng-repeat="image in vm.productDetails.productPictureURLs">
                     <img ng-src="{{image}}">
                 </li>
                 <li class="no-Image-Preview-Details" ng-if="vm.productDetails.productPictureURLs.length == 0">
