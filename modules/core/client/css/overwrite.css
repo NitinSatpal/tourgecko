@@ -109,6 +109,9 @@
 .pricing-divider-css .divider {
     margin-top: -20px !important;
 }
+.tourPreviewDetails .slider .slides {
+    opacity: 1 !important;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;
