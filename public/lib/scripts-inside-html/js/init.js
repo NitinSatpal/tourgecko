@@ -1,6 +1,7 @@
 $(".button-collapse").sideNav();
 $("#profile-list").dropdown();
 $("#profile-list-mobile").dropdown();
+$('.color-picker').tooltip().tooltip('show');
 $('.tooltipped').tooltip({delay: 50});
 $('select').material_select();
 
