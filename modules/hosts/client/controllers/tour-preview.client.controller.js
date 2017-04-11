@@ -46,7 +46,6 @@
       });
       vm.productDetails = JSON.parse($window.localStorage.getItem('productData'));
       vm.productImageURLs = vm.productDetails.productPictureURLs;
-      $('.slider').slider({full_width: true});
       $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
       $('#previewScreen').removeClass('waitCursor');
       vm.showLoaderForPreview = false;
