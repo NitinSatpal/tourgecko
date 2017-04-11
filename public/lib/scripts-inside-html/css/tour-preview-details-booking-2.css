@@ -2,7 +2,9 @@ main{ margin-bottom: 5rem;}
 .main-content{ margin-top: 1rem;}
 
 /*Grid*/
-
+.tourPreviewDetails .slider .slides {
+    opacity: 1 !important;
+}
 .fluid{ width: 100% !important}
 .block-element{ display: block;}
 
