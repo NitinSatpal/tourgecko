@@ -446,9 +446,10 @@
 </script>
 
 <script>
+$('.color-picker').tooltip().tooltip('show');
     $(document).ready(function() {
-        $('.tooltipped').tooltip({
-            delay: 50
+        $(".tooltipped").each(function() {
+            $(this).tooltip({"delay": 10});
         });
     });
 </script>
