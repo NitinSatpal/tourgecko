@@ -18,6 +18,9 @@ var NotificationSchema = new Schema({
   notificationFromProfileURL: {
     type: String
   },
+  notificationTypeLogo: {
+    type: String
+  },
   notificationTo: {
     type: String,
     default: '',

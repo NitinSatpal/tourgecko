@@ -84,7 +84,12 @@
         controller: 'ProductBookingController',
         controllerAs: 'vm',
         params: {
-          bookingId: null
+          bookingId: null,
+          // if single booking details page is called from whole session booking list page, then go back should take use to session
+          // booking list page and for that we are storing here session id. It will be null if user come on this page via bookings tab
+          // In case user is coming from session booking list pageit will be populated by session id and used for rendering back to session
+          // booking list
+          sessionId: null
         },
         data: {
           pageTitle: 'Admin | Booking Details'

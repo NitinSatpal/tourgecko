@@ -44,7 +44,7 @@
     if (previousKeysPresence == 'present' && preferenceRememberence == 'Yes') {
       var previousFilterKeys = JSON.parse($window.localStorage.getItem("bookingFilters"));
       if ($window.localStorage.getItem('alreadySelectedItemsPerPage') != null)
-        vm.numberOfItemsInOnePage = parseInt($window.localStorage.getItem('alreadySelectedItemsPerPage'));
+        vm.numberOfItemsInOnePage = $window.localStorage.getItem('alreadySelectedItemsPerPage');
       for (var index = 0; index < previousFilterKeys.length; index++)
         vm.selectedFiltersForBookingRecords[reverseFilterMapping.get(previousFilterKeys[index])] = true;
       vm.rememberFilterPreferences = true;
@@ -86,6 +86,10 @@
           else
             vm.showAtLast = false;
         }
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
       });
     }
 
@@ -107,6 +111,15 @@
 
     vm.goToBookingDetailScreen = function (index) {
       $state.go('host.bookingdetails', {bookingId: vm.bookings[index]._id});
+    }
+
+    vm.goToPreviousState = function () {
+      // This if else is not really required as, even if we send productSessionId in both the cases, in one case it will be utilized and
+      // in other it will not. But for the understanding of functionality, i am putting if else
+      if ( $stateParams.sessionId != null )
+        $state.go($state.previous.state.name, {productSessionId: $stateParams.sessionId});
+      else
+        $state.go($state.previous.state.name);
     }
 
     vm.getEmailIdToDisplay = function (email) {
@@ -169,7 +182,11 @@
           else
             vm.showAtLast = false;
         }
-        //vm.currentPageNumber = 1;
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+
         if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
           $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
               vm.bookings = response;
@@ -205,6 +222,11 @@
           else
             vm.pageTo = vm.pageCounterArray.length;
         }
+
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
 
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
@@ -258,6 +280,11 @@
           vm.currentPageNumber = vm.currentPageNumber + 1;
         }
 
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
           $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
@@ -292,12 +319,16 @@
         }
       }
 
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
+
       vm.currentPageNumber = vm.pageFrom + 1;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
         $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.bookings = response;
-            // $('html, body').scrollTop(0);
             $window.changeCSSForBookingFilterButton();
         }).error(function (response) {
             vm.error = response.message;
@@ -323,6 +354,12 @@
         vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
         vm.pageTo = vm.currentPageNumber;
       }
+
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
+
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
         $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
@@ -357,12 +394,16 @@
         }
       }
 
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
+
       vm.currentPageNumber = vm.pageTo;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       if (!$scope.selectedCategorizedKeys || $scope.selectedCategorizedKeys.length == 0) {
         $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.bookings = response;
-            // $('html, body').scrollTop(0);
             $window.changeCSSForBookingFilterButton();
         }).error(function (response) {
             vm.error = response.message;
@@ -428,6 +469,11 @@
           else
             vm.showAtLast = false;
         }
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+
         if (startFromTop)
           $('html, body').scrollTop(0);
       });

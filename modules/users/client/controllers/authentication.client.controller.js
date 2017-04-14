@@ -97,9 +97,9 @@
         vm.authentication.user = response;
         // And redirect to the host home page
         if (vm.authentication.user.roles[0] === 'hostAdmin')
-          $state.go('host.hostHome');
+          $state.go($state.previous.state.name || 'host.hostHome');
         else  if (vm.authentication.user.roles[0] === 'user')
-          $state.go('guest.guestHome');
+          $state.go($state.previous.state.name || 'guest.guestHome');
         else  if (vm.authentication.user.roles[0] === 'admin')
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);
         else

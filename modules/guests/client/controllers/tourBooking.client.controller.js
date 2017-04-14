@@ -300,7 +300,7 @@
     function createBookingObject () {
       var bookingObject = {};
       bookingObject.providedGuestDetails = vm.providedGuestDetails;
-      bookingObject.numberOfBookings = vm.seatQuantity[selectedPricingIndex];
+      bookingObject.numberOfSeats = vm.seatQuantity[selectedPricingIndex];
       bookingObject.numberOfAddons = vm.addonsChecked.length;
       bookingObject.product = vm.bookingProductDetails._id;
       bookingObject.hostOfThisBooking = vm.bookingProductDetails.user;

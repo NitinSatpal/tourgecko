@@ -74,6 +74,10 @@
 													<div class="input_group">
 														<div>
 															<select id="productTagging" name="productTagging" ng-model="vm.tour.productTags" class="form-control" multiple="multiple" style="width:100%">
+																<option value="Hiking">Hiking</option>
+																<option value="Trekking">Trekking</option>
+																<option value="Cycling">Cycling</option>
+																<option value="Camping">Camping</option>
 															</select>
 														</div>
 													</div>
@@ -1535,7 +1539,6 @@ function openFixedDeparturePanel () {
 </script>
 <script>
     $("#productTagging").select2({
-    	data: ['Hiking', 'Trekking', 'Cycling', 'Camping'],
       	tags: true,
       	placeholder: "Type and Enter"
     });

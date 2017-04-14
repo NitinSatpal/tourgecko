@@ -45,6 +45,12 @@ module.exports = function (app) {
   app.route('/api/host/companyproductsessions/')
     .get(hosts.fetchCompanyProductSessionDetails);
 
+  app.route('/api/host/companyproductsessioncount/')
+    .get(hosts.countCompanyProductSessions);
+
+  app.route('/api/host/companyproductsessionsforgivenmonth/:monthNumber')
+    .get(hosts.fetchCompanyProductSessionDetailsForGivenMonth);
+
   app.route('/api/host/productsession/:productSessionId')
     .get(hosts.fetchSingleProductSessionDetails);
 
@@ -67,11 +73,20 @@ module.exports = function (app) {
   app.route('/api/host/bookingsForCurrentPage/:pageNumber/:itemsPerPage')
     .get(hosts.fetchCompanyBookingDetailsForCurrentPage);
 
+  app.route('/api/host/productsession/bookingsForCurrentPage/:productSessionId/:pageNumber/:itemsPerPage')
+    .get(hosts.fetchSessionBookingDetailsForCurrentPage);
+
   app.route('/api/host/productsession/bookings/:productSessionId')
     .get(hosts.fetchProductSessionBookingDetails);
 
+   app.route('/api/host/productsession/allBookings/:productSessionId/:itemsPerPage')
+    .get(hosts.fetchAllBookingsOfProductSession);
+
   app.route('/api/host/categorizedBooking/')
     .post(hosts.fetchCategorizedBookings);
+
+  app.route('/api/host/productsession/categorizedBooking/')
+    .post(hosts.fetchCategorizedBookingsForASession);
 
   app.route('/api/host/modifyBooking/')
     .post(hosts.modifyBooking);

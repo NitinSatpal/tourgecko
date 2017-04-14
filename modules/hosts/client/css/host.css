@@ -7,6 +7,69 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
+
+#hostHome #calendar td.fc-other-month a, #hostCalendar #calendar td.fc-other-month a {
+   visibility: hidden;
+}
+.home-section .listView {
+	display: none;
+}
+.home-section .listView .customPrevNextBtnStyle {
+	/*padding-left: 8.400px;
+	padding-right: 8.400px;
+	height: 16.813px;
+	padding-top: 2.5935px;
+	padding-bottom: 2.5935px;*/
+	height: 27px;
+	width: auto;
+	margin-right: -5px;	
+}
+.home-section .listView .customPrevNextBtnStyle span {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.home-section .listView .listViewMonthTitle {
+	font-size: 18px;
+	color: #555;
+	font-weight: 500;
+}
+.home-section .listView .btn-listview {
+	float: left;
+}
+.home-section .listView  .title-listview {
+	float: left;
+}
+.home-section .listView .card {
+	padding-top: 1%;
+    padding-right: 3%;
+    padding-bottom: 1%;
+    padding-left: 3%;
+    position: relative;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 0px;
+    min-height: 90px;
+    height: auto;
+    overflow: hidden;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.10);
+    cursor: pointer;
+}
+.home-section .listView .card .name, .home-section .listView .card .tourDepartureDate{
+	font-weight: 500 !important;
+}
+.home-section .listView .card .duration, .home-section .listView .card .tourDurationType,
+.home-section .listView .card .bookings, .home-section .listView .card .sessionRepeatBehavior {
+	font-weight: 300 !important;
+	margin: 0 0 !important;
+}
+.home-section .listView .card .bookings i {
+	padding-right: 3.3px;
+}
+.home-section .listView .card .sessionRepeatBehavior i {
+	padding-right: 6.8px;
+}
 .booking-filters .dropdown {
    display: inline-block !important;
    min-width: 300px !important;
@@ -345,6 +408,9 @@ p {
 
 .greenFC {
 	color: #42AE5E;
+}
+.green-text {
+	color: green;
 }
 .orange-text {
 	color: orange;

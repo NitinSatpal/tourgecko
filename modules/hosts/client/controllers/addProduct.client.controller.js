@@ -52,8 +52,14 @@
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
     var sessionSpecialPricing = [];
+    var sessionMonthsCovered = [];
     var productPictureURLs;
     var productMapURLs;
+    var standardTagSet = new Set();
+    standardTagSet.add('Hiking');
+    standardTagSet.add('Trekking');
+    standardTagSet.add('Cycling');
+    standardTagSet.add('Camping');
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -64,7 +70,7 @@
  */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 $('#tourgeckoBody').removeClass('disableBody');
-
+// $("#myNavbar .nav").find(".active").removeClass("active");
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Check whether product is getting created or edited */
@@ -95,9 +101,22 @@ $('#tourgeckoBody').removeClass('disableBody');
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
-          
-          
           vm.showCreatedItinerary = true;
+          for(var index = 0; index < vm.tour.productTags.length; index++) {
+            if(standardTagSet.has(vm.tour.productTags[index])) {
+              $timeout(function() {
+                  $("#productTagging").select2('val', vm.tour.productTags[index]);
+                  $("#productTagging").trigger("change");
+              });
+            } else {
+              var option=jQuery("<option>").attr("value",vm.tour.productTags[index].toString()).html(vm.tour.productTags[index]);
+              jQuery("#productTagging").append(option);
+              $timeout(function() {
+                $("#productTagging").select2('val', vm.tour.productTags[index]);
+                $("#productTagging").trigger("change");
+              });
+            }
+          }
           var maxVal = findDayCounterValue();
           if (maxVal == '-Infinity')
             vm.dayCounter = 1;
@@ -443,6 +462,9 @@ vm.createDepartureSession = function () {
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   //eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
   
+  var monthTracker = new Set();
+  var monthsCovered = [];
+
   for (var index = 0; index <= repeatedDays; index ++) {
     var needToSave = true;
     if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) || 
@@ -450,12 +472,12 @@ vm.createDepartureSession = function () {
       eventDate > firstDate)
       needToSave = false;
     
-    // if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' ||
-       // vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daile')
-      // eventDate = eventDate.setDate(eventDate.getDate() + 1);
-    // else
-      // eventDate = eventDate.setDate(eventDate.getDate() + 2);
-
+    if (needToSave) {
+      if (!monthTracker.has(eventDate.getMonth())) {
+        monthTracker.add(eventDate.getMonth());
+        monthsCovered.push(eventDate.getMonth());
+      }
+    }
 
     if (needToSave) {
       if ($window.events.length % 3 == 0) {
@@ -510,15 +532,8 @@ vm.createDepartureSession = function () {
     eventDate = new Date (eventDate);
   }
   
+  sessionMonthsCovered[vm.fixedDepartureSessionCounter] = monthsCovered;
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
-
-
-  
-  // Convert date string to ISO and add one day to the string date before converting to avoid one day fall back
-  //var dateToSave = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
-  //dateToSave.setDate(dateToSave.getDate() + 1)
-  //vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate = new Date(dateToSave);
-
   vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
 
@@ -576,14 +591,14 @@ vm.createDepartureSession = function () {
 
     function saveTheProduct () {
       if(productId) {
-        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing})
+        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered})
         .success(function (response) {
           // success
         }).error(function (response) {
           vm.error = response.message;
         });
       } else {
-        $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing})
+        $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered})
         .success(function (response) {
           //success
         }).error(function (response) {

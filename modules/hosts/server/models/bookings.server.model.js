@@ -43,9 +43,9 @@ var BookingSchema = new Schema({
     type: String
   },
   providedGuestDetails: {},
-  numberOfBookings: {
+  numberOfSeats: {
     type: Number,
-    default: 1
+    default: 0
   },
   numberOfAddons: {
     type: Number,

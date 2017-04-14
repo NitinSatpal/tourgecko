@@ -25,26 +25,24 @@ exports.createBooking = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        sendNotification(req.body.bookingDetails, req.user, req.body.productTitle, booking._id);
-        updateSession(booking.productSession, booking.numberOfBookings);
+        sendNotification(req.body.bookingDetails, req.body.productTitle, booking._id);
+        updateSession(booking.productSession, booking.numberOfSeats);
         res.json(booking);
       }
     });
   });
 };
 
-function sendNotification(bookingObject, user, productTitle, bookingId) {
+function sendNotification(bookingObject, productTitle, bookingId) {
   var notification = new Notification();
-  if (user) {
-    notification.notificationFrom = user.displayName;
-    notification.notificationFromProfileURL = user.profileImageURL;
-  }
-    
+  console.log('trying to send notification ' + JSON.stringify(bookingObject));
+  notification.notificationFrom = bookingObject.providedGuestDetails.firstName + ' ' + bookingObject.providedGuestDetails.lastName;
+  // notification.notificationTypeLogo = //some logo url will come here according to the notification type;
   notification.bookingId = bookingId;
   notification.notificationToId = bookingObject.hostOfThisBooking;
-  notification.notificationType = 'Booking Request';
-  notification.notificationBody = 'You have a booking request for ' + productTitle + '.';
-  notification.notificationStatus = 'Action Pending by Host';
+  notification.notificationType = "Booking Request";
+  notification.notificationBody = "You have a booking request for '" + productTitle + "'.";
+  notification.notificationStatus = "Action Pending by Host";
   notification.notificationRead = false;
   notification.created = Date.now();
 
@@ -57,16 +55,18 @@ function sendNotification(bookingObject, user, productTitle, bookingId) {
   });
 }
 
-function updateSession(productSessionId, numOfBookings) {
+function updateSession(productSessionId, numOfSeats) {
   if (productSessionId) {
     ProductSession.findOne({_id: productSessionId}).exec(function (err, session) {
       if (err) {
+        console.log('whats the error ');
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
       }
-
-      session.numberOfBookings = session.numberOfBookings + numOfBookings;
+      console.log('i m updating the session here ' + session);
+      //session.numberOfBookings = session.numberOfBookings + 1;
+      //session.numberOfSeats = session.numberOfSeats + numOfSeats;
       session.save(function (err) {
         if (err) {
           // session saving failed
@@ -151,42 +151,61 @@ exports.fetchCompanyBookingDetailsForCurrentPage = function (req, res) {
   }
 };
 
-// Fetch categorized bookings
+// Fetch all bookings for current page
+exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
+  if (req.user) {
+    var pageNumber = req.params.pageNumber;
+    var itemsPerPage = req.params.itemsPerPage;
+    var sessionId = req.params.productSessionId;
+    Booking.find({productSession: sessionId}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(bookings);
+    });
+  }
+};
+
+// Fetch categorized bookings for company
 exports.fetchCategorizedBookings = function (req, res) {
   var pageNumber = req.body.pageNumber;
   var itemsPerPage = req.body.itemsPerPage;
-  /*var queryAll = req.body.queryAll;
-
-  if (queryAll) {
-    Booking.count(function(error, count) {
-      if (count <= itemsPerPage * (pageNumber - 1))
-        pageNumber = 1;
-      Booking.find().skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({bookingArray: bookings, bookingsCount: count});
-      });
+  Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
+    if (count <= itemsPerPage * (pageNumber - 1))
+      pageNumber = 1;
+    Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json({bookingArray: bookings, bookingsCount: count});
     });
-  } else { */
-    Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
-      if (count <= itemsPerPage * (pageNumber - 1))
-        pageNumber = 1;
-      Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({bookingArray: bookings, bookingsCount: count});
-      });
-    });
-  //}
+  });
 };
 
-// Fetch specific product booking details
+// Fetch categorized bookings for session
+exports.fetchCategorizedBookingsForASession = function (req, res) {
+  var pageNumber = req.body.pageNumber;
+  var itemsPerPage = req.body.itemsPerPage;
+  var sessionId = req.body.productSessionId;
+  Booking.count({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
+    if (count <= itemsPerPage * (pageNumber - 1))
+      pageNumber = 1;
+    Booking.find({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json({bookingArray: bookings, bookingsCount: count});
+    });
+  });
+};
+
+// Fetch product session booking details
 exports.fetchProductSessionBookingDetails = function (req, res) {
   if (req.user) {
     Booking.find({productSession: req.params.productSessionId}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
@@ -197,6 +216,36 @@ exports.fetchProductSessionBookingDetails = function (req, res) {
       }
       res.json(bookings);
     });
+  }
+};
+
+
+// Fetch all bookings of product session
+exports.fetchAllBookingsOfProductSession = function (req, res) {
+  if (req.user) {
+    if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
+      Booking.count({productSession: req.params.productSessionId}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({bookingArray: bookings, bookingsCount: count});
+        });
+      });
+    } else {
+      Booking.count({productSession: req.params.productSessionId}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({bookingArray: bookings, bookingsCount: count});
+        });
+      });
+    }
   }
 };
 

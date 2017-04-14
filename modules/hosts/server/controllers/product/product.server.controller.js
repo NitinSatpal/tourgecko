@@ -28,13 +28,13 @@ exports.createProduct = function (req, res) {
       });
     }
     if(req.body.tour.isProductScheduled == true)
-      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, product);
+      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product);
     res.json(product);
   });
   
 };
 
-function createDepartureSessions (departureSessions, departureSessionPricings, product) {
+function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, product) {
   var productSessions = [];
   for(var index = 0; index < departureSessions.length; index++) {
     var productSession = new ProductSession();
@@ -42,6 +42,7 @@ function createDepartureSessions (departureSessions, departureSessionPricings, p
     productSession.hostCompany = product.hostCompany;
     productSession.sessionDepartureDetails = departureSessions[index];
     productSession.sessionPricingDetails = departureSessionPricings[index];
+    productSession.monthsThisSessionCovering = sessionMonthsCovering[index];
     productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);
@@ -65,7 +66,7 @@ exports.editProduct = function(req, res) {
       }
       product.save();
       if(req.body.toursessions.length > 0)
-        createDepartureSessions(req.body.toursessions, req.body.sessionPricings, product);
+        createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product);
       res.json(product);
     }
   });
@@ -237,7 +238,7 @@ exports.fetchSessionDetailsOfGivenProduct = function (req, res) {
 // Fetching specific company's product details here.
 exports.fetchCompanyProductSessionDetails = function (req, res) {
   if(req.user) {
-    ProductSession.find({'hostCompany': req.user.company }).sort('-created').populate('product').exec(function (err, productSessions) {
+    ProductSession.find({'hostCompany': req.user.company}).sort('-created').populate('product').exec(function (err, productSessions) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -247,6 +248,34 @@ exports.fetchCompanyProductSessionDetails = function (req, res) {
     });
   }
 };
+
+exports.countCompanyProductSessions =function (req, res) {
+  if(req.user) {
+    ProductSession.count({ 'hostCompany': req.user.company }, function(error, count) {
+      if (error) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(error)
+        });
+      }
+      res.json({counterValue : count});
+    });
+  }
+}
+
+exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
+  if(req.user) {
+    var month = req.params.monthNumber;
+    ProductSession.find({'hostCompany': req.user.company, 'monthsThisSessionCovering': parseInt(month)}).sort('-created').populate('product').exec(function (err, productSessions) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      console.log(productSessions);
+      res.json(productSessions);
+    });
+  }
+}
 
 exports.uploadProductPicture = function (req, res) {
   var user = req.user;

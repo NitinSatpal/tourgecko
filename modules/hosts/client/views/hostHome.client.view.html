@@ -29,7 +29,7 @@
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
 						<i class="zmdi zmdi-airplane"></i>
-						<p><span>{{vm.productSessions.length}}</span> Departures</p>
+						<p><span>{{vm.productSessionCount.counterValue}}</span> Departures</p>
 					</div>
 				</div>
 			</div>
@@ -61,11 +61,11 @@
 						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
 							<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
 							<p class="outing">{{booking.product.productTitle}}</p>
-							<p class="date">{{vm.getDepartureDate($index)}}</p>
+							<p class="date">{{vm.getDepartureDateOfBookings($index)}}</p>
 							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
 						</div>
 						<div class="seemoreinfo">
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length == 0">No Bookings</a>
+							<a ng-show="vm.bookings.length == 0">No Bookings</a>
 							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5">Go to Bookings</a>
 							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5">See all Bookings</a>
 							
@@ -81,7 +81,7 @@
 						</div>
 
 						<div class="seemoreinfo">
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length == 0">No Messages</a>
+							<a ng-show="vm.messages.length == 0">No Messages</a>
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5">Go to Messages</a>
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5">See all Messages</a>
 						</div>
@@ -92,13 +92,73 @@
 				<div class="head_content">
 					<h4>Upcoming</h4>
                     <ul class="cal_list_toggle pull-right">
-                    <li><a href="#" class="active">Calendar</a></li>
+                    <li><a href="#" class="active" onclick="changeToCalendarView()" id="calendarLink">Calendar</a></li>
                     <li> | </li>
-                    <li><a href="#" >List</a></li>
+                    <li><a href="#" onclick="changeToListView()" id="listLink">List</a></li>
                     </ul>
 				</div>
 				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">						
+						<div id="sessionList" class="listView" style="margin-top: 0 !important">
+							<div class="fc-button-group btn-listview">
+								<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthSessions()">
+									<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
+								</button>
+								<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthSessions()">
+									<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
+								</button>
+							</div>
+							<div class="title-listview" style="margin-left: 35%;">
+								<span class="listViewMonthTitle">{{vm.listViewMonthTitle}}</span>
+							</div>
+							<br><br>
+							<div ng-show="vm.productSessions.length == 0" class="text-center">
+								<span> No Tours found in this month</span>
+							</div>
+							<span class="loader-spinner-hostHomeCalendar" id="loaderForListViewOFSessionsHomePage" ng-style="vm.getLoaderPositionForHomePageCalendar()"><i class="fa fa-refresh fa-spin"></i></span>
+							<div class="card" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="name" ng-class="vm.setColorOfListItems($index)"> {{session.product.productTitle}}</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="tourDepartureDate pull-right">
+											{{vm.getDepartureDateOfSession($index)}}
+										</p>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="duration">
+											<i class="zmdi zmdi-time-interval" ng-class="vm.setColorOfListItems($index)"></i> &nbsp;
+											{{vm.getProductDuration($index)}}
+										</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="tourDurationType"> 
+											<i class="zmdi zmdi-calendar-check" ng-class="vm.setColorOfListItems($index)"></i>  &nbsp;
+											Fixed Departure
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="bookings">
+					        				<i class="zmdi zmdi-account" ng-class="vm.setColorOfListItems($index)"></i> &nbsp; {{session.numberOfBookings}} &nbsp; / &nbsp; {{vm.getProductSessionLimit($index)}}
+					        			</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="sessionRepeatBehavior">
+											<i class="zmdi zmdi-repeat" ng-class="vm.setColorOfListItems($index)"></i>
+											{{vm.getSessionRepeatBehavior($index)}}
+										</p>
+									</div>
+								</div>
+			        			
+							</div>
+						</div>
+						<!-- ************************************************************************************************ -->
 						<div id='calendar'></div>
 					</div>
 				</div>
@@ -116,9 +176,7 @@
 			</div>
 			<div id="calendarTourPopupBody" class="modal-body"></div>
 			<div class="modal-footer">
-				<button class="btn btn-primary">
-					<a id="eventUrl" onclick="$('.modal-backdrop').remove()">Details</a>
-				</button>
+				<a id="eventUrl" type="button" onclick="$('.modal-backdrop').remove()" class="btn btn-primary">Details</a>
 			</div>
 		</div>
 	</div>
@@ -128,4 +186,18 @@
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	});
+
+	function changeToListView () {
+		
+		$('#calendar').css('opacity',0);
+		$('#sessionList').show();
+		$('#calendarLink').removeClass('active');
+		$('#listLink').addClass('active');
+	}
+	function changeToCalendarView () {
+		$('#sessionList').hide();
+		$('#calendar').css('opacity',1);
+		$('#listLink').removeClass('active');
+		$('#calendarLink').addClass('active');
+	}
 </script>
