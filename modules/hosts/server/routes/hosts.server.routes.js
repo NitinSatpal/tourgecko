@@ -42,13 +42,17 @@ module.exports = function (app) {
   app.route('/api/host/productsessions/')
     .get(hosts.fetchAllProductSessionDetails);
 
+  app.route('/api/host/productsessions/guestData/:productSessionId/:skipIndex')
+    .get(hosts.fetchProductSessionBookingDetailsForGuestData);
+  
+
   app.route('/api/host/companyproductsessions/')
     .get(hosts.fetchCompanyProductSessionDetails);
 
   app.route('/api/host/companyproductsessioncount/')
     .get(hosts.countCompanyProductSessions);
 
-  app.route('/api/host/companyproductsessionsforgivenmonth/:monthNumber')
+  app.route('/api/host/companyproductsessionsforgivenmonth/:uniqueMonthYearStrinng')
     .get(hosts.fetchCompanyProductSessionDetailsForGivenMonth);
 
   app.route('/api/host/productsession/:productSessionId')

@@ -76,6 +76,10 @@ var BookingSchema = new Schema({
     default: 'tourgecko Wallet',
     trim: true
   },
+  bookingDate: {
+    type: String,
+    default: ''
+  },
   created: {
     type: Date
   }

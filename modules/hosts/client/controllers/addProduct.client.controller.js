@@ -473,9 +473,10 @@ vm.createDepartureSession = function () {
       needToSave = false;
     
     if (needToSave) {
-      if (!monthTracker.has(eventDate.getMonth())) {
-        monthTracker.add(eventDate.getMonth());
-        monthsCovered.push(eventDate.getMonth());
+      var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
+      if (!monthTracker.has(uniqueString)) {
+        monthTracker.add(uniqueString);
+        monthsCovered.push(uniqueString);
       }
     }
 

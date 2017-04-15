@@ -10,12 +10,10 @@
   function HostHomeController($scope, $state, $window, $http, Authentication, CalendarBookingService, MessageService, NotificationService, ProductSessionService, ProductSessionCountService, PinboardService) {
     var vm = this;
     vm.sessionsFetched = false;
-    if ($('#calendar').is(':empty')) {
-      $('#loaderForCalendarHomePage').show();
-    }
     var currentDate = new Date($('#calendar').fullCalendar('getDate'));     
-    var currentMonthNumber = currentDate.getMonth();
-    $http.get('/api/host/companyproductsessionsforgivenmonth/' + currentMonthNumber).success(function (response)  {
+    var uniqueStr = (currentDate.getMonth()).toString() + (currentDate.getUTCFullYear()).toString();
+    vm.listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
+    $http.get('/api/host/companyproductsessionsforgivenmonth/' + uniqueStr).success(function (response)  {
       vm.productSessions = response;
       vm.sessionsFetched = true;
       $('#loaderForListViewOFSessionsHomePage').hide();
@@ -24,7 +22,6 @@
     vm.bookings = CalendarBookingService.query();
     vm.messages = MessageService.query();
     vm.notifications = NotificationService.query();
-    vm.listViewMonthTitle = '';
     vm.productSessionCount = ProductSessionCountService.query();
     vm.pinboardData = PinboardService.query();
     vm.totalRevenue = 0;
@@ -89,27 +86,29 @@
 
     vm.fetchPrevMonthSessions = function () {
       vm.sessionsFetched = false;
-      $('#loaderForListViewOFSessionsHomePage').show();
+      // $('#loaderForListViewOFSessionsHomePage').show();
       var tempDate = new Date($('#calendar').fullCalendar('getDate'));
       $('#calendar').fullCalendar('prev');
-      var monthNumber = tempDate.getMonth() - 1;
-      $http.get('/api/host/companyproductsessionsforgivenmonth/' + monthNumber).success(function (response) {
+      vm.listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
+      var uniqueString = (tempDate.getMonth() - 1).toString() + (tempDate.getUTCFullYear()).toString();
+      $http.get('/api/host/companyproductsessionsforgivenmonth/' + uniqueString).success(function (response) {
         vm.productSessions = response;
         vm.sessionsFetched = true;
-        $('#loaderForListViewOFSessionsHomePage').hide();
+        // $('#loaderForListViewOFSessionsHomePage').hide();
       });
     }
 
     vm.fetchNextMonthSessions = function () {
       vm.sessionsFetched = false;
-      $('#loaderForListViewOFSessionsHomePage').show();
+      // $('#loaderForListViewOFSessionsHomePage').show();
       var tempDate = new Date($('#calendar').fullCalendar('getDate'));
       $('#calendar').fullCalendar('next');
-      var monthNumber = tempDate.getMonth() + 1;
-      $http.get('/api/host/companyproductsessionsforgivenmonth/' + monthNumber).success(function (response)  {
+      vm.listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
+      var uniqueString = (tempDate.getMonth() - 1).toString() + (tempDate.getUTCFullYear()).toString();
+      $http.get('/api/host/companyproductsessionsforgivenmonth/' + uniqueString).success(function (response)  {
         vm.productSessions = response;
         vm.sessionsFetched = true;
-        $('#loaderForListViewOFSessionsHomePage').hide();
+        // $('#loaderForListViewOFSessionsHomePage').hide();
       });
     }
 

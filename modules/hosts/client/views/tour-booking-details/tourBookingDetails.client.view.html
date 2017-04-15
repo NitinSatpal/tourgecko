@@ -92,13 +92,21 @@
                       	<li><a data-toggle="tab" href="#current-tour-guests">Guests</a></li>
                    	</ul>
                     <ul class="pull-right print-email" >
-                        <li><a href="#"><i class="zmdi zmdi-email"></i></a></li>
-                        <li><a href="#"><i class="zmdi zmdi-print"></i></a></li>
+                        <li>
+                            <a href="">
+                                <i class="zmdi zmdi-email"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="zmdi zmdi-print"></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- tab content begins -->
                	<div class="tab-content">
-                  	<div id="current-tour-bookings" class="tab-pane fade in active">
+                  	<div id="current-tour-bookings" class="tab-pane fade in active" print-section>
                     	<br><br>
                         <div class="booking-filters">
                             <div class="margin padding text-center">
@@ -164,7 +172,7 @@
                                 </div>
                             </div>
                         </div>
-                    	<div ng-repeat="booking in vm.bookings track by $index" ng-click="vm.goToBookingDetailScreen($index)">
+                    	<div id="sessionBookingDetails" ng-repeat="booking in vm.bookings track by $index" ng-click="vm.goToBookingDetailScreen($index)">
 							<div class="card">
 	                    		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
 	                        		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -199,7 +207,7 @@
 	                           				</li>    
 	                       					<li>
 	                       						<span class="content-primary">No. of seats</span>
-	                           					<span class="content-secondary">{{booking.numberOfBookings}}</span>
+	                           					<span class="content-secondary">{{booking.numberOfSeats}}</span>
 	                           				</li>
 	                       					<li>
 	                       						<span class="content-primary">Total Amount</span>
@@ -240,6 +248,36 @@
                         </div>
                    	</div>
                     <div id="current-tour-guests" class="tab-pane fade in">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Booking Ref.</th>
+                                    <th>Booking date</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="detail in vm.guestData track by $index">
+                                        <td>{{detail.providedGuestDetails.firstName}} {{detail.providedGuestDetails.lastName}}</td>
+                                        <td>{{detail.providedGuestDetails.email}}</td>
+                                        <td>{{detail.providedGuestDetails.mobile}}</td>
+                                        <td>{{detail.bookingReference}}</td>
+                                        <td>{{vm.getBookingDate($index)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <a class="sub_btn btn btn-primary pull-left" style="background: #40C4FF;" ng-hide="vm.skipIndexForGuestData == 0" ng-click="vm.getNewSetOfGuestData(vm.skipIndexForGuestData - 1)">
+                                    <i class="zmdi zmdi-chevron-left"></i>&nbsp;&nbsp;Prev
+                                </a>
+                                <a class="sub_btn btn btn-primary pull-right" style="background: #40C4FF;" ng-show="vm.skipIndexForGuestData != vm.lastIndexForGuestData" ng-click="vm.getNewSetOfGuestData(vm.skipIndexForGuestData + 1)">
+                                    Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
                     <br>
                     </div>
 				</div>
@@ -247,6 +285,11 @@
 		</div>
 	</div>
 </div>
+<!-- CSS -->
+<link media="print" rel="stylesheet" href="lib/angularPrint/angularPrint.css">
+
+<!-- JS -->
+<script src="lib/angularPrint/angularPrint.js"></script>
 <script>
     $(document).ready(function(){
         $(this).scrollTop(0);

@@ -55,7 +55,8 @@ $('#calendar').fullCalendar({
 	editable: true,
 	//events: fetchEvents(month),
 	viewRender: function (view) {
-		fetchGivenMonthEvents(monthNameToNumber.get(view.title.split(' ')[0]));
+		var uniqueString = monthNameToNumber.get(view.title.split(' ')[0]).toString() + view.title.split(' ')[1];
+		fetchGivenMonthEvents(uniqueString, monthNameToNumber.get(view.title.split(' ')[0]));
 	},
 	eventRender: function (event, element) {
 		element.find('.fc-title').html(event.title);
@@ -106,10 +107,10 @@ $('#calendar').fullCalendar({
 	}
 });
 
-function fetchGivenMonthEvents(monthNumber) {	
+function fetchGivenMonthEvents(uniqueString, monthNumber) {	
 	if(monthArrays[monthNumber].length == 0) {
 		$.ajax({
-	      	url:'/api/host/companyproductsessionsforgivenmonth/' + monthNumber,
+	      	url:'/api/host/companyproductsessionsforgivenmonth/' + uniqueString,
 	        type:'GET',
 	        dataType: 'json',
 	      	success: function( sessions ) {

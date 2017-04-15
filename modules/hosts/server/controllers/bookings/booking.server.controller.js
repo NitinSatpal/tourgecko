@@ -8,6 +8,7 @@ var path = require('path'),
   Booking = mongoose.model('Booking'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
+  moment = require('moment'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 var alphabetArray = ['A', 'B', 'C', 'D', 'E'];
@@ -19,6 +20,7 @@ exports.createBooking = function (req, res) {
     var referenceNumber = count + 1000;
     booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
     booking.created = Date.now();
+    booking.bookingDate = moment(Date.now());
     booking.save(function (err) {
       if (err) {
         return res.status(400).send({
@@ -215,6 +217,23 @@ exports.fetchProductSessionBookingDetails = function (req, res) {
         });
       }
       res.json(bookings);
+    });
+  }
+};
+
+// Fetch product session booking details
+exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
+  if (req.user) {
+    var skipIndex = req.params.skipIndex;
+    Booking.count({productSession: req.params.productSessionId}, function(error, count) {
+      Booking.find({productSession: req.params.productSessionId}).skip(skipIndex * 10).limit(10).sort('-created').exec(function (err, bookings) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({guestData: bookings, guestDataCount: count});
+      });
     });
   }
 };

@@ -393,6 +393,11 @@ p {
 	padding: 0;
 	margin: 0;
 }
+#sessionBookingDetails .card ul.cleared li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
 .eventname {
     font-size: 12px;
     font-weight: 900;

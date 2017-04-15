@@ -264,8 +264,8 @@ exports.countCompanyProductSessions =function (req, res) {
 
 exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
   if(req.user) {
-    var month = req.params.monthNumber;
-    ProductSession.find({'hostCompany': req.user.company, 'monthsThisSessionCovering': parseInt(month)}).sort('-created').populate('product').exec(function (err, productSessions) {
+    var uniqueString = req.params.uniqueMonthYearStrinng;
+    ProductSession.find({'hostCompany': req.user.company, 'monthsThisSessionCovering': uniqueString}).sort('-created').populate('product').exec(function (err, productSessions) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)

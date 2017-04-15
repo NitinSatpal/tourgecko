@@ -10,9 +10,20 @@
   function TourBookingDetailsController($scope, $state, $stateParams, $http, $window) {
     var vm = this;
     vm.tourEndDate = '';
+    vm.skipIndexForGuestData = 0;
+    vm.lastIndexForGuestData = 0;
 
+    /* This will change and we will fetch only one as per date */
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
+    }).error(function (response) {
+      vm.error = response.message;
+    });
+
+    $http.get(' /api/host/productsessions/guestData/' + $stateParams.productSessionId + '/' + vm.skipIndexForGuestData).success(function (response) {
+      vm.guestData = response.guestData;
+      var totalGuestDataCount = response.guestDataCount;
+      vm.lastIndexForGuestData = Math.floor(totalGuestDataCount / 10);
     }).error(function (response) {
       vm.error = response.message;
     });
@@ -432,6 +443,25 @@
       });
     }
 
+    vm.getNewSetOfGuestData = function (skipIndex) {
+      vm.skipIndexForGuestData = skipIndex;
+      console.log(vm.skipIndexForGuestData);
+      console.log(vm.lastIndexForGuestData);
+      $http.get(' /api/host/productsessions/guestData/' + $stateParams.productSessionId + '/' + vm.skipIndexForGuestData).success(function (response) {
+        vm.guestData = response.guestData;
+        var totalGuestDataCount = response.guestDataCount;
+        vm.lastIndexForGuestData = Math.floor(totalGuestDataCount / 10);
+      }).error(function (response) {
+        vm.error = response.message;
+      });
+    }
+
+    vm.getBookingDate = function (index) {
+      var bookingDate = vm.guestData[index].bookingDate;
+      bookingDate = bookingDate.split(' ');
+      return bookingDate[2] + ' ' + bookingDate[1] + ', ' + bookingDate[3];
+    }
+
     vm.goToBookingDetailScreen = function (index) {
       $state.go('host.bookingdetails', {bookingId: vm.bookings[index]._id, sessionId: $stateParams.productSessionId});
     }
@@ -519,6 +549,19 @@
         else
           return vm.productSession.product.productSeatLimit - vm.confirmedSeats;
       }
+    }
+
+    vm.getDynamicCSSForStripedTable = function (index) {
+      var oddCSS = {
+        "background-color" : "#fff",
+      };
+      var evenCSS = {
+        "background-color" : "#eee",
+      };
+      if (index % 2 == 1)
+        return oddCSS;
+      else
+        return evenCSS;
     }
     
 
