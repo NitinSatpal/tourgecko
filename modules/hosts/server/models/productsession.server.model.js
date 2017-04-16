@@ -11,8 +11,9 @@ var mongoose = require('mongoose'),
  */
 var ProductSessionSchema = new Schema({
   sessionDepartureDetails: {},
-  isSpecialPricingAvailable: {
+  isSessionPricingValid: {
     type: Boolean,
+    default: true
   },
   sessionPricingDetails: {
     type: Array,

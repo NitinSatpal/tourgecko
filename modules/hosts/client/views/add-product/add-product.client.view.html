@@ -1127,6 +1127,44 @@
 			</div>
 		</div>
 	</div>
+	<a id="pricingApplicability" data-toggle="modal" data-target="#pricing-applicable-confirmation" style="display: none"></a>  
+	<div id="pricing-applicable-confirmation" class="modal fade" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">Pricing options modified!</h4>
+	            </div>
+	            <div class="modal-body">
+	                <p> You have changed the pricing options. Do you want to apply the new pricing on previously created sessions?</p>
+	                <a ng-click="vm.askExtraConfirmation(true)" onclick="closeModal('#pricing-applicable-confirmation')" class="btn btn-success pull-left margin-right btn-sm">Yes</a>
+	                <a ng-click="vm.askExtraConfirmation(false)" onclick="closeModal('#pricing-applicable-confirmation')" class="btn btn-danger btn-sm margin-bottom">No</a> 
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<a id="sessionCreatedWithModifiedPrice" data-toggle="modal" data-target="#session-created-modified" style="display: none"></a>  
+	<div id="session-created-modified" class="modal fade" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">New Sessions created!</h4>
+	            </div>
+	            <div class="modal-body">
+	                <p> You have created new sessions of this tour with modified price specific to some sessions. Do you want to apply these pricing to those new sessions?</p>
+	                <a ng-click="vm.saveTheEditedProduct(true)" onclick="closeModal('#pricing-applicable-confirmation')" class="btn btn-success pull-left margin-right btn-sm">Yes</a>
+	                <a ng-click="vm.saveTheEditedProduct(false)" onclick="closeModal('#pricing-applicable-confirmation')" class="btn btn-danger btn-sm margin-bottom">No</a> 
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </div>
 
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
@@ -1134,6 +1172,10 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI&libraries=places&callback=initAutocomplete"></script>
 <script src="modules/core/client/scripts/showPreview.js"></script>
 <script>
+	function closeModal(modalId) {
+        $(modalId).fadeOut('slow');
+        $('.modal-backdrop').remove();
+    }
 	changeTab = function (tabId) {
 		// First take the screen to top
 		$('html, body').animate({scrollTop : 0},800);

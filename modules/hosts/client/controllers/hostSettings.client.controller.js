@@ -27,7 +27,7 @@
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
       
     vm.passwordRelatedError= '';
-    var initializing = true
+    var initializing = true;
     var isCompanyDetailsChanged = false;
     var isContactDetailsChanged = false;
     var isPaymentDetailsChanged = false;

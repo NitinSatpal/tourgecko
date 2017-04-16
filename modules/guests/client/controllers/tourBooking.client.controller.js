@@ -22,6 +22,7 @@
     vm.calculatedAddonPrice = 0;
     vm.totalPayablePrice = 0;
     vm.selectedBookingOptionIndex = 0;
+    vm.selectedPricingOptions = [];
 
     var productSessionIds = [];
     var tourType;
@@ -157,6 +158,7 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     var selectedPricingIndex;
     vm.setSelectedPricing = function (index) {
+      console.log('coming bro');
       if(vm.seatQuantity.length > 0)
         vm.seatQuantity.length = 0;
       vm.seatQuantity[index] = 1;
@@ -336,5 +338,18 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Booking object creation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
+    vm.getDynamicCSSForBookingScreenNav = function () {
+      if(window.innerWidth > 767)
+        return 'nav-toursite';
+    }
+    vm.getDynamicPaddingForBookingScreenNav = function () {
+      var cssObject = {
+        "padding-left": "15%",
+        "padding-right": "15%"
+      }
+      if(window.innerWidth > 767)
+        return cssObject;
+    }
   }
 }());

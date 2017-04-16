@@ -30,7 +30,16 @@ body {
 .guestHome .calendarMargin {
 	margin-left: 5%;
 	margin-right: 5%;
-} 
+}
+.tourBooking .marginFromBothEnd {
+	margin-left: 15%;
+	margin-right: 15%;
+}
+.tourBooking .host-toursite-Logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 
 @media  (max-width: 767px) {
 }

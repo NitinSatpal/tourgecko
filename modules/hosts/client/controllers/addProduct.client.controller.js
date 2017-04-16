@@ -48,13 +48,22 @@
     vm.isFixedTourTimeSlotAvailable = false;
     vm.fixedDepartureSessionCounter = -1;
     vm.ShowCalendarButton = true;
+    vm.isNewPricingApplicableOnOldSessions = false;
+    vm.isNewPricingApplicableOnNewSessions = false;
     $scope.timeslots = [];
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
     var sessionSpecialPricing = [];
+    var initializing = true;
+    var isPricingOptionsModified = false;
+    var isSessionCreatedWhileEditing = false;
+    var isSpecialPricingInSessionCreatedWhileEditing = false;
+    var currentSessionHasSpecialPricing = false;
+    var specialPricingIndexTracker = new Set();
     var sessionMonthsCovered = [];
     var productPictureURLs;
     var productMapURLs;
+    var previousPricingOption = [];
     var standardTagSet = new Set();
     standardTagSet.add('Hiking');
     standardTagSet.add('Trekking');
@@ -101,6 +110,7 @@ $('#tourgeckoBody').removeClass('disableBody');
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
+          previousPricingOption = vm.tour.productPricingOptions;
           vm.showCreatedItinerary = true;
           for(var index = 0; index < vm.tour.productTags.length; index++) {
             if(standardTagSet.has(vm.tour.productTags[index])) {
@@ -160,11 +170,18 @@ function setRichTextData () {
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Pricing parameters initialization, handler and validations*/
-/* ------------------------------------------------------------------------------------------------------------------------- */    
+/* ------------------------------------------------------------------------------------------------------------------------- */
     vm.pricingParams = [{
       'pricingType': 'Everyone'
     }];
 
+    $scope.$watch('vm.pricingParams', function() {
+      if (initializing) {
+        $timeout(function() { initializing = false; });
+      } else {
+        isPricingOptionsModified = true;
+      }
+    }, true);
     vm.initializePricingOptions = function (index) {
       if(vm.pricingParams[index].pricingType == 'Group')
         vm.pricingParams[index].groupOption = 'Per Group';
@@ -380,11 +397,29 @@ vm.openDepartureSessionModal = function() {
     alert('Please enter pricing details before creating departure session');
     return false;
   } else {
+    var modalOpened = true;
     vm.sessionPricing = []
     angular.copy(vm.pricingParams, vm.sessionPricing);
     vm.fixedDepartureSessionCounter++;
     var newSchedule = {'repeatBehavior':'Do not repeat'}
     vm.fixedProductSchedule[vm.fixedDepartureSessionCounter] = newSchedule;
+    $scope.$watch('vm.fixedProductSchedule', function() {
+      if (initializing) {
+        $timeout(function() { initializing = false; });
+      } else {
+        isSessionCreatedWhileEditing = true;
+      }
+    }, true);
+
+    $scope.$watch('vm.sessionPricing', function() {
+    if (initializing || modalOpened) {
+      $timeout(function() { initializing = false; modalOpened = false; });
+      } else {
+        isSpecialPricingInSessionCreatedWhileEditing = true;
+        currentSessionHasSpecialPricing = true;
+      }
+    }, true);
+
     vm.isFixedTourTimeSlotAvailable = false;
     $('#departureSession').fadeIn();
   }
@@ -403,6 +438,13 @@ vm.createDepartureSession = function () {
     alert('Please select the end date of reptition of this tour');
     return false;
   }
+  if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
+      (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays === undefined || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length == 0)){
+    alert('Please select the week days on which this tour will repeat');
+    return false;
+  }
+  
+
   vm.isProductScheduled = true;
   
   $("#departureSession").fadeOut();
@@ -537,6 +579,10 @@ vm.createDepartureSession = function () {
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
   vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
+  if (currentSessionHasSpecialPricing == true) {
+    currentSessionHasSpecialPricing = false;
+    specialPricingIndexTracker.add(vm.fixedDepartureSessionCounter);
+  }
 
   if (vm.ShowCalendarButton && vm.fixedDepartureSessionCounter == 0) {
     openCalendarForFixedDepartures();
@@ -576,23 +622,62 @@ vm.createDepartureSession = function () {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
       }
-      
-      vm.showLoaderForProductSave = true;
-      $('#tourgeckoBody').addClass('disableBody');
-      $('#tours').addClass('waitCursor');
+      if(productId !== undefined && isPricingOptionsModified == true && vm.tour.productScheduledDates.length > 0) {
+        $('#pricingApplicability').click();
+      } else {
+        vm.showLoaderForProductSave = true;
+        $('#tourgeckoBody').addClass('disableBody');
+        $('#tours').addClass('waitCursor');
 
-      setProductInformation();
-      saveTheProduct();
-
+        setProductInformation();
+        saveTheProduct();
+      }
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.askExtraConfirmation = function (extraConfirmation) {
+      vm.isNewPricingApplicableOnOldSessions = extraConfirmation;
+      if (isSessionCreatedWhileEditing == true && isSpecialPricingInSessionCreatedWhileEditing == true)
+        $('#sessionCreatedWithModifiedPrice').click();
+      else {
+        if (isSessionCreatedWhileEditing == true) {
+          for (var index = 0; index < sessionSpecialPricing.length; index++)
+            sessionSpecialPricing[index] = vm.pricingParams;
+        }
+        vm.showLoaderForProductSave = true;
+        $('#tourgeckoBody').addClass('disableBody');
+        $('#tours').addClass('waitCursor');
+        setProductInformation();
+        saveTheProduct();
+      }
+    }
 
+    vm.saveTheEditedProduct = function (applyPriceToNewSessions) {
+      console.log(applyPriceToNewSessions);
+      console.log(sessionSpecialPricing);
+      console.log(specialPricingIndexTracker);
+      if (applyPriceToNewSessions == false) {
+        for (var index = 0; index < sessionSpecialPricing.length; index ++) {
+          if (!specialPricingIndexTracker.has(index)) {
+            sessionSpecialPricing[index] = vm.pricingParams;
+          }
+        }
+      }
+      vm.isNewPricingApplicableOnNewSessions = applyPriceToNewSessions;
+      vm.showLoaderForProductSave = true;
+      $('#tourgeckoBody').addClass('disableBody');
+      $('#tours').addClass('waitCursor');
+      setProductInformation();
+      saveTheProduct();
+    }
 
     function saveTheProduct () {
       if(productId) {
-        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered})
+        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, 
+                                              sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered,
+                                              changePreviouslyCreatedSessionPricing: vm.isNewPricingApplicableOnOldSessions,
+                                              changeNewlyCreatedSessionPricing: vm.isNewPricingApplicableOnNewSessions})
         .success(function (response) {
           // success
         }).error(function (response) {

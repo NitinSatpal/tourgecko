@@ -28,13 +28,13 @@ exports.createProduct = function (req, res) {
       });
     }
     if(req.body.tour.isProductScheduled == true)
-      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product);
+      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product, true);
     res.json(product);
   });
   
 };
 
-function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, product) {
+function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, product, sessionPricingValid) {
   var productSessions = [];
   for(var index = 0; index < departureSessions.length; index++) {
     var productSession = new ProductSession();
@@ -43,13 +43,29 @@ function createDepartureSessions (departureSessions, departureSessionPricings, s
     productSession.sessionDepartureDetails = departureSessions[index];
     productSession.sessionPricingDetails = departureSessionPricings[index];
     productSession.monthsThisSessionCovering = sessionMonthsCovering[index];
+    productSession.isSessionPricingValid = sessionPricingValid;
     productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);
 }
 
+function editOldDepartureSessionPricing (request, product) {
+  ProductSession.update({}, {isSessionPricingValid: false}, {multi: true}, 
+    function(err, num) {
+      if(err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      if (request !== undefined)
+        createDepartureSessions(request.body.toursessions, request.body.sessionPricings, request.body.monthsCovered, product, true);
+    }
+  );
+}
+
 function onInsert(err, docs) {
   // Tour Sessions inserted successfully.
+
 } 
 
 exports.editProduct = function(req, res) {
@@ -65,8 +81,26 @@ exports.editProduct = function(req, res) {
         }
       }
       product.save();
-      if(req.body.toursessions.length > 0)
-        createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product);
+      if(req.body.changePreviouslyCreatedSessionPricing == true) {
+        if(req.body.toursessions.length == 0)
+          editOldDepartureSessionPricing(undefined);
+        else {
+          if(req.body.changeNewlyCreatedSessionPricing == true) {
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product, false);
+            editOldDepartureSessionPricing(undefined);
+          } else {
+            editOldDepartureSessionPricing(req, product);
+          }
+        }
+      } else {
+        if(req.body.toursessions.length > 0) {
+          if(req.body.changeNewlyCreatedSessionPricing == true) {
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product, false);
+          } else {
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product, true);
+          }
+        }
+      }
       res.json(product);
     }
   });
