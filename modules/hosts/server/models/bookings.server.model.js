@@ -26,11 +26,16 @@ var BookingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'ProductSession'
   },
+  actualSessionDate: {
+    type: String,
+    default: ''
+  },
   isOpenDateTour: {
     type: Boolean
   },
   openDatedTourDepartureDate: {
-    type: Date
+    type: String,
+    default: ''
   },
   bookingReference: {
     type: String

@@ -13,11 +13,16 @@ var _ = require('lodash'),
 
 // Fetch Single product details
 exports.fetchProductDetails = function (req, res) {
-  Product.find({ '_id': req.params.productId }).sort('-created').populate('hostCompany').exec(function (err, products) {
+  Product.find({ '_id': req.params.productId, isPublished: true }).sort('-created').populate('hostCompany').exec(function (err, products) {
     if (err) {
-      // here page not found shud be rendered
+      return res.status(404).send({
+        message: 'No tour found with this id'
+      });
     } else {
-      res.json(products);
+      if(products.length == 0)
+        res.json(['No tour found with this id']);
+      else
+        res.json(products);
     }
   });
 };

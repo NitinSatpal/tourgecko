@@ -102,9 +102,9 @@
                     </div> 
                 </div>
             </div>
-            <div class="row text-center">
+            <div class="row text-center" ng-if="vm.toursitedata.length > 0">
                 <div class="col-sm-12 col-md-12 col-lg-12">
-                    <div class="pagination" ng-if="vm.toursitedata.length > 0">
+                    <div class="pagination">
                         <a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
                         <a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
                         <a href="#" ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
@@ -130,6 +130,8 @@
                     
                 </div>
             </div>
+            <div class="text-center" ng-if="vm.toursitedata.length == 0">
+                <span style="font-weight: 500; font-size: 20px;">No tours found</span>
         </div>
     </main>
     <footer class="toursite-footer">

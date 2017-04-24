@@ -85,6 +85,20 @@
     border-color: transparent !important;
 }
 
+.bookingMobileNumber .select-wrapper .caret {
+    display: none !important;
+}
+
+.bookingMobileNumber {
+    padding-top: 19px !important;
+}
+
+.bookingMobileNumber .select2-selection {
+   background: transparent !important;
+   background-color: 
+   opacity: 0.8 !important;
+}
+
 .body-toursite .selectRow {
     display : block;
     padding : 20px;

@@ -27,8 +27,8 @@ exports.createBooking = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        sendNotification(req.body.bookingDetails, req.body.productTitle, booking._id);
-        updateSession(booking.productSession, booking.numberOfSeats);
+        // sendNotification(req.body.bookingDetails, req.body.productTitle, booking._id);
+        updateSession(booking);
         res.json(booking);
       }
     });
@@ -57,18 +57,50 @@ function sendNotification(bookingObject, productTitle, bookingId) {
   });
 }
 
-function updateSession(productSessionId, numOfSeats) {
-  if (productSessionId) {
-    ProductSession.findOne({_id: productSessionId}).exec(function (err, session) {
+function updateSession(booking) {
+  if (booking.productSession) {
+    ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
       if (err) {
-        console.log('whats the error ');
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
       }
-      console.log('i m updating the session here ' + session);
-      //session.numberOfBookings = session.numberOfBookings + 1;
-      //session.numberOfSeats = session.numberOfSeats + numOfSeats;
+      
+      if (!session.numberOfBookings) {
+        var key = booking.actualSessionDate;
+        session.numberOfBookings = {
+          [key] : 1
+        }
+      } else {
+        if(session.numberOfBookings[booking.actualSessionDate]) {
+          var key = booking.actualSessionDate;
+          var value = parseInt(session.numberOfBookings[key]) + 1;
+          session.numberOfBookings[key] = value;
+        } else {
+          var key = booking.actualSessionDate;
+          session.numberOfBookings[key] = 1;
+        }
+      }
+      
+      if (!session.numberOfSeats) {
+        var key = booking.actualSessionDate;
+        var value = parseInt(booking.numberOfSeats);
+        session.numberOfSeats = {
+          [key] : value
+        }
+      } else {
+        if (session.numberOfSeats[booking.actualSessionDate]) {
+          var key = booking.actualSessionDate;
+          var value = parseInt(session.numberOfSeats[key]) + parseInt(booking.numberOfSeats);
+          session.numberOfSeats[key] = value;
+        } else {
+          var key = booking.actualSessionDate;
+          session.numberOfSeats[key] = parseInt(booking.numberOfSeats);
+        }
+      }
+
+      session.markModified('numberOfBookings');
+      session.markModified('numberOfSeats');
       session.save(function (err) {
         if (err) {
           // session saving failed

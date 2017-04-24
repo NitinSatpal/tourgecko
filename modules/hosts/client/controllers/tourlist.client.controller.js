@@ -10,7 +10,7 @@
   function TourListController($scope, $state, $window, $http, $timeout, $interval, Authentication, CompanyProductService) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.editedTour = $window.localStorage.getItem('editedTourId');
+    vm.tourReallyEdited = $window.localStorage.getItem('productSuccessfullyEdited');
     vm.index = -1;
     $scope.askForAuthentication = "";
     vm.numberOfItemsInOnePage = '10';
@@ -338,13 +338,12 @@
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
         $window.localStorage.setItem('previousPageNumber', vm.currentPageNumber);
         $window.localStorage.setItem('previousItemsPerPage', vm.numberOfItemsInOnePage);
-        $window.localStorage.setItem('editedTourId', vm.products[index]._id);
         $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
     vm.highlightEditedTour = function (tourIndex) {
-        console.log('came');
-        $window.localStorage.setItem('editedTourId','noTourId');
-        vm.editedTour = $window.localStorage.getItem('editedTourId');
+        console.log(tourIndex);
+        $window.localStorage.setItem('productSuccessfullyEdited', 'No');
+        vm.tourReallyEdited = $window.localStorage.getItem('productSuccessfullyEdited')
         var scrollTo = 0;
         var otherElementHeights = 63 + 55 + 20;
         for (var index = 0; index < tourIndex; index++)

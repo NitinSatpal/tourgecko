@@ -10,22 +10,27 @@
         };
     });
 
-  TourBookingController.$inject = ['$scope', '$state', '$http', '$location', '$window', 'Authentication'];
+  TourBookingController.$inject = ['$scope', '$state', '$http', '$location', '$window', '$timeout', 'Authentication'];
 
-  function TourBookingController($scope, $state, $http, $location, $window, Authentication) {
+  function TourBookingController($scope, $state, $http, $location, $window, $timeout, Authentication) {
     // Initialize variables
     var vm = this;
     vm.authentication = Authentication;
-    vm.seatQuantity = [];
+    vm.nonGroupCustomSeatQuantity = [];
+    vm.groupSeatQuantity = [];
+    vm.customSeatQuantity = [];
     vm.addonQuantity = [];
-    vm.calculatedSeatPrice = 0;
-    vm.calculatedAddonPrice = 0;
+    vm.addonSelectionCheckbox = [];
+    vm.totalCalculatedSeatPrice = 0;
+    vm.totalcalculatedAddonPrice = 0;
     vm.totalPayablePrice = 0;
+    vm.totalNumberOfSeats = 0;
     vm.selectedBookingOptionIndex = 0;
-    vm.selectedPricingOptions = [];
+    vm.showLoaderForPriceCalculations = false;
 
     var productSessionIds = [];
     var tourType;
+    var pricingObject;
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
@@ -53,14 +58,21 @@
     // Fetch product data from database
     $http.get('/api/guest/product/' + productId).success(function (response) {
       vm.bookingProductDetails = response[0];
-
+      if (vm.bookingProductDetails == 'No tour found with this id') {
+        vm.error = response;
+        $('#tourBookingScreen').hide();
+        return;
+      }
       // product title is required in embedded javascript, hence save it in scope variable
       $scope.productTitle = vm.bookingProductDetails.productTitle;
       tourType = vm.bookingProductDetails.productAvailabilityType;
 
       $scope.bookingNotAllowedMonths = new Set();
-      for (var index = 0; index < vm.bookingProductDetails.productUnavailableMonths.length; index++)
-        $scope.bookingNotAllowedMonths.add(monthToNumber.get(vm.bookingProductDetails.productUnavailableMonths[index]));
+      if (vm.bookingProductDetails.productUnavailableMonths) {
+        for (var index = 0; index < vm.bookingProductDetails.productUnavailableMonths.length; index++)
+          $scope.bookingNotAllowedMonths.add(monthToNumber.get(vm.bookingProductDetails.productUnavailableMonths[index]));
+      }
+      
       // fetch productsessions
       $http.get('/api/guest/productSessions/' + productId).success(function (response) {
         vm.productSessions = response;
@@ -88,7 +100,7 @@
       if (isFullCallendarCalling) {
         // save the selected date, in order to save to the database
         vm.selectedDate = displayDate;
-
+        $scope.$apply();
         // displaydate css thing
         var displayDateEdited = weekdays[date.getDay()] + ', <br> ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
         
@@ -106,6 +118,29 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 
+    vm.getAvailableSeats = function (index) {
+      if(vm.bookingProductDetails && vm.bookingProductDetails.productSeatLimit !== undefined) {
+        if (vm.productSessions && vm.productSessions[index]) {
+          var key = new Date(vm.productSessions[index].sessionDepartureDetails.startDate).getTime();
+          if (vm.productSessions[index].numberOfSeats && vm.productSessions[index].numberOfSeats[key])
+            return vm.bookingProductDetails.productSeatLimit - parseInt(vm.productSessions[index].numberOfSeats[key]);
+          else 
+            return vm.bookingProductDetails.productSeatLimit;
+        }
+      } else
+        return 'No Limit on Seats';
+    }
+
+    vm.groupEntryTracker = -1;
+    vm.customEntryTracker = -1;
+    vm.trackGroupEntry = function (index, pricingType) {
+      if (vm.groupEntryTracker == -1 && pricingType == 'Group')
+        vm.groupEntryTracker = index;
+
+      if (vm.customEntryTracker == -1 && pricingType == 'Custom')
+        vm.customEntryTracker = index;
+      
+    }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* populate events of full calendar in case of open dated tours */
@@ -154,114 +189,356 @@
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* Initial Pricing selection and price calculations + variable declaration for the same */
+   /* Initial Pricing selection and price calculations + variable declaration for non group and non custom pricing types */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    var selectedPricingIndex;
-    vm.setSelectedPricing = function (index) {
-      console.log('coming bro');
-      if(vm.seatQuantity.length > 0)
-        vm.seatQuantity.length = 0;
-      vm.seatQuantity[index] = 1;
-      selectedPricingIndex = index;
-
-      vm.calculatedSeatPrice = parseInt(vm.bookingProductDetails.productPricingOptions[index].price);
-
-      vm.totalPayablePrice = vm.calculatedSeatPrice + vm.calculatedAddonPrice;
+    vm.nonGroupCustomCalculatedSeatPrice = 0;
+    vm.storePrevNonGroupCustomSeatQuantity = [];
+    var nonGroupCustomIndexTracker = new Set();
+    vm.setSelectedNonGroupCustomPricing = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      if(!nonGroupCustomIndexTracker.has(index)) {
+        nonGroupCustomIndexTracker.add(index);
+        vm.nonGroupCustomSeatQuantity[index] = 1;
+        vm.storePrevNonGroupCustomSeatQuantity[index] = 1;
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats + 1;
+        // As this is initial selection. Price will always be added in multiple of 1 as user has just selected and by default we are
+        // putting 1 as seat quantity. Hence there is not multiplier to pricingObject[index].price
+        // When user will change seats, we will re calculate the price.
+        vm.nonGroupCustomCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice + parseInt(pricingObject[index].price);
+      } else {
+        nonGroupCustomIndexTracker.delete(index)
+        vm.nonGroupCustomSeatQuantity[index] = '';
+        vm.nonGroupCustomCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice - parseInt(vm.storePrevNonGroupCustomSeatQuantity[index] * pricingObject[index].price);
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevNonGroupCustomSeatQuantity[index];
+      }
+      calculateAddonPricingOnSeatChange();
+      calculateTotalSeatPrice();
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* Initial Pricing selection and price calculations + variable declaration for the same, ends here */
+   /* Initial Pricing selection and price calculations + variable declaration for non group and non custom pricing types, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* Pricing calculations in case user changed the number of seats */
+   /* Pricing calculations in case user changed the number of seats of non group and non custom pricing types */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    vm.calculateSeatPrice = function (index) {
-      vm.calculatedSeatPrice = parseInt(vm.bookingProductDetails.productPricingOptions[index].price) * vm.seatQuantity[index];
-      calculateAddonPricing(true);
-      vm.totalPayablePrice = vm.calculatedSeatPrice + vm.calculatedAddonPrice;
+    vm.calculateNonGroupCustomSeatPrice = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      if (vm.nonGroupCustomSeatQuantity[index] == null) {
+        vm.nonGroupCustomSeatQuantity[index] = '';
+        if ($('#pricingSelection'+index).prop('checked'))
+          $('#pricingSelection'+index).prop('checked', false); // Unchecks it
+        nonGroupCustomIndexTracker.delete(index);
+        vm.nonGroupCustomCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice - parseInt(vm.storePrevNonGroupCustomSeatQuantity[index] * 
+                                                        pricingObject[index].price);
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevNonGroupCustomSeatQuantity[index];
+        vm.storePrevNonGroupCustomSeatQuantity[index] = 0;
+      } else {
+        if (!$('#pricingSelection'+index).prop('checked')) {
+          $('#pricingSelection'+index).prop('checked', true);
+          vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevNonGroupCustomSeatQuantity[index];
+          vm.storePrevNonGroupCustomSeatQuantity[index] = 0;
+        }
+        nonGroupCustomIndexTracker.add(index);
+        
+        vm.nonGroupCustomCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice - parseInt(vm.storePrevNonGroupCustomSeatQuantity[index] * pricingObject[index].price);
+        vm.nonGroupCustomCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice + parseInt(vm.nonGroupCustomSeatQuantity[index] * 
+                                                        pricingObject[index].price);
+        
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevNonGroupCustomSeatQuantity[index] + vm.nonGroupCustomSeatQuantity[index];
+        vm.storePrevNonGroupCustomSeatQuantity[index] = vm.nonGroupCustomSeatQuantity[index];
+      }
+      calculateAddonPricingOnSeatChange();
+      calculateTotalSeatPrice();
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* Pricing calculations in case user changed the number of seats, ends here */
+   /* Pricing calculations in case user changed the number of seats of non group and non custom pricing types, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Initial Pricing selection and price calculations + variable declaration for group pricing type */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.groupCalculatedSeatPrice = 0;
+    vm.storePrevGroupQuantity = 0;
+    vm.setSelectedGroupPricing = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      vm.groupSeatQuantity.length = 0;
+      vm.groupSeatQuantity[index] = parseInt(pricingObject[index].minGroupSize);
+      vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevGroupQuantity + parseInt(pricingObject[index].minGroupSize);
+      vm.storePrevGroupQuantity = vm.groupSeatQuantity[index];
+      if (pricingObject[index].groupOption == 'Per Person')
+        vm.groupCalculatedSeatPrice = vm.groupSeatQuantity[index] * parseInt(pricingObject[index].price);
+      else
+        vm.groupCalculatedSeatPrice = parseInt(pricingObject[index].price);
+
+      calculateAddonPricingOnSeatChange();
+      calculateTotalSeatPrice();
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Initial Pricing selection and price calculations + variable declaration for group pricing type, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Pricing calculations in case user changed the number of seats of group pricing type */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.calculateGroupSeatPrice = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      if (vm.groupSeatQuantity[index] == null) {
+        if ($('#groupPricingOption'+index).prop('checked'))
+          $('#groupPricingOption'+index).prop('checked', false); // Unchecks it
+        vm.groupSeatQuantity.length = 0;
+        vm.groupSeatQuantity[index] = '';
+        vm.groupCalculatedSeatPrice = 0 * parseInt(pricingObject[index].price);
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevGroupQuantity;
+        vm.storePrevGroupQuantity = 0;
+        calculateAddonPricingOnSeatChange();
+        calculateTotalSeatPrice();
+      } else {
+        if (!$('#groupPricingOption'+index).prop('checked')) {
+          $('#groupPricingOption'+index).prop('checked', true);
+          var tempGroupSeatNumber = vm.groupSeatQuantity[index];
+          vm.groupSeatQuantity.length = 0;
+          vm.groupSeatQuantity[index] = tempGroupSeatNumber;
+        }
+        $timeout(function() {
+          if(vm.groupSeatQuantity[index] < parseInt(pricingObject[index].minGroupSize) || 
+            vm.groupSeatQuantity[index] > parseInt(pricingObject[index].maxGroupSize)) {
+            $timeout(function() {
+              alert('Please provide quantity within the limit of the group size option');
+              vm.groupSeatQuantity[index] = parseInt(pricingObject[index].minGroupSize);
+              if (pricingObject[index].groupOption == 'Per Person')
+                vm.groupCalculatedSeatPrice = vm.groupSeatQuantity[index] * parseInt(pricingObject[index].price);
+              else
+                vm.groupCalculatedSeatPrice = parseInt(pricingObject[index].price);
+
+              calculateTotalSeatPrice();
+              return false;
+            }, 100);
+          } else {
+            if (pricingObject[index].groupOption == 'Per Person')
+              vm.groupCalculatedSeatPrice = vm.groupSeatQuantity[index] * parseInt(pricingObject[index].price);
+            else
+              vm.groupCalculatedSeatPrice = parseInt(pricingObject[index].price);
+            vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevGroupQuantity + vm.groupSeatQuantity[index];
+            vm.storePrevGroupQuantity = vm.groupSeatQuantity[index];
+            calculateAddonPricingOnSeatChange();
+            calculateTotalSeatPrice();
+          }
+        }, 1000);
+      }
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Pricing calculations in case user changed the number of seats of group pricing type, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Initial Pricing selection and price calculations + variable declaration for custom pricing type */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.customCalculatedSeatPrice = 0;
+    vm.storePrevCustomQuantity = 0;
+    vm.setSelectedCustomPricing = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      vm.customSeatQuantity.length = 0;
+      vm.customSeatQuantity[index] = 1;
+      vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevCustomQuantity + 1;
+      vm.storePrevCustomQuantity = 1;
+      vm.customCalculatedSeatPrice = vm.customSeatQuantity[index] * parseInt(pricingObject[index].price);
+      calculateAddonPricingOnSeatChange();
+      calculateTotalSeatPrice();
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Initial Pricing selection and price calculations + variable declaration for group pricing type, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Pricing calculations in case user changed the number of seats of group pricing type */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.calculateCustomSeatPrice = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      if (vm.customSeatQuantity[index] == null) {
+        if ($('#customPricingOption'+index).prop('checked'))
+          $('#customPricingOption'+index).prop('checked', false); // Unchecks it
+        vm.customSeatQuantity.length = 0;
+        vm.customSeatQuantity[index] = '';
+        vm.customCalculatedSeatPrice = 0 * parseInt(pricingObject[index].price);
+        vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevCustomQuantity + 1;
+        vm.storePrevCustomQuantity = 0;
+        calculateAddonPricingOnSeatChange();
+        calculateTotalSeatPrice();
+      } else {
+        if (!$('#customPricingOption'+index).prop('checked')) {
+          $('#customPricingOption'+index).prop('checked', true);
+          var tempCustomSeatNumber = vm.customSeatQuantity[index];
+          vm.customSeatQuantity.length = 0;
+          vm.customSeatQuantity[index] = tempCustomSeatNumber;
+        }
+        $timeout(function() {
+          if(vm.customSeatQuantity[index] > parseInt(pricingObject[index].seatsUsed)) {
+            $timeout(function() {
+              alert('Please provide quantity less than the seats used for this option');
+              vm.customSeatQuantity[index] = 1;
+              vm.customCalculatedSeatPrice = vm.customSeatQuantity[index] * parseInt(pricingObject[index].price);
+              calculateTotalSeatPrice();
+              return false;
+            }, 100);
+          } else {
+            vm.customCalculatedSeatPrice = vm.customSeatQuantity[index] * parseInt(pricingObject[index].price);
+            vm.totalNumberOfSeats = vm.totalNumberOfSeats - vm.storePrevCustomQuantity + vm.customSeatQuantity[index];
+            vm.storePrevCustomQuantity = vm.customSeatQuantity[index];
+            calculateAddonPricingOnSeatChange();
+            calculateTotalSeatPrice();
+          }
+        }, 1000)
+      }
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */    
+   /* Pricing calculations in case user changed the number of seats of group pricing type, ends here */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+    function calculateTotalSeatPrice() {
+      vm.totalCalculatedSeatPrice = vm.nonGroupCustomCalculatedSeatPrice + vm.groupCalculatedSeatPrice + vm.customCalculatedSeatPrice;
+      calulateTotalPayablePrice();
+    }
 
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Addon selection,validations and pricing calculations + variable declarations for the same */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    var addonTracker = new Set();
-    vm.addonsChecked = [];
+    vm.storePrevAddonQuantity = [];
+    vm.addonQuantityToCalculatePrice = [];
+    var addonIndexTracker = new Set();
     vm.setSelectedAddonPricing = function (index) {
-      if (vm.seatQuantity.length == 0) {
+      vm.showLoaderForPriceCalculations = true;
+      if (nonGroupSeatCalculator() == 0 && groupSeatCalculator() == 0 && customSeatCalculator() == 0) {
         alert('Please select Booking Option before selecting Optional Add-Ons');
-        vm.addonsChecked[index] = false;
+        vm.addonSelectionCheckbox[index] = false;
+        vm.showLoaderForPriceCalculations = false;
         return false;
       }
-
-      if(!addonTracker.has(index)) {
-        addonTracker.add(index);
-        if (vm.bookingProductDetails.productAddons[index].applyAs == 'Per Booking' || vm.bookingProductDetails.productAddons[index].applyAs == 'Guest Choice')
-          vm.addonQuantity[index] = 1;
+      if(!addonIndexTracker.has(index)) {
+        addonIndexTracker.add(index);
+        vm.addonQuantity[index] = 1;
+        if (vm.bookingProductDetails.productAddons[index].applyAs == 'Per Seat')
+          vm.addonQuantityToCalculatePrice[index] = vm.totalNumberOfSeats;
         else
-          vm.addonQuantity[index] = vm.seatQuantity[selectedPricingIndex];
+          vm.addonQuantityToCalculatePrice[index] = 1;
+
+        vm.storePrevAddonQuantity[index] = vm.addonQuantityToCalculatePrice[index];
+        vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice + parseInt(vm.addonQuantityToCalculatePrice[index] * vm.bookingProductDetails.productAddons[index].price);
       } else {
-        addonTracker.delete(index);
+        addonIndexTracker.delete(index)
         vm.addonQuantity[index] = '';
+        vm.addonQuantityToCalculatePrice[index] = 0;
+        vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice - parseInt(vm.storePrevAddonQuantity[index] * vm.bookingProductDetails.productAddons[index].price);;
+        vm.storePrevAddonQuantity[index] = vm.addonQuantityToCalculatePrice[index];
       }
-      var addonSelected = Array.from(addonTracker);
-
-      vm.calculatedAddonPrice = 0;
-      for(var tracker = 0; tracker < addonSelected.length; tracker++)
-        vm.calculatedAddonPrice = vm.calculatedAddonPrice + 
-                                  parseInt(vm.bookingProductDetails.productAddons[addonSelected[tracker]].price) * 
-                                  vm.addonQuantity[addonSelected[tracker]];
-
-      vm.totalPayablePrice = vm.calculatedSeatPrice + vm.calculatedAddonPrice;
+      calulateTotalPayablePrice();
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Addon selection, validations and pricing calculations + variable declarations for the same, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
   
 
-
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Pricing calculations in case user changed number of addons or number of seats */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    vm.calculateAddonPrice = function () {
-      // call external function,  because, in case user has changed the seats, we need to exlicitly change that for addon
-      // if addon selected is 'Per Seat'. If user change addon quantity, the required value will be automatically changed
-      calculateAddonPricing(false);
+    vm.calculateAddonPrice = function (index) {
+      vm.showLoaderForPriceCalculations = true;
+      if (vm.addonQuantity[index] == null) {
+        vm.addonQuantity[index] = '';
+        if (vm.addonSelectionCheckbox[index])
+          vm.addonSelectionCheckbox[index] = false; // Unchecks it
+        addonIndexTracker.delete(index);
+        vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice - parseInt(vm.storePrevAddonQuantity[index] * vm.bookingProductDetails.productAddons[index].price);
+        vm.addonQuantityToCalculatePrice[index] = 0;
+        vm.storePrevAddonQuantity[index] = vm.addonQuantityToCalculatePrice[index];
+      } else {
+        if (!vm.addonSelectionCheckbox[index]) {
+          vm.addonSelectionCheckbox[index] = true;
+          vm.storePrevAddonQuantity[index] = 0;
+        }
+        addonIndexTracker.add(index);
+        vm.addonQuantityToCalculatePrice[index] = vm.addonQuantity[index];
+        vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice - parseInt(vm.storePrevAddonQuantity[index] * vm.bookingProductDetails.productAddons[index].price);;
+        vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice + parseInt(vm.addonQuantity[index] * vm.bookingProductDetails.productAddons[index].price);
+        vm.storePrevAddonQuantity[index] = vm.addonQuantity[index];;
+      }
+      calulateTotalPayablePrice();
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Pricing calculations in case user changed number of addons or number of seats, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
-
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* External function for Pricing calculations in case user changed number of addons or number of seats */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-    function calculateAddonPricing (needToChangeAddonQuantity) {
-      var addonSelected = Array.from(addonTracker);
-
-      // in case the number of seats changed, we have to change the quantity of addons for calculations
-      if (needToChangeAddonQuantity) {
-        for(var tracker = 0; tracker < addonSelected.length; tracker++) {
-          if (vm.bookingProductDetails.productAddons[addonSelected[tracker]].applyAs == 'Per Seat')
-            vm.addonQuantity[addonSelected[tracker]] = vm.seatQuantity[selectedPricingIndex];
-        }
+    
+    function calculateAddonPricingOnSeatChange () {
+      if (nonGroupSeatCalculator() == 0 && groupSeatCalculator() == 0 && customSeatCalculator() == 0) {
+        addonIndexTracker.clear();
+        vm.addonSelectionCheckbox.length = 0;
+        vm.totalcalculatedAddonPrice = 0;
+        vm.addonQuantityToCalculatePrice.length = 0;
+        vm.storePrevAddonQuantity.length = 0;
+        vm.nonGroupCustomSeatQuantity.length = 0;
+        vm.groupSeatQuantity.length = 0;
+        vm.customSeatQuantity.length = 0;
+        vm.addonQuantity.length = 0;
+      } else {
+        addonIndexTracker.forEach(function(value) {
+          if (vm.bookingProductDetails.productAddons[value].applyAs == 'Per Seat') {
+            vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice - vm.addonQuantityToCalculatePrice[value] * vm.bookingProductDetails.productAddons[value].price;
+            vm.addonQuantityToCalculatePrice[value] = vm.totalNumberOfSeats;
+            vm.storePrevAddonQuantity[value] = vm.totalNumberOfSeats;
+            vm.totalcalculatedAddonPrice = vm.totalcalculatedAddonPrice + vm.addonQuantityToCalculatePrice[value] * vm.bookingProductDetails.productAddons[value].price
+          }
+        });
       }
-
-      vm.calculatedAddonPrice = 0;
-      for(var tracker = 0; tracker < addonSelected.length; tracker++)
-        vm.calculatedAddonPrice = vm.calculatedAddonPrice + 
-                                  parseInt(vm.bookingProductDetails.productAddons[addonSelected[tracker]].price) * 
-                                  vm.addonQuantity[addonSelected[tracker]];
-      vm.totalPayablePrice = vm.calculatedSeatPrice + vm.calculatedAddonPrice;
     }
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-   /* External function for Pricing calculations in case user changed number of addons or number of seats, ends here*/
-/* ------------------------------------------------------------------------------------------------------------------------- */
+
+    function nonGroupSeatCalculator () {
+      var nonGroupSeatQunatity = 0;
+      for (var index = 0; index < vm.nonGroupCustomSeatQuantity.length; index++) {
+        if (vm.nonGroupCustomSeatQuantity[index] != '')
+          nonGroupSeatQunatity = nonGroupSeatQunatity + vm.nonGroupCustomSeatQuantity[index];
+      }
+      return nonGroupSeatQunatity;
+    }
+
+    function groupSeatCalculator () {
+      var groupSeatQunatity = 0;
+      for (var index = 0; index < vm.groupSeatQuantity.length; index++) {
+        if (vm.groupSeatQuantity[index] != '')
+          groupSeatQunatity = groupSeatQunatity + vm.groupSeatQuantity[index];
+      }
+      return groupSeatQunatity;
+    }
+
+    function customSeatCalculator () {
+      var customSeatQunatity = 0;
+      for (var index = 0; index < vm.customSeatQuantity.length; index++) {
+        if (vm.customSeatQuantity[index] != '')
+          customSeatQunatity = customSeatQunatity + vm.customSeatQuantity[index];
+      }
+      return customSeatQunatity;
+    }
+
+    function addonQuantityCalculator () {
+      var addonQuantity = 0;
+      for (var index = 0; index < vm.addonQuantity.length; index++) {
+        if (vm.addonQuantity[index] != '')
+          addonQuantity = addonQuantity + vm.addonQuantity[index];
+      }
+      return addonQuantity;
+    }
+
+    function calulateTotalPayablePrice () {
+      vm.totalPayablePrice = vm.totalCalculatedSeatPrice + vm.totalcalculatedAddonPrice;
+      $timeout(function() {
+        vm.showLoaderForPriceCalculations = false;
+      }, 100);
+    }
     
 
 
@@ -270,24 +547,24 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.validateData = function (stepNumberFrom, stepNumberTo) {
       if (stepNumberFrom > stepNumberTo) {
-        // For now creating booking from here
-        if (stepNumberFrom == 4 && stepNumberTo == 3) {
-          createBookingObject();
-          return true;
-        } else
-          return true;
-      }
-      else if (stepNumberFrom == 1 && !vm.selectedDate) {
+        return true;
+      } else if (stepNumberFrom == 1 && !vm.selectedDate) {
         alert('Please select departure date first as prices shown on next screen may vary');
         return false;
-      } else if (stepNumberFrom == 2 && vm.seatQuantity.length == 0) {
+      } else if (stepNumberFrom == 2 && vm.nonGroupCustomSeatQuantity.length == 0 && vm.groupSeatQuantity.length == 0 && vm.customSeatQuantity.length == 0) {
         alert('Please select Booking Option to proceed further');
         return false;
       } else if (stepNumberFrom == 3 && !vm.providedGuestDetails) {
         alert('Please provide the name, email and mobile number for communication');
         return false;
-      } else if (stepNumberFrom == 4) {
-        createBookingObject();
+      }
+      if (stepNumberFrom == 1) {
+        if (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' 
+            && vm.productSessions[vm.selectedBookingOptionIndex].isSessionPricingValid == true) {
+          pricingObject = vm.productSessions[vm.selectedBookingOptionIndex].sessionPricingDetails;
+        } else {
+          pricingObject = vm.bookingProductDetails.productPricingOptions;
+        }
       }
       return true;
     }
@@ -299,32 +576,33 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Booking object creation function */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    function createBookingObject () {
+    $scope.createBookingObject = function () {
       var bookingObject = {};
       bookingObject.providedGuestDetails = vm.providedGuestDetails;
-      bookingObject.numberOfSeats = vm.seatQuantity[selectedPricingIndex];
-      bookingObject.numberOfAddons = vm.addonsChecked.length;
       bookingObject.product = vm.bookingProductDetails._id;
       bookingObject.hostOfThisBooking = vm.bookingProductDetails.user;
       if (tourType == 'Open Date') {
         bookingObject.isOpenDateTour = true;
-        var openDatedTourDepartureDate = new Date(vm.selectedDate);
-        openDatedTourDepartureDate = openDatedTourDepartureDate.setDate(openDatedTourDepartureDate.getDate() + 1);
-        bookingObject.openDatedTourDepartureDate = new Date(openDatedTourDepartureDate);
+        var openDatedTourDepartureDate = vm.selectedDate;
         bookingObject.productSession = null;
       } else {
         bookingObject.isOpenDateTour = false;
-        bookingObject.productSession = productSessionIds[selectedPricingIndex];
+        bookingObject.productSession = productSessionIds[vm.selectedBookingOptionIndex];
       }
+      
+      bookingObject.numberOfSeats = nonGroupSeatCalculator() + groupSeatCalculator() + customSeatCalculator();
+      bookingObject.numberOfAddons = addonQuantityCalculator();
+      bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime();
+
       // There is no discount for now. So Always zero
       bookingObject.totalDiscount = 0;
       // For now keep deposit zero, but need to handle this when payment option is integrated
       bookingObject.depositPaid = 0;
-      // For now assign the calculated amount, but need to handle this when payment option is integrated as user can opt to play only deposit.
+      // For now assign the calculated amount, but need to handle this when payment option is integrated as user can opt to pay only deposit.
       // Or may be some tours do not ask upfront payment
       bookingObject.totalAmountPaid = vm.totalPayablePrice;
-      bookingObject.totalAmountPaidForProduct = vm.calculatedSeatPrice;
-      bookingObject.totalAmountPaidForAddons = vm.calculatedAddonPrice;
+      bookingObject.totalAmountPaidForProduct = vm.totalCalculatedSeatPrice;
+      bookingObject.totalAmountPaidForAddons = vm.totalcalculatedAddonPrice;
       bookingObject.paymentMode = 'tourgecko Wallet';
 
       var bookingData = {bookingDetails: bookingObject, productTitle: vm.bookingProductDetails.productTitle}

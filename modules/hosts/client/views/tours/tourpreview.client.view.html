@@ -240,7 +240,7 @@
                                             pricing.pricingType == 'Child' || pricing.pricingType == 'Everyone' || pricing.pricingType == 'Single'">
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price</strong>
-                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                    <a ng-if="pricing.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -250,8 +250,8 @@
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Couple'">
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price/Couple</strong>
-                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}">
-                                                    <i class="zmdi zmdi-info-outline orange-text "></i></a>
+                                                    <a ng-if="pricing.description != null"class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}">
+                                                    <i class="zmdi zmdi-info-outl ine orange-text "></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -262,7 +262,7 @@
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong ng-show="pricing.groupOption == 'Per Group'">Price/Group</strong>
                                                     <strong ng-show="pricing.groupOption == 'Per Person'">Price/Person</strong>
-                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                    <a ng-if="pricing.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>
@@ -272,7 +272,7 @@
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
                                                     <strong>Price/Person</strong>
-                                                    <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                    <a ng-if="pricing.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
                                                     <blockquote class="blue-grey-text text-lighten-1">
                                                         <span class="currency">&#8377;</span> {{pricing.price}}
                                                     </blockquote>

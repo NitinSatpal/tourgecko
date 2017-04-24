@@ -628,7 +628,6 @@ vm.createDepartureSession = function () {
         vm.showLoaderForProductSave = true;
         $('#tourgeckoBody').addClass('disableBody');
         $('#tours').addClass('waitCursor');
-
         setProductInformation();
         saveTheProduct();
       }
@@ -654,9 +653,6 @@ vm.createDepartureSession = function () {
     }
 
     vm.saveTheEditedProduct = function (applyPriceToNewSessions) {
-      console.log(applyPriceToNewSessions);
-      console.log(sessionSpecialPricing);
-      console.log(specialPricingIndexTracker);
       if (applyPriceToNewSessions == false) {
         for (var index = 0; index < sessionSpecialPricing.length; index ++) {
           if (!specialPricingIndexTracker.has(index)) {
@@ -674,12 +670,13 @@ vm.createDepartureSession = function () {
 
     function saveTheProduct () {
       if(productId) {
+        $window.localStorage.setItem('productSuccessfullyEdited', 'Yes');
+        console.log($window.localStorage.getItem('productSuccessfullyEdited'));
         $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, 
                                               sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered,
                                               changePreviouslyCreatedSessionPricing: vm.isNewPricingApplicableOnOldSessions,
                                               changeNewlyCreatedSessionPricing: vm.isNewPricingApplicableOnNewSessions})
         .success(function (response) {
-          // success
         }).error(function (response) {
           vm.error = response.message;
         });

@@ -28,6 +28,11 @@
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     
     $http.get('/api/guest/product/' + productId).success(function (response) {
+      if(response == 'No tour found with this id') {
+        vm.error = response;
+        $('#tourDetailsScreen').hide();
+        return;
+      }
       vm.productDetails = response[0];
       vm.companyDetails = response[0].hostCompany;
       vm.productImageURLs = response[0].productPictureURLs
@@ -35,6 +40,9 @@
       $('#tourDetailsScreen').removeClass('waitCursor');
       vm.showLoaderForTourDetails = false;
     }).error(function (response) {
+      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
+      $('#tourDetailsScreen').removeClass('waitCursor');
+      vm.showLoaderForTourDetails = false;
       vm.error = response.message;
     });
 

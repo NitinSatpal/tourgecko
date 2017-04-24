@@ -40,6 +40,12 @@ body {
     height: 50px;
     border-radius: 50%;
 }
+.tourBooking .stepContainer .tabs-holder .tabs .tab a {
+	padding: 0 0 !important;
+}
+.noDisplay {
+	display: none;
+}
 
 @media  (max-width: 767px) {
 }
