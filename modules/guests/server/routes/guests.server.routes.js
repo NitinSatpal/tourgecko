@@ -13,7 +13,10 @@ module.exports = function (app) {
  app.route('/api/guest/company/:productId')
    // .get(guests.fetchCompanyDetails)
 
- app.route('/api/guest/productSessions/:productId')
+ app.route('/api/guest/productSessionsWithCount/:productId/:skipIndex')
+ 	.get(guests.fethcProductSessionsOfProductWithCount);
+
+ app.route('/api/guest/productSessions/:productId/:skipIndex')
  	.get(guests.fethcProductSessionsOfProduct);
 
 };

@@ -65,24 +65,18 @@ $('#calendar').fullCalendar({
 		// Array of months to convert month from number to month name
 		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 		
+
 		// Convert start date in ISO format Date to show
 		var startDate = new Date(event._start._i);
-		// startDate.setDate(startDate.getDate() - 1);
 		var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
-
-
 		var duration = event.duration === undefined ? 'Duration not provided' :  event.duration;
-		
 		// Name of the tour or event
 		var event_name = event.titleText; //$(jsEvent.currentTarget).find(".eventname").text();
-
 		// CSS of event
 		var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
-
-
 		// Booking data will come here
 		var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
-	
+		var availabilityType = event.tourDepartureType;
 		var bodyHtml = 	"<p>" + 
 			   			"<i class='zmdi zmdi-calendar'></i> &nbsp;" +
 						showDate + 
@@ -93,7 +87,7 @@ $('#calendar').fullCalendar({
 						"</p>" + 
 						"<p>" + 
 							"<i class='zmdi zmdi-calendar-check'></i> &nbsp;" +
-							"Fixed Departure" +
+							availabilityType +
 						"</p>" + 
 						"<p>" +
 							"<i class='zmdi zmdi-account'></i>" +
@@ -114,7 +108,6 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 	        type:'GET',
 	        dataType: 'json',
 	      	success: function( sessions ) {
-		      	var cssCounter = 0;
 		      	var weekDaysNumber = new Map();
 		      	weekDaysNumber.set('Sunday', 0);
 		      	weekDaysNumber.set('Monday', 1);
@@ -159,6 +152,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 				        			endDate.setDate(endDate.getDate() + document.product.productDuration);
 		        				var limit;
 		        				var percentBooking = 'NA';
+		        				var numOfSeatsKey = eventDate.getTime();
 				        		if(document.product.productAvailabilityType == 'Open Date')
 				        			limit = '-';
 				        		else {
@@ -167,7 +161,8 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 					        		else {
 					        			if (document.product.productSeatLimit) {
 					        				limit = document.product.productSeatLimit;
-					        				percentBooking = parseInt(document.numberOfBookings) / parseInt(limit) * 100;
+					        				if (document.numberOfSeats && document.numberOfSeats[numOfSeatsKey])
+					        					percentBooking = parseInt(document.numberOfSeats[numOfSeatsKey]) / parseInt(limit) * 100;
 					        			} else
 					        			 	limit = '-';
 					        		}
@@ -176,7 +171,6 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 		        				var colorSelectionAndTitle;
 		        				var colorSelectionAndTitleForMobile;
 		        				var bookingDetailsInCalendar;
-		        				var numOfSeatsKey = new Date(document.sessionDepartureDetails.startDate).getTime();
 		        				if (document.numberOfSeats && document.numberOfSeats[numOfSeatsKey])
 		        					bookingDetailsInCalendar = document.numberOfSeats[numOfSeatsKey];
 		        				else
@@ -206,11 +200,11 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 		        					colorSelectionAndTitle = '<span class="eventname greenFC">' +
 						        			document.product.productTitle + '</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
-						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfSeats[numOfSeatsKey]+ '/' +limit +'</span>';
+						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 		        				}
 
-				        		if (window.innerWidth > 767)
+				        		if (window.innerWidth > 767) {
 				        			eventObject = {
 				        				title: colorSelectionAndTitle,
 				        				titleText: document.product.productTitle,
@@ -218,20 +212,21 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
 					        			productSessionId: document._id,
-					        			backgroundColor:  '#ffe4b2'
+					        			backgroundColor:  '#ffe4b2',
+					        			tourDepartureType: document.product.productAvailabilityType
 				        			}
-					        	else
+					        	} else {
 					        		eventObject = {
 				        				title: colorSelectionAndTitleForMobile,
 				        				titleText: document.product.productTitle,
 					        			start: eventDate,
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
-					        			productSessionId: document._id
-				        			}	
-				        		monthArrays[monthNumber].push(eventObject);
-				        		cssCounter++;
-					        
+					        			productSessionId: document._id,
+					        			tourDepartureType: document.product.productAvailabilityType
+				        			}
+				        		}
+				        		monthArrays[monthNumber].push(eventObject);					        
 					        }
 				        	eventDate = new Date (eventDate);
 				        	eventDate = eventDate.setDate(eventDate.getDate() + 1);

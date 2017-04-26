@@ -52,7 +52,7 @@ module.exports = function (app) {
   app.route('/api/host/companyproductsessioncount/')
     .get(hosts.countCompanyProductSessions);
 
-  app.route('/api/host/companyproductsessionsforgivenmonth/:uniqueMonthYearStrinng')
+  app.route('/api/host/companyproductsessionsforgivenmonth/:uniqueMonthYearString')
     .get(hosts.fetchCompanyProductSessionDetailsForGivenMonth);
 
   app.route('/api/host/productsession/:productSessionId')

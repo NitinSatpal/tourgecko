@@ -33,6 +33,7 @@
   width: 400px;
   z-index: 1000;
   display: none;
+  max-height: 360px;
 }
 #notificationContainer:before {
   display: block;
@@ -48,7 +49,7 @@
 .headerNotificationPointer {
   position:absolute;
   margin-top: -11px;
-  margin-left: 266px;
+  margin-left: 267px;
 }
 #notificationTitle {
   z-index: 1000;
@@ -62,7 +63,6 @@
 #notificationsBody {
   padding-left: 10px;
   min-height:auto;
-  padding-bottom: 20px;
   margin-top: 0;
 }
 #notificationFooter {
@@ -70,10 +70,11 @@
   text-align: center;
   font-weight: bold;
   padding: 8px;
-  font-size: 12px;
-  border-top: 1px solid #dddddd;
-  margin-top: -21px;
+  font-size: 15px;
   z-index:9999 !important;
+}
+#notificationFooter a {
+  color: #ED9C28 !important;
 }
 #notification_count {
   padding: 3px 7px 3px 7px;
@@ -96,6 +97,7 @@
   height: 60px;
   margin-bottom: 5px;
   margin-top: -35px;
+  object-fit: cover;
 }
 .notification-Text {
   display: inline-block;

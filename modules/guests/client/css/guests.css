@@ -46,6 +46,10 @@ body {
 .noDisplay {
 	display: none;
 }
+.departureDatePrevNextBtns {
+	height: 57px;
+}
+
 
 @media  (max-width: 767px) {
 }

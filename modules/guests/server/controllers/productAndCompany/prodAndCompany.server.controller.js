@@ -27,8 +27,23 @@ exports.fetchProductDetails = function (req, res) {
   });
 };
 
+exports.fethcProductSessionsOfProductWithCount = function (req, res) {
+  var skipIndexForSessions = req.params.skipIndex;
+  ProductSession.count({product: req.params.productId}, function(error, count) {
+    ProductSession.find({product: req.params.productId}).skip(skipIndexForSessions * 5).limit(5).sort('sessionDepartureDetails.startDate').exec(function (err, productSessions) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json({sessions: productSessions, sessionCount: count});
+    });
+  });
+};
+
 exports.fethcProductSessionsOfProduct = function (req, res) {
-  ProductSession.find({product: req.params.productId}).sort('created').exec(function (err, productSessions) {
+  var skipIndexForSessions = req.params.skipIndex;
+  ProductSession.find({product: req.params.productId}).skip(skipIndexForSessions * 5).limit(5).sort('sessionDepartureDetails.startDate').exec(function (err, productSessions) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

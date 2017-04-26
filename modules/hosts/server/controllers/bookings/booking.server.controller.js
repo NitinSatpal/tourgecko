@@ -27,8 +27,11 @@ exports.createBooking = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       } else {
-        // sendNotification(req.body.bookingDetails, req.body.productTitle, booking._id);
-        updateSession(booking);
+        sendNotification(req.body.bookingDetails, req.body.productData.productTitle, booking._id);
+        if(!booking.isOpenDateTour)
+          updateSession(booking);
+        else
+          createSession(booking, req.body.productData);
         res.json(booking);
       }
     });
@@ -37,15 +40,17 @@ exports.createBooking = function (req, res) {
 
 function sendNotification(bookingObject, productTitle, bookingId) {
   var notification = new Notification();
-  console.log('trying to send notification ' + JSON.stringify(bookingObject));
   notification.notificationFrom = bookingObject.providedGuestDetails.firstName + ' ' + bookingObject.providedGuestDetails.lastName;
-  // notification.notificationTypeLogo = //some logo url will come here according to the notification type;
+  notification.notificationTypeLogo = 'modules/chat/client/images/booking-request.png';
   notification.bookingId = bookingId;
   notification.notificationToId = bookingObject.hostOfThisBooking;
   notification.notificationType = "Booking Request";
   notification.notificationBody = "You have a booking request for '" + productTitle + "'.";
   notification.notificationStatus = "Action Pending by Host";
   notification.notificationRead = false;
+  notification.notificationTimestamp = moment(Date.now());
+  var splitTimestamp = notification.notificationTimestamp.split(' ');
+  notification.notificationTimestampToDisplay = splitTimestamp.slice(0, splitTimestamp.length - 1).join(' ');
   notification.created = Date.now();
 
   notification.save(function (err) {
@@ -110,6 +115,37 @@ function updateSession(booking) {
       });
     });
   }
+}
+
+// create session for open dated tour booking
+function createSession (booking, product) {
+  var productSession = new ProductSession();
+  var departureDetails = {
+    startTime: "",
+    startDate: booking.openDatedTourDepartureDate,
+    repeatBehavior : "Do not repeat"
+  };
+  productSession.sessionDepartureDetails = departureDetails;
+  productSession.isSessionPricingValid = true;
+  productSession.sessionPricingDetails = product.productPricingOptions;
+  var keyBooking = booking.actualSessionDate;
+  productSession.numberOfBookings[keyBooking] = 1;
+  var keySeats = booking.actualSessionDate;
+  productSession.numberOfSeats[keySeats] = parseInt(booking.numberOfSeats);
+  productSession.markModified('numberOfBookings');
+  productSession.markModified('numberOfSeats');
+  var eventDate = new Date(booking.openDatedTourDepartureDate);
+  var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
+  productSession.monthsThisSessionCovering = uniqueString;
+  productSession.hostCompany = product.hostCompany;
+  productSession.product = product._id;
+  productSession.save(function (err) {
+    if (err) {
+      // session saving failed
+    } else {
+      // session successfully saved
+    }
+  });
 }
 
 // Fetch all bookings

@@ -5,14 +5,27 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'Authentication', '$location', 'menuService', 'NotificationService', 'UnreadNotificationService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', 'Authentication', '$location', 'menuService'];
 
-  function HeaderController($scope, $state, $http, Authentication, $location, menuService, NotificationService, UnreadNotificationService) {
+  function HeaderController($scope, $state, $http, Authentication, $location, menuService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
-    vm.notifications = NotificationService.query();
-    vm.unreadNotifications = UnreadNotificationService.query();
+    vm.notifications = [];
+    vm.unreadNotificationCount = -1;
+    vm.notificationSkipIndex = 0;
+    vm.notificationOverIndex = 0;
+
+    $http.get('/api/notification/initialfetch/' + vm.notificationSkipIndex).success(function (response) {
+      vm.notifications = response.notificationArray;
+      vm.notificationCount = response.notificationCount;
+      vm.notificationOverIndex = Math.floor(vm.notificationCount / 5);
+    });
+
+    $http.get('/api/notification/unreadCount/').success(function (response) {      
+      vm.unreadNotificationCount = response.counterValue;
+    });
+
 
     var headerWithoutSideNav = new Set();
     headerWithoutSideNav.add('/password/reset/success');
@@ -51,10 +64,28 @@
     }
 
     function saveReadNotifications (notificationId) {
-      $http.post('/api/notifications/markAsRead/'+notificationId).success(function (response) {
-        vm.notifications = NotificationService.query();
-        vm.unreadNotifications = UnreadNotificationService.query();
+      $http.post('/api/notification/markAsRead/' + notificationId).success(function (response) {
+        $http.get('/api/notification/unreadCount/').success(function (response) {      
+          vm.unreadNotificationCount = response.counterValue;
+        });
       })
+    }
+
+    var notificationId;
+    vm.markNotificationRead = function (index) {
+      notificationId = vm.notifications[index]._id;
+      $('#notificationContainer').fadeOut('slow');
+      vm.notifications[index].notificationRead = true;
+      if (vm.notifications[index].notificationType == 'Booking Request')
+        $state.go('host.bookingdetails', {bookingId: vm.notifications[index].bookingId});
+    }
+
+    vm.fetchMoreNotifications = function () {
+      vm.notificationSkipIndex = vm.notificationSkipIndex + 1;
+      $http.get('/api/notification/subsequentfetch/' + vm.notificationSkipIndex).success(function (response) {
+        for(var index = 0; index < response.length; index++)
+          vm.notifications.push(response[index]);
+      });
     }
 
     vm.goToHomePage = function() {
@@ -68,15 +99,6 @@
       }
       if(vm.notifications[index] && vm.notifications[index].notificationRead)
         return css;
-    }
-
-    var notificationId;
-    vm.markNotificationRead = function (index) {
-      notificationId = vm.notifications[index]._id;
-      $('#notificationContainer').fadeOut('slow');
-      vm.notifications[index].notificationRead = true;
-      if (vm.notifications[index].notificationType == 'Booking Request')
-        $state.go('host.bookingdetails', {bookingId: vm.notifications[index].bookingId});
     }
   }
 }());

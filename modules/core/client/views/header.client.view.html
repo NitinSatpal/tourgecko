@@ -11,17 +11,17 @@
                     <li class="dropdown notifications">
                         <a href="#" id="notificationLink">
                           <i class="zmdi zmdi-notifications"></i>
-                          <span class="label label-info" ng-show="vm.unreadNotifications.length > 0">{{vm.unreadNotifications.length}}</span>
+                          <span class="label label-info" ng-show="vm.unreadNotificationCount != -1 && vm.unreadNotificationCount != 0">{{vm.unreadNotificationCount}}</span>
                         </a>
+                        <!-- ng-if="vm.notifications.length > 0" -->
                         <div id="notificationContainer">
                             <div><img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg"></div>
-                            <div id="notificationTitle" ng-if="vm.notifications.length > 0">Notifications</div>
-                            <div id="notificationTitle" ng-if="vm.notifications.length == 0">No Notifications</div>
+                            <div id="notificationTitle">Notifications</div>
                             <div id="notificationsBody" class="notifications">
                                 <div ng-repeat="notification in vm.notifications track by $index">
                                     <div class="notification-Item" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
                                         <div class="notification-Image-container">
-                                            <img src="{{notification.notificationFromProfileURL}}" class="notification-Image">
+                                            <img src="{{notification.notificationTypeLogo}}" class="notification-Image">
                                         </div>
                                         <div class="notification-Text">
                                             <span class="notificationType">
@@ -33,14 +33,15 @@
                                             </span>
                                             <br>
                                             <span class="notificationBodyTimeStamp">
-                                                {{notification.created}}
+                                                {{notification.notificationTimestampToDisplay}}
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="notificationFooter">
-                                <a ui-sref="host.allNotifications" ng-if="vm.notifications.length > 0" onclick="hideNotificationContainer()">See All</a>
+                                <div id="notificationFooter">
+                                    <a href="" ng-click="vm.fetchMoreNotifications()" ng-hide="vm.notificationSkipIndex == vm.notificationOverIndex">Load More...</a>
+                                    <a href="" ng-show="vm.notificationSkipIndex == vm.notificationOverIndex && vm.notificationCount > 5">No More Notifications</a>
+                                </div>
                             </div>
                         </div>
                     </li>

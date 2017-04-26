@@ -265,7 +265,7 @@
     vm.getInquiryHours = function () {
       if (vm.companyData) {
         if (vm.companyData.inquiryTime == 'Anytime')
-          return '(Anytime)';
+          return '(24 hours)';
         else
           return '(' + vm.companyData.inquiryTimeRangeFrom + ' ' + vm.companyData.inquiryTimeRangeTo + ')';
       }

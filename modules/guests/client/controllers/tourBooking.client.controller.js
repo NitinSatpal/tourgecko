@@ -50,7 +50,9 @@
     monthToNumber.set('november', 10);
     monthToNumber.set('december', 11);
 
+    vm.skipIndexForDepartureDates = 0;
     var departureDates = new Set();
+    var sessionCount = 0;
 
     // Get the product id
     var productId = $location.path().split('/')[4];
@@ -74,12 +76,12 @@
       }
       
       // fetch productsessions
-      $http.get('/api/guest/productSessions/' + productId).success(function (response) {
-        vm.productSessions = response;
+      $http.get('/api/guest/productSessionsWithCount/' + productId + '/' + vm.skipIndexForDepartureDates).success(function (response) {
+        vm.productSessions = response.sessions;
+        sessionCount = response.sessionCount;
+        vm.lastIndexForDepartureDates = Math.floor(sessionCount / 5);
         for ( var index = 0; index < vm.productSessions.length; index ++)
           productSessionIds.push(vm.productSessions[index]._id);
-
-
       }).error(function (response) {
           vm.error = response.message;
       });
@@ -87,7 +89,187 @@
       vm.error = response.message;
     });
 
+    vm.getNextDepartureDates = function () {
+      vm.skipIndexForDepartureDates = vm.skipIndexForDepartureDates + 1;
+      $('#departureDate'+vm.selectedBookingOptionIndex).prop('checked', false);
+      // fetch productsessions
+      $http.get('/api/guest/productSessions/' + productId + '/' + vm.skipIndexForDepartureDates).success(function (response) {
+        vm.productSessions = response;
+        departureDates.clear();
+        productSessionIds.length = 0;
+        for ( var index = 0; index < vm.productSessions.length; index ++)
+          productSessionIds.push(vm.productSessions[index]._id);
 
+
+      }).error(function (response) {
+          vm.error = response.message;
+      });
+    }
+
+    vm.getPrevDepartureDates = function () {
+      vm.skipIndexForDepartureDates = vm.skipIndexForDepartureDates - 1;
+      $('#departureDate'+vm.selectedBookingOptionIndex).prop('checked', false);
+      // fetch productsessions
+      $http.get('/api/guest/productSessions/' + productId + '/' + vm.skipIndexForDepartureDates).success(function (response) {
+        vm.productSessions = response;
+        departureDates.clear();
+        productSessionIds.length = 0;
+        for ( var index = 0; index < vm.productSessions.length; index ++)
+          productSessionIds.push(vm.productSessions[index]._id);
+
+
+      }).error(function (response) {
+          vm.error = response.message;
+      });
+    }
+
+    var weekDaysNumber = new Map();
+    weekDaysNumber.set('Sunday', 0);
+    weekDaysNumber.set('Monday', 1);
+    weekDaysNumber.set('Tuesday', 2);
+    weekDaysNumber.set('Wednesday', 3);
+    weekDaysNumber.set('Thursday', 4);
+    weekDaysNumber.set('Friday', 5);
+    weekDaysNumber.set('Saturday', 6);
+
+    vm.openRepeatDatesInfoModal = function (divId, sessionId, index) {
+      vm.selectedBookingOptionIndex = index;
+      $('#departureDate'+vm.selectedBookingOptionIndex).prop('checked', false);
+      $('#tourgeckoBody').addClass('makeOverflowHidden');
+      $(divId).slideDown('slow');
+      var events = [];
+      $http.get('/api/host/productsession/' + sessionId).success(function (response) {
+        var sessionObject = response;
+        var repeatedDays = 0;
+        var notAllowedDays = new Set();
+        var allowedDays = new Set();
+        if(sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
+          var firstDate = new Date(sessionObject.sessionDepartureDetails.repeatTillDate);
+          var secondDate = new Date(sessionObject.sessionDepartureDetails.startDate);
+          var oneDay = 24*60*60*1000;
+          repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+          repeatedDays = repeatedDays + 1;
+        
+          if (sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && sessionObject.sessionDepartureDetails.notRepeatOnDays) {
+            for (var index = 0; index < sessionObject.sessionDepartureDetails.notRepeatOnDays.length; index++)
+              notAllowedDays.add(weekDaysNumber.get(sessionObject.sessionDepartureDetails.notRepeatOnDays[index]));
+          }
+          if (sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && sessionObject.sessionDepartureDetails.repeatOnDays) {
+              for (var index = 0; index < sessionObject.sessionDepartureDetails.repeatOnDays.length; index++)
+                allowedDays.add(weekDaysNumber.get(sessionObject.sessionDepartureDetails.repeatOnDays[index]));
+          }
+        }
+        var eventDate = new Date(sessionObject.sessionDepartureDetails.startDate);
+        for (var index = 0; index <= repeatedDays; index ++) {
+          var needToSave = true;
+          if(sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
+            sessionObject.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
+            eventDate > firstDate)
+            needToSave = false;
+
+          if (needToSave) {
+            var endDate = angular.copy(eventDate);
+            var limit;
+            var percentBooking = 'NA';
+            var numOfSeatsKey = eventDate.getTime();
+            if (sessionObject.product.productSeatsLimitType == 'unlimited')
+              limit = 'No Limit';
+            else {
+              if (sessionObject.product.productSeatLimit) {
+                limit = sessionObject.product.productSeatLimit;
+                if (sessionObject.numberOfSeats && sessionObject.numberOfSeats[numOfSeatsKey])
+                  percentBooking = parseInt(sessionObject.numberOfSeats[numOfSeatsKey]) / parseInt(limit) * 100;
+                else
+                  percentBooking = 0;
+              } else
+                limit = '-';
+            }
+            var eventObject;
+            var colorSelectionAndTitle;
+            var colorSelectionAndTitleForMobile;
+            var bookingDetailsInCalendar;
+            if (sessionObject.numberOfSeats && sessionObject.numberOfSeats[numOfSeatsKey])
+              bookingDetailsInCalendar = sessionObject.numberOfSeats[numOfSeatsKey];
+            else
+              bookingDetailsInCalendar = 0;
+            if (percentBooking != 'NA') {
+              if (percentBooking <= 40) {
+                colorSelectionAndTitle = '<span class="eventname greenFC">' +
+                  'Available' + '</span> <br>' +
+                  '<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+                  '<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
+                colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
+              } else if (percentBooking > 40 && percentBooking <= 80) {
+                colorSelectionAndTitle = '<span class="eventname orangeFC">' + 
+                  'Filling Fast' + '</span> <br>' + 
+                  '<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
+                  '<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
+                colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
+              } else {
+                colorSelectionAndTitle = '<span class="eventname redFC">' +
+                  'Few Seats <br> Remaining' + '</span> <br>' +
+                  '<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
+                  '<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
+                colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"><span class="eventname redFC"></span></i>';
+              }
+
+            } else {
+              colorSelectionAndTitle = '<span class="eventname greenFC">' +
+                  'Available' + '</span> <br>' +
+                  '<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+                  '<i class="zmdi zmdi-account"></i> &nbsp; ' + document.numberOfSeats[numOfSeatsKey]+ '/' +limit +'</span>';
+              colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
+            }
+
+            if (window.innerWidth > 767) {
+              eventObject = {
+                title: colorSelectionAndTitle,
+                start: eventDate,
+                end: endDate,
+                backgroundColor:  '#ffe4b2',
+              }
+            } else {
+              eventObject = {
+                title: colorSelectionAndTitleForMobile,
+                start: eventDate,
+                end: endDate,
+              } 
+            }
+            events.push(eventObject);
+          }
+          eventDate = new Date (eventDate);
+          eventDate = eventDate.setDate(eventDate.getDate() + 1);
+          eventDate = new Date (eventDate);
+        }
+        $('#repeatTourCalendar').fullCalendar({
+          height: 600,
+          header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month'
+          },
+          defaultDate: new Date(sessionObject.sessionDepartureDetails.startDate),
+          
+          events: events,
+          eventRender: function (event, element) {
+            element.find('.fc-title').html(event.title);
+          },
+          eventClick:  function(event, jsEvent, view) {
+            goToPricingOptions(event);
+          }
+        });
+      }).error(function (response) {
+          vm.error = response.message;
+      });
+    }
+
+    function goToPricingOptions (event) {
+      var date = event.start._i;
+      vm.selectedDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+      fadeOutTheModal('#showRepeatDatesModal');
+      $('.classToClickNext .actionBar .btn-next').click();
+      $scope.$apply();
+    }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* convert iso date to the date which has to be shown to the user. It will be called from embedded javascript aslo, hence
     function is at scope level */
@@ -583,7 +765,7 @@
       bookingObject.hostOfThisBooking = vm.bookingProductDetails.user;
       if (tourType == 'Open Date') {
         bookingObject.isOpenDateTour = true;
-        var openDatedTourDepartureDate = vm.selectedDate;
+        bookingObject.openDatedTourDepartureDate = vm.selectedDate;
         bookingObject.productSession = null;
       } else {
         bookingObject.isOpenDateTour = false;
@@ -593,7 +775,6 @@
       bookingObject.numberOfSeats = nonGroupSeatCalculator() + groupSeatCalculator() + customSeatCalculator();
       bookingObject.numberOfAddons = addonQuantityCalculator();
       bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime();
-
       // There is no discount for now. So Always zero
       bookingObject.totalDiscount = 0;
       // For now keep deposit zero, but need to handle this when payment option is integrated
@@ -605,7 +786,7 @@
       bookingObject.totalAmountPaidForAddons = vm.totalcalculatedAddonPrice;
       bookingObject.paymentMode = 'tourgecko Wallet';
 
-      var bookingData = {bookingDetails: bookingObject, productTitle: vm.bookingProductDetails.productTitle}
+      var bookingData = {bookingDetails: bookingObject, productData: vm.bookingProductDetails}
 
       $http.post('/api/host/booking', bookingData).success(function (response) {
         $state.go('guest.bookingDone');

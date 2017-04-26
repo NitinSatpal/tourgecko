@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CalendarBookingService', 'MessageService', 'NotificationService', 'ProductSessionService', 'ProductSessionCountService', 'PinboardService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionService', 'ProductSessionCountService', 'PinboardService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, CalendarBookingService, MessageService, NotificationService, ProductSessionService, ProductSessionCountService, PinboardService) {
+  function HostHomeController($scope, $state, $window, $http, Authentication, CalendarBookingService, MessageService, ProductSessionService, ProductSessionCountService, PinboardService) {
     var vm = this;
     vm.sessionsFetched = false;
     var currentDate = new Date($('#calendar').fullCalendar('getDate'));     
@@ -21,11 +21,9 @@
     vm.authentication = Authentication;
     vm.bookings = CalendarBookingService.query();
     vm.messages = MessageService.query();
-    vm.notifications = NotificationService.query();
     vm.productSessionCount = ProductSessionCountService.query();
     vm.pinboardData = PinboardService.query();
     vm.totalRevenue = 0;
-    vm.bellNotifications = 0;
     vm.pinboardDismissedMessagesId = [];
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
@@ -34,11 +32,6 @@
     var index = 0;
     for (index = 0; index < vm.bookings.length; index ++)
       vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
-
-    for (index = 0; index < vm.messages.length; index ++) {
-      if (vm.messages[index].messageRead == false)
-        vm.bellNotifications = vm.bellNotifications + 1;
-    }
 
     vm.getDepartureDateOfBookings = function (index) {
       var displayDate;

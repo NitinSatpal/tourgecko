@@ -53,6 +53,14 @@ var NotificationSchema = new Schema({
     type: Boolean,
     default: false
   },
+  notificationTimestampToDisplay: {
+    type: String,
+    default: ''
+  },
+  notificationTimestamp: {
+    type: String,
+    default: ''
+  },
   created: {
     type: Date
   }

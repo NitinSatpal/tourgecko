@@ -9,9 +9,27 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 
-exports.fetchNotificationDetails = function (req, res) {
+exports.fetcInitialhNotificationDetails = function (req, res) {
   if (req.user) {
-    Notification.find({'notificationToId': req.user._id}).sort('-created').exec(function (err, notifications) {
+    var skipIndex = req.params.notificationSkipIndex;
+    Notification.count({'notificationToId': req.user._id}, function(error, count) {
+      Notification.find({'notificationToId': req.user._id}).skip(skipIndex * 5).limit(5).sort('-created').exec(function (err, notifications) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+        res.json({notificationArray: notifications, notificationCount: count});
+      });
+    });
+  }
+};
+
+
+exports.fetcSubsequenthNotificationDetails = function (req, res) {
+  if (req.user) {
+    var skipIndex = req.params.notificationSkipIndex;
+    Notification.find({'notificationToId': req.user._id}).skip(skipIndex * 5).limit(5).sort('-created').exec(function (err, notifications) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -35,15 +53,15 @@ exports.markAsRead = function (req, res) {
   });
 };
 
-exports.fetchUnreadNotifications = function (req, res) {
-  if (req.user) {
-    Notification.find({'notificationToId': req.user._id, notificationRead: false}).sort('-created').exec(function (err, notifications) {
-      if (err) {
+exports.getUnreadNotificationsCount = function (req, res) {
+  if(req.user) {
+    Notification.count({ 'notificationToId': req.user._id, notificationRead: false }, function(error, count) {
+      if (error) {
         return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
+          message: errorHandler.getErrorMessage(error)
         });
       }
-      res.json(notifications);
+      res.json({counterValue : count});
     });
   }
 };
