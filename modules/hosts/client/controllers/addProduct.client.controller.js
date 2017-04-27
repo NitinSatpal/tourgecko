@@ -88,7 +88,13 @@ $('#tourgeckoBody').removeClass('disableBody');
     if(productId) {
       $http.get('/api/host/product/'+ productId).success(function (response) {
           vm.tour = response[0];
-
+          $scope.$watch('vm.pricingParams', function() {
+            if (initializing) {
+              $timeout(function() { initializing = false; });
+            } else {
+              isPricingOptionsModified = true;
+            }
+          }, true);
           addImagesMapEditMode(vm.tour.productPictureURLs, vm.tour.productMapURLs);
 
           $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
@@ -175,14 +181,6 @@ function setRichTextData () {
       'pricingType': 'Everyone'
     }];
 
-    $scope.$watch('vm.pricingParams', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-
-        isPricingOptionsModified = true;
-      }
-    }, true);
     vm.initializePricingOptions = function (index) {
       if(vm.pricingParams[index].pricingType == 'Group')
         vm.pricingParams[index].groupOption = 'Per Group';
