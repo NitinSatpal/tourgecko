@@ -193,8 +193,10 @@
 	});
 
 	function applyDynamicCSS () {
-		var marginLeft = (window.innerWidth - 248 - 10) / 2;
-		$('#askSocialSharingOptions').css('margin-left', marginLeft);
+		if(window.innerWidth <= 767) {
+			var marginLeft = (window.innerWidth - 248 - 10) / 2;
+			$('#askSocialSharingOptions').css('margin-left', marginLeft);
+		}
 	}
 	$('#close').click(function(e){
 	    e.preventDefault()
