@@ -177,10 +177,9 @@ function setRichTextData () {
 
     $scope.$watch('vm.pricingParams', function() {
       if (initializing) {
-        alert('ini');
         $timeout(function() { initializing = false; });
       } else {
-        alert('changing');
+
         isPricingOptionsModified = true;
       }
     }, true);
@@ -624,9 +623,6 @@ vm.createDepartureSession = function () {
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
         return false;
       }
-      console.log('hats the product id?? ' + productId);
-      console.log('is pricing changed?? ' + isPricingOptionsModified);
-      console.log('whats the length of sessions for this product ' +vm.tour.productScheduledDates.length);
       if(productId !== undefined && isPricingOptionsModified == true && vm.tour.productScheduledDates.length > 0) {
         $('#pricingApplicability').click();
       } else {
