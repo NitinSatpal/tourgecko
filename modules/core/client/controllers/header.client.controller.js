@@ -19,7 +19,8 @@
     $http.get('/api/notification/initialfetch/' + vm.notificationSkipIndex).success(function (response) {
       vm.notifications = response.notificationArray;
       vm.notificationCount = response.notificationCount;
-      vm.notificationOverIndex = Math.floor(vm.notificationCount / 5);
+      if (vm.notificationCount > 0)
+        vm.notificationOverIndex = Math.floor((vm.notificationCount - 1) / 5);
     });
 
     $http.get('/api/notification/unreadCount/').success(function (response) {      

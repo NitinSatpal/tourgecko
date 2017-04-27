@@ -74,7 +74,7 @@
                             <div class="bookingcircle greyBookingcircle currency-icon pull-left margin-right">
                                 <i class="zmdi zmdi-account"></i>
                             </div>
-                            <div>
+                            <div style="word-wrap: break-word;">
                                 <span class="block">
                                     <strong>Primary Guest</strong>
                                 </span>{{vm.specificBookingDetails.providedGuestDetails.firstName}}
@@ -96,11 +96,11 @@
                             <div class="icn-big-booking-details">
                                 <i class="zmdi zmdi-email"></i>
                             </div>
-                            <div class="">
+                            <div style="word-wrap: break-word;">
                                 <span class="block">
                                     <strong>Email</strong>
                                 </span>
-                                <a href="mailto:gasharma@gmail.com">{{vm.getEmailIdToDisplay(vm.specificBookingDetails.providedGuestDetails.email)}}</a>
+                                <a href="mailto:{{vm.specificBookingDetails.providedGuestDetails.email}}">{{vm.specificBookingDetails.providedGuestDetails.email}}</a>
                             </div>
                         </div>
                     </div>

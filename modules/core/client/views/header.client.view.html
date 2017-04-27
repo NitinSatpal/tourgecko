@@ -15,20 +15,24 @@
                         </a>
                         <!-- ng-if="vm.notifications.length > 0" -->
                         <div id="notificationContainer">
-                            <div><img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg"></div>
-                            <div id="notificationTitle">Notifications</div>
-                            <div id="notificationsBody" class="notifications">
+                            <div>
+                                <img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg">
+                                
+                            </div>
+                            <div id="notificationTitle" ng-show="vm.notificationCount > 0">Notifications</div>
+                            <div id="notificationTitle" ng-show="vm.notificationCount == 0" style="text-align: center;">You have no notifications.</div>
+                            <div id="notificationsBody" class="notifications" ng-show="vm.notificationCount > 0">
                                 <div ng-repeat="notification in vm.notifications track by $index">
-                                    <div class="notification-Item" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
-                                        <div class="notification-Image-container">
+                                    <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
+                                        <div class="notification-Image-container col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <img src="{{notification.notificationTypeLogo}}" class="notification-Image">
                                         </div>
-                                        <div class="notification-Text">
+                                        <div class="notification-Text col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                             <span class="notificationType">
                                                 {{notification.notificationType}}
                                             </span>
                                             <br>
-                                            <span class="notificationBodyData">
+                                            <span class="notificationBodyData" style="word-wrap: break-word;">
                                                 From: {{notification.notificationFrom}} 
                                             </span>
                                             <br>
@@ -38,10 +42,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="notificationFooter">
-                                    <a href="" ng-click="vm.fetchMoreNotifications()" ng-hide="vm.notificationSkipIndex == vm.notificationOverIndex">Load More...</a>
-                                    <a href="" ng-show="vm.notificationSkipIndex == vm.notificationOverIndex && vm.notificationCount > 5">No More Notifications</a>
-                                </div>
+                            </div>
+                            <div id="notificationFooter">
+                                <a href="" ng-click="vm.fetchMoreNotifications()" ng-hide="vm.notificationSkipIndex == vm.notificationOverIndex">Load More...</a>
+                                <a href="" ng-show="vm.notificationSkipIndex == vm.notificationOverIndex">No More Notifications</a>
                             </div>
                         </div>
                     </li>

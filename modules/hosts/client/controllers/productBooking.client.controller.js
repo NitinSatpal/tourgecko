@@ -123,6 +123,7 @@
     }
 
     vm.getEmailIdToDisplay = function (email) {
+      console.log(email);
       if (email) {
         if ($window.innerWidth > 767) {
           if (email.length >= 25)

@@ -24,8 +24,7 @@
   background-color: #fff;
   border: 1px solid rgba(100, 100, 100, .4);
   -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   position: absolute;
   top: 32px;
   margin-left: -270px;
@@ -33,7 +32,7 @@
   width: 400px;
   z-index: 1000;
   display: none;
-  max-height: 360px;
+  border-radius: 20px; 
 }
 #notificationContainer:before {
   display: block;
@@ -47,23 +46,27 @@
   margin-left: 268px;
 }
 .headerNotificationPointer {
-  position:absolute;
+  position:fixed;
   margin-top: -11px;
   margin-left: 267px;
 }
 #notificationTitle {
   z-index: 1000;
-  font-weight: bold;
+  font-weight: 500;
   padding: 8px;
-  font-size: 13px;
+  font-size: 15px;
+  color: #40C4FF;
   background-color: #ffffff;
   width: 398px;
   border-bottom: 1px solid #dddddd;
 }
 #notificationsBody {
-  padding-left: 10px;
+  max-height: 360px;
+  overflow-x: hidden;
+  overflow-y: auto;
   min-height:auto;
   margin-top: 0;
+  margin-right: 0 !important;
 }
 #notificationFooter {
   background-color: #ffffff;
@@ -88,24 +91,21 @@
   font-size: 11px;
 }
 .notification-Image-container {
-  display: inline-block;
-  margin-right: 5px;
+  vertical-align: middle;
 }
 .notification-Image {
   border-radius: 10px;
   width: 55px;
   height: 60px;
   margin-bottom: 5px;
-  margin-top: -35px;
   object-fit: cover;
 }
 .notification-Text {
   display: inline-block;
 }
 .notification-Item {
-  width: 398px;
+  width: inherit;
   padding-top: 5px;
-  margin-left: -10px;
   padding-left: 5px;
   border-bottom: 1px solid lightgrey;
   cursor: pointer;
@@ -134,7 +134,6 @@
   font-weight: 400;
   font-color: #666;
 }
-
 @media  (max-width: 767px) {
   #notificationContainer {
     width: 320px;
