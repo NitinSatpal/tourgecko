@@ -177,8 +177,10 @@ function setRichTextData () {
 
     $scope.$watch('vm.pricingParams', function() {
       if (initializing) {
+        alert('ini');
         $timeout(function() { initializing = false; });
       } else {
+        alert('changing');
         isPricingOptionsModified = true;
       }
     }, true);
