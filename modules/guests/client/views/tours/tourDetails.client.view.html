@@ -42,16 +42,11 @@
                             </div>
                             <div class="divider"></div>
 
-                            <!-- This is not present for now-->
-                            <!--<div id="tour_tags">
-                                <a href="#"><div class="chip">Trecking</div></a>
-                                <a href="#"><div class="chip">Rafting</div></a>
-                                <a href="#"><div class="chip">Swimming</div></a>
-                                <a href="#"><div class="chip">Diving</div></a>
-                                <a href="#"><div class="chip">Cycling</div></a>
+                            <!--Tags-->
+                            <div id="tour_tags">
+                                <a href="#" ng-repeat="tag in vm.productDetails.productTags"><div class="chip">{{tag}}</div></a>
                             </div>
-                            <div class="divider"></div>-->
-                            <!-- till here-->
+                            <div class="divider" ng-if="vm.productDetails.productTags.length > 0"></div>
 
                             <div class="row tour-glance">
                                 <div class="col l3 m3 s6 wordWrap">

@@ -242,9 +242,13 @@ exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
 exports.fetchCategorizedBookings = function (req, res) {
   var pageNumber = req.body.pageNumber;
   var itemsPerPage = req.body.itemsPerPage;
+  console.log(req.body.categoryKeys);
   Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
     if (count <= itemsPerPage * (pageNumber - 1))
       pageNumber = 1;
+    if (pageNumber == 0)
+      pageNumber = 1;
+
     Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
@@ -261,6 +265,8 @@ exports.fetchCategorizedBookingsForASession = function (req, res) {
   var pageNumber = req.body.pageNumber;
   var itemsPerPage = req.body.itemsPerPage;
   var sessionId = req.body.productSessionId;
+  if (pageNumber == 0)
+      pageNumber = 1;
   Booking.count({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
     if (count <= itemsPerPage * (pageNumber - 1))
       pageNumber = 1;
@@ -294,7 +300,7 @@ exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
   if (req.user) {
     var skipIndex = req.params.skipIndex;
     Booking.count({productSession: req.params.productSessionId}, function(error, count) {
-      Booking.find({productSession: req.params.productSessionId}).skip(skipIndex * 10).limit(10).sort('-created').exec(function (err, bookings) {
+      Booking.find({productSession: req.params.productSessionId}).skip(skipIndex * 20).limit(20).sort('-created').exec(function (err, bookings) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
