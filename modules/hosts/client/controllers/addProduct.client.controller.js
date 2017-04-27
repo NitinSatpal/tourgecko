@@ -669,7 +669,7 @@ vm.createDepartureSession = function () {
 
     function saveTheProduct () {
       if(productId) {
-        $window.localStorage.setItem('productSuccessfullyEdited', 'Yes');
+        $window.localStorage.setItem('successfullyEditedId', productId);
         $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, 
                                               sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered,
                                               changePreviouslyCreatedSessionPricing: vm.isNewPricingApplicableOnOldSessions,

@@ -10,7 +10,7 @@
   function TourListController($scope, $state, $window, $http, $timeout, $interval, Authentication, CompanyProductService) {
     var vm = this;
     vm.authentication = Authentication;
-    vm.tourReallyEdited = $window.localStorage.getItem('productSuccessfullyEdited');
+    vm.tourReallyEdited = $window.localStorage.getItem('successfullyEditedId');
     vm.index = -1;
     $scope.askForAuthentication = "";
     vm.numberOfItemsInOnePage = '10';
@@ -341,26 +341,29 @@
         $state.go('host.editProduct', {productId: vm.products[index]._id});
     }
     vm.highlightEditedTour = function (tourIndex) {
-        console.log(tourIndex);
-        $window.localStorage.setItem('productSuccessfullyEdited', 'No');
-        vm.tourReallyEdited = $window.localStorage.getItem('productSuccessfullyEdited')
-        var scrollTo = 0;
-        var otherElementHeights = 63 + 55 + 20;
-        for (var index = 0; index < tourIndex; index++)
-            scrollTo = scrollTo + document.getElementById('tourListItem'+index).offsetHeight;
-        $('#tourListItem'+tourIndex).css('opacity', '0');
-        $('html, body').scrollTop(scrollTo + otherElementHeights);
-        var opacityCounter = 0.1;
-        var intervalCounter = 0;
-        var interval = $interval(function() {
-            $('#tourListItem'+tourIndex).css('opacity', opacityCounter);
-            opacityCounter = opacityCounter + 0.1;
-            intervalCounter = intervalCounter + 1;
-            if(intervalCounter == 10) {
-                $('#tourListItem'+tourIndex).css('opacity', '');
-                $interval.cancel(interval);
-            }
-        }, 300);
+        if (vm.products[tourIndex]._id == vm.tourReallyEdited) {
+            $window.localStorage.setItem('successfullyEditedId', 'Null');
+            vm.tourReallyEdited = $window.localStorage.getItem('successfullyEditedId')
+            var scrollTo = 0;
+            var otherElementHeights = 63 + 55 + 20;
+            for (var index = 0; index < tourIndex; index++)
+                scrollTo = scrollTo + document.getElementById('tourListItem'+index).offsetHeight;
+            $('#tourListItem'+tourIndex).css('opacity', '0');
+            console.log(scrollTo);
+            $('html, body').scrollTop(scrollTo + otherElementHeights);
+            var opacityCounter = 0.1;
+            var intervalCounter = 0;
+            var interval = $interval(function() {
+                $('#tourListItem'+tourIndex).css('opacity', opacityCounter);
+                opacityCounter = opacityCounter + 0.1;
+                intervalCounter = intervalCounter + 1;
+                if(intervalCounter == 10) {
+                    $('#tourListItem'+tourIndex).css('opacity', '');
+                    $interval.cancel(interval);
+                }
+            }, 300);
+        } else
+            return;
     }
 
     vm.getLoaderPositionForTourEdit = function () {
