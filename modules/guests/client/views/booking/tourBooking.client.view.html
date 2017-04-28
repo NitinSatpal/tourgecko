@@ -115,9 +115,12 @@
                                     </span>
                                 </li>
                             </ul>
-                            <ul id="departure-schedule" class="collection" ng-show="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
+                            <ul id="departure-schedule" class="collection" ng-if="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
                                 <span class="desc-text grey-text openDatedTourDesc" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">Tour is not available in the following months</span>
-                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Host has made this tour unavailable for certain months and you cannot book the tour during that time." ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0"><i class="zmdi zmdi-info-outline orange-text"></i></a>  <br>
+                                <a ng-if="vm.bookingProductDetails.productUnavailableMonths.length > 0">
+                                    <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="Host has made this tour unavailable for certain months and you cannot book the tour during that time."></i>
+                                </a>
+                                <br>
                                 <span class="desc-text semi-grey-text openDatedTourDesc" ng-repeat="notAllowedMonth in vm.bookingProductDetails.productUnavailableMonths" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
                                     {{notAllowedMonth}}
                                 </span>
@@ -161,7 +164,9 @@
                                                         <label for="pricingSelection{{$index}}">
                                                             <span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
                                                                 {{pricing.pricingType}}
-                                                                <a ng-if="pricing.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                <a ng-if="pricing.description != null">
+                                                                    <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{pricing.description}}"></i>
+                                                                </a>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -178,7 +183,9 @@
                                                         <input name="groupPricingOption" type="radio" id="groupPricingOption{{$index}}" class="with-gap" ng-click="vm.setSelectedGroupPricing($index)">
                                                         <label for="groupPricingOption{{$index}}">
                                                             <span class="desc-text" style="display: inline-block;">Group-size : {{groupPricingOptions.minGroupSize}} to {{groupPricingOptions.maxGroupSize}}</span>
-                                                            <a ng-if="groupPricingOptions.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{groupPricingOptions.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            <a ng-if="groupPricingOptions.description != null">
+                                                                <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{groupPricingOptions.description}}"></i>
+                                                            </a>
                                                             <strong style="display: inline-block; position: absolute; left:306.33px; top:0; width: 55px;">&#8377; {{groupPricingOptions.price}}</strong>
                                                             <input ng-model="vm.groupSeatQuantity[$index]" style="display: inline-block; width: 65px; position: absolute; left:437.61px; top: 0;" type="number" name="quantity" min="1"  class="qty" ng-change="vm.calculateGroupSeatPrice($index)">
                                                          </label>
@@ -197,7 +204,9 @@
                                                         <label for="customPricingOption{{$index}}">
                                                             <span class="desc-text" style="display: inline-block;">{{customPricingOptions.customLabel}}
                                                             (Seats : {{customPricingOptions.seatsUsed}})</span>
-                                                            <a ng-if="customPricingOptions.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{customPricingOptions.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            <a ng-if="customPricingOptions.description != null">
+                                                                <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{customPricingOptions.description}}"></i>
+                                                            </a>
                                                             <strong style="display: inline-block; position: absolute; left:306.33px; top:0; width: 55px;">&#8377; {{customPricingOptions.price}}</strong>
                                                             <input style="display: inline-block; width: 65px; position: absolute; left:437.61px; top: 0;" type="number" name="quantity" min="1" ng-model="vm.customSeatQuantity[$index]" class="qty" ng-change="vm.calculateCustomSeatPrice($index)">
                                                          </label>
@@ -225,7 +234,9 @@
                                                         <label for="pricingSelection{{$index}}">
                                                             <span class="input-label pull-left blue-grey-text text-lighten-1 customizeFont">
                                                                 {{pricing.pricingType}}
-                                                                <a ng-if="pricing.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{pricing.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                                <a ng-if="pricing.description != null">
+                                                                    <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{pricing.description}}"></i>
+                                                                </a>
                                                             </span>
                                                         </label>
                                                     </div>
@@ -242,7 +253,9 @@
                                                         <input name="groupPricingOption" type="radio" id="groupPricingOption{{$index}}" class="with-gap" ng-click="vm.setSelectedGroupPricing($index)">
                                                         <label for="groupPricingOption{{$index}}">
                                                             <span class="desc-text" style="display: inline-block;">Group-size : {{groupPricingOptions.minGroupSize}} to {{groupPricingOptions.maxGroupSize}}</span>
-                                                            <a ng-if="groupPricingOptions.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{groupPricingOptions.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            <a ng-if="groupPricingOptions.description != null">
+                                                                <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{groupPricingOptions.description}}"></i>
+                                                            </a>
                                                             <strong style="display: inline-block; position: absolute; left:306.33px; top:0; width: 55px;">&#8377; {{groupPricingOptions.price}}</strong>
                                                             <input ng-model="vm.groupSeatQuantity[$index]" style="display: inline-block; width: 65px; position: absolute; left:437.61px; top: 0;" type="number" name="quantity" min="1"  class="qty" ng-change="vm.calculateGroupSeatPrice($index)">
                                                          </label>
@@ -261,7 +274,9 @@
                                                         <label for="customPricingOption{{$index}}">
                                                             <span class="desc-text" style="display: inline-block;">{{customPricingOptions.customLabel}}
                                                             (Seats : {{customPricingOptions.seatsUsed}})</span>
-                                                            <a ng-if="customPricingOptions.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{customPricingOptions.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                            <a ng-if="customPricingOptions.description != null">
+                                                                <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{customPricingOptions.description}}"></i>
+                                                            </a>
                                                             <strong style="display: inline-block; position: absolute; left:306.33px; top:0; width: 55px;">&#8377; {{customPricingOptions.price}}</strong>
                                                             <input style="display: inline-block; width: 65px; position: absolute; left:437.61px; top: 0;" type="number" name="quantity" min="1" ng-model="vm.customSeatQuantity[$index]" class="qty" ng-change="vm.calculateCustomSeatPrice($index)">
                                                          </label>
@@ -288,7 +303,9 @@
                                                 <div class="col s7">
     										        <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)" ng-model="vm.addonSelectionCheckbox[$index]">
     										        <label for="addon{{$index}}" class="blue-grey-text text-lighten-1">{{addon.name}}</label>
-                                                    <a ng-if="addon.description != null" class="tooltipped" data-position="right" data-delay="50" data-tooltip="{{addon.description}}"><i class="zmdi zmdi-info-outline orange-text"></i></a>
+                                                    <a ng-if="addon.description != null">
+                                                        <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{addon.description}}"></i>
+                                                    </a>
     									        </div>
         								        <div class="col s3 price-per-guest">
                                                     <strong>&#8377; {{addon.price}}</strong> <br>
@@ -675,3 +692,9 @@
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
