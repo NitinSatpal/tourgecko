@@ -115,10 +115,10 @@
                                     </span>
                                 </li>
                             </ul>
-                            <ul id="departure-schedule" class="collection" ng-if="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
+                            <ul id="departure-schedule" class="collection" ng-show="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
                                 <span class="desc-text grey-text openDatedTourDesc" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">Tour is not available in the following months</span>
-                                <a ng-if="vm.bookingProductDetails.productUnavailableMonths.length > 0">
-                                    <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="Host has made this tour unavailable for certain months and you cannot book the tour during that time."></i>
+                                <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Host has made this tour unavailable for certain months and you cannot book the tour during that time." ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
+                                    <i class="zmdi zmdi-info-outline orange-text"></i>
                                 </a>
                                 <br>
                                 <span class="desc-text semi-grey-text openDatedTourDesc" ng-repeat="notAllowedMonth in vm.bookingProductDetails.productUnavailableMonths" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
@@ -140,18 +140,18 @@
                                 <div class="row padding light-blue lighten-5 blue-grey-text text-darken-1">
                                     <strong>Select a booking option</strong>    
                                 </div>
-				                <div class="padding-left padding-right">
+                                <div class="padding-left padding-right">
                                     <div class="row blue-grey lighten-5 margin-bottom blue-grey-text text-darken-1">
-										<div class="col s7">
+                                        <div class="col s7">
                                             <strong>Booking Option</strong>
                                         </div>
-										<div class="col s3">
+                                        <div class="col s3">
                                             <strong>Price</strong>
                                         </div>
                                         <div class="col s2">
                                             <strong>Qty</strong>
                                         </div>
-									</div>
+                                    </div>
                                     <div id="loadingDiv" class="loaderDisplayDiv" ng-show="vm.showLoaderForPriceCalculations">
                                     </div>
                                     <div ng-show="vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
@@ -301,22 +301,22 @@
                                             <div class="col s12 l12 m12 margin-bottom blue-grey-text text-darken-1">Optional Add-Ons</div>
                                             <div class="col s12 l12 m12" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index">
                                                 <div class="col s7">
-    										        <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)" ng-model="vm.addonSelectionCheckbox[$index]">
-    										        <label for="addon{{$index}}" class="blue-grey-text text-lighten-1">{{addon.name}}</label>
+                                                    <input type="checkbox" id="addon{{$index}}" class="filled-in" name="addon{{$index}}" ng-click="vm.setSelectedAddonPricing($index)" ng-model="vm.addonSelectionCheckbox[$index]">
+                                                    <label for="addon{{$index}}" class="blue-grey-text text-lighten-1">{{addon.name}}</label>
                                                     <a ng-if="addon.description != null">
                                                         <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{addon.description}}"></i>
                                                     </a>
-    									        </div>
-        								        <div class="col s3 price-per-guest">
+                                                </div>
+                                                <div class="col s3 price-per-guest">
                                                     <strong>&#8377; {{addon.price}}</strong> <br>
                                                     <span class="desc-text grey-text">({{addon.applyAs}})</span>
                                                 </div>
-            									<div class="col s2 guest-quantity">
-            										<input type="number" name="quantity" min="1" value="1" class="qty" ng-model="vm.addonQuantity[$index]" disabled placeholder="1" ng-show="addon.applyAs == 'Per Booking' || addon.applyAs == 'Per Seat'">
+                                                <div class="col s2 guest-quantity">
+                                                    <input type="number" name="quantity" min="1" value="1" class="qty" ng-model="vm.addonQuantity[$index]" disabled placeholder="1" ng-show="addon.applyAs == 'Per Booking' || addon.applyAs == 'Per Seat'">
                                                     <input type="number" id="addonSelection{{$index}}" name="quantity" min="1" class="qty" ng-model="vm.addonQuantity[$index]" ng-change="vm.calculateAddonPrice($index)" ng-show="addon.applyAs == 'Guest Choice'">
-            									</div>
+                                                </div>
                                             </div>
-    							        </div>
+                                        </div>
                                         <div class="divider"></div>
                                     </div>
                             
@@ -327,7 +327,7 @@
                                             <a id="display-coupon" class="blue-grey-text text-darken-1"><strong>Have a coupon?&nbsp;&nbsp;<i class="zmdi zmdi-plus"></i></strong>
                                             </a>
                                         </div>
-        								
+                                        
                                         <div id="apply-coupon" class="col s12 l12 m12 padding-none-left">
                                         <div class="input-field col s6 m4 l4">
                                           <input id="coupon-code" type="text" class="blue-grey-text text-darken-1">
@@ -336,7 +336,7 @@
                                         <div class="input-field col s4 m6 l6"><a href="#" class="btn btn-outline white orange-text">Apply</a>
                                             </div>
                                         </div>
-        							</div>
+                                    </div>
                                     -->
                         
                                     <div class="row padding-top padding-bottom blue-grey lighten-5">
@@ -628,7 +628,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
-        // Smart Wizard 	
+        // Smart Wizard     
         $('#wizard').smartWizard({
             onLeaveStep: leaveAStepCallback,
             onFinish: onFinishCallback
