@@ -17,6 +17,7 @@ exports.createBooking = function (req, res) {
   Booking.count({hostOfThisBooking: req.body.bookingDetails.hostOfThisBooking}, function(err, count) {
     var booking = new Booking(req.body.bookingDetails);
     booking.user = req.user;
+    booking.hostCompany = req.body.productData.hostCompany._id;
     var referenceNumber = count + 1000;
     booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
     booking.created = Date.now();

@@ -14,5 +14,6 @@ module.exports = _.extend(
   require('./bookings/booking.server.controller'),
   require('./socialAccounts/socialPost.server.controller'),
   require('./hostHome/hostHome.server.controller'),
-  require('./hostSettings/hostSettings.server.controller')
+  require('./hostSettings/hostSettings.server.controller'),
+  require('./mailsAndMessages/communication.server.controller')
 );

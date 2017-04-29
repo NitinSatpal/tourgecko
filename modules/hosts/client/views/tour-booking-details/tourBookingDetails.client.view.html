@@ -17,9 +17,16 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
 	                        <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-time"></i></h1>    
 	                        <div class="text-center booking-analytics-info">           
-		                        <p class="section-desc">Starts in</p>                              
-		                        <h4 class="">{{vm.getDaysRemainingToStartOfTour(vm.productSession.sessionDepartureDetails.startDate)}}&nbsp;
-                                <span class="sub-desc">days</span></h4>
+		                        <p class="section-desc" ng-if="vm.startsIn">Starts in</p>
+                                <p class="section-desc" ng-if="vm.starting">Starting</p>
+                                <p class="section-desc" ng-if="vm.started">Started</p> 
+                                <p class="section-desc" ng-if="vm.ending">Ending</p>
+                                <p class="section-desc" ng-if="vm.ended">Ended</p>                          
+		                        <h4 class="">{{vm.getDaysRemainingToStartOfTour(vm.productSession.sessionDepartureDetails.startDate, vm.productSession.product.productDuration)}}&nbsp;
+                                    <span class="sub-desc" ng-if="vm.startsIn">days</span>
+                                    <span class="sub-desc" ng-if="(vm.started || vm.ended) && !vm.singularityInDay">days ago</span>
+                                    <span class="sub-desc" ng-if="(vm.started || vm.ended) && vm.singularityInDay">day ago</span>
+                                </h4>
 	                        </div>
                         </div>
                     </div>

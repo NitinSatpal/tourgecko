@@ -18,6 +18,10 @@ var BookingSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
+  hostCompany: {
+    type: Schema.ObjectId,
+    ref: 'HostCompany'
+  },
   product: {
     type: Schema.ObjectId,
     ref: 'Product'

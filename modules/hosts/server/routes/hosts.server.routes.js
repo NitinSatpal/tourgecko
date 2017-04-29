@@ -138,4 +138,10 @@ module.exports = function (app) {
 
   app.route('/api/host/pinboard/dismiss')
     .post(hosts.setDismissedMessageIds);
+
+  app.route('/api/host/sessionGuestMassMail/')
+    .post(hosts.sendMassMailForTheSession);
+
+  app.route('/api/host/sessionGuestMassMessage/')
+    .post(hosts.sendMassMessagesForTheSession);
 };

@@ -1,0 +1,45 @@
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio label.radio_label {
+	font-size: 18px;
+	color: rgba(0,0,0,0.6);
+	font-weight: 900;
+	margin: 0;
+	display: inline-block;
+	position: relative;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio label.radio_label span {
+	font-size: 14px;
+	color: rgba(0,0,0,0.6);
+	font-weight: 900;
+	margin-left: 16px;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio {
+	position: relative;
+	margin: 14px 0;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio.text_align_left {
+	text-align: left;
+	margin: 10px 0 0px 0;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio i {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio input {
+	display: none;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio input ~ .zmdi-check-circle {
+	display: none;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio input:checked ~ .zmdi-check-circle {
+	display: block;
+	color: #42AE5E;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest .days_radio input:checked ~ .zmdi-circle-o {
+	display: none;
+}
+#topNavSessionBookingDetails #sendMsgToSessionsGuest #msgBody {
+	min-height: 150px;
+	resize: vertical;
+}

@@ -533,11 +533,65 @@
       return totalAmountPaid;
     }
 
-    vm.getDaysRemainingToStartOfTour = function(isoDate) {
+    vm.oneDayTour = false;
+    vm.singularityInDay = false;
+    vm.getDaysRemainingToStartOfTour = function(isoDate, duration) {
+      var tourEndDate;
       var currentDate = new Date();
       var startDate = new Date(isoDate);
-      var timeDiff = Math.abs(startDate.getTime() - currentDate.getTime());
-      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+      if (duration && vm.productSession.product.productDurationType == 'Days') {
+        tourEndDate = startDate.setDate(startDate.getDate() + duration);
+      } else
+        tourEndDate = startDate;
+
+      var diffFromStartDate = Math.ceil((startDate.getTime() - currentDate.getTime()) /  (1000 * 3600 * 24));
+      var diffFromEndDateDate = Math.ceil((tourEndDate.getTime() - currentDate.getTime()) /  (1000 * 3600 * 24));
+      
+      if (diffFromStartDate == diffFromEndDateDate)
+        vm.oneDayTour = true;
+
+      if (diffFromStartDate > 1) {
+        vm.startsIn = true;
+        vm.started = false;
+        vm.starting = false;
+        vm.ended = false;
+        vm.ending = false;
+        return Math.abs(diffFromStartDate) - 1;
+      } else if (diffFromStartDate == 1) {
+        vm.started = true;
+        vm.startsIn = false;
+        vm.starting = false;
+        vm.ended = false;
+        vm.ending = false;
+        if (Math.abs(diffFromStartDate) == 1)
+          vm.singularityInDay = true;
+        return 'Today';
+      } else {
+          if (diffFromEndDateDate > 1) {
+            vm.started = true;
+            vm.startsIn = false;
+            vm.starting = false;
+            vm.ended = false;
+            vm.ending = false;
+            return Math.abs(diffFromStartDate);
+          } else if (diffFromEndDateDate == 1) {
+            vm.ending = true;
+            vm.started = false;
+            vm.startsIn = false;
+            vm.starting = false;
+            vm.ended = false;
+            return 'Today'
+          } else {
+            vm.ended = true;
+            vm.ending = false;
+            vm.started = false;
+            vm.startsIn = false;
+            vm.starting = false;
+            if (Math.abs(diffFromEndDateDate) == 1)
+              vm.singularityInDay = true;
+            return Math.abs(diffFromEndDateDate);
+          }
+      }
       return diffDays;
     }
 
@@ -562,6 +616,41 @@
         return oddCSS;
       else
         return evenCSS;
+    }
+
+    vm.sendMessageToGuestsOfThisSession = function () {
+      if ((vm.msgBodyToSpecificSessionsGuest === undefined || vm.msgBodyToSpecificSessionsGuest == '') && vm.typeOfMsgToGuests === undefined) {
+        alert('please select the type of message and enter the message in the area provided');
+        return;
+      } else if (vm.typeOfMsgToGuests === undefined) {
+        alert('please select the type of message you want to send');
+        return;
+      } else if (vm.msgBodyToSpecificSessionsGuest === undefined || vm.msgBodyToSpecificSessionsGuest == '') {
+        alert('please enter the message in the area provided');
+        return;
+      }
+
+      if(vm.typeOfMsgToGuests == 'email' || vm.typeOfMsgToGuests == 'both') {
+        $http.post('/api/host/sessionGuestMassMail/', {message: vm.msgBodyToSpecificSessionsGuest, sessionId: $stateParams.productSessionId})
+        .success(function (response) {
+          console.log(response);
+        }).error(function (response) {
+          vm.error = response.message;
+        });
+      }
+
+      if(vm.typeOfMsgToGuests == 'textMsg' || vm.typeOfMsgToGuests == 'both') {
+        $http.post('/api/host/sessionGuestMassMessage/', {message: vm.msgBodyToSpecificSessionsGuest, sessionId: $stateParams.productSessionId})
+        .success(function (response) {
+        }).error(function (response) {
+          vm.error = response.message
+        });
+      }
+
+      $('#closeTheSendMsgToSessionsGuestModal').click();
+      vm.typeOfMsgToGuests = undefined;
+      vm.msgBodyToSpecificSessionsGuest = undefined;
+
     }
     
 

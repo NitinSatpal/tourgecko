@@ -138,7 +138,9 @@
                     will be charged to guest</p>
                 <a ng-click="vm.modifyBooking('Declined')" class="btn btn-default pull-left margin-right btn-sm">Decline</a>
                 <a onclick="closeModal('#decline-confirmation')" class="btn btn-warning btn-sm margin-bottom">No</a> 
-                <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments"></textarea>  
+                <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;">
+                    
+                </textarea>  
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
@@ -159,7 +161,7 @@
                     will be charged to guest only after you confirm this booking, </p>
                 <a ng-click="vm.modifyBooking('Confirmed')" class="btn btn-warning pull-left margin-right btn-sm">Confirm</a>
                 <a onclick="closeModal('#confirm-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
-                <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments"></textarea>  
+                <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;"></textarea>  
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>

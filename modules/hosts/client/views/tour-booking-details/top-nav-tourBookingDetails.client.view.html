@@ -1,4 +1,4 @@
-<div class="multiline-header home_add_tour fixed-in-div margin-bottom">
+<div class="multiline-header home_add_tour fixed-in-div margin-bottom" id="topNavSessionBookingDetails">
 	<i class="zmdi zmdi-shopping-cart heading-icn"></i>
 	<h2>{{vm.productSession.product.productTitle}}<br>
 		<span class="sub_head">showing</span>
@@ -6,6 +6,60 @@
 		<span class="sub_head">booking/s</span>
 	</h2>
 	<div class="pull-right">
-    	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-email"></i>&nbsp;Message Guests</a>
-    </div>    
+    	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#sendMsgToSessionsGuest">
+    		<i class="zmdi zmdi-email"></i>&nbsp;Message Guests
+    	</a>
+    </div>
+    <div id="sendMsgToSessionsGuest" class="modal fade" tabindex="-1" role="dialog">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">Please select the type of message </h4>
+	                <div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
+						<div class="days_radio">
+							<label class="radio_label">
+								<input type="radio" name="msgToGuests" value="email" ng-model="vm.typeOfMsgToGuests"/>
+								<span>&nbsp;&nbsp;E-mail</span>
+								<i class="zmdi zmdi-check-circle"></i>
+								<i class="zmdi zmdi-circle-o"></i>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xs-4">
+						<div class="days_radio">
+							<label class="radio_label">
+								<input type="radio" name="msgToGuests" value="textMsg" ng-model="vm.typeOfMsgToGuests"/>
+								<span>&nbsp;&nbsp;Text message</span>
+								<i class="zmdi zmdi-check-circle"></i>
+								<i class="zmdi zmdi-circle-o"></i>
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-2 col-md-2 col-lg-2 col-xs-4">
+						<div class="days_radio">
+							<label class="radio_label">
+								<input type="radio" name="msgToGuests" value="both" ng-model="vm.typeOfMsgToGuests"/>
+								<span>&nbsp;&nbsp;Both</span>
+								<i class="zmdi zmdi-check-circle"></i>
+								<i class="zmdi zmdi-circle-o"></i>
+							</label>
+						</div>
+					</div>
+
+	            </div>
+	            <div class="modal-body">
+	                <p> Enter Message (Max. 500 chars)</p>
+	                <textarea id="msgBody" class="form-control margin-top" placeholder="Enter your message here" ng-model="vm.msgBodyToSpecificSessionsGuest" maxlength="500"></textarea>
+	                <br>
+	                <br>
+	                <a ng-click="vm.sendMessageToGuestsOfThisSession()" class="btn btn-warning pull-left margin-right btn-sm">Send</a>
+	                <a ng-click="vm.msgBodyToSpecificSessionsGuest= ''" class="btn btn-default btn-sm margin-bottom">Clear</a> 
+	            </div>
+	            <div class="modal-footer">
+	                <button id="closeTheSendMsgToSessionsGuestModal" type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
+	            </div>
+	        </div>
+	    </div>
+	</div> 
 </div>
