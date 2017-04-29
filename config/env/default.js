@@ -20,6 +20,12 @@ module.exports = {
       accessToken: process.env.accessToken
     }
   },
+  mailgun: {
+    auth: {
+      api_key: process.env.MAILGUN_API_KEY,
+      domain : process.env.MAILGUN_DOMAIN_NAME
+    }
+  },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
   // DOMAIN config should be set to the fully qualified application accessible

@@ -12,14 +12,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 
-var auth = {
-  auth: {
-    api_key: 'key-e6a1e08ff51928e50ab79a7d3559beb9',
-    domain: 'tourgecko.info'
-  }
-}
-
-var nodemailerMailgun = nodemailer.createTransport(mg(auth));
+var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 
 exports.sendMassMailForTheSession = function (req, res) {
   var mailRecipients = '';
