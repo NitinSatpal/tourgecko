@@ -91,7 +91,7 @@ a:hover .header-profile-image {
   background-image:url('/modules/core/client/img/loaders/loader.gif');
   background-repeat:no-repeat;
   background-position:center;
-  z-index:10000000;
+  z-index: 9999 !important;
   opacity: 0.4;
   pointer-events: none;
   filter: alpha(opacity=40); /* For IE8 and earlier */

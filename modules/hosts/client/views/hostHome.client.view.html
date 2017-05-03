@@ -1,5 +1,5 @@
+<div id="loadingDivOnSideNavItemClick" class="loaderDisplayDiv" style="display: none;"></div>
 <div class="hostHome container-fluid" id="hostHome">
-
 	<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
 	<div class="row body-content">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
@@ -186,6 +186,7 @@
 	$('#loaderForCalendarHomePage').show();
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
+	    $('#loadingDiv').css('display', 'none');
 	});
 
 	function changeToListView () {

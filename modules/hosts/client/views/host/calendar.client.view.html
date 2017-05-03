@@ -4,7 +4,6 @@
 	</div>-->
 	<div class="row body-content" id="calendarTabBodyContent">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
-			<span class="loader-spinner-hostCalendarTab" id="loaderForCalendarSideNav" ng-style="vm.getLoaderPositionForTabCalendar()"><i class="fa fa-refresh"></i></span>
 			<div class="home_add_tour">
 			    <i class="zmdi zmdi-home heading-icn"></i>
 			    <h2><span>Calendar</span></h2>
@@ -37,5 +36,6 @@
 <script>
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
+	    $('#loadingDiv').css('display', 'none');
 	});
 </script>

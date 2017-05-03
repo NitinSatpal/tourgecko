@@ -53,8 +53,10 @@
                 vm.showAtLast = false;
             else
                 vm.showAtLast = true;
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#tourgeckoBody').removeClass('waitCursor');
         }); 
     } else {
         if(prevItemPerPage != null && prevItemPerPage !== undefined && prevItemPerPage != 'noPreviousItemsPerPage')
@@ -69,8 +71,10 @@
             vm.pageCounterArray = new Array(vm.totalPages);
             totalProductRecords = response.productCount;
             vm.pageFrom = 0;
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#tourgeckoBody').removeClass('waitCursor');
         });
     }
     

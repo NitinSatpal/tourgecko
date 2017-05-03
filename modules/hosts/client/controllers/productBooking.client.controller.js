@@ -90,6 +90,7 @@
           vm.showAtLast = true;
         if(vm.pageTo == vm.totalPages)
           vm.showAtLast = false;
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
@@ -477,6 +478,7 @@
 
         if (startFromTop)
           $('html, body').scrollTop(0);
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 

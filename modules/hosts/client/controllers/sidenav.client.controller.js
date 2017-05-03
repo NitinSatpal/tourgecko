@@ -43,9 +43,7 @@
     }
 
     vm.goToHostWebsite = function() {
-      var loaderElement = '<span class="loader-spinner-goToToursite" id="loaderForToursite"><i class="fa fa-refresh fa-spin"></i></span>';
-      $('#host-section-Pages').append(loaderElement);
-      $('#tourgeckoBody').addClass('disableBody');
+      
       $http.get('/api/host/toursite').success(function (response) {
         if (response.toursite === null || response.toursite === '' || response.toursite === undefined) {
           alert('You have not provided touriste name at the time of registration. Please update the same in your settings.');

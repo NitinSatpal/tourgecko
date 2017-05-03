@@ -19,22 +19,23 @@
             		<img src="modules/core/client/img/brand/logo-beta.svg" alt="Tourgecko">
             	</a>
           	</div>
+          	<div id="loadingDiv" class="loaderDisplayDiv" ng-show="vm.showLoaderForHomePageClicks"></div>
           	<div id="landingPageNavbar" class="navbar-collapse collapse navbar-ex1-collapse" style="height: 1px;">
 	            <ul class="nav navbar-nav">
 	              	<li>
-	              		<a href="#">About Us</a>
+	              		<a href="#" ng-click="vm.showLoaderForHomePageClicks = true">About Us</a>
 	              	</li>
 	              	<li>
-	              		<a ui-sref="host.hostHome" ng-hide="!vm.authentication.user">Go to Admin Panel</a>
+	              		<a ui-sref="host.hostHome" ng-hide="!vm.authentication.user" ng-click="vm.showLoaderForHomePageClicks = true">Go to Admin Panel</a>
 	              	</li>
 	              	<li>
-	              		<a href="/api/auth/signout" target="_self" ng-hide="!vm.authentication.user">Logout</a>
+	              		<a href="/api/auth/signout" target="_self" ng-hide="!vm.authentication.user" ng-click="vm.showLoaderForHomePageClicks = true">Logout</a>
 	              	</li>
 	              	<li class="nav-btn-primary main-cta" ng-show="!vm.authentication.user">
-	              		<a ui-sref="authentication.hostSignup">Sign Up</a>
+	              		<a ui-sref="authentication.hostSignup" ng-click="vm.showLoaderForHomePageClicks = true">Sign Up</a>
 	              	</li>
 	              	<li class="nav-btn-default" ng-show="!vm.authentication.user">
-	              		<a ui-sref="authentication.hostSignin">Login</a>
+	              		<a ui-sref="authentication.hostSignin" ng-click="vm.showLoaderForHomePageClicks = true">Login</a>
 	              	</li>
 	            </ul>
           	</div><!--/.nav-collapse -->

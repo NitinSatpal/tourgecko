@@ -5,34 +5,34 @@
 		</div>
 		<div class="navbar-collapse collapse" id="myNavbar">
 			<ul class="nav navbar-nav" id="one">
-				<li>
+				<li onclick="showLoader('Home')">
 					<a ui-sref="host.hostHome">
 						<i class="zmdi zmdi-home"></i> Home
 					</a>
 				</li>
-				<li>
+				<li onclick="showLoader()">
 					<a href="" ng-click="vm.goToHostWebsite()">
 						<i class="zmdi zmdi-globe"></i> View Your Website
 					</a>
 				</li>
 
-				<li class="separator">
+				<li class="separator" onclick="showLoader('Tours')">
 					<a ui-sref="host.tours">
 						<i class="zmdi zmdi-card-travel"></i> Tours
 					</a>
 				</li>
-				<li>
+				<li onclick="showLoader('Calendar')">
 					<a ui-sref="host.calendar">
 						<i class="zmdi zmdi-calendar"></i> Calendar
 					</a>
 				</li>
-				<li>
+				<li onclick="showLoader('Bookings')">
 					<a ui-sref="host.allBookings">
 						<i class="zmdi zmdi-calendar-check"></i> Bookings
 					</a>
 				</li>
 
-				<li class="separator">
+				<li class="separator" onclick="showLoader('Messages')">
 					<a ui-sref="host.allMessages">
 						<i class="zmdi zmdi-email"></i> Messages
 					</a>
@@ -93,4 +93,12 @@
 	   $(".nav").find(".active").removeClass("active");
 	   $(this).parent().addClass("active");
 	});
+	var prevTab;
+	showLoader = function (activeTab) {
+		if (prevTab != activeTab) {
+			$('#loadingDivOnSideNavItemClick').css('display', 'block');
+			$('#tourgeckoBody').addClass('waitCursor');
+		}
+		prevTab = activeTab;
+	}
 </script>

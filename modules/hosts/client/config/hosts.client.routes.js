@@ -63,8 +63,8 @@
       .state('host.allMessages', {
         url: '/messages',
         templateUrl: 'modules/hosts/client/views/host/messages.client.view.html',
-        controller: '',
-        controllerAs: '',
+        controller: 'MessageController',
+        controllerAs: 'vm',
         data: {
           pageTitle: 'Admin | Messages'
         }

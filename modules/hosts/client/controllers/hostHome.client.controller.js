@@ -17,6 +17,7 @@
       vm.productSessions = response;
       vm.sessionsFetched = true;
       $('#loaderForListViewOFSessionsHomePage').hide();
+      $('#tourgeckoBody').removeClass('waitCursor');
     });
     vm.authentication = Authentication;
     vm.bookings = CalendarBookingService.query();
