@@ -10,6 +10,7 @@
   function TourCalendarController($scope, $window) {
     var vm = this;
     
+    $('#loadingDivHostSide').css('display', 'none');
     $('#tourgeckoBody').removeClass('waitCursor');
   }
 }());

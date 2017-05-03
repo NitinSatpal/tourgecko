@@ -140,6 +140,9 @@ $('#tourgeckoBody').removeClass('disableBody');
             vm.dayCounter = maxVal + 1;
           setRichTextData();
       });
+    } else {
+      $('#loadingDivHostSide').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
@@ -167,6 +170,8 @@ function setRichTextData () {
   CKEDITOR.instances.tour_guidelines.setData(vm.tour.productGuidelines);
   CKEDITOR.instances.tour_inclusions.setData(vm.tour.productInclusions);
   CKEDITOR.instances.tour_exclusions.setData(vm.tour.productExclusions);
+  $('#loadingDivHostSide').css('display', 'none');
+  $('#tourgeckoBody').removeClass('waitCursor');
 }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -872,25 +877,6 @@ vm.createDepartureSession = function () {
     /* Assign form data to product record properly, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
-
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* This function handles the button click of add tour */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-    vm.goToTourCreationPage = function() {
-      if (vm.productType == '') {
-        alert('please select at least one type for the tour');
-        return false;
-      }
-      $('#select-tour-type').slideUp('slow');
-      $timeout(function () {
-        $('.modal-backdrop').remove();
-        $state.go('host.addProduct');
-      }, 800);
-      $window.localStorage.setItem('productType', vm.productType);
-    }
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* This function handles the button click of add tour, ends here */
-/* ------------------------------------------------------------------------------------------------------------------------- */
 
 
     vm.getDynamicCSS = function (index) {

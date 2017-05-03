@@ -1,6 +1,7 @@
 <uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
     <span ng-bind="vm.error"></span>
 </uib-alert>
+<div id="loadingDivTourDetails" class="loaderDisplayDiv"></div>
 <div class="tourPreviewDetails" id="tourDetailsScreen">
     <header>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
@@ -9,7 +10,6 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     </header>
     <main>
-        <span ng-if="vm.showLoaderForTourDetails" class="loader-spinner-tourPreviewDetails" ng-style="vm.getLoaderPositionForTourDetails()"><i class="fa fa-refresh fa-spin"></i></span>
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs">
@@ -325,7 +325,7 @@
                                 </div>
                                 <div class="center">
                                     <!--<a id="bookTheTour" href="#" data-target="#askForLogin" data-toggle="modal" class="waves-effect waves-light btn orange fluid">Request Booking</a>-->
-                                    <a id="bookTheTour" ui-sref="guest.booking({productId: vm.productDetails._id})" class="waves-effect waves-light btn orange fluid">Request Booking</a>
+                                    <a id="bookTheTour" ui-sref="guest.booking({productId: vm.productDetails._id})" class="waves-effect waves-light btn orange fluid" onclick="showWaitCursorTourBooking()">Request Booking</a>
                                 </div>
                             </div>
                             <div class="card-panel">
@@ -443,9 +443,10 @@
     function fadeOutTheModal (id) {
         $(id).slideUp('slow');
     }
-</script>
-<script>
     $(document).ready(function(){
         $(this).scrollTop(0);
     });
+    function showWaitCursorTourBooking () {
+        $('#tourgeckoBody').addClass('waitCursor');
+    }
 </script>

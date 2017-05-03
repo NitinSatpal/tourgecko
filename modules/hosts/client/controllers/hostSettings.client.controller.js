@@ -36,6 +36,8 @@
     var isRegionalDetailsChanged = false;
     var isPasswordDetailsChanged = false;
     var imageUploaded = false;
+    $('#loadingDivHostSide').css('display', 'none');
+    $('#tourgeckoBody').removeClass('waitCursor');
     
     /* We can watch each and every value and can check whether the value is in changed state at the time of 'Save' button is clicked
       e.g. if field 'How do you describe yourself?' is by default 'Tour Operator' and use is changing it to 'Activity Provider'
@@ -90,10 +92,14 @@
       if (!isCompanyDetailsChanged && imageUploaded)
         $window.location.reload();
       else if (isCompanyDetailsChanged == true) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         $http.post('/api/host/company', vm.companyDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
         alert('you have not changed anything');
@@ -152,6 +158,8 @@
       }
 
       if (isContactDetailsChanged == true || (vm.inquiryTime != 'Anytime' && vm.inquiryTime !== undefined)) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         var fb;
         var tweet;
         var insta;
@@ -174,6 +182,8 @@
 
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
         alert('you have not changed anything');
@@ -185,10 +195,14 @@
       vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
       vm.error = null;
       if (isPaymentDetailsChanged == true || (vm.beneficiaryBankCountry != 'India' && vm.beneficiaryBankCountry !== undefined)) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
         alert('you have not changed anything');
@@ -199,10 +213,14 @@
     vm.saveToursiteSettings = function () {
       vm.error = null;
       if (isToursiteDetailsChanged == true) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         $http.post('/api/host/toursite', vm.toursiteDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
         alert('you have not changed anything');
@@ -248,10 +266,14 @@
       vm.error = null;
       
       if (isRegionalDetailsChanged == true) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         $http.post('/api/host/region', vm.regionalDetails).success(function (response) {
           $window.location.reload();
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
         alert('you have not changed anything');

@@ -1,9 +1,9 @@
+<div id="loadingDivTourList" class="loaderDisplayDiv" style="display: none;"></div>
 <div class="hostHome" id="tours">
 	<div id="tours_list" class="container-fluid">
 		<div class="row body-content tourlist-content">
 			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" id="tourlist-row-content">
 				<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
-				<span class="loader-spinner-editTourInitiation" id="loaderForEditTour" ng-if="vm.tourEditInitiated" ng-style="vm.getLoaderPositionForTourEdit()"><i class="fa fa-refresh fa-spin"></i></span>
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 pull-right tour_details" ng-repeat="product in vm.products track by $index" id="tourListItem{{$index}}">
 						<div style="display: none" ng-if="vm.tourReallyEdited != 'Null'">{{vm.highlightEditedTour($index)}}</div>
@@ -186,8 +186,6 @@
 			$lightbox.find('.close').removeClass('hidden');
 		});
 	});
-</script>
-<script>
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	    $('#loadingDiv').css('display', 'none');
@@ -203,8 +201,7 @@
 	    e.preventDefault()
 	    $('body, #shadow').removeAttr('style')
 	})
-</script>
-<script>
+
 	$(document).ready(function() {
 		$('#whatsappSharingButton').css("background-color", "#25d366");
 	});

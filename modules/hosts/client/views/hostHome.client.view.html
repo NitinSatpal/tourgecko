@@ -1,4 +1,3 @@
-<div id="loadingDivOnSideNavItemClick" class="loaderDisplayDiv" style="display: none;"></div>
 <div class="hostHome container-fluid" id="hostHome">
 	<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
 	<div class="row body-content">
@@ -66,8 +65,8 @@
 						</div>
 						<div class="seemoreinfo">
 							<a ng-show="vm.bookings.length == 0">No Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5">Go to Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5">See all Bookings</a>
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5" onclick="showLoaderHostHome('#bookingsTab')">Go to Bookings</a>
+							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5" onclick="showLoaderHostHome('#bookingsTab')">See all Bookings</a>
 							
 						</div>
 					</div>
@@ -82,8 +81,8 @@
 
 						<div class="seemoreinfo">
 							<a ng-show="vm.messages.length == 0">No Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5">Go to Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5">See all Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5" onclick="showLoaderHostHome('#messagesTab')">Go to Messages</a>
+							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5" onclick="showLoaderHostHome('#messagesTab')">See all Messages</a>
 						</div>
 					</div>
 				</div>
@@ -176,7 +175,7 @@
 			</div>
 			<div id="calendarTourPopupBody" class="modal-body"></div>
 			<div class="modal-footer">
-				<a id="eventUrl" type="button" onclick="$('.modal-backdrop').remove()" class="btn btn-primary">Details</a>
+				<a id="eventUrl" type="button" onclick="showLoaderFromModalClick()" class="btn btn-primary">Details</a>
 			</div>
 		</div>
 	</div>
@@ -201,5 +200,16 @@
 		$('#calendar').css('opacity',1);
 		$('#listLink').removeClass('active');
 		$('#calendarLink').addClass('active');
+	}
+	function showLoaderHostHome (tabToBecomeActive) {
+		$('#loadingDivHostSide').css('display', 'block');
+      	$('#tourgeckoBody').addClass('waitCursor');
+      	$('#adminTab').removeClass('active');
+      	$(tabToBecomeActive).addClass('active');
+	}
+	function showLoaderFromModalClick() {
+		$('#loadingDivHostSide').css('display', 'block');
+      	$('#tourgeckoBody').addClass('waitCursor');
+		$('.modal-backdrop').remove()
 	}
 </script>

@@ -19,10 +19,6 @@
     vm.productDetails;
     vm.productImageURLs = [];
 
-    $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
-    $('#tourDetailsScreen').addClass('waitCursor');
-    vm.showLoaderForTourDetails = true;
-
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -36,14 +32,12 @@
       vm.productDetails = response[0];
       vm.companyDetails = response[0].hostCompany;
       vm.productImageURLs = response[0].productPictureURLs
-      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-      $('#tourDetailsScreen').removeClass('waitCursor');
-      vm.showLoaderForTourDetails = false;
+      $('#loadingDivTourDetails').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
     }).error(function (response) {
-      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-      $('#tourDetailsScreen').removeClass('waitCursor');
-      vm.showLoaderForTourDetails = false;
       vm.error = response.message;
+      $('#loadingDivTourDetails').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
     });
 
     vm.getHtmlTrustedData = function(htmlData){

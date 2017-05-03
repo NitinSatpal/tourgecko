@@ -53,9 +53,11 @@
                 vm.showAtLast = false;
             else
                 vm.showAtLast = true;
+            $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
         }); 
     } else {
@@ -71,20 +73,19 @@
             vm.pageCounterArray = new Array(vm.totalPages);
             totalProductRecords = response.productCount;
             vm.pageFrom = 0;
+            $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
         });
     }
     
-
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
-
     function stateChangeSuccess() {
         changeProductVisibility();
     }
-
     function changeProductVisibility () {
         if (changedProductStatus.length > 0 ) {
             $http.post('/api/host/productVisibility/', {changedIds: changedProductIds, changedStatus: changedProductStatus}).success(function (response) {
@@ -134,6 +135,8 @@
     }*/
 
     vm.changeItemsPerPage = function (itemsPerPage) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         vm.totalPages = Math.ceil(totalProductRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
@@ -162,6 +165,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         }); 
@@ -172,6 +177,8 @@
           $('html, body').scrollTop(0);
           return;
         }
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
@@ -196,6 +203,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         }); 
@@ -206,6 +215,8 @@
     vm.incrementPageNumber = function () {
         if (vm.currentPageNumber == vm.totalPages)
             return;
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
         if (vm.currentPageNumber % vm.paginationWindow == 0 || isWindowSizeReached) {
@@ -240,6 +251,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -248,6 +261,8 @@
     vm.incrementWindowSize = function () {
         if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
             return;
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         windowSizeIncremented = true;
         if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow + vm.paginationWindow <= vm.pageCounterArray.length) {
@@ -271,6 +286,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -280,6 +297,8 @@
         if (vm.currentPageNumber == 1)
             return;
         changeProductVisibility();
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         vm.currentPageNumber = vm.currentPageNumber - 1;
         if (!vm.showAtLast) {
             var lastMultipleOfFive =  Math.ceil((vm.pageCounterArray.length - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
@@ -295,6 +314,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -303,6 +324,8 @@
     vm.decrementWindowSize = function () {
         if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
             return;
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         if (Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow > 0) {
             vm.pageTo = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
@@ -325,6 +348,8 @@
         $http.get('/api/host/companyproductsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.products = response;
             $('html, body').scrollTop(0);
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
         });
@@ -332,12 +357,13 @@
 
     vm.showTourPreview = function(index) {
         changeProductVisibility();
-        $window.open($state.href('hostAndGuest.tourPreview', {productId: vm.products[index]._id}),'_blank','heigth=600,width=600');
+        var winPreview = $window.open($state.href('hostAndGuest.tourPreview', {productId: vm.products[index]._id}),'_blank','heigth=600,width=600');
+        winPreview.document.body.innerHTML = "<div style='position:fixed;top:45%;left:46%;width:100%;height:100%;background-color:transparent;color:#40C4FF;font-size:20px;z-index: 9999 !important;pointer-events: none;filter: alpha(opacity=40);'>Please wait ...</div>"
     }
 
     vm.editTourDetails = function(index) {
-        vm.tourEditInitiated = true;
-        $('#tourgeckoBody').addClass('disableBody');
+        $('#loadingDivTourList').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         changeProductVisibility();
         // $window.localStorage.setItem('productEditId', vm.products[index]._id);
         $window.localStorage.setItem('previousPageNumber', vm.currentPageNumber);

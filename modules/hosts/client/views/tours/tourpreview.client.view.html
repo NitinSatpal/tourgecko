@@ -1,3 +1,4 @@
+<div id="loadingDivTourPreview" class="loaderDisplayDiv"></div>
 <div class="tourPreviewDetails" id="previewScreen">
     <header>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
@@ -31,8 +32,6 @@
         </nav> -->
     </header>
     <main>
-        <span ng-if="vm.showLoaderForPreview" class="loader-spinner-tourPreviewDetails" ng-style="vm.getLoaderPositionForPreview()"><i class="fa fa-refresh fa-spin"></i></span>
-
         <div id="details_hero" class="slider" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs">
@@ -465,6 +464,7 @@
 <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
 <script type="text/javascript" src="modules/core/client/scripts/showmore.js"></script>
 <script>
+    $('#tourgeckoBody').addClass('waitCursor');
     function openMoreDatesInfoModal(id) {
         $(id).slideDown('slow');
     }
@@ -478,8 +478,7 @@
             full_width: true
         });
     });
-</script>
-<script>
+
     $(document).ready(function(){
         $(this).scrollTop(0);
     });

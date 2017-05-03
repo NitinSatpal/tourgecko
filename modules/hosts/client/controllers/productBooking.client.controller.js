@@ -1,3 +1,4 @@
+
 (function () {
   'use strict';
 
@@ -90,6 +91,7 @@
           vm.showAtLast = true;
         if(vm.pageTo == vm.totalPages)
           vm.showAtLast = false;
+        $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
@@ -159,6 +161,8 @@
     };
 
     vm.changeItemsPerPage = function (itemsPerPage) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         vm.totalPages = Math.ceil(totalBookingRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
         $window.localStorage.setItem('alreadySelectedItemsPerPage', itemsPerPage);
@@ -193,8 +197,12 @@
           $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
               vm.bookings = response;
               $('html, body').scrollTop(0);
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           }).error(function (response) {
               vm.error = response.message;
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           });
         } else {
           categorizedBooking($scope.selectedCategorizedKeys, true);
@@ -206,6 +214,8 @@
           $('html, body').scrollTop(0);
           return;
         }
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
@@ -236,8 +246,12 @@
               vm.bookings = response;
               $('html, body').scrollTop(0);
               $window.changeCSSForBookingFilterButton();
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           }).error(function (response) {
               vm.error = response.message;
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           });
         } else {
             categorizedBooking($scope.selectedCategorizedKeys, true);
@@ -252,7 +266,8 @@
         // if we are at last page number then just return
         if (vm.currentPageNumber == vm.totalPages)
             return;
-
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
         if (vm.currentPageNumber % vm.paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
@@ -293,8 +308,12 @@
               vm.bookings = response;
               $('html, body').scrollTop(0);
               $window.changeCSSForBookingFilterButton();
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           }).error(function (response) {
               vm.error = response.message;
+              $('#loadingDivHostSide').css('display', 'none');
+              $('#tourgeckoBody').removeClass('waitCursor');
           });
         } else {
             categorizedBooking($scope.selectedCategorizedKeys, true);
@@ -304,6 +323,8 @@
     vm.incrementWindowSize = function () {
       if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
         return;
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       windowSizeIncremented = true;
       if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow + vm.paginationWindow <= vm.pageCounterArray.length) {
         vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
@@ -332,8 +353,12 @@
         $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.bookings = response;
             $window.changeCSSForBookingFilterButton();
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
           categorizedBooking($scope.selectedCategorizedKeys, false);
@@ -343,7 +368,8 @@
     vm.decrementPageNumber = function () {
       if (vm.currentPageNumber == 1)
           return;
-      
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       vm.currentPageNumber = vm.currentPageNumber - 1;
 
       if (!vm.showAtLast) {
@@ -368,8 +394,12 @@
           vm.bookings = response;
           $('html, body').scrollTop(0);
           $window.changeCSSForBookingFilterButton();
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
           categorizedBooking($scope.selectedCategorizedKeys, true);
@@ -379,7 +409,8 @@
     vm.decrementWindowSize = function () {
       if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
         return;
-      
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       if (Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow > 0) {
         vm.pageTo = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
         vm.pageFrom = vm.pageTo - vm.paginationWindow;
@@ -407,8 +438,12 @@
         $http.get('/api/host/bookingsForCurrentPage/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
             vm.bookings = response;
             $window.changeCSSForBookingFilterButton();
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
             vm.error = response.message;
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
         });
       } else {
           categorizedBooking($scope.selectedCategorizedKeys, false);
@@ -416,6 +451,8 @@
     }
 
     vm.applySelectedFiltersOnBookingRecords = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       $scope.selectedCategorizedKeys.length = 0;
       for(var index = 0; index < vm.selectedFiltersForBookingRecords.length; index++) {
         if(vm.selectedFiltersForBookingRecords[index])
@@ -430,6 +467,8 @@
     }
 
     vm.clearAllFilterOnBookingRecords = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       vm.selectedFiltersForBookingRecords = [false, false, false, false, false];
       $scope.selectedCategorizedKeys.length = 0;
       $window.localStorage.setItem('bookingFilters', ' ');
@@ -478,6 +517,7 @@
 
         if (startFromTop)
           $('html, body').scrollTop(0);
+        $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
       });
     }

@@ -12,20 +12,41 @@
     vm.tourEndDate = '';
     vm.skipIndexForGuestData = 0;
     vm.lastIndexForGuestData = 0;
+    var asynRequestCounter = 0;
 
     /* This will change and we will fetch only one as per date */
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
+      asynRequestCounter++;
+      if(asynRequestCounter >= 2) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }
     }).error(function (response) {
       vm.error = response.message;
+      asynRequestCounter++
+      if(asynRequestCounter >= 2) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }
     });
 
     $http.get(' /api/host/productsessions/guestData/' + $stateParams.productSessionId + '/' + vm.skipIndexForGuestData).success(function (response) {
       vm.guestData = response.guestData;
       var totalGuestDataCount = response.guestDataCount;
       vm.lastIndexForGuestData = Math.floor(totalGuestDataCount / 10);
+      asynRequestCounter++;
+      if(asynRequestCounter >= 2) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }
     }).error(function (response) {
       vm.error = response.message;
+       asynRequestCounter++;
+      if(asynRequestCounter >= 2) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }
     });
 
     //$("#myNavbar .nav").find(".active").removeClass("active");

@@ -18,6 +18,8 @@
       vm.sessionsFetched = true;
       $('#loaderForListViewOFSessionsHomePage').hide();
       $('#tourgeckoBody').removeClass('waitCursor');
+      $('#loadingDivHostSide').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
     });
     vm.authentication = Authentication;
     vm.bookings = CalendarBookingService.query();

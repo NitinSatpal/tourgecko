@@ -98,11 +98,7 @@ a:hover .header-profile-image {
 }
 .waitCursor {
   cursor: wait;
-}
-.loader-spinner-tourPreviewDetails {
-    position: absolute;
-    font-size: 40px;
-    z-index: 9999;
+  pointer-events: none;
 }
 .imageUploader {
     border: 4px solid #f3f3f3; /* Light grey */

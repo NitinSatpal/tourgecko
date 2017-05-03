@@ -19,10 +19,6 @@
     vm.productDetails;
     vm.productImageURLs = [];
 
-    $('#tourgeckoBody').addClass('disableBodyWithoutPosition');
-    $('#previewScreen').addClass('waitCursor');
-    vm.showLoaderForPreview = true;
-
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -32,23 +28,25 @@
         vm.productDetails = response[0];
         vm.companyDetails = response[0].hostCompany;
         vm.productImageURLs = response[0].productPictureURLs;
-        $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-        $('#previewScreen').removeClass('waitCursor');
-        vm.showLoaderForPreview = false;
+        $('#loadingDivTourPreview').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivTourPreview').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     } else {
       $http.get('/api/host/company').success(function (response) {
         vm.companyDetails = response[0];
+        $('#loadingDivTourPreview').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivTourPreview').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
       vm.productDetails = JSON.parse($window.localStorage.getItem('productData'));
       vm.productImageURLs = vm.productDetails.productPictureURLs;
-      $('#tourgeckoBody').removeClass('disableBodyWithoutPosition');
-      $('#previewScreen').removeClass('waitCursor');
-      vm.showLoaderForPreview = false;
     }
 
     vm.resetLocalStorage = function () {

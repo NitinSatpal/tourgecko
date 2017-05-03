@@ -364,7 +364,8 @@
     }
 
     vm.goToProductDetailsPage = function (index) {
-      $window.open($state.href('guest.tourDetails', {productId: vm.toursitedata[index]._id}),'_blank','heigth=600,width=600');
+      var winPreview = $window.open($state.href('guest.tourDetails', {productId: vm.toursitedata[index]._id}),'_blank','heigth=600,width=600');
+      winPreview.document.body.innerHTML = "<div style='position:fixed;top:45%;left:46%;width:100%;height:100%;background-color:transparent;color:#40C4FF;font-size:20px;z-index: 9999 !important;pointer-events: none;filter: alpha(opacity=40);'>Please wait ...</div>"
     }
   }
 }());

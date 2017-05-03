@@ -5,34 +5,34 @@
 		</div>
 		<div class="navbar-collapse collapse" id="myNavbar">
 			<ul class="nav navbar-nav" id="one">
-				<li onclick="showLoader('Home')">
+				<li onclick="showLoaderSideNav('admin')" id="adminTab">
 					<a ui-sref="host.hostHome">
 						<i class="zmdi zmdi-home"></i> Home
 					</a>
 				</li>
-				<li onclick="showLoader()">
+				<li onclick="showLoaderSideNav()" id="viewWebsiteTab">
 					<a href="" ng-click="vm.goToHostWebsite()">
 						<i class="zmdi zmdi-globe"></i> View Your Website
 					</a>
 				</li>
 
-				<li class="separator" onclick="showLoader('Tours')">
+				<li class="separator" onclick="showLoaderSideNav('tours')" id="toursTab">
 					<a ui-sref="host.tours">
 						<i class="zmdi zmdi-card-travel"></i> Tours
 					</a>
 				</li>
-				<li onclick="showLoader('Calendar')">
+				<li onclick="showLoaderSideNav('calendar')" id="calendarTab">
 					<a ui-sref="host.calendar">
 						<i class="zmdi zmdi-calendar"></i> Calendar
 					</a>
 				</li>
-				<li onclick="showLoader('Bookings')">
+				<li onclick="showLoaderSideNav('bookings')" id="bookingsTab">
 					<a ui-sref="host.allBookings">
 						<i class="zmdi zmdi-calendar-check"></i> Bookings
 					</a>
 				</li>
 
-				<li class="separator" onclick="showLoader('Messages')">
+				<li class="separator" onclick="showLoaderSideNav('messages')" id="messagesTab">
 					<a ui-sref="host.allMessages">
 						<i class="zmdi zmdi-email"></i> Messages
 					</a>
@@ -43,12 +43,24 @@
 						<span class="glyphicon glyphicon-chevron-right sideNav-Settings-Right"></span>
 					</a>
 					<ul class="sub-menu" id="products">
-						<li id="companyprofileSetting"><a ui-sref="host.companyProfile">Company Profile</a></li>
-						<li id="contactsSetting"><a ui-sref="host.contacts">Contacts</a></li>
-						<li id="paymentsSetting"><a ui-sref="host.payments">Payments</a></li>
-						<li id="toursiteSetting"><a ui-sref="host.toursite">Toursite</a></li>
-						<li id="accountSetting"><a ui-sref="host.account">Account</a></li>
-						<li id="regionSetting"><a ui-sref="host.region">Regional</a></li>
+						<li id="companyprofileSetting">
+							<a ui-sref="host.companyProfile" onclick="showSettingLoader('companyprofile')">Company Profile</a>
+						</li>
+						<li id="contactsSetting">
+							<a ui-sref="host.contacts" onclick="showSettingLoader('contacts')">Contacts</a>
+						</li>
+						<li id="paymentsSetting">
+							<a ui-sref="host.payments" onclick="showSettingLoader('payments')">Payments</a>
+						</li>
+						<li id="toursiteSetting">
+							<a ui-sref="host.toursite" onclick="showSettingLoader('toursite')">Toursite</a>
+						</li>
+						<li id="accountSetting">
+							<a ui-sref="host.account" onclick="showSettingLoader('account')">Account</a>
+						</li>
+						<li id="regionSetting">
+							<a ui-sref="host.region" onclick="showSettingLoader('region')">Regional</a>
+						</li>
 						<li><span class="glyphicon glyphicon-chevron-left sideNav-Settings-Left"></span></li>
 					</ul>
 				</li>
@@ -93,12 +105,20 @@
 	   $(".nav").find(".active").removeClass("active");
 	   $(this).parent().addClass("active");
 	});
-	var prevTab;
-	showLoader = function (activeTab) {
+	var prevTab = window.location.pathname.split('/')[2];
+	$('#'+prevTab+'Tab').addClass('active');
+	function showLoaderSideNav (activeTab) {
 		if (prevTab != activeTab) {
-			$('#loadingDivOnSideNavItemClick').css('display', 'block');
+			$('#loadingDivHostSide').css('display', 'block');
 			$('#tourgeckoBody').addClass('waitCursor');
 		}
 		prevTab = activeTab;
+	}
+
+	function showSettingLoader (clickedSettingTab) {
+		if (window.location.pathname.split('/')[3] != clickedSettingTab) {
+			$('#loadingDivHostSide').css('display', 'block');
+			$('#tourgeckoBody').addClass('waitCursor');
+		}
 	}
 </script>

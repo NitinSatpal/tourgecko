@@ -82,11 +82,18 @@
         vm.lastIndexForDepartureDates = Math.floor(sessionCount / 5);
         for ( var index = 0; index < vm.productSessions.length; index ++)
           productSessionIds.push(vm.productSessions[index]._id);
+
+        $('#loadingDivTourBooking').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivTourBooking').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
       });
     }).error(function (response) {
       vm.error = response.message;
+      $('#loadingDivTourBooking').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
     });
 
     vm.getNextDepartureDates = function () {

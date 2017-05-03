@@ -9,6 +9,7 @@
 
   function MessageController($scope) {
     var vm = this;
-    $('#tourgeckoBody').removeClass('waitCursor');
+    $('#loadingDivHostSide').css('display', 'none');
+	$('#tourgeckoBody').removeClass('waitCursor');
   }
 }());
