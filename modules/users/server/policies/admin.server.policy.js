@@ -32,6 +32,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/admin/languages',
       permissions: '*'
+    }, {
+      resources: '/api/admin/pinboardPins',
+      permissions: '*'
     }]
   }]);
 };

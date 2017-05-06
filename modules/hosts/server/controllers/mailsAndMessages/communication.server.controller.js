@@ -60,31 +60,9 @@ exports.sendMassMessagesForTheSession = function (req, res) {
     bookings.forEach(function(item) {
       textMsgRecipients.push(item.providedGuestDetails.mobile);
     });
-    var username = urlencode('nitin@tourgecko.com');
-    var hash = urlencode('913c80bf51d363fea997045c8e29bbf2719428af3f17e18b2deb91d44d4cd41d');
-    var number = urlencode('+919535519640');
-    var sender = urlencode('tourgecko');
-    var msg = urlencode(req.body.message);
-    var data = urlencode('username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+number+'&message='+msg);
-    var options = {
-      host: 'api.textlocal.in',
-      path: '/send?'+data
-    };
-    console.log(options);
-    console.log('till here');
-    http.request(options, callback).end();
-    callback = function(response, error) {
-      console.log(error);
-      var str = '';
-      //another chunk of data has been recieved, so append it to `str`
-      response.on('data', function (chunk) {
-        str += chunk;
-      });
-      //the whole response has been recieved, so we just print it out here
-      response.on('end', function () {
-        console.log(str);
-      });
-    }
+
+    res.json({recepients: textMsgRecipients, msgBody: req.body.message});
+    
   });
 };
 

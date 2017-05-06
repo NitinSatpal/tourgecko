@@ -12,28 +12,30 @@
     vm.user = Authentication.user;
     vm.authentication = Authentication;
 
-    vm.companyDetails = HostCompanyService.query();
-    vm.contactDetails = vm.companyDetails;
-    vm.paymentDetails = vm.companyDetails;
-    vm.toursiteDetails = vm.companyDetails;
-    vm.accountDetails = vm.companyDetails;
-    vm.userDetails = SpecificUserService.query();
-    vm.regionalDetails = vm.companyDetails;
+    
+    $http.get('/api/host/company/').success(function (response)  {
+      vm.companyDetails = response;
+      vm.noLogoPresent = !vm.companyDetails[0].isLogoPresent;
+      vm.contactDetails = vm.companyDetails;
+      vm.noSocialCheck = !vm.companyDetails[0].areSocialAccountsPresent;
+      vm.paymentDetails = vm.companyDetails;
+      vm.toursiteDetails = vm.companyDetails;
+      vm.accountDetails = vm.companyDetails;
+      vm.regionalDetails = vm.companyDetails;
+    });
 
+    
+    vm.userDetails = SpecificUserService.query();
+    
     vm.languagesSupported = LanguageService.query();
     vm.languages = vm.languagesSupported.supportedLanguages;
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
+    
       
     vm.passwordRelatedError= '';
     var initializing = true;
-    var isCompanyDetailsChanged = false;
-    var isContactDetailsChanged = false;
-    var isPaymentDetailsChanged = false;
-    var isToursiteDetailsChanged = false;
-    var isAccountrDetailsChanged = false;
-    var isRegionalDetailsChanged = false;
     var isPasswordDetailsChanged = false;
     var imageUploaded = false;
     $('#loadingDivHostSide').css('display', 'none');
@@ -46,64 +48,22 @@
       performance. So, even if user changes something and later make it the same, we will assume it's changed and call the rest api
       POST method. As that will be much better than checking each value.
     */
-    $scope.$watch('vm.companyDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isCompanyDetailsChanged = true;
-      }
-    }, true);
 
-    $scope.$watch('vm.contactDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isContactDetailsChanged = true;
-      }
-    }, true);
-
-    $scope.$watch('vm.paymentDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isPaymentDetailsChanged = true;
-      }
-    }, true);
-
-    $scope.$watch('vm.toursiteDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isToursiteDetailsChanged = true;
-      }
-    }, true);
-
-    $scope.$watch('vm.regionalDetails', function() {
-      if (initializing) {
-        $timeout(function() { initializing = false; });
-      } else {
-        isRegionalDetailsChanged = true;
-      }
-    }, true);
-
+    vm.logoPresence = function () {
+      vm.companyDetails[0].isLogoPresent = !vm.companyDetails[0].isLogoPresent;
+    }
     // Company Profile settings
     vm.saveCompanyProfileSettings = function () {
       vm.error = null;
-      if (!isCompanyDetailsChanged && imageUploaded)
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/host/company', vm.companyDetails).success(function (response) {
         $window.location.reload();
-      else if (isCompanyDetailsChanged == true) {
-        $('#loadingDivHostSide').css('display', 'block');
-        $('#tourgeckoBody').addClass('waitCursor');
-        $http.post('/api/host/company', vm.companyDetails).success(function (response) {
-          $window.location.reload();
-        }).error(function (response) {
-          vm.error = response.message;
-          $('#loadingDivHostSide').css('display', 'none');
-          $('#tourgeckoBody').removeClass('waitCursor');
-        });
-      } else {
-        alert('you have not changed anything');
-      }
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
     };
 
     // Upload company logo
@@ -147,7 +107,9 @@
     }
 
 
-
+    vm.socialPresence = function () {
+      vm.contactDetails[0].areSocialAccountsPresent = !vm.contactDetails[0].areSocialAccountsPresent;
+    }
 
     // Contact settings
     vm.saveContactSettings = function (isValid) {
@@ -157,74 +119,62 @@
         return false;
       }
 
-      if (isContactDetailsChanged == true || (vm.inquiryTime != 'Anytime' && vm.inquiryTime !== undefined)) {
-        $('#loadingDivHostSide').css('display', 'block');
-        $('#tourgeckoBody').addClass('waitCursor');
-        var fb;
-        var tweet;
-        var insta;
-        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.facebook)
-          fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
-        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.twitter)
-          tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
-        if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.instagram)
-          insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      var fb;
+      var tweet;
+      var insta;
+      if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.facebook)
+        fb = vm.contactDetails[0].hostSocialAccounts.facebook.split('/')[3];
+      if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.twitter)
+        tweet = vm.contactDetails[0].hostSocialAccounts.twitter.split('/')[3];
+      if(vm.contactDetails[0].hostSocialAccounts && vm.contactDetails[0].hostSocialAccounts.instagram)
+        insta = vm.contactDetails[0].hostSocialAccounts.instagram.split('/')[3];
 
-        if (fb)
-          vm.contactDetails[0].hostSocialAccounts.facebook = fb;
-        if (tweet)
-          vm.contactDetails[0].hostSocialAccounts.twitter = tweet;
-        if (insta)
-          vm.contactDetails[0].hostSocialAccounts.instagram = insta;
+      if (fb)
+        vm.contactDetails[0].hostSocialAccounts.facebook = fb;
+      if (tweet)
+        vm.contactDetails[0].hostSocialAccounts.twitter = tweet;
+      if (insta)
+        vm.contactDetails[0].hostSocialAccounts.instagram = insta;
 
-        $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
-          $window.location.reload();
+      $http.post('/api/host/contact', vm.contactDetails).success(function (response) {
+        $window.location.reload();
 
-        }).error(function (response) {
-          vm.error = response.message;
-          $('#loadingDivHostSide').css('display', 'none');
-          $('#tourgeckoBody').removeClass('waitCursor');
-        });
-      } else {
-        alert('you have not changed anything');
-      }
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
     };
 
     // Payment Settings
     vm.savePaymentSettings = function () {
       vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
       vm.error = null;
-      if (isPaymentDetailsChanged == true || (vm.beneficiaryBankCountry != 'India' && vm.beneficiaryBankCountry !== undefined)) {
-        $('#loadingDivHostSide').css('display', 'block');
-        $('#tourgeckoBody').addClass('waitCursor');
-        $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
-          $window.location.reload();
-        }).error(function (response) {
-          vm.error = response.message;
-          $('#loadingDivHostSide').css('display', 'none');
-          $('#tourgeckoBody').removeClass('waitCursor');
-        });
-      } else {
-        alert('you have not changed anything');
-      }
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
+        $window.location.reload();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
     }
 
     // Toursite settings
     vm.saveToursiteSettings = function () {
       vm.error = null;
-      if (isToursiteDetailsChanged == true) {
-        $('#loadingDivHostSide').css('display', 'block');
-        $('#tourgeckoBody').addClass('waitCursor');
-        $http.post('/api/host/toursite', vm.toursiteDetails).success(function (response) {
-          $window.location.reload();
-        }).error(function (response) {
-          vm.error = response.message;
-          $('#loadingDivHostSide').css('display', 'none');
-          $('#tourgeckoBody').removeClass('waitCursor');
-        });
-      } else {
-        alert('you have not changed anything');
-      }
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/host/toursite', vm.toursiteDetails).success(function (response) {
+        $window.location.reload();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
     };
 
     // Account settings
@@ -264,20 +214,15 @@
 
     vm.saveRegionalSettings = function () {
       vm.error = null;
-      
-      if (isRegionalDetailsChanged == true) {
-        $('#loadingDivHostSide').css('display', 'block');
-        $('#tourgeckoBody').addClass('waitCursor');
-        $http.post('/api/host/region', vm.regionalDetails).success(function (response) {
-          $window.location.reload();
-        }).error(function (response) {
-          vm.error = response.message;
-          $('#loadingDivHostSide').css('display', 'none');
-          $('#tourgeckoBody').removeClass('waitCursor');
-        });
-      } else {
-        alert('you have not changed anything');
-      }
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/host/region', vm.regionalDetails).success(function (response) {
+        $window.location.reload();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
     };
   }
 }());

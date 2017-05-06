@@ -11,7 +11,8 @@ var path = require('path'),
 // Fetch categorized bookings
 exports.fetchPinboardData = function (req, res) {
   if(req.user) {
-    Pinboard.find({ $or: [{to: null}, {to: req.user._id}], dismissedBy: {$not: { $elemMatch: {$eq: req.user._id}}} }).sort('-created').exec(function (err, pinboardData) {
+    var abc = req.user._id.toString();
+    Pinboard.find({ $or: [{to : 'all'}, {to : req.user._id}], dismissedBy: {$not: { $elemMatch: {$eq: req.user._id}}}, todoCompletedBy: {$not: {$in: [req.user._id.toString()]}} }).sort('-created').exec(function (err, pinboardData) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -23,7 +24,6 @@ exports.fetchPinboardData = function (req, res) {
 };
 
 // Set dissmiss messages ids
-
 exports.setDismissedMessageIds = function (req, res) {
   var conditions = { _id: {$in : req.body} },
       update = { $push: { dismissedBy:  req.user._id}},
@@ -35,3 +35,4 @@ exports.setDismissedMessageIds = function (req, res) {
     // numAffected is the number of updated documents
   }
 };
+

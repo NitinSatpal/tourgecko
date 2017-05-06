@@ -31,8 +31,9 @@
 
     $http.get('/api/host/toursitedata/' + $stateParams.toursite).success(function (response) {
         vm.toursitedata = response.productArray;
-        vm.companyData = response.productArray[0].hostCompany;
-        vm.userData = response.productArray[0].user;
+        vm.companyData = response.companyData;
+        if (response.productArray.length > 0)
+          vm.userData = response.productArray[0].user;
         vm.totalPages = Math.ceil(response.productCount / 10);
         if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
@@ -79,9 +80,10 @@
         }
         //vm.currentPageNumber = 1;
         $http.get('/api/host/toursitedataForCurrentPage/' + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
-          vm.toursitedata = response;
-          vm.companyData = response[0].hostCompany;
-          vm.userData = response[0].user;
+          vm.toursitedata = response.productArray;
+          vm.companyData = response.companyData;
+          if (response.productArray.length > 0)
+            vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
@@ -113,9 +115,10 @@
         }
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
-          vm.toursitedata = response;
-          vm.companyData = response[0].hostCompany;
-          vm.userData = response[0].user;
+          vm.toursitedata = response.productArray;
+          vm.companyData = response.companyData;
+          if (response.productArray.length > 0)
+            vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
@@ -162,9 +165,10 @@
 
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
-          vm.toursitedata = response;
-          vm.companyData = response[0].hostCompany;
-          vm.userData = response[0].user;
+          vm.toursitedata = response.productArray;
+          vm.companyData = response.companyData;
+          if (response.productArray.length > 0)
+            vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
         }).error(function (response) {
           vm.error = response.message;
@@ -194,9 +198,10 @@
       vm.currentPageNumber = vm.pageFrom + 1;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
-        vm.toursitedata = response;
-        vm.companyData = response[0].hostCompany;
-        vm.userData = response[0].user;
+        vm.toursitedata = response.productArray;
+        vm.companyData = response.companyData;
+        if (response.productArray.length > 0)
+          vm.userData = response.productArray[0].user;
         $('html, body').scrollTop(scrollTo);
       }).error(function (response) {
         vm.error = response.message;
@@ -221,9 +226,10 @@
       }
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
-        vm.toursitedata = response;
-        vm.companyData = response[0].hostCompany;
-        vm.userData = response[0].user;
+        vm.toursitedata = response.productArray;
+        vm.companyData = response.companyData;
+        if (response.productArray.length > 0)
+          vm.userData = response.productArray[0].user;
         $('html, body').scrollTop (scrollTo);
       }).error(function (response) {
         vm.error = response.message;
@@ -253,9 +259,10 @@
       vm.currentPageNumber = vm.pageTo;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
-        vm.toursitedata = response;
-        vm.companyData = response[0].hostCompany;
-        vm.userData = response[0].user;
+        vm.toursitedata = response.productArray;
+        vm.companyData = response.companyData;
+        if (response.productArray.length > 0)
+          vm.userData = response.productArray[0].user;
         $('html, body').scrollTop(scrollTo);
       }).error(function (response) {
         vm.error = response.message;
@@ -354,7 +361,6 @@
     }
 
     vm.getDynamicLeftMarginForCompanyLogo = function () {
-      console.log($window.innerWidth);
       var leftMargin = ($window.innerWidth - 70) / 2 - 60 -15;
       var cssObject = {
         "margin-left" : leftMargin

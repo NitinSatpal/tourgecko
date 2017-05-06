@@ -47,12 +47,16 @@
       $http.get('/api/host/toursite').success(function (response) {
         if (response.toursite === null || response.toursite === '' || response.toursite === undefined) {
           alert('You have not provided touriste name at the time of registration. Please update the same in your settings.');
+          $('#loadingDivHostSide').css('display', 'none');
         } else if(response.isToursiteInactive == true) {
           alert('your toursite is inactive. Please make it active in your settings');
+          $('#loadingDivHostSide').css('display', 'none');
         } else if(response.user.isActive == false) {
           alert('your account is inactive. Tourgecko will verify and activate your account.');
+          $('#loadingDivHostSide').css('display', 'none');
         } else {
-          $window.location.href = 'http://' + response.toursite + '.tourgecko.com:3000';
+          console.log($window.location.protocol);
+          $window.location.href = $window.location.protocol + '//' + response.toursite + '.' + $window.location.host;
         }
       }).error(function (response) {
         vm.error = response.message;

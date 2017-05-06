@@ -45,7 +45,7 @@
 								<p class="time" ng-show="data.type == 'todo'"><i class="zmdi zmdi-timer"></i> {{data.timeRequired}}</p>
 							</div>
 							<a ng-show="data.type != 'todo'" class="dismiss" href="" ng-click="vm.dismissPinboardMessage($index)">Dismiss</a>
-							<a class="update_profile btn btn-primary outline pull-right" href="{{data.linkURL}}" ng-show="data.linkRequired == true">{{data.linkButtonLabel}}</a>
+							<a class="update_profile btn btn-primary outline pull-right" href="{{data.linkURL}}" ng-show="data.islinkRequired == true">{{data.linkButtonLabel}}</a>
 						</div>
 					</div>
 				</div>

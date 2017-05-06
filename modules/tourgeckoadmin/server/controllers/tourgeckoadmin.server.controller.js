@@ -10,5 +10,6 @@ var _ = require('lodash');
  */
 module.exports = _.extend(
   require('./add-rich-data/addrichdata.server.controller'),
-  require('./browse-and-modify/browseandmodify.server.controller')
+  require('./browse-and-modify/browseandmodify.server.controller'),
+  require('./pinboard/pinboard.server.controller')
 );

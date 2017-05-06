@@ -26,9 +26,17 @@ var HostCompanySchema = new Schema({
   establishedIn: {
     type: String
   },
+  isLogoPresent: {
+    type: Boolean,
+    default: true
+  },
+  areSocialAccountsPresent: {
+    type: Boolean,
+    default: true
+  },
   logoURL: {
     type: String,
-    default: 'modules/hosts/client/companyLogo/default/logo.png'
+    default: ''
   },
   toursite: {
     type: String,

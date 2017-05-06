@@ -53,8 +53,6 @@
       vm.signupDateStore = {signupData: vm.credentials, toursite: vm.toursite, isHost: ishostSignup}
       $http.post('/api/auth/signup', vm.signupDateStore).success(function (response) {
         // And redirect to the Details page with the id of the user
-
-        console.log(JSON.stringify(response));
         if (response.company)
           $state.go('hostDetails.details', { id: response._id });
         else
@@ -71,7 +69,6 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
         return false;
       }
-      
       var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
         // And redirect to the Signup Done page
@@ -96,9 +93,12 @@
         // If successful we assign the response to the global user model
         vm.authentication.user = response;
         // And redirect to the host home page
-        if (vm.authentication.user.roles[0] === 'hostAdmin')
-          $state.go($state.previous.state.name || 'host.hostHome');
-        else  if (vm.authentication.user.roles[0] === 'user')
+        if (vm.authentication.user.roles[0] === 'hostAdmin') {
+          if ($state.previous.state.name != 'abstractHome.home')
+            $state.go($state.previous.state.name || 'host.hostHome');
+          else
+            $state.go('host.hostHome');
+        } else  if (vm.authentication.user.roles[0] === 'user')
           $state.go($state.previous.state.name || 'guest.guestHome');
         else  if (vm.authentication.user.roles[0] === 'admin')
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);

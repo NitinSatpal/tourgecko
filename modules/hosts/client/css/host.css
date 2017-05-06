@@ -107,20 +107,33 @@ h1, h2, h3, h4, h5, h6 {
    border-top-left-radius: 0;
  }
 
- .booking-filters .dropdown-menu .o-checkbox {
+ .booking-filters .dropdown-menu .o-checkbox, {
  	width: 30px;
  	position: relative;
  }
- .booking-filters .dropdown-menu .o-checkbox input[type=checkbox] {
+ .companyProfileSettings .company_logo_info .o-checkbox,
+ .contactSettings .settings_contact .o-checkbox {
+ 	width: auto;
+ 	position: relative;
+ }
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox],
+ .companyProfileSettings .company_logo_info .o-checkbox input[type=checkbox],
+ .contactSettings .settings_contact .o-checkbox input[type=checkbox] {
  	visibility: hidden;
  }
- .booking-filters .dropdown-menu .o-checkbox input[type=checkbox]:checked + label:after {
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox]:checked + label:after,
+ .companyProfileSettings .company_logo_info .o-checkbox input[type=checkbox]:checked + label:after,
+ .contactSettings .settings_contact .o-checkbox input[type=checkbox]:checked + label:after {
  	opacity: 1;
  }
- .booking-filters .dropdown-menu .o-checkbox input[type=checkbox][disabled] + label {
+ .booking-filters .dropdown-menu .o-checkbox input[type=checkbox][disabled] + label,
+ .companyProfileSettings .company_logo_info .o-checkbox input[type=checkbox][disabled] + label,
+ .contactSettings .settings_contact .o-checkbox input[type=checkbox][disabled] + label {
  	background-color: #ddd;
  }
- .booking-filters .dropdown-menu .o-checkbox label {
+ .booking-filters .dropdown-menu .o-checkbox label,
+ .companyProfileSettings .company_logo_info .o-checkbox label,
+ .contactSettings .settings_contact .o-checkbox label {
  	width: 25px;
  	height: 25px;
  	cursor: pointer;
@@ -132,7 +145,9 @@ h1, h2, h3, h4, h5, h6 {
  	border-radius: 4px;
  	float: left;
 }
-.booking-filters .dropdown-menu .o-checkbox label:after {
+.booking-filters .dropdown-menu .o-checkbox label:after,
+.companyProfileSettings .company_logo_info .o-checkbox label:after,
+.contactSettings .settings_contact .o-checkbox label:after {
 	content: ' ';
 	width: 15px;
 	height: 9px;
@@ -153,7 +168,12 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 20px;
 	color: grey;
 }
-
+.companyProfileSettings .company_logo_info .o-checkbox .noLogoCheck,
+.contactSettings .settings_contact .o-checkbox .noSocialCheck {
+	padding-left: 20px;
+	color: grey;
+	font-size: 15px;
+}
 .booking-filters .dropdown-menu .btn-Select-filter {
 	background-color: #ED9C28;
 	padding-left: 20px;
@@ -166,7 +186,9 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 20px;
 	padding-right: 20px;
 }
-.booking-filters .dropdown-menu .o-checkbox {
+.booking-filters .dropdown-menu .o-checkbox,
+.companyProfileSettings .company_logo_info .o-checkbox, 
+.contactSettings .settings_contact .o-checkbox {
 	align-self: center;
 }
 .toursite .body-toursite .alignDivs {

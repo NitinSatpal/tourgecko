@@ -9,6 +9,7 @@ var path = require('path'),
   multer = require('multer'),
   Company = mongoose.model('HostCompany'),
   User = mongoose.model('User'),
+  Pinboard = mongoose.model('Pinboard'),
   Language = mongoose.model('I18NLanguage'),
   config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -46,12 +47,44 @@ exports.saveCompanyDetails = function (req, res) {
       company.logoURL = changedCompanyDetails.logoURL;
       company.inquiryTime = changedCompanyDetails.inquiryTime;
       company.hostCompanyAddress = changedCompanyDetails.hostCompanyAddress;
+      company.isLogoPresent = changedCompanyDetails.isLogoPresent;
+      if (company.logoURL != '')
+        company.isLogoPresent = true;
       company.markModified('hostCompanyAddress');
-      company.save();
+      company.save(function (err, response) {
+        if (err) {
+          // error
+        } else {
+          editPinBoardPinsForThisHost(response, 'logoAndAboutUs');
+        }
+      });
       res.json(company);
     });
   }
 };
+
+function editPinBoardPinsForThisHost (company, code) {
+  if (code == 'logoAndAboutUs') {
+    if (company.aboutHost != '' && (company.logoURL != '' || company.isLogoPresent == false)) {
+      Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [company.user.toString()]}}}, {$push: {todoCompletedBy:  company.user.toString()}}).exec(function (err, pinboardData) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+      });
+    }
+  } else if (code == 'inquiryAndSocial') {
+    if(company.hostSocialAccounts || company.blogLink !== "" || company.areSocialAccountsPresent == false)
+    Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [company.user.toString()]}}}, {$push: {todoCompletedBy:  company.user.toString()}}).exec(function (err, pinboardData) {
+        if (err) {
+          return res.status(400).send({
+            message: errorHandler.getErrorMessage(err)
+          });
+        }
+      });
+  }
+}
 
 // Upload company logo
 exports.uploadCompanyLogo = function (req, res) {
@@ -150,8 +183,17 @@ exports.saveContactDetails = function (req, res) {
       company.inquiryMobile = changedContactDetails.inquiryMobile;
       company.inquiryTime = changedContactDetails.inquiryTime;
       company.hostSocialAccounts = changedContactDetails.hostSocialAccounts;
+      company.areSocialAccountsPresent = changedContactDetails.areSocialAccountsPresent;
+      if (company.hostSocialAccounts || company.blogLink !== "")
+        company.areSocialAccountsPresent = true;
       company.markModified('hostSocialAccounts');
-      company.save();
+      company.save(function (err, response) {
+        if (err) {
+          // error
+        } else {
+          editPinBoardPinsForThisHost(response, 'inquiryAndSocial');
+        }
+      });
       res.json(company);
     });
   }

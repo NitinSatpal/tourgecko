@@ -51,13 +51,13 @@ exports.getToursiteData = function (req, res) {
       });
     }
     Product.count({hostCompany: company._id, isPublished: true}, function(error, count){
-      Product.find({hostCompany: company._id, isPublished: true}).limit(10).sort('-created').populate('user').populate('hostCompany').exec(function (err, products) {
+      Product.find({hostCompany: company._id, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
           });
         }
-        res.json({productArray: products, productCount: count});
+        res.json({productArray: products, productCount: count, companyData: company});
       });
     });
   });
@@ -84,7 +84,7 @@ exports.getToursiteDataForCurrentPage = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       }
-      res.json(products);
+      res.json({productArray: products, companyData: company});
     });
   });
 };

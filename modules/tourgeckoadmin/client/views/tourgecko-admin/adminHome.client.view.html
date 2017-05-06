@@ -1,9 +1,10 @@
-<section>
+<section class="tourgeckoAdminPageMargin" id="tourgeckoAdminPage">
 	<div class="text-center">
     	<h2>Welcome {{vm.authentication.user.displayName}}.</h2>
   		<br>
 	  	<button type="button" class="btn btn-info" ng-click="vm.showOptions('browseAndModifyData')" data-target="#browseData" aria-expanded="false">Browse and Modify Data</button>&nbsp;&nbsp;
 	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addRichData')">Add Rich Data</button>&nbsp;&nbsp;
+	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addPins')">Add Pins</button>&nbsp;&nbsp;
 	  	<button type="button" class="btn btn-success" ng-click="vm.showOptions('analysis')">Analysis</button>
 	</div>
 	<br>
@@ -76,7 +77,9 @@
 			  	<uib-pagination boundary-links="true" max-size="8" items-per-page="vm.itemsPerPageForHosts" total-items="vm.filterLengthForHosts" ng-model="vm.currentPageForHosts" ng-change="vm.pageChanged('hosts')"></uib-pagination>
   			</div>
   			<div class="tab-pane fade" id="products">
-	  			Yahoo
+  				<div>
+	  				Yahoo
+	  			</div>
   			</div>
   			<div class="tab-pane fade" id="themes">
 	  			<div class="page-header">
@@ -155,6 +158,94 @@
 	  		</div>
 	  	</div>
 	</div>
+	<div id="addPinboardData" ng-show="vm.addPins">
+		<form class="form-horizontal" name="vm.form.pinsForm" novalidate>
+			<label for="pinsFor" class="control-label">
+				To &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<select id="pinsFor" multiple="true" ng-model="vm.pinToUsers">
+						<option value="all"> All </option>
+					</select>
+				</div>
+			</div>
+
+			<label for="pinsFor" class="control-label">
+				Type &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<select id="pinType" name="pinType" ng-model="vm.pinType" class="form-control" multiple="multiple">
+						<option value="todo">To Do</option>
+						<option value="advise">Advise</option>
+						<option value="notification">Notification</option>
+					</select>
+				</div>
+			</div>
+
+			<label for="isInitialPin" class="control-label">
+				Is this initial pin to be shown after first signin? &nbsp;&nbsp;
+			</label>
+			<div>
+				<div>
+					<input id="isInitialPin" name="isInitialPin" type="radio" ng-model="vm.pin.isInitialPin" value="true"> Yes
+					<input id="isInitialPin" name="isLinkRequired" type="radio" ng-model="vm.pin.isInitialPin" value="false"> No
+				</div>
+			</div>
+
+			<label for="pinsMessage" class="control-label">
+				Message &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<input id="pinsMessage" name="pinsMessage" type="text" ng-model="vm.pin.message" class="form-control">
+				</div>
+			</div>
+
+			<label for="pinsMessage" class="control-label">
+				Time required (in minutes) &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<input id="timeRequired" name="timeRequired" type="text" ng-model="vm.pin.timeRequired" class="form-control">
+				</div>
+			</div>
+			
+
+			<label for="islinkRequired" class="control-label">
+				Is Link Required &nbsp;&nbsp;
+			</label>
+			<div>
+				<div>
+					<input id="islinkRequired" name="islinkRequired" type="radio" ng-model="vm.pin.islinkRequired" value="true"> Yes
+					<input id="islinkRequired" name="islinkRequired" type="radio" ng-model="vm.pin.islinkRequired" value="false"> No
+				</div>
+			</div>
+
+			<label for="linkToGoFromPin" class="control-label">
+				Provide link (relative) &nbsp;&nbsp;
+			</label>
+			<div>
+				<div>
+					<input id="linkToGoFromPin" name="linkToGoFromPin" type="text" ng-model="vm.pin.linkURL" class="form-control">
+				</div>
+			</div>
+
+			<label for="linkButtonLabel" class="control-label">
+				Link Button Label &nbsp;&nbsp;
+			</label>
+			<div>
+				<div>
+					<input id="linkButtonLabel" name="linkButtonLabel" type="text" ng-model="vm.pin.linkButtonLabel" class="form-control">
+				</div>
+			</div>
+
+			<br>
+  			<br>
+				<button type="button" class="adminButtons" ng-click="vm.addPinsToPinboard()">Add Pins</button>
+		</form>
+	</div>
 	<div id="analysis" ng-show="vm.analysis">
 		hehehe
 	</div>
@@ -163,4 +254,9 @@
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	});
+	$("#pinType").select2({
+		placeholder: "Enter pin type",
+      	tags: true,
+      	width: '100%'
+    });
 </script>

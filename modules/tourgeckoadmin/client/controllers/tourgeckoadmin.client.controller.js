@@ -3,18 +3,23 @@
 
   angular
     .module('tourgeckoadmin', [])
-    .controller('TourgeckoAdminController', TourgeckoAdminController);
+    .controller('TourgeckoAdminController', TourgeckoAdminController)
+    .constant('pinBoardConstants', {
+      "Upload your logo and complete 'About your business'" : "logoAndAboutUs",
+      "Update inquiry and social contacts" : 'inquiryAndSocial',
+      "Add a tour to tour inventory" : 'tourAdd'
+    });
 
-  TourgeckoAdminController.$inject = ['$scope', '$http', '$filter', '$state', 'Authentication', 'AdminService', 'HostService', 'ThemeService', 'ActivityService'];
+  TourgeckoAdminController.$inject = ['$scope', '$http', '$filter', '$state', 'Authentication', 'AdminService', 'HostService', 'ThemeService', 'ActivityService', 'pinBoardConstants'];
 
-  function TourgeckoAdminController($scope, $http, $filter, $state, Authentication, AdminService, HostService, ThemeService, ActivityService) {
+  function TourgeckoAdminController($scope, $http, $filter, $state, Authentication, AdminService, HostService, ThemeService, ActivityService, pinBoardConstants) {
     var vm = this;
     vm.userGuide = true;
     vm.authentication = Authentication;
     // variables for rich data addition
     vm.themesAdded;
     vm.activitiesAdded;
-    vm.languagesAdded
+    vm.languagesAdded;
 
     // Vriables and function calls for browse and modify data
     vm.pagedItemsForUsers = [];
@@ -34,10 +39,13 @@
       vm.addRichData = false;
       vm.analysis = false;
       vm.userGuide = false;
-      if (tabId === 'browseAndModifyData')
+      vm.addPins = false;
+      if (tabId == 'browseAndModifyData')
         vm.browseAndModifyData = true;
-      else if (tabId === 'addRichData')
+      else if (tabId == 'addRichData')
         vm.addRichData = true;
+      else if (tabId == 'addPins')
+        vm.addPins = true;
       else
         vm.analysis = true;
     };
@@ -91,7 +99,28 @@
     };
     // Rich data addition ends here
 
+    vm.pinToUsers = [];
+    vm.pinType;
+    vm.pin = {};
+    vm.addPinsToPinboard = function () {
+      vm.pin.type = vm.pinType[0];
+      var toUsersForPins = []
+      for (var index = 0; index < vm.pinToUsers.length; index++)
+        toUsersForPins.push(nameToId.get(vm.pinToUsers[index]));
 
+      vm.pin.to = toUsersForPins;
+
+      if(vm.pin.isInitialPin)
+        vm.pin.initialPinUniqueCode = pinBoardConstants[vm.pin.message];
+
+      $http.post('/api/admin/pinboardPins', vm.pin)
+        .success(function (response) {
+          $state.reload();
+        })
+        .error(function (error) {
+          console.log(error);
+        });
+    }
     // Functions and queries for browse and modify data
 
     AdminService.query(function (data) {
@@ -101,8 +130,24 @@
 
     HostService.query(function (data) {
       vm.hosts = data;
-      vm.buildPager('hosts');
+      createSelect2ForPins(data);
     });
+
+    var nameToId = new Map();
+    function createSelect2ForPins (users) {
+      var select2Data = [];
+      nameToId.set('all', 'all');
+      for (var index = 0; index < users.length; index++) {
+        var temp = users[index].firstName + ' ' + users[index].lastName;
+        nameToId.set(temp, users[index]._id);
+        select2Data.push(temp);
+      }
+      $('#pinsFor').select2({
+        placeholder: "Select users to whom pin has to sent",
+        width: '100%',
+        data: select2Data
+      });
+    }
 
     ThemeService.query(function (data) {
       vm.themes = data;
@@ -124,13 +169,13 @@
       vm.currentPageForThemes = 1;
       vm.currentPageForActivities = 1;
       if (condition === 'users')
-        vm.figureOutItemsToDisplayForUsers();
+        figureOutItemsToDisplayForUsers();
       else if (condition === 'hosts')
-        vm.figureOutItemsToDisplayForHosts();
+        figureOutItemsToDisplayForHosts();
       else if (condition === 'themes')
-        vm.figureOutItemsToDisplayForThemes();
+        figureOutItemsToDisplayForThemes();
       else if (condition === 'activities')
-        vm.figureOutItemsToDisplayForActivities();
+        figureOutItemsToDisplayForActivities();
     }
 
     function figureOutItemsToDisplayForUsers() {
@@ -175,13 +220,13 @@
 
     function pageChanged(condition) {
       if (condition === 'users')
-        vm.figureOutItemsToDisplayForUsers();
+        figureOutItemsToDisplayForUsers();
       else if (condition === 'hosts')
-        vm.figureOutItemsToDisplayForHosts();
+        figureOutItemsToDisplayForHosts();
       else if (condition === 'themes')
-        vm.figureOutItemsToDisplayForThemes();
+        figureOutItemsToDisplayForThemes();
       else if (condition === 'activities')
-        vm.figureOutItemsToDisplayForActivities();
+        figureOutItemsToDisplayForActivities();
     }
     // Browse and modification section ends here
   }

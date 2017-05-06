@@ -1,196 +1,201 @@
 <div class="hostHome container-fluid">
 	<div class="row body-content">
 		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
-		<div id="settings">
-				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
-					<div class="home_add_tour fixed-in-div">
-						<i class="zmdi zmdi-settings heading-icn"></i>
-						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Contacts</span></h2>
-						<a class="btn btn-primary pull-right" href="" ng-click="vm.saveContactSettings(vm.contactForm.$valid)"><i class="zmdi zmdi-floppy"></i> Save</a>
-					</div>
-					<div class="row settings-subnav">
-						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_contact">
-							<form class="form-horizontal" name="vm.contactForm" ng-submit="vm.saveContactSettings(vm.contactForm.$valid)" novalidate>
-								<!--<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
-								<h5>Notifications <img class="icn_hold" src="modules/hosts/client/images/icn_hold.svg" data-toggle="tooltip" data-placement="right" title="This information is not shown publicly"></h5>
-								<p class="section-desc sub_desc">Receipts and notifications will  be sent on  this email and phone </p>
-								<div class="panel">
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group" show-errors>
-												<label for="company_email" class="cols-sm-2 control-label">Email</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-														<input type="email" class="form-control" name="company_email" id="company_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].notificationEmail"/>
-													</div>
-													<div class="error_group" ng-messages="vm.contactForm.company_email.$error" role="alert">
-									                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
-									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
-									                </div>
+		<div id="settings" class="contactSettings">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
+				<div class="home_add_tour fixed-in-div">
+					<i class="zmdi zmdi-settings heading-icn"></i>
+					<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Contacts</span></h2>
+					<a class="btn btn-primary pull-right" href="" ng-click="vm.saveContactSettings(vm.contactForm.$valid)"><i class="zmdi zmdi-floppy"></i> Save</a>
+				</div>
+				<div class="row settings-subnav">
+					<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_contact">
+						<form class="form-horizontal" name="vm.contactForm" ng-submit="vm.saveContactSettings(vm.contactForm.$valid)" novalidate>
+							<!--<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
+							<h5>Notifications <img class="icn_hold" src="modules/hosts/client/images/icn_hold.svg" data-toggle="tooltip" data-placement="right" title="This information is not shown publicly"></h5>
+							<p class="section-desc sub_desc">Receipts and notifications will  be sent on  this email and phone </p>
+							<div class="panel">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="form-group" show-errors>
+											<label for="company_email" class="cols-sm-2 control-label">Email</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+													<input type="email" class="form-control" name="company_email" id="company_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].notificationEmail"/>
+												</div>
+												<div class="error_group" ng-messages="vm.contactForm.company_email.$error" role="alert">
+								                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+								                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+								                </div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col">
+										<div class="form-group" show-errors>
+											<label for="company_mobile" class="cols-sm-2 control-label">Mobile</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+													<input type="text" class="form-control" name="company_mobile" id="company_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].notificationMobile"/>
+												</div>
+												<div class="error_group" ng-messages="vm.contactForm.company_mobile.$error" role="alert">
+								                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
+								                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+								                </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h5>Inquiry Contacts <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
+							<p class="section-desc sub_desc">Contacts details for guest to contact you by email or calls</p>
+							<div class="panel">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="form-group" show-errors>
+											<label for="inquiry_email" class="cols-sm-2 control-label">Email</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+													<input type="email" class="form-control" name="inquiry_email" id="inquiry_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].inquiryEmail"/>
+												</div>
+												<div class="error_group" ng-messages="vm.contactForm.inquiry_email.$error" role="alert">
+								                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+								                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+								                </div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col" >
+										<div class="form-group" show-errors>
+											<label for="inquiry_mobile" class="cols-sm-2 control-label">Mobile</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
+													<input type="text" class="form-control" name="inquiry_mobile" id="inquiry_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].inquiryMobile"/>
+												</div>
+												<div class="error_group" ng-messages="vm.contactForm.inquiry_mobile.$error" role="alert">
+								                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
+								                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
+								                </div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row availability_radio">
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label class="control-label">Availablity</label>
+											<div class="radio">
+												<input type="radio" name="anytime" value="Anytime" id="anytime" ng-model="vm.contactDetails[0].inquiryTime">
+												<label for="anytime">Anytime</label>
+											</div>
+											<div class="radio">
+												<input type="radio" name="rangetime" id="rangetime" value="rangeTime" ng-model="vm.contactDetails[0].inquiryTime">
+												<span>From</span>
+												<select class="form-control" name="availability_from" id="availability_from" ng-model="vm.contactDetails[0].inquiryTimeRangeFrom">
+													<option value="1 AM">1 AM</option>
+													<option value="2 AM">2 AM</option>
+													<option value="3 AM">3 AM</option>
+													<option value="4 AM">4 AM</option>
+													<option value="5 AM">5 AM</option>
+													<option value="6 AM">6 AM</option>
+													<option value="7 AM">7 AM</option>
+													<option value="8 AM">8 AM</option>
+													<option value="9 AM">9 AM</option>
+													<option value="10 AM">10 AM</option>
+													<option value="11 AM">11 AM</option>
+													<option value="12 Noon">12 Noon</option>
+												</select>
+												<span>to</span>
+												<select class="form-control" name="availability_to" id="availability_to" ng-model="vm.contactDetails[0].inquiryTimeRangeTo">
+													<option value="1 PM">1 PM</option>
+													<option value="2 PM">2 PM</option>
+													<option value="3 PM">3 PM</option>
+													<option value="4 PM">4 PM</option>
+													<option value="5 PM">5 PM</option>
+													<option value="6 PM">6 PM</option>
+													<option value="7 PM">7 PM</option>
+													<option value="8 PM">8 PM</option>
+													<option value="9 PM">9 PM</option>
+													<option value="10 PM">10 PM</option>
+													<option value="11 PM">11 PM</option>
+													<option value="12 Midnight">12 Midnight</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<h5>Social <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
+							<p class="section-desc sub_desc">Links to your social profiles and presence</p>
+							<div class="panel">
+								<div class="o-checkbox">
+									<input type="checkbox" value="None" name="noSocialCheck" id="noSocialCheck" ng-model="vm.noSocialCheck" ng-click="vm.socialPresence()">
+								<label for="noSocialCheck"></label>
+								<span class="noSocialCheck">I do not have following accounts</span>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="form-group">
+											<label for="social_fb" class="cols-sm-2 control-label">Facebook</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i> http://facebook.com/</span>
+													<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="facebook-username" ng-model="vm.contactDetails[0].hostSocialAccounts.facebook"/>
 												</div>
 											</div>
 										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6 col">
-											<div class="form-group" show-errors>
-												<label for="company_mobile" class="cols-sm-2 control-label">Mobile</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
-														<input type="text" class="form-control" name="company_mobile" id="company_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].notificationMobile"/>
-													</div>
-													<div class="error_group" ng-messages="vm.contactForm.company_mobile.$error" role="alert">
-									                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
-									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
-									                </div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col">
+										<div class="form-group">
+											<label for="social_tw" class="cols-sm-2 control-label">Twitter</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i> http://twitter.com/</span>
+													<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="twitter-username" ng-model="vm.contactDetails[0].hostSocialAccounts.twitter"/>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<h5>Inquiry Contacts <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
-								<p class="section-desc sub_desc">Contacts details for guest to contact you by email or calls</p>
-								<div class="panel">
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group" show-errors>
-												<label for="inquiry_email" class="cols-sm-2 control-label">Email</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
-														<input type="email" class="form-control" name="inquiry_email" id="inquiry_email"  placeholder="example@email.com" ng-model="vm.contactDetails[0].inquiryEmail"/>
-													</div>
-													<div class="error_group" ng-messages="vm.contactForm.inquiry_email.$error" role="alert">
-									                    <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
-									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
-									                </div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="form-group">
+											<label for="social_in" class="cols-sm-2 control-label">Instagram</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i> http://instagram.com/</span>
+													<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="instagram-username" ng-model="vm.contactDetails[0].hostSocialAccounts.instagram"/>
 												</div>
 											</div>
 										</div>
 									</div>
-									<hr>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6 col" >
-											<div class="form-group" show-errors>
-												<label for="inquiry_mobile" class="cols-sm-2 control-label">Mobile</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-smartphone-iphone"></i></span>
-														<input type="text" class="form-control" name="inquiry_mobile" id="inquiry_mobile"  placeholder="Phone Number" ng-pattern="regExForMobileValidity" ng-model="vm.contactDetails[0].inquiryMobile"/>
-													</div>
-													<div class="error_group" ng-messages="vm.contactForm.inquiry_mobile.$error" role="alert">
-									                    <p class="help-block error-text" ng-message="pattern">Please enter a valid Mobile number</p>
-									                    <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
-									                </div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row availability_radio">
-										<div class="col-lg-12">
-											<div class="form-group">
-												<label class="control-label">Availablity</label>
-												<div class="radio">
-													<input type="radio" name="anytime" value="Anytime" id="anytime" ng-model="vm.contactDetails[0].inquiryTime">
-													<label for="anytime">Anytime</label>
-												</div>
-												<div class="radio">
-													<input type="radio" name="rangetime" id="rangetime" value="rangeTime" ng-model="vm.contactDetails[0].inquiryTime">
-													<span>From</span>
-													<select class="form-control" name="availability_from" id="availability_from" ng-model="vm.contactDetails[0].inquiryTimeRangeFrom">
-														<option value="1 AM">1 AM</option>
-														<option value="2 AM">2 AM</option>
-														<option value="3 AM">3 AM</option>
-														<option value="4 AM">4 AM</option>
-														<option value="5 AM">5 AM</option>
-														<option value="6 AM">6 AM</option>
-														<option value="7 AM">7 AM</option>
-														<option value="8 AM">8 AM</option>
-														<option value="9 AM">9 AM</option>
-														<option value="10 AM">10 AM</option>
-														<option value="11 AM">11 AM</option>
-														<option value="12 Noon">12 Noon</option>
-													</select>
-													<span>to</span>
-													<select class="form-control" name="availability_to" id="availability_to" ng-model="vm.contactDetails[0].inquiryTimeRangeTo">
-														<option value="1 PM">1 PM</option>
-														<option value="2 PM">2 PM</option>
-														<option value="3 PM">3 PM</option>
-														<option value="4 PM">4 PM</option>
-														<option value="5 PM">5 PM</option>
-														<option value="6 PM">6 PM</option>
-														<option value="7 PM">7 PM</option>
-														<option value="8 PM">8 PM</option>
-														<option value="9 PM">9 PM</option>
-														<option value="10 PM">10 PM</option>
-														<option value="11 PM">11 PM</option>
-														<option value="12 Midnight">12 Midnight</option>
-													</select>
+									<div class="col-lg-6 col-md-6 col-sm-6 col">
+										<div class="form-group">
+											<label for="social_blog" class="cols-sm-2 control-label">Blog</label>
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon"><i class="zmdi zmdi-blogger"></i></span>
+													<input type="text" class="form-control" name="social_blog" id="social_blog"  placeholder="ex: your wordpress / blogger or blog address" ng-model="vm.contactDetails[0].hostSocialAccounts.blog"/>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<h5>Social <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="right" title="This information is public and will be shown on tour pages site."></i></h5>
-								<p class="section-desc sub_desc">Links to your social profiles and presence</p>
-								<div class="panel">
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="social_fb" class="cols-sm-2 control-label">Facebook</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-facebook"></i> http://facebook.com/</span>
-														<input type="text" class="form-control" name="social_fb" id="social_fb"  placeholder="facebook-username" ng-model="vm.contactDetails[0].hostSocialAccounts.facebook"/>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6 col">
-											<div class="form-group">
-												<label for="social_tw" class="cols-sm-2 control-label">Twitter</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-twitter"></i> http://twitter.com/</span>
-														<input type="text" class="form-control" name="social_tw" id="social_tw"  placeholder="twitter-username" ng-model="vm.contactDetails[0].hostSocialAccounts.twitter"/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="social_in" class="cols-sm-2 control-label">Instagram</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-instagram"></i> http://instagram.com/</span>
-														<input type="text" class="form-control" name="social_in" id="social_in"  placeholder="instagram-username" ng-model="vm.contactDetails[0].hostSocialAccounts.instagram"/>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6 col">
-											<div class="form-group">
-												<label for="social_blog" class="cols-sm-2 control-label">Blog</label>
-												<div class="input_group">
-													<div class="input-group">
-														<span class="input-group-addon"><i class="zmdi zmdi-blogger"></i></span>
-														<input type="text" class="form-control" name="social_blog" id="social_blog"  placeholder="ex: your wordpress / blogger or blog address" ng-model="vm.contactDetails[0].hostSocialAccounts.blog"/>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<button class="sub_btn btn btn-primary pull-right" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
-								<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
-					                <span ng-bind="vm.error"></span>
-					            </uib-alert>
-							</form>
-						</div>
+							</div>
+							<button class="sub_btn btn btn-primary pull-right" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
+							<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
+				                <span ng-bind="vm.error"></span>
+				            </uib-alert>
+						</form>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>

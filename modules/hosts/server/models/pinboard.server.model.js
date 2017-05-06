@@ -11,8 +11,7 @@ var mongoose = require('mongoose'),
  */
 var PinboardSchema = new Schema({
   to: {
-    type: Schema.ObjectId,
-    ref: 'User'
+    type: [String],
   },
   type : {
     type: String
@@ -23,7 +22,14 @@ var PinboardSchema = new Schema({
   timeRequired: {
     type: String
   },
-  linkRequired: {
+  isInitialPin: {
+    type: Boolean,
+    default: false
+  },
+  initialPinUniqueCode: {
+    type: String,
+  },
+  islinkRequired: {
     type: Boolean,
     default: false
   },
@@ -32,6 +38,9 @@ var PinboardSchema = new Schema({
   },
   linkButtonLabel: {
     type: String
+  },
+  todoCompletedBy: {
+    type : [String],
   },
   dismissedBy: [{
     type : Schema.ObjectId,
