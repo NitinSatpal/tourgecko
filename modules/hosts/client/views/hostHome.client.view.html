@@ -145,7 +145,7 @@
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="bookings">
-					        				<i class="zmdi zmdi-account" ng-class="vm.setColorOfListItems($index)"></i> &nbsp; {{session.numberOfBookings}} &nbsp; / &nbsp; {{vm.getProductSessionLimit($index)}}
+					        				<i class="zmdi zmdi-account" ng-class="vm.setColorOfListItems($index)"></i> &nbsp; {{session.numberOfSeats[vm.numOfSeatsKey]}} &nbsp; / &nbsp; {{vm.getProductSessionLimit($index)}}
 					        			</p>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -162,7 +162,6 @@
 						<div id='calendar'></div>
 					</div>
 				</div>
-				<span class="loader-spinner-hostHomeCalendar" id="loaderForCalendarHomePage" ng-style="vm.getLoaderPositionForHomePageCalendar()"><i class="fa fa-refresh fa-spin"></i></span>
 			</div>
 		</div>
 	</div>

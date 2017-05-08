@@ -67,7 +67,7 @@
                     <p class="minimize">{{vm.companyData.aboutHost}}</p>
                 </p> 
             </div> -->
-            <h4 class="center-align padding">Tours</h4>
+            <h4 class="center-align padding" ng-if="vm.toursitedata.length > 0">Tours</h4>
             <div class="row alignDivs">
                 <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index" ng-style="vm.getConditionalCSS($index)" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
                     <div id="toursiteProduct{{$index}}" class="card tour padding toursite-Product-Image">
@@ -130,9 +130,13 @@
                     
                 </div>
             </div>
-            <div class="text-center" ng-if="vm.toursitedata.length == 0">
-                <span style="font-weight: 500; font-size: 20px;">No tours found</span>
-        </div>
+            <div class="text-center toursite-empty-state">
+                <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-two container" ng-if="vm.toursitedata.length == 0">
+                    <span> <h2> Our Tours </h2></span>
+                    <span> <h4> Currently we don't have any published tours !</h4> </span>
+                    <img src="/modules/core/client/img/assets/empty_state_two.png">
+                </div>
+            </div>
     </main>
     <footer class="toursite-footer">
         <a href="#"><img src="{{vm.companyData.logoURL}}" class="host-toursite-Logo"></a>

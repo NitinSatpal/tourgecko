@@ -150,6 +150,22 @@ a:hover .header-profile-image {
     z-index: 9999;
     color: #ff9800;
 }
+.empty-data-Image-one img, .empty-data-Image-two img {
+  max-width: 600px;
+  max-height: 600px;
+  width: auto;
+  height: auto;
+}
+.toursite-empty-state .empty-data-Image-two h2 {
+  color: #555;
+  font-weight: 500;
+  font-size: 30px;
+}
+.toursite-empty-state .empty-data-Image-two h4 {
+  color: #555;
+  font-weight: 300;
+  font-size: 18px;
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

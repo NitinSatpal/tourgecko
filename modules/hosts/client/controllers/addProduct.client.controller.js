@@ -684,6 +684,7 @@ vm.createDepartureSession = function () {
           vm.error = response.message;
         });
       } else {
+        vm.tour.isPublished = true;
         $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered})
         .success(function (response) {
           //success

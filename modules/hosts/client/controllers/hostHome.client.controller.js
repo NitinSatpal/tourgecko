@@ -142,8 +142,10 @@
     }
     vm.setColorOfListItems = function (index) {
       var percentBooking = 'NA';
+      vm.numOfSeatsKey = new Date(vm.productSessions[index].sessionDepartureDetails.startDate).getTime();
       if (vm.productSessions[index] && vm.productSessions[index].product.productSeatLimit)
-        percentBooking = parseInt(vm.productSessions[index].numberOfBookings) / parseInt(vm.productSessions[index].product.productSeatLimit) * 100;
+        if (vm.productSessions[index].numberOfSeats && vm.productSessions[index].numberOfSeats[vm.numOfSeatsKey])
+        percentBooking = parseInt(vm.productSessions[index].numberOfSeats[vm.numOfSeatsKey]) / parseInt(vm.productSessions[index].product.productSeatLimit) * 100;
       if (percentBooking != 'NA') {
         if (percentBooking <= 40)
           return 'greenFC';

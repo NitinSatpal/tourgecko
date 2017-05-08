@@ -155,6 +155,10 @@
 .itinerary-list .list-group-item.active, .itinerary-list .list-group-item.active:hover, .itinerary-list .list-group-item.active:focus {
     text-shadow: none;
 }
+.product-booking-tab-filter-dropdown {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;

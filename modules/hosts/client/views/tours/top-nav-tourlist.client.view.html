@@ -1,6 +1,16 @@
 <div class="home_add_tour fixed-in-div">
 	<i class="zmdi zmdi-settings heading-icn"></i>
-    <h2>Tour list<br><span class="sub_head">showing&nbsp;</span><span class="sub_head no_of_tours">{{vm.products.length}}</span><span class="sub_head">&nbsp;tours</span></h2>
+    <h2 ng-if="vm.products.length > 0">Tour list
+	    <br>
+	    <span class="sub_head">showing&nbsp;</span>
+	    <span class="sub_head no_of_tours">{{vm.products.length}}</span>
+	    <span class="sub_head" ng-if="vm.products.length > 1">&nbsp;tours</span>
+	    <span class="sub_head" ng-if="vm.products.length == 1">&nbsp;tour</span>
+    </h2>
+    <h2 ng-if="vm.products.length == 0">Tour list
+	    <br>
+	    <span class="sub_head">&nbsp;No tours</span>
+    </h2>
 	<button class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-plus"></i>&nbsp;Add a Tour</button>
 </div>
 

@@ -71,8 +71,8 @@
 						</div>
 					</div>
 
-					<div class="row text-center" ng-if="vm.products.length > 0">
-						<div class="col-sm-12 col-md-12 col-lg-12">
+					<div class="row text-center">
+						<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.pageTo > 1">
 							<div class="pagination">
 								<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
 								<a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
@@ -86,14 +86,19 @@
 								<a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
 							</div>
 						</div>
-						<div class="col-sm-12 col-md-12 col-lg-12">
+						<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.products.length > 0">
 							<span> Show &nbsp; 
-							<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
-								<option value="5">5</option>
-								<option value="10">10</option>
-							</select>
-							&nbsp; tours per page
-						</span>
+								<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
+									<option value="5">5</option>
+									<option value="10">10</option>
+								</select>
+								&nbsp; tours per page
+							</span>
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-two" ng-if="vm.products.length == 0">
+							<span> <h2> Manage Tours </h2></span>
+	                        <span> <h4> This is where you can track and manage tours</h4> </span>
+	                        <img src="/modules/core/client/img/assets/empty_state_two.png">
 						</div>
 					</div>
 				</div>

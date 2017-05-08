@@ -4,20 +4,28 @@
 			<div class="col-md-12 col-sm-12 col-lg-12">
 				<div class="multiline-header home_add_tour fixed-in-div margin-bottom">
 					<i class="zmdi zmdi-shopping-cart heading-icn"></i>
-					<h2>Bookings<br><span class="sub_head">showing</span><span class="sub_head no_of_tours">&nbsp;{{vm.bookings.length}}&nbsp;</span><span class="sub_head">bookings</span></h2>                         
+					<h2 ng-if="vm.bookings.length > 0">Bookings<br>
+						<span class="sub_head">showing</span>
+						<span class="sub_head no_of_tours">&nbsp;{{vm.bookings.length}}&nbsp;</span>
+						<span class="sub_head" ng-if="vm.bookings.length > 1">bookings</span>
+						<span class="sub_head" ng-if="vm.bookings.length == 1">bookings</span>
+					</h2>
+					<h2 ng-if="vm.bookings.length == 0">Bookings<br>
+						<span class="sub_head">No bookings</span>
+					</h2>                           
 					<div class="pull-right">
                     	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-search"></i>&nbsp;Search</a>
                     	<input type="text" class="form-control" placeholder="Booking Reference" ng-model="searchBooking">   
                 	</div>    
 				</div>
                             
-                <div class="booking-filters">
+                <div class="booking-filters" ng-if="vm.bookings.length > 0">
                     <div class="margin padding text-center">
                         <div id="filter-dropdown" class="dropdown">
                         	<h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Filter By:</h4>
 	                        <a href="#" id="filter-dropdown-button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" role="button" aria-haspopup="true" aria-expanded="false">Booking Status </i><i class="fa fa-caret-up pull-right" aria-hidden="true" style="margin-left: -10px; margin-top: -1px;"></i> <i class="fa fa-caret-down pull-right" aria-hidden="true" style="margin-top: 7px"></i></a>
 							<div class="dropdown-menu" id="filter-options">
-								<div class="row">
+								<div class="row product-booking-tab-filter-dropdown">
 									<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
@@ -62,7 +70,7 @@
 										<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
 								    </div>
 							    </div>
-							    <div class="row">
+							    <div class="row product-booking-tab-filter-dropdown">
 							    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="margin-top: 30px;">
 								    	<div class="o-checkbox">
 										    <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
@@ -122,8 +130,8 @@
 					</div>
 				 </div>
 				 <div class="row text-center">
-					<div class="col-sm-12 col-md-12 col-lg-12">
-						<div class="pagination" ng-if="vm.bookings.length > 0">
+					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.pageTo > 1">
+						<div class="pagination">
 							<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
 							<a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
 							<a href="#" ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
@@ -136,6 +144,7 @@
 							<a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
 						</div>
 					</div>
+					<br>
 					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length > 0">
 						<span> Show &nbsp; 
 							<select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
@@ -145,8 +154,10 @@
 							&nbsp; bookings per page
 						</span>
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length == 0">
-						<span> No Booking Records found </span>
+					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0">
+						<span> <h2> Manage Your Bookings </h2></span>
+                        <span> <h4> This is where you process and track bookings </h4> </span>
+                        <img src="/modules/core/client/img/assets/empty_state_one.png">
 					</div>
 				</div>
             </div>

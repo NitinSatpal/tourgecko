@@ -116,7 +116,7 @@
                	<div class="tab-content">
                   	<div id="current-tour-bookings" class="tab-pane fade in active" print-section>
                     	<br><br>
-                        <div class="booking-filters">
+                        <div class="booking-filters" ng-show="vm.bookings.length > 0">
                             <div class="margin padding text-center">
                                 <div id="filter-dropdown" class="dropdown">
                                     <h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Filter By:</h4>
@@ -250,13 +250,15 @@
                                     &nbsp; bookings per page
                                 </span>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length == 0">
-                                <span> No Booking Records found </span>
+                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0">
+                                <span> <h2> Manage Session's Bookings </h2></span>
+                                <span> <h4> This is where you process and track respective session's booking </h4> </span>
+                                <img src="/modules/core/client/img/assets/empty_state_one.png">
                             </div>
                         </div>
                    	</div>
                     <div id="current-tour-guests" class="tab-pane fade in">
-                        <div class="table-responsive">
+                        <div class="table-responsive" ng-show="vm.guestData.length > 0">
                             <table class="table table-striped">
                                 <thead>
                                   <tr>
@@ -286,7 +288,12 @@
                                 </a>
                             </div>
                         </div>
-                    <br>
+                        <br>
+                        <br>
+                        <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.guestData.length == 0">
+                            <span> <h2> Guest details of respective session </h2></span>
+                            <span>Some image will come here</span>
+                        </div>
                     </div>
 				</div>
 			</div>
