@@ -152,6 +152,9 @@
 .fc-event{
     cursor: pointer;
 }
+.itinerary-list .list-group-item.active, .itinerary-list .list-group-item.active:hover, .itinerary-list .list-group-item.active:focus {
+    text-shadow: none;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;

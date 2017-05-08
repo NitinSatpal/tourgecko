@@ -466,8 +466,6 @@
 
     vm.getNewSetOfGuestData = function (skipIndex) {
       vm.skipIndexForGuestData = skipIndex;
-      console.log(vm.skipIndexForGuestData);
-      console.log(vm.lastIndexForGuestData);
       $http.get(' /api/host/productsessions/guestData/' + $stateParams.productSessionId + '/' + vm.skipIndexForGuestData).success(function (response) {
         vm.guestData = response.guestData;
         var totalGuestDataCount = response.guestDataCount;
@@ -505,13 +503,12 @@
     }
 
     vm.getDisplayDate = function (isoDate, duration) {
-      var date = new Date(isoDate);
+      var date = new Date(isoDate);      
       var displayDate = date.getDate();
-
       var endDate = new Date(isoDate);
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
-        tourEndDate = endDate.setDate(endDate.getDate() + duration);
+        tourEndDate = endDate.setDate(endDate.getDate() + duration - 1);
       } else
         tourEndDate = endDate;
       
@@ -524,11 +521,10 @@
     vm.getDisplayMonthAndYear = function (isoDate, duration) {
       var date = new Date(isoDate);
       var displayDate = months[date.getMonth()] + ' ' + date.getFullYear();
-
       var endDate = new Date(isoDate);
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
-        tourEndDate = endDate.setDate(endDate.getDate() + duration);
+        tourEndDate = endDate.setDate(endDate.getDate() + duration - 1);
       } else
         tourEndDate = endDate;
       
@@ -561,7 +557,8 @@
       var currentDate = new Date();
       var startDate = new Date(isoDate);
       if (duration && vm.productSession.product.productDurationType == 'Days') {
-        tourEndDate = startDate.setDate(startDate.getDate() + duration);
+        tourEndDate = startDate.setDate(startDate.getDate() + duration - 1);
+        tourEndDate = new Date(tourEndDate);
       } else
         tourEndDate = startDate;
 
@@ -571,31 +568,31 @@
       if (diffFromStartDate == diffFromEndDateDate)
         vm.oneDayTour = true;
 
-      if (diffFromStartDate > 1) {
+      if (diffFromStartDate > 0) {
         vm.startsIn = true;
         vm.started = false;
         vm.starting = false;
         vm.ended = false;
         vm.ending = false;
-        return Math.abs(diffFromStartDate) - 1;
-      } else if (diffFromStartDate == 1) {
-        vm.started = true;
+        return Math.abs(diffFromStartDate  + 1);
+      } else if (diffFromStartDate == 0) {
+        vm.started = false;
         vm.startsIn = false;
-        vm.starting = false;
+        vm.starting = true;
         vm.ended = false;
         vm.ending = false;
         if (Math.abs(diffFromStartDate) == 1)
           vm.singularityInDay = true;
         return 'Today';
       } else {
-          if (diffFromEndDateDate > 1) {
+          if (diffFromEndDateDate > 0) {
             vm.started = true;
             vm.startsIn = false;
             vm.starting = false;
             vm.ended = false;
             vm.ending = false;
             return Math.abs(diffFromStartDate);
-          } else if (diffFromEndDateDate == 1) {
+          } else if (diffFromEndDateDate == 0) {
             vm.ending = true;
             vm.started = false;
             vm.startsIn = false;
@@ -608,7 +605,7 @@
             vm.started = false;
             vm.startsIn = false;
             vm.starting = false;
-            if (Math.abs(diffFromEndDateDate) == 1)
+            if (Math.abs(diffFromEndDateDate) == 0)
               vm.singularityInDay = true;
             return Math.abs(diffFromEndDateDate);
           }
@@ -654,7 +651,7 @@
       if(vm.typeOfMsgToGuests == 'email' || vm.typeOfMsgToGuests == 'both') {
         $http.post('/api/host/sessionGuestMassMail/', {message: vm.msgBodyToSpecificSessionsGuest, sessionId: $stateParams.productSessionId})
         .success(function (response) {
-          console.log(response);
+          // success
         }).error(function (response) {
           vm.error = response.message;
         });
@@ -669,9 +666,9 @@
           var msg = response.msgBody;
           var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
           $http.get('http://api.Textlocal.in/send/?'+uri).success(function (res) {
-            console.log(res);
+            // success
           }).error(function (err) {
-            console.log(err);
+            // error
           });
         }).error(function (response) {
           vm.error = response.message

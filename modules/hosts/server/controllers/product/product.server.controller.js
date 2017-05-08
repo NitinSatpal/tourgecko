@@ -8,6 +8,7 @@ var _ = require('lodash'),
   mongoose = require('mongoose'),
   Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
+  Pinboard = mongoose.model('Pinboard'),
   // cron = require('cron'),
   async = require('async'),
   multer = require('multer'),
@@ -29,10 +30,21 @@ exports.createProduct = function (req, res) {
     }
     if(req.body.tour.isProductScheduled == true)
       createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, product, true);
+
+    editPinBoardPinsForThisHost(req.user._id, 'tourAdd');
     res.json(product);
   });
-  
 };
+
+function editPinBoardPinsForThisHost (userId, code) {
+  Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [userId.toString()]}}}, {$push: {todoCompletedBy:  userId.toString()}}).exec(function (err, pinboardData) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+  });
+}
 
 function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, product, sessionPricingValid) {
   var productSessions = [];

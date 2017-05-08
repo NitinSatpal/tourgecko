@@ -86,7 +86,7 @@ blockquote{margin: .5rem 0; padding-left: .5rem; border-left: 2px solid #ff9800 
 #details .list-group.vertical-steps .list-group-item:last-child{border-left:2px solid transparent; padding-bottom: 0;}
 #details .list-group.vertical-steps .list-group-item.active::before{background-color:#ff9800; color: #fff !important; margin-left: -45px; border: 1px solid #fff; box-shadow: 0px 0px 5px rgba(0,0,0,.3); transform: scale(1.15);transition: all .2s ease-in-out; }
 
-#details .inclusions, #details .exclusions {margin-top: -30px; margin-left: -5px !important;}
+#details .inclusions, #details .exclusions {/*margin-top: -30px;*/ margin-left: -5px !important;}
 #details .inclusions li, #details .exclusions li{margin: 1rem 0;}
 #details .inclusions li:before{ content: '\f26b'; display: inline-block; color:#4CAF50; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }
 #details .exclusions li:before{ content: '\f136'; display: inline-block; color:#cc0000; font:normal normal normal 14px/1 'Material-Design-Iconic-Font'; margin-right: 1rem; }

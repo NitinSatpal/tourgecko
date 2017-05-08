@@ -164,6 +164,10 @@
         return 'Non-repeating tour'
     }
 
+    vm.clickTheEvent = function (id) {
+      $('#'+id).click();
+    }
+
     vm.goToSessionBookingDetails = function (index) {
       $state.go('host.sessionBookingDetails', {productSessionId: vm.productSessions[index]._id});
     }

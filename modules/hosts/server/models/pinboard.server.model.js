@@ -36,6 +36,13 @@ var PinboardSchema = new Schema({
   linkURL: {
     type: String
   },
+  isclickeventRequired: {
+    type: Boolean,
+    default: false
+  },
+  clickableElementId: {
+    type: String
+  },
   linkButtonLabel: {
     type: String
   },

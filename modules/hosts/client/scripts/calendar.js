@@ -33,7 +33,7 @@ $('#calendar').fullCalendar({
 	header: {
 		left: 'prev,next today',
 		center: 'title',
-		right: 'month'
+		right: 'month,agendaWeek,agendaDay'
 	},
 	scrollTime: '00:00',
 	navLinks: true, // can click day/week names to navigate views
