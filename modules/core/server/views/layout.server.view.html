@@ -67,6 +67,10 @@
   <link rel="stylesheet" href="lib/datepicker/datepicker.css">
   <link rel="stylesheet" href="lib/datetimepicker/datetimepicker.min.css">
 
+  <!-- fine-uploader -->
+  <link href="lib/fine-uploader/fine-uploader/fine-uploader-gallery.min.css" rel="stylesheet">
+  <script src="lib/fine-uploader/fine-uploader/fine-uploader.min.js"></script>
+
   <!-- Application CSS Files -->
   {{#each cssFiles}}<link rel="stylesheet" href="{{this}}">{{/each}}
 </head>
@@ -103,13 +107,13 @@
   <!--Load The Socket.io File-->
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 
-  <!--Application JavaScript Files-->
+  <!--Application JavaScript Files
   {{#each jsFiles}}<script type="text/javascript" src="{{this}}"></script>{{/each}}
 
-  <!--{{#if livereload}}
-  Livereload script rendered 
+  {{#if livereload}}-->
+  <!--Livereload script rendered-->
   <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
-  {{/if}} -->
+  {{/if}}
 </body>
 
 </html>
