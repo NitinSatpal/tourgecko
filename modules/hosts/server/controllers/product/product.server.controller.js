@@ -12,6 +12,7 @@ var _ = require('lodash'),
   // cron = require('cron'),
   async = require('async'),
   multer = require('multer'),
+  fs = require('fs'),
   config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
@@ -324,18 +325,14 @@ exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
 }
 
 exports.uploadProductPicture = function (req, res) {
+  var upload = multer(config.uploads.productPictureUploads).array('productPictures');
+  var newUUID = '';
   var user = req.user;
-  var upload = multer(config.uploads.productPictureUploads).array('files');
-  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
-  var productPictureUrlsStore = [];
-
-  // Filtering to upload only images
-  upload.fileFilter = imageUploadFileFilter;
   if (user) {
     uploadImage()
       .then(onUploadSuccess)
       .catch(function (err) {
-        res.status(400).send(err);
+        res.json('error');
       });
   } else {
     res.status(400).send({
@@ -351,15 +348,7 @@ exports.uploadProductPicture = function (req, res) {
           // reject(errorHandler.getErrorMessage(uploadError));
           reject(uploadError.code);
         } else {
-          if (req.body.previousFiles) {
-            if (typeof req.body.previousFiles == 'string')
-              productPictureUrlsStore.push(req.body.previousFiles);
-            else
-              productPictureUrlsStore = req.body.previousFiles;
-          }
-          for (var index = 0; index < req.files.length; index++) {
-            productPictureUrlsStore.push(config.uploads.productPictureUploads.dest + req.files[index].filename);
-          }
+          newUUID = req.files[0].filename;
           resolve();
         }
       });
@@ -367,24 +356,25 @@ exports.uploadProductPicture = function (req, res) {
   }
 
   function onUploadSuccess () {
-    res.json(productPictureUrlsStore);
+    res.json({success: true, newUuid: newUUID});
     return true;
   }
 };
 
-exports.uploadProductMap = function (req, res) {
-  var user = req.user;
-  var upload = multer(config.uploads.productMapUploads).array('files');
-  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
-  var productMapUrlsStore = [];
+exports.deleteProductPicture = function (req, res) {
+  fs.unlink(config.uploads.productPictureUploads.dest + req.body.qquuid)
+  res.json({success: true, deletedUuid: req.body.qquuid});
+}
 
-  // Filtering to upload only images
-  upload.fileFilter = imageUploadFileFilter;
+exports.uploadProductMap = function (req, res) {
+  var upload = multer(config.uploads.productMapUploads).array('productMaps');
+  var newUUID = '';
+  var user = req.user;
   if (user) {
     uploadMap()
       .then(onUploadSuccess)
       .catch(function (err) {
-        res.status(400).send(err);
+        res.json('error');
       });
   } else {
     res.status(400).send({
@@ -396,16 +386,11 @@ exports.uploadProductMap = function (req, res) {
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
           reject(uploadError.code);
         } else {
-          if (req.body.previousFiles) {
-            if (typeof req.body.previousFiles == 'string')
-              productMapUrlsStore.push(req.body.previousFiles);
-            else
-              productMapUrlsStore = req.body.previousFiles;
-          }
-          for (var index = 0; index < req.files.length; index++)
-            productMapUrlsStore.push(config.uploads.productMapUploads.dest + req.files[index].filename);
+          newUUID = req.files[0].filename;
           resolve();
         }
       });
@@ -413,10 +398,15 @@ exports.uploadProductMap = function (req, res) {
   }
 
   function onUploadSuccess () {
-    res.json(productMapUrlsStore);
+    res.json({success: true, newUuid: newUUID});
     return true;
   }
 };
+
+exports.deleteProductMap = function (req, res) {
+  fs.unlink(config.uploads.productMapUploads.dest + req.body.qquuid)
+  res.json({success: true, deletedUuid: req.body.qquuid});
+}
 
 /* var cronJob = cron.job('00 30 00 * * *', function() {
   async.waterfall([

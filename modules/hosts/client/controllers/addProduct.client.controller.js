@@ -69,6 +69,8 @@
     standardTagSet.add('Trekking');
     standardTagSet.add('Cycling');
     standardTagSet.add('Camping');
+    $scope.uploadedProductPicturesForThisProduct = [];
+    $scope.uploadedProductMapsForThisProduct = [];
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -702,76 +704,6 @@ vm.createDepartureSession = function () {
       $window.globalImageFileStorage = newData;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Image upload */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-    vm.uploadImage = function () {
-      if ($window.imageSizeLimitExceeded) {
-        alert('Please either remove or replace the marked images');
-        return false;
-      }
-      vm.showLoaderForProductSave = true;
-      $('#tourgeckoBody').addClass('disableBody');
-      $('#tours').addClass('waitCursor');
-      $('#pictureUploadLimitExceeded').hide();
-      vm.imageSuccess = vm.imageError = null;
-      Upload.upload({
-        url: 'api/product/productPictureUploads/',
-        arrayKey: '',
-        data: {
-          files: $window.globalImageFileStorage,
-          previousFiles: $window.globalImageFileStorageEdit
-        }
-      }).then(function (response) {
-        onImageUploadSuccess(response.data);
-      }, function (response) {
-        if (response.status > 0) onImageUploadError(response.data);
-      });
-    };
-/* ------------------------------------------------------------------------------------------------------------------------- */    
-    /* Product Image upload, ends here */
-/* ------------------------------------------------------------------------------------------------------------------------- */
-    function onImageUploadSuccess(response) {
-      if ($window.globalImageFileStorage.length == 0)
-        vm.imageError = 'You have not selected any photos to upload';
-      else
-        vm.imageSuccess = 'Photos have been uploaded successfully'
-      $('#tourgeckoBody').removeClass('disableBody');
-      $('#tours').removeClass('waitCursor');
-      vm.showLoaderForProductSave = false;
-      productPictureURLs = response;
-    }
-
-    function onImageUploadError(response) {
-      $('#tourgeckoBody').removeClass('disableBody');
-      $('#tours').removeClass('waitCursor');
-      vm.showLoaderForProductSave = false;
-      vm.imageError = 'Some error occurred. Please try again. If error persists, contact tourgecko';
-     /* if (response == 'LIMIT_FILE_SIZE') {
-        for(var index = 0; index < $window.globalImageFileStorage.length; index++) {
-          if ($window.globalImageFileStorage[index].size > 5242880) {
-            var parentElement = document.getElementById('parentdiv' + $window.globalImageFileStorage[index].index);
-            var markAsToBeRemoved = $('<span>To Be Removed<span>')
-            .attr('id', 'elementToBeRemoved' + $window.globalImageFileStorage[index].index)
-            .attr('class', 'markAsToBeRemoved');
-            markAsToBeRemoved.appendTo(parentElement);
-            // $window.globalImageFileStorage.splice($window.globalImageFileStorage[index], 1);
-          }
-        }
-        vm.imageError = 'Marked images exceeds 5MB limit. Please remove them.'
-      } 
-
-      if (response == 'LIMIT_FILE_COUNT') {
-        var extraImages = $window.globalImageFileStorage.length - 5;
-        var extraImagesString;
-        if (extraImages == 1)
-          extraImagesString = extraImages + ' image';
-        else
-          extraImagesString = extraImages + ' images';
-        vm.imageError = 'Only 5 image upload are allowed. Please remove at least ' + extraImagesString;
-      } */
-    }
-
-/* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Product Map upload */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.uploadMap = function () {
@@ -868,8 +800,21 @@ vm.createDepartureSession = function () {
       vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;
       vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;
-      vm.tour.productMapURLs = productMapURLs;
-      vm.tour.productPictureURLs = productPictureURLs
+      var modifiedUploadedProductMapsForThisProduct = [];
+      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/maps/'
+      for (var index = 0; index < $scope.uploadedProductMapsForThisProduct.length; index++) {
+        modifiedUploadedProductMapsForThisProduct.push(productPictureConstPath + $scope.uploadedProductMapsForThisProduct[index]);
+      }
+
+      vm.tour.productMapURLs = modifiedUploadedProductMapsForThisProduct;
+      
+
+      var modifiedUploadedProductPicturesForThisProduct = [];
+      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/photos/'
+      for (var index = 0; index < $scope.uploadedProductPicturesForThisProduct.length; index++) {
+        modifiedUploadedProductPicturesForThisProduct.push(productPictureConstPath + $scope.uploadedProductPicturesForThisProduct[index]);
+      }
+      vm.tour.productPictureURLs =  modifiedUploadedProductPicturesForThisProduct;
 
       if (vm.tour.isProductAvailabileAllTime)
         vm.tour.productUnavailableMonths.length = 0;

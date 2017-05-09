@@ -101,8 +101,14 @@ module.exports = function (app) {
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
+   app.route('/api/product/productPictureUploadDelete/')
+    .post(hosts.deleteProductPicture);
+
   app.route('/api/product/productMapUploads/')
     .post(hosts.uploadProductMap);
+
+  app.route('/api/product/productMapUploadDelete/')
+    .post(hosts.deleteProductMap);
 
   app.route('/api/social/host/facebook/pages')
     //.post(hosts.postOnFB),
