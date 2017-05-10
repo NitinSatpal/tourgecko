@@ -34,11 +34,13 @@
         vm.companyData = response.companyData;
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
+
         vm.totalPages = Math.ceil(response.productCount / 10);
         if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
         else
           vm.pageTo = vm.paginationWindow;
+
         vm.pageCounterArray = new Array(vm.totalPages);
         totalToursiteRecords = response.productCount;
         if(vm.currentPageNumber > vm.totalPages) {
@@ -48,18 +50,30 @@
           if(vm.pageTo - vm.paginationWindow >= 0)
             vm.pageFrom = vm.pageTo - vm.paginationWindow;
         } else {
-          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if ((vm.currentPageNumber - vm.paginationWindow) > 0)
+            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          else
+            vm.pageFrom = 0;
+          if ((vm.pageFrom + vm.paginationWindow) <= vm.totalPages)
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          else
+            vm.pageTo = vm.totalPages;
           if (vm.pageTo + 1 < vm.totalPages)
             vm.showAtLast = true;
           else
             vm.showAtLast = false;
-        }  
+        }
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
     }).error(function (response) {
       vm.error = response.message;
     });
 
     vm.changeItemsPerPage = function (itemsPerPage) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         vm.totalPages = Math.ceil(totalToursiteRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
 
@@ -71,22 +85,37 @@
           if(vm.pageTo - vm.paginationWindow >= 0)
             vm.pageFrom = vm.pageTo - vm.paginationWindow;
         } else {
-          vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          if ((vm.currentPageNumber - vm.paginationWindow) > 0 )
+            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+          else
+            vm.pageFrom = 0;
+
+          if(vm.pageFrom + vm.paginationWindow <= vm.totalPages)
+            vm.pageTo = vm.pageFrom + vm.paginationWindow;
+          else
+            vm.pageTo = vm.totalPages;
           if (vm.pageTo + 1 < vm.totalPages)
             vm.showAtLast = true;
           else
             vm.showAtLast = false;
         }
-        //vm.currentPageNumber = 1;
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+        
         $http.get('/api/host/toursitedataForCurrentPage/' + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + parseInt(itemsPerPage)).success(function (response) {
           vm.toursitedata = response.productArray;
           vm.companyData = response.companyData;
           if (response.productArray.length > 0)
             vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
     }
 
@@ -95,6 +124,8 @@
           $('html, body').scrollTop(scrollTo);
           return;
         }
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         vm.currentPageNumber = clickedIndex + 1;
         if (vm.currentPageNumber == vm.pageCounterArray.length) {
           vm.showAtLast = false;
@@ -113,6 +144,12 @@
           else
             vm.pageTo = vm.pageCounterArray.length;
         }
+
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
           vm.toursitedata = response.productArray;
@@ -120,8 +157,12 @@
           if (response.productArray.length > 0)
             vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
         
     }
@@ -134,6 +175,8 @@
         if (vm.currentPageNumber == vm.totalPages)
             return;
 
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
         // If we are at multiple of 5 or crossed the first multiple of 5, handle things differently
         if (vm.currentPageNumber % vm.paginationWindow == 0 || isWindowSizeReached) {
           isWindowSizeReached = true;
@@ -163,6 +206,11 @@
           vm.currentPageNumber = vm.currentPageNumber + 1;
         }
 
+        if (vm.pageFrom == 0)
+          vm.showAtLast = true;
+        if(vm.pageTo == vm.totalPages)
+          vm.showAtLast = false;
+
         var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
         $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
           vm.toursitedata = response.productArray;
@@ -170,14 +218,20 @@
           if (response.productArray.length > 0)
             vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         });
     }
 
     vm.incrementWindowSize = function () {
       if (vm.currentPageNumber == vm.totalPages || vm.pageTo == vm.pageCounterArray.length)
         return;
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       windowSizeIncremented = true;
       if (Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow + vm.paginationWindow <= vm.pageCounterArray.length) {
         vm.pageFrom = Math.ceil(vm.currentPageNumber / vm.paginationWindow) * vm.paginationWindow;
@@ -194,6 +248,10 @@
           vm.showAtLast = false;
         }
       }
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
 
       vm.currentPageNumber = vm.pageFrom + 1;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
@@ -203,15 +261,20 @@
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
         $('html, body').scrollTop(scrollTo);
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
     vm.decrementPageNumber = function () {
       if (vm.currentPageNumber == 1)
           return;
-      
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       vm.currentPageNumber = vm.currentPageNumber - 1;
 
       if (!vm.showAtLast) {
@@ -224,6 +287,11 @@
         vm.pageFrom = vm.currentPageNumber - vm.paginationWindow;
         vm.pageTo = vm.currentPageNumber;
       }
+
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
         vm.toursitedata = response.productArray;
@@ -231,14 +299,20 @@
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
         $('html, body').scrollTop (scrollTo);
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
     vm.decrementWindowSize = function () {
       if (vm.currentPageNumber == 1 || vm.pageFrom == 0)
         return;
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       
       if (Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow > 0) {
         vm.pageTo = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
@@ -256,6 +330,10 @@
         }
       }
 
+      if (vm.pageFrom == 0)
+        vm.showAtLast = true;
+      if(vm.pageTo == vm.totalPages)
+        vm.showAtLast = false;
       vm.currentPageNumber = vm.pageTo;
       var itemsPerPage = parseInt(vm.numberOfItemsInOnePage);
       $http.get('/api/host/toursitedataForCurrentPage/'  + $stateParams.toursite + '/' + vm.currentPageNumber +'/' + itemsPerPage).success(function (response) {
@@ -264,8 +342,12 @@
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
         $('html, body').scrollTop(scrollTo);
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 

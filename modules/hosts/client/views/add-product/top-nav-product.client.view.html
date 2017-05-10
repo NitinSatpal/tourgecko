@@ -17,7 +17,7 @@
 			<div class="btn btn-primary outline btn-preview" ng-click="goToPreviewPage()"><i class="zmdi zmdi-square-right"></i>&nbsp;Preview</div>
 		</div>
 		<div class="save-button">
-			<a class="btn btn-primary save-btn" ng-click="vm.save(vm.form.tourForm.$valid)"><i class="zmdi zmdi-floppy"></i>Save</a>
+			<a class="btn btn-primary save-btn" ng-click="vm.save(vm.form.tourForm.$valid)" ng-disabled="vm.saveBtnDisabled"><i class="zmdi zmdi-floppy"></i>Save</a>
 		</div>
 	</div>							
 </div>
