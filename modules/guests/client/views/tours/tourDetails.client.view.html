@@ -303,6 +303,14 @@
                                     <h4 class="grey-text">
                                         <i class="zmdi zmdi-calendar-alt"></i>
                                     </h4>
+                                    <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'unavailable'">
+                                        <p class="blue-grey-text text-darken-1">
+                                            <strong>Next Departures:</strong>
+                                        </p>
+                                        <p>
+                                            <span class="tourType"> Not Available Currently </span>
+                                        </p>
+                                    </div>
                                     <div class="departure-dates" ng-show="vm.productDetails.productAvailabilityType == 'Fixed Departure'">
                                         <p class="blue-grey-text text-darken-1">
                                             <strong>Next Departures:</strong>
@@ -325,7 +333,9 @@
                                 </div>
                                 <div class="center">
                                     <!--<a id="bookTheTour" href="#" data-target="#askForLogin" data-toggle="modal" class="waves-effect waves-light btn orange fluid">Request Booking</a>-->
-                                    <a id="bookTheTour" ui-sref="guest.booking({productId: vm.productDetails._id})" class="waves-effect waves-light btn orange fluid" onclick="showWaitCursorTourBooking()">Request Booking</a>
+                                    <a id="bookTheTour" ui-sref="guest.booking({productId: vm.productDetails._id})" class="waves-effect waves-light btn orange fluid" onclick="showWaitCursorTourBooking()" ng-show="vm.productDetails.productAvailabilityType != 'unavailable'">Request Booking</a>
+                                    <a id="bookTheTour" href="" class="waves-effect waves-light btn orange fluid" ng-show="vm.productDetails.productAvailabilityType == 'unavailable'">Not Available</a>
+
                                 </div>
                             </div>
                             <div class="card-panel">

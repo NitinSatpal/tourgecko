@@ -519,8 +519,18 @@
                                              	<div class="tour-availability">
 													<label for="tours_sa_date_time" class="control-label">How is this tour made Available ?
 													</label>
-													<p class="sub_desc" ng-show="vm.helpVisible">can make tours available as fixed dated tours with fixed schedule for departure   or open dated where guest can chose date of departure while booking. Fixed date  tours are often group tours whereas open date tours are used for personalized or private tours.</p>
+													<p class="sub_desc" ng-show="vm.helpVisible">You can make tours available as fixed dated tours with fixed schedule for departure   or open dated where guest can chose date of departure while booking. Fixed date  tours are often group tours whereas open date tours are used for personalized or private tours.</p>
 													<div class="row no_margin_row tour-availability-options">
+														<div class="col-sm-6 col-md-6 col-lg-3 col-xs-6">
+															<div class="days_radio text_align_left">
+																<label class="radio_label">
+																	<input type="radio" name="time_required" value="unavailable" ng-model="vm.productAvailabilityType"/>
+																	<span>Unavailable</span>
+																	<i class="zmdi zmdi-check-circle"></i>
+																	<i class="zmdi zmdi-circle-o"></i>
+																</label>
+															</div>
+														</div>
 														<div class="col-sm-6 col-md-6 col-lg-3 col-xs-6">
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
@@ -542,9 +552,21 @@
 															</div>
 														</div>
 													</div>
+													<div class="row no_margin_row tours_sa_unavailable pointer-box" id="unavailablePanel">
+														<div class="pointer-line">
+															<img class="pointer pointer_c" src="modules/hosts/client/images/pointer.svg">
+														</div>
 
+														<div class="col-sm-12 col-md-12 col-lg-12">
+		                                                  <div class="form-group">
+		                                                  	<label for="tours_sa_timeslot" class="control-label">This tour is marked Unavailable. Guest can see but not book it.</label>
+		                                                   </div>
+		                                                </div>
+													</div>
 													<div class="row no_margin_row tours_sa_open_dates pointer-box">
-														<div class="pointer-line"><img class="pointer pointer_a" src="modules/hosts/client/images/pointer.svg"></div>
+														<div class="pointer-line">
+															<img class="pointer pointer_a" src="modules/hosts/client/images/pointer.svg">
+														</div>
 														<div class="col-sm-12 col-md-12 col-lg-12">
 															<label for="tours_sa_timeslot" class="control-label">Is time required for booking?</label>
 															<p class="sub_desc lheight" ng-show="vm.helpVisible">If guest need to select a timeslot during booking.</p>
@@ -1236,17 +1258,24 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 		}
 	});
 	$("#tours_sa").on("change","input[type=radio][name=time_required]",function() {
-		if($(this).val() == "Open Date"){
+		if($(this).val() == "unavailable") {
+			$(".tours_sa_unavailable").show();
+			$(".tours_sa_open_dates").hide();
+			$(".tours_sa_fixed_departure").hide();
+		} else if($(this).val() == "Open Date"){
 			$(".tours_sa_open_dates").show();
 			$(".tours_sa_fixed_departure").hide();
-		}else if($(this).val() == "Fixed Departure"){
+			$(".tours_sa_unavailable").hide();
+		} else if($(this).val() == "Fixed Departure"){
 			$(".tours_sa_open_dates").hide();
 			$(".tours_sa_fixed_departure").show();
+			$(".tours_sa_unavailable").hide();
 		}
 	});
 </script>
 <script>
     $(document).ready(function() {
+    	$(".tours_sa_open_dates").hide();
     	$('#dsStartDateCalendarIcon').click(function() {
 	       $(document).ready(function(){
 	           $("#dsStartDate").datepicker().focus();
@@ -1444,6 +1473,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 <script>
 function openFixedDeparturePanel () {
 	$(".tours_sa_open_dates").hide();
+	$(".tours_sa_unavailable").hide();
     $(".tours_sa_fixed_departure").show();
 }
 </script>

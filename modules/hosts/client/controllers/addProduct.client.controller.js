@@ -28,7 +28,7 @@
     vm.isDepositApplicable = false;
     vm.isAvailableThroughoutTheYear = true;
     vm.productGrade = 'Easy';
-    vm.productAvailabilityType = 'Open Date';
+    vm.productAvailabilityType = 'unavailable';
     vm.productDurationType = 'Days';
     vm.productSeatsLimitType = 'limited';
     vm.pricingOptions = ['Everyone'];
