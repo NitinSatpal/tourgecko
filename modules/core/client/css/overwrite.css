@@ -170,6 +170,17 @@
 #bookingCalendar .fc-row .fc-content-skeleton td, #bookingCalendar .fc-row .fc-helper-skeleton td {
     border-bottom: hidden;
 }
+.tour-Preview-Details-host ul li .collapsible-body {
+    border-bottom: none !important;
+}
+.toursite .top-Panel-toursite .vendor-social .zmdi-facebook,
+.toursite .top-Panel-toursite .vendor-social .zmdi-twitter,
+.toursite .top-Panel-toursite .vendor-social .zmdi-instagram,
+.toursite-footer .contact-info .vendor-social .zmdi-facebook,
+.toursite-footer .contact-info .vendor-social .zmdi-twitter,
+.toursite-footer .contact-info .vendor-social .zmdi-instagram {
+    color: #78909c !important;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;

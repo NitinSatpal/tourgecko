@@ -49,7 +49,26 @@ h1, h2, h3, h4, h5, h6 {
 	color: #555;
 	font-weight: 300;
 }
-
+#hostCalendar #calendarTabBodyContent .infoSessionAtTop span {
+	font-weight: 500;
+	font-size: 16px;
+}
+#hostCalendar #calendarTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+	color: #ED9C28;
+	font-size: 20px;
+	margin-left: 75px;
+	margin-top: 10px;
+}
+#hostCalendar #calendarTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo {
+	margin-left: -65px;
+}
+#hostCalendar #calendarTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo ul li {
+	list-style: none;
+}
+#hostCalendar #calendarTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo span {
+	font-weight: 300;
+	font-size: 12px;
+}
 #hostHome #calendar td.fc-other-month a, #hostCalendar #calendar td.fc-other-month a {
    visibility: hidden;
 }

@@ -766,7 +766,7 @@
 
 									               
 
-									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditItineraryElements"> Save </a>
+									                <a href="#" style="float:right;margin-right:10px;" ng-click="vm.saveEditedItinerary($index)" ng-show="vm.showEditItineraryElements && $index == vm.editIndex"> Save </a>
 									                <!-- Button section ends here -->
 
 									                <!-- Bind the heading and display-->
@@ -779,7 +779,7 @@
 
 									                <!-- Bind the description and display-->
 									                <ng-bind-html="vm.getHtmlTrustedData(desc.description)">
-									                <b> Description </b><p ng-show="vm.showCreatedItinerary" class="renderedChild" ng-bind-html="desc.description | htmlData"></p>
+									                <b> Detail </b><p ng-show="vm.showCreatedItinerary" class="renderedChild" ng-bind-html="desc.description | htmlData"></p>
 
 									                <!-- If host click edit itinerary, open this rich textbox-->
 									                <textarea ng-show="vm.showEditItineraryElements && $index == vm.editIndex" ck-editor class="form-control focusTextArea" rows="5" id="editItinerary{{$index}}" name="editItinerary{{$index}}"></textarea>
@@ -788,7 +788,7 @@
 								              </div>
 								            </div>
 											<div class="panel">
-												<div class="itinerary_panel_container">
+												<div class="itinerary_panel_container" ng-show="!vm.doneClicked">
 													<p class="itinerary_day" ng-show="vm.calculatedDay" ng-click="vm.changeDay();"><i class="zmdi zmdi-pin-drop"></i> Day {{vm.dayCounter}}</p>
 													<p class="itinerary_day" ng-show="!vm.calculatedDay"><i class="zmdi zmdi-pin-drop"></i> Day <input type="text" ng-model="vm.dayCounter" class="itinerary_day_Edit"></p>
 													<br>
@@ -811,9 +811,11 @@
 															</div>
 														</div>
 													</div>
+													
 													<a href="" class="add_itinerary_day" ng-click="vm.createItinerary(false)"><i class="zmdi zmdi-plus"></i> Add another day</a>
 													<a href="" class="add_itinerary_done " ng-click="vm.createItinerary(true)"> Done</a>
 												</div>
+												<a href="" class="add_itinerary_day" ng-click="vm.createItinerary(false)" ng-show="vm.doneClicked"><i class="zmdi zmdi-plus"></i> Add another day</a>
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_guidelines')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>

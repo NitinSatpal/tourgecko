@@ -32,6 +32,7 @@
     $http.get('/api/host/toursitedata/' + $stateParams.toursite).success(function (response) {
         vm.toursitedata = response.productArray;
         vm.companyData = response.companyData;
+        console.log(JSON.stringify(vm.toursitedata));
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
 
@@ -381,10 +382,10 @@
         var displayDate = '';
         if (vm.toursitedata[index].productScheduledDates[0]) {
           var eventDate = new Date(vm.toursitedata[index].productScheduledDates[0]);
-          // eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
 
-          displayDate = /*weekdays[eventDate.getDay()] + ', ' + */ eventDate.getDate() + ' ' + months[eventDate.getMonth()] + ' ' + eventDate.getFullYear();
-        }
+          displayDate = eventDate.getDate() + ' ' + months[eventDate.getMonth()] + ' ' + eventDate.getFullYear();
+        } else
+          displayDate = 'Not Available Currently';
         if (vm.toursitedata[index].productScheduledDates.length > 1) {
           var numberOfTours = vm.toursitedata[index].productScheduledDates.length - 1;
           var remainingDatesString;

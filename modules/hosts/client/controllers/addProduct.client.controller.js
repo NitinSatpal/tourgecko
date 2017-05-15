@@ -96,12 +96,12 @@
       }
     }, true);
 
-    for (var i in CKEDITOR.instances) {
+    /* for (var i in CKEDITOR.instances) {
       CKEDITOR.instances[i].on('change', function() {
         vm.saveBtnDisabled = false;
         $scope.$apply();
       });
-    }
+    } */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* This is added in case user is redirected here for tour edit. We will be disabling body when user will click on Edit button.
  * We should enable the body here.
@@ -375,27 +375,38 @@ function setRichTextData () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Itinerary creation, edit, delete and save */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
+    var doneAlreadyClicked = false;
+    vm.doneClicked = false;
     vm.createItinerary = function(done) {
       if(vm.productDurationType == 'Hours' && done != true) {
         alert ('Your tour is hourly, There should be only one Day itinerary. Please click on Done');
         return false;
       }
-      vm.calculatedDay = true;
-      vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData(), 'day': vm.dayCounter});
-      vm.itineraries.sort(function(obj1, obj2) {
-        return obj1.day - obj2.day;
-      });
+      if (!doneAlreadyClicked) {
+        vm.calculatedDay = true;
+        vm.itineraries.push({'title': vm.heading, 'description': CKEDITOR.instances.tourItinerary.getData(), 'day': vm.dayCounter});
+        vm.itineraries.sort(function(obj1, obj2) {
+          return obj1.day - obj2.day;
+        });
 
-      vm.dayCounter = findDayCounterValue() + 1;
-      vm.showCreatedItinerary = true;
-      CKEDITOR.instances.tourItinerary.setData('');
-      vm.heading = '';
+        vm.dayCounter = findDayCounterValue() + 1;
+        vm.showCreatedItinerary = true;
+        CKEDITOR.instances.tourItinerary.setData('');
+        vm.heading = '';
+      } else {
+        vm.doneClicked = false;
+        doneAlreadyClicked = false;
+      }
+
+      if (done) {
+        vm.doneClicked = true;
+        doneAlreadyClicked = true;
+      }
+
     }
 
     var indexSaved;
     vm.editItinerary = function(index) {
-      vm.showCreatedItinerary = false;
       vm.editIndex = index;
       indexSaved = index;
       vm.showEditItineraryElements = true;

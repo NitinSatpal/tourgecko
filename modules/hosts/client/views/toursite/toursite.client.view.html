@@ -75,11 +75,11 @@
         <!--Carousel end-->
 
         <div id="agent" class="container body-toursite">
-            <!-- <div class="row">
+            <div class="row">
                 <p class="light">
                     <p class="minimize">{{vm.companyData.aboutHost}}</p>
                 </p> 
-            </div> -->
+            </div>
             <h4 class="center-align padding" ng-if="vm.toursitedata.length > 0">Tours</h4>
             <div class="row alignDivs">
                 <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index" ng-style="vm.getConditionalCSS($index)" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
@@ -91,14 +91,21 @@
                             <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">
                         </div>    
                         <div class="margin-bottom">
-                            <span class="left white-text days-difficulty">{{data.duration}}</span>
-                            <span class="right white-text days-difficulty">{{data.productGrade}}</span>     
+                            <span class="left white-text days-difficulty" ng-show="data.productDuration">{{data.productDuration}} {{data.productDurationType}}</span>
+                            <span class="left white-text days-difficulty" ng-show="!data.productDuration" style="padding-left: 33px;">Duration not provided</span>
+                            <span class="right white-text days-difficulty" style="padding-right: 25px;">{{data.productGrade}}</span>     
                             <a><h5 class="clear">{{vm.getProductTitleToshow(data.productTitle)}}</h5></a>
                             <div class="col l6 m6 s12 padding-none">
                                 <span class="blue-grey-text text-darken-1"><i class="zmdi zmdi-pin orange-text"></i>&nbsp;{{vm.getProductDestinationToshow(data.destination)}}
                                 </span>
                                 <p> </p>
-                                <p><i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp; Next Departure: <span class="date"><br ng-if="vm.getDepartureDateToShow($index) == 'Open Dated Tour'">{{vm.getDepartureDateToShow($index)}}</span></p>
+                                <p>
+                                    <i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp; Next Departure: 
+                                    <span class="date">
+                                        <br ng-if="vm.getDepartureDateToShow($index) == 'Open Dated Tour'">
+                                        {{vm.getDepartureDateToShow($index)}}
+                                    </span>
+                                </p>
                             </div>
                             <div class="col l6 m6 s12 padding-none">
                                 <span class="blue-grey-text text-darken-1 right">Starting from <!--<span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span></span>-->
