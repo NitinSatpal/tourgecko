@@ -228,7 +228,7 @@
 						</div>
                         <div class="row text-center">
                             <div class="col-sm-12 col-md-12 col-lg-12">
-                                <div class="pagination" ng-if="vm.bookings.length > 0">
+                                <div class="pagination" ng-if="vm.pageTo > 1">
                                     <a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
                                     <a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
                                     <a href="#" ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)"> 1 </a>
@@ -250,11 +250,11 @@
                                     &nbsp; bookings per page
                                 </span>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0">
+                            <!-- <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0">
                                 <span> <h2> Manage Session's Bookings </h2></span>
                                 <span> <h4> This is where you process and track respective session's booking </h4> </span>
                                 <img src="/modules/core/client/img/assets/empty_state_one.png">
-                            </div>
+                            </div> -->
                         </div>
                    	</div>
                     <div id="current-tour-guests" class="tab-pane fade in">

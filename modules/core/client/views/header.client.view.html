@@ -49,17 +49,38 @@
                             </div>
                         </div>
                     </li>
-                    <li class="dropdown account">
+                    <li class="notifications" style="cursor: pointer;">
+                        <a id="account-dropdown-link">
+                            <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
+                            <span ng-bind="vm.authentication.user.displayName.length > 10 ?  (vm.authentication.user.firstName.length > 10 ? 'Host' : vm.authentication.user.firstName) : vm.authentication.user.displayName"></span>
+                            <b class="caret hidden-xs"></b>
+                        </a>
+                        <div id="account-dropdown-container">
+                            <div id="accountDropdownBody">
+                                <div ng-repeat="item in vm.accountMenu.items track by $index">
+                                    <p ui-sref="{{item.state}}" class="dynamicItems" id="account-dropdown-menuitem{{$index}}" ng-bind="item.title" ng-click="vm.showLoadersAndWaitCursor()">
+                                    </p>
+                                </div>
+                                <p class="logoutItem">
+                                    <a href="/api/auth/signout" target="_self">Logout</a>
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    <!-- <li class="dropdown account" style="cursor: pointer;">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             <img ng-src="{{vm.authentication.user.profileImageURL}}" alt="{{vm.authentication.user.displayName}}" class="header-profile-image" />
                             <span ng-bind="vm.authentication.user.displayName.length > 10 ?  (vm.authentication.user.firstName.length > 10 ? 'Host' : vm.authentication.user.firstName) : vm.authentication.user.displayName"></span>
                             <b class="caret hidden-xs"></b>
                         </a>
-                        <ul class="dropdown-menu" ui-sref-active="active">
-                            <li ng-repeat="item in vm.accountMenu.items"><a ui-sref="{{item.state}}" ng-bind="item.title"></a></li>
+                        <ul class="dropdown-menu" >
+                            <li ng-repeat="item in vm.accountMenu.items track by $index">
+                                <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+                            </li>
                             <li><a href="/api/auth/signout" target="_self">Logout</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </nav>
@@ -94,9 +115,14 @@ $(document).ready(function() {
         return false;
     });
 
+    $('#account-dropdown-link').click(function () {
+        $('#account-dropdown-container').fadeToggle(300);
+        return false;
+    });
     //Document Click
     $(document).click(function() {
         $("#notificationContainer").hide();
+        $('#account-dropdown-container').hide();
     });
     //Popup Click
     $("#notificationContainer").click(function() {

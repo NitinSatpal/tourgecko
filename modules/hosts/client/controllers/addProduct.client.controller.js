@@ -14,9 +14,9 @@
       "tourDestination" : "Main Destination cannot be blank"
     });
 
-  AddProductController.$inject = ['$scope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
+  AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
-  function AddProductController($scope, $state, $stateParams, $http, $timeout, $window, $location, Upload, ProductDataShareService, errorContentData, toasty) {
+  function AddProductController($scope, $rootScope, $state, $stateParams, $http, $timeout, $window, $location, Upload, ProductDataShareService, errorContentData, toasty) {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initializitaion */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -80,7 +80,6 @@
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     
-
     $scope.$watch('vm.pricingParams', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
@@ -151,8 +150,13 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           
           vm.productAvailabilityType = vm.tour.productAvailabilityType;
 
+          console.log(vm.tour.productAvailabilityType);
           if(vm.tour.productAvailabilityType == 'Fixed Departure')
             openFixedDeparturePanel();
+          else if (vm.tour.productAvailabilityType == 'Open Date')
+            openOpenDeparturePanel();
+          else
+             openUnavailableDeparturePanel();
 
           vm.itineraries = vm.tour.productItineraryDescription;
           vm.pricingParams = vm.tour.productPricingOptions;
@@ -188,6 +192,7 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           setRichTextData();
       });
     } else {
+      openUnavailableDeparturePanel();
       $('#loadingDivHostSide').css('display', 'none');
       $('#tourgeckoBody').removeClass('waitCursor');
     }

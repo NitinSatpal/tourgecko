@@ -13,9 +13,21 @@
                     <li class="vendor-email"><a href="mailto: {{vm.companyData.inquiryEmail}}"><i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}</a></li>
                 </ul>    
                 <ul class="right-align hide-on-med-and-down">
-                    <li class="vendor-social"><a href=""><i class="zmdi zmdi-facebook"></i></a></li>
-                    <li class="vendor-social"><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-                    <li class="vendor-social"><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>    
+                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('facebook')">
+                        <a href="">
+                            <i class="zmdi zmdi-facebook"></i>
+                        </a>
+                    </li>
+                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('twitter')">
+                        <a href="">
+                            <i class="zmdi zmdi-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('instagram')">
+                        <a href="">
+                            <i class="zmdi zmdi-instagram"></i>
+                        </a>
+                    </li>    
                 </ul>    
             </div>
         </div>     
@@ -43,6 +55,7 @@
     </header>
 
     <main>
+        <toasty></toasty>
         <div id="details_hero" class="slider vendor-landing" data-indicators="true">
             <ul class="slides">
                 <li>
@@ -88,10 +101,13 @@
                                 <p><i class="zmdi zmdi-calendar-alt orange-text"></i>&nbsp; Next Departure: <span class="date"><br ng-if="vm.getDepartureDateToShow($index) == 'Open Dated Tour'">{{vm.getDepartureDateToShow($index)}}</span></p>
                             </div>
                             <div class="col l6 m6 s12 padding-none">
-                                <span class="blue-grey-text text-darken-1 right">Starting from <!--<span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span></span>--><br>
+                                <span class="blue-grey-text text-darken-1 right">Starting from <!--<span style="text-decoration:line-through" class="red-text"><span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span></span>-->
+                                <br>
                                 <div class="valign-wrapper right">
                                    <!--<div class="chip orange"><h6 class="white-text"><strong>10%</strong> OFF</h6></div>-->
-                                    <h5 class="green-text"><span class="currency">&#8377;</span> {{vm.getStartingFromPrice($index)}}</h5>
+                                    <h5 class="green-text">
+                                        <span class="currency" ng-show="vm.getStartingFromPrice($index) != ''">&#8377;</span>{{vm.getStartingFromPrice($index)}}
+                                    </h5>
                                 </div>    
                             </div>
                         </div>
@@ -148,10 +164,26 @@
           
         <ul class="contact-info">
             <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> {{vm.companyData.inquiryMobile}} - {{vm.getInquiryHours()}}</a></li>
-            <li class="vendor-email"><a href="#"><i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}</a></li>
-            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
-            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
-            <li class="vendor-social"><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>    
+            <li class="vendor-email">
+                <a href="mailTo: {{vm.companyData.inquiryEmail}}">
+                    <i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}
+                </a>
+            </li>
+            <li class="vendor-social" ng-click="vm.goToHostSocialSite('facebook')">
+                <a href="#">
+                    <i class="zmdi zmdi-facebook"></i>
+                </a>
+            </li>
+            <li class="vendor-social" ng-click="vm.goToHostSocialSite('twitter')">
+                <a href="#">
+                    <i class="zmdi zmdi-twitter"></i>
+                </a>
+            </li>
+            <li class="vendor-social" ng-click="vm.goToHostSocialSite('instagram')">
+                <a href="#">
+                    <i class="zmdi zmdi-instagram"></i>
+                </a>
+            </li>    
         </ul>  
         <div class="col l12 m12 s12 statement">This site is automatically built by <a href="#">tourgecko</a></div>
     </footer>

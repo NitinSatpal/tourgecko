@@ -666,6 +666,7 @@
           var msg = response.msgBody;
           var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
           $http.get('http://api.Textlocal.in/send/?'+uri).success(function (res) {
+            console.log(response);
             // success
           }).error(function (err) {
             // error

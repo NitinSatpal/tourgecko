@@ -46,6 +46,10 @@
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
+      if($location.path() == '/settings/profile')
+        $('#account-dropdown-menuitem0').addClass('activePElementForAccountDropdown');
+      else
+        $('#account-dropdown-menuitem0').removeClass('activePElementForAccountDropdown');
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
       if(hideHeaderAndEditCSS.has($location.path()) || $location.path().split('/')[3] == 'preview') {
@@ -100,6 +104,11 @@
       }
       if(vm.notifications[index] && vm.notifications[index].notificationRead)
         return css;
+    }
+
+    vm.showLoadersAndWaitCursor = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
     }
   }
 }());

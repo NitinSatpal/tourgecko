@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('ToursiteController', ToursiteController);
 
-  ToursiteController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window'];
+  ToursiteController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window', '$location', 'toasty'];
 
-  function ToursiteController($scope, $state, $stateParams, $http, $window) {
+  function ToursiteController($scope, $state, $stateParams, $http, $window, $location, toasty) {
     var vm = this;
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
@@ -399,15 +399,15 @@
           return displayDate;
       }
     }
-
+    
     vm.getStartingFromPrice =function (index) {
       if (vm.toursitedata[index].productAdvertisedprice)
         return vm.toursitedata[index].productAdvertisedprice;
       else
-        return findMinimum(vm.toursitedata[index].productPricingOptions);
+        return findMinimum(vm.toursitedata[index].productPricingOptions, index);
     }
 
-    function findMinimum (pricingOptions) {
+    function findMinimum (pricingOptions, index) {
       var minimumTillNow = Number.POSITIVE_INFINITY;
       vm.priceTobeShown = -1;
       for (var index = 0; index < pricingOptions.length; index ++) {
@@ -449,6 +449,43 @@
       }
       if(window.innerWidth <= 767)
         return cssObject;
+    }
+
+    vm.goToHostSocialSite = function (socialSite) {
+      console.log(vm.companyData.hostSocialAccounts);
+      if (socialSite == 'facebook') {
+        if (vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
+          $window.location = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
+        else {
+          toasty.error({
+            title: 'Not available!',
+            msg: 'Host has not provided Facebook details!',
+            sound: false
+          });
+        }
+
+      } else if (socialSite == 'twitter') {
+        if (vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
+          $window.location = 'https://www.twitter.com/' + vm.companyData.hostSocialAccounts.twitter;
+        else {
+          toasty.error({
+            title: 'Not available!',
+            msg: 'Host has not provided Twitter details!',
+            sound: false
+          });
+        }
+      } else {
+        if (vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
+          $window.location = 'https://www.instagram.com/' + vm.companyData.hostSocialAccounts.instagram;
+        else {
+          toasty.error({
+            title: 'Not available!',
+            msg: 'Host has not provided Instagram details!',
+            sound: false
+          });
+        }
+
+      }
     }
 
     vm.goToProductDetailsPage = function (index) {

@@ -12,7 +12,13 @@
     vm.user = Authentication.user;
     vm.authentication = Authentication;
 
-    vm.userDetails = SpecificUserService.query();
+    vm.userDetails = SpecificUserService.query(function (data) {
+      $('#loadingDivHostSide').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
+    }, function (error) {
+      $('#loadingDivHostSide').css('display', 'none');
+      $('#tourgeckoBody').removeClass('waitCursor');
+    });
       
     vm.passwordRelatedError= '';
     var initializing = true
@@ -53,22 +59,28 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userForm');
         return false;
       }
-
+      $('#loadingDivUserSettingSide').css('display', 'block');
+      document.body.style.cursor='wait';
       if (isUserDetailsChanged == true) {
         $http.post('/api/users/profile', vm.userDetails).success(function (response) {
-
           $window.location.reload();
         }).error(function (response) {
           vm.error = response.message;
+          $('#loadingDivUserSettingSide').css('display', 'none');
+          document.body.style.cursor='default';
         });
-      } else if (imageUploaded == true){
+      } else if (imageUploaded == true) {
         $window.location.reload();
       } else {
         if (isPasswordDetailsChanged == false)
           alert('you have not changed anything');
+        $('#loadingDivUserSettingSide').css('display', 'none');
+        document.body.style.cursor='default';
       }
 
       if (isPasswordDetailsChanged == true) {
+        $('#loadingDivUserSettingSide').css('display', 'block');
+        document.body.style.cursor='wait';
         $http.post('/api/users/password', vm.passwordDetails).success(function (response) {
           // If successful show success message and clear form
           vm.success = true;
@@ -77,12 +89,16 @@
         }).error(function (response) {
           vm.showPasswordRelatedError = response.message;
           vm.error = response.message;
+          $('#loadingDivUserSettingSide').css('display', 'none');
+          document.body.style.cursor='default';
         });
       }
     };
 
 
     vm.upload = function (dataUrl, name) {
+      $('#loadingDivUserSettingSide').css('display', 'block');
+      document.body.style.cursor='wait';
       vm.success = vm.error = null;
       imageUploaded = true;
       Upload.upload({
@@ -112,6 +128,8 @@
       // Reset form
       vm.profilePicSelected = false;
       vm.progress = 0;
+      $('#loadingDivUserSettingSide').css('display', 'none');
+      document.body.style.cursor='default';
     }
 
     // Called after the user has failed to uploaded a new picture
@@ -120,6 +138,8 @@
 
       // Show error message
       vm.error = response.message;
+      $('#loadingDivUserSettingSide').css('display', 'none');
+      document.body.style.cursor='defaultd';
     }
   }
 }());

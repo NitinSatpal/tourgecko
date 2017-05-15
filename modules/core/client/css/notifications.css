@@ -135,6 +135,53 @@
   font-weight: 400;
   font-color: #666;
 }
+#account-dropdown-container {
+  background-color: #fff;
+  border: 1px solid rgba(100, 100, 100, .4);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
+  overflow: hidden;
+  position: absolute;
+  top: 32px;
+  margin-left: 0;
+  height: auto;
+  width: 120px;
+  z-index: 1000;
+  display: none;
+  
+}
+#account-dropdown-container:before {
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  color: transparent;
+  border: 10px solid black;
+  border-color: transparent transparent white;
+  margin-top: -20px;
+  margin-left: 268px;
+}
+#accountDropdownBody {
+  max-height: 360px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height:auto;
+  margin-top: 0;
+  margin-right: 0 !important;
+}
+#accountDropdownBody p {
+  padding-left: 7px;
+}
+#accountDropdownBody .dynamicItems {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+}
+#accountDropdownBody .logoutItem {
+  top: 0 !important;
+}
+.activePElementForAccountDropdown {
+  background-color: #eee;
+}
 @media  (max-width: 767px) {
   #notificationContainer {
     width: 320px;

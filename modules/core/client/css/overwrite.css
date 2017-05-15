@@ -159,6 +159,17 @@
     margin-right: 0px !important;
     margin-left: 0px !important;
 }
+#bookingCalendar td.fc-day.fc-past {
+    background-color: #EEEEEE;
+}
+
+
+#bookingCalendar td {
+    cursor: pointer;
+}
+#bookingCalendar .fc-row .fc-content-skeleton td, #bookingCalendar .fc-row .fc-helper-skeleton td {
+    border-bottom: hidden;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;

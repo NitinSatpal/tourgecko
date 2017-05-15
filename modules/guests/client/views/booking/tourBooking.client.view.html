@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
       </script>
-      <nav class="white fixed z-depth-1 toursite-nav" ng-style="vm.getDynamicPaddingForBookingScreenNav()">
+      <!-- <nav class="white fixed z-depth-1 toursite-nav" ng-style="vm.getDynamicPaddingForBookingScreenNav()">
             <div class="nav-wrapper" ng-class="vm.getDynamicCSSForBookingScreenNav()">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <a href="#" class="blue-grey-text text-darken-4" ng-style="vm.getDynamicLeftMarginForCompanyLogo()">
@@ -28,7 +28,7 @@
                     <li><a href="#" class="blue-grey-text text-darken-4"><i class="zmdi zmdi-email left orange-text"></i>Contact Us</a></li>
                 </ul>
             </div>
-        </nav>
+        </nav> -->
     </header>
 
     <main>
@@ -117,14 +117,14 @@
                                 </li>
                             </ul>
                             <ul id="departure-schedule" class="collection" ng-show="vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
-                                <span class="desc-text grey-text openDatedTourDesc" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">Tour is not available in the following months</span>
+                                <span class="desc-text grey-text openDatedTourDesc" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">Months in which tour is not available are greyed out</span>
                                 <a class="tooltipped" data-position="right" data-delay="50" data-tooltip="Host has made this tour unavailable for certain months and you cannot book the tour during that time." ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
                                     <i class="zmdi zmdi-info-outline orange-text"></i>
                                 </a>
                                 <br>
-                                <span class="desc-text semi-grey-text openDatedTourDesc" ng-repeat="notAllowedMonth in vm.bookingProductDetails.productUnavailableMonths" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
+                                <!--<span class="desc-text semi-grey-text openDatedTourDesc" ng-repeat="notAllowedMonth in vm.bookingProductDetails.productUnavailableMonths" ng-show="vm.bookingProductDetails.productUnavailableMonths.length > 0">
                                     {{notAllowedMonth}}
-                                </span>
+                                </span>-->
                                 <div class="calendarMargin">
                                     <div id='bookingCalendar' class=".fullCalendar"></div>
                                 </div>
@@ -646,8 +646,20 @@
     });
 </script>
 <script type="text/javascript">
-    var events = []
-
+    var events = [];
+    var monthToNumberMapping = new Map();
+    monthToNumberMapping.set('January', 0);
+    monthToNumberMapping.set('February', 1);
+    monthToNumberMapping.set('March', 2);
+    monthToNumberMapping.set('April', 3);
+    monthToNumberMapping.set('May', 4);
+    monthToNumberMapping.set('June', 5);
+    monthToNumberMapping.set('July', 6);
+    monthToNumberMapping.set('August', 7);
+    monthToNumberMapping.set('September', 8);
+    monthToNumberMapping.set('October', 9);
+    monthToNumberMapping.set('November', 10);
+    monthToNumberMapping.set('December', 11);
     $('#bookingCalendar').fullCalendar({
         height: 600,
         header: {
@@ -655,20 +667,27 @@
             center: 'title',
             right: 'month'
         },
-        navLinks: true, // can click day/week names to navigate views
+        navLinks: false, // can click day/week names to navigate views
         selectHelper: true,
         selectable: true,
         select: function(start, end) {
             var date = new Date(start);
             if (date < new Date())
-                alert('You cannot book tour for passed dates');
+                return false;
             else if (angular.element('#booking').scope().bookingNotAllowedMonths.has(date.getMonth()))
-                alert('tour is not available in this month');
+                return false;
             else {
                 var selectedDate = angular.element('#booking').scope().getDepartureDate(date, true);
             }
         },
         events: events,
+        editable: true,
+        viewRender: function(view) {
+            if (angular.element('#booking').scope().bookingNotAllowedMonths.has(monthToNumberMapping.get(view.title.split(' ')[0])))
+                $('.fc-month-view').css('background-color', '#EEEEEE');
+            else
+                $('.fc-month-view').css('background-color', 'transparent');
+        },
         eventRender: function (event, element) {
             element.find('.fc-title').html(event.title);
         }
@@ -677,6 +696,7 @@
 <script>
     $(document).ready(function(){
         $(this).scrollTop(0);
+        $('#bookingCalendar').fullCalendar('today');
     });
     $("#bookingMobileNumber").select2({
         minimumResultsForSearch: Infinity,
