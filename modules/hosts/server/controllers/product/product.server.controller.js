@@ -318,7 +318,6 @@ exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
           message: errorHandler.getErrorMessage(err)
         });
       }
-      console.log(productSessions);
       res.json(productSessions);
     });
   }

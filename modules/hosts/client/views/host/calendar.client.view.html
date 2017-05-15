@@ -5,7 +5,7 @@
 	<div class="row body-content" id="calendarTabBodyContent">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
 			<div class="home_add_tour">
-			    <i class="zmdi zmdi-home heading-icn"></i>
+			    <i class="fa fa-calendar heading-icn"></i>
 			    <h2><span>Sessions</span></h2>
 			</div>
 			<br>
@@ -29,11 +29,79 @@
 					</ul>
 				</div>
 			</div>
-			<br>
-			<br>
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div id='calendar'></div>
+			<div class="home-section event_calendar">
+				<div class="head_content">
+					<h4>Upcoming</h4>
+	                <ul class="cal_list_toggle pull-right">
+	                <li><a href="#" class="active" onclick="changeToCalendarView()" id="calendarLink">Calendar</a></li>
+	                <li> | </li>
+	                <li><a href="#" onclick="changeToListView()" id="listLink">List</a></li>
+	                </ul>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div id="sessionList" class="listView" style="margin-top: 0 !important">
+							<div class="fc-button-group btn-listview">
+								<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthSessions()">
+									<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
+								</button>
+								<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthSessions()">
+									<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
+								</button>
+							</div>
+							<div class="title-listview" style="margin-left: 35%;">
+								<span class="listViewMonthTitle">{{vm.listViewMonthTitle}}</span>
+							</div>
+							<br><br>
+							<span ng-if="!vm.sessionsFetched" class="loader-spinner-hostHomeCalendar" id="loaderForListViewOFSessionsHomePage" ng-style="vm.getLoaderPositionForHomePageCalendar()"><i class="fa fa-spinner" aria-hidden="true"></i></span>
+							<div ng-show="vm.productSessions.length == 0" class="text-center" style="margin-top: 10%;">
+								<span> No Tours found in this month</span>
+							</div>
+							<div class="card" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="name" ng-class="vm.setColorOfListItems($index)"> {{session.product.productTitle}}</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="tourDepartureDate pull-right">
+											{{vm.getDepartureDateOfSession($index)}}
+										</p>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="duration">
+											<i class="zmdi zmdi-time-interval" ng-class="vm.setColorOfListItems($index)"></i> &nbsp;
+											{{vm.getProductDuration($index)}}
+										</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="tourDurationType"> 
+											<i class="zmdi zmdi-calendar-check" ng-class="vm.setColorOfListItems($index)"></i>  &nbsp;
+											Fixed Departure
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="bookings">
+					        				<i class="zmdi zmdi-account" ng-class="vm.setColorOfListItems($index)"></i> &nbsp; {{session.numberOfSeats[vm.numOfSeatsKey]}} &nbsp; / &nbsp; {{vm.getProductSessionLimit($index)}}
+					        			</p>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="sessionRepeatBehavior">
+											<i class="zmdi zmdi-repeat" ng-class="vm.setColorOfListItems($index)"></i>
+											{{vm.getSessionRepeatBehavior($index)}}
+										</p>
+									</div>
+								</div>
+			        			
+							</div>
+						</div>
+						<!-- ************************************************************************************************ -->
+						<div id='calendar'></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -60,4 +128,16 @@
 	    $(this).scrollTop(0);
 	    $('#loadingDiv').css('display', 'none');
 	});
+	function changeToListView () {
+		$('#calendar').css('opacity',0);
+		$('#sessionList').show();
+		$('#calendarLink').removeClass('active');
+		$('#listLink').addClass('active');
+	}
+	function changeToCalendarView () {
+		$('#sessionList').hide();
+		$('#calendar').css('opacity',1);
+		$('#listLink').removeClass('active');
+		$('#calendarLink').addClass('active');
+	}
 </script>
