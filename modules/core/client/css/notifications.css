@@ -171,13 +171,13 @@
 #accountDropdownBody p {
   padding-left: 7px;
 }
+#accountDropdownBody p:hover {
+  background-color: #eee;
+}
 #accountDropdownBody .dynamicItems {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #eee;
-}
-#accountDropdownBody .logoutItem {
-  top: 0 !important;
 }
 .activePElementForAccountDropdown {
   background-color: #eee;

@@ -60,11 +60,10 @@
                                 <div ng-repeat="item in vm.accountMenu.items track by $index">
                                     <p ui-sref="{{item.state}}" class="dynamicItems" id="account-dropdown-menuitem{{$index}}" ng-bind="item.title" ng-click="vm.showLoadersAndWaitCursor()">
                                     </p>
+                                    <p class="dynamicItems" id="account-dropdown-menuitem{{$index}}" ng-click="vm.showLoadersAndWaitCursor()" style="margin-top: -10px !important; margin-bottom: 0 !important" ng-if="$index == vm.accountMenu.items.length - 1"> 
+                                         <a href="/api/auth/signout" target="_self">Logout</a> 
+                                    </p>
                                 </div>
-                                <p class="logoutItem">
-                                    <a href="/api/auth/signout" target="_self">Logout</a>
-                                </p>
-                                
                             </div>
                         </div>
                     </li>

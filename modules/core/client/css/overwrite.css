@@ -183,6 +183,9 @@
 .toursite .top-Panel-toursite .vendor-email {
     color: #78909c !important;
 }
+.home_add_tour .tours_head_content .preview-button .btn-primary {
+    text-shadow: none !important;
+}
 @media  (max-width: 767px) {
   .pricing-divider-css {
     padding-left: 0 !important;
