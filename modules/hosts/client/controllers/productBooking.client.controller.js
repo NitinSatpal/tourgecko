@@ -449,8 +449,9 @@
           categorizedBooking($scope.selectedCategorizedKeys, false);
       }
     }
-
+    vm.filterApplied = false;
     vm.applySelectedFiltersOnBookingRecords = function () {
+      vm.filterApplied = true;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       $scope.selectedCategorizedKeys.length = 0;
@@ -518,6 +519,10 @@
 
         if (startFromTop)
           $('html, body').scrollTop(0);
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }).error(function (err) {
+        vm.filterApplied = false;
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
       });

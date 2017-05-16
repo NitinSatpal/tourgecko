@@ -396,8 +396,11 @@
           categorizedBooking($scope.selectedCategorizedKeys, false);
       }
     }
-
+    vm.filterApplied = false;
     vm.applySelectedFiltersOnBookingRecords = function () {
+      vm.filterApplied = true;
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       $scope.selectedCategorizedKeys.length = 0;
       for(var index = 0; index < vm.selectedFiltersForBookingRecords.length; index++) {
         if(vm.selectedFiltersForBookingRecords[index])
@@ -412,6 +415,8 @@
     }
 
     vm.clearAllFilterOnBookingRecords = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       vm.selectedFiltersForBookingRecords = [false, false, false, false, false];
       $scope.selectedCategorizedKeys.length = 0;
       $window.localStorage.setItem('sessionBookingFilters', ' ');
@@ -462,6 +467,12 @@
 
         if (startFromTop)
           $('html, body').scrollTop(scrollTo);
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }).error(function (err) {
+        vm.filterApplied = false;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
