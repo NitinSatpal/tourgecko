@@ -321,14 +321,14 @@
     $('#filter-dropdown-button').on('click', function(event) {
         checkedOnce = false;
         if ($("#filter-dropdown").hasClass("open")) {
-            $('#filter-dropdown-button').css("border-bottom-color","transparent");
-            $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
-            $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
-        } else {
             checkedOnce = true;
             $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
             $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
             $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+        } else {
+            $('#filter-dropdown-button').css("border-bottom-color","transparent");
+            $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
+            $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
         }
     });
 
@@ -339,14 +339,14 @@
     $(document).on("click","#tourBookingDetails",function() {
         if(!checkedOnce) {
             if ($("#filter-dropdown").hasClass("open")) {
-                $('#filter-dropdown-button').css("border-bottom-color","transparent");
-                $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
-                $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
-                checkedOnce = true;
-            } else {
                 $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
                 $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
                 $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+                checkedOnce = true;
+            } else {
+                $('#filter-dropdown-button').css("border-bottom-color","transparent");
+                $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
+                $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
                 checkedOnce = true;
             }
         }
