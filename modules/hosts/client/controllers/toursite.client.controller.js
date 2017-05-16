@@ -32,7 +32,12 @@
     $http.get('/api/host/toursitedata/' + $stateParams.toursite).success(function (response) {
         vm.toursitedata = response.productArray;
         vm.companyData = response.companyData;
-        console.log(JSON.stringify(vm.toursitedata));
+        if (vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
+          vm.facebookLink = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
+        if (vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
+          vm.twitterLink = 'https://www.twitter.com/' + vm.companyData.hostSocialAccounts.twitter;
+        if (vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
+          vm.instagramLink = 'https://www.instagram.com/' + vm.companyData.hostSocialAccounts.instagram;
         if (response.productArray.length > 0)
           vm.userData = response.productArray[0].user;
 
@@ -453,7 +458,6 @@
     }
 
     vm.goToHostSocialSite = function (socialSite) {
-      console.log(vm.companyData.hostSocialAccounts);
       if (socialSite == 'facebook') {
         if (vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
           $window.location = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;

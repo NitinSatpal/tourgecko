@@ -178,7 +178,9 @@
 .toursite .top-Panel-toursite .vendor-social .zmdi-instagram,
 .toursite-footer .contact-info .vendor-social .zmdi-facebook,
 .toursite-footer .contact-info .vendor-social .zmdi-twitter,
-.toursite-footer .contact-info .vendor-social .zmdi-instagram {
+.toursite-footer .contact-info .vendor-social .zmdi-instagram,
+.toursite .top-Panel-toursite .vendor-phone,
+.toursite .top-Panel-toursite .vendor-email {
     color: #78909c !important;
 }
 @media  (max-width: 767px) {
