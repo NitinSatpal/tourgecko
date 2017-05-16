@@ -204,6 +204,12 @@
 	   	event.stopPropagation();
 	});
 
+	$(document).on("click", function(event) {
+	   	$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+		$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+	});
+
 	function changeCSSForBookingFilterButton() {
 		$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
 		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
