@@ -419,6 +419,7 @@
       vm.rememberFilterPreferences = false;
       $window.localStorage.setItem('shallRememberSessionBookingFilterPreference', 'No');
       fetchAllBookingRecords();
+      $('#filter-dropdown-button').click();
     }
 
     function categorizedBooking (filterKeys, startFromTop) {

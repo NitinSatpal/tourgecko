@@ -476,6 +476,7 @@
       vm.rememberFilterPreferences = false;
       $window.localStorage.setItem('shallRememberFilterPreference', 'No');
       fetchAllBookingRecords();
+      $('#filter-dropdown-button').click();
     }
 
     function categorizedBooking (filterKeys, startFromTop) {

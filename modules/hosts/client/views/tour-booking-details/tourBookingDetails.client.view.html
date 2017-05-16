@@ -314,42 +314,22 @@
         $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
         $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
         $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
-        checkedOnce = true;
     });
-    var checkedOnce = false;
-    /*ulta work kar raha */
-    $('#filter-dropdown-button').on('click', function(event) {
-        checkedOnce = false;
+
+    $(document).on("click", "#filter-dropdown-button", function(event) {
         if ($("#filter-dropdown").hasClass("open")) {
-            checkedOnce = true;
-            $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
-            $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
-            $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
-        } else {
             $('#filter-dropdown-button').css("border-bottom-color","transparent");
             $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
             $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
+        } else {
+            $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
+            $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
+            $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
         }
     });
 
-    $('#filter-options').on('click', function(event) {
+    $(document).on("click", "#filter-options", function(event) {
         event.stopPropagation();
-    });
-
-    $(document).on("click","#tourBookingDetails",function() {
-        if(!checkedOnce) {
-            if ($("#filter-dropdown").hasClass("open")) {
-                $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
-                $('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
-                $('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
-                checkedOnce = true;
-            } else {
-                $('#filter-dropdown-button').css("border-bottom-color","transparent");
-                $('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
-                $('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
-                checkedOnce = true;
-            }
-        }
     });
 
     function changeCSSForSessionBookingFilterButton() {
