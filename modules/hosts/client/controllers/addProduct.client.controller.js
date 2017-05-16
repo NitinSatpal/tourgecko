@@ -11,7 +11,8 @@
     })
     .constant('errorContentData', {
       "tourName" : "Name of the tour cannot be blank",
-      "tourDestination" : "Main Destination cannot be blank"
+      "tourDestination" : "Main Destination cannot be blank",
+      "groupPricingFinalValidation" : "Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present"
     });
 
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
@@ -255,15 +256,31 @@ function setRichTextData () {
 
     /* Group pricing validation start here. This validation will be executed when host is creating different options to guide the host */
     function validatePricingOption (index) {
+      if(!vm.pricingParams[index].price || vm.pricingParams[index].price == '') {
+        toasty.error({
+            title: 'Price amount!',
+            msg: 'Please enter a price for ' + vm.pricingParams[index].pricingType,
+            sound: false
+          });
+          return false;
+      }
       var indexTracker;
       var lastGroupOption;
       if(vm.pricingParams[index].pricingType == 'Group') {
         if(vm.pricingParams[index].minGroupSize === undefined) {
-          alert('Please enter a valid range of the group ');
+          toasty.error({
+            title: 'Group range!',
+            msg: 'Please enter a valid range of the group!',
+            sound: false
+          });
           return false;
         }
         if(vm.pricingParams[index].minGroupSize !== undefined && vm.pricingParams[index].maxGroupSize !== undefined && parseInt(vm.pricingParams[index].minGroupSize) >= parseInt(vm.pricingParams[index].maxGroupSize)) {
-          alert('group max size should be greater than group min size ');
+          toasty.error({
+            title: 'Group Size!',
+            msg: 'Group max size should be greater than group min size!',
+            sound: false
+          });
           return false;
         }
         if (index > 0) {
@@ -275,10 +292,18 @@ function setRichTextData () {
           }
           if (lastGroupOption !== undefined) {
             if (lastGroupOption.maxGroupSize === undefined || (lastGroupOption.maxGroupSize !== undefined && (parseInt(lastGroupOption.maxGroupSize)  >= parseInt(vm.pricingParams[index].minGroupSize)))) {
-              alert('Max size option of previous group should be less than the min size option of current group ');
+              toasty.error({
+                title: 'Group size!',
+                msg: 'Max size option of previous group should be less than the min size option of current group !',
+                sound: false
+              });
               return false;
             } else if (parseInt(lastGroupOption.maxGroupSize) <= parseInt(lastGroupOption.minGroupSize)) {
-              alert('group max size should be greater than group min size in previous group option ');
+              toasty.error({
+                title: 'Group size!',
+                msg: 'Group max size should be greater than group min size in previous group option!',
+                sound: false
+              });
               return false;
             }
           }
@@ -286,10 +311,18 @@ function setRichTextData () {
       } else {
         if (vm.pricingParams[index] && vm.pricingParams[index].pricingType == 'Everyone') {
           if (index > 0) {
-            alert('If you want same price for Everyone then Please remove all the options and keep only Price for Everyone');
+            toasty.error({
+              title: 'Pricing type!',
+              msg: 'If you want same price for Everyone then Please remove all the options and keep only Price for Everyone!',
+              sound: false
+            });
             return false;
           } else {
-            alert('You have already added price for Everyone. No other option is valid now');
+              toasty.error({
+              title: 'Pricing type!',
+              msg: 'You have already added price for Everyone. No other option is valid now!',
+              sound: false
+            });
             return false;
           }
         }
@@ -379,7 +412,11 @@ function setRichTextData () {
     vm.doneClicked = false;
     vm.createItinerary = function(done) {
       if(vm.productDurationType == 'Hours' && done != true) {
-        alert ('Your tour is hourly, There should be only one Day itinerary. Please click on Done');
+        toasty.warning({
+          title: 'Hourly tour!',
+          msg: 'Your tour is hourly, Are you sure you want to enter more itineraries!',
+          sound: false
+        });
         return false;
       }
       if (!doneAlreadyClicked) {
@@ -457,11 +494,27 @@ function setRichTextData () {
 /* ------------------------------------------------------------------------------------------------------------------------- */
 vm.openDepartureSessionModal = function() {
   vm.isSpecialPricingPresent = false;
-  if(vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) {
-    alert('Please enter tour name before creating departure session');
+  if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && 
+    ((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined))) {
+    toasty.error({
+      title: 'Tour name and Pricing required!',
+      msg: 'Please enter tour name and pricing details before creating departure session!',
+      sound: false
+    });
+    return false;
+  } else if(vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) {
+    toasty.error({
+      title: 'Tour name required!',
+      msg: 'Please enter tour name before creating departure session!',
+      sound: false
+    });
     return false;
   } else if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
-    alert('Please enter pricing details before creating departure session');
+    toasty.error({
+      title: 'Pricing required!',
+      msg: 'Please enter pricing details before creating departure session!',
+      sound: false
+    });
     return false;
   } else {
     var modalOpened = true;
@@ -494,20 +547,36 @@ vm.openDepartureSessionModal = function() {
 
 vm.createDepartureSession = function () {
   if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
-    alert('Please select date for creating a departure session');
+    toasty.error({
+      title: 'Start date required!',
+      msg: 'Please select start date for creating a departure session!',
+      sound: false
+    });
     return false;
   } else if (vm.isFixedTourTimeSlotAvailable == true && ($('#dsTimeSlot').val() === undefined || $('#dsTimeSlot').val() == null || $('#dsTimeSlot').val() == '')) {
-    alert('You have opted for time slot. Please create time slot or opt out the same');
+    toasty.error({
+      title: 'Time slots!',
+      msg: 'You have opted for time slot. Please create time slot or opt out the same!',
+      sound: false
+    });
     return false;
   } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') &&
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
-    alert('Please select the end date of reptition of this tour');
+    toasty.error({
+      title: 'End date required!',
+      msg: 'Please select the end date of reptition of this tour!',
+      sound: false
+    });
     return false;
   }
   if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
       (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays === undefined || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length == 0)){
-    alert('Please select the week days on which this tour will repeat');
+    toasty.error({
+      title: 'Week days!',
+      msg: 'Please select the week days on which this tour will repeat!',
+      sound: false
+    });
     return false;
   }
   
@@ -676,16 +745,23 @@ vm.createDepartureSession = function () {
       if (vm.saveBtnDisabled)
         return;
       vm.errorContent = [];
-      /* For now, now validation on pricing here */
-      /*var isPricingCorrect = finalValidateOfPricing();
+
+      var isPricingCorrect = finalValidateOfPricing();
       
       if (isPricingCorrect == false) {
-        alert('Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present.')
+        vm.showErrorsOnTop = true;
+        if (!isValid) {
+          vm.showErrorsOnTop = true;
+          $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
+          if(vm.form.tourForm.name_of_the_tour.$error.required)
+            vm.errorContent.push(errorContentData['tourName']);
+          if(vm.form.tourForm.tour_main_destination.$error.required)
+            vm.errorContent.push(errorContentData['tourDestination']);
+        }
+        vm.errorContent.push(errorContentData['groupPricingFinalValidation']);
         return false;
-      } else if (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined) {
-        alert('Please provide at least one pricing options for the tour to be bookable');
-        return false;
-      }*/
+      }
+
       if (!isValid) {
         vm.showErrorsOnTop = true;
         $scope.$broadcast('show-errors-check-validity', 'vm.form.tourForm');
@@ -861,9 +937,13 @@ vm.createDepartureSession = function () {
     }
 
     $scope.goToPreviewPage = function () {
-      if (!vm.tour.productTitle) {
-        alert('Please enter at least title of the tour');
-        return;
+      if (!vm.tour || (vm.tour && !vm.tour.productTitle)) {
+        toasty.error({
+          title: 'Tour name required!',
+          msg: 'Please enter at least title of the tour before checking preview!',
+          sound: false
+        });
+        return false;
       }
       setProductInformation();
       $window.localStorage.setItem('productData', JSON.stringify(vm.tour));
