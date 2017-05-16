@@ -459,7 +459,7 @@
 
     vm.goToHostSocialSite = function (socialSite) {
       if (socialSite == 'facebook') {
-        if (vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
+        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
           $window.location = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
         else {
           toasty.error({
@@ -470,7 +470,7 @@
         }
 
       } else if (socialSite == 'twitter') {
-        if (vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
+        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
           $window.location = 'https://www.twitter.com/' + vm.companyData.hostSocialAccounts.twitter;
         else {
           toasty.error({
@@ -480,7 +480,7 @@
           });
         }
       } else {
-        if (vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
+        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
           $window.location = 'https://www.instagram.com/' + vm.companyData.hostSocialAccounts.instagram;
         else {
           toasty.error({
