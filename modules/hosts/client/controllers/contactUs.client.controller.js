@@ -106,6 +106,7 @@
           msg: 'Your message has been sent!',
           sound: false
         });
+        vm.contentToHost = {};
       }).error(function (response) {
         vm.error = response.message;
         $('#loadingDivToursite').css('display', 'none');
