@@ -55,7 +55,6 @@
           alert('your account is inactive. Tourgecko will verify and activate your account.');
           $('#loadingDivHostSide').css('display', 'none');
         } else {
-          console.log($window.location.protocol);
           $window.location.href = $window.location.protocol + '//' + response.toursite + '.' + $window.location.host;
         }
       }).error(function (response) {

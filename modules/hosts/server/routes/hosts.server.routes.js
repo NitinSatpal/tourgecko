@@ -150,4 +150,7 @@ module.exports = function (app) {
 
   app.route('/api/host/sessionGuestMassMessage/')
     .post(hosts.sendMassMessagesForTheSession);
+
+   app.route('/api/host/sendContentToHostFromContactUs/')
+    .post(hosts.sendContactUsContentToHost);
 };

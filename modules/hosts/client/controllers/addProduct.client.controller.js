@@ -13,8 +13,7 @@
       "tourName" : "Name of the tour cannot be blank",
       "tourDestination" : "Main Destination cannot be blank",
       "groupPricingFinalValidation" : "Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present"
-    });
-
+    })
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
   function AddProductController($scope, $rootScope, $state, $stateParams, $http, $timeout, $window, $location, Upload, ProductDataShareService, errorContentData, toasty) {
@@ -80,7 +79,7 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    
+
     $scope.$watch('vm.pricingParams', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
@@ -94,15 +93,17 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
+        testing = false;
       }
     }, true);
-
-    /* for (var i in CKEDITOR.instances) {
-      CKEDITOR.instances[i].on('change', function() {
-        vm.saveBtnDisabled = false;
-        $scope.$apply();
-      });
-    } */
+    for (var i in CKEDITOR.instances) {
+      if (CKEDITOR.instances[i].name != 'tourItinerary') {
+        CKEDITOR.instances[i].on('change', function() {
+          vm.saveBtnDisabled = false;
+          $scope.$apply();
+        });
+      }
+    }
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* This is added in case user is redirected here for tour edit. We will be disabling body when user will click on Edit button.
  * We should enable the body here.
@@ -456,8 +457,6 @@ function setRichTextData () {
             {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
           ]
       });
-
-      
       CKEDITOR.instances[idOfEditor].setData(vm.itineraries[index].description);
     }
 
@@ -472,6 +471,13 @@ function setRichTextData () {
 
       if (CKEDITOR.instances[idOfEditor]) 
         CKEDITOR.instances[idOfEditor].destroy();
+    }
+
+    vm.cancelItineraryEdit = function (index) {
+      var idOfEditor = 'editItinerary'+index;
+      if (CKEDITOR.instances[idOfEditor]) 
+        CKEDITOR.instances[idOfEditor].destroy();
+      vm.showEditItineraryElements = false;
     }
 
     vm.deleteItinerary = function(index) {

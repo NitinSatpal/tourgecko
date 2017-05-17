@@ -78,7 +78,7 @@
     });
 
     vm.changeItemsPerPage = function (itemsPerPage) {
-        $('#loadingDivHostSide').css('display', 'block');
+        $('#loadingDivToursite').css('display', 'block');
         $('#tourgeckoBody').addClass('waitCursor');
         vm.totalPages = Math.ceil(totalToursiteRecords / parseInt(itemsPerPage));
         vm.pageCounterArray = new Array(vm.totalPages);
@@ -116,7 +116,7 @@
           if (response.productArray.length > 0)
             vm.userData = response.productArray[0].user;
           $('html, body').scrollTop(scrollTo);
-          $('#loadingDivHostSide').css('display', 'none');
+          $('#loadingDivToursite').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         }).error(function (response) {
           vm.error = response.message;
@@ -491,6 +491,11 @@
         }
 
       }
+    }
+
+    vm.goToContactUSPage = function () {
+      var toursite = $location.host().split('.')[0];
+      $state.go('contact-us', {toursite: toursite});
     }
 
     vm.goToProductDetailsPage = function (index) {

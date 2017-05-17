@@ -224,5 +224,14 @@
         $('#tourgeckoBody').removeClass('waitCursor');
       });
     };
+
+    vm.getLastLoginToDisplay = function (date) {
+      var tempDate = date.split(' ');
+      var dateToReturn = '';
+      for (var index = 0; index < tempDate.length - 1; index++)
+        dateToReturn = dateToReturn + ' ' + tempDate[index];
+      
+      return dateToReturn;
+    }
   }
 }());

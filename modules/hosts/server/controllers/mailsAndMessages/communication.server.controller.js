@@ -41,7 +41,6 @@ exports.sendMassMailForTheSession = function (req, res) {
       text: 'Mailgun rocks, pow pow!'
     }, function (err, info) {
       if (err) {
-        console.log('the error is ' +err);
         res.json('unknown error occurred. Please try again.')
       }
       else {
@@ -65,4 +64,27 @@ exports.sendMassMessagesForTheSession = function (req, res) {
     
   });
 };
+
+
+exports.sendContactUsContentToHost = function (req, res) {  
+  nodemailerMailgun.sendMail({
+    from: req.body.guestDetails.guestEmail,
+    to: req.body.hostMail, // An array if you have multiple recipients.
+    //cc:'',
+    //bcc:'',
+    subject: req.body.guestDetails.guestSubject,
+    'h:Reply-To': req.hostMail,
+    //You can use "html:" to send HTML email content. It's magic!
+    // html: req.body.guestDetails.guestMessage,
+    //You can use "text:" to send plain-text content. It's oldschool!
+    text: req.body.guestDetails.guestMessage
+  }, function (err, info) {
+    if (err) {
+      res.json('unknown error occurred. Please try again.')
+    }
+    else {
+      res.json('mails sent successfully');
+    }
+  });
+}
 

@@ -1,0 +1,86 @@
+.toursite .contact-us-main {
+	padding-left: 100px;
+}
+
+.toursite .contact-us-main .contact-details {
+	padding-right: 150px;
+}
+.toursite .contact-us-main .contact-details ul li {
+	list-style: disc;
+}
+.toursite .contact-us-main .contact-details .social-accounts i {
+	font-size: 45px;
+	padding-right: 15px;
+}
+.toursite .contact-us-main .contact-details .social-accounts .fa-facebook-square {
+	color:  #3b5998;
+}
+.toursite .contact-us-main .contact-details .social-accounts .fa-twitter-square {
+	color: #4099FF;
+}
+.toursite .contact-us-main .contact-details .social-accounts .fa-instagram {
+	color: #458eff;
+}
+.toursite .contact-us-main .get-in-touch {
+	padding-right: 100px;
+}
+.toursite .contact-us-main .get-in-touch .row {
+	margin-left: -12px; !important;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input {
+	background-color: #fff;
+	border-radius: 5px;
+	padding-left: 10px;
+	
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-email ,
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-name {
+	width: 204px;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form .submit-btn {
+	padding-top: 20px;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form .submit-btn .btn-primary {
+	background-color: #40C4FF;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-subject {
+	width: 450px;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form textarea {
+	resize: vertical;
+	background-color: #fff;
+	border-radius: 5px;
+	padding-left: 10px;
+	border-left: none;
+	border-top: none;
+	border-right: none;
+	border-bottom: 1px solid #ccc;
+	transition: 1s ease;
+	box-shadow: inset 0 0 0 -2px #ccc;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form textarea:focus {
+	border-left: none;
+	border-top: none;
+	border-right: none;
+	outline: none;
+	box-shadow:0px 2px 0 -1px #ccc;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form textarea.guest-message {
+	min-height: 200px;
+}
+.hostPinnedAddressMap {
+	width: 100%;
+	height: 400px;
+}
+.map-container {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+@media (max-width:767px) {
+	.toursite .contact-us-main {
+		padding-left: 0;
+	}
+	.toursite .contact-us-main .contact-details {
+		padding-right: o;
+	}
+}

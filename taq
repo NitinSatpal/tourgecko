@@ -1,0 +1,23 @@
+[1mdiff --git a/modules/core/client/config/core.client.routes.js b/modules/core/client/config/core.client.routes.js[m
+[1mindex 5c89645..acb5381 100644[m
+[1m--- a/modules/core/client/config/core.client.routes.js[m
+[1m+++ b/modules/core/client/config/core.client.routes.js[m
+[36m@@ -42,6 +42,18 @@[m
+           toursite: null[m
+         }[m
+       })[m
+[32m+[m[32m      .state('contact-us', {[m
+[32m+[m[32m        url: '/contact-us',[m
+[32m+[m[32m        templateUrl: 'modules/hosts/client/views/host/contact-us.client.view.html',[m
+[32m+[m[32m        controller: 'ContactUsController',[m
+[32m+[m[32m        controllerAs: 'vm',[m
+[32m+[m[32m        params: {[m
+[32m+[m[32m          toursite: null[m
+[32m+[m[32m        },[m
+[32m+[m[32m        data: {[m
+[32m+[m[32m          pageTitle: 'Contact-US'[m
+[32m+[m[32m        }[m
+[32m+[m[32m      })[m
+       .state('abstractHome.home', {[m
+         url: '',[m
+         templateUrl: 'modules/core/client/views/home.client.view.html',[m

@@ -14,7 +14,8 @@ var path = require('path'),
   nodemailer = require('nodemailer'),
   xoauth2 = require('xoauth2'),
   async = require('async'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  moment = require('moment');
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -336,6 +337,8 @@ exports.signin = function (req, res, next) {
           if (err) {
             res.status(400).send(err);
           } else {
+            user.lastLogin = moment(Date.now());
+            user.save();
             res.json(user);
           }
         });
