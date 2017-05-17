@@ -89,12 +89,11 @@
     }
 
     vm.sendContentToHost = function (isValid) {
-      console.log("i m here");
-      vm.error = null;
+      /*vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
         return false;
-      }
+      }*/
       $('#loadingDivToursite').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       var communicationParams = {guestDetails: vm.contentToHost, hostMail: vm.companyData.inquiryEmail}
@@ -120,7 +119,6 @@
     }
 
     vm.getHostAddressToPinOnMap = function () {
-      console.log('abba');
       return '//www.google.com/maps/embed/v1/place?q=Harrods,Brompton%20Rd,%20UK&zoom=17&key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI';
     }
   }
