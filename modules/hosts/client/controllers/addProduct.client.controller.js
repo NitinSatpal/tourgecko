@@ -114,11 +114,14 @@
     /* Display image upload errors, ends*/
 /* ------------------------------------------------------------------------------------------------------------------------- */
     
-    vm.initializeImageUploadErrorContent = function () {
+    $scope.initializeImageUploadErrorContent = function (startDigest) {
       $scope.imageUploadErrorContent.length = 0;
       vm.singleImageUploadError = false;
       vm.multipleImageUploadError  = false;
       $scope.showImageUploadErrorsBlock = false;
+      if (startDigest) {
+        $scope.$apply();
+      }
     }
 
 /* ------------------------------------------------------------------------------------------------------------------------- */
