@@ -331,17 +331,19 @@ exports.signin = function (req, res, next) {
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
       } else {
         // Remove sensitive data before login
-        user.lastLogin = moment(new Date());
-        user.save();
-        user.password = undefined;
-        user.salt = undefined;
-        req.login(user, function (err) {
-          if (err) {
-            res.status(400).send(err);
-          } else {
-            res.json(user);
-          }
+        user.lastLogin = moment.utc(new Date());
+        user.save(function() {
+          user.password = undefined;
+          user.salt = undefined;
+          req.login(user, function (err) {
+            if (err) {
+              res.status(400).send(err);
+            } else {
+              res.json(user);
+            }
+          });
         });
+        
       }
     }
   })(req, res, next);
