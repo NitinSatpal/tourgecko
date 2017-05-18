@@ -331,7 +331,7 @@ exports.signin = function (req, res, next) {
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
       } else {
         // Remove sensitive data before login
-        user.lastLogin = moment.utc(new Date());
+        user.lastLogin = moment(new Date());
         user.save(function() {
           user.password = undefined;
           user.salt = undefined;
