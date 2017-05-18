@@ -89,11 +89,11 @@
     }
 
     vm.sendContentToHost = function (isValid) {
-      /*vm.error = null;
+      vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
         return false;
-      }*/
+      }
       $('#loadingDivToursite').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       var communicationParams = {guestDetails: vm.contentToHost, hostMail: vm.companyData.inquiryEmail}

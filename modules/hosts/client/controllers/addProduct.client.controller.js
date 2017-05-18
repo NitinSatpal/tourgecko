@@ -76,10 +76,54 @@
     standardTagSet.add('Camping');
     $scope.uploadedProductPicturesForThisProduct = [];
     $scope.uploadedProductMapsForThisProduct = [];
+    $scope.imageUploadErrorContent = [];
+    $scope.showImageUploadErrorsBlock = false;
+    vm.singleImageUploadError = false;
+    vm.multipleImageUploadError = false;
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+    
 
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Display image upload errors */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+    /* This is the dirty way. From image uploader callback, if I am trying to display the messages, nothing is visible.
+     * The reason is digest cycle. I have to manually trigger $scope.$apply. Hence I am calling this function from
+     * fineuploader onError callback, and applying digest cycle manually. Even in this case, the best approach was to
+     * call this function once all file uploads are done, so that we can start digest cycle for everything together.
+     * But onAllcomplete callback of fineuploader is not working the way it should work. It's not getting called, if all
+     * the images uplaoded are failed. In that case, no error will be shown. Hence, we are calling this function for each
+     * image. Maximum five times (image upload maximum file limit is 5). For this reason, I have to set both
+     * vm.singleImageUploadError and vm.multipleImageUploadError everytime, else both singular and plural message will be shown
+    */    
+    $scope.showImageUploadErrors = function (error) {
+      $scope.imageUploadErrorContent.push(error);
+      $scope.showImageUploadErrorsBlock = true;
+      if ($scope.imageUploadErrorContent.length == 1) {
+        vm.singleImageUploadError = true;
+        vm.multipleImageUploadError = false;
+      }  else {
+        vm.singleImageUploadError = false;
+        vm.multipleImageUploadError = true;
+      }
+      $scope.$apply();
+    }
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Display image upload errors, ends*/
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    
+    vm.initializeImageUploadErrorContent = function () {
+      $scope.imageUploadErrorContent.length = 0;
+      vm.singleImageUploadError = false;
+      vm.multipleImageUploadError  = false;
+      $scope.showImageUploadErrorsBlock = false;
+    }
+
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Checking if user has entered anything so that save button can be enabled */
+/* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.$watch('vm.pricingParams', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
@@ -93,9 +137,9 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
-        testing = false;
       }
     }, true);
+
     for (var i in CKEDITOR.instances) {
       if (CKEDITOR.instances[i].name != 'tourItinerary') {
         CKEDITOR.instances[i].on('change', function() {
@@ -104,6 +148,54 @@
         });
       }
     }
+/* ------------------------------------------------------------------------------------------------------------------------- */
+    /* Checking if user has entered anything so that save button can be enabled ends */
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------------------------------------------ */
+    /* CKEDITOR does not glow the editor on focus, hence this things required to match the behavior with other elements of the form */
+/* ------------------------------------------------------------------------------------------------------------------------------------------ */
+    CKEDITOR.instances.describe_tour_briefly.on( 'focus', function () {
+      $("#cke_describe_tour_briefly").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.describe_tour_briefly.on('blur', function() {
+      $("#cke_describe_tour_briefly").removeClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.cancellationPolicies.on( 'focus', function () {
+      $("#cke_cancellationPolicies").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.cancellationPolicies.on('blur', function() {
+      $("#cke_cancellationPolicies").removeClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tourItinerary.on( 'focus', function () {
+      $("#cke_tourItinerary").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tourItinerary.on('blur', function() {
+      $("#cke_tourItinerary").removeClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_guidelines.on( 'focus', function () {
+      $("#cke_tour_guidelines").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_guidelines.on('blur', function() {
+      $("#cke_tour_guidelines").removeClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_inclusions.on( 'focus', function () {
+      $("#cke_tour_inclusions").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_inclusions.on('blur', function() {
+      $("#cke_tour_inclusions").removeClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_exclusions.on( 'focus', function () {
+      $("#cke_tour_exclusions").addClass('ckEditorFocus');
+    });
+    CKEDITOR.instances.tour_exclusions.on('blur', function() {
+      $("#cke_tour_exclusions").removeClass('ckEditorFocus');
+    });
+/* ------------------------------------------------------------------------------------------------------------------------------------------ */
+    /* CKEDITOR does not glow the editor on focus, hence this things required to match the behavior with other elements of the form ends */
+/* ------------------------------------------------------------------------------------------------------------------------------------------ */
+
 /* ------------------------------------------------------------------------------------------------------------------------- */
 /* This is added in case user is redirected here for tour edit. We will be disabling body when user will click on Edit button.
  * We should enable the body here.

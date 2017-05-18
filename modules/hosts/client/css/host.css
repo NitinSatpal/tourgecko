@@ -7,6 +7,12 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
+.ckEditorFocus {
+	border-color: #66afe9 !important;
+    outline: 0 !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;
+}
 .home-content .add-product .error-success-notification {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
@@ -46,6 +52,48 @@ h1, h2, h3, h4, h5, h6 {
 	padding-bottom: 20px;
 }
 .home-content .add-product .error-success-notification .success-content {
+	color: #555;
+	font-weight: 300;
+}
+.home-content .add-product .error-success-image-upload {
+	margin-left: 0 !important;
+	margin-right: 17.3% !important;
+	padding-bottom: 20px;
+}
+.home-content .add-product .error-success-image-upload .errors {
+	height: auto;
+	background-color: #ff9797;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.home-content .add-product .error-success-image-upload .errors .fa-ban {
+	padding-top: 20px;
+	color: #C80000 ;
+	font-weight: 500;
+	font-size: 35px;
+}
+.home-content .add-product .error-success-image-upload .errors .error-content {
+	margin-left: -55px;
+}
+.home-content .add-product .error-success-image-upload .errors .error-content h5 {
+	font-weight: 500;
+	color: #555;
+}
+.home-content .add-product .error-success-image-upload .errors .error-content ul {
+	padding-left: 18px;
+}
+.home-content .add-product .error-success-image-upload .errors .error-content ul li {
+	font-weight: 300;
+	color: #404040;
+}
+
+.home-content .add-product .error-success-image-upload .success {
+	height: auto;
+	background-color: #BCED91;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.home-content .add-product .error-success-image-upload .success-content {
 	color: #555;
 	font-weight: 300;
 }

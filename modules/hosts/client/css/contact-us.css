@@ -24,6 +24,13 @@
 .toursite .contact-us-main .get-in-touch {
 	padding-right: 100px;
 }
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-email ,
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-name {
+	width: 225px !important;
+}
+.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-name {
+	margin-left: 19.5px !important;
+}
 .toursite .contact-us-main .get-in-touch .row {
 	margin-left: -12px; !important;
 }
@@ -33,19 +40,13 @@
 	padding-left: 10px;
 	
 }
-.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-email ,
-.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-name {
-	width: 204px;
-}
 .toursite .contact-us-main .get-in-touch .get-in-touch-form .submit-btn {
 	padding-top: 20px;
 }
 .toursite .contact-us-main .get-in-touch .get-in-touch-form .submit-btn .btn-primary {
 	background-color: #40C4FF;
 }
-.toursite .contact-us-main .get-in-touch .get-in-touch-form input.guest-subject {
-	width: 450px;
-}
+
 .toursite .contact-us-main .get-in-touch .get-in-touch-form textarea {
 	resize: vertical;
 	background-color: #fff;
@@ -57,6 +58,7 @@
 	border-bottom: 1px solid #ccc;
 	transition: 1s ease;
 	box-shadow: inset 0 0 0 -2px #ccc;
+	width: 102.075% !important;
 }
 .toursite .contact-us-main .get-in-touch .get-in-touch-form textarea:focus {
 	border-left: none;
@@ -75,6 +77,17 @@
 .map-container {
 	padding-left: 30px;
 	padding-right: 30px;
+}
+
+.get-in-touch .has-error .error-block .help-block.error-text {
+	margin-top: -20px !important;
+	font-size: 15px !important;
+	margin-bottom: 20px !important;
+}
+.get-in-touch .has-error .error-message-block .help-block.error-text {
+	margin-top: -5px !important;
+	font-size: 15px !important;
+	margin-bottom: 20px !important;
 }
 @media (max-width:767px) {
 	.toursite .contact-us-main {
