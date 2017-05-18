@@ -337,8 +337,7 @@ exports.signin = function (req, res, next) {
           if (err) {
             res.status(400).send(err);
           } else {
-            var lastLogin = moment.utc(Date.now());
-            user.lastLogin = moment(lastLogin).local();
+            user.lastLogin = moment(new Date());
             user.save();
             res.json(user);
           }
