@@ -247,7 +247,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           
           vm.productAvailabilityType = vm.tour.productAvailabilityType;
 
-          console.log(vm.tour.productAvailabilityType);
           if(vm.tour.productAvailabilityType == 'Fixed Departure')
             openFixedDeparturePanel();
           else if (vm.tour.productAvailabilityType == 'Open Date')
@@ -925,7 +924,6 @@ vm.createDepartureSession = function () {
         .success(function (response) {
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
-          console.log($state.previous.state.name);
           $state.go('host.showProduct', {productId: response._id, showSuccessMsg: false, showEditSuccessMsg: true});
           if ($state.previous.state.name == 'host.showProduct' || $state.previous.state.name == 'host.editProduct')
             $state.reload();
