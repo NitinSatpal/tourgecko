@@ -303,6 +303,74 @@
 		</div>
 	</div>
 </div>
+<div id="bookingFilterMobileModal" class="modal bookingFilterMobileModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bookingFilterMobileModalContent">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#bookingFilterMobileModal').toggle('slow')"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select the filter optionss!</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
+                            <label for="filter-checkbox-one"></label>
+                            <span class="filterName">Pending</span>
+                        </div>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="filter-checkbox-two" class="" ng-model="vm.selectedFiltersForBookingRecords[1]">
+                            <label for="filter-checkbox-two"></label>
+                            <span class="filterName">Confirmed</span>
+                        </div>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="filter-checkbox-three" class="" ng-model="vm.selectedFiltersForBookingRecords[2]">
+                            <label for="filter-checkbox-three"></label>
+                            <span class="filterName">Declined</span>
+                        </div>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
+                            <label for="filter-checkbox-four"></label>
+                            <span class="filterName">Cancelled</span>
+                        </div>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="filter-checkbox-five" class="" ng-model="vm.selectedFiltersForBookingRecords[4]">
+                            <label for="filter-checkbox-five"></label>
+                            <span class="filterName">Expired</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modalFooterContent">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <button type="button" class="btn btn-default btn-Clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12 RememberFilters"  style="margin-top: 30px;">
+                        <div class="o-checkbox">
+                            <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
+                            <label for="remember-filters"></label>
+                            <span class="filterName">Remember my filter preferences</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- CSS -->
 <link media="print" rel="stylesheet" href="lib/angularPrint/angularPrint.css">
 
@@ -348,5 +416,15 @@
     }
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    if (window.innerWidth < 767) {
+        $(".booking-filters .fa").css("display", "none");
+        $("#filter-dropdown-button").attr("data-toggle", "");
+    }
+    $(document).on("click", "#filter-dropdown-button", function() {
+        if (window.innerWidth < 767) {
+            $("#bookingFilterMobileModal").toggle("slow");
+        }
     });
 </script>
