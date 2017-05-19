@@ -187,7 +187,10 @@
     text-shadow: none !important;
 }
 @media  (max-width: 767px) {
-  .pricing-divider-css {
-    padding-left: 0 !important;
-  }
+    .pricing-divider-css {
+        padding-left: 0 !important;
+    }
+    .toursite .container {
+        padding-right: 15px !important;
+    }
 }
