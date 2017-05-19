@@ -324,6 +324,7 @@ p {
 }
 .productTags {
 	text-align: center;
+	width: auto;
 }
 
 .companyLogoUploadButtonMargin {
