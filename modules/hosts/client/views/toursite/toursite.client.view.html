@@ -173,7 +173,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="selectRow col-sm-12 col-md-12 col-lg-12">
+                    <div class="selectRow col-sm-12 col-md-12 col-lg-12" ng-if="vm.toursitedata.length > 0">
                         <span style="margin-left: -100px; display: block; margin-bottom: -24px">Show</span>
                         <select id="itemPerPageSelector" ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
                             <option value="10">10</option>
