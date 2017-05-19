@@ -179,7 +179,7 @@
                 <h4 class="modal-title">Select the filter optionss!</h4>
             </div>
             <div class="modal-body">
-                <div class="row product-booking-tab-filter-dropdown">
+                <div class="row">
 					<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 						<div class="o-checkbox">
 							<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
@@ -217,17 +217,17 @@
 				    </div>
 			    </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer modalFooterContent">
                 <div class="row">
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
 						<button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
 				    </div>
 				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
-						<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
+						<button type="button" class="btn btn-default btn-Clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
 				    </div>
 			    </div>
 			    <div class="row">
-			    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="margin-top: 30px;">
+			    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12 RememberFilters"  style="margin-top: 30px;">
 				    	<div class="o-checkbox">
 						    <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
 							<label for="remember-filters"></label>
