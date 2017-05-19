@@ -31,7 +31,6 @@
 			</div>
 			<div class="home-section event_calendar">
 				<div class="head_content">
-					<h4>Upcoming</h4>
 	                <ul class="cal_list_toggle pull-right">
 	                <li><a href="#" class="active" onclick="changeToCalendarView()" id="calendarLink">Calendar</a></li>
 	                <li> | </li>
@@ -57,10 +56,10 @@
 							<div ng-show="vm.productSessions.length == 0" class="text-center" style="margin-top: 10%;">
 								<span> No Tours found in this month</span>
 							</div>
-							<div class="card" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
+							<div class="card list-content" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
 								<div class="row">
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-										<p class="name" ng-class="vm.setColorOfListItems($index)"> {{session.product.productTitle}}</p>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
+										<a class="name" style="color: #40C4FF;"> {{session.product.productTitle}}</a>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="tourDepartureDate pull-right">

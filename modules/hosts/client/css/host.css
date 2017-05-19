@@ -123,6 +123,9 @@ h1, h2, h3, h4, h5, h6 {
 .home-section .listView {
 	display: none;
 }
+.home-section .listView .list-content .porductTitle p:hover {
+	text-decoration: underline !important;
+}
 .home-section .listView .customPrevNextBtnStyle {
 	/*padding-left: 8.400px;
 	padding-right: 8.400px;
@@ -179,9 +182,19 @@ h1, h2, h3, h4, h5, h6 {
 .home-section .listView .card .sessionRepeatBehavior i {
 	padding-right: 6.8px;
 }
+#bookingTab .body-content .multiline-header.home_add_tour.fixed-in-div span {
+	padding-top: 10px;
+}
 .booking-filters .dropdown {
    display: inline-block !important;
    min-width: 300px !important;
+}
+.booking-filters .fa-caret-up {
+	margin-left: -10px;
+	margin-top: -1px;
+}
+.booking-filters .fa-caret-down {
+	margin-top: 7px
 }
  
 .booking-filters .dropdown-toggle {
@@ -272,6 +285,76 @@ h1, h2, h3, h4, h5, h6 {
 	color: #f39200;
 	font-size: 20px;
 }
+
+
+/* from here */
+.bookingFilterMobileModal {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 25%;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox, {
+ 	width: 30px;
+ 	position: relative;
+ }
+ .bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox input[type=checkbox] {
+ 	visibility: hidden;
+ }
+ .bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox input[type=checkbox]:checked + label:after {
+ 	opacity: 1;
+ }
+ .bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox input[type=checkbox][disabled] + label {
+ 	background-color: #ddd;
+ }
+ .bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox label {
+ 	width: 25px;
+ 	height: 25px;
+ 	cursor: pointer;
+ 	position: absolute;
+ 	top: 0;
+ 	left: 0;
+ 	background: #FBFFFE;
+ 	border: 1px solid #D1D1D1;
+ 	border-radius: 4px;
+ 	float: left;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox label:after {
+	content: ' ';
+	width: 15px;
+	height: 9px;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	border: 5px solid #f39200;
+	border-top: none;
+	border-right: none;
+	background: transparent;
+	opacity: 0;
+	transform: rotate(-45deg);
+	color: #f39200;
+	font-size: 20px;
+}
+
+.bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox .filterName {
+	padding-left: 20px;
+	color: grey;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .btn-Select-filter {
+	background-color: #ED9C28;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .btn-Select-filter:hover {
+	background-color: #ED9C28;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .btn-clear-filter {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.bookingFilterMobileModal .bookingFilterMobileModalContent .o-checkbox {
+	align-self: center;
+}
+/* to here */
 
 .booking-filters .dropdown-menu .o-checkbox .filterName {
 	padding-left: 20px;
@@ -2181,7 +2264,7 @@ p.sub_desc, span.sub_desc{font-size: 12px;line-height: 1.2rem; color:#aaaaaa !im
 
 @media only screen
 and (min-device-width : 768px)
-and (max-device-width : 1024px){
+and (max-device-width : 1024px) {
 	#tours .tours_head_content {width: 75%;}
 	#tours .help_info {padding: 11px 10px;}
 	#tours .tour_pagination {padding: 11px 10px;}
@@ -2705,6 +2788,10 @@ span.multiselect-native-select select {
 		-ms-user-select:none;
 		left: 60px;
 		bottom:45px;
+	}
+	#hostCalendar #calendarTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+		margin-left: 0;
+		margin-top: 30px;
 	}
 }
 

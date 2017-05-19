@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('TourCalendarController', TourCalendarController)
 
-  TourCalendarController.$inject = ['$scope', '$window', '$http'];
+  TourCalendarController.$inject = ['$state', '$scope', '$window', '$http'];
 
-  function TourCalendarController($scope, $window, $http) {
+  function TourCalendarController($state, $scope, $window, $http) {
     var vm = this;
     
     $('#loadingDivHostSide').css('display', 'none');

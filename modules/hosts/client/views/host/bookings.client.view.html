@@ -6,7 +6,7 @@
 					<i class="zmdi zmdi-shopping-cart heading-icn"></i>
 					<h2 ng-if="vm.bookings.length > 0">Bookings<br>
 						<span class="sub_head">showing</span>
-						<span class="sub_head no_of_tours">&nbsp;{{vm.bookings.length}}&nbsp;</span>
+						<span class="sub_head no_of_tours">{{vm.bookings.length}}</span>
 						<span class="sub_head" ng-if="vm.bookings.length > 1">bookings</span>
 						<span class="sub_head" ng-if="vm.bookings.length == 1">bookings</span>
 					</h2>
@@ -23,38 +23,41 @@
                     <div class="margin padding text-center">
                         <div id="filter-dropdown" class="dropdown">
                         	<h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Filter By:</h4>
-	                        <a href="#" id="filter-dropdown-button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" role="button" aria-haspopup="true" aria-expanded="false">Booking Status </i><i class="fa fa-caret-up pull-right" aria-hidden="true" style="margin-left: -10px; margin-top: -1px;"></i> <i class="fa fa-caret-down pull-right" aria-hidden="true" style="margin-top: 7px"></i></a>
+	                        <a href="" id="filter-dropdown-button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" role="button" aria-haspopup="true" aria-expanded="false">Booking Status 
+	                        	<i class="fa fa-caret-up pull-right" aria-hidden="true"></i>
+	                        	<i class="fa fa-caret-down pull-right" aria-hidden="true"></i>
+	                        </a>
 							<div class="dropdown-menu" id="filter-options">
 								<div class="row product-booking-tab-filter-dropdown">
-									<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
 											<label for="filter-checkbox-one"></label>
 											<span class="filterName">Pending</span>
 										</div>
 								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-two" class="" ng-model="vm.selectedFiltersForBookingRecords[1]">
 											<label for="filter-checkbox-two"></label>
 											<span class="filterName">Confirmed</span>
 										</div>
 								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-three" class="" ng-model="vm.selectedFiltersForBookingRecords[2]">
 											<label for="filter-checkbox-three"></label>
 											<span class="filterName">Declined</span>
 										</div>
 								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
 											<label for="filter-checkbox-four"></label>
 											<span class="filterName">Cancelled</span>
 										</div>
 								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 10px;">
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
 										<div class="o-checkbox">
 											<input type="checkbox" value="None" name="" id="filter-checkbox-five" class="" ng-model="vm.selectedFiltersForBookingRecords[4]">
 											<label for="filter-checkbox-five"></label>
@@ -63,15 +66,15 @@
 								    </div>
 							    </div>
 							    <div class="row">
-								    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 30px;">
+								    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 30px;">
 										<button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
 								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 30px;">
+								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 30px;">
 										<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
 								    </div>
 							    </div>
 							    <div class="row product-booking-tab-filter-dropdown">
-							    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="margin-top: 30px;">
+							    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6"  style="margin-top: 30px;">
 								    	<div class="o-checkbox">
 										    <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
 											<label for="remember-filters"></label>
@@ -167,6 +170,75 @@
 		</div>
 	</div>
 </div>
+<!--<a id="sessionCreatedWithModifiedPrice" data-toggle="modal" data-target="#session-created-modified" style="display: none"></a> -->
+<div id="bookingFilterMobileModal" class="modal bookingFilterMobileModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bookingFilterMobileModalContent">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#bookingFilterMobileModal').toggle('slow')"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Select the filter optionss!</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row product-booking-tab-filter-dropdown">
+					<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						<div class="o-checkbox">
+							<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
+							<label for="filter-checkbox-one"></label>
+							<span class="filterName">Pending</span>
+						</div>
+				    </div>
+				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						<div class="o-checkbox">
+							<input type="checkbox" value="None" name="" id="filter-checkbox-two" class="" ng-model="vm.selectedFiltersForBookingRecords[1]">
+							<label for="filter-checkbox-two"></label>
+							<span class="filterName">Confirmed</span>
+						</div>
+				    </div>
+				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+						<div class="o-checkbox">
+							<input type="checkbox" value="None" name="" id="filter-checkbox-three" class="" ng-model="vm.selectedFiltersForBookingRecords[2]">
+							<label for="filter-checkbox-three"></label>
+							<span class="filterName">Declined</span>
+						</div>
+				    </div>
+				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+						<div class="o-checkbox">
+							<input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
+							<label for="filter-checkbox-four"></label>
+							<span class="filterName">Cancelled</span>
+						</div>
+				    </div>
+				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
+						<div class="o-checkbox">
+							<input type="checkbox" value="None" name="" id="filter-checkbox-five" class="" ng-model="vm.selectedFiltersForBookingRecords[4]">
+							<label for="filter-checkbox-five"></label>
+							<span class="filterName">Expired</span>
+						</div>
+				    </div>
+			    </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+						<button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
+				    </div>
+				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+						<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
+				    </div>
+			    </div>
+			    <div class="row product-booking-tab-filter-dropdown">
+			    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-12"  style="margin-top: 30px;">
+				    	<div class="o-checkbox">
+						    <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
+							<label for="remember-filters"></label>
+							<span>Remember my filter preferences</span>
+						</div>
+					</div>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
 
 <script>
@@ -196,7 +268,6 @@
 			$('#filter-dropdown-button').css("border-bottom-right-radius", "0px");
 			$('#filter-dropdown-button').css("border-bottom-left-radius", "0px");
 		} else {
-			console.log('clicked button - closed ');
 			$('#filter-dropdown-button').css("border-bottom-color","lightgrey")
 			$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
 			$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
@@ -218,5 +289,18 @@
 		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
 		$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
 	}
+
+	if (window.innerWidth < 767) {
+		$(".booking-filters .fa").css("display", "none");
+		$("#filter-dropdown-button").attr("data-toggle", "");
+	}
+	$(document).on("click", "#filter-dropdown-button", function() {
+		if (window.innerWidth < 767) {
+			$("#bookingFilterMobileModal").toggle("slow");
+		}
+
+
+	});
+	
 </script>
 	

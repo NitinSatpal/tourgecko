@@ -183,7 +183,7 @@
 .toursite .top-Panel-toursite .vendor-email {
     color: #78909c !important;
 }
-.home_add_tour .tours_head_content .preview-button .btn-primary {
+.btn-default, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
     text-shadow: none !important;
 }
 @media  (max-width: 767px) {
