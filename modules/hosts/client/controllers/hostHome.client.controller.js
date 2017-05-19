@@ -119,7 +119,7 @@
 
     vm.getProductDuration = function (index) {
       if(vm.productSessions[index].product.productDuration !== undefined)
-        return vm.productSessions[index].product.productDuration + '&nbsp;' + vm.productSessions[index].product.productDurationType;
+        return vm.productSessions[index].product.productDuration + ' ' + vm.productSessions[index].product.productDurationType;
       else
         return 'Duration not provided';
     }

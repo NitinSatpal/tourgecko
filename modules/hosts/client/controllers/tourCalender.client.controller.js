@@ -117,6 +117,13 @@
         return 'Non-repeating tour'
     }
 
+    vm.getProductDuration = function (index) {
+      if(vm.productSessions[index].product.productDuration !== undefined)
+        return vm.productSessions[index].product.productDuration + ' ' + vm.productSessions[index].product.productDurationType;
+      else
+        return 'Duration not provided';
+    }
+
     vm.goToSessionBookingDetails = function (index) {
       $state.go('host.sessionBookingDetails', {productSessionId: vm.productSessions[index]._id});
     }

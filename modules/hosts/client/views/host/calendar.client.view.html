@@ -59,7 +59,7 @@
 							<div class="card list-content" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
-										<a class="name" style="color: #40C4FF;"> {{session.product.productTitle}}</a>
+										<a class="name" ng-class="vm.setColorOfListItems($index)"> {{session.product.productTitle}}</a>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="tourDepartureDate pull-right">
