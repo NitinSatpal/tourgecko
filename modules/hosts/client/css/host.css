@@ -2724,7 +2724,6 @@ span.multiselect-native-select select {
 		margin-left: 0;
 		margin-top: 30px;
 	}
-	/* from here */
 	.bookingFilterMobileModal {
 		width: 80%;
 		margin-left: 10%;
@@ -2798,7 +2797,17 @@ span.multiselect-native-select select {
 	.bookingFilterMobileModal .bookingFilterMobileModalContent .modalFooterContent .btn-Clear-filter {
 		float: left;
 	}
-	/* to here */
+	.home-content .add-product .error-success-notification .errors .error-content {
+		margin-left: 50px;
+		margin-top: -55px;
+	}
+	.home-content .add-product .error-success-image-upload .errors .error-content {
+		margin-left: 50px;
+		margin-top: -55px;
+	}
+	.home-content .add-product .error-success-image-upload {
+		margin-right: 0 !important;
+	}
 }
 
 @media (max-width: 425px){    
