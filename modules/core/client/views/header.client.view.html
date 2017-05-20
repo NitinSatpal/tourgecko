@@ -132,10 +132,13 @@
 
     $("#mobileNavbarBtn").click(function () {
         var height = $("#host-section-Pages").height();
-        $('#host-section-Pages').css('overflow','hidden');
-        $('#host-section-Pages').css('position','fixed');
-        $('#host-section-Pages').css('width', '100%');
-        $('#mainFooterDiv').css('position', 'fixed');
+        $('#host-section-Pages').addClass("mobileSideNavBarClicked");
+        $('#mainFooterDiv').addClass("mobileSideNavBarClickedFooter");
         $('#mainFooterDiv').css('margin-top',height);
+    });
+    $(document).on('click touchstart', function () {
+        $('#host-section-Pages').removeClass("mobileSideNavBarClicked");
+        $('#mainFooterDiv').removeClass("mobileSideNavBarClickedFooter");
+        $('#mainFooterDiv').removeAttr("style");
     });
 </script>

@@ -166,6 +166,15 @@ a:hover .header-profile-image {
   font-weight: 300;
   font-size: 18px;
 }
+.mobileSideNavBarClicked {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+.mobileSideNavBarClickedFooter {
+  position: fixed;
+  
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
