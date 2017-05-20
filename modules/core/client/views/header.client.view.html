@@ -133,12 +133,14 @@
     $("#mobileNavbarBtn").click(function () {
         var height = $("#host-section-Pages").height();
         $('#host-section-Pages').addClass("mobileSideNavBarClicked");
-        $('#mainFooterDiv').addClass("mobileSideNavBarClickedFooter");
-        $('#mainFooterDiv').css('margin-top',height);
+        $('#mainFooterElement').addClass("mobileSideNavBarClickedFooter");
+        $('#mainFooterElement').css('margin-top',height);
     });
     $(document).on('click touchstart', function () {
-        $('#host-section-Pages').removeClass("mobileSideNavBarClicked");
-        $('#mainFooterDiv').removeClass("mobileSideNavBarClickedFooter");
-        $('#mainFooterDiv').removeAttr("style");
+        if ($("#sideNavToggle").hasClass("toggle")) {
+            $('#host-section-Pages').removeClass("mobileSideNavBarClicked");
+            $('#mainFooterElement').removeClass("mobileSideNavBarClickedFooter");
+            $('#mainFooterElement').removeAttr("style");
+        }
     });
 </script>

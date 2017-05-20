@@ -79,7 +79,7 @@
 </head>
 
 <body class="ng-cloak noHorizontalScroll" id="tourgeckoBody" >
-  <section class="content main-wrapper">
+  <section class="content main-wrapper" id="sideNavToggle">
     <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
       <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
     </section>
@@ -115,7 +115,7 @@
   <!-- toasty -->
   <script src="lib/angular-toasty/angular-toasty.js"></script>
 
-  <!--{{#if livereload}}
+  <!-- {{#if livereload}}
   Livereload script rendered
   <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
   {{/if}}-->
