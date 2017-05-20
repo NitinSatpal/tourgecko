@@ -137,7 +137,7 @@
         $('#mainFooterElement').css('margin-top',height);
     });
     $(document).on('click touchstart', function () {
-        if ($("#sideNavToggle").hasClass("toggle")) {
+        if (!$("#sideNavToggle").hasClass("toggle")) {
             $('#host-section-Pages').removeClass("mobileSideNavBarClicked");
             $('#mainFooterElement').removeClass("mobileSideNavBarClickedFooter");
             $('#mainFooterElement').removeAttr("style");
