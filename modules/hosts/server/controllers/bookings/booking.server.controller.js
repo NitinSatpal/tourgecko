@@ -22,8 +22,10 @@ exports.createBooking = function (req, res) {
     var referenceNumber = count + 1000;
     booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
     booking.created = Date.now();
-    var tz = momentTimezone.tz.guess();
-    booking.bookingDate = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
+    // var tz = momentTimezone.tz.guess();
+    // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
+    // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
+    booking.bookingDate = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
     booking.save(function (err) {
       if (err) {
         return res.status(400).send({
@@ -52,8 +54,10 @@ function sendNotification(bookingObject, productTitle, bookingId) {
   notification.notificationStatus = "Action Pending by Host";
   notification.notificationRead = false;
   notification.notificationTimestamp = new Date();
-  var tz = momentTimezone.tz.guess();
-  notification.notificationTimestampToDisplay = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
+  // var tz = momentTimezone.tz.guess();
+  // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
+  // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
+  notification.notificationTimestampToDisplay = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
   notification.created = Date.now();
 
   notification.save(function (err) {

@@ -332,10 +332,10 @@ exports.signin = function (req, res, next) {
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
       } else {
         // Remove sensitive data before login
-        var tz = momentTimezone.tz.guess();
-        console.log("the tz here is is is " + tz);
-        user.lastLogin = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
-        console.log("so the last login is " + user.lastLogin);
+        // var tz = momentTimezone.tz.guess();
+        // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
+        // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
+        user.lastLogin = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
         user.save(function() {
           user.password = undefined;
           user.salt = undefined;
