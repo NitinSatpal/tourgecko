@@ -15,7 +15,8 @@ var path = require('path'),
   xoauth2 = require('xoauth2'),
   async = require('async'),
   crypto = require('crypto'),
-  moment = require('moment');
+  moment = require('moment'),
+  momentTimezone = require('moment-timezone');
 
 // URLs for which user can't be redirected on signin
 var noReturnUrls = [
@@ -331,7 +332,8 @@ exports.signin = function (req, res, next) {
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
       } else {
         // Remove sensitive data before login
-        user.lastLogin = moment(new Date());
+        var tz = momentTimezone.tz.guess();
+        user.lastLogin = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
         user.save(function() {
           user.password = undefined;
           user.salt = undefined;

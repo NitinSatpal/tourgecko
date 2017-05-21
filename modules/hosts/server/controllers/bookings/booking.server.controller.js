@@ -9,6 +9,7 @@ var path = require('path'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
   moment = require('moment'),
+  momentTimezone = require('moment-timezone'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 var alphabetArray = ['A', 'B', 'C', 'D', 'E'];
@@ -21,7 +22,8 @@ exports.createBooking = function (req, res) {
     var referenceNumber = count + 1000;
     booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
     booking.created = Date.now();
-    booking.bookingDate = moment(Date.now());
+    var tz = momentTimezone.tz.guess();
+    booking.bookingDate = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
     booking.save(function (err) {
       if (err) {
         return res.status(400).send({
@@ -49,9 +51,9 @@ function sendNotification(bookingObject, productTitle, bookingId) {
   notification.notificationBody = "You have a booking request for '" + productTitle + "'.";
   notification.notificationStatus = "Action Pending by Host";
   notification.notificationRead = false;
-  notification.notificationTimestamp = moment(Date.now());
-  var splitTimestamp = notification.notificationTimestamp.split(' ');
-  notification.notificationTimestampToDisplay = splitTimestamp.slice(0, splitTimestamp.length - 1).join(' ');
+  notification.notificationTimestamp = new Date();
+  var tz = momentTimezone.tz.guess();
+  notification.notificationTimestampToDisplay = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
   notification.created = Date.now();
 
   notification.save(function (err) {

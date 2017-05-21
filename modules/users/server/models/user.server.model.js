@@ -127,7 +127,7 @@ var UserSchema = new Schema({
     type: Date
   },
   lastLogin: {
-    type: Date
+    type: String
   }
 });
 

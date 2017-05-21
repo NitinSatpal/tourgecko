@@ -86,7 +86,7 @@ var BookingSchema = new Schema({
     trim: true
   },
   bookingDate: {
-    type: Date,
+    type: String,
     default: ''
   },
   created: {
