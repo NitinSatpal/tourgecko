@@ -333,7 +333,9 @@ exports.signin = function (req, res, next) {
       } else {
         // Remove sensitive data before login
         var tz = momentTimezone.tz.guess();
+        console.log("the tz here is is is " + tz);
         user.lastLogin = momentTimezone.utc(new Date()).tz(tz).format('ddd Do MMMM YYYY h:mma');
+        console.log("so the last login is " + user.lastLogin);
         user.save(function() {
           user.password = undefined;
           user.salt = undefined;
