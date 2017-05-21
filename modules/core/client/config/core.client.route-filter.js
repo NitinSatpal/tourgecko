@@ -5,9 +5,9 @@
     .module('core')
     .run(routeFilter);
 
-  routeFilter.$inject = ['$rootScope', '$state', 'Authentication'];
+  routeFilter.$inject = ['$rootScope', '$state', 'Authentication', '$window'];
 
-  function routeFilter($rootScope, $state, Authentication) {
+  function routeFilter($rootScope, $state, Authentication, $window) {
     $rootScope.$on('$stateChangeStart', stateChangeStart);
     $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
 
@@ -33,7 +33,23 @@
               storePreviousState(toState, toParams);
             });
           }
-        }
+        }/* else {
+          if ($window.localStorage.getItem('dirtyDataPresent') == 'Yes') {
+            event.preventDefault();
+            $('#loadingDivHostSide').css('display', 'none');
+            $('#tourgeckoBody').removeClass('waitCursor');
+            $('#navigatingFromAddProduct').click();
+          }
+          $("#navigate-from-addProduct-yes").click(function () {
+            $('.modal-backdrop').remove();
+            $window.localStorage.setItem('dirtyDataPresent', 'No');
+            $state.go(toState.name, toParams);
+          });
+          $("#navigate-from-addProduct-no").click(function () {
+            $("#navigate-from-addProduct").toggle("slow");
+            $('.modal-backdrop').remove();
+          })
+        } */
       }
     }
 

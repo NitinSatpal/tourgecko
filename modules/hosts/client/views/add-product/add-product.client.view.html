@@ -145,7 +145,7 @@
 															<p class="sub_desc" ng-show="vm.helpVisible">Grade this tour on level of physical fitness required</p>
 															<div class="input_group">
 																<div>
-																	<select class="form-control" id="pricefor" ng-model="vm.productGrade" ng-click="vm.saveBtnDisabled = false">
+																	<select class="form-control" id="pricefor" ng-model="vm.productGrade" ng-click="vm.enableSaveButton()">
 																		<option>Easy</option>
 																		<option>Moderate</option>
 																		<option>Hard</option>
@@ -364,7 +364,7 @@
 												<h5>
 													Are there addon services?
 														<div class="formonoffswitch addon-onoff">
-															<input type="checkbox" name="addon-onoffswitch" class="formonoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" ng-click="vm.saveBtnDisabled = false">
+															<input type="checkbox" name="addon-onoffswitch" class="formonoffswitch-checkbox" id="addon-onoffswitch" ng-model="vm.isAddonAvailable" ng-click="vm.enableSaveButton()">
 															<label class="formonoffswitch-label" for="addon-onoffswitch"></label>
 														</div>
 												</h5>
@@ -428,7 +428,7 @@
 												<h5>
 													Does this Tour require a deposit?
 														<div class="formonoffswitch deposit-onoff">
-															<input type="checkbox" name="deposit-onoffswitch" class="formonoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" ng-click="vm.saveBtnDisabled = false">
+															<input type="checkbox" name="deposit-onoffswitch" class="formonoffswitch-checkbox" id="deposit-onoffswitch" ng-model="vm.isDepositApplicable" ng-click="vm.enableSaveButton()">
 															<label class="formonoffswitch-label" for="deposit-onoffswitch"></label>
 														</div>
 												</h5>
@@ -507,7 +507,7 @@
 													<div class="col-sm-2 col-md-2 col-lg-2 col-xs-3">
 														<div class="days_radio">
 															<label class="radio_label">
-																<input type="radio" name="datetime" value="Hours" ng-model="vm.productDurationType" ng-click="vm.saveBtnDisabled = false"/>
+																<input type="radio" name="datetime" value="Hours" ng-model="vm.productDurationType" ng-click="vm.enableSaveButton()"/>
 																<span>Hours</span>
 																<i class="zmdi zmdi-check-circle"></i>
 																<i class="zmdi zmdi-circle-o"></i>
@@ -544,7 +544,7 @@
 														<div class="col-sm-6 col-md-6 col-lg-3 col-xs-6">
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
-																	<input type="radio" name="time_required" value="Fixed Departure" id="fixedDepartureRadio" ng-model="vm.productAvailabilityType" ng-click="vm.saveBtnDisabled = false"/>
+																	<input type="radio" name="time_required" value="Fixed Departure" id="fixedDepartureRadio" ng-model="vm.productAvailabilityType" ng-click="vm.enableSaveButton()"/>
 																	<span>Fixed Departure</span>
 																	<i class="zmdi zmdi-check-circle"></i>
 																	<i class="zmdi zmdi-circle-o"></i>
@@ -575,7 +575,7 @@
 															<div class="form-group">
 																<div class="input_group">
 																	<div>
-																		<select class="form-control" id="tours_sa_timeslot" ng-model="productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot', 0)" ng-click="vm.saveBtnDisabled = false">
+																		<select class="form-control" id="tours_sa_timeslot" ng-model="productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot', 0)" ng-click="vm.enableSaveButton()">
 																			<option value="No Time Required">No time required</option>
 																			<option value="Fixed Slots">Fixed Times</option>
 																			<option value="Guest Choice">Guest Choice</option>
@@ -799,7 +799,7 @@
 														<p class="sub_desc" ng-show="vm.helpVisible">Headline to sum up the day's activities to guest, E,g if this is trekking tour, headline of day can be â€œWalking 10 km from base village to camp 1</p>
 														<div class="input_group">
 															<div>
-																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder="" ng-model="vm.heading" ng-change="vm.saveBtnDisabled = false"/>
+																<input type="text" class="form-control" name="itinerary_headline" id="itinerary_headline"  placeholder="" ng-model="vm.heading" ng-change="vm.enableSaveButton()"/>
 															</div>
 														</div>
 													</div>
@@ -1184,8 +1184,8 @@
 	            </div>
 	            <div class="modal-body">
 	                <p> You have unsaved data on this tour. Are you sure you want to navigate?</p>
-	                <a ng-click="vm.changeTheState(true)" class="btn btn-success pull-left margin-right btn-sm">Yes</a>
-	                <a ng-click="vm.changeTheState(false)" class="btn btn-danger btn-sm margin-bottom">No</a> 
+	                <a ng-click="vm.changeTheState(true)" class="btn btn-success pull-left margin-right btn-sm" id="navigate-from-addProduct-yes">Yes</a>
+	                <a ng-click="vm.changeTheState(false)" class="btn btn-danger btn-sm margin-bottom" id="navigate-from-addProduct-no">No</a> 
 	            </div>
 	            <div class="modal-footer">
 	                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>

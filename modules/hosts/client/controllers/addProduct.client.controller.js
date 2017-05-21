@@ -124,6 +124,7 @@
       }
     }
 
+  // $window.localStorage.setItem('dirtyDataPresent', 'No');
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Checking if user has entered anything so that save button can be enabled */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -132,6 +133,7 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
+        // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
       }
     }, true);
 
@@ -140,6 +142,7 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
+        // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
       }
     }, true);
 
@@ -147,6 +150,7 @@
       if (CKEDITOR.instances[i].name != 'tourItinerary') {
         CKEDITOR.instances[i].on('change', function() {
           vm.saveBtnDisabled = false;
+          // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
           $scope.$apply();
         });
       }
@@ -1001,8 +1005,11 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Assign form data to product record properly, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
-
+    
+    vm.enableSaveButton = function () {
+      vm.saveBtnDisabled = false;
+      // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
+    }
 
     vm.getDynamicCSS = function (index) {
       vm.zeroCSS = {
