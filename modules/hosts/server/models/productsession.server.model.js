@@ -48,6 +48,9 @@ var ProductSessionSchema = new Schema({
   product: {
     type: Schema.ObjectId,
     ref: 'Product'
+  },
+  utcDate: {
+    type: String
   }
 });
 

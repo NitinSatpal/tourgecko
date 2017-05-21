@@ -14,6 +14,7 @@ var _ = require('lodash'),
   multer = require('multer'),
   fs = require('fs'),
   config = require(path.resolve('./config/config')),
+  momentTimezone = require('moment-timezone'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 // Creating product here.
@@ -57,6 +58,7 @@ function createDepartureSessions (departureSessions, departureSessionPricings, s
     productSession.sessionPricingDetails = departureSessionPricings[index];
     productSession.monthsThisSessionCovering = sessionMonthsCovering[index];
     productSession.isSessionPricingValid = sessionPricingValid;
+    productSession.utcDate =  momentTimezone.utc(new Date());
     productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);
@@ -282,7 +284,22 @@ exports.fetchSessionDetailsOfGivenProduct = function (req, res) {
   });
 };
 
-// Fetching specific company's product details here.
+// Fetching sessions of given product here.
+exports.fetchFutureSessionDetailsOfGivenProduct = function (req, res) {
+  ProductSession.find({ 'product': req.params.productId, utcDate: { $lte: momentTimezone.utc(new Date()) }}).populate('product').exec(function (err, productSessions) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    if (productSessions.length > 0)
+      res.json('positive');
+    else
+      res.json('negative');
+  });
+};
+
+// Fetching sessions of a specific product
 exports.fetchCompanyProductSessionDetails = function (req, res) {
   if(req.user) {
     ProductSession.find({'hostCompany': req.user.company}).sort('-created').populate('product').exec(function (err, productSessions) {

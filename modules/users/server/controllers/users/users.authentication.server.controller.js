@@ -197,7 +197,7 @@ exports.signupDetails = function(req, res, next) {
                 hostCompany.companyName = userDetails.companyName;
                 hostCompany.companyWebsite = userDetails.companyWebsite;
                 hostCompany.hostType = userDetails.hostType;
-                hostCompany.memberSince = todayDate.getDate() + ' ' + (months[todayDate.getMonth()]) + ', ' + todayDate.getFullYear();
+                hostCompany.memberSince = todayDate.getDate() + ' ' + (months[todayDate.getMonth()]) + ' ' + todayDate.getFullYear();
                 hostCompany.hostCompanyAddress = {
                   streetAddress: userDetails.streetAddress,
                   city: userDetails.city,

@@ -70,6 +70,7 @@
     var productMapURLs;
     var previousPricingOption = [];
     var standardTagSet = new Set();
+    var areSessionsPresent;
     standardTagSet.add('Hiking');
     standardTagSet.add('Trekking');
     standardTagSet.add('Cycling');
@@ -290,6 +291,9 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           else
             vm.dayCounter = maxVal + 1;
           setRichTextData();
+      });
+      $http.get('/api/host/fetchFutureSessionsOfGivenProduct/'+ productId).success(function (response) {
+        areSessionsPresent = response;
       });
     } else {
       openUnavailableDeparturePanel();
@@ -876,7 +880,7 @@ vm.createDepartureSession = function () {
           
         return false;
       }
-      if(productId !== undefined && isPricingOptionsModified == true && vm.tour.productScheduledDates.length > 0) {
+      if(productId !== undefined && isPricingOptionsModified == true && areSessionsPresent == 'positive') {
         $('#pricingApplicability').click();
       } else {
         $('#loadingDivHostSide').css('display', 'block');
