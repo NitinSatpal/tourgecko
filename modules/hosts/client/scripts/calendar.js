@@ -26,6 +26,20 @@ var monthArrays = {
 	10: [],
 	11: []
 }
+var monthListArrays = {
+	0: [],
+	1: [],
+	2: [],
+	3: [],
+	4: [],
+	5: [],
+	6: [],
+	7: [],
+	8: [],
+	9: [],
+	10: [],
+	11: []
+}
 
 var date = new Date();
 var month = date.getMonth();
@@ -55,6 +69,8 @@ $('#calendar').fullCalendar({
 	editable: true,
 	//events: fetchEvents(month),
 	viewRender: function (view) {
+		$('#loadingDivHostSide').css('display', 'block');
+      	$('#tourgeckoBody').addClass('waitCursor');
 		var uniqueString = monthNameToNumber.get(view.title.split(' ')[0]).toString() + view.title.split(' ')[1];
 		fetchGivenMonthEvents(uniqueString, monthNameToNumber.get(view.title.split(' ')[0]));
 	},
@@ -101,7 +117,7 @@ $('#calendar').fullCalendar({
 	}
 });
 
-function fetchGivenMonthEvents(uniqueString, monthNumber) {	
+function fetchGivenMonthEvents(uniqueString, monthNumber) {
 	if(monthArrays[monthNumber].length == 0) {
 		$.ajax({
 	      	url:'/api/host/companyproductsessionsforgivenmonth/' + uniqueString,
@@ -127,18 +143,21 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 			        		var oneDay = 24*60*60*1000;
 			        		repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 			        		repeatedDays = repeatedDays + 1;
-		        		
+		        			var tourRepeatingType = 'Non-repeating tour';
 			        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
+			        			tourRepeatingType = 'Tour repeating daily';
 						      	for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
 						        	notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
 						    }
 						    if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
+						    	tourRepeatingType = 'Tour repeating monthly';
 						      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
 						        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
 						    }
 						}
 		        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
 		        		for (var index = 0; index <= repeatedDays; index ++) {
+
 		        			var needToSave = true;
 		        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
 				        		document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
@@ -168,27 +187,32 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 					        		}
 				        		}
 		        				var eventObject;
+		        				var listObject;
 		        				var colorSelectionAndTitle;
 		        				var colorSelectionAndTitleForMobile;
 		        				var bookingDetailsInCalendar;
+		        				var colorClassForListItems;
 		        				if (document.numberOfSeats && document.numberOfSeats[numOfSeatsKey])
 		        					bookingDetailsInCalendar = document.numberOfSeats[numOfSeatsKey];
 		        				else
 		        					bookingDetailsInCalendar = 0;
 		        				if (percentBooking != 'NA') {
 		        					if (percentBooking <= 40) {
+		        						colorClassForListItems = 'greenFC';
 		        						colorSelectionAndTitle = '<span class="eventname greenFC">' +
 						        			document.product.productTitle + '</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 		        					} else if (percentBooking > 40 && percentBooking <= 80) {
+		        						colorClassForListItems = 'orangeFC';
 		        						colorSelectionAndTitle = '<span class="eventname orangeFC">' + 
 						        			document.product.productTitle + '</span> <br>' + 
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
 						        			'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
 		        					} else {
+		        						colorClassForListItems = 'redFC';
 		        						colorSelectionAndTitle = '<span class="eventname redFC">' +
 					        				document.product.productTitle + '</span> <br>' +
 					        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
@@ -197,6 +221,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 		        					}
 
 		        				} else {
+		        					colorClassForListItems = 'greenFC';
 		        					colorSelectionAndTitle = '<span class="eventname greenFC">' +
 						        			document.product.productTitle + '</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
@@ -226,7 +251,22 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 					        			tourDepartureType: document.product.productAvailabilityType
 				        			}
 				        		}
-				        		monthArrays[monthNumber].push(eventObject);					        
+				        		monthArrays[monthNumber].push(eventObject);
+
+				        		if(parseInt(eventDate.getMonth()) == parseInt(monthNumber)) {
+					        		listObject = {
+					        			title: document.product.productTitle,
+					        			start: eventDate,
+					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : 'duration not provided',
+					        			tourDepartureType: document.product.productAvailabilityType,
+					        			numOfBookings: bookingDetailsInCalendar,
+					        			seatLimit: limit,
+					        			repeatingBehavior : tourRepeatingType,
+					        			percentBookingColor: colorClassForListItems,
+					        			sessionId: document._id
+					        		}
+				        			monthListArrays[monthNumber].push(listObject);
+				        		}			        
 					        }
 				        	eventDate = new Date (eventDate);
 				        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
@@ -234,12 +274,18 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 			        	}
 		        	}
 	        	});
-				$('#loaderForCalendarSideNav').hide();
-				$('#loaderForCalendarHomePage').hide();
 				$('#calendar').fullCalendar( 'removeEvents', function(event) {
 					return true;
 				});
 				$('#calendar').fullCalendar( 'addEventSource', monthArrays[monthNumber]);
+				
+				var $scope = angular.element('#calendar').scope();
+			    $scope.$evalAsync(function() {
+			        angular.element('#calendar').scope().productSessions = monthListArrays[monthNumber];
+			        angular.element('#calendar').scope().listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
+			        $('#loadingDivHostSide').css('display', 'none');
+        			$('#tourgeckoBody').removeClass('waitCursor');
+			    });
 	      	}
 	    });
 	} else {
@@ -247,5 +293,12 @@ function fetchGivenMonthEvents(uniqueString, monthNumber) {
 			return true;
 		});
 		$('#calendar').fullCalendar( 'addEventSource', monthArrays[monthNumber] );
+		var $scope = angular.element('#calendar').scope();
+	    $scope.$evalAsync(function() {
+	        angular.element('#calendar').scope().productSessions = monthListArrays[monthNumber];
+	        angular.element('#calendar').scope().listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
+	        $('#loadingDivHostSide').css('display', 'none');
+			$('#tourgeckoBody').removeClass('waitCursor');
+	    });
 	}
 }

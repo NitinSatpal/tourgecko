@@ -49,21 +49,21 @@
 								</button>
 							</div>
 							<div class="title-listview" style="margin-left: 35%;">
-								<span class="listViewMonthTitle">{{vm.listViewMonthTitle}}</span>
+								<span class="listViewMonthTitle">{{listViewMonthTitle}}</span>
 							</div>
 							<br><br>
-							<span ng-if="!vm.sessionsFetched" class="loader-spinner-hostHomeCalendar" id="loaderForListViewOFSessionsHomePage" ng-style="vm.getLoaderPositionForHomePageCalendar()"><i class="fa fa-spinner" aria-hidden="true"></i></span>
-							<div ng-show="vm.productSessions.length == 0" class="text-center" style="margin-top: 10%;">
+							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
 								<span> No Tours found in this month</span>
 							</div>
-							<div class="card list-content" ng-repeat="session in vm.productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)" ng-if="vm.sessionsFetched">
+							<div class="card list-content" ng-repeat="session in productSessions track by $index" ng-click="vm.goToSessionBookingDetails($index)">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
-										<a class="name" ng-class="vm.setColorOfListItems($index)">{{session.product.productTitle}}</a>
+										<i class="zmdi zmdi-circle" ng-class="session.percentBookingColor"></i>
+										<a class="name" style="color: #40C4FF;">{{session.title}}</a>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="tourDepartureDate pull-right">
-											{{vm.getDepartureDateOfSession($index)}}
+											{{vm.getDepartureDateOfSession(session.start)}}
 										</p>
 									</div>
 								</div>
@@ -71,27 +71,27 @@
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="duration">
-											<i class="zmdi zmdi-time-interval" ng-class="vm.setColorOfListItems($index)"></i> &nbsp;
-											{{vm.getProductDuration($index)}}
+											<i class="zmdi zmdi-time-interval orangeFC"></i> &nbsp;
+											{{session.duration}}
 										</p>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="tourDurationType"> 
-											<i class="zmdi zmdi-calendar-check" ng-class="vm.setColorOfListItems($index)"></i>  &nbsp;
-											Fixed Departure
+											<i class="zmdi zmdi-calendar-check orangeFC"></i>  &nbsp;
+											{{session.tourDepartureType}}
 										</p>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="bookings">
-					        				<i class="zmdi zmdi-account" ng-class="vm.setColorOfListItems($index)"></i> &nbsp; {{session.numberOfSeats[vm.numOfSeatsKey]}} &nbsp; / &nbsp; {{vm.getProductSessionLimit($index)}}
+					        				<i class="zmdi zmdi-account orangeFC"></i> &nbsp; {{session.numOfBookings}} &nbsp; / &nbsp; {{session.seatLimit}}
 					        			</p>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="sessionRepeatBehavior">
-											<i class="zmdi zmdi-repeat" ng-class="vm.setColorOfListItems($index)"></i>
-											{{vm.getSessionRepeatBehavior($index)}}
+											<i class="zmdi zmdi-repeat orangeFC"></i>
+											{{session.repeatingBehavior}}
 										</p>
 									</div>
 								</div>
