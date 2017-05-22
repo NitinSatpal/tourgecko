@@ -134,7 +134,8 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
-        // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
+        $rootScope.productCreationOrEditDirtyDataPresent = true;
+        
       }
     }, true);
 
@@ -143,7 +144,7 @@
         $timeout(function() { initializing = false; });
       } else {
         vm.saveBtnDisabled = false;
-        // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
+        $rootScope.productCreationOrEditDirtyDataPresent = true;
       }
     }, true);
 
@@ -151,7 +152,7 @@
       if (CKEDITOR.instances[i].name != 'tourItinerary') {
         CKEDITOR.instances[i].on('change', function() {
           vm.saveBtnDisabled = false;
-          // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
+          $rootScope.productCreationOrEditDirtyDataPresent = true;
           $scope.$apply();
         });
       }
@@ -1012,7 +1013,7 @@ vm.createDepartureSession = function () {
     
     vm.enableSaveButton = function () {
       vm.saveBtnDisabled = false;
-      // $window.localStorage.setItem('dirtyDataPresent', 'Yes');
+      $rootScope.productCreationOrEditDirtyDataPresent = true;
     }
 
     vm.getDynamicCSS = function (index) {
