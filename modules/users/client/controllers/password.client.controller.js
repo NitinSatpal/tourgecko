@@ -34,11 +34,15 @@
         // Show user success message and clear form
         vm.credentials = null;
         vm.success = response.message;
+        $("#loadingDivPassword").css("display", "none");
+        $("#tourgeckoBody").removeClass("waitCursor");
 
       }).error(function (response) {
         // Show user error message and clear form
         vm.credentials = null;
         vm.error = response.message;
+        $("#loadingDivPassword").css("display", "none");
+        $("#tourgeckoBody").removeClass("waitCursor");
       });
     }
 
@@ -58,11 +62,14 @@
 
         // Attach user profile
         Authentication.user = response;
-
+        $("#loadingDivPassword").css("display", "none");
+        $("#tourgeckoBody").removeClass("waitCursor");
         // And redirect to the index page
         $location.path('/password/reset/success');
       }).error(function (response) {
         vm.error = response.message;
+        $("#loadingDivPassword").css("display", "none");
+        $("#tourgeckoBody").removeClass("waitCursor");
       });
     }
   }
