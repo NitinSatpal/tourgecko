@@ -28,8 +28,7 @@ exports.fetcAllNotificationDetailsForGivenMonth = function (req, res) {
     var month = parseInt(req.params.lastMonthFetched);
     var firstDay = new Date(year, month, 1);
     var lastDay = new Date(year, month + 1, 0);
-
-    Notification.find({'notificationToId': req.user._id, notificationTimestamp: { $lte:  lastDay, $gte:  firstDay}}).sort('-notificationTimestamp').exec(function (err, notifications) {
+    Notification.find({'notificationToId': req.user._id, created: { $lte:  lastDay, $gte:  firstDay}}).sort('-created').exec(function (err, notifications) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)

@@ -38,10 +38,11 @@
 
 
     vm.fetchNextMonthNotifications = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       if (monthFetched == 11) {
         monthFetched = 0;
         yearFetched = yearFetched + 1;
-
       } else {
         monthFetched = monthFetched + 1;
       }
@@ -54,10 +55,11 @@
     }
 
     vm.fetchPrevMonthNotifications = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       if (monthFetched == 0) {
         monthFetched = 11;
         yearFetched = yearFetched - 1;
-
       } else {
         monthFetched = monthFetched - 1;
       }
