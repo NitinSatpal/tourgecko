@@ -99,7 +99,7 @@
                             </div>
                         </div>
 
-                        <ul class="collapsible active section_expandable" data-collapsible="expandable">
+                        <ul class="collapsible active section_expandable list-Of-Sections-Preview-Details" data-collapsible="expandable">
                             <li id="tour-overview" class="card">
                                 <div class="collapsible-header active">
                                     <i class="zmdi zmdi-info-outline orange-text"></i>Overview
@@ -489,5 +489,11 @@
     $(document).ready(function(){
         $(this).scrollTop(0);
     });
+    $(".list-Of-Sections-Preview-Details .collapsible-header").click(function () {
+        if (!$(this).hasClass("active"))
+            $(this).parent().removeClass("card");
+        else
+            $(this).parent().addClass("card");
+    })
 </script>
 

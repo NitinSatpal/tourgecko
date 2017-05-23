@@ -82,6 +82,10 @@
     $scope.showImageUploadErrorsBlock = false;
     vm.singleImageUploadError = false;
     vm.multipleImageUploadError = false;
+    if ($state.$current.self.name == 'host.addProduct')
+      vm.tourActionCanBePerformed = 'Create Tour';
+    else
+      vm.tourActionCanBePerformed = 'Edit Tour';
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
