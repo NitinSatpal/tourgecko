@@ -239,21 +239,19 @@
     left: 200%;
     top: 0;
   }
-  .notification-Text {
-    margin-left: 0;
-  }
   #notificationTitle {
     width: 318px;
   }
   #notificationFooter {
     font-size: 13px;
+    margin-top: -10px;
   }
   .headerNotificationPointer {
     display: none;
   }
   .notification-Item {
-    width: 100%;
-    margin-left: 10px;
+    width: 478px;
+    margin-left: -20px;
   }
   .allNotifications-section {
     padding-left: 5%;

@@ -89,7 +89,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Notifications</h4>
                 </div>
-                <div>
+                <div class="modal-body">
                     <div id="notificationsBody" class="notifications" ng-show="vm.notifications.length > 0">
                         <div ng-repeat="notification in vm.notifications track by $index">
                             <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
