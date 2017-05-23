@@ -9,7 +9,7 @@
             <div class="container-fluid">
                 <ul id="headerNotifications" class="headerOptions navbar-right" ng-show="vm.authentication.user">
                     <li class="dropdown notifications">
-                        <a href="#" id="notificationLink">
+                        <a href="#" id="notificationLink" ng-click="vm.setWidthOFModalInCaseOfMobile()">
                           <i class="zmdi zmdi-notifications"></i>
                           <span class="label label-info" ng-show="unreadNotificationCount != -1 && unreadNotificationCount != 0">{{unreadNotificationCount}}</span>
                         </a>
@@ -84,7 +84,7 @@
     <a id="notification-mobile-modal" data-toggle="modal" data-target="#notification-details" style="display: none"></a>
     <div id="notification-details" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="notification-mobile-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Notifications</h4>
@@ -92,7 +92,7 @@
                 <div class="modal-body">
                     <div id="notificationsBody" class="notifications" ng-show="vm.notifications.length > 0">
                         <div ng-repeat="notification in vm.notifications track by $index">
-                            <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
+                            <div id="notification-mobile-item" class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
                                 <div class="notification-Image-container col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                     <img src="{{notification.notificationTypeLogo}}" class="notification-Image">
                                 </div>

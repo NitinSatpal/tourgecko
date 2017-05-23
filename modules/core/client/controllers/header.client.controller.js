@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', '$window', 'Authentication', '$location', 'menuService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', '$window', 'Authentication', '$location', 'menuService', '$timeout'];
 
-  function HeaderController($scope, $state, $http, $window, Authentication, $location, menuService) {
+  function HeaderController($scope, $state, $http, $window, Authentication, $location, menuService, $timeout) {
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
@@ -100,6 +100,11 @@
     vm.showLoadersAndWaitCursor = function () {
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
+    }
+    vm.setWidthOFModalInCaseOfMobile = function() {
+      $timeout(function () {
+        $("#notification-mobile-item").css("width", $("#notification-mobile-content").outerWidth())
+      },500)
     }
   }
 }());
