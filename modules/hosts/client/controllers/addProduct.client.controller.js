@@ -12,7 +12,8 @@
     .constant('errorContentData', {
       "tourName" : "Name of the tour cannot be blank",
       "tourDestination" : "Main Destination cannot be blank",
-      "groupPricingFinalValidation" : "Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present"
+      "groupPricingFinalValidation" : "'Group' sizes  in group price option can not overlap",
+      "everyonePricingFinalValidation" : "Price for 'Everyone' option can not be used with any other option"
     });
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
@@ -440,6 +441,9 @@ function setRichTextData () {
       var index;
       var groupRange = [];
       var isEveryonePricingPresent;
+      vm.pricingValid = true;
+      vm.groupPricingValid = true;
+      vm.everyonePricingValid = true;
       for (index = 0; index < vm.pricingParams.length; index++ ) {
         if (vm.pricingParams[index].pricingType == 'Everyone')
           isEveryonePricingPresent = true;
@@ -456,17 +460,19 @@ function setRichTextData () {
         for (index = 0; index < groupRange.length - 1; index ++) {
           if (parseInt(groupRange[index + 1]) < parseInt(groupRange[index])) {
             vm.pricingValid = false;
-            return false;
+            vm.groupPricingValid = false;
           }
         }
-      }
+      } else
+        vm.groupPricingValid = true;
 
       if(isEveryonePricingPresent == true && vm.pricingParams.length > 1) {
-        vm.pricingValid = false
-        return false;
+        vm.pricingValid = false;
+        vm.everyonePricingValid = false
+      } else  {
+        vm.everyonePricingValid = true;
       }
-      vm.pricingValid = true;
-      return true;
+      return vm.pricingValid;
     }
 
     vm.removePricingOption = function(index) {
@@ -603,11 +609,17 @@ function setRichTextData () {
 /* ------------------------------------------------------------------------------------------------------------------------- */
 vm.openDepartureSessionModal = function() {
   vm.isSpecialPricingPresent = false;
-  if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && 
-    ((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined))) {
+  if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     toasty.error({
       title: 'Tour name and Pricing required!',
       msg: 'Please enter tour name and pricing details before creating departure session!',
+      sound: false
+    });
+    return false;
+  } else if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && (vm.pricingParams.length > 1 && vm.pricingValid == false)) {
+    toasty.error({
+      title: 'Tour name and valid Pricing required!',
+      msg: 'Please enter tour name and valid pricing details before creating departure session!',
       sound: false
     });
     return false;
@@ -618,13 +630,19 @@ vm.openDepartureSessionModal = function() {
       sound: false
     });
     return false;
-  } else if((vm.pricingParams.length > 1 && vm.pricingValid == false) || (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
+  } else if (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined) {
     toasty.error({
       title: 'Pricing required!',
       msg: 'Please enter pricing details before creating departure session!',
       sound: false
     });
     return false;
+  } else if (vm.pricingParams.length > 1 && vm.pricingValid == false) {
+    toasty.error({
+      title: 'Pricing required!',
+      msg: 'Please enter valid pricing details before creating departure session!',
+      sound: false
+    });
   } else {
     var modalOpened = true;
     vm.sessionPricing = []
@@ -850,13 +868,14 @@ vm.createDepartureSession = function () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.errorContent = [];
     vm.save = function (isValid) {
       if (vm.saveBtnDisabled)
         return;
-      vm.errorContent = [];
+      if (vm.errorContent.length > 0)
+        vm.errorContent.length = 0;
 
       var isPricingCorrect = finalValidateOfPricing();
-      
       if (isPricingCorrect == false) {
         vm.showErrorsOnTop = true;
         if (!isValid) {
@@ -867,7 +886,12 @@ vm.createDepartureSession = function () {
           if(vm.form.tourForm.tour_main_destination.$error.required)
             vm.errorContent.push(errorContentData['tourDestination']);
         }
-        vm.errorContent.push(errorContentData['groupPricingFinalValidation']);
+        if (!vm.groupPricingValid) {          
+          vm.errorContent.push(errorContentData['groupPricingFinalValidation']);
+        }
+        if (!vm.everyonePricingValid) {
+          vm.errorContent.push(errorContentData['everyonePricingFinalValidation']);
+        }
         return false;
       }
 
@@ -936,6 +960,7 @@ vm.createDepartureSession = function () {
           $state.go('host.showProduct', {productId: response._id, showSuccessMsg: false, showEditSuccessMsg: true});
           if ($state.previous.state.name == 'host.showProduct' || $state.previous.state.name == 'host.editProduct')
             $state.reload();
+          $rootScope.productCreationOrEditDirtyDataPresent = false;
           
         }).error(function (response) {
           vm.error = response.message;
@@ -949,9 +974,9 @@ vm.createDepartureSession = function () {
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
           $state.go('host.showProduct', {productId: response._id, showSuccessMsg: true, showEditSuccessMsg: false});
+          $rootScope.productCreationOrEditDirtyDataPresent = false;
           //success
         }).error(function (response) {
-          console.log(JSON.stringify(response));
           vm.error = response.message;
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
