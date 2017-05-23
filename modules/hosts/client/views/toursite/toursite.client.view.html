@@ -198,6 +198,9 @@
         <br>
         <br>
         <ul class="links">
+            <li><a>Home</></li>
+            <li><a>Tours</></li>
+            <li><a>About Us</></li>
             <li><a>Contact Us</></li>
         </ul>
           
@@ -224,7 +227,7 @@
                 </a>
             </li>    
         </ul>  
-        <div class="col l12 m12 s12 statement">This site is automatically built by <a href="#">tourgecko</a></div>
+        <div class="col l12 m12 s12 statement"><i class="fa fa-copyright" aria-hidden="true"></i> {{vm.companyData.companyName}}, {{vm.currentYear}}<a href="" ng-click="vm.goToTourgeckoHomePage()"> powered by tourgecko</a></div>
     </footer>
     <!--Scripts-->
     <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>

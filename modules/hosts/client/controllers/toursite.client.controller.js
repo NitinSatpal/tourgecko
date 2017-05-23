@@ -13,6 +13,8 @@
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
+    var date = new Date();
+    vm.currentYear = date.getUTCFullYear();
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
@@ -500,6 +502,12 @@
 
     vm.goToProductDetailsPage = function (index) {
       $state.go('guest.tourDetails', {productId: vm.toursitedata[index]._id});
+    }
+
+    vm.goToTourgeckoHomePage = function () {
+      console.log($window.location.host);
+      var homePage = $window.location.host.split('.').splice($window.location.host.split('.').length -1 ,1);      
+      $window.location.href = $window.location.protocol + '//' + homePage;
     }
   }
 }());
