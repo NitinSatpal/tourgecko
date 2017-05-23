@@ -459,8 +459,9 @@
     function showWaitCursorTourBooking () {
         $('#tourgeckoBody').addClass('waitCursor');
     }
+    /* not sure why workiking ulta */
     $(".list-Of-Sections-Preview-Details .collapsible-header").click(function () {
-        if (!$(this).hasClass("active"))
+        if ($(this).hasClass("active"))
             $(this).parent().removeClass("card");
         else
             $(this).parent().addClass("card");
