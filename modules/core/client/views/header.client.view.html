@@ -13,11 +13,9 @@
                           <i class="zmdi zmdi-notifications"></i>
                           <span class="label label-info" ng-show="unreadNotificationCount != -1 && unreadNotificationCount != 0">{{unreadNotificationCount}}</span>
                         </a>
-                        <!-- ng-if="vm.notifications.length > 0" -->
-                        <div id="notificationContainer">
+                        <div id="notificationContainer" class="notificationContainer">
                             <div>
                                 <img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg">
-                                
                             </div>
                             <div id="notificationTitle" ng-show="vm.notifications.length > 0">Notifications</div>
                             <div id="notificationTitle" ng-show="vm.notifications.length == 0" style="text-align: center;">You have no notifications.</div>
@@ -44,7 +42,7 @@
                                 </div>
                             </div>
                             <div id="notificationFooter">
-                                <a href="" ui-sref="host.allNotifications" onclick="showAllNotificationsLoader()">See All notifications</a>
+                                <a href="" ui-sref="host.allNotifications" onclick="showAllNotificationsLoader()" ng-show="vm.notifications.length > 0">See All notifications</a>
                             </div>
                         </div>
                     </li>
@@ -83,6 +81,44 @@
             </div>
         </nav>
     </div>
+    <a id="notification-mobile-modal" data-toggle="modal" data-target="#notification-details" style="display: none"></a>
+    <div id="notification-details" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Notifications</h4>
+                </div>
+                <div>
+                    <div id="notificationsBody" class="notifications" ng-show="vm.notifications.length > 0">
+                        <div ng-repeat="notification in vm.notifications track by $index">
+                            <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
+                                <div class="notification-Image-container col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <img src="{{notification.notificationTypeLogo}}" class="notification-Image">
+                                </div>
+                                <div class="notification-Text col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <span class="notificationType">
+                                        {{notification.notificationType}}
+                                    </span>
+                                    <br>
+                                    <span class="notificationBodyData" style="word-wrap: break-word;">
+                                        From: {{notification.notificationFrom}} 
+                                    </span>
+                                    <br>
+                                    <span class="notificationBodyTimeStamp">
+                                        {{notification.notificationTimestampToDisplay}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="notificationFooter">
+                    <a href="" ui-sref="host.allNotifications" onclick="showAllNotificationsLoader()" ng-show="vm.notifications.length > 0">See All notifications</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(".navbar-toggle").click(function(e) {
@@ -105,8 +141,12 @@
     });
     $(document).ready(function() {
         $("#notificationLink").click(function() {
-            $("#notificationContainer").fadeToggle(300);
-            $("#notification_count").fadeOut("slow");
+            if (window.innerWidth <= 767) {
+                $("#notification-mobile-modal").click();
+            } else {
+                $("#notificationContainer").fadeToggle(300);
+                $("#notification_count").fadeOut("slow");
+            }
             return false;
         });
 
@@ -147,6 +187,9 @@
             $('#loadingDivHostSide').css('display', 'block');
             $('#tourgeckoBody').addClass('waitCursor');
         }
-        $('#notificationContainer').fadeOut("slow");
+        if(window.innerWidth <= 767)
+            $("#notification-mobile-modal").click();
+        else
+            $('#notificationContainer').fadeOut("slow");
     }
 </script>

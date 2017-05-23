@@ -5,9 +5,9 @@
     .module('core')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$scope', '$state', '$http', 'Authentication', '$location', 'menuService'];
+  HeaderController.$inject = ['$scope', '$state', '$http', '$window', 'Authentication', '$location', 'menuService'];
 
-  function HeaderController($scope, $state, $http, Authentication, $location, menuService) {
+  function HeaderController($scope, $state, $http, $window, Authentication, $location, menuService) {
     var vm = this;
     vm.authentication = Authentication;
     vm.hideHeader = false;
@@ -75,6 +75,8 @@
 
     var notificationId;
     vm.markNotificationRead = function (index) {
+      if($window.innerWidth <= 767)
+        $("#notification-mobile-modal").click();
       notificationId = vm.notifications[index]._id;
       $('#notificationContainer').fadeOut('slow');
       vm.notifications[index].notificationRead = true;

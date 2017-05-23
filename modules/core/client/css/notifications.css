@@ -234,19 +234,26 @@
 }
 @media  (max-width: 767px) {
   #notificationContainer {
-    width: 320px;
-    margin-left: -180px;
+    width: 270px;
+    margin-top: 30%;
+    left: 200%;
+    top: 0;
+  }
+  .notification-Text {
+    margin-left: 0;
   }
   #notificationTitle {
     width: 318px;
   }
+  #notificationFooter {
+    font-size: 13px;
+  }
   .headerNotificationPointer {
-    position:absolute;
-    margin-top: -11px;
-    margin-left: 187px;
+    display: none;
   }
   .notification-Item {
-    width: 313px;
+    width: 100%;
+    margin-left: 10px;
   }
   .allNotifications-section {
     padding-left: 5%;
