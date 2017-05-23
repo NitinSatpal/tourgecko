@@ -242,6 +242,9 @@
   #notificationTitle {
     width: 318px;
   }
+  .notification-Text {
+    margin-left: 0;
+  }
   #notificationFooter {
     font-size: 13px;
     margin-top: -10px;
