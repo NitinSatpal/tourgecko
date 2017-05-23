@@ -11,11 +11,11 @@ module.exports = function (app) {
     .get(comm.fetchMessageDetails)
     .post(comm.saveMessageDetails);
 
-  app.route('/api/notification/initialfetch/:notificationSkipIndex')
+  app.route('/api/notification/initialfetch/')
   	.get(comm.fetcInitialhNotificationDetails);
 
-  app.route('/api/notification/subsequentfetch/:notificationSkipIndex')
-  	.get(comm.fetcSubsequenthNotificationDetails);
+   app.route('/api/notification/fetchAllNotifications/:lastMonthFetched/:lastYearFetched')
+    .get(comm.fetcAllNotificationDetailsForGivenMonth);
 
   app.route('/api/notification/markAsRead/:notificationId')
   	.post(comm.markAsRead);

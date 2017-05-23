@@ -184,6 +184,15 @@
           pageTitle: 'Region'
         }
       })
+      .state('host.allNotifications', {
+        url: '/notifications',
+        templateUrl: 'modules/hosts/client/views/notifications/allnotifications.client.view.html',
+        controller: 'NotificationsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'notifications'
+        }
+      })
       .state('hostAndGuest', {
         abstract: true,
         url: '',

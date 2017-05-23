@@ -182,6 +182,56 @@
 .activePElementForAccountDropdown {
   background-color: #eee;
 }
+.allNotifications-section .listView .list-content .allNotificationsNotificationType p:hover {
+  text-decoration: underline !important;
+}
+.allNotifications-section .listView .customPrevNextBtnStyle {
+  height: 27px;
+  width: auto;
+  margin-right: -5px; 
+}
+.allNotifications-section .listView .customPrevNextBtnStyle span {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.allNotifications-section .listView .listViewMonthTitle {
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+}
+.allNotifications-section .listView .btn-listview {
+  float: left;
+}
+.allNotifications-section .listView  .title-listview {
+  float: left;
+  margin-left: 35%;
+}
+.allNotifications-section .listView .card {
+  padding-top: 1%;
+  padding-right: 3%;
+  padding-bottom: 1%;
+  padding-left: 3%;
+  position: relative;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  min-height: 40px;
+  height: auto;
+  overflow: hidden;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc;
+  box-shadow: 0 0 3px #ccc;
+  cursor: pointer;
+}
+.allNotifications-section .listView .card:hover {
+  background-color: #E9ECF5 !important;
+}
+.allNotifications-section .noNotifications {
+  margin-top: 10%;
+  margin-left: 39%;
+}
 @media  (max-width: 767px) {
   #notificationContainer {
     width: 320px;
@@ -197,5 +247,15 @@
   }
   .notification-Item {
     width: 313px;
+  }
+  .allNotifications-section {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  .allNotifications-section .noNotifications {
+    margin-left: 30%;
+  }
+  .allNotifications-section .listView  .title-listview {
+    margin-left: 20%;
   }
 }

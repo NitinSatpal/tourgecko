@@ -11,7 +11,7 @@
                     <li class="dropdown notifications">
                         <a href="#" id="notificationLink">
                           <i class="zmdi zmdi-notifications"></i>
-                          <span class="label label-info" ng-show="vm.unreadNotificationCount != -1 && vm.unreadNotificationCount != 0">{{vm.unreadNotificationCount}}</span>
+                          <span class="label label-info" ng-show="unreadNotificationCount != -1 && unreadNotificationCount != 0">{{unreadNotificationCount}}</span>
                         </a>
                         <!-- ng-if="vm.notifications.length > 0" -->
                         <div id="notificationContainer">
@@ -19,9 +19,9 @@
                                 <img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg">
                                 
                             </div>
-                            <div id="notificationTitle" ng-show="vm.notificationCount > 0">Notifications</div>
-                            <div id="notificationTitle" ng-show="vm.notificationCount == 0" style="text-align: center;">You have no notifications.</div>
-                            <div id="notificationsBody" class="notifications" ng-show="vm.notificationCount > 0">
+                            <div id="notificationTitle" ng-show="vm.notifications.length > 0">Notifications</div>
+                            <div id="notificationTitle" ng-show="vm.notifications.length == 0" style="text-align: center;">You have no notifications.</div>
+                            <div id="notificationsBody" class="notifications" ng-show="vm.notifications.length > 0">
                                 <div ng-repeat="notification in vm.notifications track by $index">
                                     <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">
                                         <div class="notification-Image-container col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -44,8 +44,7 @@
                                 </div>
                             </div>
                             <div id="notificationFooter">
-                                <a href="" ng-click="vm.fetchMoreNotifications()" ng-hide="vm.notificationSkipIndex == vm.notificationOverIndex">Load More...</a>
-                                <a href="" ng-show="vm.notificationSkipIndex == vm.notificationOverIndex">No More Notifications</a>
+                                <a href="" ui-sref="host.allNotifications" onclick="showAllNotificationsLoader()">See All notifications</a>
                             </div>
                         </div>
                     </li>
@@ -143,4 +142,11 @@
             $('#mainFooterElement').removeAttr("style");
         }
     });
+    function showAllNotificationsLoader () {
+        if (location.pathname != '/host/notifications') {
+            $('#loadingDivHostSide').css('display', 'block');
+            $('#tourgeckoBody').addClass('waitCursor');
+        }
+        $('#notificationContainer').fadeOut("slow");
+    }
 </script>

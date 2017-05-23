@@ -11,25 +11,7 @@ var path = require('path'),
 
 exports.fetcInitialhNotificationDetails = function (req, res) {
   if (req.user) {
-    var skipIndex = req.params.notificationSkipIndex;
-    Notification.count({'notificationToId': req.user._id}, function(error, count) {
-      Notification.find({'notificationToId': req.user._id}).skip(skipIndex * 5).limit(5).sort('-created').exec(function (err, notifications) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({notificationArray: notifications, notificationCount: count});
-      });
-    });
-  }
-};
-
-
-exports.fetcSubsequenthNotificationDetails = function (req, res) {
-  if (req.user) {
-    var skipIndex = req.params.notificationSkipIndex;
-    Notification.find({'notificationToId': req.user._id}).skip(skipIndex * 5).limit(5).sort('-created').exec(function (err, notifications) {
+    Notification.find({'notificationToId': req.user._id}).limit(5).sort('-created').exec(function (err, notifications) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -39,6 +21,25 @@ exports.fetcSubsequenthNotificationDetails = function (req, res) {
     });
   }
 };
+
+exports.fetcAllNotificationDetailsForGivenMonth = function (req, res) {
+  if (req.user) {
+    var year = req.params.lastYearFetched;
+    var month = parseInt(req.params.lastMonthFetched);
+    var firstDay = new Date(year, month, 1);
+    var lastDay = new Date(year, month + 1, 0);
+
+    Notification.find({'notificationToId': req.user._id, notificationTimestamp: { $lte:  lastDay, $gte:  firstDay}}).sort('-notificationTimestamp').exec(function (err, notifications) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(notifications);
+    });
+  }
+};
+
 
 exports.markAsRead = function (req, res) {
   Notification.findOne({_id: req.params.notificationId}).exec(function (err, notification) {

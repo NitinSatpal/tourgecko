@@ -12,19 +12,15 @@
     vm.authentication = Authentication;
     vm.hideHeader = false;
     vm.notifications = [];
-    vm.unreadNotificationCount = -1;
+    $scope.unreadNotificationCount = -1;
     vm.notificationSkipIndex = 0;
-    vm.notificationOverIndex = 0;
 
-    $http.get('/api/notification/initialfetch/' + vm.notificationSkipIndex).success(function (response) {
-      vm.notifications = response.notificationArray;
-      vm.notificationCount = response.notificationCount;
-      if (vm.notificationCount > 0)
-        vm.notificationOverIndex = Math.floor((vm.notificationCount - 1) / 5);
+    $http.get('/api/notification/initialfetch/').success(function (response) {
+      vm.notifications = response;
     });
 
     $http.get('/api/notification/unreadCount/').success(function (response) {      
-      vm.unreadNotificationCount = response.counterValue;
+      $scope.unreadNotificationCount = response.counterValue;
     });
 
 
@@ -71,7 +67,8 @@
     function saveReadNotifications (notificationId) {
       $http.post('/api/notification/markAsRead/' + notificationId).success(function (response) {
         $http.get('/api/notification/unreadCount/').success(function (response) {      
-          vm.unreadNotificationCount = response.counterValue;
+          $scope.unreadNotificationCount = response.counterValue;
+          notificationId = null;
         });
       })
     }
@@ -83,14 +80,6 @@
       vm.notifications[index].notificationRead = true;
       if (vm.notifications[index].notificationType == 'Booking Request')
         $state.go('host.bookingdetails', {bookingId: vm.notifications[index].bookingId});
-    }
-
-    vm.fetchMoreNotifications = function () {
-      vm.notificationSkipIndex = vm.notificationSkipIndex + 1;
-      $http.get('/api/notification/subsequentfetch/' + vm.notificationSkipIndex).success(function (response) {
-        for(var index = 0; index < response.length; index++)
-          vm.notifications.push(response[index]);
-      });
     }
 
     vm.goToHomePage = function() {

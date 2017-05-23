@@ -13,7 +13,7 @@
       "tourName" : "Name of the tour cannot be blank",
       "tourDestination" : "Main Destination cannot be blank",
       "groupPricingFinalValidation" : "Please check pricing options range. Each group should have range greater than previous And If Price for Everyone is present, no other option should be present"
-    })
+    });
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
   function AddProductController($scope, $rootScope, $state, $stateParams, $http, $timeout, $window, $location, Upload, ProductDataShareService, errorContentData, toasty) {
