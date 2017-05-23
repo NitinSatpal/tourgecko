@@ -345,12 +345,14 @@ p {
 
 .toursite-Product-Image img {
 	display: block;
-	min-width:438px;
-	max-width:438px;
-	min-height:130px;
-	max-height:130px;
+	min-height:150px;
+	max-height:150px;
 	width: auto;
 	height: auto;
+	object-fit: cover;
+}
+.tourlist-Product-Image img {
+	display: block;
 	object-fit: cover;
 }
 

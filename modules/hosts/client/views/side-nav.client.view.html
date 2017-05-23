@@ -105,7 +105,10 @@
 	   $(".nav").find(".active").removeClass("active");
 	   $(this).parent().addClass("active");
 	});
-	var prevTab = window.location.pathname.split('/')[2];
+	var prevTab;
+	$(document).ready(function () {
+		prevTab = 'admin';
+	})
 	$('#'+prevTab+'Tab').addClass('active');
 	function showLoaderSideNav (activeTab) {
 		if (prevTab != activeTab) {
@@ -121,4 +124,5 @@
 			$('#tourgeckoBody').addClass('waitCursor');
 		}
 	}
+
 </script>
