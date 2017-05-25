@@ -204,7 +204,7 @@
 }
 .allNotifications-section .listView  .title-listview {
   float: left;
-  margin-left: 35%;
+  margin-left: 42%;
 }
 .allNotifications-section .listView .card {
   padding-top: 1%;
@@ -230,7 +230,11 @@
 }
 .allNotifications-section .noNotifications {
   margin-top: 10%;
-  margin-left: 39%;
+  margin-left: 35%;
+}
+.hostHome .allNotifications-section .notificationsInfoAtTop {
+  font-weight: 500;
+    font-size: 16px;
 }
 @media  (max-width: 767px) {
   #notificationContainer {

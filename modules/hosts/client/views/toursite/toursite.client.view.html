@@ -1,5 +1,5 @@
 <div class="toursite"> 
-    <header>
+    <header id="headerOFToursite">
         <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
         <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
@@ -198,10 +198,10 @@
         <br>
         <br>
         <ul class="links">
-            <li><a>Home</></li>
-            <li><a>Tours</></li>
-            <li><a>About Us</></li>
-            <li><a>Contact Us</></li>
+            <li><a href="" onclick="$('html, body').animate({scrollTop : 0},800);">Home</></li>
+            <li><a href="" onclick="goToToursLevel()">Tours</></li>
+            <li><a href="">About Us</></li>
+            <li><a href="" ng-click="vm.goToContactUSPage()" onclick="$('html, body').scrollTop(0);">Contact Us</></li>
         </ul>
           
         <ul class="contact-info">
@@ -278,5 +278,11 @@
         });
         $(".toursite-Product-Image img").css("min-width", ($(".toursite-Product-Image").innerWidth()));
         $(".toursite-Product-Image img").css("max-width", ($(".toursite-Product-Image").innerWidth()));
+
+        function goToToursLevel () {
+            var totalHieghtFromTop = $("#details_hero").height() + $("#headerOFToursite").height();
+            $('html, body').animate({scrollTop : totalHieghtFromTop},800)
+        }
+        
     </script>
 </div>

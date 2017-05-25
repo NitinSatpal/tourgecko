@@ -448,10 +448,16 @@ function setRichTextData () {
       vm.pricingValid = true;
       vm.groupPricingValid = true;
       vm.everyonePricingValid = true;
+      var everyonePricingErrorIndex;
+      var groupPricingErrorIndexStorage = [];
+      var groupPricingErrorIndex = [];
       for (index = 0; index < vm.pricingParams.length; index++ ) {
-        if (vm.pricingParams[index].pricingType == 'Everyone')
+        if (vm.pricingParams[index].pricingType == 'Everyone') {
           isEveryonePricingPresent = true;
+          everyonePricingErrorIndex = index;
+        }
         if (vm.pricingParams[index].pricingType == 'Group') {
+          groupPricingErrorIndexStorage.push(index);
           groupRange.push(vm.pricingParams[index].minGroupSize);
           if(vm.pricingParams[index].maxGroupSize === undefined)
             groupRange.push(Number.MAX_VALUE)
@@ -461,10 +467,15 @@ function setRichTextData () {
       }
 
       if (groupRange.length > 0) {
+        console.log("the group range is " + groupRange);
         for (index = 0; index < groupRange.length - 1; index ++) {
           if (parseInt(groupRange[index + 1]) < parseInt(groupRange[index])) {
             vm.pricingValid = false;
             vm.groupPricingValid = false;
+            if ((index + 1)  % 2 != 0)
+              groupPricingErrorIndex.push(groupPricingErrorIndexStorage[(index) / 2]);
+            else
+              groupPricingErrorIndex.push(groupPricingErrorIndexStorage[(index + 1) / 2]);
           }
         }
       } else
@@ -472,10 +483,14 @@ function setRichTextData () {
 
       if(isEveryonePricingPresent == true && vm.pricingParams.length > 1) {
         vm.pricingValid = false;
-        vm.everyonePricingValid = false
+        vm.everyonePricingValid = false;
+        $("#pricingOption" + everyonePricingErrorIndex).css("border", "1px solid #a94442");
       } else  {
         vm.everyonePricingValid = true;
       }
+      
+      for (var index = 0; index < groupPricingErrorIndex.length; index++)
+        $("#pricingOption"+groupPricingErrorIndex[index]).css("border", "1px solid #a94442");
       return vm.pricingValid;
     }
 

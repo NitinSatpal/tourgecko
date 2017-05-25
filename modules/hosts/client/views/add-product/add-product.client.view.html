@@ -216,7 +216,7 @@
 												</div>
 												<label class="control-label">What is the Price of this tour?</label>
 												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
-												<div class="row no_margin_row" ng-repeat="pricing in vm.pricingParams track by $index" ng-style="vm.getDynamicCSS($index)">
+												<div id="pricingOption{{$index}}" class="row no_margin_row" ng-repeat="pricing in vm.pricingParams track by $index" ng-style="vm.getDynamicCSS($index)">
 													<div class="col-sm-12 col-lg-12 col-md-12">
 														<label for="pricefor" class="control-label pricefor">Price for</label>
 													</div>

@@ -47,6 +47,11 @@
         monthFetched = monthFetched + 1;
       }
       vm.notificationListViewMonthTitle = monthNumberToName[monthFetched] + ' ' + yearFetched;
+      var date = new Date();
+      if (monthNumberToName[date.getMonth()] == monthNumberToName[monthFetched]) {
+        $("#listViewNextBtn").css("background-color", "lightgrey");
+        $("#listViewNextBtn").attr("disabled", true);
+      }
       $http.get('/api/notification/fetchAllNotifications/' + monthFetched + '/' + yearFetched).success(function (response) {
         vm.notifications = response;
         $('#loadingDivHostSide').css('display', 'none');
@@ -55,6 +60,8 @@
     }
 
     vm.fetchPrevMonthNotifications = function () {
+      $("#listViewNextBtn").removeAttr("style");
+      $("#listViewNextBtn").attr("disabled", false);
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       if (monthFetched == 0) {
@@ -72,6 +79,7 @@
     }
     var notificationId;
     vm.markNotificationRead = function (index) {
+      console.log(vm.notificationListViewMonthTitle);
       notificationId = vm.notifications[index]._id;
       vm.notifications[index].notificationRead = true;
       if (vm.notifications[index].notificationType == 'Booking Request')

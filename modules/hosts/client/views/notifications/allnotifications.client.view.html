@@ -1,42 +1,55 @@
 <div class="hostHome container-fluid">
 	<div class="row body-content allNotifications-section">
-		<h3> Notifications </h3>
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div id="notificationList" class="listView" style="margin-top: 0 !important">
-					<div class="fc-button-group btn-listview">
-						<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthNotifications()">
-							<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
-						</button>
-						<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthNotifications()">
-							<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
-						</button>
-					</div>
-					<div class="title-listview">
-						<span class="listViewMonthTitle"><h4>{{vm.notificationListViewMonthTitle}}</h4></span>
-					</div>
-					<br>
-					<br>
-					<div class="card list-content" ng-repeat="notification in vm.notifications track by $index" ng-style="vm.getBackGroundColorAccordingTostatus($index)" ng-click="vm.markNotificationRead($index)">
-						<div class="row">
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 allNotificationsNotificationType">
-								<a class="name" style="color: #40C4FF;">{{notification.notificationType}}</a>
+		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
+			<div ng-include="'/modules/hosts/client/views/notifications/top-nav-allnotifications.client.view.html'"></div>
+			<br>
+			<div class="row notificationsInfoAtTop">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+					<span> You can track all the notifications with month view here</span>
+				</div>
+			</div>
+			<div class="event_calendar">
+				<div class="head_content">
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div id="notificationList" class="listView" style="margin-top: 0 !important">
+							<div class="fc-button-group btn-listview pull-right">
+								<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthNotifications()">
+									<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
+								</button>
+								<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthNotifications()" style="background-color: lightgrey" disabled="true">
+									<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
+								</button>
 							</div>
-							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<p class="tourDepartureDate pull-right">
-									{{notification.notificationTimestampToDisplay}}
-								</p>
+							<div class="title-listview">
+								<span class="listViewMonthTitle"><h4>{{vm.notificationListViewMonthTitle}}</h4></span>
 							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: -10px;">
-								<span>{{notification.notificationBody}}</span>
+							<br>
+							<br>
+							<div class="card list-content" ng-repeat="notification in vm.notifications track by $index" ng-style="vm.getBackGroundColorAccordingTostatus($index)" ng-click="vm.markNotificationRead($index)">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 allNotificationsNotificationType">
+										<a class="name" style="color: #40C4FF;">{{notification.notificationType}}</a>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<p class="tourDepartureDate pull-right">
+											{{notification.notificationTimestampToDisplay}}
+										</p>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: -10px;">
+										<span>{{notification.notificationBody}}</span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+					<br>
+					<div ng-show="vm.notifications.length == 0" class="noNotifications">
+						<span> No notifications found in this month</span>
+					</div>
 				</div>
-			</div>
-			<br>
-			<div ng-show="vm.notifications.length == 0" class="noNotifications">
-				<span> No notifications found in this month</span>
 			</div>
 		</div>
 	</div>
