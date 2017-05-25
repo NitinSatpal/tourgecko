@@ -127,6 +127,23 @@ h1, h2, h3, h4, h5, h6 {
 	margin-left:40%;
 	border-radius: 15px;
 }
+.home-section .productTitle .bookingRequests .upperDiv {
+	padding-top: 15%;
+}
+.home-section .productTitle .bookingRequests .upperDiv .numOfBookings {
+	font-size: 20px;
+	margin-left: 40%;
+	color: #fff;
+}
+.home-section .productTitle .bookingRequests .upperDiv .bookingText {
+	font-size: 15px;
+	margin-left: 13%;
+	color: #fff;
+}
+.home-section .productTitle .sessionNameAndDate {
+	margin-top:2%;
+	margin-left: -10%;
+}
 .home-section .listView {
 	display: none;
 }
@@ -2821,6 +2838,9 @@ span.multiselect-native-select select {
 	}
 	.home-content .add-product .error-success-image-upload {
 		margin-right: 0 !important;
+	}
+	.home-section .productTitle .sessionNameAndDate {
+		margin-left: 0;
 	}
 }
 
