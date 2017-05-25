@@ -58,17 +58,23 @@
 							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetails($index)">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
-										<i class="zmdi zmdi-circle" ng-class="session.percentBookingColor"></i>
-										<a class="name" style="color: #40C4FF;">{{session.title}}</a>
+										<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
+											<div style="padding-top: 15%;">
+												<span style="font-size: 20px; margin-left: 40%; color: #fff;"> {{session.numOfBookings}} </span> <br>
+												<span style="font-size: 15px; margin-left: 13%; color: #fff;"> Bookings </span>
+											</div>
+										</div>
+										
 									</div>
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-										<p class="tourDepartureDate pull-right">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style= "margin-top:2%; margin-left: -10%;">
+										<p class="name" style="color: #40C4FF;">{{session.title}}</p>
+										<p class="tourDepartureDate ">
 											{{vm.getDepartureDateOfSession(session.start)}}
 										</p>
 									</div>
 								</div>
 								
-								<div class="row">
+								<!--<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<p class="duration">
 											<i class="zmdi zmdi-time-interval orangeFC"></i> &nbsp;
@@ -94,7 +100,7 @@
 											{{session.repeatingBehavior}}
 										</p>
 									</div>
-								</div>
+								</div>-->
 			        			
 							</div>
 						</div>

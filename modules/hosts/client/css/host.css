@@ -7,6 +7,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
+
 .ckEditorFocus {
 	border-color: #66afe9 !important;
     outline: 0 !important;
@@ -119,6 +120,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 #hostHome #calendar td.fc-other-month a, #hostCalendar #calendar td.fc-other-month a {
    visibility: hidden;
+}
+.home-section .productTitle .bookingRequests {
+	width: 80px;
+	height: 80px;
+	margin-left:40%;
+	border-radius: 15px;
 }
 .home-section .listView {
 	display: none;

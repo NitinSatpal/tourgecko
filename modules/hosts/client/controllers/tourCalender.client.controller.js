@@ -40,6 +40,14 @@
       return cssObject;
     }
 
+    vm.getBackgroundColor = function (color) {
+      var cssObject = {
+        "background-color" : color
+      }
+
+      return cssObject;
+    }
+
     vm.goToSessionBookingDetails = function (index) {
       $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId});
     }

@@ -198,8 +198,8 @@
 
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
-                                                    <strong>Custom Price</strong>
-                                                    <blockquote class="blue-grey-text text-lighten-1" style="word-wrap: break-word;">{{pricing.customLabel}} &nbsp; (seats:{{pricing.seatsUsed}})</blockquote>
+                                                    <strong>Price For</strong>
+                                                    <blockquote class="blue-grey-text text-lighten-1" style="word-wrap: break-word;">{{pricing.customLabel}}</blockquote>
                                                 </li>
                                             </div>
                                             
@@ -243,7 +243,7 @@
 
                                             <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" ng-show="pricing.pricingType == 'Custom'">
                                                 <li class="collection-item blue-grey-text text-darken-1 pricing-collection-item-css">
-                                                    <strong>Price/Person</strong>
+                                                    <strong>Price</strong>
                                                     <a ng-if="pricing.description != null">
                                                         <i class="fa fa-info-circle orange-text" data-toggle="tooltip" data-placement="right" title="{{pricing.description}}"></i>
                                                     </a>

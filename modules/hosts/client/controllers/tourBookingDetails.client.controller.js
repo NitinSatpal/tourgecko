@@ -586,7 +586,7 @@
         vm.starting = false;
         vm.ended = false;
         vm.ending = false;
-        return Math.abs(diffFromStartDate  + 1);
+        return Math.abs(diffFromStartDate);
       } else if (diffFromStartDate == 0) {
         vm.started = false;
         vm.startsIn = false;
