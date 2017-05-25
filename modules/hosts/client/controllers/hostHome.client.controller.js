@@ -88,6 +88,14 @@
       return cssObject;
     }
 
+    vm.getBackgroundColor = function (color) {
+      var cssObject = {
+        "background-color" : color
+      }
+
+      return cssObject;
+    }
+
     vm.clickTheEvent = function (id) {
       $('#'+id).click();
     }

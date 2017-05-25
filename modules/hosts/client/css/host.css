@@ -2839,6 +2839,9 @@ span.multiselect-native-select select {
 	.home-content .add-product .error-success-image-upload {
 		margin-right: 0 !important;
 	}
+	.home-section .productTitle .bookingRequests {
+		margin-left: 30%;
+	}
 	.home-section .productTitle .sessionNameAndDate {
 		margin-left: 0;
 	}
