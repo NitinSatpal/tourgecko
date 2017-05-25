@@ -48,10 +48,7 @@
       performance. So, even if user changes something and later make it the same, we will assume it's changed and call the rest api
       POST method. As that will be much better than checking each value.
     */
-
-    vm.logoPresence = function () {
-      vm.companyDetails[0].isLogoPresent = !vm.companyDetails[0].isLogoPresent;
-    }
+    
     // Company Profile settings
     vm.saveCompanyProfileSettings = function () {
       vm.error = null;

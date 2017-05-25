@@ -90,34 +90,65 @@ function editPinBoardPinsForThisHost (company, code) {
 exports.uploadCompanyLogo = function (req, res) {
   var user = req.user;
   var upload = multer(config.uploads.hostCompanyLogoUploads).single('newLogo');
-  var imageUploadFileFilter = require(path.resolve('./config/lib/multer')).imageUploadFileFilter;
   var existingLogoUrl;
-  // Filtering to upload only images
-  upload.fileFilter = imageUploadFileFilter;
-
   if (user) {
+    uploadImage()
+      .then(onUploadSuccess)
+      .catch(function (err) {
+        res.json('error');
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadImage () {
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  function onUploadSuccess () {
+    res.json({success: true, newUuid: newUUID});
+    return true;
+  }
+  /*console.log('coming - 1');
+  if (user) {
+    console.log('coming - 2');
     if (req.user) {
+      console.log('coming - 3');
       Company.findOne({user: req.user._id}).exec(function (err, company) {
         if (err) {
+          console.log('coming - 4 ' + err);
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
           });
         }
         existingLogoUrl = company.logoURL;
+        console.log('previous url ' + existingLogoUrl);
         uploadImage()
           .then(updateCompany)
           .then(deleteOldImage)
-          .then(function () {
-            res.json(user);
-          })
           .catch(function (err) {
+            console.log('coming - 5 ' + err);
             res.status(400).send(err);
           });
 
         function uploadImage () {
+          console.log('coming - 6');
           return new Promise(function (resolve, reject) {
             upload(req, res, function (uploadError) {
               if (uploadError) {
+                console.log('coming - 7' + uploadError);
                 reject(errorHandler.getErrorMessage(uploadError));
               } else {
                 resolve();
@@ -127,10 +158,12 @@ exports.uploadCompanyLogo = function (req, res) {
         }
 
         function updateCompany () {
+          console.log('coming - 8');
           return new Promise(function (resolve, reject) {
             company.logoURL = config.uploads.hostCompanyLogoUploads.dest + req.file.filename;
             company.save(function (err, thecompany) {
               if (err) {
+                console.log('coming - 9 ' + err);
                 reject(err);
               } else {
                 resolve();
@@ -140,6 +173,7 @@ exports.uploadCompanyLogo = function (req, res) {
         }
 
         function deleteOldImage () {
+          console.log('coming - 10');
           return new Promise(function (resolve, reject) {
             if (existingLogoUrl !== Company.schema.path('logoURL').defaultValue) {
               fs.unlink(existingLogoUrl, function (unlinkError) {
@@ -157,12 +191,16 @@ exports.uploadCompanyLogo = function (req, res) {
           });
         }
       });
+    } else {
+      res.status(400).send({
+        message: 'User is not signed in'
+      });
     }
   } else {
     res.status(400).send({
       message: 'User is not signed in'
     });
-  }
+  }*/
 };
 
 

@@ -356,6 +356,11 @@ p {
 	object-fit: cover;
 }
 
+.tourPreviewDetails .details-preview-image img {
+	display: block;
+	object-fit: cover;
+}
+
 .host-toursite-Logo {
 	width: 70px;
 	height: 70px;

@@ -10,15 +10,11 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     </header>
     <main>
-        <div id="details_hero" class="slider" data-indicators="true">
+        <div id="details_hero" class="slider details-preview-image" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs">
                     <img ng-src="{{image}}">
                 </li>
-                <!-- <li class="no-Image-Preview-Details" ng-if="vm.productDetails.productPictureURLs.length == 0">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                    <br>
-                </li> -->
             </ul>
         </div>
         <!--Carousel end-->

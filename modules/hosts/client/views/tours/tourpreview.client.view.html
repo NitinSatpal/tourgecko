@@ -8,39 +8,13 @@
         <div id="dev" class="blue lighten-5 center dev-view z-depth-3">
             <p>This is what other people see when they visit your Booking Site. <a class="blue-text" style="cursor:pointer" onclick="window.close()" ng-click="vm.resetLocalStorage()">Return to your dashboard.</a><p>
         </div>
-        <!--<div class="navbar-fixed">-->
-        <!-- <nav class="blue-grey darken-4 fixed">
-            <div class="nav-wrapper container">
-                <a href="#" class="brand-logo orange-text">tourgecko</a>
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
-                  <li><a href="#" id="profile-list" data-activates="profile-menu"><i class="zmdi zmdi-account-circle left orange-text"></i><i class="material-icons right">arrow_drop_down</i>Sudheer</a></li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                  <li><a href="#"><i class="zmdi zmdi-account-circle left orange-text dropdown-button"></i>Sudheer</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-globe left orange-text"></i>Explore</a></li>
-                  <li><a href="#"><i class="zmdi zmdi-pin-help left orange-text"></i>Help</a></li>
-                </ul>
-                <ul id="profile-menu" class="dropdown-content">
-                  <li><a href="#!" class="blue-grey-text text-darken-1">My Profile</a></li>
-                  <li><a href="#!" class="blue-grey-text text-darken-1">Edit Profile</a></li>
-                  <li><a href="#!" class="blue-grey-text text-darken-1">Settings</a></li>
-                </ul>
-            </div>
-        </nav> -->
     </header>
     <main>
-        <div id="details_hero" class="slider" data-indicators="true">
+        <div id="details_hero" class="slider details-preview-image" data-indicators="true">
             <ul class="slides">
                 <li ng-repeat="image in vm.productDetails.productPictureURLs">
                     <img ng-src="{{image}}">
                 </li>
-                <!-- <li class="no-Image-Preview-Details" ng-if="vm.productDetails.productPictureURLs.length == 0">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                    <br>
-                </li> -->
             </ul>
         </div>
         <!--Carousel end-->
