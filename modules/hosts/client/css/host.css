@@ -126,23 +126,27 @@ h1, h2, h3, h4, h5, h6 {
 	height: 80px;
 	margin-left:40%;
 	border-radius: 15px;
+	margin-top: 1%;
+	margin-top: -0.5px;
 }
-.home-section .productTitle .bookingRequests .upperDiv {
+.home-section .productTitle .bookingRequests .dataDiv {
 	padding-top: 15%;
 }
-.home-section .productTitle .bookingRequests .upperDiv .numOfBookings {
+.home-section .productTitle .bookingRequests .dataDiv .numOfBookings {
 	font-size: 20px;
 	margin-left: 40%;
 	color: #fff;
 }
-.home-section .productTitle .bookingRequests .upperDiv .bookingText {
+.home-section .productTitle .bookingRequests .dataDiv .bookingText {
 	font-size: 15px;
 	margin-left: 13%;
 	color: #fff;
 }
-.home-section .productTitle .sessionNameAndDate {
-	margin-top:2%;
+.home-section .sessionNameAndDate {
 	margin-left: -10%;
+}
+.home-section .sessionNameAndDate .innerDiv {
+	margin-top: 5%;
 }
 .home-section .listView {
 	display: none;
@@ -2841,9 +2845,13 @@ span.multiselect-native-select select {
 	}
 	.home-section .productTitle .bookingRequests {
 		margin-left: 30%;
+		margin-top: 0;
 	}
-	.home-section .productTitle .sessionNameAndDate {
+	.home-section .sessionNameAndDate {
 		margin-left: 0;
+	}
+	.home-section .sessionNameAndDate .innerDiv {
+		margin-top: 10%;
 	}
 }
 

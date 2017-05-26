@@ -58,8 +58,8 @@
 							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetails($index)">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
-										<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
-											<div class="upperDiv">
+										<div class="bookingRequests calendarListView" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
+											<div class="dataDiv">
 												<span class="numOfBookings"> {{session.numOfBookings}} </span> <br>
 												<span class="bookingText"> Bookings </span>
 											</div>
@@ -67,10 +67,12 @@
 										
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 sessionNameAndDate">
-										<p class="name" style="color: #40C4FF;">{{session.title}}</p>
-										<p class="tourDepartureDate ">
-											{{vm.getDepartureDateOfSession(session.start)}}
-										</p>
+										<div class="innerDiv">
+											<span class="name" style="color: #40C4FF;">{{session.title}}</span><br>
+											<span class="tourDepartureDate ">
+												{{vm.getDepartureDateOfSession(session.start)}}
+											</span>
+										</div>
 									</div>
 								</div>
 								
