@@ -805,6 +805,39 @@
    /* Booking object creation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
+
+    $scope.makePayment = function () {
+      var hash = 
+      $http.post('https://biz.traknpay.in/v1/paymentrequest', {address_line_1: "abc",
+                                                              address_line_2: "pqr",
+                                                              amount: 1,
+                                                              api_key: '902852d7-7f5b-4701-831e-97c6e8be732c',
+                                                              city: 'hyderabad',
+                                                              country: 'IND',
+                                                              currency: 'INR',
+                                                              description: "DSdasads",
+                                                              email: "nitinsatpal@gmail.com",
+                                                              mode: "TEST",
+                                                              name: "dasdasdsa",
+                                                              order_id: '121212',                                                              
+                                                              phone: 9535519640,
+                                                              return_url: '',
+                                                              state:'',
+                                                              udf1: '',
+                                                              udf2: '',
+                                                              udf3: '',
+                                                              udf4: '',
+                                                              udf5: '',
+                                                              zip_code: '500049',
+                                                              hash: '6d8605a91de82b99b7661d722b2543f764a8263ffd7fd214e7262601ca3b179689230bb63f8d0a75058daf223571e84cad236db177efe5bbc430c3c3caca3f16'
+      })
+      .success(function (response) {
+        console.log(response);
+      }).error(function (response) {
+        console.log(response);
+        vm.error = response.message;
+      });
+    }
     vm.getDynamicCSSForBookingScreenNav = function () {
       if(window.innerWidth > 767)
         return 'nav-toursite';
