@@ -16,6 +16,14 @@
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
       vm.noLogoPresent = !vm.companyDetails[0].isLogoPresent;
+      if (vm.companyDetails[0].isLogoPresent) {
+        $("#noLogoPresent").css("display", "none");
+        $("#hostLogoContainer").css("display", "block");
+      }
+      else {
+        $("#noLogoPresent").css("display", "block");
+        $("#hostLogoContainer").css("display", "none");
+      }
       vm.contactDetails = vm.companyDetails;
       vm.noSocialCheck = !vm.companyDetails[0].areSocialAccountsPresent;
       vm.paymentDetails = vm.companyDetails;
@@ -32,7 +40,6 @@
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
-    
       
     vm.passwordRelatedError= '';
     var initializing = true;
@@ -54,8 +61,13 @@
       vm.error = null;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
+      if(vm.noLogoPresent)
+        vm.companyDetails[0].logoURL = $(".company_logo .img_info img").attr("src");
+      else
+        vm.companyDetails[0].logoURL = $("#hostLogoContainer .company_logo .img_info img").attr("src");
+      
       $http.post('/api/host/company', vm.companyDetails).success(function (response) {
-        $window.location.reload();
+          $window.location.reload();
       }).error(function (response) {
         vm.error = response.message;
         $('#loadingDivHostSide').css('display', 'none');
@@ -229,6 +241,21 @@
         dateToReturn = dateToReturn + ' ' + tempDate[index];
       
       return dateToReturn;
+    }
+
+    vm.showNoLogoContainer = function (isLogoAbsent) {
+      if (isLogoAbsent) {
+        $("#noLogoPresent").css("display", "block");
+        $("#hostLogoContainer").css("display", "none");
+      } else{
+        $("#noLogoPresent").css("display", "none");
+        $("#hostLogoContainer").css("display", "block");
+      }
+    }
+
+    $scope.changeLogoStatus = function () {
+      vm.noLogoPresent = false;
+      $scope.$apply();
     }
   }
 }());

@@ -1,4 +1,4 @@
-<div class="hostHome container-fluid">
+<div class="hostHome container-fluid" id="hostSettingsCompany">
 	<div class="row body-content">
 		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings" class="companyProfileSettings">
@@ -76,14 +76,29 @@
 									<p class="sub_desc">If you are a guide, you can upload your picture</p>
 									<br>
 									<div class="o-checkbox">
-										<input type="checkbox" value="None" name="noLogoCheck" id="noLogoCheck" ng-model="vm.noLogoPresent" onclick="addNoLogoImage()">
+										<input type="checkbox" value="None" name="noLogoCheck" id="noLogoCheck" ng-model="vm.noLogoPresent" ng-click="vm.showNoLogoContainer(vm.noLogoPresent)">
 										<label for="noLogoCheck"></label>
 										<span class="noLogoCheck">I have no logo yet</span>
 									</div>
-									<br>
-									<br>
 									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" >
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="display:none" id="noLogoPresent">
+											<div class="company_logo">
+												<div class="img_info">
+													<img src="modules/hosts/client/companyLogo/default/logo.png" alt="{{vm.companyDetails[0].companyName}}" class="company-logo-picture">
+												</div>
+											</div>
+										</div>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center hostCompanyLogo" style="display:none" id="hostLogoContainer">
+											<div class="company_logo">
+												<div class="img_info">
+													<img src="{{vm.companyDetails[0].logoURL}}" alt="{{vm.companyDetails[0].companyName}}" class="company-logo-picture" id="logoOFHost">
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 											<div id="company-logo-uploader"></div>
 										</div>
 									</div>
@@ -178,33 +193,31 @@
         <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
             <span class="qq-upload-drop-area-text-selector"></span>
         </div>
-        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF; margin-left: 40%;">
-            <div>Upload Logo</div>
-        </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
             <span>Processing dropped files...</span>
             <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
         </span>
         <br>
-        <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
+        <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals" style="margin-bottom: 3%;">
             <li style="background-color: #f6f6f6;">
-                <div class="qq-progress-bar-container-selector">
+                <!-- <div class="qq-progress-bar-container-selector">
                     <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-                </div>
+                </div> -->
                 <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-                <img class="qq-thumbnail-selector" qq-max-size="200" qq-server-scale id="logoImage">
+                <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
                 <span class="qq-upload-file-selector qq-upload-file" style="color: grey;"></span>
                 <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
                 <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
                 <span class="qq-upload-size-selector qq-upload-size" style="color: grey;"></span>
-                <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancel</button>
-                <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Retry</button>
                 <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Delete</button>
-                <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel" id="upload-button" onclick="uploadLogoFile()">upload</button>
+               	<button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancel</button>
+                <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Retry</button>
                 <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
             </li>
         </ul>
-
+        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF; margin-left: 43%;">
+            <div>Upload Logo</div>
+        </div>
         <dialog class="qq-alert-dialog-selector">
             <div class="qq-dialog-message-selector"></div>
             <div class="qq-dialog-buttons">
@@ -231,10 +244,10 @@
     </div>
 </script>
 <script>
-	    var logoUploader = new qq.FineUploader({
+
+	var logoUploader = new qq.FineUploader({
         element: document.getElementById("company-logo-uploader"),
         template: 'qq-simple-thumbnails-template',
-        autoUpload: false,
         request: {
             customHeaders: {},
             endpoint: "/api/host/company/logo/",
@@ -254,20 +267,18 @@
             itemLimit: 1,
             stopOnFirstInvalidFile: false
         },
-	    callbacks: {
-            onError: function (id, name, reason, maybeXhrOrXdr) {
-            	console.log(reason);
+        callbacks: {
+            onComplete: function(id, name, responseJSON, maybeXhr) {
+            	if (responseJSON.success) {
+                    $('#logoOFHost').attr("src", responseJSON.url);
+                    $("#hostLogoContainer").css("display", "block");
+                    logoUploader.reset();
+                }
+            },
+            onSubmit: function (id, name) {
+            	$("#noLogoPresent").css("display", "none");
+            	angular.element("#hostSettingsCompany").scope().changeLogoStatus();
             }
-        }
+        },
     });
-	function uploadLogoFile() {
-		console.log('came here ' + logoUploader);
-	    logoUploader.uploadStoredFiles();
-	}
-</script>
-<script>
-	function addNoLogoImage () {
-		console.log('here here');
-		$("#logoImage").attr("src","modules/hosts/client/companyLogo/default/logo.png")
-	}
 </script>

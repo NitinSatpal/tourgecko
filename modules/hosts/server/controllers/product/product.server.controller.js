@@ -340,6 +340,20 @@ exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
   }
 }
 
+exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
+  if(req.user) {
+    var uniqueString = req.params.uniqueMonthYearString;
+    ProductSession.find({'hostCompany': req.user.company, 'monthsThisSessionCovering': uniqueString}).sort('-created').populate('product').exec(function (err, productSessions) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(productSessions);
+    });
+  }
+}
+
 exports.uploadProductPicture = function (req, res) {
   var upload = multer(config.uploads.productPictureUploads).array('productPictures');
   var newUUID = '';

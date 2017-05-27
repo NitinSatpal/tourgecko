@@ -186,6 +186,11 @@
 .btn-default, .btn-primary, .btn-success, .btn-info, .btn-warning, .btn-danger {
     text-shadow: none !important;
 }
+#sessionList .fc-toolbar .fc-right .fc-button-group button {
+    height: 30px !important;
+    padding-right: 8px;
+    margin-left: -5px;
+}
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;

@@ -121,9 +121,9 @@ module.exports = function (app) {
     .get(hosts.fetchCompanyDetails)
     .post(hosts.saveCompanyDetails);
 
-  app.route('/api/host/company/logo')
+  app.route('/api/host/company/logo/')
     .post(hosts.uploadCompanyLogo);
-
+    
   app.route('/api/host/contact')
     .post(hosts.saveContactDetails);
 
@@ -154,6 +154,6 @@ module.exports = function (app) {
   app.route('/api/host/sessionGuestMassMessage/')
     .post(hosts.sendMassMessagesForTheSession);
 
-   app.route('/api/host/sendContentToHostFromContactUs/')
+  app.route('/api/host/sendContentToHostFromContactUs/')
     .post(hosts.sendContactUsContentToHost);
 };

@@ -383,7 +383,10 @@ p {
 	display: block;
 	object-fit: cover;
 }
-
+.hostHome .company_logo_info .hostCompanyLogo .company_logo .img_info img {
+	display: block;
+	object-fit: cover;
+}
 .tourPreviewDetails .details-preview-image img {
 	display: block;
 	object-fit: cover;
@@ -1895,7 +1898,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 #settings .settings_account_info .fileUpload:hover,#settings .settings_account_info .fileUpload:visited,#settings .settings_account_info .fileUpload:active,#settings .settings_account_info .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #settings .settings_account_info .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
 
-#settings .company_logo_info .company_logo img{width: 12.6rem; border-radius: 100%; margin:1em; display: inline;}
+#settings .company_logo_info .company_logo img{width: 12.6rem; /*border-radius: 100%;*/ margin:1em; display: inline;}
 #settings .company_logo_info .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF; transform: translateY(-50%);}
 #settings .company_logo_info .fileUpload:hover,#settings .company_logo_info .fileUpload:visited,#settings .company_logo_info .fileUpload:active,#settings .company_logo_info .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #settings .company_logo_info .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
@@ -2112,8 +2115,8 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 	.left-nav-bar .navbar .navbar-nav{position: relative;}
 	.main-wrapper.toggle .left-nav-bar .navbar-fixed-side{left: 15px;}
 	.main-wrapper.toggle .left-nav-bar .navbar-fixed-side #myNavbar{display: block;}
-  #tours form .panel .no_margin_row .close_group{top: 6.2rem !important;}
-  .cke_2_contents.cke_reset, .cke_contents.cke_reset{ height: 10rem !important;}
+  	#tours form .panel .no_margin_row .close_group{top: 2.1rem !important;}
+  	.cke_2_contents.cke_reset, .cke_contents.cke_reset{ height: 10rem !important;}
 }
 
 

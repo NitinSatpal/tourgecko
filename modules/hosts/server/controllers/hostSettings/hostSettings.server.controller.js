@@ -48,8 +48,12 @@ exports.saveCompanyDetails = function (req, res) {
       company.inquiryTime = changedCompanyDetails.inquiryTime;
       company.hostCompanyAddress = changedCompanyDetails.hostCompanyAddress;
       company.isLogoPresent = changedCompanyDetails.isLogoPresent;
-      if (company.logoURL != '')
+      if (company.logoURL === undefined || company.logoURL == '')
+        company.logoURL = 'modules/hosts/client/companyLogo/default/logo.png';
+      if (company.logoURL != 'modules/hosts/client/companyLogo/default/logo.png')
         company.isLogoPresent = true;
+      else
+        company.isLogoPresent = false;
       company.markModified('hostCompanyAddress');
       company.save(function (err, response) {
         if (err) {
@@ -86,16 +90,16 @@ function editPinBoardPinsForThisHost (company, code) {
   }
 }
 
-// Upload company logo
 exports.uploadCompanyLogo = function (req, res) {
+  var upload = multer(config.uploads.hostCompanyLogoUploads).array('newLogo');
   var user = req.user;
-  var upload = multer(config.uploads.hostCompanyLogoUploads).single('newLogo');
-  var existingLogoUrl;
+  var newLogoURL = '';
+  var newUUID;
   if (user) {
     uploadImage()
       .then(onUploadSuccess)
       .catch(function (err) {
-        res.json('error');
+        res.json(err);
       });
   } else {
     res.status(400).send({
@@ -111,6 +115,8 @@ exports.uploadCompanyLogo = function (req, res) {
           // reject(errorHandler.getErrorMessage(uploadError));
           reject(uploadError.code);
         } else {
+          newLogoURL = req.files[0].path;
+          newUUID = req.files[0].filename;
           resolve();
         }
       });
@@ -118,92 +124,24 @@ exports.uploadCompanyLogo = function (req, res) {
   }
 
   function onUploadSuccess () {
-    res.json({success: true, newUuid: newUUID});
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      if (company.logoURL != '' && company.logoURL != 'modules/hosts/client/companyLogo/default/logo.png') {
+        var previousId = company.logoURL.split('/')[4];
+        fs.unlink(config.uploads.hostCompanyLogoUploads.dest + previousId);
+      }
+      company.logoURL = newLogoURL;
+      company.isLogoPresent = true;
+      company.save();
+    });
+    res.json({success: true, url: newLogoURL, newUuid: newUUID});
     return true;
   }
-  /*console.log('coming - 1');
-  if (user) {
-    console.log('coming - 2');
-    if (req.user) {
-      console.log('coming - 3');
-      Company.findOne({user: req.user._id}).exec(function (err, company) {
-        if (err) {
-          console.log('coming - 4 ' + err);
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        existingLogoUrl = company.logoURL;
-        console.log('previous url ' + existingLogoUrl);
-        uploadImage()
-          .then(updateCompany)
-          .then(deleteOldImage)
-          .catch(function (err) {
-            console.log('coming - 5 ' + err);
-            res.status(400).send(err);
-          });
-
-        function uploadImage () {
-          console.log('coming - 6');
-          return new Promise(function (resolve, reject) {
-            upload(req, res, function (uploadError) {
-              if (uploadError) {
-                console.log('coming - 7' + uploadError);
-                reject(errorHandler.getErrorMessage(uploadError));
-              } else {
-                resolve();
-              }
-            });
-          });
-        }
-
-        function updateCompany () {
-          console.log('coming - 8');
-          return new Promise(function (resolve, reject) {
-            company.logoURL = config.uploads.hostCompanyLogoUploads.dest + req.file.filename;
-            company.save(function (err, thecompany) {
-              if (err) {
-                console.log('coming - 9 ' + err);
-                reject(err);
-              } else {
-                resolve();
-              }
-            });
-          });
-        }
-
-        function deleteOldImage () {
-          console.log('coming - 10');
-          return new Promise(function (resolve, reject) {
-            if (existingLogoUrl !== Company.schema.path('logoURL').defaultValue) {
-              fs.unlink(existingLogoUrl, function (unlinkError) {
-                if (unlinkError) {
-                  reject({
-                    message: 'Error occurred while deleting old Company logo'
-                  });
-                } else {
-                  resolve();
-                }
-              });
-            } else {
-              resolve();
-            }
-          });
-        }
-      });
-    } else {
-      res.status(400).send({
-        message: 'User is not signed in'
-      });
-    }
-  } else {
-    res.status(400).send({
-      message: 'User is not signed in'
-    });
-  }*/
 };
-
-
 
 //Save contact details
 exports.saveContactDetails = function (req, res) {
@@ -236,6 +174,8 @@ exports.saveContactDetails = function (req, res) {
     });
   }
 };
+
+
 
 // Save payment details
 exports.savePaymentDetails = function (req, res) {
