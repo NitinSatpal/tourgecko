@@ -28,6 +28,7 @@ exports.createBooking = function (req, res) {
     booking.bookingDate = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
     booking.save(function (err) {
       if (err) {
+        console.log(err);
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });

@@ -63,7 +63,7 @@
 							</div>
 							<br><br>
 							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
-								<span> No Tours found in this month</span>
+								<span> No Tours found</span>
 							</div>
 							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetails($index)">
 								<div class="row">

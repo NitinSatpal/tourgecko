@@ -23,7 +23,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row error-success-notification" ng-if="vm.showSuccessMsgOnTop" id="abcder">
+				<div class="row error-success-notification" ng-if="vm.showSuccessMsgOnTop" id="successMessageContainer">
 					<div class="col-lg-12 col-md-12 col-sm-12 success">
 					<span class="success-content"> <b>Great! </b> Tour has been added. <br>
 							What is Next? Make sure it has all the details for it to be bookable. <br><br>
@@ -1847,7 +1847,7 @@ function openUnavailableDeparturePanel() {
 	});
 
 	$(document).on("click", "#tours", function () {
-		$("#abcder").hide();
+		$("#successMessageContainer").hide();
 	})
 
     var mapUploader = new qq.FineUploader({

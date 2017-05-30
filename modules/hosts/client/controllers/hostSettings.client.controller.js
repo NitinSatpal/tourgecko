@@ -11,7 +11,6 @@
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
-
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;

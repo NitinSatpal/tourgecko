@@ -100,6 +100,12 @@
       $('#'+id).click();
     }
 
+    vm.changeCalendarView = function (whichView) {
+      $("#sessionList .fc-toolbar .fc-right .fc-button-group .fc-button").css("background-color", "#FFFFFF");
+      $('#btn' + whichView).css("background-color", "#cccccc");
+      $('#calendar').fullCalendar('changeView', whichView);
+    }
+    
     vm.goToSessionBookingDetails = function (index) {
       $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId});
     }

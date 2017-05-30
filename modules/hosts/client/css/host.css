@@ -14,34 +14,34 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6) !important;
 }
-.home-content .add-product .error-success-notification {
+.home-content .add-product .error-success-notification, .hostHome .companyProfileSettings .company_logo_info .error-notification {
 	margin-left: 0 !important;
 	margin-right: 0 !important;
 	padding-top: 20px;
 }
-.home-content .add-product .error-success-notification .errors {
+.home-content .add-product .error-success-notification .errors, .hostHome .companyProfileSettings .company_logo_info .error-notification .errors {
 	height: auto;
 	background-color: #ff9797;
 	padding-top: 10px;
 	padding-bottom: 20px;
 }
-.home-content .add-product .error-success-notification .errors .fa-ban {
+.home-content .add-product .error-success-notification .errors .fa-ban, .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .fa-ban {
 	padding-top: 20px;
 	color: #C80000 ;
 	font-weight: 500;
 	font-size: 35px;
 }
-.home-content .add-product .error-success-notification .errors .error-content {
+.home-content .add-product .error-success-notification .errors .error-content, .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content {
 	margin-left: -80px;
 }
-.home-content .add-product .error-success-notification .errors .error-content h5 {
+.home-content .add-product .error-success-notification .errors .error-content h5, .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content h5 {
 	font-weight: 500;
 	color: #555;
 }
-.home-content .add-product .error-success-notification .errors .error-content ul {
+.home-content .add-product .error-success-notification .errors .error-content ul,  .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content ul {
 	padding-left: 18px;
 }
-.home-content .add-product .error-success-notification .errors .error-content ul li {
+.home-content .add-product .error-success-notification .errors .error-content ul li .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content ul li{
 	font-weight: 300;
 	color: #404040;
 }
