@@ -282,7 +282,6 @@ function addMapOneByOne(source){
 
 function removeImageFromEditPreview (whichFile) {
 	$('#parentDivImg'+this.id).remove();
-	console.log('the removing id is ' + this.id);
 	globalImageFileStorageEdit.splice(this.id, 1);
 	if(globalImageFileStorageEdit.length < 5) {
 		$('.add-Photo-button-div').fadeTo(500, 1);

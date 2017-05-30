@@ -104,6 +104,9 @@ module.exports = function (app) {
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
+   app.route('/api/product/previouslyUploadedFiles/:productId')
+    .get(hosts.getUploadedFilesForTheProduct);
+
    app.route('/api/product/productPictureUploadDelete/')
     .post(hosts.deleteProductPicture);
 

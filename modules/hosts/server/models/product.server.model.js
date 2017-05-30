@@ -234,6 +234,10 @@ var ProductSchema = new Schema({
     type: Array,
     default: []
   },
+  productPictureNames: {
+    type: Array,
+    default: []
+  },
   productMapURLs: {
     type: Array,
     default: []

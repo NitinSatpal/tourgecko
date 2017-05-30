@@ -9,7 +9,7 @@
 						<div class="panel">
 							<div class="row">
 								<div class="col-sm-6 col-md-6 col-lg-6 tour_left tourlist-Product-Image" ng-show="vm.products[$index].productPictureURLs.length > 0">
-									<img ng-src="{{vm.products[$index].productPictureURLs[0]}}" class="img-responsive" alt="{{vm.products[$index].productTitle}}"/>
+									<img ng-src="{{vm.products[$index].productPictureURLs[0].url}}" class="img-responsive" alt="{{vm.products[$index].productTitle}}"/>
 								</div>
 								<div class="col-sm-6 col-md-6 col-lg-6 tour_left no-image" ng-show="vm.products[$index].productPictureURLs.length == 0">
 									<div class="no_image">

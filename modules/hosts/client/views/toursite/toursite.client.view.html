@@ -117,7 +117,7 @@
                 <div class="col l6 m6 s12" ng-repeat="data in vm.toursitedata track by $index" ng-style="vm.getConditionalCSS($index)" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
                     <div id="toursiteProduct{{$index}}" class="card tour padding toursite-Product-Image">
                         <div class="tour-image" ng-if="data.productPictureURLs[0]">
-                            <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0]}}">
+                            <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0].url}}">
                         </div>
                         <div class="tour-image" ng-if="!data.productPictureURLs[0]" ">
                             <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">

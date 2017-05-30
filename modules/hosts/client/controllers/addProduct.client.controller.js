@@ -249,7 +249,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
               isPricingOptionsModified = true;
             }
           }, true);
-          addImagesMapEditMode(vm.tour.productPictureURLs, vm.tour.productMapURLs);
 
           $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
 
@@ -291,6 +290,12 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
               });
             }
           }
+          for (var index = 0; index < vm.tour.productPictureURLs.length; index ++) {
+            var tempFilePath = vm.tour.productPictureURLs[index].url.split('/');
+            var tempFileObject = {uuid: tempFilePath[tempFilePath.length - 1], size: vm.tour.productPictureURLs[index].size, name: vm.tour.productPictureURLs[index].name}
+            $scope.uploadedProductPicturesForThisProduct.push(tempFileObject);
+          }
+          
           var maxVal = findDayCounterValue();
           if (maxVal == '-Infinity')
             vm.dayCounter = 1;
@@ -467,7 +472,6 @@ function setRichTextData () {
       }
 
       if (groupRange.length > 0) {
-        console.log("the group range is " + groupRange);
         for (index = 0; index < groupRange.length - 1; index ++) {
           if (parseInt(groupRange[index + 1]) < parseInt(groupRange[index])) {
             vm.pricingValid = false;
@@ -1044,8 +1048,9 @@ vm.createDepartureSession = function () {
       var modifiedUploadedProductPicturesForThisProduct = [];
       var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/photos/'
       for (var index = 0; index < $scope.uploadedProductPicturesForThisProduct.length; index++) {
-        modifiedUploadedProductPicturesForThisProduct.push(productPictureConstPath + $scope.uploadedProductPicturesForThisProduct[index]);
-      }
+        var tempFileObject = {url: productPictureConstPath + $scope.uploadedProductPicturesForThisProduct[index].uuid, size: $scope.uploadedProductPicturesForThisProduct[index].size, name: $scope.uploadedProductPicturesForThisProduct[index].name}
+        modifiedUploadedProductPicturesForThisProduct.push(tempFileObject);
+      }      
       vm.tour.productPictureURLs =  modifiedUploadedProductPicturesForThisProduct;
 
       if (vm.tour.isProductAvailabileAllTime)

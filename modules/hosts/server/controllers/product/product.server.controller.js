@@ -357,12 +357,14 @@ exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
 exports.uploadProductPicture = function (req, res) {
   var upload = multer(config.uploads.productPictureUploads).array('productPictures');
   var newUUID = '';
+  var size = '';
+  var name = '';
   var user = req.user;
   if (user) {
     uploadImage()
       .then(onUploadSuccess)
       .catch(function (err) {
-        res.json('error');
+        res.json(err);
       });
   } else {
     res.status(400).send({
@@ -379,6 +381,8 @@ exports.uploadProductPicture = function (req, res) {
           reject(uploadError.code);
         } else {
           newUUID = req.files[0].filename;
+          size = req.files[0].size;
+          name = req.files[0].originalname;
           resolve();
         }
       });
@@ -386,7 +390,7 @@ exports.uploadProductPicture = function (req, res) {
   }
 
   function onUploadSuccess () {
-    res.json({success: true, newUuid: newUUID});
+    res.json({success: true, newUuid: newUUID, size: size, name: name});
     return true;
   }
 };
@@ -394,6 +398,27 @@ exports.uploadProductPicture = function (req, res) {
 exports.deleteProductPicture = function (req, res) {
   fs.unlink(config.uploads.productPictureUploads.dest + req.body.qquuid)
   res.json({success: true, deletedUuid: req.body.qquuid});
+}
+
+exports.getUploadedFilesForTheProduct = function (req, res) {
+  if (req.params.productId) {
+    Product.findOne({ '_id': req.params.productId }).sort('-created').populate('hostCompany').exec(function (err, product) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      var previouslyUploadedFiles = [];
+      for (var index = 0; index < product.productPictureURLs.length; index ++) {
+        var tempFilePath = product.productPictureURLs[index].url.split('/');
+        var tempFile = {uuid: tempFilePath[tempFilePath.length - 1], name: product.productPictureURLs[index].name, thumbnailUrl:  product.productPictureURLs[index].url, size: product.productPictureURLs[index].size};
+        previouslyUploadedFiles.push(tempFile);
+      }
+      res.json(previouslyUploadedFiles);
+    });
+  } else {
+    res.json('');
+  }
 }
 
 exports.uploadProductMap = function (req, res) {

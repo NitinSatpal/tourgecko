@@ -888,7 +888,7 @@
 														<h5 ng-if="vm.singleImageUploadError"> There is {{imageUploadErrorContent.length}} error in image upload </h5>
 														<h5 ng-if="vm.multipleImageUploadError"> There are {{imageUploadErrorContent.length}} errors in image upload </h5>
 														<ul>
-															<li ng-repeat="error in imageUploadErrorContent"> {{error}} </li>
+															<li ng-repeat="error in imageUploadErrorContent track by $index"> {{error}} </li>
 														</ul>
 													</span> 
 													<h5> PS: Invalid images are removed automatically</h5>
@@ -1749,7 +1749,7 @@ function openUnavailableDeparturePanel() {
                 </button>
 
                 <div class="qq-file-info">
-                    <div class="qq-file-name">
+                    <div class="qq-file-name" style="color: #929292">
                         <span class="qq-upload-file-selector qq-upload-file"></span>
                         <span class="qq-edit-filename-icon-selector qq-btn qq-edit-filename-icon" aria-label="Edit filename"></span>
                     </div>
@@ -1794,56 +1794,81 @@ function openUnavailableDeparturePanel() {
     </div>
 </script> 
 <script>
-	var dat = new Date();
-    var photoUploader = new qq.FineUploader({
-        element: document.getElementById("product-photo-uploader"),
-        template: 'qq-template',
-        request: {
-            customHeaders: {},
-            endpoint: "/api/product/productPictureUploads/",
-            filenameParam: "qqfilename",
-            forceMultipart: true,
-            inputName: "productPictures",
-            method: "POST",
-            params: {},
-            paramsInBody: true,
-            totalFileSizeName: "qqtotalfilesize",
-            uuidName: "qquuid"
-        },        
-        validation: {
-            allowedExtensions: ['jpeg', 'jpg', 'png'],
-            sizeLimit: 5000000,
-            minSizeLimit: 0,
-            itemLimit: 5,
-            stopOnFirstInvalidFile: false
-        },
-        deleteFile: {
-	        enabled: true,
-	        forceConfirm: true,
-	        endpoint: '/api/product/productPictureUploadDelete',
-	        method: "POST"
-	    },
-	    callbacks: {
-            onComplete: function(id, name, responseJSON, maybeXhr) {
-            	angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.push(responseJSON.newUuid);
-            },
-            onDeleteComplete: function(id, xhrOrXdr, isError) {
-            	var item = xhrOrXdr.response.deletedUuid;
-            	var index = angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.indexOf(item);
-            	angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.splice(index, 1);
-            },
-            onError: function (id, name, reason, maybeXhrOrXdr) {
-            	angular.element('#product-photo-uploader').scope().showImageUploadErrors(reason);
-            }
-        },
-        showMessage: function(message) {
-        	
-	        //either include an empty body, or some other code to display (error) messages
-	    }
-    });
-	$('.hostHome .home-content .add-product .tours_page .nav-tabs a').click(function(){
-	    if (this.id != 'tours_media_Selector')
-	    	angular.element('#product-photo-uploader').scope().initializeImageUploadErrorContent(true);
+	$(document).ready(function() {
+		var dat = new Date();
+		var productId;
+		if (location.pathname.split('/')[3] != 'add') {
+			if (location.pathname.split('/')[3] == 'edit')
+				productId = location.pathname.split('/')[4];
+			else
+				productId = location.pathname.split('/')[3];
+		}
+	    var photoUploader = new qq.FineUploader({
+	        element: document.getElementById("product-photo-uploader"),
+	        template: 'qq-template',
+	        debug: false,
+	        session: {
+	           endpoint: '/api/product/previouslyUploadedFiles/' + productId
+	        },
+	        request: {
+	            customHeaders: {},
+	            endpoint: "/api/product/productPictureUploads/",
+	            filenameParam: "qqfilename",
+	            filenameParamName: 'abc',
+	            forceMultipart: true,
+	            inputName: "productPictures",
+	            method: "POST",
+	            params: {},
+	            paramsInBody: true,
+	            totalFileSizeName: "qqtotalfilesize",
+	            uuidName: "qquuid"
+	        },        
+	        validation: {
+	            allowedExtensions: ['jpeg', 'jpg', 'png'],
+	            sizeLimit: 5000000,
+	            minSizeLimit: 0,
+	            itemLimit: 5,
+	            stopOnFirstInvalidFile: false
+	        },
+	        deleteFile: {
+		        enabled: true,
+		        forceConfirm: true,
+		        endpoint: '/api/product/productPictureUploadDelete',
+		        method: "POST"
+		    },
+		    callbacks: {
+	            onComplete: function(id, name, responseJSON, maybeXhr) {
+	            	var fileObject = {uuid: responseJSON.newUuid, size: responseJSON.size, name: responseJSON.name}
+	            	angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.push(fileObject);
+	            },
+	            onDeleteComplete: function(id, xhrOrXdr, isError, responseJSON) {
+	            	var item = JSON.parse(xhrOrXdr.response);
+	            	var filesObjectArray = angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct;
+	            	var deleteIndex = -1;
+	            	for(var index = 0; index < filesObjectArray.length; index++) {
+					    if (filesObjectArray[index].uuid == item['deletedUuid']) {
+					    	deleteIndex = index;
+					    	break;
+					    }
+					}
+	            	angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.splice(deleteIndex, 1);
+	            },
+	            onError: function (id, name, reason, maybeXhrOrXdr) {
+	            	angular.element('#product-photo-uploader').scope().showImageUploadErrors(reason);
+	            },
+	            onSessionRequestComplete: function(response, success, xhrOrXdr) {
+	            	
+	            }
+	        },
+	        showMessage: function(message) {
+	        	
+		        //either include an empty body, or some other code to display (error) messages
+		    }
+	    });
+		$('.hostHome .home-content .add-product .tours_page .nav-tabs a').click(function(){
+		    if (this.id != 'tours_media_Selector')
+		    	angular.element('#product-photo-uploader').scope().initializeImageUploadErrorContent(true);
+		});
 	});
 
 	$(document).on("click", "#tours", function () {
@@ -1865,12 +1890,12 @@ function openUnavailableDeparturePanel() {
             uuidName: "qquuid"
         },
         validation: {
-                allowedExtensions: ['jpeg', 'jpg', 'png'],
-                sizeLimit: 5000000,
-                minSizeLimit: 0,
-                itemLimit: 3,
-                stopOnFirstInvalidFile: true
-            },
+            allowedExtensions: ['jpeg', 'jpg', 'png'],
+            sizeLimit: 5000000,
+            minSizeLimit: 0,
+            itemLimit: 3,
+            stopOnFirstInvalidFile: true
+        },
         deleteFile: {
 	        enabled: true,
 	        forceConfirm: true,
