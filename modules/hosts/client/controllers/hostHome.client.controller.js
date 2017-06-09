@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionCountService', 'PinboardService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionCountService', 'PinboardService'];
 
-  function HostHomeController($scope, $state, $window, $http, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardService) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardService) {
     var vm = this;
     vm.sessionsFetched = false;
     var currentDate = new Date($('#calendar').fullCalendar('getDate'));     

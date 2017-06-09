@@ -14,11 +14,16 @@
 						<span class="sub_head">No bookings</span>
 					</h2>                           
 					<div class="pull-right">
-                    	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-search"></i>&nbsp;Search</a>
-                    	<input type="text" class="form-control" placeholder="Booking Reference">   
+                    	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type" ng-click="vm.searchThisBooking(vm.BookingReferenceToBeSearched)" ng-if="vm.noSearchQueryFired">
+                    		<i class="zmdi zmdi-search"></i>&nbsp;Search
+                    	</a>
+                    	<a class="btn btn-primary pull-right" ng-click="vm.clearAllFilterOnBookingRecords()" ng-if="!vm.noSearchQueryFired" style="background-color: #ED9C28">
+                    		<i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;Clear
+                    	</a>
+                    	<input type="text" class="form-control" placeholder="Booking Reference" ng-model="vm.BookingReferenceToBeSearched">   
                 	</div>    
 				</div>
-                            
+                    
                 <div class="booking-filters" ng-if="vm.bookings.length > 0 || vm.filterApplied">
                     <div class="margin padding text-center">
                         <div id="filter-dropdown" class="dropdown">
@@ -157,12 +162,12 @@
 							&nbsp; bookings per page
 						</span>
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && !vm.filterApplied">
+					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && !vm.filterApplied && vm.noSearchQueryFired">
 						<span> <h3> Manage Your Bookings </h3></span>
                         <span> <h4> This is where you process and track bookings </h4> </span>
                         <img src="/modules/core/client/img/assets/empty_state_one.png">
 					</div>
-					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && vm.filterApplied">
+					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && (vm.filterApplied || !vm.noSearchQueryFired)">
 						<span> <h2> No bookings found </h2></span>
 					</div>
 				</div>

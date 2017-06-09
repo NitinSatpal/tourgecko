@@ -11,9 +11,16 @@ var path = require('path'),
   User = mongoose.model('User'),
   Pinboard = mongoose.model('Pinboard'),
   Language = mongoose.model('I18NLanguage'),
+  InstamojoUser = mongoose.model('InstamojoUsers'),
   config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
+/* Payment gateway account signup */
+var Insta = require('instamojo-nodejs');
+Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
+
+// This line will be removed later. Setting sandbox mode for now
+Insta.isSandboxMode(true);
 
 // Fetching user company details here. Though we will need specific users company details always. But we are fetching as an array.
 // Later point of time we may need company details of all the users. We can use this same api for that.
@@ -182,19 +189,68 @@ exports.savePaymentDetails = function (req, res) {
   var otherChangedPaymentDetails = req.body.otherAccDetails[0];
   var changedPaymentDetailsCountry = req.body.accCountryDetails;
   if (req.user) {
-    Company.findOne({user: req.user._id}).exec(function (err, company) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
-      company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
-      company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
-      company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
-      company.markModified('hostBankAccountDetails');
-      company.save();
-      res.json(company);
+    InstamojoUser.findOne({user: req.user._id}).exec(function (err, instaUser) {
+      var userDetails = Insta.UserBasedAuthenticationData();
+      userDetails.client_id = config.paymentGateWayInstamojo.clientId;
+      userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+      userDetails.username = instaUser.instamojo_email;
+      userDetails.password = instaUser.instamojo_password;
+      Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+        if (userTokenError) {
+          res.json({messages: ['Something went wrong in authentication'], status: 'failure'});
+        } else {
+          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                        config.paymentGateWayInstamojo.instamojoSecret,
+                        'Bearer' + ' ' + userTokenResponse.access_token);
+
+          var instamojo_Bank_Account_Data = {
+            account_holder_name: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName,
+            account_number: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber,
+            ifsc_code: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode
+          };
+
+          Insta.setOnBoardedHostBankDetails(instamojo_Bank_Account_Data, instaUser.instamojo_id, function(editHostError, editHostResponse) {
+            var errors = [];
+            if (editHostError) {
+              for (var key in editHostError) {
+                errors.push(errorHandler.getCustomErrorMessage(key, editHostError[key]));
+              }
+              res.json({messages: errors, status: 'failure'});
+            } else {
+              if (editHostResponse.user) {
+                var commonPrefix = 'instamojo_';
+                for (var key in editHostResponse) {
+                  if (editHostResponse.hasOwnProperty(key)) {
+                    var val = editHostResponse[key];
+                    instaUser[commonPrefix + key] = val;
+                  }
+                }
+                instaUser.save();
+                Company.findOne({user: req.user._id}).exec(function (err, company) {
+                  if (err) {
+                    return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    });
+                  }
+                  company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
+                  company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
+                  company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
+                  company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
+                  company.markModified('hostBankAccountDetails');
+                  company.save();
+                });
+
+                res.json({message: editHostResponse, status: 'success'});
+              } else {
+                for (var key in editHostResponse) {
+                  errors.push(errorHandler.getCustomErrorMessage(key, editHostResponse[key]));
+                }
+                res.json({messages: errors, status: 'failure'});
+              }
+            }
+          });
+        }
+      });
     });
   }
 };

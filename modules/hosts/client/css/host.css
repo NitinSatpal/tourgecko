@@ -8,6 +8,9 @@ h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
 
+.amma {
+}
+
 .ckEditorFocus {
 	border-color: #66afe9 !important;
     outline: 0 !important;
@@ -41,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 .home-content .add-product .error-success-notification .errors .error-content ul,  .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content ul {
 	padding-left: 18px;
 }
-.home-content .add-product .error-success-notification .errors .error-content ul li .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content ul li{
+.home-content .add-product .error-success-notification .errors .error-content ul li, .hostHome .companyProfileSettings .company_logo_info .error-notification .errors .error-content ul li{
 	font-weight: 300;
 	color: #404040;
 }
@@ -1688,7 +1691,7 @@ ul.print-email li a {
 	background-color:#ddd;
 }
 .pointer {
-	margin-top: -3rem;
+	margin-top: -1rem;
 }
 .pointer-line .pointer.pointer_a {
 	margin-left: 24.9%;

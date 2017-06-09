@@ -765,7 +765,7 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Booking object creation function */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-    $scope.createBookingObject = function () {
+  function createBookingObject () {
       var bookingObject = {};
       bookingObject.providedGuestDetails = vm.providedGuestDetails;
       bookingObject.product = vm.bookingProductDetails._id;
@@ -795,49 +795,29 @@
 
       var bookingData = {bookingDetails: bookingObject, productData: vm.bookingProductDetails}
 
-      $http.post('/api/host/booking', bookingData).success(function (response) {
+      /*$http.post('/api/host/booking', bookingData).success(function (response) {
         $state.go('guest.bookingDone');
       }).error(function (response) {
         vm.error = response.message;
-      });
+      });*/
+      return bookingData;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Booking object creation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
 
 
-    $scope.makePayment = function () {
-      var hash = 
-      $http.post('https://biz.traknpay.in/v1/paymentrequest', {address_line_1: "abc",
-                                                              address_line_2: "pqr",
-                                                              amount: 1,
-                                                              api_key: 'amma',
-                                                              city: 'hyderabad',
-                                                              country: 'IND',
-                                                              currency: 'INR',
-                                                              description: "DSdasads",
-                                                              email: "nitinsatpal@gmail.com",
-                                                              mode: "LIVE",
-                                                              name: "dasdasdsa",
-                                                              order_id: '121212',                                                              
-                                                              phone: 9535519640,
-                                                              return_url: '',
-                                                              state:'',
-                                                              udf1: '',
-                                                              udf2: '',
-                                                              udf3: '',
-                                                              udf4: '',
-                                                              udf5: '',
-                                                              zip_code: '500049',
-                                                              hash: 'baba'
-      })
-      .success(function (response) {
-        console.log(response);
-      }).error(function (response) {
-        console.log(response);
-        vm.error = response.message;
-      });
+    $scope.makeInstamojoPayment = function () {
+      var bookingData = createBookingObject();
+      $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
+        // $("a.im-checkout-btn.btn--light").attr('href', response);
+        Instamojo.open(response)
+        //document.getElementsByClassName('im-checkout-btn')[0].click();
+      }).error(function (error) {
+
+      });      
     }
+
     vm.getDynamicCSSForBookingScreenNav = function () {
       if(window.innerWidth > 767)
         return 'nav-toursite';

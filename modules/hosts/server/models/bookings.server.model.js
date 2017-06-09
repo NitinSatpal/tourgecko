@@ -85,6 +85,30 @@ var BookingSchema = new Schema({
     default: 'tourgecko Wallet',
     trim: true
   },
+  paymentURL: {
+    type: String
+  },
+  paymentRequestId: {
+    type: String
+  },
+  paymentId: {
+    type: String
+  },
+  isPaymentFulfilled: {
+    type: Boolean,
+    default: false
+  },
+  isPaymentDone: {
+    type: Boolean,
+    default: false
+  },
+  isRefundApplied: {
+    type: Boolean,
+    default: false
+  },
+  refundAmount: {
+    type: String
+  },
   bookingDate: {
     type: String,
     default: ''
@@ -94,5 +118,6 @@ var BookingSchema = new Schema({
   }
 });
 
+BookingSchema.index({bookingReference: 'text'});
 mongoose.model('Booking', BookingSchema);
 

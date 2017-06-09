@@ -38,7 +38,6 @@ var getUniqueErrorMessage = function (err) {
  */
 exports.getErrorMessage = function (err) {
   var message = '';
-  console.log('error is ' + err + ' and code is ' + err.code);
   if (err.code) {
     switch (err.code) {
       case 11000:
@@ -64,6 +63,21 @@ exports.getErrorMessage = function (err) {
       if (err.errors[errName].message) {
         message = err.errors[errName].message;
       }
+    }
+  }
+
+  return message;
+};
+
+exports.getCustomErrorMessage = function (err, errorMessage) {
+  var message = '';
+  if (err) {
+    switch (err) {
+      case 'ifsc_code':
+        message = errorMessage;
+        break;
+      default:
+        message = 'Something went wrong';
     }
   }
 

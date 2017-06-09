@@ -1,0 +1,239 @@
+<section class="hosttoursection">
+  <div class="page-header">
+    <h1 class="hostdata">Welcome</h1>
+  </div>
+  <div class="row hostdata">
+    <nav class="col-sm-3 col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <b>Messages</b>
+        <hr>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostinbox">Inbox</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostoutbox">Outbox</a>
+        </li>
+        <hr>
+        <b>Tours</b>
+        <hr>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostinventory">Inventory</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostcalendar">Calendar</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostbookings">Bookings</a>
+        </li>
+        <hr>
+        <b>Resources</b>
+        <hr>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostinventory">Staff</a>
+        </li>
+        <hr>
+        <b>Others</b>
+        <hr>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostinventory">Images</a>
+        </li>
+        <li ui-sref-active="active">
+          <a ui-sref="managetours.hostinventory">Settings</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="col-sm-9 col-md-8">
+      <div ui-view>
+      	<button type="button" data-target="#newtourcreation" class="btn btn-success" data-toggle="collapse" aria-expanded="false">Create New Tour</button>
+        
+      </div>
+      <br>
+      <br>
+      <div class="collapse" id="newtourcreation">
+      
+        <h3>Please fill out the tour details</h3>
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#basicdetails">Basic Details</a></li>
+          <li><a data-toggle="tab" href="#pricing">Pricing</a></li>
+          <li><a data-toggle="tab" href="#scheduleavailability">Schedule Availability</a></li>
+          <li><a data-toggle="tab" href="#itinerary">Itinerary</a></li>
+          <li><a data-toggle="tab" href="#guidelines">Guidelines</a></li>
+          <li><a data-toggle="tab" href="#photomaps">Photo Maps</a></li>
+        </ul>
+        
+        <form name="vm.form.tourForm" class="form-horizontal" ng-submit="vm.save(vm.form.tourForm.$valid)" novalidate>
+        <div class="tab-content tourform">
+            <div id="basicdetails" class="tab-pane fade in active">
+            
+              <fieldset>
+                
+                <div class="form-group" show-errors>
+                  <label class="control-label" for="tourname">Tour Name</label>
+                  <input name="tourname" type="text" ng-model="vm.tour.tourname" id="tourname" class="form-control" placeholder="Tour Name" required>
+                  <div ng-messages="vm.form.tourForm.tourname.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Tour name is required.</p>
+                  </div>
+                </div>
+                
+                <div class="form-group" show-errors>
+                  <label class="control-label" for="tourdestination">Tour Destination</label>
+                  <input name="tourdestination" type="text" ng-model="vm.tour.tourdestination" id="tourdestination" class="form-control" placeholder="Tour Destination" required>
+                  <div ng-messages="vm.form.tourForm.tourdestination.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Tour destination is required.</p>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="control-label" for="tourdescription">Tour Description</label>
+                  <input name="tourdescription" type="text" ng-model="vm.tour.tourdescription" id="tourdescription" class="form-control" placeholder="Tour Description">
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="tourtheme">Tour Theme</label>
+                  <select name="tourtheme" type="Array" ng-model="vm.tour.tourtheme" id="tourtheme" class="chosen-select form-control" multiple="true" style="width:350px;" tabindex="4" required>
+                    <option ng-repeat="theme in themes">{{theme.name}}</option>
+                  </select>
+                  <div ng-messages="vm.form.tourForm.tourtheme.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Please specify Theme.</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="touractivities">Tour Activity</label>
+                  <select name="touractivities" type="Array" ng-model="vm.tour.touractivities" id="touractivities" class="chosen-select form-control" multiple="true" style="width:350px;" tabindex="4" required>
+                    <option ng-repeat="theme in themes">{{theme.name}}</option>
+                  </select>
+                  <div ng-messages="vm.form.tourForm.touractivities.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Please specify Activity.</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="tourdifficultylevel">Tour Difficulty Level</label>
+                  <select name="tourdifficultylevel" type="text" ng-model="vm.tour.tourdifficultylevel" id="tourdifficultylevel" class="form-control" placeholder="Difficulty Level">
+                  <option ng-repeat="theme in themes">{{theme.name}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label" for="travelstyle">Travel Style</label>
+                  <select name="travelstyle" type="text" ng-model="vm.tour.travelstyle" id="travelstyle" class="form-control" placeholder="Travel Style">
+                  <option ng-repeat="theme in themes">{{theme.name}}</option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label class="control-label">Age Limit</label>
+                </div>
+                <div class="form-group" show-errors>
+                  <div class="col-xs-2">
+                    <input name="tourminagerequired" type="Number" ng-model="vm.tour.tourminagerequired" id="tourminagerequired" class="form-control" placeholder="Minimum Age" required>
+                  </div>
+                  <div ng-messages="vm.form.tourForm.tourminagerequired.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Please specify minimum age for the tour.</p>
+                  </div>
+                  <div class="col-xs-2">
+                    <input name="tourmaxagerequired" type="Number" ng-model="vm.tour.tourmaxagerequired" id="tourmaxagerequired" class="form-control" placeholder="Maximum Age" required>
+                  </div>
+                  <div ng-messages="vm.form.tourForm.tourmaxagerequired.$error" role="alert">
+                    <p class="help-block error-text" ng-message="required">Please specify maximum age for the tour.</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">Group Size</label>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-2">
+                    <input name="toursizemin" type="Number" ng-model="vm.tour.toursizemin" id="toursizemin" class="form-control" placeholder="Minimum Size" required>
+                  </div>
+                  <div class="col-xs-2">
+                    <input name="toursizemax" type="Number" ng-model="vm.tour.toursizemax" id="toursizemax" class="form-control" placeholder="Maximum Size" required>
+                  </div>
+                </div>
+            </div>
+
+            <div id="pricing" class="tab-pane fade">
+            <!--pricing by group, single, custom etc.-->
+              <div class="form-group">
+                <label class="control-label" for="touradvertisedprice">Advertised Price</label>
+                <input name="touradvertisedprice" type="Number" ng-model="vm.tour.touradvertisedprice" id="touradvertisedprice" class="form-control" placeholder="Advertised Price">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="tourdiscount">Discount</label>
+                <input name="tourdiscount" type="Number" ng-model="vm.tour.tourdiscount" id="tourdiscount" class="form-control" placeholder="Discount Percent">
+              </div>
+              
+              <div class="form-group">
+                <label class="control-label" for="tourdeposit">Deposit</label>
+                <input name="tourdeposit" type="Number" ng-model="vm.tour.tourdeposit" id="tourdeposit" class="form-control" placeholder="Deposit Percent">
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="tourcancellationpolicy">Cancellation Policy</label>
+                <select name="tourcancellationpolicy" type="text" ng-model="vm.tour.tourcancellationpolicy" id="tourcancellationpolicy" class="form-control" placeholder="Cancellation Policy">
+                <option ng-repeat="theme in themes">{{theme.name}}</option>
+                </select>
+              </div>
+              <!--Addons-->
+            </div>
+          <div id="scheduleavailability" class="tab-pane fade">
+            <div class="form-group" show-errors>
+              <label class="control-label" for="tourlength">Tour Duration</label>
+              <input name="tourlength" type="Number" ng-model="vm.tour.tourlength" id="tourlength" class="form-control" placeholder="Tour Duration" required>
+              <div ng-messages="vm.form.tourForm.tourlength.$error" role="alert">
+                <p class="help-block error-text" ng-message="required">Please specify the tour duration.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="tourbestseason">Best Season</label>
+              <select name="tourbestseason" type="Array" ng-model="vm.tour.tourbestseason" id="tourbestseason" class="chosen-select form-control" multiple="true" style="width:350px;" tabindex="4" required>
+                <option ng-repeat="theme in themes">{{theme.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+            <select id="abc" class="chzn-select form-control" multiple="true" name="faculty" style="width:200px;">
+        <option value="AC">A</option>
+        <option value="AD">B</option>
+        <option value="AM">C</option>
+        <option value="AP">D</option>
+</select>
+</div>
+            <!--seat availability and tour availability, tour available for bookings, last date of booking-->
+            
+          </div>
+          <div id="itinerary" class="tab-pane fade">
+            <!--daywise description of tour-->
+          </div>
+          <div id="guidelines" class="tab-pane fade">
+            <div class="form-group">
+              <label class="control-label" for="tourguidelines">Tour Description</label>
+              <input name="tourguidelines" type="text" ng-model="vm.tour.tourguidelines" id="tourguidelines" class="form-control" placeholder="Tour Guidelines">
+            </div>
+            <!--inlcuded and excluded in tour-->
+            <div class="form-group">
+              <label class="control-label" for="tourgeneralnote">General Note</label>
+              <input name="tourgeneralnote" type="text" ng-model="vm.tour.tourgeneralnote" id="tourgeneralnote" class="form-control" placeholder="General Note">
+            </div>
+            <!--guide languages-->
+          </div>
+          <div id="photomaps" class="tab-pane fade">
+            <!--photos, videos and map-->
+          </div>
+        </div>
+        <br><br>
+        <div class="form-group createbtn">
+          <button class="btn btn-info">Create</button>
+        </div>
+        <div ng-show="vm.error" class="text-danger">
+          <strong ng-bind="vm.error"></strong>
+        </div>
+        </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>

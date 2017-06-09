@@ -53,12 +53,16 @@
         }
       })
       .state('guest.bookingDone', {
-        url: '/tour/booking/done',
+        url: '/tour/booking/done?payment_id&payment_request_id',
         templateUrl: 'modules/guests/client/views/booking/tourBookingDone.client.view.html',
         controller: 'TourBookingDoneController',
         controllerAs: 'vm',
         data: {
           pageTitle: 'Tour | Booking Done'
+        },
+        params: {
+          payment_id: null,
+          payment_request_id: null
         }
       });
   }

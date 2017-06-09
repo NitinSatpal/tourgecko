@@ -50,8 +50,8 @@ exports.getToursiteData = function (req, res) {
         error: 'Oops! Something went wrong...'
       });
     }
-    Product.count({hostCompany: company._id, isPublished: true}, function(error, count){
-      Product.find({hostCompany: company._id, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
+    Product.count({user: company.user, isPublished: true}, function(error, count){
+      Product.find({user: company.user, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)

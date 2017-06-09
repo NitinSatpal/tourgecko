@@ -1,0 +1,42 @@
+.error-success-notification-common {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	padding-top: 20px;
+}
+.error-success-notification-common .errors-common {
+	height: auto;
+	background-color: #ff9797;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.error-success-notification-common .errors-common .fa-ban {
+	padding-top: 20px;
+	color: #C80000 ;
+	font-weight: 500;
+	font-size: 35px;
+}
+.error-success-notification-common .errors-common .error-content-common {
+	margin-left: -80px;
+}
+.error-success-notification-common .errors-common .error-content-common h5 {
+	font-weight: 500;
+	color: #555;
+}
+.error-success-notification-common .errors-common .error-content-common ul {
+	padding-left: 18px;
+}
+.error-success-notification-common .errors-common .error-content-common ul li {
+	font-weight: 300;
+	color: #404040;
+}
+
+.error-success-notification-common .success {
+	height: auto;
+	background-color: #BCED91;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+.error-success-notification-common .success-content {
+	color: #555;
+	font-weight: 300;
+}

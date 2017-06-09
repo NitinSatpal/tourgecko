@@ -15,5 +15,6 @@ module.exports = _.extend(
   require('./socialAccounts/socialPost.server.controller'),
   require('./hostHome/hostHome.server.controller'),
   require('./hostSettings/hostSettings.server.controller'),
-  require('./mailsAndMessages/communication.server.controller')
+  require('./mailsAndMessages/communication.server.controller'),
+  require('./postPayments/postPayment.server.controller')
 );

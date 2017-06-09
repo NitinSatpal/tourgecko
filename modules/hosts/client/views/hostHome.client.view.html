@@ -51,6 +51,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="home-section latest">
 				<div class="head_content">
 					<h4>Latest</h4>
@@ -170,11 +171,28 @@
 		</div>
 	</div>
 </div>
+<div id="myModal" class="modal fade">
+<div class="modal-dialog">
+    <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Event</h4>
+            </div>
+            <div class="modal-body">
+                <p>Loading...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+    </div>
+</div>
 <script type="text/javascript" src="modules/hosts/client/scripts/calendar.js"></script>
 <script>
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	    $('#loadingDiv').css('display', 'none');
+	    $('a[rel="im-checkout"]').trigger("click");
 	});
 
 	function changeToListView () {
@@ -199,5 +217,8 @@
 		$('#loadingDivHostSide').css('display', 'block');
       	$('#tourgeckoBody').addClass('waitCursor');
 		$('.modal-backdrop').remove()
+	}
+	function abc() {
+
 	}
 </script>

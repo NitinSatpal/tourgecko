@@ -15,6 +15,7 @@
     vm.pageFrom = 0;
     vm.showAtLast = true;
     vm.rememberFilterPreferences = false;
+    vm.noSearchQueryFired = true;
 
     vm.selectedFiltersForBookingRecords = [false, false, false, false, false];
 
@@ -120,9 +121,9 @@
       // This if else is not really required as, even if we send productSessionId in both the cases, in one case it will be utilized and
       // in other it will not. But for the understanding of functionality, i am putting if else
       if ( $stateParams.sessionId != null )
-        $state.go($state.previous.state.name, {productSessionId: $stateParams.sessionId});
+        $state.go('host.sessionBookingDetails', {productSessionId: $stateParams.sessionId});
       else
-        $state.go($state.previous.state.name);
+        $state.go('host.allBookings');
     }
 
     vm.getEmailIdToDisplay = function (email) {
@@ -141,7 +142,8 @@
     vm.modifyBooking = function (status) {
       if (vm.specificBookingDetails.bookingStatus != 'Pending')
         return;
-
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       var bookingModificationData = {bookingId: $stateParams.bookingId, bookingStatus: status, bookingComments: vm.bookingComments}
       $http.post('/api/host/modifyBooking/', bookingModificationData).success(function (response) {
         $('.modal-backdrop').remove();
@@ -150,6 +152,9 @@
         // Hence for Beta, we will just bring the user back to the booking and will ask him to click Bookings to go to Bookings.
         //$state.go('host.allBookings');
         $state.reload();
+      }).error(function (error) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     };
 
@@ -159,6 +164,25 @@
       else
         $(anchorId).attr("data-target", modalId);
     };
+
+    vm.askRefundConfirmation = function (bookingStatus, anchorId, modalId) {
+      $(anchorId).attr("data-target", modalId);
+    };
+
+    vm.refundTheGivenAmount = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      var refundData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, paymentRequestId: vm.specificBookingDetails.paymentRequestId, refundAmount: vm.refundAmount};
+      $http.post('/api/payment/instamojo/refund/', refundData).success (function (response) {
+        $('.modal-backdrop').remove();
+        $state.reload();
+      }).error(function (error) {
+        $("#refund-confirmation").toggle("slow");
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        $('.modal-backdrop').remove();
+      })
+    }
 
     vm.changeItemsPerPage = function (itemsPerPage) {
         $('#loadingDivHostSide').css('display', 'block');
@@ -477,6 +501,8 @@
       vm.rememberFilterPreferences = false;
       $window.localStorage.setItem('shallRememberFilterPreference', 'No');
       fetchAllBookingRecords();
+      vm.noSearchQueryFired = true;
+      vm.BookingReferenceToBeSearched = null;
       $('#filter-dropdown-button').click();
     }
 
@@ -525,6 +551,13 @@
         vm.filterApplied = false;
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
+      });
+    }
+
+    vm.searchThisBooking = function (bookingReference) {
+      $http.get('/api/host/booking/search/' + bookingReference).success(function (response) {
+        vm.noSearchQueryFired = false;
+        vm.bookings = response;
       });
     }
 

@@ -68,8 +68,11 @@ module.exports = function (app) {
     .get(hosts.fetchFutureSessionDetailsOfGivenProduct);
 
   app.route('/api/host/booking')
-    .post(hosts.createBooking)
+    //.post(hosts.createBooking)
     .get(hosts.fetchCompanyBookingDetails);
+
+  app.route('/api/host/booking/search/:bookingReference')
+    .get(hosts.searchBooking);
 
   app.route('/api/host/allBookings/:itemsPerPage')
     .get(hosts.fetchAllBookingDetailsOfCompany);
@@ -159,4 +162,7 @@ module.exports = function (app) {
 
   app.route('/api/host/sendContentToHostFromContactUs/')
     .post(hosts.sendContactUsContentToHost);
+
+  app.route('/api/host/postpaymentevents/')
+    .post(hosts.postPaymentEventsAndProcess);
 };

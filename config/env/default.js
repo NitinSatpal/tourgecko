@@ -8,6 +8,14 @@ module.exports = {
     // domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
+  paymentGateWayInstamojo: {
+    instamojoKey: process.env.instamojoKey,
+    instamojoSecret: process.env.instamojoSecret,
+    userPwdCommonPrefix: process.env.instamojoUserCommonPrefixSecret,
+    referer: process.env.instamojoUserReferer,
+    clientId: process.env.instamojoClientId,
+    clientSecret: process.env.instamojoClientSecret
+  },
   mailer: {
     service: 'gmail',
     from: 'nitinsatpal@gmail.com',

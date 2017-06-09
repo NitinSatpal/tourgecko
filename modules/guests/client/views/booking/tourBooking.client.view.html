@@ -565,7 +565,6 @@
                                         <br>
                                         <!--<a href="#" class="btn btn-primary margin green">Continue</a>-->
                                     </div>
-                        
                                     <div class="row center desc-text">
                                         <label>We do not store your netbanking/debit/credit card information. All payments are encrypted and securely processed through PCI compliant provider.</label>
                                     </div>
@@ -627,7 +626,14 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
+
+<div style="display: none; position: fixed; overflow-y: hidden;">
+    <a rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo"></a>
+</div>
+            
+<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
+
+<script>
     $(document).ready(function() {
         // Smart Wizard     
         $('#wizard').smartWizard({
@@ -639,9 +645,8 @@
             return angular.element('#booking').scope().validateData(context.fromStep, context.toStep);
         }
         function onFinishCallback() {
-            angular.element('#booking').scope().createBookingObject();
-
-           // angular.element('#booking').scope().makePayment();
+            //angular.element('#booking').scope().createBookingObject();
+            angular.element('#booking').scope().makeInstamojoPayment();
         }
     });
 </script>

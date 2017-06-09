@@ -4,73 +4,49 @@
  * Module dependencies
  */
 var path = require('path'),
+  config = require(path.resolve('./config/config')),
   mongoose = require('mongoose'),
   Booking = mongoose.model('Booking'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
+  InstamojoPaymentRecord = mongoose.model('InstamojoPayments'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
-var alphabetArray = ['A', 'B', 'C', 'D', 'E'];
-// Creating product here.
-exports.createBooking = function (req, res) {
-  Booking.count({hostOfThisBooking: req.body.bookingDetails.hostOfThisBooking}, function(err, count) {
-    var booking = new Booking(req.body.bookingDetails);
-    booking.user = req.user;
-    booking.hostCompany = req.body.productData.hostCompany._id;
-    var referenceNumber = count + 1000;
-    booking.bookingReference = alphabetArray[Math.floor(Math.random() * alphabetArray.length)] + referenceNumber;
-    booking.created = Date.now();
-    // var tz = momentTimezone.tz.guess();
-    // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
-    // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
-    booking.bookingDate = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
-    booking.save(function (err) {
-      if (err) {
-        console.log(err);
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        sendNotification(req.body.bookingDetails, req.body.productData.productTitle, booking._id);
-        if(!booking.isOpenDateTour)
-          updateSession(booking);
-        else
-          createSession(booking, req.body.productData);
-        res.json(booking);
-      }
-    });
-  });
-};
+/* Payment gateway account signup */
+var Insta = require('instamojo-nodejs');
+Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
-function sendNotification(bookingObject, productTitle, bookingId) {
-  var notification = new Notification();
-  notification.notificationFrom = bookingObject.providedGuestDetails.firstName + ' ' + bookingObject.providedGuestDetails.lastName;
-  notification.notificationTypeLogo = 'modules/chat/client/images/booking-request.png';
-  notification.bookingId = bookingId;
-  notification.notificationToId = bookingObject.hostOfThisBooking;
-  notification.notificationType = "Booking Request";
-  notification.notificationBody = "You have a booking request for '" + productTitle + "'.";
-  notification.notificationStatus = "Action Pending by Host";
-  notification.notificationRead = false;
-  notification.notificationTimestamp = new Date();
+// This line will be removed later. Setting sandbox mode for now
+Insta.isSandboxMode(true);
+
+// Creating product here.
+exports.createBooking = function (data, user, paymentURL, paymentRequestId) {
+  var booking = new Booking(data.bookingDetails);
+  booking.user = user;
+  booking.hostCompany = data.productData.hostCompany._id;
+  booking.bookingReference = Math.random().toString(36).substring(10);
+  booking.paymentRequestId = paymentRequestId;
+  booking.isPaymentFulfilled = false;
+  booking.created = Date.now();
   // var tz = momentTimezone.tz.guess();
   // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
   // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
-  notification.notificationTimestampToDisplay = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
-  notification.created = Date.now();
-
-  notification.save(function (err) {
+  booking.bookingDate = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
+  booking.save(function (err) {
     if (err) {
-      // notification sending failed
+      return 'error';
     } else {
-      // notification successfully sent
+      if(!booking.isOpenDateTour)
+        return updateSession(booking, paymentURL, paymentRequestId);
+      else
+        return 'success';
     }
   });
-}
+};
 
-function updateSession(booking) {
+function updateSession(booking, paymentURL, paymentRequestId) {
   if (booking.productSession) {
     ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
       if (err) {
@@ -78,88 +54,36 @@ function updateSession(booking) {
           message: errorHandler.getErrorMessage(err)
         });
       }
-      
-      if (!session.numberOfBookings) {
-        var key = booking.actualSessionDate;
-        session.numberOfBookings = {
-          [key] : 1
-        }
-      } else {
-        if(session.numberOfBookings[booking.actualSessionDate]) {
-          var key = booking.actualSessionDate;
-          var value = parseInt(session.numberOfBookings[key]) + 1;
-          session.numberOfBookings[key] = value;
-        } else {
-          var key = booking.actualSessionDate;
-          session.numberOfBookings[key] = 1;
-        }
-      }
-      
-      if (!session.numberOfSeats) {
-        var key = booking.actualSessionDate;
-        var value = parseInt(booking.numberOfSeats);
-        session.numberOfSeats = {
-          [key] : value
-        }
-      } else {
-        if (session.numberOfSeats[booking.actualSessionDate]) {
-          var key = booking.actualSessionDate;
-          var value = parseInt(session.numberOfSeats[key]) + parseInt(booking.numberOfSeats);
-          session.numberOfSeats[key] = value;
-        } else {
-          var key = booking.actualSessionDate;
-          session.numberOfSeats[key] = parseInt(booking.numberOfSeats);
-        }
-      }
-
-      session.markModified('numberOfBookings');
-      session.markModified('numberOfSeats');
+      session.paymentRequestId = paymentRequestId;
+      session.paymentURL = paymentURL;
       session.save(function (err) {
         if (err) {
-          // session saving failed
+          return 'error';
         } else {
-          // session successfully saved
+          return 'success';
         }
       });
     });
   }
-}
+};
 
-// create session for open dated tour booking
-function createSession (booking, product) {
-  var productSession = new ProductSession();
-  var departureDetails = {
-    startTime: "",
-    startDate: booking.openDatedTourDepartureDate,
-    repeatBehavior : "Do not repeat"
-  };
-  productSession.sessionDepartureDetails = departureDetails;
-  productSession.isSessionPricingValid = true;
-  productSession.sessionPricingDetails = product.productPricingOptions;
-  var keyBooking = booking.actualSessionDate;
-  productSession.numberOfBookings[keyBooking] = 1;
-  var keySeats = booking.actualSessionDate;
-  productSession.numberOfSeats[keySeats] = parseInt(booking.numberOfSeats);
-  productSession.markModified('numberOfBookings');
-  productSession.markModified('numberOfSeats');
-  var eventDate = new Date(booking.openDatedTourDepartureDate);
-  var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
-  productSession.monthsThisSessionCovering = uniqueString;
-  productSession.hostCompany = product.hostCompany;
-  productSession.product = product._id;
-  productSession.save(function (err) {
-    if (err) {
-      // session saving failed
-    } else {
-      // session successfully saved
-    }
-  });
+exports.searchBooking = function (req, res) {
+  var reference = req.params.bookingReference.charAt(0).toUpperCase() + req.params.bookingReference.slice(1);
+  if (req.user) {
+    Booking.find({bookingReference: reference}).sort('-created').populate('').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(bookings);
+    });
+  }
 }
-
 // Fetch all bookings
 exports.fetchCompanyBookingDetailsForCalendar = function (req, res) {
   if (req.user) {
-    Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -172,8 +96,8 @@ exports.fetchCompanyBookingDetailsForCalendar = function (req, res) {
 
 // Fetch all bookings
 exports.fetchCompanyBookingDetails = function (req, res) {
-  Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
-    Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+  Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
+    Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -188,8 +112,8 @@ exports.fetchCompanyBookingDetails = function (req, res) {
 exports.fetchAllBookingDetailsOfCompany = function (req, res) {
   if (req.user) {
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
-      Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
-        Booking.find({hostOfThisBooking: req.user._id}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
+        Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -199,8 +123,8 @@ exports.fetchAllBookingDetailsOfCompany = function (req, res) {
         });
       });
     } else {
-      Booking.count({hostOfThisBooking: req.user._id}, function(error, count) {
-        Booking.find({hostOfThisBooking: req.user._id}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
+        Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -218,7 +142,7 @@ exports.fetchCompanyBookingDetailsForCurrentPage = function (req, res) {
   if (req.user) {
     var pageNumber = req.params.pageNumber;
     var itemsPerPage = req.params.itemsPerPage;
-    Booking.find({hostOfThisBooking: req.user._id}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -235,7 +159,7 @@ exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
     var pageNumber = req.params.pageNumber;
     var itemsPerPage = req.params.itemsPerPage;
     var sessionId = req.params.productSessionId;
-    Booking.find({productSession: sessionId}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({productSession: sessionId, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -257,7 +181,7 @@ exports.fetchCategorizedBookings = function (req, res) {
     if (pageNumber == 0)
       pageNumber = 1;
 
-    Booking.find({bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -278,7 +202,7 @@ exports.fetchCategorizedBookingsForASession = function (req, res) {
   Booking.count({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
     if (count <= itemsPerPage * (pageNumber - 1))
       pageNumber = 1;
-    Booking.find({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -292,7 +216,7 @@ exports.fetchCategorizedBookingsForASession = function (req, res) {
 // Fetch product session booking details
 exports.fetchProductSessionBookingDetails = function (req, res) {
   if (req.user) {
-    Booking.find({productSession: req.params.productSessionId}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -307,8 +231,8 @@ exports.fetchProductSessionBookingDetails = function (req, res) {
 exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
   if (req.user) {
     var skipIndex = req.params.skipIndex;
-    Booking.count({productSession: req.params.productSessionId}, function(error, count) {
-      Booking.find({productSession: req.params.productSessionId}).skip(skipIndex * 20).limit(20).sort('-created').exec(function (err, bookings) {
+    Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
+      Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).skip(skipIndex * 20).limit(20).sort('-created').exec(function (err, bookings) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
@@ -325,8 +249,8 @@ exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
 exports.fetchAllBookingsOfProductSession = function (req, res) {
   if (req.user) {
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
-      Booking.count({productSession: req.params.productSessionId}, function(error, count) {
-        Booking.find({productSession: req.params.productSessionId}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -336,8 +260,8 @@ exports.fetchAllBookingsOfProductSession = function (req, res) {
         });
       });
     } else {
-      Booking.count({productSession: req.params.productSessionId}, function(error, count) {
-        Booking.find({productSession: req.params.productSessionId}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -364,16 +288,59 @@ exports.fetchSingleBookingDetails = function (req, res) {
 
 // Confirm the booking
 exports.modifyBooking = function (req, res) {
-  var query = { _id: req.body.bookingId };
-  var update = { bookingStatus: req.body.bookingStatus, bookingComments: req.body.bookingComments};
-  var options = { new: false, upsert: true };
-  Booking.findOneAndUpdate(query, update, options, function (err, booking) {
+  Booking.findOne({_id: req.body.bookingId}).exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
-    res.json();
+    if (req.body.bookingStatus == 'Confirmed') {
+      var data = new Insta.ApplicationBasedAuthenticationData();
+          data.client_id = config.paymentGateWayInstamojo.clientId;
+          data.client_secret = config.paymentGateWayInstamojo.clientSecret;
+      /* App based authentication to get access token */
+      Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
+        if (appTokenError) {
+          res.json('Something went wrong. Please try again or contact tourgecko support');
+        } else {
+          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                        config.paymentGateWayInstamojo.instamojoSecret,
+                        'Bearer' + ' ' + appTokenResponse.access_token);
+
+          Insta.fulfilPayment(booking.paymentId, function(fulfilPaymentError, fulfilPaymentResponse) {
+            if (fulfilPaymentError) {
+              res.json('Something went wrong. Please try again or contact tourgecko support');
+            } else {
+              InstamojoPaymentRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
+                paymentRecord.instamojo_mark_fulfilled = true;
+                paymentRecord.save(function (paymentEditError, paymentEditResponse) {
+                  if (paymentEditError)
+                    res.json('error');
+                  booking.bookingStatus = req.body.bookingStatus;
+                  booking.bookingComments = req.body.bookingComments;
+                  booking.isPaymentFulfilled = true;
+                  booking.save(function(bookingEditError, bookingEditResponse) {
+                    if (bookingEditError) {
+                      res.json('error');
+                    }
+                    res.json('success')
+                  });
+                })
+              });
+            }
+          });
+        }
+      });
+    } else {
+      booking.bookingStatus = req.body.bookingStatus;
+      booking.bookingComments = req.body.bookingComments;
+      booking.save(function(err, success) {
+        if (err)
+          res.json('Something went wrong. Please try again or contact tourgecko support')
+
+        res.json('success')
+      });
+    }
   });
 };
 

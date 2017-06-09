@@ -11,6 +11,7 @@
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
+    vm.showErrorsOFBankAcc = false;
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
@@ -163,9 +164,17 @@
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
-        $window.location.reload();
+        if (response.status == 'failure') {
+          vm.showErrorsOFBankAcc = true;
+          vm.paymentBankAccError = response.messages;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
+        } else
+          $window.location.reload();
       }).error(function (response) {
-        vm.error = response.message;
+        console.log(response);
+        vm.showErrorsOFBankAcc = true;
+        vm.paymentBankAccError = response.messages;
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
       });
