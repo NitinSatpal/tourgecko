@@ -42,8 +42,9 @@ exports.createInstamojoPayment = function (req, res) {
       	paymentData.amount = req.body.bookingDetails.totalAmountPaid;
       	paymentData.partner_fee = 10;
       	paymentData.purpose = 'Booking Amount';//req.body.productData.productTitle,
-        console.log(req.get('host'));
-		    paymentData.setRedirectUrl(req.get('host')+'/guest/tour/booking/done');
+        var redirectURL = 'http://www.' + req.get('host');
+        redirectURL = redirectURL + '/guest/tour/booking/done';
+		    paymentData.setRedirectUrl(redirectURL);
 
 		    Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
 			    if (paymentError) {
