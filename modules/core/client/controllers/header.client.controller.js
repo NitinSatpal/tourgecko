@@ -23,18 +23,6 @@
       $scope.unreadNotificationCount = response.counterValue;
     });
 
-
-    var headerWithoutSideNav = new Set();
-    headerWithoutSideNav.add('/password/reset/success');
-    headerWithoutSideNav.add('/');
-    headerWithoutSideNav.add('/admin/home');
-    headerWithoutSideNav.add('/forbidden');
-    headerWithoutSideNav.add('/security/privacypolicy');
-    headerWithoutSideNav.add('/not-found');
-
-    var hideHeaderAndEditCSS = new Set();
-    hideHeaderAndEditCSS.add('/host/tour/preview');
-
     vm.accountMenu = menuService.getMenu('account').items[0];
     vm.authentication = Authentication;
     vm.isCollapsed = false;
@@ -48,17 +36,6 @@
         $('#account-dropdown-menuitem0').removeClass('activePElementForAccountDropdown');
       // Collapsing the menu after navigation
       vm.isCollapsed = false;
-      if(hideHeaderAndEditCSS.has($location.path()) || $location.path().split('/')[3] == 'preview') {
-        vm.hideHeader = true;
-        $('#mainHeader').removeClass('leftMarginToHeader');
-      } else {
-        vm.hideHeader = false;
-        if(headerWithoutSideNav.has($location.path()) || $location.path().split('/')[1] == 'guest') {
-          $('#mainHeader').removeClass('leftMarginToHeader');
-        } else {
-          $('#mainHeader').addClass('leftMarginToHeader');
-        }
-      }
       if (notificationId) {
         saveReadNotifications(notificationId);
       }

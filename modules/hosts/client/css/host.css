@@ -2024,7 +2024,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 .navbar-right .notifications .dropdown-menu, .navbar-right .account .dropdown-menu{box-shadow:0 6px 12px rgba(0,0,0,.175); -webkit-box-shadow:0 6px 12px rgba(0,0,0,.175);; -moz-box-shadow:0 6px 12px rgba(0,0,0,.175); left: -3rem; top: 5.6rem;}
 }
 @media (min-width:768px){
-	.navbar-fixed-side{position:fixed;margin:0 -15px;height:100vh; overflow:auto;border-top-width:0;border-bottom-width:0;border-radius:0 }
+	.navbar-fixed-side{position:fixed;margin:-77px -15px;height:100vh; overflow:auto;border-top-width:0;border-bottom-width:0;border-radius:0 }
 	.navbar-fixed-side .container, .navbar-fixed-side .container-fluid{width:auto;padding-left:0;padding-right:0 }
 	.navbar-fixed-side .navbar-header{float:none }
 	.navbar-fixed-side .navbar-brand{height:auto;}
@@ -2429,7 +2429,7 @@ and (max-device-width : 1024px) {
 	box-shadow: none;
 }
 
-#tours #tours_sa .days_radio label.radio_label {
+#tours #tours_sa .days_radio label.radio_label, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio label.radio_label {
 	font-size: 18px;
 	color: rgba(0,0,0,0.6);
 	font-weight: 900;
@@ -2437,37 +2437,37 @@ and (max-device-width : 1024px) {
 	display: inline-block;
 	position: relative;
 }
-#tours #tours_sa .days_radio label.radio_label span {
+#tours #tours_sa .days_radio label.radio_label span, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio label.radio_label span {
 	font-size: 14px;
 	color: rgba(0,0,0,0.6);
 	font-weight: 900;
 	margin-left: 16px;
 }
-#tours #tours_sa .days_radio {
+#tours #tours_sa .days_radio, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio {
 	position: relative;
 	margin: 14px 0;
 }
-#tours #tours_sa .days_radio.text_align_left {
+#tours #tours_sa .days_radio.text_align_left, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio.text_align_left {
 	text-align: left;
 	margin: 10px 0 0px 0;
 }
-#tours #tours_sa .days_radio i {
+#tours #tours_sa .days_radio i, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio i {
 	position: absolute;
 	top: 50%;
 	left: 0;
 	transform: translateY(-50%);
 }
-#tours #tours_sa .days_radio input {
+#tours #tours_sa .days_radio input, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio input {
 	display: none;
 }
-#tours #tours_sa .days_radio input ~ .zmdi-check-circle {
+#tours #tours_sa .days_radio input ~ .zmdi-check-circle, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio input ~ .zmdi-check-circle {
 	display: none;
 }
-#tours #tours_sa .days_radio input:checked ~ .zmdi-check-circle {
+#tours #tours_sa .days_radio input:checked ~ .zmdi-check-circle, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio input:checked ~ .zmdi-check-circle {
 	display: block;
 	color: #42AE5E;
 }
-#tours #tours_sa .days_radio input:checked ~ .zmdi-circle-o {
+#tours #tours_sa .days_radio input:checked ~ .zmdi-circle-o, #openDepartureSessionModalBody #openDepartureSessionModalRow .days_radio input:checked ~ .zmdi-circle-o {
 	display: none;
 }
 #tours #tours_sa .tours_sa_ty {
@@ -2501,7 +2501,7 @@ and (max-device-width : 1024px) {
 	display: none;
 	clear: both;
 }
-#tours #tours_sa .tours_sa_fixed_departure .days_radio {
+#tours #tours_sa .tours_sa_fixed_departure .days_radio, #openDepartureSessionModalBody #openDepartureSessionModalRow .tours_sa_fixed_departure .days_radio {
 	margin-top: 15px;
 }
 #tours #tours_sa .tours_sa_fixed_departure	{

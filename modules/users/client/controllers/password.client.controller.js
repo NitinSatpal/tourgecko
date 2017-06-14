@@ -23,10 +23,11 @@
     // Submit forgotten password account id
     function askForPasswordReset(isValid) {
       vm.success = vm.error = null;
-
+      console.log(vm.forgotPasswordForm.username.$error);
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.forgotPasswordForm');
-
+        $("#loadingDivPassword").css("display", "none");
+        $("#tourgeckoBody").removeClass("waitCursor");
         return false;
       }
 

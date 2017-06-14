@@ -82,10 +82,6 @@ var InstaomojoPaymentSchema = new Schema({
 	},
 	refundAmount: {
 		type: String,
-	},
-	bookingId: {
-		type: Schema.ObjectId,
-    	ref: 'Booking' 
 	}
 });
 

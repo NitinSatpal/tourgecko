@@ -12,4 +12,10 @@ module.exports = function (app) {
 
   app.route('/api/payment/instamojo/refund/')
     .post(payment.refundInstamojoPayment);
+
+  app.route('/api/payment/razorpay/')
+    .post(payment.captureRazorpayPayment);
+
+  app.route('/api/payment/razorpay/refund')
+    .post(payment.refundRazorpayPayment);
 };

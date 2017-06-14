@@ -27,6 +27,7 @@
     vm.totalNumberOfSeats = 0;
     vm.selectedBookingOptionIndex = 0;
     vm.showLoaderForPriceCalculations = false;
+    $scope.paymentGateway = '';
 
     var productSessionIds = [];
     var tourType;
@@ -60,6 +61,7 @@
     // Fetch product data from database
     $http.get('/api/guest/product/' + productId).success(function (response) {
       vm.bookingProductDetails = response[0];
+      $scope.paymentGateway =  vm.bookingProductDetails.hostCompany.paymentGateway;
       if (vm.bookingProductDetails == 'No tour found with this id') {
         vm.error = response;
         $('#tourBookingScreen').hide();
@@ -815,7 +817,40 @@
         //document.getElementsByClassName('im-checkout-btn')[0].click();
       }).error(function (error) {
 
-      });      
+      });
+    }
+
+
+    $scope.makeRazorpayPayment = function () {
+      var bookingData = createBookingObject();
+      var options = {
+          "key": 'rzp_test_0xMZsuLBjAjZ6i',
+          "amount": parseInt(bookingData.bookingDetails.totalAmountPaid * 100), // 2000 paise = INR 20
+          "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' +bookingData.bookingDetails.providedGuestDetails.lastName,
+          "description": vm.bookingProductDetails.productTitle,
+          "image": "/your_logo.png",
+          "handler": function (response){
+              var razorpayData = {bookingObject: bookingData, paymentId: response.razorpay_payment_id};
+              $http.post('/api/payment/razorpay/', razorpayData).success (function (response) {
+               console.log(response);
+              }).error(function (error) {
+
+              });
+          },
+          "prefill": {
+              "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' + bookingData.bookingDetails.providedGuestDetails.lastName,
+              "email": bookingData.bookingDetails.providedGuestDetails.email,
+              "contact": bookingData.bookingDetails.providedGuestDetails.mobile
+          },
+          "notes": {
+              "address": "Hello World"
+          },
+          "theme": {
+              "color": "#F37254"
+          }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
     }
 
     vm.getDynamicCSSForBookingScreenNav = function () {

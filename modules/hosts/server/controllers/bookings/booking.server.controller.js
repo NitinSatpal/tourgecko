@@ -10,6 +10,8 @@ var path = require('path'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
   InstamojoPaymentRecord = mongoose.model('InstamojoPayments'),
+  RazorpayPaymentRecord = mongoose.model('razorpayPayment'),
+  Razorpay = require('razorpay'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -21,14 +23,25 @@ Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWay
 // This line will be removed later. Setting sandbox mode for now
 Insta.isSandboxMode(true);
 
+var instance = new Razorpay({
+  key_id: config.paymentGateWayRazorpay.razorpaykey_id,
+  key_secret: config.paymentGateWayRazorpay.razorpaykey_secret
+});
+
 // Creating product here.
-exports.createBooking = function (data, user, paymentURL, paymentRequestId) {
+exports.createBooking = function (data, user, paymentURL, paymentRequestId, paymentId, paymentMethod) {
   var booking = new Booking(data.bookingDetails);
   booking.user = user;
   booking.hostCompany = data.productData.hostCompany._id;
   booking.bookingReference = Math.random().toString(36).substring(10);
-  booking.paymentRequestId = paymentRequestId;
-  booking.isPaymentFulfilled = false;
+  if (paymentMethod == 'instamojo') {
+    booking.paymentRequestId = paymentRequestId;
+    booking.isPaymentFulfilled = false;
+  } else if (paymentMethod == 'razorpay') {
+    booking.paymentId = paymentId;
+    booking.isPaymentDone = true;
+  }
+  
   booking.created = Date.now();
   // var tz = momentTimezone.tz.guess();
   // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
@@ -38,10 +51,7 @@ exports.createBooking = function (data, user, paymentURL, paymentRequestId) {
     if (err) {
       return 'error';
     } else {
-      if(!booking.isOpenDateTour)
-        return updateSession(booking, paymentURL, paymentRequestId);
-      else
-        return 'success';
+      return 'success';
     }
   });
 };
@@ -276,7 +286,7 @@ exports.fetchAllBookingsOfProductSession = function (req, res) {
 
 // Fetch single booking details
 exports.fetchSingleBookingDetails = function (req, res) {
-  Booking.findOne({_id: req.params.bookingId}).populate('user').populate('product').populate('productSession').exec(function (err, booking) {
+  Booking.findOne({_id: req.params.bookingId}).populate('user').populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -288,49 +298,93 @@ exports.fetchSingleBookingDetails = function (req, res) {
 
 // Confirm the booking
 exports.modifyBooking = function (req, res) {
-  Booking.findOne({_id: req.body.bookingId}).exec(function (err, booking) {
+  Booking.findOne({_id: req.body.bookingId}).populate('hostCompany').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     }
     if (req.body.bookingStatus == 'Confirmed') {
-      var data = new Insta.ApplicationBasedAuthenticationData();
-          data.client_id = config.paymentGateWayInstamojo.clientId;
-          data.client_secret = config.paymentGateWayInstamojo.clientSecret;
-      /* App based authentication to get access token */
-      Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
-        if (appTokenError) {
-          res.json('Something went wrong. Please try again or contact tourgecko support');
-        } else {
-          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
-                        config.paymentGateWayInstamojo.instamojoSecret,
-                        'Bearer' + ' ' + appTokenResponse.access_token);
-
-          Insta.fulfilPayment(booking.paymentId, function(fulfilPaymentError, fulfilPaymentResponse) {
-            if (fulfilPaymentError) {
+      // If the payment gateway behavior is internal, there is no need to check the paymentGateway variable as it will be constant.
+      // For now, as I am integrating both to check the behavior, temporarily i will check the other variable also
+      if(booking.hostCompany.paymentGatewayBehavior == 'internal') {
+        // This if and it's respective else if block will get removed one the internal gateway is fixed.
+        if(booking.hostCompany.paymentGateway == 'instamojo') {
+          var data = new Insta.ApplicationBasedAuthenticationData();
+              data.client_id = config.paymentGateWayInstamojo.clientId;
+              data.client_secret = config.paymentGateWayInstamojo.clientSecret;
+          /* App based authentication to get access token */
+          Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
+            if (appTokenError) {
               res.json('Something went wrong. Please try again or contact tourgecko support');
             } else {
-              InstamojoPaymentRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
-                paymentRecord.instamojo_mark_fulfilled = true;
-                paymentRecord.save(function (paymentEditError, paymentEditResponse) {
-                  if (paymentEditError)
-                    res.json('error');
-                  booking.bookingStatus = req.body.bookingStatus;
-                  booking.bookingComments = req.body.bookingComments;
-                  booking.isPaymentFulfilled = true;
-                  booking.save(function(bookingEditError, bookingEditResponse) {
-                    if (bookingEditError) {
-                      res.json('error');
-                    }
-                    res.json('success')
+              Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                            config.paymentGateWayInstamojo.instamojoSecret,
+                            'Bearer' + ' ' + appTokenResponse.access_token);
+
+              Insta.fulfilPayment(booking.paymentId, function(fulfilPaymentError, fulfilPaymentResponse) {
+                if (fulfilPaymentError) {
+                  res.json('Something went wrong. Please try again or contact tourgecko support');
+                } else {
+                  InstamojoPaymentRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
+                    paymentRecord.instamojo_mark_fulfilled = true;
+                    paymentRecord.save(function (paymentEditError, paymentEditResponse) {
+                      if (paymentEditError)
+                        res.json('error');
+                      booking.bookingStatus = req.body.bookingStatus;
+                      booking.bookingComments = req.body.bookingComments;
+                      booking.isPaymentFulfilled = true;
+                      booking.save(function(bookingEditError, bookingEditResponse) {
+                        if (bookingEditError) {
+                          res.json(bookingEditError);
+                        }
+                        res.json('success')
+                      });
+                    })
                   });
-                })
+                }
               });
             }
           });
+        } else if (booking.hostCompany.paymentGateway == 'razorpay') {
+          var amountToTransfer = parseInt(booking.totalAmountPaid) - 0.05 * parseInt(booking.totalAmountPaid);
+          instance.payments.transfer(booking.paymentId, {
+            transfers: [
+              {
+                account: 'acc_80Q5zypUj0Iycb',
+                amount: amountToTransfer,
+                currency: 'INR'
+              }
+            ]
+          }).then((transferResponse) => {
+            RazorpayPaymentRecord.findOne({razorpay_id: booking.paymentId}).exec(function(err, razorpayPaymentRecord) {
+              if (err) {
+                res.json('Something went wrong while saving the transferred payment. Please contact tourgecko support');
+              }
+              razorpayPaymentRecord.markTransferred = true;
+              razorpayPaymentRecord.save(function(localPayemntSaveErr) {
+                console.log(localPayemntSaveErr);
+                if (localPayemntSaveErr)
+                  res.json('Something went wrong while saving the transferred payment. Please contact tourgecko support');
+                booking.bookingStatus = req.body.bookingStatus;
+                booking.bookingComments = req.body.bookingComments;
+                booking.isPaymentTransferred = true;
+                booking.save(function(bookingEditError, bookingEditResponse) {
+                  if (bookingEditError) {
+                    console.log(bookingEditError)
+                    res.json(bookingEditError);
+                  }
+                  res.json(transferResponse);
+                });
+              });
+            });
+          }).catch((transferError) => {
+            // handle error
+            console.log(transferError);
+            res.json('Something went wrong. Please try again or contact tourgecko support');
+          });
         }
-      });
+      }
     } else {
       booking.bookingStatus = req.body.bookingStatus;
       booking.bookingComments = req.body.bookingComments;

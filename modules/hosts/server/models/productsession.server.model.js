@@ -41,15 +41,6 @@ var ProductSessionSchema = new Schema({
     type: Array,
     default: []
   },
-  paymentRequestId: {
-    type: String
-  },
-  paymentId: {
-    type: String
-  },
-  paymentURL: {
-    type: String
-  },
   hostCompany: {
   	type:Schema.ObjectId,
     ref: 'HostCompany'
@@ -59,6 +50,9 @@ var ProductSessionSchema = new Schema({
     ref: 'Product'
   },
   utcDate: {
+    type: String
+  },
+  sessionSeriesName: {
     type: String
   }
 });

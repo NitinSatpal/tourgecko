@@ -169,8 +169,9 @@
           vm.paymentBankAccError = response.messages;
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
-        } else
+        } else {
           $window.location.reload();
+        }
       }).error(function (response) {
         console.log(response);
         vm.showErrorsOFBankAcc = true;

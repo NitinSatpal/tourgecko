@@ -109,7 +109,6 @@ function updateSession(booking) {
           message: errorHandler.getErrorMessage(err)
         });
       }
-      session.paymentId = 'NA';
       if (!session.numberOfBookings) {
         var key = booking.actualSessionDate;
         session.numberOfBookings = {
@@ -164,10 +163,6 @@ function createSession (booking, product, paymentRequestId, paymentId) {
     startDate: booking.openDatedTourDepartureDate,
     repeatBehavior : "Do not repeat"
   };
-  productSession.paymentRequestId = paymentRequestId;
-  productSession.paymentId = paymentId;
-  productSession.paymentURL = 'NA';
-  productSession.isPaymentFulfilled = false;
   productSession.sessionDepartureDetails = departureDetails;
   productSession.isSessionPricingValid = true;
   productSession.sessionPricingDetails = product.productPricingOptions;

@@ -1002,63 +1002,87 @@
 							</div>
 						</div>
 					</div>
+					<br>
 					<div class="row">
-						<div class="col-sm-6 col-lg-6 col-md-6">
-						   <div class="form-group">
-							  <label for="dsRepeat" class="control-label">Repeat</label>
-							  <div class="input_group">
-								 <div>
-									<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
-									   <option value="Do not repeat">Do not repeat</option>
-									   <option value="Repeat Daily">Repeat Daily</option>
-									   <option value="Repeat Weekly">Repeat Weekly</option>
-									</select>
-								 </div>
-							  </div>
+						 <div class="col-sm-12 col-md-12 col-lg-12">
+						   <label for="sdSTimeSwitch" class="control-label">Create a Repeat Series?</label>
+						   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+							  <input type="checkbox" name="repeat-series-onoffSwitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedDepartureSeriesAvailable" id="repeat-series-onoffSwitch">
+							  <label class="fixedTouronoffswitch-label" for="repeat-series-onoffSwitch"></label>
 						   </div>
 						</div>
 					</div>
-					<div class="row ds_repeat_daily">
-						<div class="col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-							  <label for="dsRepeatTill" class="control-label">Until</label>
-							  <div class="input_group">
-								 <div class="input-group">
-								 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
-								 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
-								 		<i class="fa fa-calendar" aria-hidden="true"></i>
-								 	</span>
-								 </div>
-							  </div>
+					<div id="repeatSessionDetails" ng-show="vm.isFixedDepartureSeriesAvailable">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+							   	<label for="repeatSeriesName" class="control-label">Name of series</label>
+							   	<p class="sub_desc">This series name is only for your internal purpose.</p>
+								  <div class="input-group">
+									 <div class="input-group">
+									 	<input class="form-control" id="repeatSeriesName" name="repeatSeriesName" placeholder="Series name" type="text" ng-model="vm.seriesName">
+									 </div>
+								  </div>
 							</div>
 						</div>
-						<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
-							<div class="form-group"><label class="control-label">Except On</label><br>
-							   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
-									<option value="Monday">Monday</option>
-									<option value="Tuesday">Tuesday</option>
-									<option value="Wednesday">Wednesday</option>
-									<option value="Thursday">Thursday</option>
-									<option value="Friday">Friday</option>
-									<option value="Saturday">Saturday</option>
-									<option value="Sunday">Sunday</option>
-								</select>
+						<div class="row">
+							<div class="col-sm-6 col-lg-6 col-md-6">
+							   <div class="form-group">
+								  <label for="dsRepeat" class="control-label">Repeat</label>
+								  <div class="input_group">
+									 <div>
+										<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
+										   <option value="Do not repeat">Do not repeat</option>
+										   <option value="Repeat Daily">Repeat Daily</option>
+										   <option value="Repeat Weekly">Repeat Weekly</option>
+										</select>
+									 </div>
+								  </div>
+							   </div>
 							</div>
 						</div>
-						<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
-							<div class="form-group"><label class="control-label">Repeat On</label><br>
-							   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
-									<option value="Monday">Monday</option>
-									<option value="Tuesday">Tuesday</option>
-									<option value="Wednesday">Wednesday</option>
-									<option value="Thursday">Thursday</option>
-									<option value="Friday">Friday</option>
-									<option value="Saturday">Saturday</option>
-									<option value="Sunday">Sunday</option>
-								</select>
+						<div class="row ds_repeat_daily">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group">
+								  <label for="dsRepeatTill" class="control-label">Until</label>
+								  <div class="input_group">
+									 <div class="input-group">
+									 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
+									 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
+									 		<i class="fa fa-calendar" aria-hidden="true"></i>
+									 	</span>
+									 </div>
+								  </div>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
+								<div class="form-group"><label class="control-label">Except On</label><br>
+								   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+										<option value="Monday">Monday</option>
+										<option value="Tuesday">Tuesday</option>
+										<option value="Wednesday">Wednesday</option>
+										<option value="Thursday">Thursday</option>
+										<option value="Friday">Friday</option>
+										<option value="Saturday">Saturday</option>
+										<option value="Sunday">Sunday</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
+								<div class="form-group"><label class="control-label">Repeat On</label><br>
+								   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
+										<option value="Monday">Monday</option>
+										<option value="Tuesday">Tuesday</option>
+										<option value="Wednesday">Wednesday</option>
+										<option value="Thursday">Thursday</option>
+										<option value="Friday">Friday</option>
+										<option value="Saturday">Saturday</option>
+										<option value="Sunday">Sunday</option>
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
+					<br>
 					<a href="#" class="dsChangePrice_link">Change price  and capacity  for this session?</a><br><br>
 					<div class="row dsChangePrice">
 						<div class="col-sm-12 col-md-12 col-lg-12" ng-repeat="pricing in vm.sessionPricing track by $index">

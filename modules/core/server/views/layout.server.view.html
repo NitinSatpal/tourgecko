@@ -80,16 +80,9 @@
 </head>
 
 <body class="ng-cloak noHorizontalScroll" id="tourgeckoBody" >
-  <section class="content main-wrapper" id="sideNavToggle">
-    <section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
-      <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
-    </section>
-    <section>
-    <section>
-      <header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
-    </section class="main-body-wrapper">
-      {{{block "content"}}}
-    </section>
+      <section>
+        {{{block "content"}}}
+      </section>
   </section>
   <noscript>
     <style>
@@ -118,10 +111,10 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 
-  <!-- {{#if livereload}}
-  Livereload script rendered 
+  <!--  {{#if livereload}}
+  Livereload script rendered  
   <script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
-  {{/if}} -->
+  {{/if}}-->
 </body>
 
 </html>

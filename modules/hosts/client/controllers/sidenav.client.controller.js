@@ -12,17 +12,6 @@
     var vm = this;
     vm.authentication = Authentication;
     
-    vm.hideSideNav = false;
-    var hideSideNavHere = new Set();
-    hideSideNavHere.add('/');
-    hideSideNavHere.add('/host/tourdetails');
-    hideSideNavHere.add('/password/reset/success');
-    hideSideNavHere.add('/host/tour/preview');
-    hideSideNavHere.add('/admin/home');
-    hideSideNavHere.add('/forbidden');
-    hideSideNavHere.add('/security/privacypolicy');
-    hideSideNavHere.add('/not-found');
-    
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     // This is safe side addition. Actually not required here as use will be redirected by url change and not state change
@@ -36,10 +25,6 @@
             $("#parentMenu .sub-menu").find(".active").removeClass("active");
             $('#' + $location.path().split('/')[3] + 'Setting').addClass('active');
         }
-        if(hideSideNavHere.has($location.path()) || $location.path().split('/')[3] == 'preview' || $location.path().split('/')[1] == 'guest')
-          vm.hideSideNav = true;
-        else
-          vm.hideSideNav = false;
     }
 
     vm.goToHostWebsite = function() {

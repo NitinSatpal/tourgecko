@@ -9,7 +9,7 @@
                             <strong>{{vm.specificBookingDetails._id}}</strong>
                         </span>-->
                     </h2>
-                    <a id="confirmBookingTopPanel" class="btn btn-primary pull-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#confirmBookingTopPanel', '#confirm-confirmation')" ng-disabled="vm.specificBookingDetails.bookingStatus != 'Pending'">
+                    <a id="confirmBookingTopPanel" class="btn btn-primary pull-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#confirmBookingTopPanel', '#confirm-confirmation')" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
                         <i class="zmdi zmdi-check-circle"></i>&nbsp;Confirm
                     </a>            
                 </div>

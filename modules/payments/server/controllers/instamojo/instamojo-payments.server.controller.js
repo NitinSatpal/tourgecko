@@ -38,13 +38,17 @@ exports.createInstamojoPayment = function (req, res) {
     		Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                   	config.paymentGateWayInstamojo.instamojoSecret,
                   	'Bearer' + ' ' + userTokenResponse.access_token);
+        var purpose = req.body.productData.productTitle.length > 25 ? req.body.productData.productTitle.slice(0,25) + '...' : req.body.productData.productTitle.length;
       	var paymentData = new Insta.PaymentData();
       	paymentData.amount = req.body.bookingDetails.totalAmountPaid;
       	paymentData.partner_fee = 10;
-      	paymentData.purpose = 'Booking Amount';//req.body.productData.productTitle,
+      	paymentData.purpose = purpose;//,
         var redirectURL = 'http://www.' + req.get('host');
         redirectURL = redirectURL + '/guest/tour/booking/done';
 		    paymentData.setRedirectUrl(redirectURL);
+        paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
+        paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
+        paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
 
 		    Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
 			    if (paymentError) {
@@ -54,7 +58,7 @@ exports.createInstamojoPayment = function (req, res) {
             var userId = null;
             if (req.user)
               userId = req.user._id;
-            bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id);
+            bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
             var instamojoPayment = new InstamojoPaymentRecord();
             var commonPrefix = 'instamojo_';
               for (var key in paymentReqResponse) {

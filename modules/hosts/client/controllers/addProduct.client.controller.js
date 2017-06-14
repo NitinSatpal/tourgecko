@@ -60,6 +60,7 @@
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
     var sessionSpecialPricing = [];
+    var sessionSeriesNames = [];
     var initializing = true;
     var isPricingOptionsModified = false;
     var isSessionCreatedWhileEditing = false;
@@ -632,6 +633,9 @@ function setRichTextData () {
 /* ------------------------------------------------------------------------------------------------------------------------- */
 vm.openDepartureSessionModal = function() {
   vm.isSpecialPricingPresent = false;
+  vm.isFixedTourTimeSlotAvailable = false;
+  vm.isFixedDepartureSeriesAvailable = false;
+  vm.seriesName = '';
   if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     toasty.error({
       title: 'Tour name and Pricing required!',
@@ -865,6 +869,7 @@ vm.createDepartureSession = function () {
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
   vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
+  sessionSeriesNames[vm.fixedDepartureSessionCounter] = vm.seriesName;
   if (currentSessionHasSpecialPricing == true) {
     currentSessionHasSpecialPricing = false;
     specialPricingIndexTracker.add(vm.fixedDepartureSessionCounter);
@@ -975,6 +980,7 @@ vm.createDepartureSession = function () {
       if(productId) {
         $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, 
                                               sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered,
+                                              sessionSeriesNames: sessionSeriesNames,
                                               changePreviouslyCreatedSessionPricing: vm.isNewPricingApplicableOnOldSessions,
                                               changeNewlyCreatedSessionPricing: vm.isNewPricingApplicableOnNewSessions})
         .success(function (response) {
@@ -992,7 +998,11 @@ vm.createDepartureSession = function () {
         });
       } else {
         vm.tour.isPublished = true;
-        $http.post('/api/host/product/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered})
+        $http.post('/api/host/product/', {tour: vm.tour,
+                                          toursessions: vm.fixedProductSchedule,
+                                          sessionPricings: sessionSpecialPricing,
+                                          monthsCovered: sessionMonthsCovered,
+                                          sessionSeriesNames: sessionSeriesNames})
         .success(function (response) {
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');

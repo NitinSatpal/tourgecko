@@ -225,7 +225,13 @@ exports.savePaymentDetails = function (req, res) {
                     instaUser[commonPrefix + key] = val;
                   }
                 }
-                instaUser.save();
+                instaUser.save(function (err, res) {
+                  if (err) {
+                    errors.push('Something went wrong while saving the gateway user response');
+                    res.json({messages: errors, status: 'failure'});
+                  }
+
+                });
                 Company.findOne({user: req.user._id}).exec(function (err, company) {
                   if (err) {
                     return res.status(400).send({
@@ -237,7 +243,12 @@ exports.savePaymentDetails = function (req, res) {
                   company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
                   company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
                   company.markModified('hostBankAccountDetails');
-                  company.save();
+                  company.save(function (err, res) {
+                    if (err) {
+                      errors.push('Something went wrong while saving the host company details');
+                      res.json({messages: errors, status: 'failure'});
+                    }
+                  });
                 });
 
                 res.json({message: editHostResponse, status: 'success'});

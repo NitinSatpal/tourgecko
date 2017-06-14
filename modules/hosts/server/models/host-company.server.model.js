@@ -138,6 +138,13 @@ var HostCompanySchema = new Schema({
   isOwnerAccount: {
     type: Boolean,
     default: false
+  },
+  paymentGatewayBehavior: {
+    type: String,
+    default: 'internal'
+  },
+  paymentGateway: {
+    type: String
   }
 });
 

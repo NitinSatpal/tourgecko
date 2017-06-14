@@ -94,7 +94,13 @@ var BookingSchema = new Schema({
   paymentId: {
     type: String
   },
+  /* instamojo attribute equivalent */
   isPaymentFulfilled: {
+    type: Boolean,
+    default: false
+  },
+  /* razorpay attribute equivalent */
+  isPaymentTransferred: {
     type: Boolean,
     default: false
   },

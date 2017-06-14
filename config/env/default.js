@@ -16,6 +16,10 @@ module.exports = {
     clientId: process.env.instamojoClientId,
     clientSecret: process.env.instamojoClientSecret
   },
+  paymentGateWayRazorpay: {
+    razorpaykey_id: process.env.razorpayKey,
+    razorpaykey_secret: process.env.razorpaySecret
+  },
   mailer: {
     service: 'gmail',
     from: 'nitinsatpal@gmail.com',
