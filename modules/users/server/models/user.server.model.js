@@ -68,6 +68,26 @@ var UserSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isEmailVerified: {
+    type: Boolean,
+    default: false
+  },
+  isMobileNumberVerified: {
+    type: Boolean,
+    default: false
+  },
+  emailVerificationToken: {
+    type: String
+  },
+  emailVerificationTokenExpires: {
+    type: Date
+  },
+  mobileVerificationToken: {
+    type: String
+  },
+  mobileVerificationTokenExpires: {
+    type: Date
+  },
   username: {
     type: String,
     unique: 'Username already exists',

@@ -184,6 +184,10 @@ exports.signupDetails = function(req, res, next) {
             user.lastName = userDetails.lastName;
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
+            user.emailVerificationToken = Math.floor(100000 + Math.random() * 900000);
+            user.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
+            user.mobileVerificationToken = Math.floor(100000 + Math.random() * 900000);
+            user.mobileVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
             user.userType = 'host';
             user.roles = ['hostAdmin'];
 
@@ -221,20 +225,20 @@ exports.signupDetails = function(req, res, next) {
                     });
                   } else {
                     /* Get data for app based authentication */
-                    var data = new Insta.ApplicationBasedAuthenticationData();
+                    /*var data = new Insta.ApplicationBasedAuthenticationData();
                     data.client_id = config.paymentGateWayInstamojo.clientId;
                     data.client_secret = config.paymentGateWayInstamojo.clientSecret;
-                    /* App based authentication to get access token */
+                    // App based authentication to get access token
                     Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
                       if (appTokenError) {
                         // some error
                       } else {
-                        /* Use app based authentication token to create the user. First set the token in the header and then call the signup api */
+                        // Use app based authentication token to create the user. First set the token in the header and then call the signup api
                         Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                                       config.paymentGateWayInstamojo.instamojoSecret,
                                       'Bearer' + ' ' + appTokenResponse.access_token);
 
-                        /* Set data for the user to be created on instamojo */
+                        // Set data for the user to be created on instamojo
                         var email = Math.random().toString(36).substring(7) + '_instamojo@tourgecko.com';
                         var password = config.paymentGateWayInstamojo.userPwdCommonPrefix + Math.random().toString(36).substring(7);
                         var signupData = {
@@ -243,29 +247,29 @@ exports.signupDetails = function(req, res, next) {
                             'phone': user.mobile,
                             'referrer': config.paymentGateWayInstamojo.referer
                         }
-                        /* Create the user by calling the api */
+                        // Create the user by calling the api
                         Insta.onBoardHost(signupData, function(signupError, signupResponse) {
                           if (signupError) {
                             // some error
                           } else {
-                            /* Get and set data for user based authentication */
+                            // Get and set data for user based authentication
                             var userDetails = Insta.UserBasedAuthenticationData();
                             userDetails.client_id = config.paymentGateWayInstamojo.clientId;
                             userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
                             userDetails.username = signupResponse.email;
                             userDetails.password = password;
 
-                            /* User based authentication to get access token */
+                            // User based authentication to get access token
                             Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
                               if (userTokenError) {
 
                               } else {
-                                /* Use user based authentication token to edit the user. First set the token in the header and then call the edit api */
+                                // Use user based authentication token to edit the user. First set the token in the header and then call the edit api
                                 Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                                               config.paymentGateWayInstamojo.instamojoSecret,
                                               'Bearer' + ' ' + userTokenResponse.access_token);
 
-                                 /* Set data for the user to be edited on instamojo */
+                                 // Set data for the user to be edited on instamojo
                                 var editHostData = {
                                   'first_name' : user.firstName,
                                   'last_name' : user.lastName,
@@ -278,7 +282,7 @@ exports.signupDetails = function(req, res, next) {
                                   'referrer': config.paymentGateWayInstamojo.referer
                                 }
 
-                                /* Edit the user by calling the api */
+                                // Edit the user by calling the api
                                 Insta.editOnBoardedHostDetails(editHostData, signupResponse.id, function(editHostError, editHostResponse) {
                                   if (editHostError) {
                                   } else {
@@ -300,11 +304,19 @@ exports.signupDetails = function(req, res, next) {
                           }
                         });
                       }
-                    });
+                    }); */
                   }
                 });
               });
-              res.json(user);
+              user.password = undefined;
+              user.salt = undefined;
+              req.login(user, function (err) {
+                if (err) {
+                  res.status(400).send(err);
+                } else {
+                  res.json(user);
+                }
+              });
               done(err, token, user);
             });
           }
@@ -414,10 +426,10 @@ exports.signin = function (req, res, next) {
     if (err || !user) {
       res.status(400).send(info);
     } else {
-      if (user.isActive === false) {
-        res.status(403).send(info);
+      //if (user.isActive === false) {
+        //res.status(403).send(info);
         // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
-      } else {
+      //} else {
         // Remove sensitive data before login
         // var tz = momentTimezone.tz.guess();
         // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
@@ -435,7 +447,7 @@ exports.signin = function (req, res, next) {
           });
         });
         
-      }
+      //}
     }
   })(req, res, next);
 };
