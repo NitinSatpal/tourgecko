@@ -184,8 +184,8 @@ exports.signupDetails = function(req, res, next) {
             user.lastName = userDetails.lastName;
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
-            user.emailVerificationToken = Math.floor(100000 + Math.random() * 900000);
-            user.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
+            //user.emailVerificationToken = Math.floor(100000 + Math.random() * 900000);
+            //user.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
             user.mobileVerificationToken = Math.floor(100000 + Math.random() * 900000);
             user.mobileVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
             user.userType = 'host';
@@ -308,15 +308,7 @@ exports.signupDetails = function(req, res, next) {
                   }
                 });
               });
-              user.password = undefined;
-              user.salt = undefined;
-              req.login(user, function (err) {
-                if (err) {
-                  res.status(400).send(err);
-                } else {
-                  res.json(user);
-                }
-              });
+              res.json(user);
               done(err, token, user);
             });
           }
@@ -426,10 +418,10 @@ exports.signin = function (req, res, next) {
     if (err || !user) {
       res.status(400).send(info);
     } else {
-      //if (user.isActive === false) {
-        //res.status(403).send(info);
-        // return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
-      //} else {
+      if (user.isActive === false) {
+        res.status(403).send(info);
+        return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
+      } else {
         // Remove sensitive data before login
         // var tz = momentTimezone.tz.guess();
         // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
@@ -446,8 +438,7 @@ exports.signin = function (req, res, next) {
             }
           });
         });
-        
-      //}
+      }
     }
   })(req, res, next);
 };
