@@ -1,0 +1,1202 @@
+#host-guest-common-style {
+    font-family: sans-serif;
+    /* 1 */
+    -ms-text-size-adjust: 100%;
+    /* 2 */
+    -webkit-text-size-adjust: 100%;
+    /* 2 */
+}
+
+#host-guest-common-style {
+    line-height: 1.5 !important;
+    font-family: "Roboto", sans-serif !important;
+    font-weight: normal !important;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #f8f8f8;
+}
+.host-guest-common-style .timeslotValueActive0 {
+    background-color: #ff9800;
+    padding: 2px 5px 1px 5px;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.host-guest-common-style #open {
+    display: none;
+    position: absolute;
+    right: 2px;
+    top: 0;
+    z-index: 11;
+}
+
+.host-guest-common-style #open .glyphicon.glyphicon-plus {
+    color: #fff;
+}
+
+.host-guest-common-style #open::before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 30px 0;
+    border-color: transparent #000 transparent transparent;
+    position: absolute;
+    right: -2px;
+}
+
+.host-guest-common-style .card-city-name,
+.host-guest-common-style .card-departure,
+.host-guest-common-style .footer-menu-2 li a,
+.host-guest-common-style .phn-number,
+.host-guest-common-style .email,
+.host-guest-common-style .top-header a,
+.host-guest-common-style .about-us-data,
+.host-guest-common-style .social-links-wrapper li,
+.host-guest-common-style footer .social-links-wrapper,
+.host-guest-common-style .social-links a,
+.host-guest-common-style .card-trip-overview a,
+.host-guest-common-style .Starting-form,
+.host-guest-common-style .host-admin-bar a,
+.host-guest-common-style .detail-card-city,
+.host-guest-common-style .booking,
+.host-guest-common-style .booking-form-subtitle {
+    font-size: 15px;
+    font-weight: normal;
+    color: rgba(103, 127, 139, 0.87);
+    opacity: 0.87;
+    text-decoration: none;
+}
+
+.host-guest-common-style .phn-number a,
+.host-guest-common-style .email a,
+.host-guest-common-style .top-header .social-links a,
+.host-guest-common-style .avl-time-wrapper {
+    font-size: 13px;
+}
+
+.host-guest-common-style .nav.navbar-nav.navbar-right > li > a {
+    color: #000;
+    font-size: 17px;
+}
+
+.host-guest-common-style .nav.navbar-nav.navbar-right > li > a .fa {
+    font-size: 20px;
+}
+
+.host-guest-common-style .top-header {
+    padding: 0px 0 5px 0;
+}
+
+.host-guest-common-style .nav.navbar-nav.navbar-right > li > a:hover {
+    color: #ff9800;
+}
+
+.host-guest-common-style .carousel-indicators {
+    z-index: 1;
+}
+
+.host-guest-common-style .host-admin-bar {
+    padding: 0px 0 0 0;
+    z-index: 8;
+    box-shadow: 0px 2px 2px #868686;
+    margin-bottom: 4px;
+    background-color: #56c0ee !important;
+}
+
+.host-guest-common-style .footer-menu-2 li a:hover {
+    color: #000;
+}
+
+.host-guest-common-style .row.host-admin-bar a {
+    color: #000;
+}
+
+.host-guest-common-style .mar0 {
+    margin: 0px;
+}
+
+.host-guest-common-style .visit-admin img {
+    width: 18px;
+    height: auto;
+    margin-right: 5px;
+}
+
+.host-guest-common-style .phn-number:hover,
+.host-guest-common-style .email:hover,
+.host-guest-common-style .card a:hover {
+    text-decoration: none;
+    color: #78909c;
+}
+
+.host-guest-common-style .per-page-count {
+    min-width: 130px;
+}
+
+.host-guest-common-style .contact-info-wrap {
+    display: inline-block;
+}
+
+.host-guest-common-style .contact-info-wrap a {
+    margin-right: 10px;
+}
+
+.host-guest-common-style .top-header .social-links-wrapper {
+    float: right;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    width: auto;
+}
+
+.host-guest-common-style .top-header .social-links-wrapper li {
+    display: inline-block;
+    width: auto;
+    font-size: inherit;
+    width: 30px;
+    text-align: center;
+    line-height: unset;
+    height: unset;
+}
+
+.host-guest-common-style .top-header .social-links a {
+    font-size: unset;
+    color: #99a9b0;
+}
+
+.host-guest-common-style .navbar-brand.logo {
+    padding: 4px 0;
+}
+
+.host-guest-common-style .navbar-brand.logo img {
+    width: 160px;
+    padding: 0 10px;
+    vertical-align: middle;
+}
+
+.host-guest-common-style .host-guest-common-style-navbar {
+    background-color: #fff;
+    border: none;
+    border-radius: 0px;
+    box-shadow: 0px 2px 2px #3E3E3E;
+    margin-bottom: 0px;
+    z-index: 1;
+    height: 64px;
+    line-height: 64px;
+}
+
+.host-guest-common-style .navbar-right {
+    height: 64px;
+    line-height: 64px;
+}
+
+.host-guest-common-style .navbar-nav > li {
+    float: left;
+    height: 64px;
+    line-height: 64px;
+}
+
+.host-guest-common-style  .menu-icon {
+    color: #ff9800;
+    font-size: large;
+    margin-right: 10px;
+}
+
+.host-guest-common-style  .navbar-nav > li > a {
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+    height: 64px;
+    line-height: 64px;
+    font-size: 15px;
+    font-weight: 300 !important;
+    font-family: sans-serif;
+}
+
+.host-guest-common-style .about-us-data {
+    line-height: 25px;
+    text-align: justify;
+}
+
+.host-guest-common-style  .card {
+    position: relative;
+    margin: 0.5rem 0 1rem 0;
+    background-color: #fff;
+    transition: box-shadow .25s;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style  .tour-image {
+    overflow: hidden;
+    position: relative;
+}
+
+.host-guest-common-style  .tour-image img {
+    height: 180px;
+}
+
+.host-guest-common-style  .tour-days {
+    position: absolute;
+    bottom: 10px;
+    left: 25px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+}
+
+.host-guest-common-style  .tour-difficulty {
+    position: absolute;
+    bottom: 10px;
+    right: 25px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 5px;
+}
+
+.host-guest-common-style  .card-data-wrapper {
+    position: relative;
+    padding: 5px 10px;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .tour-title a:hover {
+    color: #cf7b00;
+    text-decoration: none;
+}
+
+.host-guest-common-style .tour-title a,
+.host-guest-common-style .card-trip-overview a > span {
+    color: #000;
+}
+
+.host-guest-common-style .main-title {
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.host-guest-common-style .card .fa,
+.host-guest-common-style .zmdi.zmdi-run.orange-text {
+    margin-right: 5px;
+    color: #ff9800;
+    font-size: large;
+}
+
+.host-guest-common-style .Starting-form del {
+    color: #fb0202;
+    margin-left: 10px;
+}
+
+.host-guest-common-style .chip {
+    display: inline-block;
+    height: 32px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.6);
+    line-height: 32px;
+    padding: 0 12px;
+    border-radius: 16px;
+    background-color: #e4e4e4;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.host-guest-common-style .show-btn {
+    position: relative;
+    top: 0;
+    float: right;
+}
+
+.host-guest-common-style .list-count {
+    width: 55px;
+    float: left;
+}
+
+.host-guest-common-style .list-count-lable {
+    float: left;
+    margin: 0 15px;
+}
+
+.host-guest-common-style .featured {
+    width: 0;
+    height: 0;
+    border-top: 0px solid transparent;
+    border-bottom: 90px solid transparent;
+    border-left: 105px solid rgb(255, 171, 0);
+    position: absolute;
+    top: 0;
+}
+
+.host-guest-common-style .featured::after {
+    content: "featured";
+    color: #000;
+    position: absolute;
+    left: -101px;
+    top: 25px;
+    transform: rotate(-42deg);
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.host-guest-common-style .card-tour-price {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(255, 255, 255);
+    line-height: 32px;
+    padding: 5px 12px;
+    border-radius: 16px;
+    background-color: #ff9800;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.host-guest-common-style .more-dates,
+.host-guest-common-style .not-available {
+    font-size: 12px;
+}
+
+.host-guest-common-style .card-price-wrapper {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.host-guest-common-style footer {
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .footer-menu {
+    padding: 0;
+    list-style: none;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .footer-menu-2 {
+    padding: 0;
+    list-style: none;
+}
+
+.host-guest-common-style .footer-menu-2 li {
+    display: inline-block;
+    padding: 10px;
+}
+
+.host-guest-common-style .footer-menu-2 li a {
+    text-decoration: none;
+}
+
+.host-guest-common-style footer .social-links-wrapper {
+    float: unset;
+    padding: 5px;
+    margin: 0;
+    text-align: center;
+}
+
+.host-guest-common-style footer .logo {
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.host-guest-common-style footer .logo img {
+    margin: 0 auto;
+    width: 160px;
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style .border-bottom {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+
+/*-----------------------------POST PAGE----------------------------------------*/
+
+.host-guest-common-style .card-wrapper {
+    margin-top: -30px;
+}
+
+.host-guest-common-style .detail-card-title-wrapper {
+    padding: 15px;
+    color: #000;
+    border-bottom: 1px solid #ddd;
+}
+
+.host-guest-common-style .panel-body {
+    padding: 30px;
+    color: #78909c !important;
+    background-color: #f8f8f8;
+}
+
+.host-guest-common-style .detail-card-day {
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #fff;
+    padding: 5px;
+}
+
+.host-guest-common-style .detail-card-day h3 {
+    margin: 0 auto;
+}
+
+.host-guest-common-style .detail-card-city i.fa {
+    font-size: large;
+}
+
+.host-guest-common-style .detail-card-title-wrapper h1,
+.host-guest-common-style .detail-card-title-wrapper h4,
+.host-guest-common-style .detail-card-title,
+.host-guest-common-style .avl-title {
+    margin: 0;
+}
+
+.host-guest-common-style .detail-card-title-wrapper ~ .tour_tags.col-xs-12 {
+    margin: 5px 0 0;
+}
+
+.host-guest-common-style .panel-default > .panel-heading {
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+.host-guest-common-style .orange-text {
+    color: #ff9800 !important;
+}
+
+.host-guest-common-style .orange {
+    background-color: #ff9800 !important;
+}
+
+.host-guest-common-style .panel-title i.zmdi.orange-text {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+.host-guest-common-style .panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 1.7rem;
+    color: #000;
+    line-height: 25px;
+}
+
+.host-guest-common-style .listing {
+    padding: 7px;
+    border-bottom: 1px solid #ddd;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .guidelines-ques {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.host-guest-common-style .guidelines-ans {
+    font-size: 15px;
+    color: #7a7a7a;
+}
+
+.host-guest-common-style .listing .tour_tags {
+    margin: 0 -15px;
+}
+
+.host-guest-common-style .que-set {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style ul.inclusions,
+.host-guest-common-style ul.exclusions {
+    list-style: none;
+    padding: 0;
+}
+
+.host-guest-common-style .form-group {
+    float: left;
+    width: 100%;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+.host-guest-common-style ul.inclusions li::before {
+    content: '\f26b';
+    display: inline-block;
+    color: #4CAF50;
+    font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+    margin-right: 1rem;
+}
+
+.host-guest-common-style ul.exclusions li::before {
+    content: '\f136';
+    display: inline-block;
+    color: #cc0000;
+    font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+    margin-right: 1rem;
+}
+
+.host-guest-common-style .req-btn {
+    color: #fff;
+    margin-bottom: 5px;
+    text-decoration: none;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.host-guest-common-style .chip img {
+    float: left;
+    margin: 0 8px 0 -12px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+}
+
+.host-guest-common-style .avl-title {
+    padding-bottom: 5px;
+}
+
+.host-guest-common-style .avl-info-wrap {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-top: 1px solid #ddd;
+}
+
+.host-guest-common-style .day-circle {
+    width: 90px;
+    height: 90px;
+    background-color: #e3f2fd;
+    text-align: center;
+    border-radius: 50%;
+    padding-top: 10px;
+}
+
+.host-guest-common-style .day-circle > strong {
+    font-size: 25px;
+}
+
+.host-guest-common-style .detail-card-title {
+    font-size: 25px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.host-guest-common-style .detail-card-title-wrapper ~ .tour_tags.col-xs-12 {
+    padding: 5px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.host-guest-common-style .detail-card-title-wrapper ~ .tour_tags .chip {
+    margin-bottom: 0;
+}
+
+.host-guest-common-style .card-trip-overview {
+    float: left;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.host-guest-common-style .zmdi.zmdi-email {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+.host-guest-common-style .mar5 {
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style .pagination > .active > a {
+    background-color: transparent;
+    border-color: #000;
+    color: #000;
+}
+
+.host-guest-common-style .pagination > li > a:hover {
+    background-color: #e4e4e4 !important;
+    color: #000 !important;
+    border-color: #ddd !important;
+}
+
+.host-guest-common-style .pagination-sm > li > a,
+.host-guest-common-style .pagination-sm > li > span {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 3px;
+}
+
+.host-guest-common-style .pagination > li > a,
+.host-guest-common-style .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #9c9eb1;
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid #ddd;
+}
+
+.host-guest-common-style .booking-wrapper {
+    margin-top: 30px;
+}
+
+.host-guest-common-style .card-city-name .fa {
+    margin-right: 10px;
+}
+
+.host-guest-common-style .card-city-name {
+    float: left;
+}
+
+.host-guest-common-style .list-group.vertical-steps .list-group-item::before {
+    font-weight: 500;
+    color: #546e7a !important;
+    background-color: #fff;
+    border: 2px solid #ff9800;
+    border-radius: 50%;
+    content: "Day\00a0"counter(step-counter)"";
+    display: inline-block;
+    float: left;
+    height: 50px;
+    line-height: 45px;
+    margin-left: -45px;
+    text-align: center;
+    width: 50px;
+    margin-right: .8rem;
+    transition: all .2s ease-in-out;
+}
+
+.host-guest-common-style .list-group.vertical-steps .list-group-item {
+    border: none;
+    border-left: 2px solid #ff9800;
+    box-sizing: border-box;
+    border-radius: 0;
+    counter-increment: step-counter;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-bottom: 30px;
+    padding-top: 0px;
+    transition: all .5s ease-in-out;
+}
+
+.host-guest-common-style .itinerary-list .collapsible .collapsible-header {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    line-height: normal;
+    height: auto;
+    padding: 1rem 0;
+    min-height: 3rem;
+    margin-left: -50px;
+    position: relative;
+    z-index: 999;
+}
+
+.host-guest-common-style .list-group.vertical-steps .list-group-item:last-child {
+    border-left: 2px solid transparent;
+    padding-bottom: 0;
+}
+
+.host-guest-common-style .list-group.vertical-steps .list-group-item {
+    border: none;
+    border-left: 2px solid #ff9800;
+    box-sizing: border-box;
+    border-radius: 0;
+    counter-increment: step-counter;
+    padding-left: 20px;
+    padding-right: 0px;
+    padding-bottom: 50px;
+    padding-top: 0px;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+}
+
+.host-guest-common-style .list-group-item {
+    background-color: transparent;
+}
+
+.host-guest-common-style .booking-day-name {
+    margin-bottom: 0px;
+    width: 50%;
+    float: left;
+}
+
+.host-guest-common-style .booking-date-name {
+    float: left;
+    width: 50%;
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
+
+.host-guest-common-style .seats-wrapper {
+    float: left;
+    width: 100%;
+    margin: 0;
+}
+
+.host-guest-common-style .seats-avai {
+    padding: 2px 5px;
+    float: left;
+    background-color: #42ae5e;
+    color: #fff;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.host-guest-common-style .seats-booked {
+    padding: 2px 5px;
+    float: left;
+    background-color: #f53108;
+    color: #fff;
+    margin-top: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.host-guest-common-style .booking-date-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 5px;
+    float: left;
+}
+
+.host-guest-common-style .seats-sys-wrapper {
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0px 0px 2px #ddd;
+    float: left;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style .social-accounts i {
+    font-size: 45px;
+    padding-right: 15px;
+}
+
+.host-guest-common-style .fa-facebook-square {
+    color: #3b5998;
+}
+
+.host-guest-common-style .fa-twitter-square {
+    color: #4099FF;
+}
+
+.host-guest-common-style .social-accounts i.fa-instagram {
+    color: #458eff;
+}
+
+.host-guest-common-style textarea.form-control {
+    height: 200px;
+}
+
+.host-guest-common-style .booking-date-wrapper {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+}
+
+.host-guest-common-style .arrow::after {
+    content: "-----";
+    margin-left: 30%;
+}
+
+.host-guest-common-style .all-seats-wrapper {
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .about-us-data a {
+    color: inherit;
+    margin-left: 5px;
+    text-decoration: underline;
+}
+
+.host-guest-common-style .footer-menu li {
+    margin-bottom: 5px;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style footer .social-links-wrapper h3 {
+    margin: 0 0 10px;
+}
+
+.host-guest-common-style .calendar-info-list {
+    list-style: none;
+    padding: 0;
+    float: right;
+}
+
+.host-guest-common-style  .calendar-info {
+    float: left;
+    width: 100%;
+    background-color: #fff;
+}
+
+.host-guest-common-style .calendar-info-list li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.host-guest-common-style .calendar-info-list li span {
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-right: 5px;
+}
+
+.host-guest-common-style .calendar-info-selected {
+    background-color: #ed6f35;
+}
+
+.host-guest-common-style .calendar-info-avilable {
+    background-color: #eafae0;
+}
+
+.host-guest-common-style .calendar-info-unavilable {
+    background-color: #eee;
+}
+
+.host-guest-common-style footer .social-links-wrapper li {
+    display: inline-block;
+    width: auto;
+    font-size: inherit;
+    width: 50px;
+    text-align: center;
+    height: 50px;
+    border-radius: 50%;
+    line-height: 50px;
+    float: unset;
+}
+
+.host-guest-common-style footer .social-links-wrapper li .fa {
+    color: #fff;
+}
+
+.host-guest-common-style .facebook-blue {
+    background-color: #0667b0;
+}
+
+.host-guest-common-style .twitter-blue {
+    background-color: #0091fe;
+}
+
+.host-guest-common-style .insta-red {
+    background-color: #f33806;
+}
+
+.host-guest-common-style .radio label span {
+    font-weight: bold;
+}
+
+.host-guest-common-style .radio label span .fa {
+    margin-right: 5px;
+}
+
+.host-guest-common-style .preferred-time {
+    font-size: 15px;
+    font-weight: 400 !important;
+    float: left;
+    margin-right: 10px;
+}
+
+.host-guest-common-style .preferred-time .fa {
+    font-size: 17px;
+    margin-right: 10px;
+}
+
+.host-guest-common-style .preferred-time-wrapper {
+    border-top: 2px solid #eee;
+    margin-top: 10px;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.host-guest-common-style .preferred-time-wrapper .show-btn {
+    float: left;
+}
+
+.host-guest-common-style .card-city-name + span .fa {
+    margin-right: 5px;
+}
+
+.host-guest-common-style .card-city-name + span {
+    margin-left: 10px;
+    color: rgba(103, 127, 139, 0.87);
+}
+
+.host-guest-common-style span.card-city-name::after {
+    content: "";
+    border-right: 1px solid #ddd;
+    margin-left: 15px;
+}
+
+.host-guest-common-style ul.tour_tags {
+    padding: 0;
+    list-style: none;
+}
+
+.host-guest-common-style .tour_tags_dates p {
+    font-size: 12px;
+    margin: 0;
+    color: #9b9eb1;
+}
+
+.host-guest-common-style ul.tour_tags li {
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.host-guest-common-style .more-departure b {
+    margin-right: 5px;
+    color: #000;
+}
+
+.host-guest-common-style .more-departure {
+    color: #9b9eb1;
+    float: left;
+    width: 100%;
+}
+
+.host-guest-common-style .more-departure a {
+    color: #9b9eb1;
+    text-decoration: none;
+}
+
+.host-guest-common-style .navbar-default .navbar-toggle {
+    border-color: #FEA420;
+}
+
+.host-guest-common-style .navbar-default .navbar-toggle .icon-bar {
+    background-color: #FEA420;
+}
+
+.host-guest-common-style .checkbox,
+.host-guest-common-style .radio {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.host-guest-common-style #email.form-control {
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style .social-border {
+    /* border-top: 1px solid #ddd; */
+    /* border-bottom: 1px solid #ddd; */
+    padding: 30px 0px;
+}
+
+.host-guest-common-style .booking-info-section-wrapper {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px;
+    box-sizing: content-box;
+}
+
+.host-guest-common-style .order-now {
+    background-color: #ddd;
+}
+
+.host-guest-common-style .pay-now-btn {
+    background-color: #ff9800;
+    padding: 10px 15px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.host-guest-common-style .pay-now {
+    margin-bottom: 10px;
+}
+
+.host-guest-common-style .host-guest-common-style-table > tbody > tr > td {
+    border: none;
+}
+
+.host-guest-common-style .thanks-back {
+    background: url("../img/thanks.jpg");
+    background-position: -430px -30px;
+    background-repeat: repeat-x;
+    background-size: cover;
+}
+
+.host-guest-common-style .opacity {
+    background-color: rgba(252, 22, 22, 0.63);
+    width: 100%;
+    height: 100%;
+}
+
+.host-guest-common-style .thanks-wrapper {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.host-guest-common-style .thanks-white {
+    float: left;
+    width: 100%;
+    padding: 20px 0 40px 0;
+}
+
+.host-guest-common-style .success-img {
+    width: 60px;
+    margin-right: 15px;
+}
+
+.host-guest-common-style .success-text {
+    font-size: 30px;
+    padding-top: 10px;
+    position: relative;
+    box-sizing: border-box;
+    vertical-align: sub;
+}
+
+.host-guest-common-style .thanks-white .arrow::after {
+    content: "---";
+    position: absolute;
+    right: 0px;
+}
+
+.host-guest-common-style .Pending::before {
+    content: "|";
+    margin-right: 5px;
+    color: #000;
+}
+
+.host-guest-common-style .text-center .Pending::before {
+    content: "";
+}
+
+.host-guest-common-style .details-list {
+    float: right;
+    cursor: pointer;
+}
+
+.host-guest-common-style .what-next-wrapper {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.host-guest-common-style input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.host-guest-common-style .stepwizard ~ form .form-control {
+    margin-bottom: 5px;
+}
+
+.host-guest-common-style .booking-total {
+    height: 30px;
+    line-height: 30px;
+}
+
+.host-guest-common-style .booking-info-section-wrapper .col-xs-12 h4 {
+    margin-bottom: 0px;
+}
+
+.host-guest-common-style .booking-ref {
+    float: left;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.host-guest-common-style .contact-info-wrapper {
+    float: left;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+
+.host-guest-common-style .contact-icon {
+    float: left;
+    width: 30px;
+    font-size: 15px;
+    color: #b7b7b7;
+}
+
+.host-guest-common-style .contact-info {
+    float: left;
+    width: 85%;
+}
+
+.host-guest-common-style .contact {
+    padding-bottom: 25px;
+}
+.host-guest-common-style .social-links-wrapper {
+    float: left;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.host-guest-common-style .social-links-wrapper li {
+    display: inline-block;
+    font-size: inherit;
+    width: 60px;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+}
+
+.host-guest-common-style .social-links a {
+    font-size: 25px;
+    color: #fff;
+}
+
+.host-guest-common-style #demo {
+    border-bottom: none;
+}
+
+.host-guest-common-style .col-xs-12.contact-info-wrapper,
+.host-guest-common-style .col-xs-12.contact-info-wrapper + .social-links-wrapper {
+    padding-left: 20%;
+}
+.host-guest-common-style-navbar .navbar-collapse ul li a {
+    height: 100% !important;
+}
+.host-guest-common-style-marginFromBothSides {
+    margin-right: 58px;
+    margin-left: 58px;
+}
+.host-guest-common-style-preview-details-marginFromBothSides {
+    margin-left: 65px;
+    margin-right: 65px;
+}
+.host-guest-common-style-bookings-marginFromBothSides {
+    margin-left: 105px;
+    margin-right: 105px;
+}
+.host-guest-common-style .host-guest-common-style-navbar .navbar-brand.logo img {
+    height: 56px;
+    width: 120px;
+    border-radius: 1rem;
+}
+.host-guest-common-style-navbar img {
+    display: block;
+    object-fit: contain;
+}

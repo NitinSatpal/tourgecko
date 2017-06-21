@@ -13,7 +13,8 @@
       "tourName" : "Name of the tour cannot be blank",
       "tourDestination" : "Main Destination cannot be blank",
       "groupPricingFinalValidation" : "'Group' sizes  in group price option can not overlap",
-      "everyonePricingFinalValidation" : "Price for 'Everyone' option can not be used with any other option"
+      "everyonePricingFinalValidation" : "Price for 'Everyone' option can not be used with any other option",
+      "tourDuration": "Duration of the tour cannot be blank"
     });
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
@@ -913,6 +914,8 @@ vm.createDepartureSession = function () {
             vm.errorContent.push(errorContentData['tourName']);
           if(vm.form.tourForm.tour_main_destination.$error.required)
             vm.errorContent.push(errorContentData['tourDestination']);
+          if(vm.form.tourForm.tours_sa_date_time.$error.required)
+            vm.errorContent.push(errorContentData['tourDuration']);
         }
         if (!vm.groupPricingValid) {          
           vm.errorContent.push(errorContentData['groupPricingFinalValidation']);
@@ -930,6 +933,8 @@ vm.createDepartureSession = function () {
           vm.errorContent.push(errorContentData['tourName']);
         if(vm.form.tourForm.tour_main_destination.$error.required)
           vm.errorContent.push(errorContentData['tourDestination']);
+        if(vm.form.tourForm.tours_sa_date_time.$error.required)
+            vm.errorContent.push(errorContentData['tourDuration']);
           
         return false;
       }

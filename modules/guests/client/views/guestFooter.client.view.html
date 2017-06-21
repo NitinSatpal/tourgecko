@@ -1,0 +1,39 @@
+<ul class="footer-menu">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <li>
+            <a class="logo" href="#">
+               <img src="{{vm.companyData.logoURL}}" class="img-responsive">
+            </a>
+        </li>
+        <li>
+            <a href="tel:{{vm.companyData.inquiryMobile}}" class="phn-number"><i class="fa fa-phone"></i> {{vm.companyData.inquiryMobile}} - <i class="fa fa-clock-o"></i> {{vm.getInquiryHours()}}</a>
+        </li>
+        <li>
+            <a href="#" class="email">
+                <i class="fa fa-envelope"></i> {{vm.companyData.inquiryEmail}}
+            </a>
+        </li>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <li class="social-border">
+            <ul class="social-links-wrapper">
+                <h3>Follow us on</h3>
+                <li class="social-links facebook-blue" ng-click="vm.goToHostSocialSite('facebook')">
+                    <a href="{{vm.facebookLink}}">
+                        <i class="fa fa-facebook"></i>
+                    </a>
+                </li>
+                <li class="social-links twitter-blue" ng-click="vm.goToHostSocialSite('twitter')">
+                    <a href="{{vm.twitterLink}}">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                </li>
+                <li class="social-links insta-red" ng-click="vm.goToHostSocialSite('instagram')">
+                    <a href="{{vm.instagramLink}}">
+                        <i class="fa fa-instagram"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </div>
+</ul>

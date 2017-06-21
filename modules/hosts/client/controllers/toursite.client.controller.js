@@ -80,6 +80,7 @@
     });
 
     vm.changeItemsPerPage = function (itemsPerPage) {
+        vm.numberOfItemsInOnePage = parseInt(itemsPerPage);
         $('#loadingDivToursite').css('display', 'block');
         $('#tourgeckoBody').addClass('waitCursor');
         vm.totalPages = Math.ceil(totalToursiteRecords / parseInt(itemsPerPage));
@@ -364,7 +365,7 @@
         if (vm.companyData.inquiryTime == 'Anytime')
           return '(24 hours)';
         else
-          return '(' + vm.companyData.inquiryTimeRangeFrom + ' ' + vm.companyData.inquiryTimeRangeTo + ')';
+          return vm.companyData.inquiryTimeRangeFrom + ' to ' + vm.companyData.inquiryTimeRangeTo;
       }
     }
 
@@ -400,7 +401,7 @@
             remainingDatesString = numberOfTours + ' more date';
           else
             remainingDatesString = numberOfTours + ' more dates';
-          var tourDepartureString = ' and '  + remainingDatesString;
+          var tourDepartureString = ' + '  + remainingDatesString;
           return displayDate + tourDepartureString;
         }
         else
@@ -436,7 +437,6 @@
     }
 
     vm.getConditionalCSS = function (index) {
-      
       if (vm.toursitedata.length % 2 == 1 && window.innerWidth > 767 && index == vm.toursitedata.length - 1) {
         var alignLeft = {
           'margin-left' : '0px'

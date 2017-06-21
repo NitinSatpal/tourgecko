@@ -54,6 +54,18 @@
           pageTitle: 'Contact-US'
         }
       })
+      .state('about-us', {
+        url: '/about-us',
+        templateUrl: 'modules/hosts/client/views/host/about-us.client.view.html',
+        controller: '',
+        controllerAs: '',
+        params: {
+          toursite: null
+        },
+        data: {
+          pageTitle: 'Contact-US'
+        }
+      })
       .state('abstractHome.home', {
         url: '',
         templateUrl: 'modules/core/client/views/home.client.view.html',

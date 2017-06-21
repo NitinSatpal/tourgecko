@@ -376,9 +376,9 @@ p {
 
 .toursite-Product-Image img {
 	display: block;
-	min-height:150px;
+	min-height:200px;
 	max-height:150px;
-	width: auto;
+	width: 100%;
 	height: auto;
 	object-fit: cover;
 }

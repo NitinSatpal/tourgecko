@@ -489,8 +489,11 @@
 														<div class="form-group">
 															<div class="input_group">
 																<div>
-																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.tour.productDuration" placeholder="Ex: 5"/>
+																	<input type="text" class="form-control" name="tours_sa_date_time" id="tours_sa_date_time"  ng-model="vm.tour.productDuration" placeholder="Ex: 5" required/>
 																</div>
+																<div ng-messages="vm.form.tourForm.tours_sa_date_time.$error" role="alert">
+												                    <p class="help-block error-text" ng-message="required">Duration of the tour is required</p>
+												                </div>
 															</div>
 														</div>
 													</div>

@@ -20,7 +20,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
+// Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
   Booking.findOne({paymentRequestId: req.body.paymentRequestId}).populate('product').populate('productSession').exec(function (err, booking) {

@@ -1,0 +1,47 @@
+<div class="row top-header host-guest-common-style-marginFromBothSides">
+    <div class="phn-number col-sm-4">
+        <a href="tel:{{vm.companyData.inquiryMobile}}" class=""><i class="fa fa-phone"></i> {{vm.companyData.inquiryMobile}} - <i class="fa fa-clock-o"></i> {{vm.getInquiryHours()}}</a>
+    </div>
+    <div class="col-sm-3 email">
+        <a href="#" class=""><i class="fa fa-envelope"></i> {{vm.companyData.inquiryEmail}}</a>
+    </div>
+    <ul class="social-links-wrapper col-sm-3">
+        <li class="social-links" ng-click="vm.goToHostSocialSite('facebook')">
+            <a href="{{vm.facebookLink}}">
+                <i class="fa fa-facebook"></i>
+            </a>
+        </li>
+        <li class="social-links" ng-click="vm.goToHostSocialSite('twitter')">
+            <a href="{{vm.twitterLink}}">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        <li class="social-links" ng-click="vm.goToHostSocialSite('instagram')">
+            <a href="{{vm.instagramLink}}">
+                <i class="fa fa-instagram"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<nav class="navbar navbar-default host-guest-common-style-navbar">
+    <div class="host-guest-common-style-marginFromBothSides">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#toursiteNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand logo" href="#">
+                <img src="{{vm.companyData.logoURL}}" class="img-responsive">
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="toursiteNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href=""><i class="fa fa-home menu-icon"></i>Home</a></li>
+                <li><a href="postdetails.html"><i class="fa fa-location-arrow menu-icon"></i>Tours</a></li>
+                <li><a href="" ui-sref="about-us"><i class="fa fa-info-circle menu-icon"></i>About Us</a></li>
+                <li><a href="" ui-sref="contact-us"><i class="fa fa-user-circle menu-icon"></i>Contact Us</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

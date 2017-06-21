@@ -1,0 +1,231 @@
+@media all and (min-width: 769px) {
+    .host-guest-common-style .card-wrapper {
+        float: left;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .host-guest-common-style .col-sm-6.cart-flex {
+        display: flex;
+        flex-basis: auto;
+    }
+    .host-guest-common-style .navbar-collapse.collapse {
+        height: 64px !important;
+        line-height: 64px !important;
+    }
+    .host-guest-common-style .mobile-contact {
+        display: none;
+    }
+    .host-guest-common-style .host-guest-common-style-table td,
+    .host-guest-common-style .host-guest-common-style-table th {
+        width: 20%;
+    }
+}
+
+@media all and (max-width: 991px) and (min-width: 769px) {
+    .host-guest-common-style .Starting-form .card-tour-price {
+        margin: 0;
+        padding: 0px;
+        float: left;
+        width: 50%;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .host-guest-common-style .top-header .social-links-wrapper.col-sm-3 {
+        display: none;
+    }
+    .host-guest-common-style .navbar-default .navbar-collapse,
+    .host-guest-common-style .navbar-default .navbar-form {
+        border-color: #e7e7e7;
+        background-color: #fff;
+    }
+    .host-guest-common-style .nav.navbar-nav.navbar-right > li > a {
+        color: #000;
+        font-size: 15px;
+        line-height: 45px;
+        height: 45px;
+    }
+    .host-guest-common-style .phn-number,
+    .host-guest-common-style .email {
+        text-align: center;
+    }
+    .host-guest-common-style .navbar-nav > li {
+        float: left;
+        height: 45px;
+        line-height: 45px;
+        width: 100%;
+    }
+    .host-guest-common-style .visit-admin {
+        text-align: center;
+    }
+    .host-guest-common-style .close-bar {
+        position: absolute;
+        top: 5px;
+        right: 0;
+    }
+    .host-guest-common-style .social-links-wrapper {
+        text-align: center;
+        width: 100%;
+    }
+    .host-guest-common-style .day-circle {
+        width: 70px;
+        height: 70px;
+        background-color: #e3f2fd;
+        text-align: center;
+        border-radius: 50%;
+        padding-top: 5px;
+    }
+    .host-guest-common-style .detail-card-title {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .host-guest-common-style .detail-card-title-wrapper ~ .tour_tags .chip {
+        margin-bottom: 5px;
+    }
+    .host-guest-common-style .mobile-contact {
+        float: left;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        background-color: #fff !important;
+        left: 0;
+        border-top: 1px solid #f1f1f1;
+        padding: 5px;
+        z-index: 2222;
+    }
+    .host-guest-common-style .wid50 {
+        float: left;
+        width: 50%;
+    }
+    .host-guest-common-style .mobile-contact .Starting-form {
+        font-size: 11px;
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+    .host-guest-common-style .mobile-contact .req-btn {
+        font-size: 14px;
+        padding: 20px;
+    }
+    .host-guest-common-style .card-wrapper {
+        margin-top: 0px;
+    }
+    .host-guest-common-style .carousel-inner > .item > img {
+        height: 180px;
+    }
+    .host-guest-common-style .radio {
+        float: left;
+        width: 100%;
+    }
+    .host-guest-common-style .select-date-btn {
+        float: left;
+        width: 100%;
+        text-align: left;
+    }
+    .host-guest-common-style .mbt {
+        transform: translate(0px, 85%);
+    }
+    .host-guest-common-style .mbt1 {
+        transform: translate(15px, -85%);
+        width: calc(100% - 20px);
+    }
+    .host-guest-common-style .img-responsive {
+        width: 100%;
+    }
+    .host-guest-common-style .host-guest-common-style-btn-text-2 {
+        display: none;
+    }
+    .host-guest-common-style .stepwizard-step > p {
+        /* font-size: 13px; */
+        padding: 4px;
+    }
+    .host-guest-common-style .tour-title {
+        font-size: 25px;
+        margin-top: 5px;
+    }
+    .host-guest-common-style .select-date-wrapper .card-tour-price {
+        font-size: 13px;
+    }
+    .host-guest-common-style .listing .tour_tags {
+        margin: 0px;
+    }
+    .host-guest-common-style .col-xs-12.mbt1 {
+        padding: 0 15px;
+    }
+    .host-guest-common-style .admin-msg {
+        font-size: 14px !important;
+    }
+    .host-guest-common-style .card.card-availability {
+        display: none;
+    }
+    .host-guest-common-style .arrow::after {
+        content: "--";
+        margin-left: 2%;
+        position: absolute;
+    }
+    .host-guest-common-style .booking-date-name {
+        font-size: 18px;
+    }
+    .host-guest-common-style .calendar-info-list {
+        list-style: none;
+        padding: 0 10px;
+        float: left;
+        width: 100%;
+    }
+    .host-guest-common-style .calendar-info-list li {
+        margin: 5px 5px;
+        float: left;
+    }
+    .host-guest-common-style .thanks-wrapper {
+        width: 100%;
+    }
+    .host-guest-common-style .booking-radio-wrappers .col-xs-6,
+    .host-guest-common-style .booking-radio-wrappers .col-xs-3,
+    .host-guest-common-style .booking-checkbox .col-xs-6,
+    .host-guest-common-style .booking-checkbox .col-xs-3 {
+        padding: 5px;
+    }
+    .host-guest-common-style .thanks-white .arrow::after {
+        content: " ";
+        position: absolute;
+        right: 0px;
+    }
+    .host-guest-common-style .social-links-wrapper {
+        margin-bottom: 20px;
+    }
+    .host-guest-common-style .thanks-white {
+        float: left;
+        width: 100%;
+        padding: 30px 0;
+    }
+    .host-guest-common-style .col-xs-12.contact-info-wrapper,
+    .host-guest-common-style .col-xs-12.contact-info-wrapper + .social-links-wrapper {
+        padding-left: 15px;
+    }
+}
+
+@media all and (max-width: 360px) {
+    .host-guest-common-style .day-circle {
+        width: 58px;
+        height: 58px;
+        background-color: #e3f2fd;
+        text-align: center;
+        border-radius: 50%;
+        padding-top: 0px;
+        line-height: 28px;
+    }
+    .host-guest-common-style .detail-card-title {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 0px 0 0 10px;
+    }
+}
+
+@media (max-width:767px) {
+    .host-guest-common-style-marginFromBothSides {
+        margin-right: 15px !important;
+        margin-left: 15px !important;
+    }
+}

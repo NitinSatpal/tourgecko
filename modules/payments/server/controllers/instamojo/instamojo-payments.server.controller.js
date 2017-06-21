@@ -20,7 +20,7 @@ var Insta = require('instamojo-nodejs');
 //Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
+// Insta.isSandboxMode(true);
 
 
 // Capture the payment.
@@ -34,11 +34,13 @@ exports.createInstamojoPayment = function (req, res) {
   	userDetails.password = instaUser.instamojo_password;
   	Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
     	if (userTokenError) {
+        console.log(userTokenError);
     	} else {
+        console.log(userTokenResponse);
     		Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                   	config.paymentGateWayInstamojo.instamojoSecret,
                   	'Bearer' + ' ' + userTokenResponse.access_token);
-        var purpose = req.body.productData.productTitle.length > 25 ? req.body.productData.productTitle.slice(0,25) + '...' : req.body.productData.productTitle.length;
+        var purpose = req.body.productData.productTitle.length > 25 ? req.body.productData.productTitle.slice(0,25) + '...' : req.body.productData.productTitle;
       	var paymentData = new Insta.PaymentData();
       	paymentData.amount = req.body.bookingDetails.totalAmountPaid;
       	paymentData.partner_fee = 10;
@@ -52,9 +54,11 @@ exports.createInstamojoPayment = function (req, res) {
 
 		    Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
 			    if (paymentError) {
+            console.log(paymentError);
             res.json(paymentError);
 			      // some error
 			    } else {
+            console.log(paymentReqResponse);
             var userId = null;
             if (req.user)
               userId = req.user._id;

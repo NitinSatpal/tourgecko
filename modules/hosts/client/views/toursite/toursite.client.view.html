@@ -1,3 +1,155 @@
-<div> 
-   toursite
+<div class="host-guest-common-style" id="host-guest-common-style">
+	<div class="container-fluid">
+        <div class="row host-admin-bar">
+            <div class="host-guest-common-style-marginFromBothSides">
+                <div class="visit-admin col-sm-2">
+                    <a href="#"><img src="modules/core/client/img/hostGuestCommonImages/visit-admin.png">Visit Admin</a>
+                </div>
+                <div class=" col-sm-8 text-center">
+                    <a href="#" class="admin-msg">&#8826; Imp message to host will come here &#8827;</a>
+                </div>
+                <div class="col-sm-2 close-bar text-right">
+                    <a href="#" id="header-close"><i class="fa fa-close"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="#" id="open"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
+    <div ng-include="'/modules/guests/client/views/guestSideNav.client.view.html'"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#toursiteCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#toursiteCarousel" data-slide-to="1"></li>
+                    <li data-target="#toursiteCarousel" data-slide-to="2"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero1.png" alt="Los Angeles" style="width:100%;">
+                    </div>
+                    <div class="item">
+                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero2.png" alt="Chicago" style="width:100%;">
+                    </div>
+                    <div class="item">
+                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero3.png" alt="New york" style="width:100%;">
+                    </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="host-guest-common-style-marginFromBothSides">
+        <h1 class="text-center"></h1>
+        <div class="row">
+            <div class="col-xs-offset-2 col-xs-8">
+                <p class="about-us-data minimize"> {{vm.companyData.aboutHost}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <h1 class="text-center main-title">Our Tours</h1>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="dropdown show-btn">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Show per page
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu per-page-count">
+                            <li ng-click="vm.changeItemsPerPage(10)"><a href="#">10</a></li>
+                            <li ng-click="vm.changeItemsPerPage(20)"><a href="#">20</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card-wrapper">
+                <div class="col-sm-6 cart-flex" ng-repeat="data in vm.toursitedata track by $index" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
+                    <div class="card">
+                        <div class="tour-image toursite-Product-Image" ng-if="data.productPictureURLs[0]">
+                            <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0].url}}">
+                            <span class="tour-days">{{data.productDuration}} {{data.productDurationType}}</span>
+                            <span class="tour-difficulty">{{data.productGrade}}</span>
+                        </div>
+                        <div class="tour-image toursite-Product-Image" ng-if="!data.productPictureURLs[0]">
+                            <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">
+                        </div> 
+                        <div class="card-data-wrapper">
+                            <h3 class="col-xs-12 tour-title">
+                                <a href="">{{vm.getProductTitleToshow(data.productTitle)}}</a>
+                            </h3>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="col-sm-6 mar0">
+                                        <a href="#" class="card-city-name"><i class="fa fa-map-marker"></i>{{vm.getProductDestinationToshow(data.destination)}}
+                                        </a>
+                                    </p>
+                                    <div class="col-sm-6 col-xs-12 mbt">
+                                        <p class="Starting-form  mar0">Starting From<span class="card-tour-price">
+                                            <span class="currency">&#8377;</span>{{vm.getStartingFromPrice($index)}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 mbt1">
+                                    <p class="card-departure "><i class="fa  fa-calendar"></i>Availability: {{vm.getDepartureDateToShow($index)}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="tour_tags col-xs-12">
+                                <a href="#" ng-repeat="tag in data.productTags" class="chip productTags">
+                                    <div class="chip">{{tag}}</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 text-center" ng-if="vm.pageTo > 1">
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="#" ng-click="vm.decrementPageNumber()">
+                            <<
+                        </a>
+                    </li>
+                    <li ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast" ng-click="vm.changePageNumber(0)">
+                        <a href="">1</a>
+                    </li>
+                    <li ng-if="vm.totalPages > vm.paginationWindow && !vm.showAtLast">
+                        <a href="">...</a>
+                    </li>
+                    <li ng-repeat="page in vm.pageCounterArray.slice(vm.pageFrom,vm.pageTo) track by $index" ng-class="{active: vm.pageFrom + $index + 1 == vm.currentPageNumber}" ng-click="vm.changePageNumber(vm.pageFrom + $index)">
+                        <a href="" >{{vm.pageFrom + $index + 1}}</a>
+                    </li>
+                    <li ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast">
+                        <a href="">...</a>
+                    </li>
+                    <li ng-if="vm.totalPages > vm.paginationWindow && vm.showAtLast" ng-click="vm.changePageNumber(vm.totalPages - 1)">
+                        <a href="" >{{vm.totalPages}}</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="vm.incrementPageNumber()">
+                            >>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <footer>
+        <div ng-include="'/modules/guests/client/views/guestFooter.client.view.html'"></div>
+    </footer>
 </div>
+<p class="text-center booking">
+    <i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko
+</p>
+<script src="modules/core/client/scripts/showmore.js"></script>

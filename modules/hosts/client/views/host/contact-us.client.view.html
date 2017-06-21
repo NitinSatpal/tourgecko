@@ -1,257 +1,136 @@
 <div id="loadingDivToursite" class="loaderDisplayDiv" style="display: none;"></div>
-<div class="toursite contact-us-page" id="contact-us-page"> 
-    <header>
-        <link rel="stylesheet" href="lib/scripts-inside-html/css/materialize.min.css"/>
-        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-1.css"/>
-        <link rel="stylesheet" href="lib/scripts-inside-html/css/tour-preview-details-booking-2.css"/>
-        <link rel="stylesheet" href="lib/scripts-inside-html/css/toursite.css"/>
-        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-        <div class="blue lighten-5"> 
-            <div id="top-contact-bar" class="container dev-view top-Panel-toursite">
-                <ul class="left-align">
-                    <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> {{vm.companyData.inquiryMobile}} - {{vm.getInquiryHours()}}</a></li>
-                    <li class="vendor-email"><a href="mailto: {{vm.companyData.inquiryEmail}}"><i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}</a></li>
-                </ul>    
-                <ul class="right-align hide-on-med-and-down">
-                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('facebook')">
-                        <a href="{{vm.facebookLink}}">
-                            <i class="zmdi zmdi-facebook"></i>
-                        </a>
-                    </li>
-                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('twitter')">
-                        <a href="{{vm.twitterLink}}">
-                            <i class="zmdi zmdi-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="vendor-social" ng-click="vm.goToHostSocialSite('instagram')">
-                        <a href="{{vm.instagramLink}}">
-                            <i class="zmdi zmdi-instagram"></i>
-                        </a>
-                    </li>    
-                </ul>    
+<div class="host-guest-common-style" id="host-guest-common-style">
+    <div class="container-fluid">
+        <div class="row top-header">
+            <div class="host-guest-common-style-marginFromBothSides">
+                <div class="phn-number col-sm-4">
+                    <a href="tel:+919930260748" class=""><i class="fa fa-phone"></i> 099302 60748 - <i class="fa fa-clock-o"></i> 9:00AM to 6:00PM</a>
+                </div>
+                <div class="col-sm-3 email">
+                    <a href="#" class=""><i class="fa fa-envelope"></i> contact@mail.com</a>
+                </div>
+                <ul class="social-links-wrapper col-sm-3">
+                    <li class="social-links"><a href="www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                    <li class="social-links"><a href="www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                    <li class="social-links"><a href="www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                </ul>
             </div>
-        </div>     
-        
-        <nav class="white fixed z-depth-1 toursite-nav">
-            <div class="nav-wrapper container" ng-class="vm.getDynamicCSSForToursiteNav()">
-                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <a href="#" class="blue-grey-text text-darken-4 checking" ng-style="vm.getDynamicLeftMarginForCompanyLogo()">
-                    <img alt="Logo" class="host-toursite-Logo" src="{{vm.companyData.logoURL}}">
+        </div>
+    </div>
+    <nav class="navbar navbar-default host-guest-common-style-navbar">
+        <div class="host-guest-common-style-marginFromBothSides">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand logo" href="#">
+                    <img src="modules/core/client/img/abc/logo.png">
                 </a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li>
-                        <a ui-sref="abstractHome.toursite" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-home left orange-text"></i>Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-case left orange-text"></i>Tours
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-info left orange-text"></i>About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a ng-click="vm.goToContactUSPage()" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-email left orange-text"></i>Contact Us
-                        </a>
-                    </li>
-                </ul>
-                <ul class="side-nav" id="mobile-demo">
-                    <li>
-                        <a ui-sref="abstractHome.toursite" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-home left orange-text"></i>Home
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-case left orange-text"></i>Tours
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-info left orange-text"></i>About Us
-                        </a>
-                    </li>
-                    <li>
-                        <a ng-click="vm.goToContactUSPage()" class="blue-grey-text text-darken-4">
-                            <i class="zmdi zmdi-email left orange-text"></i>Contact Us
-                        </a>
-                    </li>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="index.html"><i class="fa fa-home menu-icon"></i>Home</a></li>
+                    <li><a href="postdetails.html"><i class="fa fa-location-arrow menu-icon"></i>Tours</a></li>
+                    <li><a href="" ui-sref="about-us"><i class="fa fa-info-circle menu-icon"></i>About Us</a></li>
+                    <li><a href="" ui-sref="contact-us"><i class="fa fa-user-circle menu-icon"></i>Contact Us</a></li>
                 </ul>
             </div>
-        </nav>
-    </header>
-
-    <main class="contact-us-main">
-        <toasty></toasty>
-        <br>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-12 contact-details">
-                <h5>CONTACT DETAILS</h5> 
-                <br>
-                <span> If you have any questions or enquiry, please get in touch with us via contact details listed below or fill in the form and send it to us. 
-                </span>
-                <br>
-                <br>
-                <span> We would like to hear from you. </span>
-                <br>
-                <br>
-                <br>
-                <ul>
-                    <li style=" line-height: 30px;">
-                        <b> Location: </b> &nbsp; {{vm.companyData.hostCompanyAddress.city}}
-                    </li>
-                    <li style=" line-height: 30px;">
-                        <b> Phone: &nbsp; </b>{{vm.companyData.inquiryMobile}}
-                    </li>
-                    <li style=" line-height: 30px;">
-                        <b> Email: &nbsp; </b> {{vm.companyData.inquiryEmail}}
-                    </li>
-                </ul>
-                <br>
-                <br>
-                <br>
-                <span class="social-accounts">
-                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
-                    <i class="fa fa-twitter-square" aria-hidden="true"></i>
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                </span>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-12 get-in-touch">
-                <h5>GET IN TOUCH</h5>
-                <br>
-                <form class="form-horizontal" name="vm.contentToHostForm" novalidate autocomplete="off">
-                    <div class="row get-in-touch-form">
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                            <div class="form-group" show-errors>
-                                <div class="input_group">
-                                    <input type="email" name="email" id="email" class="guest-email" placeholder="Email" ng-model="vm.contentToHost.guestEmail" required lowercase>
-                                </div>
-                                <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
-                                    <p class="help-block error-text" ng-message="required">Please enter Email address</p>
-                                    <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
-                                </div>
-                            </div>
+        </div>
+    </nav>
+    <div class="host-guest-common-style-marginFromBothSides">
+        <h2 class="text-center">Contact Us</h2>
+        <hr>
+        <div class="col-xs-12 text-center">
+            <p> If you have any question or enquiry, please get in touch with us.</p>
+            <h4 style="margin-bottom: 20px;"> We would like to hear from you!</h4>
+        </div>
+        <div class="row booking-wrapper">
+            <div class="col-sm-6 col-xs-12">
+                <form>
+                    <div class="host-guest-common-style-row">
+                        <div class="col-sm-6">
+                            <label for="fname" class="text-lighten-1">Name</label>
+                            <input type="text" class="form-control" id="fname">
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-                            <div class="form-group" show-errors>
-                                <div class="input_group">
-                                    <input type="text" name="guestName" class="guest-name" placeholder="Name" ng-model="vm.contentToHost.guestName" required>
-                                </div>
-                                <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
-                                    <p class="help-block error-text" ng-message="required">Please enter your name</p>
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
+                            <label for="email" class="text-lighten-1">Email</label>
+                            <input type="email" class="form-control" id="email">
                         </div>
-                        <div class="form-group" show-errors>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                <div class="input_group">
-                                    <input type="text" name="guestSubject" class="guest-subject" placeholder="Subject" ng-model="vm.contentToHost.guestSubject" required>
-                                </div>
-                                <div ng-messages="vm.contentToHostForm.guestSubject.$error" role="alert" class="error-block">
-                                    <p class="help-block error-text" ng-message="required">Please enter Subject of the message</p>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="host-guest-common-style-row">
+                        <div class="col-sm-12">
+                            <label for="subject" class="text-lighten-1">Phone Number</label>
+                            <input type="text" class="form-control" id="subject">
                         </div>
-                        <div class="form-group" show-errors>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                <div class="input_group">
-                                    <textarea name="guestMessage" class="guest-message" placeholder="Message" ng-model="vm.contentToHost.guestMessage" required></textarea>
-                                </div>
-                                <div ng-messages="vm.contentToHostForm.guestMessage.$error" role="alert" class="error-message-block">
-                                    <p class="help-block error-text" ng-message="required">Please enter message</p>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="host-guest-common-style-row">
+                        <div class="col-xs-12">
+                            <label for="msg" class="text-lighten-1">Message</label>
+                            <textarea type="text" class="form-control" id="msg"></textarea>
                         </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 submit-btn">
-                                 <button type="submit" class="btn btn-primary" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Send</button>
-                            </div>
+                        <div class="col-xs-12" style="margin-bottom: 10px">
+                            <button class="btn nextBtn pull-left" type="submit">Send</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <br>
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">91-98563497</p>
+                        <p class="text-lighten-1">91-95267460</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">contact@advneturehub.com</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">Palm beach road,
+                            <br> Sec 17 Sanpada,
+                            <br> Mumbai</p>
+                    </div>
+                </div>
+                <ul class="social-links-wrapper">
+                    <li class="social-links facebook-blue"><a href="www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                    <li class="social-links twitter-blue"><a href="www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                    <li class="social-links insta-red"><a href="www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </div>
         </div>
-    </main>
-    <div class="map-container">
-    <div id = "hostPinnedAddressMap" class="hostPinnedAddressMap"></div>
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.3186296993454!2d73.00634831426551!3d19.04972345774967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3c1a64da4b5%3A0xa83c6a8fd31601c3!2sPalm+Beach+Rd%2C+Navi+Mumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1496769971466" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
     </div>
-    <footer class="toursite-footer">
-        <a href="#"><img src="{{vm.companyData.logoURL}}" class="host-toursite-Logo"></a>
-        <br>
-        <br>
-        <ul class="links">
-            <li><a>Contact Us</></li>
+    <footer>
+        <ul class="footer-menu container">
+            <li>
+                <a class="logo" href="#"><img src="img/logo.png" class="img-responsive"></a>
+            </li>
+            <li><a href="tel:+919930260748" class="phn-number"><i class="fa fa-phone"></i> 099302 60748 - <i class="fa fa-clock-o"></i> 9:00AM to 6:00PM</a></li>
+            <li><a href="#" class="email"><i class="fa fa-envelope"></i> contact@mail.com</a></li>
+            <li class="social-border">
+                <ul class="social-links-wrapper">
+                    <h3>Follow us on</h3>
+                    <li class="social-links facebook-blue"><a href="www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                    <li class="social-links twitter-blue"><a href="www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                    <li class="social-links insta-red"><a href="www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </li>
         </ul>
-          
-        <ul class="contact-info">
-            <li class="vendor-phone"><a href="tel:+919930260748"><i class="zmdi zmdi-phone"></i> {{vm.companyData.inquiryMobile}} - {{vm.getInquiryHours()}}</a></li>
-            <li class="vendor-email">
-                <a href="mailTo: {{vm.companyData.inquiryEmail}}">
-                    <i class="zmdi zmdi-email"></i> {{vm.companyData.inquiryEmail}}
-                </a>
-            </li>
-            <li class="vendor-social" ng-click="vm.goToHostSocialSite('facebook')">
-                <a href="#">
-                    <i class="zmdi zmdi-facebook"></i>
-                </a>
-            </li>
-            <li class="vendor-social" ng-click="vm.goToHostSocialSite('twitter')">
-                <a href="#">
-                    <i class="zmdi zmdi-twitter"></i>
-                </a>
-            </li>
-            <li class="vendor-social" ng-click="vm.goToHostSocialSite('instagram')">
-                <a href="#">
-                    <i class="zmdi zmdi-instagram"></i>
-                </a>
-            </li>    
-        </ul>  
-        <div class="col l12 m12 s12 statement">This site is automatically built by <a href="#">tourgecko</a></div>
     </footer>
-    <script>
-        var geocoder;
-        var map;
-        function initMap() {
-            var mapOptions = {
-               center:new google.maps.LatLng(17.4927060, 78.3360520),
-               zoom:17
-            }
-            map = new google.maps.Map(document.getElementById("hostPinnedAddressMap"),mapOptions);
-            var marker = new google.maps.Marker({
-               position: new google.maps.LatLng(17.4927060, 78.3360520),
-               map: map,
-            });
-
-            geocoder = new google.maps.Geocoder();
-            var address = angular.element('#contact-us-page').scope().hostAddress;
-            geocoder.geocode( { 'address': address}, function(results, status) {
-              if (status == 'OK') {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-              } else {
-                // alert('Geocode was not successful for the following reason: ' + status);
-              }
-            });
-         }
-
-        function codeAddress(address) {
-            //var address = document.getElementById('address').value;
-        }
-      </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI&callback=initMap">
-    </script>   
-    <script type="text/javascript" src="lib/materialize/materialize.min.js"></script>
-    <script type="text/javascript" src="lib/scripts-inside-html/js/init.js"></script>
-    <script type="text/javascript" src="lib/scripts-inside-html/js/tour-preview-details-booking.js"></script>
+    <p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko</p>
 </div>
