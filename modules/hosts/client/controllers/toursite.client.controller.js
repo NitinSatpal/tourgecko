@@ -5,17 +5,17 @@
     .module('hosts')
     .controller('ToursiteController', ToursiteController);
 
-  ToursiteController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window', '$location', 'toasty'];
+  ToursiteController.$inject = ['$scope', '$state', '$stateParams', 'Authentication', '$http' , '$window', '$location', 'toasty'];
 
-  function ToursiteController($scope, $state, $stateParams, $http, $window, $location, toasty) {
+  function ToursiteController($scope, $state, $stateParams, Authentication, $http, $window, $location, toasty) {
     var vm = this;
+    vm.authentication = Authentication;
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
     vm.pageFrom = 0;
     vm.showAtLast = true;
     var date = new Date();
     vm.currentYear = date.getUTCFullYear();
-
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
@@ -31,7 +31,12 @@
       scrollTo = 583;
     }
 
-    $http.get('/api/host/toursitedata/' + $stateParams.toursite).success(function (response) {
+    var toursite;
+    if ($stateParams.toursite == null)
+      toursite = $location.host().split('.')[0];
+    else
+      toursite = $stateParams.toursite;
+    $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
         vm.toursitedata = response.productArray;
         vm.companyData = response.companyData;
         if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
@@ -75,6 +80,12 @@
           vm.showAtLast = true;
         if(vm.pageTo == vm.totalPages)
           vm.showAtLast = false;
+
+        $("#toursiteNavbar .nav").find(".active").removeClass("active");
+        if ($location.path().split('/')[1] == 'tours')
+          $("#toursiteNavbar .nav #"+$location.path().split('/')[1]).addClass('active');
+        else
+          $("#toursiteNavbar .nav #toursiteMainPage").addClass('active');
     }).error(function (response) {
       vm.error = response.message;
     });
@@ -495,17 +506,11 @@
       }
     }
 
-    vm.goToContactUSPage = function () {
-      var toursite = $location.host().split('.')[0];
-      $state.go('contact-us', {toursite: toursite});
-    }
-
     vm.goToProductDetailsPage = function (index) {
       $state.go('guest.tourDetails', {productId: vm.toursitedata[index]._id});
     }
 
     vm.goToTourgeckoHomePage = function () {
-      console.log($window.location.host);
       var homePage = $window.location.host.split('.').splice($window.location.host.split('.').length -1 ,1);      
       $window.location.href = $window.location.protocol + '//' + homePage;
     }

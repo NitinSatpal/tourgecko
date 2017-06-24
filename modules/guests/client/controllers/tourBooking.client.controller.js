@@ -42,7 +42,6 @@
     // strcit and just allow number starting from 7, 8, 9 as in India number series starts only from these numbers.
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
 
-    var productSessionIds = [];
     var tourType;
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -408,11 +407,11 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
         bookingObject.productSession = null;
       } else {
         bookingObject.isOpenDateTour = false;
-        bookingObject.productSession = productSessionIds[vm.selectedBookingOptionIndex];
+        bookingObject.productSession = vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex]._id;
       }
       
       bookingObject.numberOfSeats = totalSeatsForThisBooking;
-      bookingObject.numberOfAddons = 
+      bookingObject.numberOfAddons = totalAddonForThisBooking;
       bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime();
       // There is no discount for now. So Always zero
       bookingObject.totalDiscount = 0;
@@ -523,5 +522,15 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
     vm.hideErrorsIfExists = function () {
       vm.showErrorsOnTopOfStep3 = false;
     }
+
+    vm.getDynamicCSSForAddonSection = function () {
+      if (vm.bookingProductDetails.productAddons[0].name == '') {
+        var cssObject = {
+          "border-top" : "none"
+        };
+        return cssObject;
+      }
+    }
+    
   }
 }());

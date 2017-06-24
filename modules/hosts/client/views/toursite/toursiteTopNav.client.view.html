@@ -1,3 +1,19 @@
+<div class="container-fluid">
+        <div class="row host-admin-bar" id="host-admin-bar">
+            <div class="host-guest-common-style-marginFromBothSides">
+                <div class="visit-admin col-sm-2">
+                    <a href="#"><img src="modules/core/client/img/hostGuestCommonImages/visit-admin.png">Visit Admin</a>
+                </div>
+                <div class=" col-sm-8 text-center">
+                    <a href="#" class="admin-msg">&#8826; Imp message to host will come here &#8827;</a>
+                </div>
+                <div class="col-sm-2 close-bar text-right">
+                    <a href="#" id="header-close" onclick="closeHostAdminBar()"><i class="fa fa-close"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="#" id="open-host-admin-bar" onclick="openHostAdminBar()"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>  
 <div class="row top-header host-guest-common-style-marginFromBothSides">
     <div class="phn-number col-sm-4">
         <a href="tel:{{vm.companyData.inquiryMobile}}" class=""><i class="fa fa-phone"></i> {{vm.companyData.inquiryMobile}} - <i class="fa fa-clock-o"></i> {{vm.getInquiryHours()}}</a>
@@ -37,11 +53,23 @@
         </div>
         <div class="collapse navbar-collapse" id="toursiteNavbar">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href=""><i class="fa fa-home menu-icon"></i>Home</a></li>
-                <li><a href="postdetails.html"><i class="fa fa-location-arrow menu-icon"></i>Tours</a></li>
-                <li><a href="" ui-sref="about-us"><i class="fa fa-info-circle menu-icon"></i>About Us</a></li>
-                <li><a href="" ui-sref="contact-us"><i class="fa fa-user-circle menu-icon"></i>Contact Us</a></li>
+                <li class="active" id="toursiteMainPage"><a href="" ui-sref="abstractHome.toursite"><i class="fa fa-home menu-icon"></i>Home</a></li>
+                <li id="tours"><a href="" ui-sref="toursite-tours"><i class="fa fa-location-arrow menu-icon"></i>Tours</a></li>
+                <li id="about-us"><a href="" ui-sref="about-us" ><i class="fa fa-info-circle menu-icon"></i>About Us</a></li>
+                <li id="contact-us"><a href="" ui-sref="contact-us"><i class="fa fa-user-circle menu-icon"></i>Contact Us</a></li>
             </ul>
         </div>
     </div>
 </nav>
+
+<script>
+    function closeHostAdminBar () {
+        $('#host-admin-bar').hide();
+        $('#open-host-admin-bar').show();
+    }
+
+    function openHostAdminBar () {
+        $('#open-host-admin-bar').hide();
+        $('#host-admin-bar').show();
+    }
+</script>

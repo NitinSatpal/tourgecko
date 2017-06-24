@@ -1,0 +1,18 @@
+<div id="loadingDivToursite" class="loaderDisplayDiv" style="display: none;"></div>
+<div class="host-guest-common-style" id="host-guest-common-style">
+    <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
+    <div class="host-guest-common-style-marginFromBothSides" style="min-height: 300px;">
+        <h2 class="text-center">About Us</h2>
+        <hr>
+        <div class="col-xs-12 text-center" ng-if="vm.companyData.aboutHost != null && vm.companyData.aboutHost != undefined && vm.companyData.aboutHost != ''">
+            <p> {{vm.companyData.aboutHost}}</p>
+        </div>
+        <div class="col-xs-12 text-center" ng-if="vm.companyData.aboutHost != null || vm.companyData.aboutHost != undefined || vm.companyData.aboutHost != ''">
+            <p> Some default data </p>
+        </div>
+    </div>
+    <footer>
+        <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
+    </footer>
+    <p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko</p>
+</div>

@@ -23,7 +23,7 @@ Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWay
 // Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
-  Booking.findOne({paymentRequestId: req.body.paymentRequestId}).populate('product').populate('productSession').exec(function (err, booking) {
+  Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

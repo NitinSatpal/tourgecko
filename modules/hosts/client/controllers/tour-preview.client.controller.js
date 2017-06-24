@@ -134,11 +134,11 @@
       activeIndex.set(parentIndex, index);
     }
 
-    vm.getDynamicCSSForTourTagsDates = function (index) {
+    vm.getDynamicCSSForBorderIssue = function (index) {
       var cssObject = {
         "border-bottom": "none"
       };
-      if (productDetails.productPricingOptions[index].pricingType == 'Everyone' || productDetails.productPricingOptions[index].pricingType == 'Adult')
+      if (vm.sessionPricing.length > 5 && index == 4 || vm.sessionPricing.length <=5 && index == vm.sessionPricing.length -1 || index == 'noBorder')
         return cssObject;
     }
     

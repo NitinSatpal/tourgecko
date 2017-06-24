@@ -36,7 +36,7 @@ var HostCompanySchema = new Schema({
   },
   logoURL: {
     type: String,
-    default: ''
+    default: 'modules/hosts/client/companyLogo/default/logo.png'
   },
   toursite: {
     type: String,

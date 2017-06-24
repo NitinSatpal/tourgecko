@@ -1,0 +1,136 @@
+<div id="loadingDivToursite" class="loaderDisplayDiv" style="display: none;"></div>
+<div class="host-guest-common-style contact-us-page" id="host-guest-common-style">
+    <toasty></toasty>
+    <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
+    <div class="host-guest-common-style-marginFromBothSides" style="min-height: 300px;">
+        <h2 class="text-center">Contact Us</h2>
+        <hr>
+        <div class="col-xs-12 text-center">
+            <p> If you have any question or enquiry, please get in touch with us.</p>
+            <h4 style="margin-bottom: 20px;"> We would like to hear from you!</h4>
+        </div>
+        <div class="row booking-wrapper">
+            <div class="col-sm-6 col-xs-12">
+                <form name="vm.contentToHostForm" novalidate>
+                    <div class="host-guest-common-style-row form-group" show-errors>
+                        <div class="col-sm-6">
+                            <label for="fname" class="text-lighten-1">Name</label>
+                            <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required placeholder="Name">
+                            <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
+                                <p class="help-block error-text" ng-message="required">Please enter your name</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="email" class="text-lighten-1">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="vm.contentToHost.guestEmail" required lowercase style="margin-bottom: 20px;">
+                            <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
+                                <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                                <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="host-guest-common-style-row form-group" show-errors>
+                        <div class="col-sm-12">
+                            <label for="subject" class="text-lighten-1">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="guestSubject" placeholder="Subject" ng-model="vm.contentToHost.guestSubject" required>
+                            <div ng-messages="vm.contentToHostForm.guestSubject.$error" role="alert" class="error-block">
+                                <p class="help-block error-text" ng-message="required">Please enter Subject of the message</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="host-guest-common-style-row form-group" show-errors>
+                        <div class="col-xs-12">
+                            <label for="msg" class="text-lighten-1">Message</label>
+                            <textarea name="guestMessage" type="text" class="form-control" id="msg" ng-model="vm.contentToHost.guestMessage" required placeholder="Message"></textarea>
+                            <div ng-messages="vm.contentToHostForm.guestMessage.$error" role="alert" class="error-message-block">
+                                <p class="help-block error-text" ng-message="required">Please enter message</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom: 10px">
+                            <button class="btn nextBtn pull-left"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">{{vm.companyData.inquiryMobile}}</p>
+                        <!-- <p class="text-lighten-1">91-95267460</p> -->
+                    </div>
+                </div>
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">{{vm.companyData.inquiryEmail}}</p>
+                    </div>
+                </div>
+                <div class="col-xs-12 contact-info-wrapper">
+                    <div class="contact-icon">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                    <div class="contact-info">
+                        <p class="text-lighten-1">{{vm.companyData.hostCompanyAddress.streetAddress}},
+                            <br> {{vm.companyData.hostCompanyAddress.city}}</p>
+                    </div>
+                </div>
+                <ul class="social-links-wrapper">
+                    <li class="social-links facebook-blue"><a href="www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                    <li class="social-links twitter-blue"><a href="www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                    <li class="social-links insta-red"><a href="www.instagram.com"><i class="fa fa-instagram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.3186296993454!2d73.00634831426551!3d19.04972345774967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c3c1a64da4b5%3A0xa83c6a8fd31601c3!2sPalm+Beach+Rd%2C+Navi+Mumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1496769971466" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div> -->
+        <br>
+        <br>
+        <div id = "hostPinnedAddressMap" class="hostPinnedAddressMap"></div>
+    </div>
+    <footer>
+        <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
+    </footer>
+    <p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko</p>
+</div>
+<script>
+        var geocoder;
+        var map;
+        function initMap() {
+            var mapOptions = {
+               center:new google.maps.LatLng(17.4927060, 78.3360520),
+               zoom:17
+            }
+            map = new google.maps.Map(document.getElementById("hostPinnedAddressMap"),mapOptions);
+            var marker = new google.maps.Marker({
+               position: new google.maps.LatLng(17.4927060, 78.3360520),
+               map: map,
+            });
+
+            geocoder = new google.maps.Geocoder();
+            var address = angular.element('.contact-us-page').scope().hostAddress;
+            geocoder.geocode( { 'address': address}, function(results, status) {
+              if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+              } else {
+                // alert('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+         }
+
+        function codeAddress(address) {
+            //var address = document.getElementById('address').value;
+        }
+      </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI&callback=initMap">
+    </script>   

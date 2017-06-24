@@ -6,9 +6,9 @@
     .module('hosts')
     .controller('sidenavController', sidenavController);
 
-  sidenavController.$inject = ['$scope', '$window', '$http', '$location', 'Authentication'];
+  sidenavController.$inject = ['$scope', '$state', '$rootScope', '$window', '$http', '$location', 'Authentication'];
 
-  function sidenavController($scope, $window, $http, $location, Authentication) {
+  function sidenavController($scope, $state, $rootScope, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
     

@@ -2,14 +2,14 @@
 	<i class="zmdi zmdi-card-travel heading-icn"></i>
     <h2 ng-if="vm.products.length > 0">Tour list
 	    <br>
-	    <span class="sub_head">showing</span>
+	    <span class="sub_head">Showing</span>
 	    <span class="sub_head no_of_tours">{{vm.products.length}}</span>
 	    <span class="sub_head" ng-if="vm.products.length > 1">tours</span>
 	    <span class="sub_head" ng-if="vm.products.length == 1">tour</span>
     </h2>
     <h2 ng-if="vm.products.length == 0">Tour list
 	    <br>
-	    <span class="sub_head">No tours</span>
+	    <span class="sub_head" style="padding-top: 10px;">No tours</span>
     </h2>
 	<button class="btn btn-primary pull-right" type="button" data-toggle="modal" data-target="#select-tour-type"><i class="zmdi zmdi-plus"></i>&nbsp;Add a Tour</button>
 </div>

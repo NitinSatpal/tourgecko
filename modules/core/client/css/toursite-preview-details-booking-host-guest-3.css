@@ -21,7 +21,7 @@
     margin-right: 5px;
 }
 
-.host-guest-common-style #open {
+.host-guest-common-style #open-host-admin-bar {
     display: none;
     position: absolute;
     right: 2px;
@@ -29,11 +29,11 @@
     z-index: 11;
 }
 
-.host-guest-common-style #open .glyphicon.glyphicon-plus {
+.host-guest-common-style #open-host-admin-bar .glyphicon.glyphicon-plus {
     color: #fff;
 }
 
-.host-guest-common-style #open::before {
+.host-guest-common-style #open-host-admin-bar::before {
     content: "";
     width: 0;
     height: 0;

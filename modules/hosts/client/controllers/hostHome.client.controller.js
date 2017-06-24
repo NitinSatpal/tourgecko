@@ -24,7 +24,6 @@
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
     var index = 0;
     for (index = 0; index < vm.bookings.length; index ++)
       vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
@@ -32,6 +31,7 @@
     vm.getDepartureDateOfBookings = function (index) {
       var displayDate;
       if (vm.bookings[index]) {
+        console.log(vm.bookings[index]);
         if (vm.bookings[index].isOpenDateTour) {
           var date = new Date(vm.bookings[index].openDatedTourDepartureDate);
           displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();

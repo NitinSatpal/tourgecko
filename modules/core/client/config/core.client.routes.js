@@ -44,8 +44,8 @@
       })
       .state('contact-us', {
         url: '/contact-us',
-        templateUrl: 'modules/hosts/client/views/host/contact-us.client.view.html',
-        controller: 'ContactUsController',
+        templateUrl: 'modules/hosts/client/views/toursite/contact-us.client.view.html',
+        controller: 'ToursiteCommonController',
         controllerAs: 'vm',
         params: {
           toursite: null
@@ -56,9 +56,21 @@
       })
       .state('about-us', {
         url: '/about-us',
-        templateUrl: 'modules/hosts/client/views/host/about-us.client.view.html',
-        controller: '',
-        controllerAs: '',
+        templateUrl: 'modules/hosts/client/views/toursite/about-us.client.view.html',
+        controller: 'ToursiteCommonController',
+        controllerAs: 'vm',
+        params: {
+          toursite: null
+        },
+        data: {
+          pageTitle: 'Contact-US'
+        }
+      })
+      .state('toursite-tours', {
+        url: '/tours',
+        templateUrl: 'modules/hosts/client/views/toursite/tours.client.view.html',
+        controller: 'ToursiteController',
+        controllerAs: 'vm',
         params: {
           toursite: null
         },

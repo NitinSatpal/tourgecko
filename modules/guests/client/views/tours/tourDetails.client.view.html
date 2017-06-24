@@ -218,7 +218,7 @@
                                 <div id="collapse7" class="panel-collapse collapse in">
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
                                                 <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing track by $index">
                                                     <div class="booking-date-wrapper">
                                                         <p class="booking-day-name">
@@ -255,6 +255,25 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType == 'Open Date'">
+                                                <div class="seats-sys-wrapper">
+                                                    <span>Always available <span  ng-if="vm.productDetails.productUnavailableMonths.length > 0"> except in months of </span> <span ng-repeat="month in vm.productDetails.productUnavailableMonths" class="capitalization">{{month}}<span ng-if="$index != vm.productDetails.productUnavailableMonths.length -1">, </span> </span>. You can choose your preferred date during booking.</span>
+                                                    <div class="all-seats-wrapper">
+                                                        <p class="seats-wrapper">
+                                                            <span class="booking-date-title">Prices</span>
+                                                            <p class="seats-wrapper" ng-repeat="pricing in vm.productDetails.productPricingOptions">
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">{{pricing.pricingType}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Group'">{{pricing.pricingType}} of {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Custom'">{{pricing.customLabel}}</span>
+                                                                <span class="booking-day-name"><span class="currency">&#8377;</span>{{pricing.price}}</span>
+                                                            </p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'">
+                                                <span>There is no availability currently</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +297,7 @@
                 <div class="card card-availability">
                     <div class="card-price-wrapper">
                         <div class="col-xs-12">
-                            <p class="Starting-form col-xs-12 ">Starting From<span class="card-tour-price"><span class="currency">&#8377;</span>1,2354</span>
+                            <p class="Starting-form col-xs-12 ">Starting From<span class="card-tour-price"><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
                         </div>
                     </div>
                     <div class="col-xs-12">
@@ -291,16 +310,23 @@
                             </div>
                             <div class="col-xs-9">
                                 <ul class="tour_tags">
-                                    <li class="tour_tags_dates text-lighten-1" ng-repeat="session in vm.sessionPricing | limitTo: 5 track by $index" ng-style="vm.getDynamicCSSForTourTagsDates($index)">
+                                    <li class="tour_tags_dates text-lighten-1" ng-repeat="session in vm.sessionPricing | limitTo: 5 track by $index" ng-style="vm.getDynamicCSSForBorderIssue($index)" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
                                         <b>{{session.startDate}}</b> <br>
                                         <span ng-repeat="timeslot in session.sessionTimes track by $index">{{timeslot}} <span ng-if="$index != session.sessionTimes.length - 1">&nbsp;&nbsp;</span></span>
+                                    </li>
+                                    <li class="tour_tags_dates text-lighten-1" ng-style="vm.getDynamicCSSForBorderIssue('noBorder')" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'">
+                                        <span>Not available currently! <br> Please check later </span>
+                                    </li>
+                                    <li class="tour_tags_dates text-lighten-1" ng-style="vm.getDynamicCSSForBorderIssue('noBorder')" ng-if="vm.productDetails.productAvailabilityType == 'Open Date'">
+                                        <span>Always available <span ng-if="vm.productDetails.productUnavailableMonths.length > 0"> except in certain months</span>. <br> Book now to select tour date! </span>
                                     </li>
                                 </ul>
                             </div>
                             <span class="more-departure" ng-if="vm.sessionPricing.length.length > 5"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
                         </div>
                         <div class="col-xs-12 text-center">
-                            <a href="" ui-sref="guest.booking({productId: vm.productDetails._id})" type="button" name="req" class="btn btn-default orange req-btn">Book Now</a>
+                            <a href="" ui-sref="guest.booking({productId: vm.productDetails._id})" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                            <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
                         </div>
                     </div>
                 </div>
@@ -333,7 +359,8 @@
                 <span class=""><span class="currency">&#8377;</span>1,2354</span>
             </div>
             <div class="wid50 text-center">
-                <a  href="" ui-sref="guest.booking({productId: vm.productDetails._id})" type="button" name="req" class="btn btn-default orange req-btn" value="">Book Now</a>
+                <a  href="" ui-sref="guest.booking({productId: vm.productDetails._id})" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                <a  href="" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
             </div>
         </div>
     </footer>

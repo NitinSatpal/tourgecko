@@ -36,9 +36,9 @@ exports.sendMassMailForTheSession = function (req, res) {
       subject: 'Hey you, awesome!',
       'h:Reply-To': replyTo,
       //You can use "html:" to send HTML email content. It's magic!
-      html: req.body.message,
+      // html: req.body.message,
       //You can use "text:" to send plain-text content. It's oldschool!
-      text: 'Mailgun rocks, pow pow!'
+      text: req.body.message
     }, function (err, info) {
       if (err) {
         res.json('unknown error occurred. Please try again.')
