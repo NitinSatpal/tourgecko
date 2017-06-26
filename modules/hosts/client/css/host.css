@@ -8,7 +8,11 @@ h1, h2, h3, h4, h5, h6 {
 	color:#555;
 }
 
-.amma {
+.account-success-padding {
+	padding: 1rem !important;
+}
+.account-success-margin  {
+	margin: 1rem !important;
 }
 
 .ckEditorFocus {
@@ -909,6 +913,20 @@ form > .error_msg {
 #signup-step1 .panel {
 	margin-left: 50px;
 }
+span.text-huge {
+	font-size:6.2em;
+	color:#40c4ff !important;
+}
+.text-huge-slogan {
+	margin-top:-.5rem;
+	font-weight: 500;
+}
+.signup-success .divider {
+	height: 1px;
+	overflow: hidden;
+    background-color: #e0e0e0;
+    clear: both;
+}
 .container-fluid.tourgecko-top-nav {
 	padding: 0;
 	margin: 0;
@@ -930,7 +948,12 @@ form > .error_msg {
 	#tours #tours_itinerary .itinerary_panel_container .add_itinerary_done {
 		float: right;
 	}
-	.delete_addon.pull-right{ float:right !important; }
+	.delete_addon.pull-right {
+		float:right !important;
+	}
+	span.text-huge {
+		font-size:4.5em;
+	}
 }
 
 label span {
@@ -2868,6 +2891,13 @@ span.multiselect-native-select select {
 	.booking-trip-start::after {
 		margin-right: -1.4rem;
 		margin-top: -3rem;
-	}    
+	}
+	span.text-huge{
+		font-size:3.5em;
+	}
+	h4.text-huge-slogan{
+		font-size:1em;
+	}
+
 }
 

@@ -5,9 +5,9 @@
     .module('users', [])
     .controller('AuthenticationController', AuthenticationController);
 
-  AuthenticationController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$window', 'Authentication', 'PasswordValidator'];
+  AuthenticationController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$window', '$timeout', 'Authentication', 'PasswordValidator'];
 
-  function AuthenticationController($scope, $state, $stateParams, $http, $location, $window, Authentication, PasswordValidator) {
+  function AuthenticationController($scope, $state, $stateParams, $http, $location, $window, $timeout, Authentication, PasswordValidator) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -15,6 +15,7 @@
     vm.signup = signup;
     vm.signin = signin;
     vm.signupDetails = signupDetails;
+    vm.resendActivationEmail = resendActivationEmail;
     vm.callOauthProvider = callOauthProvider;
     vm.terms = false;
     vm.hostType = 'Tour Operator';
@@ -51,14 +52,21 @@
         return false;
       }
       vm.signupDateStore = {signupData: vm.credentials, toursite: vm.toursite, isHost: ishostSignup}
+      $window.localStorage.setItem('signingupUserEmail', vm.credentials.email);
+      $('#loadingDivAuthenticationSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/auth/signup', vm.signupDateStore).success(function (response) {
         // And redirect to the Details page with the id of the user
         if (response.company)
-          $state.go('hostDetails.details', { id: response._id });
+          $state.go('hostDetails.details', { id: response._id});
         else
           $state.go('authentication.guestSignupDone');
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
@@ -69,18 +77,54 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.userDetailsForm');
         return false;
       }
-      var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams };
+      var detailsInfo = { 'detailsObj': vm.credentialsDetails, 'userId': $stateParams.id };
+      $('#loadingDivAuthenticationSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
-        // And redirect to the Signup Done page
-        // vm.authentication.user = response;
-        // $state.go('host.hostHome');
         $state.go('hostDetails.signupDone');
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
-
+    vm.userEmail = $window.localStorage.getItem('signingupUserEmail');
+    vm.showErrorMsgOnTop = false;
+    vm.showSuccessMsgOnTop = false;
+    vm.errorMsgs = [];
+    vm.successMsgs = [];
+    function resendActivationEmail () {
+      $('#loadingDivAuthenticationSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/auth/resendverificationemail', {email: vm.userEmail}).success(function (response) {
+        vm.successMsgs.length = 0;
+        vm.errorMsgs.length = 0;
+        console.log(vm.authentication.user);
+        console.log(vm.authentication);
+        if (response == 'User Already Activated') {
+          vm.successMsgs.push('The user with email emailId is already activated. Redirecting...');
+          vm.showSuccessMsgOnTop = true;
+          $timeout(function() {
+            $state.go('host.hostHome')
+          }, 2000);
+        } else if (response == 'failure') {
+          vm.errorMsgs.push('There is some error. Please contact tourgecko support.');
+          vm.showErrorMsgOnTop = true;
+        } else {          
+          vm.successMsgs.push('Email has been sent successfully at ' + vm.userEmail);
+          vm.showSuccessMsgOnTop = true;
+        }
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
+    }
     // Signin function
     function signin(isValid) {
       vm.error = null;
@@ -90,7 +134,6 @@
 
         return false;
       }
-      console.log(vm.credentials);
       $http.post('/api/auth/signin', vm.credentials).success(function (response) {
         // If successful we assign the response to the global user model
         vm.authentication.user = response;

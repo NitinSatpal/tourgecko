@@ -152,7 +152,7 @@
         controller: 'AuthenticationController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Signup Done'
+          pageTitle: 'tourgecko - Success!'
         }
       })
       .state('password', {

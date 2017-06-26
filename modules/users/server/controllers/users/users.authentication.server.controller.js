@@ -168,9 +168,10 @@ exports.signupDetails = function(req, res, next) {
     },
     // Lookup user by username
     function (token, done) {
-      if (req.body.userId.id) {
+
+      if (req.body.userId) {
         User.findOne({
-          _id: req.body.userId.id
+          _id: req.body.userId
         }, '-salt -password', function (err, user) {
           if (err || !user) {
             res.status(500).render('modules/core/server/views/500', {
@@ -200,7 +201,7 @@ exports.signupDetails = function(req, res, next) {
                   error: 'Oops! Something went wrong! Please fill the details again!'
                 });
               }
-              HostCompany.findOne({ user: req.body.userId.id }, '-salt -password').sort('-created').exec(function (err, hostCompany) {
+              HostCompany.findOne({ user: req.body.userId }, '-salt -password').sort('-created').exec(function (err, hostCompany) {
                 if (err) {
                   res.status(500).render('modules/core/server/views/500', {
                     error: 'Oops! Something went wrong...'
@@ -332,7 +333,7 @@ exports.signupDetails = function(req, res, next) {
       res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
         name: user.displayName,
         appName: config.app.title,
-        url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + req.body.userId.id
+        url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + req.body.userId
       }, function (err, emailHTML) {
         done(err, emailHTML, user);
       });
@@ -381,6 +382,75 @@ exports.signupDetails = function(req, res, next) {
     }
   });
 };
+
+exports.resendverificationemail = function (req, res) {
+  async.waterfall([
+    // Generate random token
+    function (done) {
+      crypto.randomBytes(20, function (err, buffer) {
+        var token = buffer.toString('hex');
+        done(err, token);
+      });
+    },
+    // Lookup user by username
+    function (token, done) {
+      User.findOne({
+        email: req.body.email
+      }, '-salt -password', function (err, user) {
+        if (user.isActive)
+          res.json('User Already Activated');
+        user.verificationToken = token;
+        user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
+        user.save(function (err) {
+          if (err) {
+            res.json('failure');
+          }
+          done(err, token, user);
+        });
+      });
+    },
+    function (token, user, done) {
+
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
+        name: user.displayName,
+        appName: config.app.title,
+        url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + user._id
+      }, function (err, emailHTML) {
+        done(err, emailHTML, user);
+      });
+    },
+    // If valid email, send reset email using service
+    function (emailHTML, user, done) {
+      nodemailerMailgun.sendMail({
+          from: 'noreply@tourgecko.com',
+          to: user.email, // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'Verification at Tourgecko',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: emailHTML,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            res.json('failure');
+          }
+          else {
+            res.json('success');
+          }
+        });
+    }
+  ], function (err) {
+    if (err) {
+      return next(err);
+    }
+  });
+}
 
 /* Verify the user who is registered with us */
 exports.validateUserVerification = function(req, res) {

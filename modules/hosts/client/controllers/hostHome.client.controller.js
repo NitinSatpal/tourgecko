@@ -9,6 +9,7 @@
 
   function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardService) {
     var vm = this;
+    $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
     var currentDate = new Date($('#calendar').fullCalendar('getDate'));     
     var uniqueStr = (currentDate.getMonth()).toString() + (currentDate.getUTCFullYear()).toString();
