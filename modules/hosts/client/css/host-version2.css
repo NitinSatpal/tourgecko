@@ -1,0 +1,145 @@
+#bookingTab .list-layout .table {
+	margin-bottom: 0;
+}
+.account-success-padding {
+	padding: 1rem !important;
+}
+.account-success-margin  {
+	margin: 1rem !important;
+}
+.inline-block {
+	display:inline-block;
+}
+.booking-list-version-2 .btn-default:focus, .booking-list-filters .btn-default:hover {
+    background-color: #e0e0e0;
+    background-position: 0 -15px;
+}
+span.text-huge {
+	font-size:6.2em;
+	color:#40c4ff !important;
+}
+.text-huge-slogan {
+	margin-top:-.5rem;
+	font-weight: 500;
+}
+.divider-common  {
+	height: 2px;
+	overflow: hidden;
+    background-color: #e0e0e0;
+    clear: both;
+}
+.bg_orange{ background-color: orange;}
+.bg_red{ background-color: #cc0000;}
+.bg_green{ background-color: #4CAF50}
+.bg_grey{ background-color: #999;}
+.bg_white{background-color: #FFF;}
+.orange-text{ color: orange;}
+.green-text{color: #4CAF50}
+.grey-text{color:#999;}
+.red-text{color: #cc0000;}
+.circle{ border-radius: 50%}
+.bg-highlight{ background-color:#fffff5}
+.booking-status-icon {
+	height: 50px; width: 50px; padding: 1rem; font-size: 4rem; color: #fff; margin-top:4rem
+}
+.booking-status-icon .zmdi{ display:none;}
+
+/*.booking-date-time-info form { text-align:right}*/
+.booking-items-info-label, .booking-items-info-input, .booking-items-info-output{ display:inline-block;}
+.booking-items-info-label{ width:50%;}
+.booking-items-info-input{ width:20%}
+.booking-items-info-output{width:20%; text-align:right}
+.booking-items-info-output input{ width:50px; float:right}
+#booking-detail .list-group-item{ border:none}
+#bookings .card, #current-tour-bookings .card{cursor:pointer; transition: all 0.2s ease-in-out}
+#bookings .card:hover, #current-tour-bookings .card:hover{ 
+    -webkit-box-shadow: 0px 5px 8px 2px rgba(0,0,0,0.16);
+-moz-box-shadow: 0px 4px 8px 2px rgba(0,0,0,0.16);
+box-shadow: 0px 5px 8px 2px rgba(0,0,0,0.16); transition: all 0.2s ease-in-out}
+.list-group-item.z-depth-1{ background-color:#f6f6f6; border-radius:0}
+
+.booking-payment-method, .booking-payment-date, .booking-payment-amount { width:25%; display: inline-block; vertical-align: middle;}
+.booking-payment-method{ width:20%;}
+.sub_desc.booking-reference{ position:relative; top:-8px}
+
+#action-log .date{color:#999}
+#action-log ul{margin-top:2rem}
+#action-log li{margin-top:-20px;list-style-type: none;}
+#action-log li:before {
+    content: "\f26f";
+    display: block;
+    margin-left: -34px;
+    font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+    position: relative;
+    top: 16px;
+	color:#777;
+}
+#action-log li:after {
+    border-left: 1px solid;
+    height: 50px;
+    display: block;
+    content: "";
+    margin-left: -28px;
+    margin-top: -20px;
+	border-color:#999;
+}
+#action-log li:last-child:after {
+    display: none;
+}
+
+.nav-bookings .active{border-bottom:2px solid #999}
+.bookings-search{ display:flex}
+
+.apply-filters-callout {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    width: 240px;
+}
+.applied-filters{display:none;}
+.remove-filter{ color:#ddd}
+
+.card-layout.hide, .list-layout.hide{ display:none;}
+.list-layout td{ font-size:12px;}
+.list-layout .card{ cursor:default !important;}
+.list-layout .card:hover{ box-shadow:none !important;}
+.card-layout-cta.active, .table-layout-cta.active{color:#000; /*border-bottom: 2px solid #999;*/ cursor:default}
+.card-layout-cta:focus, .table-layout-cta:focus{ text-decoration:none}
+ul.card-booking-details li{ display:flex;}
+ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-height:3rem; flex:1; width:0;overflow: hidden;
+    text-overflow: ellipsis;}
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px){ 
+	.booking-payment-method{width:30%}
+	.booking-payment-date{width:42%}
+	.booking-payment-amount{width:15%} 
+	#booking-detail .input-group-addon.trip-booking-input{ display:none;}
+	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
+	#booking-detail .nav-div{ display:none;}  
+}
+@media (max-width: 767px){
+	.booking-date-time-info form{ display:flex}  
+	.booking-payment-method, .booking-payment-amount{ width:25%;}
+	.booking-payment-date{width:40%}
+	.booking-payment-method.edit-mode, .booking-payment-date.edit-mode, .booking-payment-amount.edit-mode{ display:block; margin-bottom:1rem;}
+	#booking-detail .input-group-addon.trip-booking-input{ display:none;}
+	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
+	#booking-detail .nav-div{ display:none;}
+	.booking-status-icon{ margin-top:0}
+}
+@media (max-width: 425px){
+	#bookings .booking-search-input{width:90px !important}
+	#bookings .bookings-search .btn.btn-default{ margin-left:2px !important;} 
+	.booking-user-parent{ text-align:center;}
+	.booking-user-parent .booking-user{ float:none !important;}
+	.booking-ref h5{ text-align:center}
+}
+
+@media (max-width: 320px){   
+	#booking-detail .form-control.trip-booking-input {width: 114px;}
+	.booking-payment-method{width:20%}
+	.booking-payment-date{width:45%}
+	.booking-payment-amount{width:30%}
+
+}

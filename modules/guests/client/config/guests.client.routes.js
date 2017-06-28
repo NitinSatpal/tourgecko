@@ -41,12 +41,13 @@
         }
       })
       .state('guest.booking', {
-        url: '/tour/book/:productId',
+        url: '/tour/book/:productId?via',
         templateUrl: 'modules/guests/client/views/booking/tourBooking.client.view.html',
         controller: 'TourBookingController',
         controllerAs: 'vm',
         params: {
-        	productId: null
+        	productId: null,
+          via: null
         },
         data: {
           pageTitle: 'Tour | Booking'

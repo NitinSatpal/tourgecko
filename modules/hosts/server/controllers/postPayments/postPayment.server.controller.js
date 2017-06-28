@@ -10,9 +10,11 @@ var path = require('path'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
   InstamojoUser = mongoose.model('InstamojoUsers'),
-  InstamojoPaymentRecord = mongoose.model('InstamojoPayments'),
+  InstamojoPaymentRequestRecord = mongoose.model('InstamojoPaymentRequest'),
+  instamojoPaymentRecord = mongoose.model('InstamojoPayment'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
+  tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -20,7 +22,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-// Insta.isSandboxMode(true);
+Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
   Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').exec(function (err, booking) {
@@ -31,17 +33,22 @@ exports.postPaymentEventsAndProcess = function (req, res) {
     }
     booking.paymentId = req.body.paymentId;
     booking.isPaymentDone = true;
-    booking.save();
-    logCapturedPayment(booking._id, req.body.paymentRequestId, req.body.paymentId, booking.hostOfThisBooking);
-    //testPayment();
-    sendNotification(booking, booking.product.productTitle, booking._id);
-    if(!booking.isOpenDateTour)
-      updateSession(booking);
-    else
-      createSession(booking, booking.product, req.body.paymentRequestId, req.body.paymentId);
-  });
-  res.json('done');
+    booking.save(function(err) {
+      if (err) {
 
+      } else {
+        logCapturedPayment(booking._id, req.body.paymentRequestId, req.body.paymentId, booking.hostOfThisBooking);
+        traceLogForThisEvent(booking._id, booking.bookedVia);
+        sendNotification(booking, booking.product.productTitle, booking._id);
+        if(!booking.isOpenDateTour)
+          updateSession(booking);
+        else
+          createSession(booking, booking.product, req.body.paymentRequestId, req.body.paymentId);
+
+        res.json('done');
+      }
+    });
+  });
 }
 
 function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
@@ -64,10 +71,27 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
           if (paymentReqError) {
             // some error
           } else {
-            InstamojoPaymentRecord.findOne({instamojo_id: paymentRequestId}).exec(function (err, instaPayment) {
+            InstamojoPaymentRequestRecord.findOne({instamojo_id: paymentRequestId}).exec(function (err, instaPayment) {
               instaPayment.instamojo_payments = paymentReqResponse.payments;
               instaPayment.save();
             })
+          }
+        });
+
+        Insta.getPayment(paymentId, function(paymentError, paymentResponse) {
+          if (paymentError) {
+            // some error
+          } else {
+            var instamojoPayment = new instamojoPaymentRecord();
+            var commonPrefix = 'instamojo_';
+            for (var key in paymentResponse) {
+              if (paymentResponse.hasOwnProperty(key)) {
+                var val = paymentResponse[key];
+                instamojoPayment[commonPrefix + key] = val;
+              }
+            }
+            instamojoPayment.bookingId = bookingId;
+            instamojoPayment.save(); 
           }
         });
       }
@@ -75,7 +99,7 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
   });
 }
 
-function sendNotification(bookingObject, productTitle, bookingId) {
+function sendNotification (bookingObject, productTitle, bookingId) {
   var notification = new Notification();
   notification.notificationFrom = bookingObject.providedGuestDetails.firstName + ' ' + bookingObject.providedGuestDetails.lastName;
   notification.notificationTypeLogo = 'modules/chat/client/images/booking-request.png';
@@ -99,6 +123,11 @@ function sendNotification(bookingObject, productTitle, bookingId) {
       // notification successfully sent
     }
   });
+}
+
+function traceLogForThisEvent (bookingId, via) {
+  var tracelogMessage = 'Booking created via ' + via  + '.';
+  tracelog.createTraceLog('Booking', bookingId, tracelogMessage);
 }
 
 function updateSession(booking) {

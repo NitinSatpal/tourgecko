@@ -60,6 +60,22 @@ var BookingSchema = new Schema({
     type: Number,
     default: 0
   },
+  selectedpricingoptionindexandquantity: {
+    type: Array,
+    default: []
+  },
+  selectedpricingoptionindexandprice: {
+    type: Array,
+    default: []
+  },
+  selectedaddonoptionsindexandquantity: {
+    type: Array,
+    default: []
+  },
+  selectedaddonoptionsindexandprice: {
+    type: Array,
+    default: []
+  },
   totalDiscount: {
     type: Number,
     default: 0
@@ -68,25 +84,21 @@ var BookingSchema = new Schema({
     type: Number,
     default: 0
   },
+  totalAmountToBePaid: {
+    type: Number,
+    default: 0
+  },
   totalAmountPaid: {
     type: Number,
     default: 0
   },
-  totalAmountPaidForProduct: {
+  totalAmountForProduct: {
     type: Number,
     default: 0
   },
-  totalAmountPaidForAddons: {
+  totalAmountForAddons: {
     type: Number,
     default: 0
-  },
-  paymentMode: {
-    type: String,
-    default: 'tourgecko Wallet',
-    trim: true
-  },
-  paymentURL: {
-    type: String
   },
   paymentRequestId: {
     type: String
@@ -118,6 +130,10 @@ var BookingSchema = new Schema({
   bookingDate: {
     type: String,
     default: ''
+  },
+  bookedVia: {
+    type: String,
+    default: 'toursite'
   },
   created: {
     type: Date

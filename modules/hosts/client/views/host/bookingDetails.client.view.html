@@ -1,137 +1,303 @@
 <div class="hostHome container-fluid">
-    <div id="bookings">
+    <div id="booking-detail" class="container-fluid">
         <div class="row body-content">
             <div class="col-md-12 col-sm-12 col-lg-12">
                 <div class="multiline-header home_add_tour fixed-in-div margin-bottom">
                     <i class="zmdi zmdi-shopping-cart heading-icn"></i>
-                    <h2>Booking Detail<br>
-                        <!--<span class="sub_head">Booking ID:
-                            <strong>{{vm.specificBookingDetails._id}}</strong>
-                        </span>-->
+                    <h2>
+                        <a href="14_bookings.html">Bookings</a>
+                        <i class="zmdi zmdi-caret-right bread-caret"></i>
+                        <span class="bread-current">Booking Details</span>
+                        <br>
+                        <span class="sub_head" style="margin-top: 15px;">Booking Id: <strong>{{vm.specificBookingDetails.bookingReference}}</strong></span>
                     </h2>
-                    <a id="confirmBookingTopPanel" class="btn btn-primary pull-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#confirmBookingTopPanel', '#confirm-confirmation')" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
+                    <a class="btn btn-primary pull-right" data-toggle="modal" data-target="#confirm-confirmation" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
                         <i class="zmdi zmdi-check-circle"></i>&nbsp;Confirm
+                    </a>
+                    <a class="btn btn-primary pull-right" data-toggle="modal" data-target="#refund-confirmation" ng-show="vm.specificBookingDetails.bookingStatus == 'Confirmed'" style="background-color:#cc0000">
+                        <i class="zmdi zmdi-close-circle"></i>&nbsp;Cancel and Refund
                     </a>            
                 </div>
+                <div class="row">
+                    <div class="booking-analytics">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center" style="margin-bottom: 15px;">
+                                <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-check"></i></h1>    
+                                <div class="text-center booking-analytics-info">           
+                                    <p class="section-desc">Booking Id</p>
+                                        <h4 class=""><span class="sub-desc">{{vm.specificBookingDetails.bookingReference}}</span></h4>
+                                </div>
+                            </div>
+                            <span class="sub_desc booking-reference">
+                                Created 
+                                <span class="orange-text">Online</span> 
+                                On {{vm.specificBookingDetails.bookingDate}}
+                            </span>
+                        </div>
                 
-                <div class="card">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom padding-top padding-bottom">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                            <h4>Booking Ref: 
-                                <strong>{{vm.specificBookingDetails.bookingReference}}</strong>
-                            </h4>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                            <h1 class="green-text booking-analytics-icon">₹</h1>    
+                            <div class="text-center booking-analytics-info">    
+                            <p class="section-desc green-text">Amount</p>
+                            <h4 class="green-text">{{vm.specificBookingDetails.totalAmountPaid}}</h4>
+                            </div>    
+                            </div>    
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 margin-bottom ">
-                            <div class="redBookingCircle bookingcircle currency-icon pull-left margin-right padding-left" ng-show="vm.specificBookingDetails.bookingStatus == 'Declined'">
-                                <i class="zmdi zmdi-calendar-close"></i>
-                            </div>
-                            <div class="orangeBookingCircle bookingcircle currency-icon pull-left margin-right padding-left" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
-                                <i class="zmdi zmdi-time-interval"></i>
-                            </div>
-                            <div class="greenBookingCircle bookingcircle currency-icon pull-left margin-right padding-left" ng-show="vm.specificBookingDetails.bookingStatus == 'Confirmed'">
-                                <i class="zmdi zmdi-case-check"></i>
-                            </div>
-                            <span class="block margin-top">{{vm.specificBookingDetails.bookingStatus}}</span>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 margin-bottom">
-                            <div class="bookingcircle greyBookingcircle currency-icon pull-left margin-right">
-                                <span class="">&#8377;</span>
-                            </div>
-                            <div class="">
-                                <span class="block">Total amount</span>
-                                <strong class="orange-text">{{vm.specificBookingDetails.totalAmountPaid}}</strong>
+                
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                                <h1 class="orange-text booking-analytics-icon" ng-if="vm.specificBookingDetails.bookingStatus == 'Pending'">
+                                    <i class="zmdi zmdi-circle"></i>
+                                </h1>
+                                <h1 class="green-text booking-analytics-icon" ng-if="vm.specificBookingDetails.bookingStatus == 'Confirmed'">
+                                    <i class="zmdi zmdi-circle"></i>
+                                </h1>
+                                <h1 class="red-text booking-analytics-icon" ng-if="vm.specificBookingDetails.bookingStatus == 'Declined'">
+                                    <i class="zmdi zmdi-circle"></i>
+                                </h1>
+                                <h1 class="grey-text booking-analytics-icon" ng-if="vm.specificBookingDetails.bookingStatus == 'Cancelled'">
+                                    <i class="zmdi zmdi-circle"></i>
+                                </h1>
+                                <div class="text-center booking-analytics-info">           
+                                    <p class="section-desc">Status</p>
+                                    <h4 class="">{{vm.specificBookingDetails.bookingStatus}}</h4>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top padding-bottom border-bottom">
-                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center margin-bottom">
-                            <img src="modules/hosts/client/images/man-in-hike.png" alt="hike">
+                </div>
+                
+                <div class="row">    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
+                        <div class="head_content"><h4>Customer</h4></div>
+                        <div class="card booking-customer-info">
+                            <span class="margin-right visible-lg-inline-block visible-md-inline-block visible-sm-block visible-xs-block">
+                                <strong>{{vm.specificBookingDetails.providedGuestDetails.firstName}}
+                                  {{vm.specificBookingDetails.providedGuestDetails.lastName}}</strong>
+                            </span>
+                            <span class="margin-right visible-lg-inline-block visible-md-inline-block" >|</span>
+                            <span class="margin-right">
+                                <a href="mailto:{{vm.specificBookingDetails.providedGuestDetails.email}}"><i class="zmdi zmdi-email"></i>&nbsp;{{vm.specificBookingDetails.providedGuestDetails.email}}</a>
+                            </span>
+                            <span class="margin-right nav-div">|</span>
+                            <span class="">
+                                <a href="tel:{{vm.specificBookingDetails.providedGuestDetails.mobile}}"><i class="zmdi zmdi-phone"></i>&nbsp;{{vm.specificBookingDetails.providedGuestDetails.mobile}}</a>
+                            </span>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 white booking-details-list">
-                            <ul class="cleared">
-                                <li>
-                                    <span class="content-primary">Tour</span>
-                                    <span class="content-secondary">{{vm.specificBookingDetails.product.productTitle}}</span>
-                                </li>    
-                                <li>
-                                    <span class="content-primary">Availability</span>
-                                    <span class="content-secondary">{{vm.specificBookingDetails.product.productAvailabilityType}}</span>
-                                </li>
-                                <li>
-                                    <span class="content-primary">Start Date</span>
-                                    <span class="content-secondary">{{vm.specificBookingDetails.isOpenDateTour == true ? vm.getDisplayDate(vm.specificBookingDetails.openDatedTourDepartureDate) : vm.getDisplayDate(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate)}}</span>
-                                </li>
-                                <li>
-                                    <span class="content-primary">Seats</span>
-                                    <span class="content-secondary">{{vm.specificBookingDetails.numberOfBookings}}</span>
+                    </div>    
+                </div>
+                
+                <div class="row">    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
+                        <div class="head_content"><h4>Tour</h4></div>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                                    <h5 class="margin-right">{{vm.specificBookingDetails.product.productTitle}}</h5>
+                                </div>
+                                <div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 booking-date-time-info margin-bottom">
+                                    <form class="form-inline">
+                                        <div class="input-group col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                            <input id="startDateOfTheTour" type="date" class="form-control trip-booking-input" aria-describedby="trip-booking-date"  disabled>
+                                            <span class="input-group-addon trip-booking-input" id="trip-booking-date"><i class="zmdi zmdi-calendar"></i></span>
+                                        </div>
+                        
+                                        <div class="input-group margin-left col-lg-4 col-md-3 col-sm-3 col-xs-3">
+                                            <input id="startTimeOfTheTour" type="time" class="form-control trip-booking-input" aria-describedby="trip-booking-time" disabled>
+                                            <span class="input-group-addon trip-booking-input" id="trip-booking-time"><i class="zmdi zmdi-time"></i></span>
+                                        </div>
+                                        <!-- No edit functionality in Beta -->
+                                        <!-- <a href="#" class="margin-left margin-top">Edit</a> -->
+                                    </form>
+                                </div>
+                            </div>
+                    
+                            <!--<div class="divider clearfix"></div>-->
+                    
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                                    <form action="">
+                                        <ul class="booking-items list-group">
+                                            <li class="list-group-item z-depth-1">
+                                                <h5 class="inline-block">Booking Items</h5>
+                                                <!-- No edit functionality in Beta -->
+                                                <!-- <a href="#" class="margin-left margin-top pull-right">Edit prices</a>
+                                                <span class="margin-left margin-top pull-right">|</span>
+                                                <a href="#" class="margin-left margin-top pull-right">Edit quantities</a> -->
+                                            </li>
+                                            <div ng-repeat="selectedBookingOption in vm.bookingOptionsSelected track by $index" ng-if="vm.checkIfTheBookingOptionIsSelected($index)">
+                                                <li class="list-group-item" ng-if="vm.validPricingOptions[$index].pricingType == 'Custom'">
+                                                    <span class="booking-items-info-label">{{vm.validPricingOptions[$index].customLabel}} (&#8377; {{vm.validPricingOptions[$index].price}} Per Person)</span>
+                                                    <span class="booking-items-info-input">
+                                                        <input type="text" class="form-control" disabled placeholder="Qty" value="1" ng-model="selectedBookingOption">
+                                                    </span>
+                                                    <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.selectedpricingoptionindexandprice[$index]}}</span>
+                                                </li>
+                                                <li class="list-group-item" ng-if="vm.validPricingOptions[$index].pricingType == 'Group'">
+                                                    <span class="booking-items-info-label">Group of {{vm.validPricingOptions[$index].minGroupSize}} to {{vm.validPricingOptions[$index].maxGroupSize}} (&#8377; {{vm.validPricingOptions[$index].price}} {{vm.validPricingOptions[$index].groupOption}})</span>
+                                                    <span class="booking-items-info-input">
+                                                        <input type="text" class="form-control" disabled placeholder="Qty" value="1" ng-model="selectedBookingOption">
+                                                    </span>
+                                                    <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.selectedpricingoptionindexandprice[$index]}}</span>
+                                                </li>
+                                                <li class="list-group-item" ng-if="vm.validPricingOptions[$index].pricingType== 'Couple'">
+                                                    <span class="booking-items-info-label"> {{vm.validPricingOptions[$index].pricingType}} (&#8377; {{vm.validPricingOptions[$index].price}} Per Couple)</span>
+                                                    <span class="booking-items-info-input">
+                                                        <input type="text" class="form-control" disabled placeholder="Qty" value="1" ng-model="selectedBookingOption">
+                                                    </span>
+                                                    <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.selectedpricingoptionindexandprice[$index]}}</span>
+                                                </li>
+                                                <li class="list-group-item" ng-if="vm.validPricingOptions[$index].pricingType != 'Custom' && vm.validPricingOptions[$index].pricingType != 'Group' && vm.validPricingOptions[$index].pricingType != 'Couple'">
+                                                    <span class="booking-items-info-label">{{vm.validPricingOptions[$index].pricingType}} (&#8377; {{vm.validPricingOptions[$index].price}} per person)</span>
+                                                    <span class="booking-items-info-input"><input type="text" class="form-control" disabled placeholder="Qty" value="1" ng-model="selectedBookingOption"></span>
+                                                    <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.selectedpricingoptionindexandprice[$index]}}</span>
+                                                </li>
+                                            </div>
+                                            <li class="list-group-item z-depth-1"><h5 class="inline-block">Add-ons and Extras</h5></li>
+
+                                            <div ng-if="vm.areAddonsSelected()">
+                                                <div ng-repeat="selectedAddonOption in vm.addonOptionsSelected track by $index">
+                                                    <li class="list-group-item" ng-if="selectedAddonOption > 0 && vm.specificBookingDetails.product.productAddons[$index].name != ''">
+                                                        <span class="booking-items-info-label">{{vm.specificBookingDetails.product.productAddons[$index].name}} (&#8377; {{vm.specificBookingDetails.product.productAddons[$index].price}} {{vm.specificBookingDetails.product.productAddons[$index].applyAs}})</span>
+                                                        <span class="booking-items-info-input">
+                                                            <input type="text" class="form-control" disabled placeholder="Qty" value="1" ng-model="selectedAddonOption">
+                                                        </span>
+                                                        <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.selectedaddonoptionsindexandprice[$index]}}</span>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                            
+                                            <li class="divider-common"></li>
+                                            
+                                            <!-- <li class="list-group-item">
+                                                <span class="booking-items-info-label"></span>
+                                                <span class="booking-items-info-input">Discount</span>
+                                                <span class="booking-items-info-output"><span class=""><input type="text" class="form-control" value="0" disabled></span></span>
+                                            </li> -->
+                                            
+                                            <li class="list-group-item">
+                                                <span class="booking-items-info-label"></span>
+                                                <span class="booking-items-info-input">Total</span>
+                                                <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.totalAmountToBePaid}}</span>
+                                            </li>
+                                            
+                                            <li class="list-group-item">
+                                                <span class="booking-items-info-label"></span>
+                                                <span class="booking-items-info-input">Paid</span>
+                                                <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.totalAmountPaid}}</span>
+                                            </li>
+                        
+                                            <li class="list-group-item">
+                                                <span class="booking-items-info-label"></span>
+                                                <span class="booking-items-info-input">Balance</span>
+                                                <span class="booking-items-info-output">&#8377; {{vm.specificBookingDetails.totalAmountToBePaid - vm.specificBookingDetails.totalAmountPaid}}</span>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12"></div>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+                
+                <div class="row">    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
+                        <div class="head_content"><h4>Payment</h4></div>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <form action="">
+                                        <ul class="booking-items list-group">
+                                            <li class="list-group-item" ng-repeat="payment in vm.paymentsOfThisBooking track by $index">
+                                                <span class="booking-payment-method">{{payment.instamojo_instrument_type}}</span>
+                                                <span class="booking-payment-date">{{vm.getDisplayDate(payment.instamojo_created_at)}}</span>
+                                                <span class="booking-payment-amount">&#8377; {{payment.instamojo_amount}}</span>
+                                            </li>
+                                            <!-- <li class="list-group-item">
+                                                <span class="booking-payment-method edit-mode">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Payment Method
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="#">Cash</a></li>
+                                                            <li><a href="#">Credit Card</a></li>
+                                                            <li><a href="#">Netbanking</a></li>
+                                                            <li><a href="#">Wallet</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </span>
+                                            
+                                                <span class="booking-payment-date edit-mode">
+                                                    <div class="input-group">
+                                                      <input type="date" class="form-control" placeholder="Select Date" aria-describedby="booking-payment-date">
+                                                      <span class="input-group-addon" id="booking-payment-date"><i class="zmdi zmdi-calendar"></i></span>
+                                                    </div>
+                                                </span>
+                                            
+                                                <span class="booking-payment-amount edit-mode">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" id="basic-addon1">&#8377;</span>
+                                                        <input type="text" class="form-control" placeholder="0" aria-describedby="booking-addon-amount">
+                                                    </div>
+                                                </span>
+                                            </li> -->
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                           <!-- <a href="#" class="add_price_option"><i class="zmdi zmdi-plus"></i> Add payment</a> -->
+                        </div>
+                    </div>
+                </div>
+               
+               
+               <!--  ===========  activity log  ===========   -->
+               
+                <div id="action-log" class="row">    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
+                        <div class="head_content">
+                            <h4 class="">Trace log</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    
+                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <div class="card">
+                            <ul>
+                                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="log in vm.log track by $index">
+                                    <span class="block sub_desc">{{log.traceDate}}</span>
+                                    <span class="text-readable14">{{log.tracelogMessage}}</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top padding-bottom">
-                        <br>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 margin-bottom">
-                            <div class="bookingcircle greyBookingcircle currency-icon pull-left margin-right">
-                                <i class="zmdi zmdi-account"></i>
-                            </div>
-                            <div style="word-wrap: break-word;">
-                                <span class="block">
-                                    <strong>Primary Guest</strong>
-                                </span>{{vm.specificBookingDetails.providedGuestDetails.firstName}}
-                                  {{vm.specificBookingDetails.providedGuestDetails.lastName}}
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 margin-bottom ">
-                            <div class="icn-big-booking-details">
-                                <i class="zmdi zmdi-smartphone-android"></i>
-                            </div>
-                            <div class="">
-                                <span class="block">
-                                    <strong>Mobile</strong>
-                                </span>
-                                <a href="tel:+919867101299">{{vm.specificBookingDetails.providedGuestDetails.mobile}}</a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 margin-bottom">
-                            <div class="icn-big-booking-details">
-                                <i class="zmdi zmdi-email"></i>
-                            </div>
-                            <div style="word-wrap: break-word;">
-                                <span class="block">
-                                    <strong>Email</strong>
-                                </span>
-                                <a href="mailto:{{vm.specificBookingDetails.providedGuestDetails.email}}">{{vm.specificBookingDetails.providedGuestDetails.email}}</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-        
+                
                 <div class="row">    
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top text-center">
-                        <a id="declineBooking" class="btn btn-default margin-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#declineBooking', '#decline-confirmation')" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">Decline</a>                  
-                        
-                        <a id="confirmBooking" class="btn btn-primary margin-right" data-toggle="modal" ng-click="vm.askActionConfirmation(vm.specificBookingDetails.bookingStatus, '#confirmBooking' , '#confirm-confirmation')" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
-                            <i class="zmdi zmdi-check-circle"></i>&nbsp;Confirm
-                        </a>
-
-                        <!-- temporary for now to check functionality. Later we need to design it -->
-                        <a id="refundBooking" class="btn btn-primary margin-right" data-toggle="modal" ng-click="vm.askRefundConfirmation(vm.specificBookingDetails.bookingStatus, '#refundBooking' , '#refund-confirmation')" ng-show="vm.specificBookingDetails.bookingStatus == 'Confirmed'">
-                            <i class="zmdi zmdi-check-circle"></i>&nbsp;Cancel and Refund
-                        </a>
-
-                        <a href="" class="pull-right" ng-click="vm.goToPreviousState()"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Go back </a>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top text-center">
-                        <p class="sub_desc">
-                            <i class="zmdi zmdi-lamp icn_orange"></i> When you confirm this booking, Guest will be charged for amount and confirmation email will be sent.
-                        </p>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top text-center">
+                            <a class="btn btn-default margin-right" data-toggle="modal" data-target="#decline-confirmation" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">Decline</a>                  
+                            <a class="btn btn-primary margin-right" data-toggle="modal" data-target="#confirm-confirmation" ng-show="vm.specificBookingDetails.bookingStatus == 'Pending'">
+                                <i class="zmdi zmdi-check-circle"></i>&nbsp;Confirm
+                            </a>
+                            <a class="btn btn-primary margin-right" data-toggle="modal" data-target="#refund-confirmation" ng-show="vm.specificBookingDetails.bookingStatus == 'Confirmed'" style="background-color:#cc0000">
+                                <i class="zmdi zmdi-close-circle"></i>&nbsp;Cancel and Refund
+                            </a>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top text-center">
+                           <p class="sub_desc"><i class="zmdi zmdi-lamp icn_orange"></i> When you confirm this booking, Guest will be charged for amount and confirmation email will be sent.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div id="decline-confirmation" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -147,9 +313,6 @@
                 <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;">
                     
                 </textarea>  
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
             </div>
         </div>
     </div>
@@ -168,9 +331,6 @@
                 <a ng-click="vm.modifyBooking('Confirmed')" class="btn btn-warning pull-left margin-right btn-sm">Confirm</a>
                 <a onclick="closeModal('#confirm-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
                 <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;"></textarea>  
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
             </div>
         </div>
     </div>

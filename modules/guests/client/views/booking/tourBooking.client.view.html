@@ -3,7 +3,7 @@
 </uib-alert>
 <div id="loadingDivTourBooking" class="loaderDisplayDiv"></div>
 <div class="host-guest-common-style" id="host-guest-common-style">
-    <div ng-include="'/modules/guests/client/views/guestSideNav.client.view.html'"></div>
+    <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
     <toasty></toasty>
     <div class="host-guest-common-style-bookings-marginFromBothSides">
         <div class="row booking-wrapper">
@@ -176,7 +176,7 @@
                                 <h3 class="booking-form-title"><span class="currency orange-text">&#8377;</span> Booking Options</h3>
                                 <strong class="booking-form-subtitle"> Select options and quality
                                 <span class="pull-right orange-text">Mandatory</span></strong>
-                                <div ng-repeat="pricing in vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails track by $index">
+                                <div ng-repeat="pricing in vm.validPricingOptions track by $index">
                                     <div class="booking-radio-wrappers border-bottom" ng-if="pricing.pricingType == 'Custom'">
                                         <div class="col-xs-6 col-sm-3">
                                             <div class="checkbox">
@@ -255,7 +255,7 @@
                                     <p class="booking-checkbox-title text-lighten-1">Add-Ons and extras
                                         <span class="pull-right orange-text">Optional</span>
                                     </p>
-                                    <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')">
+                                    <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')" ng-if="addon.name != '' && addon.price != ''">
                                         <div class="col-xs-6 col-sm-3">
                                             <div class="checkbox">
                                                 <label class="text-lighten-1"> {{addon.name}}</label>
@@ -399,27 +399,27 @@
                                                 </tr>
                                             </thead>
                                             <tbody ng-repeat="selectedBookingOption in vm.pricingOptionIndexAndQuantity track by $index" ng-if="vm.checkIfTheBookingOptionIsSelected($index)">
-                                                <tr ng-if="vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType != 'Group' && vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType != 'Custom'">
-                                                    <td>{{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType}}</td>
-                                                    <td><span class="currency">&#8377;</span>{{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].price}}</td>
+                                                <tr ng-if="vm.validPricingOptions[$index].pricingType != 'Group' && vm.validPricingOptions[$index].pricingType != 'Custom'">
+                                                    <td>{{vm.validPricingOptions[$index].pricingType}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
                                                     <td>{{selectedBookingOption}}</td>
                                                     <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
                                                 </tr>
-                                                <tr ng-if="vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType == 'Custom'">
-                                                    <td>{{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].customLabel}}</td>
-                                                    <td><span class="currency">&#8377;</span>{{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].price}}</td>
+                                                <tr ng-if="vm.validPricingOptions[$index].pricingType == 'Custom'">
+                                                    <td>{{vm.validPricingOptions[$index].customLabel}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
                                                     <td>{{selectedBookingOption}}</td>
                                                     <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
                                                 </tr>
                                                 <tr ng-if="vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType == 'Group'">
-                                                    <td>Group of {{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].minGroupSize}} to {{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].maxGroupSize}}</td>
-                                                    <td><span class="currency">&#8377;</span>{{vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].price}}</td>
+                                                    <td>Group of {{vm.validPricingOptions[$index].minGroupSize}} to {{vm.validPricingOptions[$index].maxGroupSize}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
                                                     <td>{{selectedBookingOption}}</td>
                                                     <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <table class="table table-hover host-guest-common-style-table">
+                                        <table class="table table-hover host-guest-common-style-table" ng-if="vm.areAddonsSelected()">
                                             <thead>
                                                 <tr>
                                                     <th style="font-weight: 500;">Addon</th>
@@ -429,9 +429,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody ng-repeat="selectedAddonOption in vm.addonOptionIndexAndQuantity track by $index">
-                                                <tr ng-if="selectedAddonOption > 0">
+                                                <tr ng-if="selectedAddonOption > 0 && vm.bookingProductDetails.productAddons[$index].name != ''">
                                                     <td>{{vm.bookingProductDetails.productAddons[$index].name}}</td>
-                                                    <td><span class="currency">&#8377;</span>{{vm.bookingProductDetails.productAddons[$index].name}}({{vm.bookingProductDetails.productAddons[$index].applyAs}})</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.bookingProductDetails.productAddons[$index].price}}({{vm.bookingProductDetails.productAddons[$index].applyAs}})</td>
                                                     <td>{{selectedAddonOption}}</td>
                                                     <td><span class="currency">&#8377;</span>{{vm.calculatedAddonPriceForSelectedAddonOptions[$index]}}</td>
                                                 </tr>
@@ -508,7 +508,7 @@
         </div>
     </div>
     <footer>
-        <div ng-include="'/modules/guests/client/views/guestFooter.client.view.html'"></div>
+        <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
     </footer>
     <div style="display: none; position: fixed; overflow-y: hidden;">
         <a rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo"></a>

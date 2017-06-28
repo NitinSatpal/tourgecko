@@ -3,7 +3,10 @@
 /**
  * Module dependencies
  */
-var hosts = require('../controllers/hosts.server.controller');
+var path = require('path'),
+    hosts = require('../controllers/hosts.server.controller'),
+    tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
+    payment = require(path.resolve('./modules/payments/server/controllers/instamojo/instamojo-payments.server.controller'));
 
 module.exports = function (app) {
   // Articles collection routes
@@ -165,4 +168,10 @@ module.exports = function (app) {
 
   app.route('/api/host/postpaymentevents/')
     .post(hosts.postPaymentEventsAndProcess);
+
+  app.route('/api/host/booking/tracelog/:objectId')
+    .get(tracelog.fetchTraceLog)
+
+  app.route('/api/host/booking/payment/:bookingId')
+    .get(payment.fetchPaymentsForThisBooking)
 };

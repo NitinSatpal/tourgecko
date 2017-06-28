@@ -11,7 +11,6 @@ var path = require('path'),
  */
 var getUniqueErrorMessage = function (err) {
   var output;
-
   try {
     var begin = 0;
     if (err.errmsg.lastIndexOf('.$') !== -1) {
@@ -29,7 +28,6 @@ var getUniqueErrorMessage = function (err) {
   } catch (ex) {
     output = 'Unique field already exists';
   }
-
   return output;
 };
 

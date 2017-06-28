@@ -31,7 +31,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-// Insta.isSandboxMode(true);
+Insta.isSandboxMode(true);
 
 var smtpTransport = nodemailer.createTransport({
   service: config.mailer.service,
@@ -87,11 +87,12 @@ exports.signup = function (req, res) {
                 return res.status(400).send({
                   message: errorHandler.getErrorMessage(err)
                 });
+                console.log('the error is ' + err);
               } else {
                 // Do nothing
+                res.json(user);
               }
             });
-            res.json(user);
           }
         });
       }
@@ -229,7 +230,7 @@ exports.signupDetails = function(req, res, next) {
                     });
                   } else {
                     /* Get data for app based authentication */
-                    /*var data = new Insta.ApplicationBasedAuthenticationData();
+                    var data = new Insta.ApplicationBasedAuthenticationData();
                     data.client_id = config.paymentGateWayInstamojo.clientId;
                     data.client_secret = config.paymentGateWayInstamojo.clientSecret;
                     // App based authentication to get access token
@@ -308,7 +309,7 @@ exports.signupDetails = function(req, res, next) {
                           }
                         });
                       }
-                    }); */
+                    });
                   }
                 });
               });

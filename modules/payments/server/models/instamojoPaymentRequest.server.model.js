@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 /**
  * Booking Schema
  */
-var InstaomojoPaymentSchema = new Schema({
+var InstaomojoPaymentRequestSchema = new Schema({
 	instamojo_id : {
 	  	type: String
 	},
@@ -80,10 +80,14 @@ var InstaomojoPaymentSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	bookingId: {
+		type: Schema.ObjectId,
+		ref: 'Booking'
+	},
 	refundAmount: {
 		type: String,
 	}
 });
 
-mongoose.model('InstamojoPayments', InstaomojoPaymentSchema);
+mongoose.model('InstamojoPaymentRequest', InstaomojoPaymentRequestSchema);
 

@@ -9,11 +9,12 @@ var path = require('path'),
   Booking = mongoose.model('Booking'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
-  InstamojoPaymentRecord = mongoose.model('InstamojoPayments'),
+  InstamojoPaymentRequestRecord = mongoose.model('InstamojoPaymentRequest'),
   RazorpayPaymentRecord = mongoose.model('razorpayPayment'),
   Razorpay = require('razorpay'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
+  tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -21,7 +22,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-// Insta.isSandboxMode(true);
+Insta.isSandboxMode(true);
 
 var instance = new Razorpay({
   key_id: config.paymentGateWayRazorpay.razorpaykey_id,
@@ -78,7 +79,8 @@ function updateSession(booking, paymentURL, paymentRequestId) {
 };
 
 exports.searchBooking = function (req, res) {
-  var reference = req.params.bookingReference.charAt(0).toUpperCase() + req.params.bookingReference.slice(1);
+  // var reference = req.params.bookingReference.charAt(0).toUpperCase() + req.params.bookingReference.slice(1);
+  var reference = req.params.bookingReference;
   if (req.user) {
     Booking.find({bookingReference: reference}).sort('-created').populate('').exec(function (err, bookings) {
       if (err) {
@@ -304,6 +306,7 @@ exports.modifyBooking = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     }
+    var tracelogMessage = req.user.displayName + ' ' + req.body.bookingStatus + ' this booking.';
     if (req.body.bookingStatus == 'Confirmed') {
       // If the payment gateway behavior is internal, there is no need to check the paymentGateway variable as it will be constant.
       // For now, as I am integrating both to check the behavior, temporarily i will check the other variable also
@@ -326,7 +329,7 @@ exports.modifyBooking = function (req, res) {
                 if (fulfilPaymentError) {
                   res.json('Something went wrong. Please try again or contact tourgecko support');
                 } else {
-                  InstamojoPaymentRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
+                  InstamojoPaymentRequestRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
                     paymentRecord.instamojo_mark_fulfilled = true;
                     paymentRecord.save(function (paymentEditError, paymentEditResponse) {
                       if (paymentEditError)
@@ -338,6 +341,7 @@ exports.modifyBooking = function (req, res) {
                         if (bookingEditError) {
                           res.json(bookingEditError);
                         }
+                        tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
                         res.json('success')
                       });
                     })
@@ -391,7 +395,7 @@ exports.modifyBooking = function (req, res) {
       booking.save(function(err, success) {
         if (err)
           res.json('Something went wrong. Please try again or contact tourgecko support')
-
+        tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
         res.json('success')
       });
     }

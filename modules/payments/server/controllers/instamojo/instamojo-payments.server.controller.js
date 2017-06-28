@@ -9,8 +9,10 @@ var _ = require('lodash'),
   config = require(path.resolve('./config/config')),
   momentTimezone = require('moment-timezone'),
   InstamojoUser = mongoose.model('InstamojoUsers'),
-  InstamojoPaymentRecord = mongoose.model('InstamojoPayments'),
+  InstamojoPaymentRequestRecord = mongoose.model('InstamojoPaymentRequest'),
+  InstamojoPaymentRecord = mongoose.model('InstamojoPayment'),
   Booking = mongoose.model('Booking'),
+  tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   bookingRecordCreation = require(path.resolve('./modules/hosts/server/controllers/bookings/booking.server.controller'));
 
@@ -20,7 +22,7 @@ var Insta = require('instamojo-nodejs');
 //Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-// Insta.isSandboxMode(true);
+Insta.isSandboxMode(true);
 
 
 // Capture the payment.
@@ -54,24 +56,22 @@ exports.createInstamojoPayment = function (req, res) {
 
 		    Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
 			    if (paymentError) {
-            console.log(paymentError);
             res.json(paymentError);
 			      // some error
 			    } else {
-            console.log(paymentReqResponse);
             var userId = null;
             if (req.user)
               userId = req.user._id;
             bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
-            var instamojoPayment = new InstamojoPaymentRecord();
+            var instamojoPaymentRequest = new InstamojoPaymentRequestRecord();
             var commonPrefix = 'instamojo_';
-              for (var key in paymentReqResponse) {
-                if (paymentReqResponse.hasOwnProperty(key)) {
-                  var val = paymentReqResponse[key];
-                  instamojoPayment[commonPrefix + key] = val;
-                }
+            for (var key in paymentReqResponse) {
+              if (paymentReqResponse.hasOwnProperty(key)) {
+                var val = paymentReqResponse[key];
+                instamojoPaymentRequest[commonPrefix + key] = val;
               }
-            instamojoPayment.save();  
+            }
+            instamojoPaymentRequest.save(); 
 			      res.json(paymentReqResponse.longurl);
 			    }
 		    });
@@ -104,7 +104,7 @@ exports.refundInstamojoPayment = function (req, res) {
           if (refundPaymentError) {
             res.json('Something went wrong. Please try again or contact tourgecko support');
           } else {
-            InstamojoPaymentRecord.findOne({instamojo_id: req.body.paymentRequestId}).exec(function (err, paymentRecord) {
+            InstamojoPaymentRequestRecord.findOne({instamojo_id: req.body.paymentRequestId}).exec(function (err, paymentRecord) {
               paymentRecord.isRefundApplied = true;
               paymentRecord.refundAmount = refundAmount;
               paymentRecord.save(function (paymentEditError, success) {
@@ -120,6 +120,8 @@ exports.refundInstamojoPayment = function (req, res) {
                     if (bookingEditError) {
                       res.json('error');
                     }
+                    var tracelogMessage = req.user.displayName + ' Cancelled this booking.';
+                    tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
                     res.json('success')
                   });
                 });
@@ -129,5 +131,14 @@ exports.refundInstamojoPayment = function (req, res) {
         });
       }
     });
+  });
+}
+
+exports.fetchPaymentsForThisBooking = function (req, res) {
+  InstamojoPaymentRecord.find({bookingId: req.params.bookingId}).exec(function (err, instaPayments) {
+    if (err) {
+      res.json('Something went wrong. Please contact tourgecko support');
+    }
+    res.json(instaPayments);
   });
 }

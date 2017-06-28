@@ -141,14 +141,20 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* save selected date in case of fixed dated tours */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+    vm.validPricingOptions = [];
     vm.setSelectedDate = function (index) {
       vm.selectedDate = departureDates.get(index);
       vm.selectedBookingOptionIndex = index;
       vm.showErrorsOnTopOfStep1 = false;
 
-      for (var index = 0; index < vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails.length; index ++) {
-        if (vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].pricingType != 'Custom'
-          && vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].pricingType != 'Group')
+      if (vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].isSessionPricingValid)
+        vm.validPricingOptions = vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails;
+      else
+        vm.validPricingOptions = vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].product.productPricingOptions;
+
+      for (var index = 0; index < vm.validPricingOptions.length; index ++) {
+        if (vm.validPricingOptions[index].pricingType != 'Custom'
+          && vm.validPricingOptions[index].pricingType != 'Group')
           vm.pricingOptionIndexAndQuantity[index] = 0;
         else
           vm.pricingOptionIndexAndQuantity[index] = 'Please Select';
@@ -279,15 +285,15 @@ function calculatePrice () {
   for (var index = 0; index < vm.pricingOptionIndexAndQuantity.length; index ++) {
     if (parseInt(vm.pricingOptionIndexAndQuantity[index]) > 0 && vm.pricingOptionIndexAndQuantity[index] != 'Please Select') {
       totalSeatsForThisBooking = totalSeatsForThisBooking + parseInt(vm.pricingOptionIndexAndQuantity[index]);
-      if (vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].pricingType != 'Group'
-        || (vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].pricingType == 'Group'
-          && vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].groupOption == 'Per Person')) {
-        vm.totalCalculatedSeatPrice = vm.totalCalculatedSeatPrice +  (parseInt(vm.pricingOptionIndexAndQuantity[index]) * parseInt(vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].price));
-        vm.calculatedSeatPriceForselectedBookingOptions[index] = parseInt(vm.pricingOptionIndexAndQuantity[index]) * parseInt(vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].price);
+      if (vm.validPricingOptions[index].pricingType != 'Group'
+        || (vm.validPricingOptions[index].pricingType == 'Group'
+          && vm.validPricingOptions[index].groupOption == 'Per Person')) {
+        vm.totalCalculatedSeatPrice = vm.totalCalculatedSeatPrice +  (parseInt(vm.pricingOptionIndexAndQuantity[index]) * parseInt(vm.validPricingOptions[index].price));
+        vm.calculatedSeatPriceForselectedBookingOptions[index] = parseInt(vm.pricingOptionIndexAndQuantity[index]) * parseInt(vm.validPricingOptions[index].price);
     }
       else {
-        vm.totalCalculatedSeatPrice = vm.totalCalculatedSeatPrice + parseInt(vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].price);
-        vm.calculatedSeatPriceForselectedBookingOptions[index] = parseInt(vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[index].price);
+        vm.totalCalculatedSeatPrice = vm.totalCalculatedSeatPrice + parseInt(vm.validPricingOptions[index].price);
+        vm.calculatedSeatPriceForselectedBookingOptions[index] = parseInt(vm.validPricingOptions[index].price);
       }
     }
   }
@@ -393,6 +399,15 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
   else
     return false;
 }
+
+vm.areAddonsSelected = function () {
+  for (var index = 0; index < vm.addonOptionIndexAndQuantity.length; index ++ ) {
+    if (vm.addonOptionIndexAndQuantity[index] > 0)
+      return true;
+  }
+
+  return false;
+}
 /* ------------------------------------------------------------------------------------------------------------------------- */    
    /* Booking object creation function */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -409,7 +424,10 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
         bookingObject.isOpenDateTour = false;
         bookingObject.productSession = vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex]._id;
       }
-      
+      bookingObject.selectedpricingoptionindexandquantity = vm.pricingOptionIndexAndQuantity;
+      bookingObject.selectedaddonoptionsindexandquantity = vm.addonOptionIndexAndQuantity;
+      bookingObject.selectedpricingoptionindexandprice = vm.calculatedSeatPriceForselectedBookingOptions;
+      bookingObject.selectedaddonoptionsindexandprice = vm.calculatedAddonPriceForSelectedAddonOptions;
       bookingObject.numberOfSeats = totalSeatsForThisBooking;
       bookingObject.numberOfAddons = totalAddonForThisBooking;
       bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime();
@@ -419,11 +437,14 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
       bookingObject.depositPaid = 0;
       // For now assign the calculated amount, but need to handle this when payment option is integrated as user can opt to pay only deposit.
       // Or may be some tours do not ask upfront payment
+      bookingObject.totalAmountToBePaid = vm.totalPayablePrice;
       bookingObject.totalAmountPaid = vm.totalPayablePrice;
-      bookingObject.totalAmountPaidForProduct = vm.totalCalculatedSeatPrice;
-      bookingObject.totalAmountPaidForAddons = vm.totalcalculatedAddonPrice;
+      bookingObject.totalAmountForProduct = vm.totalCalculatedSeatPrice;
+      bookingObject.totalAmountForAddons = vm.totalcalculatedAddonPrice;
       bookingObject.paymentMode = 'tourgecko Wallet';
-
+      //
+      if ($location.search().via == 'bookButton')
+         bookingObject.bookedVia = 'Book Button'
       var bookingData = {bookingDetails: bookingObject, productData: vm.bookingProductDetails}
 
       /*$http.post('/api/host/booking', bookingData).success(function (response) {
@@ -524,7 +545,7 @@ vm.checkIfTheBookingOptionIsSelected = function (index) {
     }
 
     vm.getDynamicCSSForAddonSection = function () {
-      if (vm.bookingProductDetails.productAddons[0].name == '') {
+      if (vm.bookingProductDetails && vm.bookingProductDetails.productAddons[0].name == '') {
         var cssObject = {
           "border-top" : "none"
         };

@@ -32,7 +32,6 @@
     vm.getDepartureDateOfBookings = function (index) {
       var displayDate;
       if (vm.bookings[index]) {
-        console.log(vm.bookings[index]);
         if (vm.bookings[index].isOpenDateTour) {
           var date = new Date(vm.bookings[index].openDatedTourDepartureDate);
           displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();

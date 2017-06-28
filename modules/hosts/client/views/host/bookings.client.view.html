@@ -13,132 +13,176 @@
 					<h2 ng-if="vm.bookings.length == 0">Bookings<br>
 						<span class="sub_head">No bookings</span>
 					</h2>                           
-					<div class="pull-right">
-                    	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#select-tour-type" ng-click="vm.searchThisBooking(vm.BookingReferenceToBeSearched)" ng-if="vm.noSearchQueryFired">
-                    		<i class="zmdi zmdi-search"></i>&nbsp;Search
-                    	</a>
-                    	<a class="btn btn-primary pull-right" ng-click="vm.clearAllFilterOnBookingRecords()" ng-if="!vm.noSearchQueryFired" style="background-color: #ED9C28">
-                    		<i class="fa fa-eraser" aria-hidden="true"></i>&nbsp;Clear
-                    	</a>
-                    	<input type="text" class="form-control" placeholder="Booking Reference" ng-model="vm.BookingReferenceToBeSearched">   
-                	</div>    
-				</div>
-                    
-                <div class="booking-filters" ng-if="vm.bookings.length > 0 || vm.filterApplied">
-                    <div class="margin padding text-center">
-                        <div id="filter-dropdown" class="dropdown">
-                        	<h4><i class="zmdi zmdi-filter-list icn_orange"></i>&nbsp;Filter By:</h4>
-	                        <a href="" id="filter-dropdown-button" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" role="button" aria-haspopup="true" aria-expanded="false">Booking Status 
-	                        	<i class="fa fa-caret-up pull-right" aria-hidden="true"></i>
-	                        	<i class="fa fa-caret-down pull-right" aria-hidden="true"></i>
-	                        </a>
-							<div class="dropdown-menu" id="filter-options">
-								<div class="row product-booking-tab-filter-dropdown">
-									<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-										<div class="o-checkbox">
-											<input type="checkbox" value="None" name="" id="filter-checkbox-one" class="" ng-model="vm.selectedFiltersForBookingRecords[0]">
-											<label for="filter-checkbox-one"></label>
-											<span class="filterName">Pending</span>
-										</div>
-								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-										<div class="o-checkbox">
-											<input type="checkbox" value="None" name="" id="filter-checkbox-two" class="" ng-model="vm.selectedFiltersForBookingRecords[1]">
-											<label for="filter-checkbox-two"></label>
-											<span class="filterName">Confirmed</span>
-										</div>
-								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
-										<div class="o-checkbox">
-											<input type="checkbox" value="None" name="" id="filter-checkbox-three" class="" ng-model="vm.selectedFiltersForBookingRecords[2]">
-											<label for="filter-checkbox-three"></label>
-											<span class="filterName">Declined</span>
-										</div>
-								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
-										<div class="o-checkbox">
-											<input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
-											<label for="filter-checkbox-four"></label>
-											<span class="filterName">Cancelled</span>
-										</div>
-								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
-										<div class="o-checkbox">
-											<input type="checkbox" value="None" name="" id="filter-checkbox-five" class="" ng-model="vm.selectedFiltersForBookingRecords[4]">
-											<label for="filter-checkbox-five"></label>
-											<span class="filterName">Expired</span>
-										</div>
-								    </div>
-							    </div>
-							    <div class="row">
-								    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 30px;">
-										<button type="button" class="btn btn-warning btn-Select-filter" ng-click="vm.applySelectedFiltersOnBookingRecords()">Apply Filters</button>
-								    </div>
-								    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 30px;">
-										<button type="button" class="btn btn-default btn-clear-filter" ng-click="vm.clearAllFilterOnBookingRecords()">Clear Filters</button>
-								    </div>
-							    </div>
-							    <div class="row product-booking-tab-filter-dropdown">
-							    	<div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6"  style="margin-top: 30px;">
-								    	<div class="o-checkbox">
-										    <input type="checkbox" value="None" name="" id="remember-filters" class="" ng-change="vm.setFilterPreferences()" ng-model="vm.rememberFilterPreferences">
-											<label for="remember-filters"></label>
-											<span class="filterName">Remember my filter preferences</span>
-										</div>
-									</div>
-							    </div>
-							</div>
-						</div>
+				
+				</div>                     
+                <div class="row booking-list-version-2">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="nav-bookings padding-top padding-bottom pull-left margin-none-left padding-none-left margin-none-bottom">
+                            <li id="allBookings" class="inline-block margin-right active">
+                            	<a href="" ng-click="vm.categorizedBooking('All', true)" onclick="showLoaderForFilters('#allBookings')">All</a>
+                            </li>
+                            <li id="pendingBookings" class="inline-block margin-right">
+                            	<a href="#" ng-click="vm.categorizedBooking('Pending', true)"  onclick="showLoaderForFilters('#pendingBookings')">Pending</a>
+                            </li>
+                            <li id="confirmedBookings" class="inline-block margin-right">
+                            	<a href="#" ng-click="vm.categorizedBooking('Confirmed', true)" onclick="showLoaderForFilters('#confirmedBookings')">Confirmed</a>
+                            </li>
+                            <li id="cancelledBookings" class="inline-block margin-right">
+                            	<a href="#" ng-click="vm.categorizedBooking('Cancelled', true)" onclick="showLoaderForFilters('#cancelledBookings')">Cancelled</a>
+                            </li>
+                        </ul>
+                            
+                        <div class="pull-right padding-top padding-bottom">
+                            <a class="card-layout-cta active margin-right" href="#"><i class="zmdi zmdi-view-agenda"></i> Cards</a>
+                            <a class="table-layout-cta" href="#"><i class="zmdi zmdi-grid"></i> Table</a>
+                        </div>
+                    </div>
+                                    
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom booking-list-filters">
+                        <div class="divider-common margin-bottom"></div>
+                      	<form class="pull-left">
+                            <!-- <div class="dropdown pull-left margin-right margin-bottom">
+                                <a class="btn btn-default outline dropdown-toggle" data-toggle="dropdown">Filter bookings
+                                    <span class="caret margin-left"></span>
+                                </a>
+                                <div class="dropdown-menu apply-filters-callout padding">
+                                    <div class="filters">
+                                        <select class="form-control margin-bottom">
+                                            <option value="volvo">Select a value</option>
+                                            <option value="volvo">Volvo</option>
+                                            <option value="saab">Saab</option>
+                                            <option value="mercedes">Mercedes</option>
+                                            <option value="audi">Audi</option>
+                                        </select>
+                                        <select class="form-control margin-bottom">
+                                        	<option value="volvo">Select a value</option>
+                                          	<option value="volvo">Volvo</option>
+                                          	<option value="saab">Saab</option>
+                                          	<option value="mercedes">Mercedes</option>
+                                          	<option value="audi">Audi</option>
+                                        </select>
+                                        <a href="#" class="btn btn-primary btn-apply-filters">Add filters</a>
+                                    </div>
+                                </div>
+                        	</div> -->
+                        		
+                            <div class="bookings-search pull-left margin-bottom">
+                                <input type="text" class="form-control booking-search-input" placeholder="Search by Booking ID" ng-model="vm.BookingReferenceToBeSearched">   
+                                <a class="btn btn-default margin-left" ng-click="vm.searchThisBooking(vm.BookingReferenceToBeSearched)">
+                                	<i class="zmdi zmdi-search"></i>&nbsp;<span class=" hidden-xs">Search</span>
+                                </a>
+                            </div>
+                                
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span class="applied-filters label label-default pull-left margin-right padding">
+                                Volvo
+                                	<a href="#" class="remove-filter margin-left">
+                                		<i class="zmdi zmdi-close"></i>
+                                	</a>
+                                </span>
+                                <span class="applied-filters label label-default pull-left margin-right padding">
+                                Benz
+                                	<a href="#" class="remove-filter margin-left">
+                                		<i class="zmdi zmdi-close"></i>
+                                	</a>
+                                </span>
+                            </div> -->
+                    	</form>
                     </div>
                 </div>
-                
-                <div ng-repeat="booking in vm.bookings">   
-					<div class="card">
-	                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
-	                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-	                            <h4>Booking Ref: <strong>{{booking.bookingReference}}</strong></h4>
-	                        </div>
-	                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-	                            <a href="#" class="pull-right booking-user">
-	                            	<img alt="user image" src="{{booking.user.profileImageURL != undefined ? booking.user.profileImageURL : 'modules/users/client/img/profile/default.png'}}" class="margin-right booking-user-image">{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}
-	                            </a>
-	                        </div>
-	                    </div>
-	                    <div id="bookingCard" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top">
-	                        <div class="col-lg-2 text-center margin-bottom">
-	                            <div class="redBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Declined'">
-	                                <i class="zmdi zmdi-calendar-close margin-top"></i>
-	                            </div>
-	                           
-	                            <div class="orangeBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Pending'">
-	                            	<i class="zmdi zmdi-time-interval margin-top"></i>
-	                           	</div>
-	                           	<div class="greenBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Confirmed'">
-	                               	<i class="zmdi zmdi-case-check margin-top"></i>
-	                           	</div>
-
-	                            <span class="sub_desc">{{booking.bookingStatus}}</span>
-	                        </div>
-	                        <div ng-class="vm.getCSSClassForBigScreens()">
-	                            <ul class="cleared">
-	                                <li><span class="content-primary">Created on</span>
-	                                    <span class="content-secondary">{{vm.getDisplayDate(booking.created)}}</span></li>    
-	                                <li><span class="content-primary">Tour</span>
-	                                    <span class="content-secondary">{{booking.product.productTitle}}</span></li>
-	                                <li><span class="content-primary">Departure</span>
-	                                    <span class="content-secondary">{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span></li>
-	                                <li><span class="content-primary">No. of seats</span>
-	                                    <span class="content-secondary">{{booking.numberOfBookings}}</span></li>
-	                                <li><span class="content-primary">Total Amount</span>
-	                                    <span class="content-secondary"><strong class="orange-text">{{booking.totalAmountPaid}}</strong></span></li>
-	                            </ul>
-	                        </div>
-	                    </div>
-	                    <a id="anchorTagForBookingDetails" href="#" ng-click="vm.goToBookingDetailScreen($index)" class="gotToBookingDetails"> Go to Details </a>
+                <div class="card-layout">
+					<div class="card margin-top" ng-repeat="booking in vm.bookings">
+                        <div ng-click="vm.goToBookingDetails(booking._id)">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 booking-ref">
+                                    <h5>Booking ID: <strong>{{booking.bookingReference}}</strong></h5>
+                                </div>
+                               	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 booking-user-parent">
+                                 	<a href="#" class="pull-right booking-user">
+                                 		<img alt="user image" src="{{booking.user.profileImageURL != undefined ? booking.user.profileImageURL : 'modules/users/client/img/profile/default.png'}}" class="margin-right booking-user-image">{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}
+                                 	</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding-top">
+                                <div class="col-lg-2 text-center margin-bottom">
+                                    <div class="bg_orange circle booking-status-icon margin-auto" ng-if="booking.bookingStatus == 'Pending'">
+                                        <i class="zmdi zmdi-calendar-close margin-top"></i>
+                                    </div>
+                                    <div class="bg_red circle booking-status-icon margin-auto" ng-if="booking.bookingStatus == 'Declined'">
+                                        <i class="zmdi zmdi-calendar-close margin-top"></i>
+                                    </div>
+                                    <div class="bg_green circle booking-status-icon margin-auto" ng-if="booking.bookingStatus == 'Confirmed'">
+                                        <i class="zmdi zmdi-calendar-close margin-top"></i>
+                                    </div>
+                                    <div class="bg_grey circle booking-status-icon margin-auto" ng-if="booking.bookingStatus == 'Cancelled'">
+                                        <i class="zmdi zmdi-calendar-close margin-top"></i>
+                                    </div>
+                                    <br>
+                                    <span class="sub_desc">{{booking.bookingStatus}}</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="cleared card-booking-details margin-top">
+                                    	<li>
+                                    		<span class="content-primary">Created on</span>
+                                           	<span class="content-secondary">{{vm.getDisplayDate(booking.created)}}</span>
+                                        </li>    
+                                       	<li>
+                                       		<span class="content-primary">Tour</span>
+                                           	<span class="content-secondary">{{booking.product.productTitle}}</span>
+                                        </li>
+                                       	<li>
+                                       		<span class="content-primary">Departure</span>
+                                           	<span class="content-secondary">{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
+                                        </li>
+                                       	<li>
+                                       		<span class="content-primary">No. of seats</span>
+                                           	<span class="content-secondary">{{booking.numberOfBookings}}</span>
+                                        </li>
+                                       	<li>
+                                       		<span class="content-primary">Amount</span>
+                                           	<span class="content-secondary"><strong class="orange-text">{{booking.totalAmountPaid}}</strong></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 					</div>
-				 </div>
-				 <div class="row text-center">
-					<div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.pageTo > 1">
+				</div>
+                <div class="list-layout hide">
+                    <div class="card table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th># Id</th>
+                                    <th>Name</th>
+                                    <th>Created on</th>
+                                    <th>Tour</th>
+                                    <th>Departure</th>
+                                    <th># Seats</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="booking in vm.bookings">
+                                    <td><a href="#" ng-click="vm.goToBookingDetails(booking._id)">{{booking.bookingReference}}</a></td>
+                                    <td>{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}</td>
+                                    <td>{{vm.getDisplayDate(booking.created)}}</td>
+                                    <td>{{booking.product.productTitle}}</td>
+                                    <td>{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</td>
+                                    <td>{{booking.numberOfBookings}}</td>
+                                    <td>{{booking.totalAmountPaid}}</td>
+                                    <td ng-if="booking.bookingStatus == 'Pending'"><i class="zmdi zmdi-circle orange-text"></i></td>
+                                    <td ng-if="booking.bookingStatus == 'Confirmed'"><i class="zmdi zmdi-circle green-text"></i></td>
+                                    <td ng-if="booking.bookingStatus == 'Declined'"><i class="zmdi zmdi-circle red-text"></i></td>
+                                    <td ng-if="booking.bookingStatus == 'Cancelled'"><i class="zmdi zmdi-circle grey-text"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+				<div class="row text-center" ng-if="vm.pageTo > 5">
+					<div class="col-sm-12 col-md-12 col-lg-12" >
 						<div class="pagination">
 							<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>
 							<a href="#" ng-click="vm.decrementPageNumber()" style="margin-right: 10px;">&lsaquo;</a>
@@ -175,7 +219,7 @@
 		</div>
 	</div>
 </div>
-<div id="bookingFilterMobileModal" class="modal bookingFilterMobileModal" tabindex="-1" role="dialog">
+<!--<div id="bookingFilterMobileModal" class="modal bookingFilterMobileModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content bookingFilterMobileModalContent">
             <div class="modal-header">
@@ -209,7 +253,7 @@
 						<div class="o-checkbox">
 							<input type="checkbox" value="None" name="" id="filter-checkbox-four" class="" ng-model="vm.selectedFiltersForBookingRecords[3]">
 							<label for="filter-checkbox-four"></label>
-							<span class="filterName">Cancelled</span>
+							<span class="filterName">Canceled</span>
 						</div>
 				    </div>
 				    <div  class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-top: 10px;">
@@ -242,7 +286,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
 
 <script>
@@ -303,6 +347,49 @@
 			$("#bookingFilterMobileModal").toggle("slow");
 		}
 	});
+
+	$(document).ready(function(){
+		//Handles menu drop down
+		$('.apply-filters-callout').find('.filters').click(function (e) {
+			e.stopPropagation();
+		});
+	});
 	
+	$("a.btn-apply-filters").click(function() {
+	   $(".apply-filters-callout").dropdown("toggle");
+	   $(".applied-filters").css('display', 'block');
+	});
+	
+	
+	(function() {
+	    $(".remove-filter").click(function(e) {
+		  e.preventDefault();
+		  $(this).parent().hide();
+	    });
+	})(jQuery);
+	
+    var lastClickedElement = 'All';
+	$(".card-layout-cta").click(function() {
+        console.log(lastClickedElement);
+		$(".list-layout").addClass("hide");
+		$(".card-layout").removeClass("hide");
+		$(".table-layout-cta").removeClass("active");
+		$(this).addClass("active");
+	});
+	
+	$(".table-layout-cta").click(function(){
+		$(".list-layout").removeClass("hide");
+		$(".card-layout").addClass("hide");
+		$(".card-layout-cta").removeClass("active");
+		$(this).addClass("active");
+		
+	});
+    function showLoaderForFilters (id) {
+        $(".nav-bookings").find(".active").removeClass("active");
+        $(id).addClass('active');
+        $(".nav-bookings a").css('text-decoration', 'none');
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#tourgeckoBody').addClass('waitCursor');
+    }
 </script>
 	

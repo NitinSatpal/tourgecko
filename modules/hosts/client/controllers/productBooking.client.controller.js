@@ -96,10 +96,55 @@
         $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
-
+    vm.validPricingOptions = [];
     if($stateParams.bookingId != null) {
       $http.get('/api/host/booking/'+ $stateParams.bookingId).success(function (response) {
         vm.specificBookingDetails = response;
+        vm.bookingOptionsSelected = vm.specificBookingDetails.selectedpricingoptionindexandquantity;
+        vm.addonOptionsSelected = vm.specificBookingDetails.selectedaddonoptionsindexandquantity;
+
+        if (vm.specificBookingDetails.productSession.isSessionPricingValid)
+          vm.validPricingOptions = vm.specificBookingDetails.productSession.sessionPricingDetails;
+        else
+          vm.validPricingOptions = vm.specificBookingDetails.product.productPricingOptions;
+
+        var date;
+        if (vm.specificBookingDetails.isOpenDateTour == true)
+          date = new Date(vm.specificBookingDetails.openDatedTourDepartureDate);
+        else
+          date = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
+
+        var year = date.getFullYear().toString();
+        var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
+        $('#startDateOfTheTour').attr("value", startDateOfTheTour);
+
+        if (vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {
+          var hourPart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[0];
+          var minutePart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[1].split(' ')[0];
+          var dayTime = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[1].split(' ')[1];
+          if (dayTime == 'AM') {
+            if (parseInt(hourPart) == 12)
+              hourPart = '00';
+            else
+              hourPart = parseInt(hourPart) < 10 ? '0' + hourPart : hourPart;
+          } else {
+            if (parseInt(hourPart) < 12)
+              hourPart = 12 + parseInt(hourPart);
+          }
+
+          var startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
+            $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
+          }
+      });
+
+      $http.get('/api/host/booking/tracelog/'+ $stateParams.bookingId).success(function (response) {
+        vm.log = response;
+      });
+
+      $http.get('/api/host/booking/payment/'+ $stateParams.bookingId).success(function (response) {
+        vm.paymentsOfThisBooking = response;
       });
     }
 
@@ -525,7 +570,14 @@
       $('#filter-dropdown-button').click();
     }
 
-    function categorizedBooking (filterKeys, startFromTop) {
+     vm.categorizedBooking = function(filterKeys, startFromTop) {
+      vm.BookingReferenceToBeSearched = '';
+      vm.bookings.length = 0;
+      if (filterKeys == 'All') {
+        fetchAllBookingRecords();
+        return;
+      }
+
       var itemsPerPageSelected = parseInt(vm.numberOfItemsInOnePage);
       $http.post('/api/host/categorizedBooking/' ,{categoryKeys: filterKeys,
         pageNumber: vm.currentPageNumber,
@@ -574,9 +626,11 @@
     }
 
     vm.searchThisBooking = function (bookingReference) {
+      $(".nav-bookings").find(".active").removeClass("active");
       $http.get('/api/host/booking/search/' + bookingReference).success(function (response) {
         vm.noSearchQueryFired = false;
         vm.bookings = response;
+        console.log(vm.bookings);
       });
     }
 
@@ -590,6 +644,28 @@
     vm.getCSSClassForBigScreens = function () {
       if ($window.innerWidth > 767)
         return "col-lg-6";
+    }
+
+    vm.goToBookingDetails = function (id) {
+      $state.go('host.bookingdetails', {bookingId: id});
+    }
+
+    vm.checkIfTheBookingOptionIsSelected = function (index) {
+      if (parseInt(vm.bookingOptionsSelected[index]) > 0 && vm.bookingOptionsSelected[index] != 'Please Select')
+        return true;
+      else
+        return false;
+    }
+
+    vm.areAddonsSelected = function () {
+      if (vm.addonOptionsSelected) {
+        for (var index = 0; index < vm.addonOptionsSelected.length; index ++ ) {
+          if (vm.addonOptionsSelected[index] > 0)
+            return true;
+        }
+
+        return false;
+      }
     }
   }
 }());

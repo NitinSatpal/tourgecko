@@ -229,8 +229,11 @@
       }
     }
 
-    vm.findSessionPricingDetails = function (index) {
-      
+    vm.goTobookingPageOfThisProduct = function () {
+      if($location.search().via == 'bookButton')
+        $state.go('guest.booking', {productId: vm.productDetails._id, via: 'bookButton'});
+      else
+        $state.go('guest.booking', {productId: vm.productDetails._id});
     }
 
     vm.goToHostSocialSite = function (socialSite) {
