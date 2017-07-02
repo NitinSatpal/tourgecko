@@ -66,7 +66,7 @@
                                 </div>
                         	</div> -->
                         		
-                            <div class="bookings-search pull-left margin-bottom">
+                            <div class="bookings-search pull-left margin-bottom" ng-if="vm.bookings.length > 0">
                                 <input type="text" class="form-control booking-search-input" placeholder="Search by Booking ID" ng-model="vm.BookingReferenceToBeSearched">   
                                 <a class="btn btn-default margin-left" ng-click="vm.searchThisBooking(vm.BookingReferenceToBeSearched)">
                                 	<i class="zmdi zmdi-search"></i>&nbsp;<span class=" hidden-xs">Search</span>
@@ -132,7 +132,7 @@
                                         </li>
                                        	<li>
                                        		<span class="content-primary">Departure</span>
-                                           	<span class="content-secondary">{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
+                                           	<span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
                                         </li>
                                        	<li>
                                        		<span class="content-primary">No. of seats</span>
@@ -148,7 +148,7 @@
                         </div>
 					</div>
 				</div>
-                <div class="list-layout hide">
+                <div class="list-layout hide" id="listViewOfBookings">
                     <div class="card table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -309,6 +309,7 @@
 	    $('#filter-dropdown-button').css("border-bottom-color","lightgrey")
 		$('#filter-dropdown-button').css("border-bottom-right-radius", "3px");
 		$('#filter-dropdown-button').css("border-bottom-left-radius", "3px");
+        $("#allBookings").click();
 	});
 	$(document).on("click", "#filter-dropdown-button", function(event) {
 		if ($("#filter-dropdown").hasClass("open")) {

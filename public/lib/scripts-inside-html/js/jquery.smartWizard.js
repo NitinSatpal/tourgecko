@@ -304,7 +304,8 @@ $(document).ready(function() {
             },
             drawDay: function(lastDayOfMonth, yearNum, monthNum, dayNum, i) {
                 var calcDate, dateNow, dateString, day, dayDate, pastFutureClass;
-                day = $("<div></div>").addClass("day");
+                var dayId = dayNum.toString() + monthNum.toString() + yearNum.toString();
+                day = $("<div></div>").addClass("day").attr("id",dayId).attr('onclick', 'makeThisDayActive(this)');
                 dateNow = new Date();
                 dateNow.setHours(0, 0, 0, 0);
                 dayDate = new Date(yearNum, monthNum - 1, dayNum);

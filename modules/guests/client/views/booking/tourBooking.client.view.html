@@ -25,7 +25,7 @@
                             <p>
                                 <span>Options</span>
                             </p>
-                            <small class="host-guest-common-style-btn-text text-lighten-1">
+                            <small class="host-guest-common-style-btn-text text-lighten-1" ng-if="vm.totalPayablePrice != 0">
                                 <span class="currency"> &#8377;</span> {{vm.totalPayablePrice}}
                             </small>
                         </div>
@@ -42,8 +42,8 @@
                 </div>
                 <form role="form" action="" method="post" name="vm.bookingForm" novalidate autocomplete="off">
                     <div class="row setup-content" id="step-1">
-                        <div class="col-xs-12" ng-if="vm.sessionsOfThisProduct.length <= 20 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
-                            <div class="booing-form-box">
+                        <div class="col-xs-12" ng-if="vm.sessionsOfThisProduct.length <= 3 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(1)">
                                 <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
                                     <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
                                         <div class="row">
@@ -78,14 +78,39 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12" style="margin-bottom: 10px;" ng-if="vm.sessionsOfThisProduct.length > 20 || vm.bookingProductDetails.productAvailabilityType == 'Open Date'">
+                        <div class="col-xs-12" style="margin-bottom: 10px;" ng-click="vm.hideErrorsIfExists(1)">
+                            <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
+                                <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                                            <span>  
+                                                <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in departure date selection</h5>
+                                                <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in departure date selection</h5>
+                                                <ul>
+                                                    <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                                </ul>
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <br>
                             <br>
-                            <div class="responsive-calendar">
+                            <div class="responsive-calendar" id="bookingDateSelector">
                                 <div class="controls">
-                                    <a class="pull-left" data-go="prev"><img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px"></a>
-                                    <h4><span data-head-year></span> <span data-head-month></span></h4>
-                                    <a class="pull-right" data-go="next"><img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px" style="transform: rotate(180deg)"></a>
+                                    <a class="pull-left" data-go="prev" ng-click="findUnavailableMonthsAndDates('prev')">
+                                        <img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px">
+                                    </a>
+                                    <h4>
+                                        <span data-head-year></span>
+                                        <span data-head-month></span>
+                                    </h4>
+                                    <a class="pull-right" data-go="next" ng-click="findUnavailableMonthsAndDates('next')">
+                                        <img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px" style="transform: rotate(180deg)">
+                                    </a>
                                 </div>
                                 <hr/>
                                 <div class="day-headers">
@@ -108,43 +133,22 @@
                                     <li><span class="calendar-info-unavilable"></span><small>Unavailable</small></li>
                                 </ul>
                             </div>
-                            <div class="col-xs-12 preferred-time-wrapper">
+                            <div class="col-xs-12 preferred-time-wrapper" ng-if="vm.timesForThisDate.length > 0">
                                 <label class="preferred-time">
-                                    <span><i class="fa fa-clock-o orange-text"></i>Preferred time</span> </label>
+                                    <span><i class="fa fa-clock-o orange-text"></i>Preferred time</span>
+                                </label>
                                 <div class="dropdown show-btn">
-                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">3 : 00 AM to 10 PM Available
-                                        <span class="caret"></span></button>
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> {{vm.selectedTimeslot}}
+                                        <span class="selected"></span>
+                                        <span class="caret"></span>
+                                    </button>
                                     <ul class="dropdown-menu per-page-count">
-                                        <li><a href="#">3 AM - 2 remaining</a></li>
-                                        <li><a href="#">4 PM - 5 remaining</a></li>
-                                        <li><a href="#">10 PM - 4 remaining</a></li>
+                                        <li ng-repeat="time in vm.timesForThisDate track by $index">
+                                            <a href="" ng-click="vm.selectedTimeslot = time">{{time}}</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
-                            <script src="../js/jquery.js"></script>
-                            <script src="../js/bootstrap.min.js"></script>
-                            <script src="../js/responsive-calendar.js"></script>
-                            <script type="text/javascript">
-                            $(document).ready(function() {
-                                $(".responsive-calendar").responsiveCalendar({
-                                    time: '2017-06',
-                                    events: {
-                                        "2017-06-30": {
-                                            "number": 5,
-                                            "url": "http://w3widgets.com/responsive-slider"
-                                        },
-                                        "2017-06-26": {
-                                            "number": 1,
-                                            "url": "http://w3widgets.com"
-                                        },
-                                        "2017-06-03": {
-                                            "number": 1
-                                        },
-                                        "2017-06-12": {}
-                                    }
-                                });
-                            });
-                            </script>
                         </div>
                         <div class="col-xs-12">
                             <div class="host-guest-common-style-row form-np-btn">
@@ -154,7 +158,7 @@
                     </div>
                     <div class="row setup-content" id="step-2">
                         <div class="col-xs-12">
-                            <div class="booing-form-box">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(2)">
                                 <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep2">
                                     <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
                                         <div class="row">
@@ -303,7 +307,7 @@
                     </div>
                     <div class="row setup-content" id="step-3">
                         <div class="col-xs-12">
-                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists()">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(3)">
                                 <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep3">
                                     <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
                                         <div class="row">
@@ -494,13 +498,13 @@
                         </div>
                     </div>
                     <div class="col-xs-12 text-center mar5">
-                        <a href="#" type="button" name="req" class="btn btn-default orange-text req-btn" value=""><i class="zmdi zmdi-email"></i>Contact Us</a>
+                        <a href="" type="button" name="req" class="btn btn-default orange-text req-btn" value=""><i class="zmdi zmdi-email"></i>Contact Us</a>
                     </div>
                     <div class="col-xs-12 text-center mar5">
                         <div class="chip">
-                            <a href="tel:+919867101299"><img src="modules/core/client/img/hostGuestCommonImages/icn_call.svg" alt="Contact Person"></a>
-                            <span class="grey-text"></span> <a href="tel:+919867101299" class="text-lighten-1"><strong>+91-98673-4560</strong></a>
-                            <div class="avl-time-wrapper"><span class="">10:00AM</span> to <span class="">5:00PM </span>IST</div>
+                            <a href="tel:{{vm.companyData.inquiryMobile}}"><img src="modules/core/client/img/hostGuestCommonImages/icn_call.svg" alt="Contact Person"></a>
+                            <span class="grey-text"></span> <a href="tel:+919867101299" class="text-lighten-1"><strong>{{vm.companyData.inquiryMobile}}</strong></a>
+                            <div class="avl-time-wrapper"><span class="">{{vm.getInquiryHours()}}</div>
                         </div>
                     </div>
                 </div>
@@ -516,10 +520,46 @@
                 
     <script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 </div>
-<p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko</p>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>
 <script>
     $(document).ready(function() {
         $('#stepwizard-step #fixedDepartureStep1').click();
     });
+
+    function generateCalendar() {
+        var date = new Date();
+        var year = date.getFullYear().toString();
+        var month = date.getMonth() + 1;
+        month = month < 10 ? '0' + month.toString() : month.toString();
+        var currentMonth = year + '-' + month;
+        angular.element('#host-guest-common-style').scope().findUnavailableMonthsAndDates(date.getMonth(), year);
+        $("#bookingDateSelector").responsiveCalendar({
+            time: currentMonth,
+            events: {
+                /*"2017-06-30": {
+                    "number": 5,
+                    "url": "http://w3widgets.com/responsive-slider"
+                },
+                "2017-06-26": {
+                    "number": 1,
+                    "url": "http://w3widgets.com"
+                },
+                "2017-06-03": {
+                    "number": 1
+                },
+                "2017-06-12": {}*/
+            }
+        });
+    }
+
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    function makeThisDayActive (makeThisElementActive) {
+        var date = $(makeThisElementActive).children().attr("data-day") + '-' + months[$(makeThisElementActive).children().attr("data-month") - 1] + '-' + $(makeThisElementActive).children().attr("data-year");
+        var displayDate = angular.element('#bookingDateSelector').scope().getDepartureDate(date, -1);
+        
+        angular.element('#bookingDateSelector').scope().setThisDateAsSelected(displayDate);
+        
+        $(makeThisElementActive).parent().find('div').removeClass("active");
+        $(makeThisElementActive).addClass('active');
+    }
 </script>

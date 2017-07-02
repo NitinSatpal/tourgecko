@@ -57,6 +57,7 @@
     vm.isNewPricingApplicableOnOldSessions = false;
     vm.isNewPricingApplicableOnNewSessions = false;
     vm.saveBtnDisabled = true;
+    $scope.timeslotsTracker = new Set();
     $scope.timeslots = [];
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
@@ -254,8 +255,10 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
 
           $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
 
-          if (vm.tour.productTimeSlotsAvailability == 'Fixed Slots')
+          if (vm.tour.productTimeSlotsAvailability == 'Fixed Slots' && vm.tour.productTimeSlots.length > 0) {
             createTimeslotsEditMode(vm.tour.productTimeSlots);
+            $scope.timeslots = vm.tour.productTimeSlots;
+          }
           
           vm.productAvailabilityType = vm.tour.productAvailabilityType;
 
@@ -276,7 +279,9 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
           previousPricingOption = vm.tour.productPricingOptions;
+            
           vm.showCreatedItinerary = true;
+          
           for(var index = 0; index < vm.tour.productTags.length; index++) {
             if(standardTagSet.has(vm.tour.productTags[index])) {
               $timeout(function() {
@@ -700,6 +705,7 @@ vm.openDepartureSessionModal = function() {
   }
 }
 
+var createdSessionTracker = new Set();
 vm.createDepartureSession = function () {
   if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
     toasty.error({
@@ -734,6 +740,24 @@ vm.createDepartureSession = function () {
     });
     return false;
   }
+  var sessionCreatedTimestamp;
+  if ($('#dsTimeSlot').val() == undefined || $('#dsTimeSlot').val() == '' || $('#dsTimeSlot').val() == ' ')
+    sessionCreatedTimestamp = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).getTime().toString() + 'NA';
+  else
+    sessionCreatedTimestamp = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).getTime().toString() + $('#dsTimeSlot').val().toString();
+
+  if (createdSessionTracker.has(sessionCreatedTimestamp)) {
+    toasty.error({
+      title: 'Duplicate Session!',
+      msg: 'Session with same timestamp already created',
+      sound: false
+    });
+    return false;
+  } else {
+    createdSessionTracker.add(sessionCreatedTimestamp);
+  }
+
+
   
 
   vm.isProductScheduled = true;
@@ -883,6 +907,7 @@ vm.createDepartureSession = function () {
   }
   else
     rebuildFullCalendar();
+
 
   $(".ds_repeat_daily").hide();
   $(".dsChangePrice").hide();
@@ -1048,6 +1073,8 @@ vm.createDepartureSession = function () {
       vm.tour.areAddonsAvailable = vm.isAddonAvailable;
       vm.tour.productAddons = vm.addonParams.params;
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
+      console.log($scope.timeslots);
+      //angular.copy($scope.timeslots, vm.tour.productTimeSlots);
       vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;
       vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;

@@ -184,7 +184,7 @@
 							<div class="card">
 	                    		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
 	                        		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-	                         			<h5>Booking Ref: <strong>{{booking.bookingReference}}</strong></h5>
+	                         			<h5>Booking Id: <strong>{{booking.bookingReference}}</strong></h5>
 	                        		</div>
 	                       			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 	                         			<a class="pull-right booking-user">
@@ -204,23 +204,32 @@
 			                           	<div class="greenBookingCircle bookingcircle booking-status-icon margin-auto" ng-show="booking.bookingStatus == 'Confirmed'">
 			                               	<i class="zmdi zmdi-case-check margin-top"></i>
 			                           	</div>
-
+                                        <br>
 			                            <span class="sub_desc">{{booking.bookingStatus}}</span>
 	                       			</div>
 	                       			<div class="col-lg-6">
-	                       				<ul class="cleared">
-	                       					<li>
-	                       						<span class="content-primary">Created on</span>
-	                           					<span class="content-secondary">{{vm.getFullDisplayDate(booking.created)}}</span>
-	                           				</li>    
-	                       					<li>
-	                       						<span class="content-primary">No. of seats</span>
-	                           					<span class="content-secondary">{{booking.numberOfSeats}}</span>
-	                           				</li>
-	                       					<li>
-	                       						<span class="content-primary">Total Amount</span>
-	                           					<span class="content-secondary"><strong class="orange-text">{{booking.totalAmountPaid}}</strong></span>
-	                           				</li>
+	                       				<ul class="cleared card-booking-details margin-top">
+                                            <li>
+                                                <span class="content-primary">Created on</span>
+                                                <span class="content-secondary">{{vm.getFullDisplayDate(booking.created)}}</span>
+                                            </li>    
+                                            <li>
+                                                <span class="content-primary">Tour</span>
+                                                <span class="content-secondary">{{booking.product.productTitle}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="content-primary">Departure</span>
+                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="content-primary">No. of seats</span>
+                                                <span class="content-secondary">{{booking.numberOfBookings}}</span>
+                                            </li>
+                                            <li>
+                                                <span class="content-primary">Amount</span>
+                                                <span class="content-secondary"><strong class="orange-text">{{booking.totalAmountPaid}}</strong></span>
+                                            </li>
+	                       					
 	                       				</ul>
 	                       			</div>
 	                    		</div>   
@@ -241,7 +250,7 @@
                                     <a href="#" ng-click="vm.incrementWindowSize()" style="margin-left: 5px;">&raquo;</a>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length > 0">
+                            <div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length > 5">
                                 <span> Show &nbsp; 
                                     <select ng-model="vm.numberOfItemsInOnePage" ng-change="vm.changeItemsPerPage(vm.numberOfItemsInOnePage)">
                                         <option value="5">5</option>

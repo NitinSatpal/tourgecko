@@ -1664,7 +1664,8 @@ function openUnavailableDeparturePanel() {
 	}
 </script>
 <script>
-	var slots= ['00:00 AM','00:15 AM', '00:30 AM', '00:45 AM' , '01:00 AM', '01:15 AM', '01:30 AM', '01:45 AM',
+	var slots= ['Select', 
+				'00:00 AM','00:15 AM', '00:30 AM', '00:45 AM' , '01:00 AM', '01:15 AM', '01:30 AM', '01:45 AM',
                 '02:00 AM','02:15 AM', '02:30 AM', '02:45 AM' , '03:00 AM', '03:15 AM', '03:30 AM', '03:45 AM',
                 '04:00 AM','04:15 AM', '04:30 AM', '04:45 AM' , '05:00 AM', '05:15 AM', '05:30 AM', '05:45 AM',
                 '06:00 AM','06:15 AM', '06:30 AM', '06:45 AM' , '07:00 AM', '07:15 AM', '07:30 AM', '07:45 AM',
@@ -1678,8 +1679,8 @@ function openUnavailableDeparturePanel() {
                 '10:00 PM','10:15 PM', '10:30 PM', '10:45 PM' , '11:00 PM', '11:15 PM', '11:30 PM', '11:45 PM'];
 
     var counter = -1;
-    function addSelectorElement(cahngedValue, numOfElements) {
-    	if(cahngedValue && $(cahngedValue).val() != 'Fixed Slots') {
+    function addSelectorElement(changedValue, numOfElements) {
+    	if(changedValue && $(changedValue).val() != 'Fixed Slots') {
     		$('#addSelectorHere').empty();
     		counter = -1;
     		return;
@@ -1705,7 +1706,9 @@ function openUnavailableDeparturePanel() {
     	spanId = 'span'+counter;
     	anchorId = 'anchor'+counter;
     	selectorId = 'selector'+counter;
-
+    	for(var index = 0; index < angular.element('#addSelectorHere').scope().timeslots.length; index++)
+    		slots.splice(slots.indexOf(angular.element('#addSelectorHere').scope().timeslots[index]), 1);
+    	
     	var parentDiv = $('<div></div>').attr('id', parentDivId).attr('class', 'input-group');
     	$(parentDiv).css('float','left');
     	$(parentDiv).css('width','140px');
@@ -1729,11 +1732,19 @@ function openUnavailableDeparturePanel() {
     }
    	
     function removeTimeslot(removeThisDiv) {
+    	var id = 'selector' + removeThisDiv.id;
+    	var element = document.getElementById(id);
     	$('#parentdiv'+removeThisDiv.id).remove();
+    	
+    	angular.element('#addSelectorHere').scope().timeslots.splice(angular.element('#addSelectorHere').scope().timeslots.indexOf($(id).val()), 1);
     }
 
     function addTimeSlots (id) {
-    	angular.element('#addSelectorHere').scope().timeslots.push($(id).val());
+    	if(!angular.element('#addSelectorHere').scope().timeslotsTracker.has($(id).val())) {
+    		angular.element('#addSelectorHere').scope().timeslotsTracker.add($(id).val());
+    		angular.element('#addSelectorHere').scope().timeslots.push($(id).val());
+    	} else {
+    	}
     }
 </script>
 

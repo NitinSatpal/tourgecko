@@ -149,7 +149,8 @@ var HostCompanySchema = new Schema({
     default: 'internal'
   },
   paymentGateway: {
-    type: String
+    type: String,
+    default: 'instamojo'
   }
 });
 

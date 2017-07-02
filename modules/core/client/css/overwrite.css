@@ -191,6 +191,9 @@
     padding-right: 8px;
     margin-left: -5px;
 }
+#host-guest-common-style-Booking-Done h4 {
+    font-weight: 500 !important;
+}
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;

@@ -34,7 +34,9 @@ exports.createBooking = function (data, user, paymentURL, paymentRequestId, paym
   var booking = new Booking(data.bookingDetails);
   booking.user = user;
   booking.hostCompany = data.productData.hostCompany._id;
-  booking.bookingReference = Math.random().toString(36).substring(10);
+  var bookingReferenceTemp = Math.random().toString(36).substring(10);
+  var bookingReference = bookingReferenceTemp.toUpperCase();
+  booking.bookingReference = bookingReference;
   if (paymentMethod == 'instamojo') {
     booking.paymentRequestId = paymentRequestId;
     booking.isPaymentFulfilled = false;
@@ -124,6 +126,7 @@ exports.fetchCompanyBookingDetails = function (req, res) {
 exports.fetchAllBookingDetailsOfCompany = function (req, res) {
   if (req.user) {
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
+      
       Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
         Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
@@ -142,6 +145,7 @@ exports.fetchAllBookingDetailsOfCompany = function (req, res) {
               message: errorHandler.getErrorMessage(err)
             });
           }
+          
           res.json({bookingArray: bookings, bookingsCount: count});
         });
       });
@@ -186,14 +190,13 @@ exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
 exports.fetchCategorizedBookings = function (req, res) {
   var pageNumber = req.body.pageNumber;
   var itemsPerPage = req.body.itemsPerPage;
-  console.log(req.body.categoryKeys);
   Booking.count({bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
     if (count <= itemsPerPage * (pageNumber - 1))
       pageNumber = 1;
     if (pageNumber == 0)
       pageNumber = 1;
 
-    Booking.find({bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({hostOfThisBooking: req.user._id, bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -298,6 +301,17 @@ exports.fetchSingleBookingDetails = function (req, res) {
   });
 };
 
+exports.fetchSingleBookingDetailsFromPaymentRequestId = function (req, res) {
+   Booking.findOne({paymentRequestId: req.params.paymentRequestId}).populate('user').populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(booking);
+  });
+}
+
 // Confirm the booking
 exports.modifyBooking = function (req, res) {
   Booking.findOne({_id: req.body.bookingId}).populate('hostCompany').exec(function (err, booking) {
@@ -367,7 +381,6 @@ exports.modifyBooking = function (req, res) {
               }
               razorpayPaymentRecord.markTransferred = true;
               razorpayPaymentRecord.save(function(localPayemntSaveErr) {
-                console.log(localPayemntSaveErr);
                 if (localPayemntSaveErr)
                   res.json('Something went wrong while saving the transferred payment. Please contact tourgecko support');
                 booking.bookingStatus = req.body.bookingStatus;
@@ -375,7 +388,6 @@ exports.modifyBooking = function (req, res) {
                 booking.isPaymentTransferred = true;
                 booking.save(function(bookingEditError, bookingEditResponse) {
                   if (bookingEditError) {
-                    console.log(bookingEditError)
                     res.json(bookingEditError);
                   }
                   res.json(transferResponse);
@@ -384,7 +396,6 @@ exports.modifyBooking = function (req, res) {
             });
           }).catch((transferError) => {
             // handle error
-            console.log(transferError);
             res.json('Something went wrong. Please try again or contact tourgecko support');
           });
         }

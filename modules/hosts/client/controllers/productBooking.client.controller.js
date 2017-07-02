@@ -6,9 +6,9 @@
     .module('hosts')
     .controller('ProductBookingController', ProductBookingController)
 
-  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$http'];
+  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$timeout', '$http'];
 
-  function ProductBookingController($state, $scope, $stateParams, $window, $http) {
+  function ProductBookingController($state, $scope, $stateParams, $window, $timeout, $http) {
     var vm = this;
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
@@ -61,6 +61,10 @@
     function fetchAllBookingRecords () {
       $http.get('/api/host/allBookings/' + vm.numberOfItemsInOnePage).success(function (response) {
         vm.bookings = response.bookingArray;
+        if(vm.bookings.length == 0)
+          $('#listViewOfBookings').hide();
+        else
+          $('#listViewOfBookings').show();
         vm.totalPages = Math.ceil(response.bookingsCount / vm.numberOfItemsInOnePage);
         if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
@@ -103,7 +107,9 @@
         vm.bookingOptionsSelected = vm.specificBookingDetails.selectedpricingoptionindexandquantity;
         vm.addonOptionsSelected = vm.specificBookingDetails.selectedaddonoptionsindexandquantity;
 
-        if (vm.specificBookingDetails.productSession.isSessionPricingValid)
+        if (vm.specificBookingDetails.isOpenDateTour)
+          vm.validPricingOptions = vm.specificBookingDetails.product.productPricingOptions;
+        else if (vm.specificBookingDetails.productSession.isSessionPricingValid)
           vm.validPricingOptions = vm.specificBookingDetails.productSession.sessionPricingDetails;
         else
           vm.validPricingOptions = vm.specificBookingDetails.product.productPricingOptions;
@@ -120,7 +126,7 @@
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
         $('#startDateOfTheTour').attr("value", startDateOfTheTour);
 
-        if (vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {
+        if (!vm.specificBookingDetails.isOpenDateTour && vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {
           var hourPart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[0];
           var minutePart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[1].split(' ')[0];
           var dayTime = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[1].split(' ')[1];
@@ -135,8 +141,8 @@
           }
 
           var startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
-            $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
-          }
+          $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
+        }
       });
 
       $http.get('/api/host/booking/tracelog/'+ $stateParams.bookingId).success(function (response) {
@@ -585,6 +591,10 @@
       })
       .success(function (response) {
         vm.bookings = response.bookingArray;
+        if(vm.bookings.length == 0)
+          $('#listViewOfBookings').hide();
+        else
+          $('#listViewOfBookings').show();
         vm.totalPages = Math.ceil(response.bookingsCount/itemsPerPageSelected);
         vm.pageCounterArray = new Array(vm.totalPages);
         totalBookingRecords = response.bookingsCount;

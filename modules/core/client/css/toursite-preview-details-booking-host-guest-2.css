@@ -524,7 +524,7 @@
     background-color: #dd4600;
 }
 
-.host-guest-common-style .responsive-calendar .day.active .not-current {
+/*.host-guest-common-style .responsive-calendar .day.active .not-current {
     background-color: #eee;
     color: #ffffff;
 }
@@ -534,6 +534,34 @@
 }
 
 .host-guest-common-style .responsive-calendar .day.not-current a {
+    color: #ddd;
+    background-color: #eee;
+    cursor: not-allowed;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}*/
+
+.host-guest-common-style .responsive-calendar .past.not-current {
+    visibility: hidden;
+}
+.host-guest-common-style .responsive-calendar .future.not-current {
+    visibility: hidden;
+}
+.host-guest-common-style .responsive-calendar .today.not-current {
+    visibility: hidden;
+}
+.host-guest-common-style .responsive-calendar .not-availableDates .day.active  {
+    background-color: #eee;
+    color: #ffffff;
+}
+
+.host-guest-common-style .responsive-calendar .not-availableDates .day.active:hover {
+    background-color: #eee;
+}
+
+.host-guest-common-style .responsive-calendar .not-availableDates a {
     color: #ddd;
     background-color: #eee;
     cursor: not-allowed;

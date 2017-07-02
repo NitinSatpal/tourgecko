@@ -107,6 +107,9 @@ module.exports = function (app) {
   app.route('/api/host/booking/:bookingId')
     .get(hosts.fetchSingleBookingDetails);
 
+  app.route('/api/host/postbooking/:paymentRequestId')
+    .get(hosts.fetchSingleBookingDetailsFromPaymentRequestId);
+
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 

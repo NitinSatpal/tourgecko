@@ -210,6 +210,8 @@ function createSession (booking, product, paymentRequestId, paymentId) {
     if (err) {
       // session saving failed
     } else {
+      booking.productSession = productSession._id;
+      booking.save();
       // session successfully saved
     }
   });
