@@ -194,6 +194,9 @@
 #host-guest-common-style-Booking-Done h4 {
     font-weight: 500 !important;
 }
+.removeBackgroundColor {
+    background-color: transparent !important;
+}
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;

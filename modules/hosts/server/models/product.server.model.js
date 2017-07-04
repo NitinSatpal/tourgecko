@@ -113,10 +113,10 @@ var ProductSchema = new Schema({
     default: '',
     trim: true
   },
-  minBookingRequired: {
+  minSeatsPerBookingRequired: {
     type: Number
   },
-  maxBookingAllowed: {
+  maxSeatsPerBookingAllowed: {
     type: Number
   },
   productconfirmMode: {

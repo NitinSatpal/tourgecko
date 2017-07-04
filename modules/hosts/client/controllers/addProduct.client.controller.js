@@ -57,6 +57,7 @@
     vm.isNewPricingApplicableOnOldSessions = false;
     vm.isNewPricingApplicableOnNewSessions = false;
     vm.saveBtnDisabled = true;
+    vm.isProductAvailabileAllTime = true;
     $scope.timeslotsTracker = new Set();
     $scope.timeslots = [];
     $scope.productTimeSlotsAvailability = 'No Time Required';
@@ -676,13 +677,33 @@ vm.openDepartureSessionModal = function() {
       msg: 'Please enter valid pricing details before creating departure session!',
       sound: false
     });
+    return false;
   } else {
+    if (vm.productSeatsLimitType == 'Limited' && !vm.tour.productSeatLimit) {
+      toasty.error({
+        title: 'Seats capacity!',
+        msg: "Please enter seats capacity for the session or make it 'Unlimited'!",
+        sound: false
+      });
+      return false;
+    } else if (vm.productSeatsLimitType == 'Limited' && !Number.isInteger(parseInt(vm.tour.productSeatLimit)) || parseInt(vm.tour.productSeatLimit) <= 0) {
+      toasty.error({
+        title: 'Seats capacity!',
+        msg: 'Please enter valid seat capacity for departure session!',
+        sound: false
+      });
+      return false
+    }
+
     var modalOpened = true;
     vm.sessionPricing = []
     angular.copy(vm.pricingParams, vm.sessionPricing);
-    vm.fixedDepartureSessionCounter++;
+    vm.fixedDepartureSessionCounter = vm.fixedProductSchedule.length;
     var newSchedule = {'repeatBehavior':'Do not repeat'}
     vm.fixedProductSchedule[vm.fixedDepartureSessionCounter] = newSchedule;
+    /*$('.ds_repeat_daily_except button span').html('Select Days');
+    $('.ds_repeat_daily_except input:checkbox').removeAttr('checked');
+    $('.dsRepeatWeekly button span').html('Select Days');*/
     $scope.$watch('vm.fixedProductSchedule', function() {
       if (initializing) {
         $timeout(function() { initializing = false; });
@@ -705,6 +726,12 @@ vm.openDepartureSessionModal = function() {
   }
 }
 
+vm.markAsSessionNotCreated = function () {
+  console.log('came here ' + JSON.stringify(vm.fixedProductSchedule));
+  vm.fixedProductSchedule.splice((vm.fixedProductSchedule.length - 1), 1);
+  console.log('and now ' + JSON.stringify(vm.fixedProductSchedule));
+}
+
 var createdSessionTracker = new Set();
 vm.createDepartureSession = function () {
   if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
@@ -721,7 +748,15 @@ vm.createDepartureSession = function () {
       sound: false
     });
     return false;
-  } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
+  } else if (vm.isFixedDepartureSeriesAvailable && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Do not repeat') {
+    toasty.error({
+      title: 'Create series!',
+      msg: 'You have opted for series. Please create one or opt out the same!',
+      sound: false
+    });
+    return false;
+  } else if ((vm.isFixedDepartureSeriesAvailable && 
+              vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') &&
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
     toasty.error({
@@ -731,7 +766,8 @@ vm.createDepartureSession = function () {
     });
     return false;
   }
-  if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
+  if ((vm.isFixedDepartureSeriesAvailable &&
+      vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
       (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays === undefined || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length == 0)){
     toasty.error({
       title: 'Week days!',
@@ -740,30 +776,7 @@ vm.createDepartureSession = function () {
     });
     return false;
   }
-  var sessionCreatedTimestamp;
-  if ($('#dsTimeSlot').val() == undefined || $('#dsTimeSlot').val() == '' || $('#dsTimeSlot').val() == ' ')
-    sessionCreatedTimestamp = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).getTime().toString() + 'NA';
-  else
-    sessionCreatedTimestamp = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).getTime().toString() + $('#dsTimeSlot').val().toString();
 
-  if (createdSessionTracker.has(sessionCreatedTimestamp)) {
-    toasty.error({
-      title: 'Duplicate Session!',
-      msg: 'Session with same timestamp already created',
-      sound: false
-    });
-    return false;
-  } else {
-    createdSessionTracker.add(sessionCreatedTimestamp);
-  }
-
-
-  
-
-  vm.isProductScheduled = true;
-  
-  $("#departureSession").fadeOut();
-  $('.modal-backdrop').remove();
 
   // if any tour is repeted, then populate the calendar accordingly
   var weekDaysNumber = new Map();
@@ -816,11 +829,45 @@ vm.createDepartureSession = function () {
     }
   }
 
+
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  var validatorDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   //eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
   
   var monthTracker = new Set();
   var monthsCovered = [];
+  
+  for (var index = 0; index <= repeatedDays; index ++) {
+    if((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(validatorDate.getDay())) || 
+      (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && allowedDays.has(eventDate.getDay())) ||
+      vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Do not repeat') {
+      var sessionCreatedTimestamp;
+        if ($('#dsTimeSlot').val() == undefined || $('#dsTimeSlot').val() == '' || $('#dsTimeSlot').val() == ' ')
+          sessionCreatedTimestamp = new Date(validatorDate).getTime().toString() + 'NA';
+        else
+          sessionCreatedTimestamp = new Date(validatorDate).getTime().toString() + $('#dsTimeSlot').val().toString();
+
+        if (createdSessionTracker.has(sessionCreatedTimestamp)) {
+          toasty.error({
+            title: 'Duplicate Session!',
+            msg: 'Session with same timestamp already created',
+            sound: false
+          });
+          return false;
+        }
+    }
+    validatorDate = new Date (validatorDate);
+    validatorDate = validatorDate.setDate(validatorDate.getDate() + 1);
+    validatorDate = new Date (validatorDate);
+  }
+
+  vm.isProductScheduled = true;
+  
+  $("#departureSession").fadeOut();
+  $('.modal-backdrop').remove();
+
+  
+
 
   for (var index = 0; index <= repeatedDays; index ++) {
     var needToSave = true;
@@ -830,6 +877,12 @@ vm.createDepartureSession = function () {
       needToSave = false;
     
     if (needToSave) {
+      var sessionCreatedTimestamp;
+      if ($('#dsTimeSlot').val() == undefined || $('#dsTimeSlot').val() == '' || $('#dsTimeSlot').val() == ' ')
+        sessionCreatedTimestamp = new Date(eventDate).getTime().toString() + 'NA';
+      else
+        sessionCreatedTimestamp = new Date(eventDate).getTime().toString() + $('#dsTimeSlot').val().toString();
+      createdSessionTracker.add(sessionCreatedTimestamp);
       var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
       if (!monthTracker.has(uniqueString)) {
         monthTracker.add(uniqueString);
@@ -914,10 +967,14 @@ vm.createDepartureSession = function () {
   return true;
   
 }
-
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Fixed Date departure session validation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+
+function findValidityOFOVerlappingSessions () {
+
+}
+
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function */
@@ -1094,8 +1151,8 @@ vm.createDepartureSession = function () {
         modifiedUploadedProductPicturesForThisProduct.push(tempFileObject);
       }      
       vm.tour.productPictureURLs =  modifiedUploadedProductPicturesForThisProduct;
-
-      if (vm.tour.isProductAvailabileAllTime)
+      vm.tour.isProductAvailabileAllTime = vm.isProductAvailabileAllTime;
+      if (vm.tour.isProductAvailabileAllTime && vm.tour.productUnavailableMonths)
         vm.tour.productUnavailableMonths.length = 0;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    

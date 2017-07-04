@@ -151,6 +151,10 @@ var HostCompanySchema = new Schema({
   paymentGateway: {
     type: String,
     default: 'instamojo'
+  },
+  paymentActivated: {
+    type: Boolean,
+    default: false
   }
 });
 

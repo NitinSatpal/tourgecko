@@ -2,114 +2,157 @@
 	<div class="row body-content">
 		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
-					<div class="home_add_tour fixed-in-div">
-						<i class="zmdi zmdi-settings heading-icn"></i>
-						<h2><a href="#">Settings</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Payment</span></h2>
-						<a class="btn btn-primary pull-right" ng-click="vm.savePaymentSettings()"><i class="zmdi zmdi-floppy"></i> Save</a>
-					</div>
-					<div class="row settings-subnav">
-						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_payment">
-							<form class="form-horizontal" ng-submit="vm.savePaymentSettings()">
-								<!--<button class="btn btn-primary pull-right saveButton" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>-->
-								<h5>Payment Method <i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is private to you and hidden."></i></h5>
-								<p class="section-desc sub_desc">Payment methods to capture and collect online payments during bookings</p>
-								<div class="panel panel_one">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12">
-											<div class="payment_radio">
-												<label class="radio_label">
-													<input type="radio" name="payin" value="tourgecko_payment" checked>
-													<span>Use tourgecko payment wallet</span>
-													<i class="zmdi zmdi-check-circle"></i>
-													<i class="zmdi zmdi-circle-o"></i>
-												</label>
-											</div>
-											<p class="payment_wallet_subdesc sub_desc"><i class="zmdi zmdi-lamp"></i> <span>Wallet is already setup and you can start to take online bookings immediately without any setup. You will receive payout in your bank account after tour or activity has started</span></p>
-										</div>
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
+				<div class="home_add_tour fixed-in-div">
+					<i class="zmdi zmdi-settings heading-icn"></i>
+					<h2>
+						<a href="#">Settings</a>
+						<i class="zmdi zmdi-caret-right bread-caret"></i>
+						<span class="bread-current">Payment</span>
+					</h2>
+				</div>
+				<div class="row settings-subnav">
+					<div class="col-lg-12 col-md-12 col-sm-12 settings_payment padding-top">
+            			<h3 class="text-left margin-top margin-bottom">Manage Payments
+            				<i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is private to you and hidden."></i>
+            			</h3>
+						<p class="section-desc sub_desc">Enable payment methods to collect payments during online bookings.</p>
+                		<div class="alert alert-warning orange-text">
+                  			Your toursite and booking page accepts payment with: 
+                  			<strong>tourgecko Payments!</strong> 
+                		</div>
+						<form class="form-horizontal" name="vm.paymentSettingForm" ng-submit="vm.savePaymentSettings()" novalidate autocomplete="off">
+							<div class="panel panel_two">
+                        		<div class="row margin-bottom padding-bottom">
+									<div class="col-lg-12 col-md-12 col-sm-12 payment-method-card">
+										<div class="payment_radio">
+											<label class="radio_label">
+												<input type="radio" name="payment" value="tourgecko_payment" class="tourgecko_payment"/>
+												<span class="tourgecko-payments">
+													<img src="modules/core/client/img/brand/tourgecko-payments.png" alt="tourgeck payments">
+												</span>
+												<i class="zmdi zmdi-check-circle"></i>
+												<i class="zmdi zmdi-circle-o"></i>
+											</label>
+                                		</div>
+                                		<a href="#" class="pull-right text-readable11 payment-guide">How it works?</a>
+										<p class="payment_wallet_subdesc sub_desc margin-top text-readable14">Your tour gecko account comes pre-integrated with a payment processors so that you can start to take online bookings without having to setup any external gateways.
+										Before you can start to use it and receive your money from bookings in your bank account, you need to provide us the additional information to activate your account.</p>
 									</div>
 								</div>
-								<h5>Payout Details <i class="zmdi zmdi-lock icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is private to you and hidden."></i></h5>
-								<p class="section-desc sub_desc">Payouts are handed through bank transfer. Configure your bank account below.</p>
-								<div class="row error-success-notification-common" ng-if="vm.showErrorsOFBankAcc">
-									<div class="col-lg-12 col-md-12 col-sm-12 errors-common">
-										<div class="row">
-											<div class="col-lg-2 col-md-2 col-sm-2">
-												<i class="fa fa-ban" aria-hidden="true"></i>
-											</div>
-											<div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
-												<span>  
-													<h5 ng-if="vm.paymentBankAccError.length == 1"> There is {{vm.paymentBankAccError.length}} error in payout details </h5>
-													<h5 ng-if="vm.paymentBankAccError.length > 1"> There are {{vm.paymentBankAccError.length}} errors in payout details </h5>
-													<ul>
-														<li ng-repeat="error in vm.paymentBankAccError"> {{error[0]}} </li>
-													</ul>
-												</span> 
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="panel panel_two">
-									<div class="payment_radio">
-										<label class="radio_label">
-											<input type="radio" name="payout" value="bank_payment" checked/>
-											<span>Use bank transfer</span>
-											<i class="zmdi zmdi-check-circle"></i>
-											<i class="zmdi zmdi-circle-o"></i>
-										</label>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="bank_firstname" class="cols-sm-2 control-label">Name on bank account</label>
-												<div class="input_group">
-													<div>
-														<input type="text" class="form-control" name="bank_firstname" id="bank_firstname"  placeholder="Full Name" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryName"/>
+        						<div class="row">
+        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            							<span class="pull-left activated inactive">
+            								<i class="zmdi zmdi-power green-text text-readable16"></i> Activated
+            							</span>
+            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom disabled"> Setup and activate
+            								<i class="zmdi zmdi-chevron-down"></i>
+            							</a>
+            
+            							<div class="payment-method-detail hide">
+            								<div class="divider-common divider-thin margin-top margin-bottom"></div>
+            								<div class="row error-success-notification-common" ng-if="vm.showErrorsOFBankAcc">
+												<div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+													<div class="row">
+														<div class="col-lg-2 col-md-2 col-sm-2">
+															<i class="fa fa-ban" aria-hidden="true"></i>
+														</div>
+														<div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+															<span>  
+																<h5 ng-if="vm.paymentBankAccError.length == 1"> There is {{vm.paymentBankAccError.length}} error in payout details </h5>
+																<h5 ng-if="vm.paymentBankAccError.length > 1"> There are {{vm.paymentBankAccError.length}} errors in payout details </h5>
+																<ul>
+																	<li ng-repeat="error in vm.paymentBankAccError"> {{error}} </li>
+																</ul>
+															</span> 
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="bank_acnumber" class="cols-sm-2 control-label">Bank account number</label>
-												<div class="input_group">
-													<div>
-														<input type="text" class="form-control" name="bank_acnumber" id="bank_acnumber"  placeholder="Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber"/>
-													</div>
+        									<h4 class="padding-top">1. Bank Details</h4>
+        									<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
+        									<div class="bank-account-details">
+						                        <div class="col-lg-6 col-md-6 col-sm-6">
+						                            <div class="form-group">
+						                                <label for="host_name_on_bank_acc" class="cols-sm-2 control-label">Name on bank account</label>
+						                                <div class="input_group">
+						                                    <div>
+						                                        <input type="text" class="form-control" name="host_name_on_bank_acc" id="host_name_on_bank_acc"  placeholder="Full Name" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryName" required/>
+						                                    </div>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="col-lg-6 col-md-6 col-sm-6">
+						                            <div class="form-group">
+						                                <label for="bank_acnumber" class="cols-sm-2 control-label">Bank IFSC Code</label>
+						                                <div class="input_group">
+						                                    <div>
+						                                        <input type="text" class="form-control" name="bank_acnumber" id="bank_acnumber"  placeholder="Ex: CITI00000020" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryBankIFSCcode" required/>
+						                                    </div>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="col-lg-6 col-md-6 col-sm-6">
+						                            <div class="form-group">
+						                                <label for="bank_bic" class="cols-sm-2 control-label">Bank account number</label>
+						                                <div class="input_group">
+						                                    <div>
+						                                        <input type="password" class="form-control" name="bank_acn" id="bank_acn"  placeholder="Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber" required/>
+						                                    </div>
+						                                </div>
+						                            </div>
+						                        </div>
+						                        <div class="col-lg-6 col-md-6 col-sm-6 margin-bottom">
+						                            <div class="form-group">
+						                                <label for="bank_country" class="cols-sm-2 control-label">Re-enter account number</label>
+						                                <div class="input_group">
+						                                    <div>
+						                                       <input type="text" class="form-control" name="confirm_bank_acn" id="confirm_bank_acn"  placeholder="Re-enter Account Number" g-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumberConfirmed" required/>
+						                                    </div>
+						                                </div>
+						                            </div>
+						                        </div>
+        										<div class="col-md-12 col-sm-12 margin-bottom padding-bottom">
+        											<div class="col-md-6 col-sm-12 margin-none-left">
+        												<h5 class="padding-top">Upload any of the following documents:</h5>
+								                        <ol>
+									                        <li>Latest bank statement</li>
+									                        <li>Passbook front page</li>
+									                        <li>Cheque book front page</li>
+								                        </ol>
+								                        <div class="fileUpload btn btn-default btn-block margin-bottom">
+								                          	<span>
+								                          		<i class="zmdi zmdi-cloud-upload"></i> Add Image
+								                          	</span>
+								                          	<input type="file" class="upload" onchange="readURL(this);"/>
+								                   		</div>
+															<p class="sub_desc">Your name, address and account number must be visible on uploaded file</p>
+														</div>
 												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="bank_bic" class="cols-sm-2 control-label">Bank IFSC code (BIC)</label>
-												<div class="input_group">
-													<div>
-														<input type="text" class="form-control" name="bank_bic" id="bank_bic"  placeholder="Ex: HDFC0085" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryBankIFSCcode">
-													</div>
+        										<h4 class="padding-top margin-top">2. PAN Details</h4>
+        										<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
+						                        <div class="col-md-12 col-sm-12">
+						                        	<div class="form-group col-sm-12 col-md-6 padding-none-left">
+						                        		<label class="control-label" for="pan-number">Permanent Account Number (PAN)</label>
+						                        		<input type="text" class="form-control" name="PAN number" id="pan-number" placeholder="Permanent Account Number">
+						                        		<div class="fileUpload btn btn-default btn-block margin-bottom margin-top">
+							                          		<span>
+							                          			<i class="zmdi zmdi-cloud-upload"></i> Upload scanned copy of PAN
+							                          		</span>
+							                          		<input type="file" class="upload" onchange="readURL(this);"/>
+						                   				</div>
+        												<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings()">Submit</a>
+        											</div>
 												</div>
-											</div>
-										</div>
-										<div class="col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label for="bank_country" class="cols-sm-2 control-label">Country</label>
-												<div class="input_group">
-													<div>
-														<select class="form-control" id="bank_country" ng-model="vm.beneficiaryBankCountry">
-															<option>India</option>
-														</select>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<button class="btn btn-primary pull-right saveButton-Bottom" href="#" type="submit"><i class="zmdi zmdi-floppy"></i>&nbsp;&nbsp;Save</button>
-							</form>
-						</div>
+        									</div>
+        								</div>
+        							</div>
+        						</div>
+							</div>
+						</form>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -117,9 +160,14 @@
 	$(document).ready(function(){
 		 $('[data-toggle="tooltip"]').tooltip();
 	});
-</script>
-<script>
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
+	});
+	$(".setup-payment").click(function(){
+		$(".payment-method-detail").toggleClass("hide");
+		$(".zmdi-chevron-down").toggleClass("chevron-up");
+	});
+	$(".tourgecko_payment").click(function(){
+		$(".setup-payment").removeClass("disabled");
 	});
 </script>

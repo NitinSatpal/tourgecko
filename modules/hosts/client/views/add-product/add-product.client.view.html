@@ -604,13 +604,13 @@
 														<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
 															<label for="tours_sa_monthslot" class="control-label">Is this tour offered throughout year?</label>
 															<div class="formonoffswitch tours_sa_ty">
-																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.tour.isProductAvailabileAllTime">
+																<input type="checkbox" name="tours_sa_ty-onoffswitch" class="formonoffswitch-checkbox" id="tours_sa_ty-onoffswitch" ng-model="vm.isProductAvailabileAllTime">
 																<label class="formonoffswitch-label" for="tours_sa_ty-onoffswitch"></label>
 															</div>
 															<p class="sub_desc" ng-show="vm.helpVisible" style="margin-top:5px;">You can select the months when this tour is not available. Guest can only create bookings in months that are not marked as unavailable</p>
 														</div>
 
-														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.tour.isProductAvailabileAllTime">
+														<div class="col-sm-12 col-md-12 col-lg-12 available_months" ng-show="!vm.isProductAvailabileAllTime">
 															<div class="form-group">
 																<label class="control-label">Non-Available months</label><br>
 
@@ -704,7 +704,7 @@
 															<div class="form-group">
                                                                <div class="input-group">
                                                                   <span class="input-group-addon">Min</span>
-                                                                  <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minBookingRequired">
+                                                                  <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minSeatsPerBookingRequired">
                                                                </div>
                                                             </div>
                                                         </div>
@@ -715,7 +715,7 @@
                                                         	<div class="form-group">
                                                                <div class="input-group">
                                                                   <span class="input-group-addon">Max</span>
-                                                                  <input type="text" class="form-control" name="pf_price" placeholder="Ex: 200" ng-model="vm.tour.maxBookingAllowed">
+                                                                  <input type="text" class="form-control" name="pf_price" placeholder="Ex: 200" ng-model="vm.tour.maxSeatsPerBookingAllowed">
                                                                </div>
                                                             </div>
                                                         </div>
@@ -962,7 +962,7 @@
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="close" id="closeDepartureSession" ng-click="vm.fixedDepartureSessionCounter = vm.fixedDepartureSessionCounter - 1">&times;</button>
+					<button type="button" class="close" id="closeDepartureSession" ng-click="vm.markAsSessionNotCreated()">&times;</button>
 					<h4 class="modal-title">Create fixed departure Session</h4>
 				</div>
 				<div class="modal-body">
@@ -1010,7 +1010,7 @@
 						 <div class="col-sm-12 col-md-12 col-lg-12">
 						   <label for="sdSTimeSwitch" class="control-label">Create a Repeat Series?</label>
 						   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-							  <input type="checkbox" name="repeat-series-onoffSwitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedDepartureSeriesAvailable" id="repeat-series-onoffSwitch">
+							  <input type="checkbox" name="repeat-series-onoffSwitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedDepartureSeriesAvailable" id="repeat-series-onoffSwitch" ng-click="vm.initilizeTheRepeatSeriesData()">
 							  <label class="fixedTouronoffswitch-label" for="repeat-series-onoffSwitch"></label>
 						   </div>
 						</div>
@@ -1034,7 +1034,7 @@
 								  <div class="input_group">
 									 <div>
 										<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
-										   <option value="Do not repeat">Do not repeat</option>
+										   <option value="Do not repeat">Select Repeat Behavior</option>
 										   <option value="Repeat Daily">Repeat Daily</option>
 										   <option value="Repeat Weekly">Repeat Weekly</option>
 										</select>
@@ -1558,12 +1558,15 @@ function openUnavailableDeparturePanel() {
 <!--script for enabling month selector-->
 <script type="text/javascript">
 	$(document).ready(function() {
-	  $('#months').multiselect
-		({});
-		$('#weeksRepeatOn').multiselect
-		({nonSelectedText: 'Select Days'});
-		$('#dailyExcept').multiselect
-		({nonSelectedText: 'Select Days'});
+	  	$('#months').multiselect({
+
+	  	});
+		$('#weeksRepeatOn').multiselect ({
+			nonSelectedText: 'Select Days'
+		});
+		$('#dailyExcept').multiselect({
+			nonSelectedText: 'Select Days'
+		});
 	});
 </script>
 

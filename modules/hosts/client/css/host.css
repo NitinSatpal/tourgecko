@@ -1925,7 +1925,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 #tours #tours_media .account_img_info img{width: 14em; border-radius: 4px; margin:0.5em}
 #tours #tours_media .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF;position: absolute;top: 0;left: 0;font-weight: 500;}
 #tours #tours_media .fileUpload:hover,#tours #tours_media  .fileUpload:visited,#tours #tours_media .fileUpload:active,#tours #tours_media .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
-#tours #tours_media .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
+#tours #tours_media .fileUpload input.upload, .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
 
 #tours #tours_media .fileSubmit {
 	overflow: hidden;
@@ -2082,9 +2082,9 @@ and (orientation : landscape) {.left-nav-bar .navbar-fixed-side{width: 23%;}#set
 
 
 #settings .settings_payment .payment_radio label.radio_label{font-size: 18px;color: rgba(0,0,0,0.6);font-weight: 900;margin: 0;display: inline-block;}
-#settings .settings_payment .payment_radio label.radio_label span{ font-size: 1.7rem; color: #19A0DC; font-weight: 400; margin-left: 20px}
 #settings .settings_payment .payment_radio{position: relative;}
-#settings .settings_payment .payment_radio i{position: absolute;top: 50%; left: 0;transform: translateY(-50%);}
+#settings .settings_payment .payment_radio i{position: absolute;top: 50%; left: 0;transform: translateY(-50%); font-size:25px;}
+#settings .settings_payment .payment_radio label.radio_label span{font-size: 18px; color:#19A0DC;font-weight: 400;margin-left: 30px; }
 #settings .settings_payment .payment_radio input{display: none;}
 #settings .settings_payment .payment_radio input ~ .zmdi-check-circle{display: none;}
 #settings .settings_payment .payment_radio input:checked ~ .zmdi-check-circle{display: block;color: #42AE5E}

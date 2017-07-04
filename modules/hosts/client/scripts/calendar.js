@@ -194,7 +194,6 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 						}
 		        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
 		        		for (var index = 0; index <= repeatedDays; index ++) {
-
 		        			var needToSave = true;
 		        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
 				        		document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||

@@ -63724,3 +63724,317 @@
 
 2017-06-24T08:34:20.157Z - info: [0mGET /api/host/product/productsession/594befae0788dd5211677a2e [36m304 [0m5.423 ms - -[0m
 
+2017-07-04T15:48:40.907Z - info: [0mGET /host/settings/payments [36m304 [0m95.250 ms - -[0m
+
+2017-07-04T15:48:41.035Z - info: [0mGET /lib/bootstrap/dist/css/bootstrap.min.css [36m304 [0m17.485 ms - -[0m
+
+2017-07-04T15:48:41.039Z - info: [0mGET /lib/bootstrap-theme/css/bootstrap-theme.min.css [36m304 [0m18.569 ms - -[0m
+
+2017-07-04T15:48:41.040Z - info: [0mGET /lib/jquery/dist/jquery.min.js [36m304 [0m18.590 ms - -[0m
+
+2017-07-04T15:48:41.042Z - info: [0mGET /lib/bootstrap/dist/js/bootstrap.min.js [36m304 [0m16.128 ms - -[0m
+
+2017-07-04T15:48:41.045Z - info: [0mGET /lib/font-awesome/css/font-awesome.min.css [36m304 [0m15.330 ms - -[0m
+
+2017-07-04T15:48:41.048Z - info: [0mGET /lib/material-design/css/material-design-iconic-font.min.css [36m304 [0m16.097 ms - -[0m
+
+2017-07-04T15:48:41.055Z - info: [0mGET /lib/full-calendar/css/fullcalendar.css [36m304 [0m1.884 ms - -[0m
+
+2017-07-04T15:48:41.060Z - info: [0mGET /lib/select2/dist/css/select2.min.css [36m304 [0m3.509 ms - -[0m
+
+2017-07-04T15:48:41.062Z - info: [0mGET /lib/datepicker/datepicker.css [36m304 [0m3.592 ms - -[0m
+
+2017-07-04T15:48:41.068Z - info: [0mGET /lib/datetimepicker/datetimepicker.min.css [36m304 [0m2.980 ms - -[0m
+
+2017-07-04T15:48:41.070Z - info: [0mGET /lib/fine-uploader/fine-uploader/fine-uploader-gallery.min.css [36m304 [0m4.211 ms - -[0m
+
+2017-07-04T15:48:41.072Z - info: [0mGET /lib/fine-uploader/fine-uploader/fine-uploader.min.css [36m304 [0m4.485 ms - -[0m
+
+2017-07-04T15:48:41.081Z - info: [0mGET /lib/angular-toasty/angular-toasty.css [36m304 [0m5.577 ms - -[0m
+
+2017-07-04T15:48:41.082Z - info: [0mGET /lib/bootstrap/dist/css/bootstrap.css [36m304 [0m5.860 ms - -[0m
+
+2017-07-04T15:48:41.083Z - info: [0mGET /lib/bootstrap/dist/css/bootstrap-theme.css [36m304 [0m5.850 ms - -[0m
+
+2017-07-04T15:48:41.085Z - info: [0mGET /lib/ng-img-crop/compile/unminified/ng-img-crop.css [36m304 [0m0.775 ms - -[0m
+
+2017-07-04T15:48:41.090Z - info: [0mGET /modules/chat/client/css/chat.css [36m304 [0m3.786 ms - -[0m
+
+2017-07-04T15:48:41.092Z - info: [0mGET /modules/core/client/css/commonErrorStyle.css [36m304 [0m5.477 ms - -[0m
+
+2017-07-04T15:48:41.093Z - info: [0mGET /modules/core/client/css/core.css [36m304 [0m5.147 ms - -[0m
+
+2017-07-04T15:48:41.098Z - info: [0mGET /modules/core/client/css/customizedMaterialized.css [36m304 [0m6.394 ms - -[0m
+
+2017-07-04T15:48:41.101Z - info: [0mGET /modules/core/client/css/landing-page.css [36m304 [0m6.286 ms - -[0m
+
+2017-07-04T15:48:41.102Z - info: [0mGET /modules/core/client/css/notifications.css [36m304 [0m6.086 ms - -[0m
+
+2017-07-04T15:48:41.107Z - info: [0mGET /modules/core/client/css/overwrite.css [36m304 [0m6.034 ms - -[0m
+
+2017-07-04T15:48:41.110Z - info: [0mGET /modules/core/client/css/toursite-preview-details-booking-host-guest-1.css [36m304 [0m6.176 ms - -[0m
+
+2017-07-04T15:48:41.112Z - info: [0mGET /modules/core/client/css/toursite-preview-details-booking-host-guest-2.css [36m304 [0m6.589 ms - -[0m
+
+2017-07-04T15:48:41.117Z - info: [0mGET /modules/core/client/css/toursite-preview-details-booking-host-guest-3.css [36m304 [0m8.884 ms - -[0m
+
+2017-07-04T15:48:41.121Z - info: [0mGET /modules/guests/client/css/guests.css [36m304 [0m6.573 ms - -[0m
+
+2017-07-04T15:48:41.122Z - info: [0mGET /modules/hosts/client/css/contact-us.css [36m304 [0m5.555 ms - -[0m
+
+2017-07-04T15:48:41.127Z - info: [0mGET /modules/hosts/client/css/host-version2.css [36m304 [0m7.516 ms - -[0m
+
+2017-07-04T15:48:41.132Z - info: [0mGET /modules/hosts/client/css/host.css [36m304 [0m9.059 ms - -[0m
+
+2017-07-04T15:48:41.137Z - info: [0mGET /modules/hosts/client/css/sessionbookingdetails.css [36m304 [0m12.275 ms - -[0m
+
+2017-07-04T15:48:41.140Z - info: [0mGET /modules/hosts/client/css/tourdetails.css [36m304 [0m9.693 ms - -[0m
+
+2017-07-04T15:48:41.141Z - info: [0mGET /modules/tourgeckoadmin/client/css/tourgeckoadmin.css [36m304 [0m10.950 ms - -[0m
+
+2017-07-04T15:48:41.142Z - info: [0mGET /modules/users/client/css/users.css [36m304 [0m10.173 ms - -[0m
+
+2017-07-04T15:48:41.144Z - info: [0mGET /lib/moment/js/moment.js [36m304 [0m0.681 ms - -[0m
+
+2017-07-04T15:48:41.148Z - info: [0mGET /lib/full-calendar/js/fullcalendar.js [36m304 [0m1.017 ms - -[0m
+
+2017-07-04T15:48:41.154Z - info: [0mGET /lib/select2/dist/js/select2.min.js [36m304 [0m4.628 ms - -[0m
+
+2017-07-04T15:48:41.157Z - info: [0mGET /lib/datepicker/datepicker.min.js [36m304 [0m3.930 ms - -[0m
+
+2017-07-04T15:48:41.162Z - info: [0mGET /lib/datetimepicker/datetimepicker.min.js [36m304 [0m3.889 ms - -[0m
+
+2017-07-04T15:48:41.163Z - info: [0mGET /lib/fine-uploader/fine-uploader/fine-uploader.min.js [36m304 [0m3.553 ms - -[0m
+
+2017-07-04T15:48:41.164Z - info: [0mGET /lib/angular/angular.js [36m304 [0m3.859 ms - -[0m
+
+2017-07-04T15:48:41.166Z - info: [0mGET /lib/angular-animate/angular-animate.js [36m304 [0m4.387 ms - -[0m
+
+2017-07-04T15:48:41.177Z - info: [0mGET /lib/angular-bootstrap/ui-bootstrap-tpls.js [36m304 [0m5.857 ms - -[0m
+
+2017-07-04T15:48:41.178Z - info: [0mGET /lib/ng-file-upload/ng-file-upload.js [36m304 [0m3.664 ms - -[0m
+
+2017-07-04T15:48:41.186Z - info: [0mGET /lib/ng-img-crop/compile/unminified/ng-img-crop.js [36m304 [0m5.709 ms - -[0m
+
+2017-07-04T15:48:41.187Z - info: [0mGET /lib/angular-messages/angular-messages.js [36m304 [0m4.460 ms - -[0m
+
+2017-07-04T15:48:41.187Z - info: [0mGET /lib/angular-mocks/angular-mocks.js [36m304 [0m3.508 ms - -[0m
+
+2017-07-04T15:48:41.189Z - info: [0mGET /lib/angular-resource/angular-resource.js [36m304 [0m3.636 ms - -[0m
+
+2017-07-04T15:48:41.192Z - info: [0mGET /lib/angular-ui-router/release/angular-ui-router.js [36m304 [0m1.229 ms - -[0m
+
+2017-07-04T15:48:41.198Z - info: [0mGET /lib/owasp-password-strength-test/owasp-password-strength-test.js [36m304 [0m4.517 ms - -[0m
+
+2017-07-04T15:48:41.209Z - info: [0mGET /modules/core/client/app/config.js [36m304 [0m9.431 ms - -[0m
+
+2017-07-04T15:48:41.210Z - info: [0mGET /modules/core/client/app/init.js [36m304 [0m9.708 ms - -[0m
+
+2017-07-04T15:48:41.211Z - info: [0mGET /modules/chat/client/chat.client.module.js [36m304 [0m8.752 ms - -[0m
+
+2017-07-04T15:48:41.212Z - info: [0mGET /modules/core/client/core.client.module.js [36m304 [0m8.431 ms - -[0m
+
+2017-07-04T15:48:41.217Z - info: [0mGET /modules/guests/client/guests.client.module.js [36m304 [0m9.044 ms - -[0m
+
+2017-07-04T15:48:41.221Z - info: [0mGET /modules/hosts/client/hosts.client.module.js [36m304 [0m6.983 ms - -[0m
+
+2017-07-04T15:48:41.230Z - info: [0mGET /modules/payments/client/payments.client.module.js [36m304 [0m6.482 ms - -[0m
+
+2017-07-04T15:48:41.233Z - info: [0mGET /modules/tourgeckoadmin/client/tourgeckoadmin.client.module.js [36m304 [0m8.920 ms - -[0m
+
+2017-07-04T15:48:41.234Z - info: [0mGET /modules/users/client/users.client.module.js [36m304 [0m8.586 ms - -[0m
+
+2017-07-04T15:48:41.235Z - info: [0mGET /modules/chat/client/config/chat.client.menus.js [36m304 [0m8.656 ms - -[0m
+
+2017-07-04T15:48:41.237Z - info: [0mGET /modules/chat/client/config/chat.client.routes.js [36m304 [0m7.793 ms - -[0m
+
+2017-07-04T15:48:41.240Z - info: [0mGET /modules/chat/client/controllers/chat.client.controller.js [36m304 [0m7.710 ms - -[0m
+
+2017-07-04T15:48:41.253Z - info: [0mGET /modules/core/client/config/core-admin.client.menus.js [36m304 [0m11.515 ms - -[0m
+
+2017-07-04T15:48:41.256Z - info: [0mGET /modules/core/client/config/core-admin.client.routes.js [36m304 [0m11.859 ms - -[0m
+
+2017-07-04T15:48:41.260Z - info: [0mGET /modules/core/client/config/core.client.menus.js [36m304 [0m10.994 ms - -[0m
+
+2017-07-04T15:48:41.261Z - info: [0mGET /modules/core/client/config/core.client.route-filter.js [36m304 [0m12.467 ms - -[0m
+
+2017-07-04T15:48:41.262Z - info: [0mGET /modules/core/client/config/core.client.routes.js [36m304 [0m12.551 ms - -[0m
+
+2017-07-04T15:48:41.263Z - info: [0mGET /modules/core/client/controllers/abstracthome.client.controller.js [36m304 [0m11.163 ms - -[0m
+
+2017-07-04T15:48:41.272Z - info: [0mGET /modules/core/client/controllers/footer.client.controller.js [36m304 [0m7.988 ms - -[0m
+
+2017-07-04T15:48:41.275Z - info: [0mGET /modules/core/client/controllers/header.client.controller.js [36m304 [0m8.821 ms - -[0m
+
+2017-07-04T15:48:41.276Z - info: [0mGET /modules/core/client/controllers/home.client.controller.js [36m304 [0m8.269 ms - -[0m
+
+2017-07-04T15:48:41.277Z - info: [0mGET /modules/core/client/directives/disableClick.client.directive.js [36m304 [0m7.629 ms - -[0m
+
+2017-07-04T15:48:41.278Z - info: [0mGET /modules/core/client/directives/page-title.client.directive.js [36m304 [0m7.784 ms - -[0m
+
+2017-07-04T15:48:41.280Z - info: [0mGET /modules/core/client/directives/show-errors.client.directives.js [36m304 [0m8.914 ms - -[0m
+
+2017-07-04T15:48:41.298Z - info: [0mGET /modules/core/client/scripts/showmore.js [36m304 [0m3.151 ms - -[0m
+
+2017-07-04T15:48:41.304Z - info: [0mGET /modules/core/client/scripts/showPreview.js [36m304 [0m23.296 ms - -[0m
+
+2017-07-04T15:48:41.307Z - info: [0mGET /modules/core/client/services/interceptors/auth-interceptor.client.service.js [36m304 [0m7.054 ms - -[0m
+
+2017-07-04T15:48:41.308Z - info: [0mGET /modules/core/client/services/menu.client.service.js [36m304 [0m6.272 ms - -[0m
+
+2017-07-04T15:48:41.309Z - info: [0mGET /modules/core/client/services/socket.io.client.service.js [36m304 [0m5.601 ms - -[0m
+
+2017-07-04T15:48:41.310Z - info: [0mGET /modules/guests/client/config/guests.client.routes.js [36m304 [0m6.018 ms - -[0m
+
+2017-07-04T15:48:41.316Z - info: [0mGET /modules/guests/client/controllers/guestHome.client.controller.js [36m304 [0m9.300 ms - -[0m
+
+2017-07-04T15:48:41.325Z - info: [0mGET /modules/guests/client/controllers/tour-details.client.controller.js [36m304 [0m12.602 ms - -[0m
+
+2017-07-04T15:48:41.326Z - info: [0mGET /modules/guests/client/controllers/tourBooking.client.controller.js [36m304 [0m9.617 ms - -[0m
+
+2017-07-04T15:48:41.327Z - info: [0mGET /modules/guests/client/controllers/tourBookingDone.client.controller.js [36m304 [0m9.180 ms - -[0m
+
+2017-07-04T15:48:41.328Z - info: [0mGET /modules/hosts/client/config/hosts.client.routes.js [36m304 [0m9.074 ms - -[0m
+
+2017-07-04T15:48:41.329Z - info: [0mGET /modules/hosts/client/controllers/aboutUs.client.controller.js [36m304 [0m8.216 ms - -[0m
+
+2017-07-04T15:48:41.334Z - info: [0mGET /modules/hosts/client/controllers/addProduct.client.controller.js [36m304 [0m9.472 ms - -[0m
+
+2017-07-04T15:48:41.344Z - info: [0mGET /modules/hosts/client/controllers/allNotifications.client.controller.js [36m304 [0m12.506 ms - -[0m
+
+2017-07-04T15:48:41.345Z - info: [0mGET /modules/hosts/client/controllers/hostHome.client.controller.js [36m304 [0m12.786 ms - -[0m
+
+2017-07-04T15:48:41.346Z - info: [0mGET /modules/hosts/client/controllers/hostSettings.client.controller.js [36m304 [0m12.493 ms - -[0m
+
+2017-07-04T15:48:41.348Z - info: [0mGET /modules/hosts/client/controllers/message.client.controller.js [36m304 [0m7.456 ms - -[0m
+
+2017-07-04T15:48:41.349Z - info: [0mGET /modules/hosts/client/controllers/productBooking.client.controller.js [36m304 [0m7.954 ms - -[0m
+
+2017-07-04T15:48:41.356Z - info: [0mGET /modules/hosts/client/controllers/sidenav.client.controller.js [36m304 [0m9.357 ms - -[0m
+
+2017-07-04T15:48:41.357Z - info: [0mGET /modules/hosts/client/controllers/topNavAddTour.client.controller.js [36m304 [0m6.769 ms - -[0m
+
+2017-07-04T15:48:41.358Z - info: [0mGET /modules/hosts/client/controllers/tour-preview.client.controller.js [36m304 [0m6.376 ms - -[0m
+
+2017-07-04T15:48:41.359Z - info: [0mGET /modules/hosts/client/controllers/tourBookingDetails.client.controller.js [36m304 [0m5.416 ms - -[0m
+
+2017-07-04T15:48:41.362Z - info: [0mGET /modules/hosts/client/controllers/tourCalender.client.controller.js [36m304 [0m6.822 ms - -[0m
+
+2017-07-04T15:48:41.364Z - info: [0mGET /modules/hosts/client/controllers/tourlist.client.controller.js [36m304 [0m7.752 ms - -[0m
+
+2017-07-04T15:48:41.368Z - info: [0mGET /modules/hosts/client/controllers/toursite.client.controller.js [36m304 [0m0.933 ms - -[0m
+
+2017-07-04T15:48:41.373Z - info: [0mGET /modules/hosts/client/controllers/toursiteCommon.client.controller.js [36m304 [0m4.221 ms - -[0m
+
+2017-07-04T15:48:41.374Z - info: [0mGET /modules/hosts/client/scripts/calendar.js [36m304 [0m4.790 ms - -[0m
+
+2017-07-04T15:48:41.376Z - info: [0mGET /modules/hosts/client/services/booking.client.service.js [36m304 [0m5.552 ms - -[0m
+
+2017-07-04T15:48:41.378Z - info: [0mGET /modules/hosts/client/services/companyProduct.client.service.js [36m304 [0m7.189 ms - -[0m
+
+2017-07-04T15:48:41.379Z - info: [0mGET /modules/hosts/client/services/hostCompany.client.service.js [36m304 [0m7.149 ms - -[0m
+
+2017-07-04T15:48:41.387Z - info: [0mGET /modules/hosts/client/services/language.client.service.js [36m304 [0m1.232 ms - -[0m
+
+2017-07-04T15:48:41.399Z - info: [0mGET /modules/hosts/client/services/message.client.service.js [36m304 [0m10.023 ms - -[0m
+
+2017-07-04T15:48:41.401Z - info: [0mGET /modules/hosts/client/services/pinboard.client.service.js [36m304 [0m10.307 ms - -[0m
+
+2017-07-04T15:48:41.402Z - info: [0mGET /modules/hosts/client/services/productDataShare.client.service.js [36m304 [0m10.252 ms - -[0m
+
+2017-07-04T15:48:41.403Z - info: [0mGET /modules/hosts/client/services/products.client.service.js [36m304 [0m10.526 ms - -[0m
+
+2017-07-04T15:48:41.405Z - info: [0mGET /modules/hosts/client/services/productSessionCount.client.service.js [36m304 [0m8.246 ms - -[0m
+
+2017-07-04T15:48:41.412Z - info: [0mGET /modules/hosts/client/services/productsessions.client.service.js [36m304 [0m5.757 ms - -[0m
+
+2017-07-04T15:48:41.413Z - info: [0mGET /modules/hosts/client/services/specificUser.client.service.js [36m304 [0m5.305 ms - -[0m
+
+2017-07-04T15:48:41.416Z - info: [0mGET /modules/payments/client/config/payments.client.routes.js [36m304 [0m6.069 ms - -[0m
+
+2017-07-04T15:48:41.417Z - info: [0mGET /modules/tourgeckoadmin/client/config/tourgeckoadmin.client.routes.js [36m304 [0m5.647 ms - -[0m
+
+2017-07-04T15:48:41.418Z - info: [0mGET /modules/tourgeckoadmin/client/controllers/tourgeckoadmin.client.controller.js [36m304 [0m3.973 ms - -[0m
+
+2017-07-04T15:48:41.423Z - info: [0mGET /modules/tourgeckoadmin/client/services/activities.client.service.js [36m304 [0m3.423 ms - -[0m
+
+2017-07-04T15:48:41.430Z - info: [0mGET /modules/tourgeckoadmin/client/services/hosts.client.service.js [36m304 [0m8.121 ms - -[0m
+
+2017-07-04T15:48:41.431Z - info: [0mGET /modules/tourgeckoadmin/client/services/themes.client.service.js [36m304 [0m8.275 ms - -[0m
+
+2017-07-04T15:48:41.432Z - info: [0mGET /modules/users/client/config/users-admin.client.menus.js [36m304 [0m7.247 ms - -[0m
+
+2017-07-04T15:48:41.437Z - info: [0mGET /modules/users/client/config/users.client.routes.js [36m304 [0m10.481 ms - -[0m
+
+2017-07-04T15:48:41.439Z - info: [0mGET /modules/users/client/controllers/admin/list-users.client.controller.js [36m304 [0m8.869 ms - -[0m
+
+2017-07-04T15:48:41.446Z - info: [0mGET /modules/users/client/controllers/admin/user.client.controller.js [36m304 [0m5.986 ms - -[0m
+
+2017-07-04T15:48:41.447Z - info: [0mGET /modules/users/client/controllers/authentication.client.controller.js [36m304 [0m6.149 ms - -[0m
+
+2017-07-04T15:48:41.448Z - info: [0mGET /modules/users/client/controllers/password.client.controller.js [36m304 [0m6.237 ms - -[0m
+
+2017-07-04T15:48:41.449Z - info: [0mGET /modules/users/client/controllers/settings/change-password.client.controller.js [36m304 [0m6.260 ms - -[0m
+
+2017-07-04T15:48:41.450Z - info: [0mGET /modules/users/client/controllers/settings/change-profile-picture.client.controller.js [36m304 [0m6.263 ms - -[0m
+
+2017-07-04T15:48:41.450Z - info: [0mGET /modules/users/client/controllers/settings/edit-profile.client.controller.js [36m304 [0m6.224 ms - -[0m
+
+2017-07-04T15:48:41.494Z - info: [0mGET /modules/users/client/controllers/settings/manage-social-accounts.client.controller.js [36m304 [0m37.996 ms - -[0m
+
+2017-07-04T15:48:41.495Z - info: [0mGET /modules/users/client/controllers/settings/settings.client.controller.js [36m304 [0m39.108 ms - -[0m
+
+2017-07-04T15:48:41.504Z - info: [0mGET /modules/users/client/controllers/settings/user-profile.client.controller.js [36m304 [0m39.922 ms - -[0m
+
+2017-07-04T15:48:41.515Z - info: [0mGET /modules/users/client/directives/password-validator.client.directive.js [36m304 [0m28.492 ms - -[0m
+
+2017-07-04T15:48:41.519Z - info: [0mGET /modules/users/client/directives/password-verify.client.directive.js [36m304 [0m29.432 ms - -[0m
+
+2017-07-04T15:48:41.521Z - info: [0mGET /modules/users/client/directives/users.client.directive.js [36m304 [0m30.507 ms - -[0m
+
+2017-07-04T15:48:41.526Z - info: [0mGET /modules/users/client/services/authentication.client.service.js [36m304 [0m3.710 ms - -[0m
+
+2017-07-04T15:48:41.527Z - info: [0mGET /modules/users/client/services/newUser.client.service.js [36m304 [0m3.521 ms - -[0m
+
+2017-07-04T15:48:41.527Z - info: [0mGET /modules/users/client/services/password-validator.client.service.js [36m304 [0m3.139 ms - -[0m
+
+2017-07-04T15:48:41.528Z - info: [0mGET /modules/users/client/services/users.client.service.js [36m304 [0m3.361 ms - -[0m
+
+2017-07-04T15:48:41.529Z - info: [0mGET /lib/angular-toasty/angular-toasty.js [36m304 [0m3.158 ms - -[0m
+
+2017-07-04T15:48:41.538Z - info: [0mGET /lib/full-calendar/css/fullcalendar.print.css [36m304 [0m0.666 ms - -[0m
+
+2017-07-04T15:48:42.919Z - info: [0mGET /modules/hosts/client/views/host.client.view.html [36m304 [0m0.792 ms - -[0m
+
+2017-07-04T15:48:42.928Z - info: [0mGET /modules/hosts/client/views/settings/payments-settings.client.view.html [36m304 [0m0.699 ms - -[0m
+
+2017-07-04T15:48:42.946Z - info: [0mGET /modules/core/client/img/brand/tourgecko-payments.png [36m304 [0m0.769 ms - -[0m
+
+2017-07-04T15:48:43.036Z - info: [0mGET /api/users/me [36m304 [0m21.240 ms - -[0m
+
+2017-07-04T15:48:43.037Z - info: [0mGET /modules/core/client/views/header.client.view.html [36m304 [0m13.926 ms - -[0m
+
+2017-07-04T15:48:43.038Z - info: [0mGET /modules/core/client/views/footer.client.view.html [36m304 [0m10.764 ms - -[0m
+
+2017-07-04T15:48:43.055Z - info: [0mGET /modules/hosts/client/views/side-nav.client.view.html [36m304 [0m26.858 ms - -[0m
+
+2017-07-04T15:48:43.058Z - info: [0mGET /api/host/language [36m304 [0m45.764 ms - -[0m
+
+2017-07-04T15:48:43.059Z - info: [0mGET /modules/hosts/client/images/pointer.svg [36m304 [0m3.313 ms - -[0m
+
+2017-07-04T15:48:43.060Z - info: [0mGET /api/host/company/ [36m304 [0m52.798 ms - -[0m
+
+2017-07-04T15:48:43.105Z - info: [0mGET /modules/users/client/img/profile/default.png [36m304 [0m11.239 ms - -[0m
+
+2017-07-04T15:48:43.109Z - info: [0mGET /api/notification/initialfetch/ [36m304 [0m22.082 ms - -[0m
+
+2017-07-04T15:48:43.110Z - info: [0mGET /api/notification/unreadCount/ [36m304 [0m20.339 ms - -[0m
+
+2017-07-04T15:48:43.148Z - info: [0mGET /%7B%7Bnotification.notificationTypeLogo%7D%7D [36m304 [0m37.457 ms - -[0m
+
+2017-07-04T15:48:43.152Z - info: [0mGET /modules/core/client/img/brand/logo.svg [36m304 [0m5.946 ms - -[0m
+
+2017-07-04T15:48:43.258Z - info: [0mGET /lib/material-design/fonts/Material-Design-Iconic-Font.woff2?v=2.2.0 [36m304 [0m1.259 ms - -[0m
+
+2017-07-04T15:48:43.263Z - info: [0mGET /modules/core/client/img/loaders/loader.gif [36m304 [0m2.010 ms - -[0m
+

@@ -42,7 +42,7 @@
                 </div>
                 <form role="form" action="" method="post" name="vm.bookingForm" novalidate autocomplete="off">
                     <div class="row setup-content" id="step-1">
-                        <div class="col-xs-12" ng-if="vm.sessionsOfThisProduct.length <= 3 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
+                        <div class="col-xs-12" ng-if="vm.datesOfTheSessionsOfThisProduct.length <= 20 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
                             <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(1)">
                                 <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
                                     <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
@@ -65,20 +65,24 @@
                                 <h3 class="booking-form-title"><i class="zmdi zmdi-calendar orange-text"></i> Departure</h3>
                                 <strong class="booking-form-subtitle"> Select the departure date</strong>
                                 <div class="date-picker">
-                                    <div class="select-date-wrapper" ng-repeat="session in vm.sessionsOfThisProduct | orderBy: 'sessionDepartureDetails.startDate' track by $index" ng-style="vm.getDynamicCSSForDateSection($index)">
+                                    <div class="select-date-wrapper" ng-repeat="session in vm.sesisonDateAndTimeForDisplayAndAvailability | orderBy: 'startDate' track by $index" ng-style="vm.getDynamicCSSForDateSection($index)" id="dateSelectorDiv{{$index}}">
                                         <div class="radio">
                                             <label>
-                                                <input name="optionsRadios" id="optionsRadios1" type="radio"  id="departureDate{{$index}}" value="vm.selectedDate" ng-click="vm.setSelectedDate($index)"> {{getDepartureDate(session.sessionDepartureDetails.startDate, $index)}}
+                                                <input name="optionsRadios" id="optionsRadios{{$index}}" type="radio"  id="departureDate{{$index}}" value="vm.selectedDate" ng-click="vm.setSelectedDate(session, $index)"> {{getDepartureDate(session.startDate, $index)}}
                                                 <br>
-                                                <span ng-if="session.sessionDepartureDetails.startTime != '' && session.sessionDepartureDetails.startTime != undefined"><i class="fa fa-clock-o orange-text"></i>{{session.sessionDepartureDetails.startTime}}</span>
+                                                <span ng-if="session.startTime != '' && session.startTime != undefined && session.startTime != 'No Time'" id="startTime{{$index}}"><i class="fa fa-clock-o orange-text"></i>{{session.startTime}}</span>
                                             </label>
                                         </div>
-                                        <a href="#" class="select-date-btn"><span class="card-tour-price"><span class="currency"></span> 4 Seats Remaining</span></a>
+                                        <a href="#" class="select-date-btn">
+                                            <span class="card-tour-price" id="remainingSeats">
+                                                <span></span> {{vm.getSeatsRemainingForList(session, $index)}} 
+                                            </span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12" style="margin-bottom: 10px;" ng-click="vm.hideErrorsIfExists(1)">
+                        <div class="col-xs-12" style="margin-bottom: 10px;" ng-click="vm.hideErrorsIfExists(1)" id="bookingCalendar">
                             <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
                                 <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
                                     <div class="row">
@@ -144,7 +148,7 @@
                                     </button>
                                     <ul class="dropdown-menu per-page-count">
                                         <li ng-repeat="time in vm.timesForThisDate track by $index">
-                                            <a href="" ng-click="vm.selectedTimeslot = time">{{time}}</a>
+                                            <a href="" ng-click="vm.selectedTimeslot = time">{{time}} <span ng-if="vm.bookingProductDetails.isAvailabilityVisibleToGuests">- ({{vm.getSeatsRemainingForCalendar(time)}})</span></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -179,7 +183,8 @@
                                 </div>
                                 <h3 class="booking-form-title"><span class="currency orange-text">&#8377;</span> Booking Options</h3>
                                 <strong class="booking-form-subtitle"> Select options and quality
-                                <span class="pull-right orange-text">Mandatory</span></strong>
+                                    <span class="pull-right orange-text">Mandatory</span>
+                                </strong>
                                 <div ng-repeat="pricing in vm.validPricingOptions track by $index">
                                     <div class="booking-radio-wrappers border-bottom" ng-if="pricing.pricingType == 'Custom'">
                                         <div class="col-xs-6 col-sm-3">

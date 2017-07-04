@@ -22,7 +22,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
+//Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
   Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').exec(function (err, booking) {
@@ -138,35 +138,30 @@ function updateSession(booking) {
           message: errorHandler.getErrorMessage(err)
         });
       }
+      var key = booking.actualSessionDate + booking.actualSessionTime;
       if (!session.numberOfBookings) {
-        var key = booking.actualSessionDate;
         session.numberOfBookings = {
           [key] : 1
         }
       } else {
-        if(session.numberOfBookings[booking.actualSessionDate]) {
-          var key = booking.actualSessionDate;
+        if(session.numberOfBookings[key]) {
           var value = parseInt(session.numberOfBookings[key]) + 1;
           session.numberOfBookings[key] = value;
         } else {
-          var key = booking.actualSessionDate;
           session.numberOfBookings[key] = 1;
         }
       }
       
       if (!session.numberOfSeats) {
-        var key = booking.actualSessionDate;
         var value = parseInt(booking.numberOfSeats);
         session.numberOfSeats = {
           [key] : value
         }
       } else {
-        if (session.numberOfSeats[booking.actualSessionDate]) {
-          var key = booking.actualSessionDate;
+        if (session.numberOfSeats[key]) {
           var value = parseInt(session.numberOfSeats[key]) + parseInt(booking.numberOfSeats);
           session.numberOfSeats[key] = value;
         } else {
-          var key = booking.actualSessionDate;
           session.numberOfSeats[key] = parseInt(booking.numberOfSeats);
         }
       }

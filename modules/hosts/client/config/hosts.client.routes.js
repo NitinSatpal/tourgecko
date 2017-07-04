@@ -122,7 +122,7 @@
         }
       })
       .state('host.calendar', {
-        url: '/calendar',
+        url: '/sessions',
         templateUrl: 'modules/hosts/client/views/host/calendar.client.view.html',
         controller: 'TourCalendarController',
         controllerAs: 'vm',

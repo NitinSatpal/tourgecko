@@ -20,7 +20,7 @@ var Insta = require('instamojo-nodejs');
 Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
+// Insta.isSandboxMode(true);
 
 // Fetching user company details here. Though we will need specific users company details always. But we are fetching as an array.
 // Later point of time we may need company details of all the users. We can use this same api for that.
@@ -189,82 +189,172 @@ exports.savePaymentDetails = function (req, res) {
   var otherChangedPaymentDetails = req.body.otherAccDetails[0];
   var changedPaymentDetailsCountry = req.body.accCountryDetails;
   if (req.user) {
-    InstamojoUser.findOne({user: req.user._id}).exec(function (err, instaUser) {
-      var userDetails = Insta.UserBasedAuthenticationData();
-      userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-      userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
-      userDetails.username = instaUser.instamojo_email;
-      userDetails.password = instaUser.instamojo_password;
-      Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
-        if (userTokenError) {
-          res.json({messages: ['Something went wrong in authentication'], status: 'failure'});
-        } else {
-          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
-                        config.paymentGateWayInstamojo.instamojoSecret,
-                        'Bearer' + ' ' + userTokenResponse.access_token);
+    var user = req.user;
+    /* Get data for app based authentication */
+    var data = new Insta.ApplicationBasedAuthenticationData();
+    data.client_id = config.paymentGateWayInstamojo.clientId;
+    data.client_secret = config.paymentGateWayInstamojo.clientSecret;
+    // App based authentication to get access token
+    Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
+      if (appTokenError) {
+        errors.push('Something went wrong while creating the user details. Please contact tourgecko support');
+        res.json({messages: errors, status: 'failure'});
+      } else {
+        // Use app based authentication token to create the user. First set the token in the header and then call the signup api
+        Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                      config.paymentGateWayInstamojo.instamojoSecret,
+                      'Bearer' + ' ' + appTokenResponse.access_token);
+        // Set data for the user to be created on instamojo
+        var email = Math.random().toString(36).substring(7) + '_instamojo@tourgecko.com';
+        var password = config.paymentGateWayInstamojo.userPwdCommonPrefix + Math.random().toString(36).substring(7);
+        var signupData = {
+            'email': email,
+            'password': password,
+            'phone': user.mobile,
+            'referrer': config.paymentGateWayInstamojo.referer
+        }
+        // Create the user by calling the api
+        Insta.onBoardHost(signupData, function(signupError, signupResponse) {
+          if (signupError) {
+            errors.push('Something went wrong while creating the user details. Please contact tourgecko support');
+            res.json({messages: errors, status: 'failure'});
+          } else {
+            // Get and set data for user based authentication
+            var userDetails = Insta.UserBasedAuthenticationData();
+            userDetails.client_id = config.paymentGateWayInstamojo.clientId;
+            userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+            userDetails.username = signupResponse.email;
+            userDetails.password = password;
 
-          var instamojo_Bank_Account_Data = {
-            account_holder_name: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName,
-            account_number: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber,
-            ifsc_code: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode
-          };
+            // User based authentication to get access token
+            Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+              if (userTokenError) {
+                errors.push('Something went wrong while editing the user details. Please contact tourgecko support');
+                res.json({messages: errors, status: 'failure'});
+              } else {
+                // Use user based authentication token to edit the user. First set the token in the header and then call the edit api
+                Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                              config.paymentGateWayInstamojo.instamojoSecret,
+                              'Bearer' + ' ' + userTokenResponse.access_token);
 
-          Insta.setOnBoardedHostBankDetails(instamojo_Bank_Account_Data, instaUser.instamojo_id, function(editHostError, editHostResponse) {
-            var errors = [];
-            if (editHostError) {
-              for (var key in editHostError) {
-                errors.push(errorHandler.getCustomErrorMessage(key, editHostError[key]));
-              }
-              res.json({messages: errors, status: 'failure'});
-            } else {
-              if (editHostResponse.user) {
-                var commonPrefix = 'instamojo_';
-                for (var key in editHostResponse) {
-                  if (editHostResponse.hasOwnProperty(key)) {
-                    var val = editHostResponse[key];
-                    instaUser[commonPrefix + key] = val;
-                  }
+                 // Set data for the user to be edited on instamojo
+                var editHostData = {
+                  'first_name' : user.firstName,
+                  'last_name' : user.lastName,
+                  'is_email_verified' : true,
+                  'is_phone_verified' : true,
+                  'location' : otherChangedPaymentDetails.hostCompanyAddress.city,
+                  'public_phone' : user.mobile,
+                  'public_email' : user.email,
+                  'public_website' : otherChangedPaymentDetails.companyWebsite,
+                  'referrer': config.paymentGateWayInstamojo.referer
                 }
-                instaUser.save(function (err, res) {
-                  if (err) {
-                    errors.push('Something went wrong while saving the gateway user response');
-                    res.json({messages: errors, status: 'failure'});
-                  }
 
-                });
-                Company.findOne({user: req.user._id}).exec(function (err, company) {
-                  if (err) {
-                    return res.status(400).send({
-                      message: errorHandler.getErrorMessage(err)
+                // Edit the user by calling the api
+                Insta.editOnBoardedHostDetails(editHostData, signupResponse.id, function(editHostError, editHostResponse) {
+                  if (editHostError) {
+                    errors.push('Something went wrong while editing the user details. Please contact tourgecko support');
+                    res.json({messages: errors, status: 'failure'});
+                  } else {
+                    var instaUser = new InstamojoUser();
+                    instaUser.instamojo_password = password;
+                    instaUser.user = user._id;
+                    var commonPrefix = 'instamojo_';
+                    for (var key in editHostResponse) {
+                      if (editHostResponse.hasOwnProperty(key)) {
+                        var val = editHostResponse[key];
+                        instaUser[commonPrefix + key] = val;
+                      }
+                    }
+                    instaUser.save(function() {
+                      var userDetails = Insta.UserBasedAuthenticationData();
+                      userDetails.client_id = config.paymentGateWayInstamojo.clientId;
+                      userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+                      userDetails.username = instaUser.instamojo_email;
+                      userDetails.password = instaUser.instamojo_password;
+                      var errors = [];
+                      var response;
+                      Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+                        if (userTokenError) {
+                          errors.push('Something went wrong while saving bank details. Please contact tourgecko support');
+                          res.json({messages: errors, status: 'failure'});
+                        } else {
+                          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                                        config.paymentGateWayInstamojo.instamojoSecret,
+                                        'Bearer' + ' ' + userTokenResponse.access_token);
+
+                          var instamojo_Bank_Account_Data = {
+                            account_holder_name: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName,
+                            account_number: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber,
+                            ifsc_code: otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode
+                          };
+                          Insta.setOnBoardedHostBankDetails(instamojo_Bank_Account_Data, instaUser.instamojo_id, function(editHostError, editHostResponse) {
+                            if (editHostError) {
+                              for (var key in editHostError) {
+                                var error = key + ': ' + editHostError[key];
+                                errors.push(error);
+                              }
+                              res.json({messages: errors, status: 'failure'});
+                            } else {
+                              if (editHostResponse.user) {
+                                var commonPrefix = 'instamojo_';
+                                for (var key in editHostResponse) {
+                                  if (editHostResponse.hasOwnProperty(key)) {
+                                    var val = editHostResponse[key];
+                                    instaUser[commonPrefix + key] = val;
+                                  }
+                                }
+                                instaUser.save(function (error, response) {
+                                  if (error) {
+                                    errors.push('Something went wrong while saving user details. Please contact tourgecko support');
+                                    res.json({messages: errors, status: 'failure'});
+                                  }
+                                });
+                                Company.findOne({user: req.user._id}).exec(function (error, company) {
+                                  if (error) {
+                                    errors.push('Something went wrong while saving the company details. Please contact tourgecko support');
+                                    res.json({messages: errors, status: 'failure'});
+                                  }
+                                  company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
+                                  company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
+                                  company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
+                                  company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
+                                  company.paymentActivated = true;
+                                  company.markModified('hostBankAccountDetails');
+                                  company.save(function (error, response) {
+                                    if (error) {
+                                      errors.push('Something went wrong while saving the company details. Please contact tourgecko support');
+                                      res.json({messages: errors, status: 'failure'});
+                                    }
+                                    res.json({messages: editHostResponse, status: 'success'});
+                                  });
+                                });
+                              } else {
+                                for (var key in editHostResponse) {
+                                  var error = key + ': ' + editHostResponse[key];
+                                  errors.push(error);
+                                }
+                                res.json({messages: errors, status: 'failure'});
+                              }
+                            }
+                          });
+                        }
+                      });
                     });
                   }
-                  company.hostBankAccountDetails.beneficiaryName = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryName;
-                  company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
-                  company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
-                  company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
-                  company.markModified('hostBankAccountDetails');
-                  company.save(function (err, res) {
-                    if (err) {
-                      errors.push('Something went wrong while saving the host company details');
-                      res.json({messages: errors, status: 'failure'});
-                    }
-                  });
                 });
-
-                res.json({message: editHostResponse, status: 'success'});
-              } else {
-                for (var key in editHostResponse) {
-                  errors.push(errorHandler.getCustomErrorMessage(key, editHostResponse[key]));
-                }
-                res.json({messages: errors, status: 'failure'});
               }
-            }
-          });
-        }
-      });
+            });
+          }
+        });
+      }
     });
   }
 };
+
+function setBankDetailsOnInstamojo(instaUser, otherChangedPaymentDetails) {
+  
+}
 
 // Save toursite details
 exports.saveToursiteDetails = function (req, res) {

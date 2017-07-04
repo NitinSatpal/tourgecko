@@ -34,6 +34,10 @@ var BookingSchema = new Schema({
     type: String,
     default: ''
   },
+  actualSessionTime: {
+    type: String,
+    default: ''
+  },
   isOpenDateTour: {
     type: Boolean
   },

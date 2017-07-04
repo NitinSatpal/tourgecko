@@ -1,3 +1,10 @@
+.pinboard .pin-group ul{ margin-top:-2rem}
+.bg-highlight{ background-color:#fffff5}
+.menu-alert{ height:30px; width:30px; text-align:center; border-radius:50%; padding-top:.5rem; margin-top:.8rem}
+.zmdi-airline-seat-recline-normal.check::after{ content: '\f26a'; display: inline-block; font-size:12px; vertical-align: super; margin-left: -.2rem;}
+.navbar-nav .btn-block{ width:80%}
+p.sub_desc, span.sub_desc{font-size: 12px; line-height: 1.2rem; color:#aaaaaa !important;}
+.tourgecko-payments img{ width:200px;}
 #bookingTab .list-layout .table {
 	margin-bottom: 0;
 }
@@ -27,6 +34,9 @@ span.text-huge {
 	overflow: hidden;
     background-color: #e0e0e0;
     clear: both;
+}
+.divider-thin {
+    height: 1px;
 }
 .bg_orange{ background-color: orange;}
 .bg_red{ background-color: #cc0000;}
@@ -108,9 +118,35 @@ ul.card-booking-details li{ display:flex;}
 ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-height:3rem; flex:1; width:0;overflow: hidden;
     text-overflow: ellipsis;}
 
+#settings .settings_payment .activated.inactive{ opacity:.2}
+#settings .settings_payment .inactive i{ color:#999}
+#settings .settings_payment .bank-account-details{ margin-top:-1rem}
+#settings .settings_payment .bank-account-details:after {content: ''; display: block; clear: both;}
+#settings .settings_payment .payment-method-detail:after {clear: both; content: ''; display: block;}
+#settings .settings_payment .zmdi-chevron-down.chevron-up{-webkit-transform: rotate(180deg); -ms-transform: rotate(180deg); transform: rotate(180deg); transition:all ease-in-out .5s;}
+#settings .settings_payment .zmdi-chevron-down{transition:all ease-in-out .5s; font-size:20px;    vertical-align: bottom;}
+#settings .settings_payment .payment-guide{ float:right; margin-top:-2rem}
+#tours #tours_media .fileUpload input.upload #settings .account_overview .user_info .info p{font-size: 14px; margin: 0; padding: 0; line-height: 18px;}
+
+.text-100{font-weight:100 !important}
+.text-200{font-weight:200 !important}
+.text-300{font-weight:300 !important}
+.text-400{font-weight:400 !important}
+.text-500{font-weight:500 !important}
+.text-700{font-weight:700 !important}
+
+
+.text-readable11, .text-readable11 span { font-size:11px !important; line-height:normal !important;}
+.text-readable12, .text-readable12 span { font-size:12px !important; line-height:normal !important;}
+.text-readable13, .text-readable13 span { font-size:13px !important; line-height:normal !important;}
+.text-readable14, .text-readable14 span { font-size:14px !important; line-height:normal !important;}
+.text-readable15, .text-readable15 span { font-size:15px !important; line-height:normal !important;}
+.text-readable16, .text-readable16 span { font-size:16px !important; line-height:normal !important;}
+
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
+	.booking-trip-start::after{margin-right: -2.6rem; margin-top: -9rem;}  
 	.booking-payment-method{width:30%}
 	.booking-payment-date{width:42%}
 	.booking-payment-amount{width:15%} 
@@ -119,6 +155,10 @@ and (max-device-width : 1024px){
 	#booking-detail .nav-div{ display:none;}  
 }
 @media (max-width: 767px){
+	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(2){padding-right: .5rem;}
+	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(3){padding-left: .5rem;}
+	#booking .col5.col-sm-6.col-xs-6 .text-center{ text-align: left } 
+	.outline .col5{ padding-right: 5px; padding-left: 5px}
 	.booking-date-time-info form{ display:flex}  
 	.booking-payment-method, .booking-payment-amount{ width:25%;}
 	.booking-payment-date{width:40%}
@@ -127,19 +167,29 @@ and (max-device-width : 1024px){
 	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
 	#booking-detail .nav-div{ display:none;}
 	.booking-status-icon{ margin-top:0}
+	.sign-up-successful{ text-align:center}
+	#tours_list .panel .tour_utils {position: relative;width: 100%;padding: 20px 0; border-top: 1px solid #eee;text-align: center; right: 0px; top: 0px;}
+	span.text-huge{ font-size:4.5em;}
 }
-@media (max-width: 425px){
+
+@media (max-width: 425px){    
+	#booking .booking-analytics-icon{ font-size: 2rem;}
+	.booking-trip-start::after{margin-right: -1.4rem; margin-top: -3rem;} 
 	#bookings .booking-search-input{width:90px !important}
 	#bookings .bookings-search .btn.btn-default{ margin-left:2px !important;} 
 	.booking-user-parent{ text-align:center;}
 	.booking-user-parent .booking-user{ float:none !important;}
 	.booking-ref h5{ text-align:center}
+	span.text-huge{ font-size:3.5em;}
+	h2.text-300{ font-size:1.5em;}
+	h4.text-huge-slogan{ font-size:1em}
 }
-
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
 	.booking-payment-method{width:20%}
 	.booking-payment-date{width:45%}
 	.booking-payment-amount{width:30%}
+	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 
 }
+

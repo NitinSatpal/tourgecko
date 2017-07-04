@@ -10,7 +10,6 @@ var path = require('path'),
   User = mongoose.model('User'),
   UserAdmin = mongoose.model('UserAdministration'),
   HostCompany = mongoose.model('HostCompany'),
-  InstamojoUser = mongoose.model('InstamojoUsers'),
   passport = require('passport'),
   nodemailer = require('nodemailer'),
   mg = require('nodemailer-mailgun-transport'),
@@ -25,13 +24,6 @@ var noReturnUrls = [
   '/guest/login',
   '/guest/signup'
 ];
-
-/* Payment gateway account signup */
-var Insta = require('instamojo-nodejs');
-Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
-
-// This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
 
 var smtpTransport = nodemailer.createTransport({
   service: config.mailer.service,
@@ -229,87 +221,7 @@ exports.signupDetails = function(req, res, next) {
                       message: errorHandler.getErrorMessage(err)
                     });
                   } else {
-                    /* Get data for app based authentication */
-                    var data = new Insta.ApplicationBasedAuthenticationData();
-                    data.client_id = config.paymentGateWayInstamojo.clientId;
-                    data.client_secret = config.paymentGateWayInstamojo.clientSecret;
-                    // App based authentication to get access token
-                    Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
-                      if (appTokenError) {
-                        // some error
-                      } else {
-                        // Use app based authentication token to create the user. First set the token in the header and then call the signup api
-                        Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
-                                      config.paymentGateWayInstamojo.instamojoSecret,
-                                      'Bearer' + ' ' + appTokenResponse.access_token);
-
-                        // Set data for the user to be created on instamojo
-                        var email = Math.random().toString(36).substring(7) + '_instamojo@tourgecko.com';
-                        var password = config.paymentGateWayInstamojo.userPwdCommonPrefix + Math.random().toString(36).substring(7);
-                        var signupData = {
-                            'email': email,
-                            'password': password,
-                            'phone': user.mobile,
-                            'referrer': config.paymentGateWayInstamojo.referer
-                        }
-                        // Create the user by calling the api
-                        Insta.onBoardHost(signupData, function(signupError, signupResponse) {
-                          if (signupError) {
-                            // some error
-                          } else {
-                            // Get and set data for user based authentication
-                            var userDetails = Insta.UserBasedAuthenticationData();
-                            userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-                            userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
-                            userDetails.username = signupResponse.email;
-                            userDetails.password = password;
-
-                            // User based authentication to get access token
-                            Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
-                              if (userTokenError) {
-
-                              } else {
-                                // Use user based authentication token to edit the user. First set the token in the header and then call the edit api
-                                Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
-                                              config.paymentGateWayInstamojo.instamojoSecret,
-                                              'Bearer' + ' ' + userTokenResponse.access_token);
-
-                                 // Set data for the user to be edited on instamojo
-                                var editHostData = {
-                                  'first_name' : user.firstName,
-                                  'last_name' : user.lastName,
-                                  'is_email_verified' : true,
-                                  'is_phone_verified' : true,
-                                  'location' : hostCompany.hostCompanyAddress.city,
-                                  'public_phone' : user.mobile,
-                                  'public_email' : user.email,
-                                  'public_website' : hostCompany.companyWebsite,
-                                  'referrer': config.paymentGateWayInstamojo.referer
-                                }
-
-                                // Edit the user by calling the api
-                                Insta.editOnBoardedHostDetails(editHostData, signupResponse.id, function(editHostError, editHostResponse) {
-                                  if (editHostError) {
-                                  } else {
-                                    var instaUser = new InstamojoUser();
-                                    instaUser.instamojo_password = password;
-                                    instaUser.user = user._id;
-                                    var commonPrefix = 'instamojo_';
-                                    for (var key in editHostResponse) {
-                                      if (editHostResponse.hasOwnProperty(key)) {
-                                        var val = editHostResponse[key];
-                                        instaUser[commonPrefix + key] = val;
-                                      }
-                                    }
-                                    instaUser.save();
-                                  }
-                                });
-                              }
-                            });
-                          }
-                        });
-                      }
-                    });
+                    // company saved successfully
                   }
                 });
               });

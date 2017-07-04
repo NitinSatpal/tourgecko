@@ -27,6 +27,10 @@
       vm.contactDetails = vm.companyDetails;
       vm.noSocialCheck = !vm.companyDetails[0].areSocialAccountsPresent;
       vm.paymentDetails = vm.companyDetails;
+      if(vm.paymentDetails[0].paymentActivated) {
+        $(".activated").removeClass("inactive");
+        $('.bank-account-details').find('input, textarea, select').attr('readonly', 'readonly');
+      }
       vm.toursiteDetails = vm.companyDetails;
       vm.accountDetails = vm.companyDetails;
       vm.regionalDetails = vm.companyDetails;
@@ -158,15 +162,17 @@
     };
 
     // Payment Settings
+    vm.paymentBankAccError = [];
     vm.savePaymentSettings = function () {
       vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
       vm.error = null;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
+        console.log(response);
         if (response.status == 'failure') {
-          vm.showErrorsOFBankAcc = true;
           vm.paymentBankAccError = response.messages;
+          vm.showErrorsOFBankAcc = true;
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
