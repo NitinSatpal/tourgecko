@@ -207,5 +207,8 @@
     .cardOrList {
         float:left; clear:left
     }
+    a.setup-payment {
+        float: right !important;
+    }
 
 }
