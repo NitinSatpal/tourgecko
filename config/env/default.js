@@ -77,42 +77,25 @@ module.exports = {
   favicon: 'modules/core/client/img/brand/favicon.ico',
   uploads: {
     profileUpload: {
-      dest: './modules/users/client/img/profile/uploads/', // Profile upload destination path
-      limits: {
-        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
-      }
+      dest: './modules/users/client/img/profile/uploads/'
     },
     productPictureUploads: {
-      dest: './modules/hosts/client/pictures/products/tours/photos/', // prpoduct images upload destination path
-      limits: {
-        //fileSize: 5 * 1024 * 1024, // Max file size in bytes (5 MB)
-        //files: 5
-      }
+      dest: './modules/hosts/client/pictures/products/tours/photos/'
     },
     productMapUploads: {
-      dest: './modules/hosts/client/pictures/products/tours/maps/', // product map upload destination path
-      limits: {
-        // fileSize: 5 * 1024 * 1024, // Max file size in bytes (5 MB)
-        // files: 3
-      }
+      dest: './modules/hosts/client/pictures/products/tours/maps/'
+    },
+    toursiteBannersUploads: {
+      dest: './modules/hosts/client/banners/toursite/'
     },
     hostCompanyLogoUploads: {
-      dest: './modules/hosts/client/companyLogo/', // company logo upload destination path
-      limits: {
-        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
-      }
+      dest: './modules/hosts/client/companyLogo/'
     },
     hostCompanyAddressProofUploads: {
-      dest: './modules/hosts/client/companyProof/address/', // company logo upload destination path
-      limits: {
-        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
-      }
+      dest: './modules/hosts/client/companyProof/address/'
     },
     hostCompanyPanProofUploads: {
-      dest: './modules/hosts/client/companyProof/pan/', // company logo upload destination path
-      limits: {
-        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
-      }
+      dest: './modules/hosts/client/companyProof/pan/'
     }
   }
 };

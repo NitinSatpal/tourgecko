@@ -113,7 +113,7 @@ module.exports = function (app) {
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
-   app.route('/api/product/previouslyUploadedFiles/:productId')
+  app.route('/api/product/previouslyUploadedFiles/:productId')
     .get(hosts.getUploadedFilesForTheProduct);
 
    app.route('/api/product/productPictureUploadDelete/')
@@ -179,8 +179,17 @@ module.exports = function (app) {
     .post(hosts.postPaymentEventsAndProcess);
 
   app.route('/api/host/booking/tracelog/:objectId')
-    .get(tracelog.fetchTraceLog)
+    .get(tracelog.fetchTraceLog);
 
   app.route('/api/host/booking/payment/:bookingId')
-    .get(payment.fetchPaymentsForThisBooking)
+    .get(payment.fetchPaymentsForThisBooking);
+
+  app.route('/api/toursite/toursiteBannersUpload/')
+    .post(hosts.uploadToursiteBanners);
+
+  app.route('/api/toursite/toursiteBannersDelete/')
+    .post(hosts.deleteToursiteBanners);
+
+  app.route('/api/toursite/previouslyUploadedBanners/')
+    .get(hosts.getUploadedBannersForTheToursite);
 };

@@ -410,9 +410,10 @@ exports.getUploadedFilesForTheProduct = function (req, res) {
         });
       }
       var previouslyUploadedFiles = [];
-      for (var index = 0; index < product.productPictureURLs.length; index ++) {
-        var tempFilePath = product.productPictureURLs[index].url.split('/');
-        var tempFile = {uuid: tempFilePath[tempFilePath.length - 1], name: product.productPictureURLs[index].name, thumbnailUrl:  product.productPictureURLs[index].url, size: product.productPictureURLs[index].size};
+      var previouslyUploadedFilesTemp = product.productPictureURLs;
+      for (var index = 0; index < previouslyUploadedFilesTemp.length; index ++) {
+        var tempFilePath = previouslyUploadedFilesTemp[index].url.split('/');
+        var tempFile = {uuid: tempFilePath[tempFilePath.length - 1], name:previouslyUploadedFilesTemp[index].name, thumbnailUrl: previouslyUploadedFilesTemp[index].url, size: previouslyUploadedFilesTemp[index].size};
         previouslyUploadedFiles.push(tempFile);
       }
       res.json(previouslyUploadedFiles);

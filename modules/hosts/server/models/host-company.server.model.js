@@ -161,6 +161,10 @@ var HostCompanySchema = new Schema({
   },
   panProofURL: {
     type: String
+  },
+  toursiteBanners: {
+    type: Array,
+    default: []
   }
 });
 

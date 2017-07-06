@@ -9,6 +9,9 @@ var path = require('path'),
   User = mongoose.model('User'),
   Product = mongoose.model('Product'),
   Company = mongoose.model('HostCompany'),
+  multer = require('multer'),
+  fs = require('fs'),
+  config = require(path.resolve('./config/config')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 // Finding if toursite exists or not.
@@ -88,3 +91,97 @@ exports.getToursiteDataForCurrentPage = function (req, res) {
     });
   });
 };
+
+exports.uploadToursiteBanners = function (req, res) {
+  var upload = multer(config.uploads.toursiteBannersUploads).array('toursiteBanners');
+  var newUUID = '';
+  var size = '';
+  var name = '';
+  var user = req.user;
+  if (user) {
+    uploadBanners()
+      .then(onUploadSuccess)
+      .catch(function (err) {
+        res.json(err);
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadBanners () {
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
+        } else {
+          Company.findOne({ user: user._id }).exec(function (err, company) {
+            if (err) {
+              res.status(500).render('modules/core/server/views/500', {
+                error: 'Oops! Something went wrong...'
+              });
+            }
+            var tempFileObject = {url: config.uploads.toursiteBannersUploads.dest + req.files[0].filename, size: req.files[0].size, name: req.files[0].originalname}
+            company.toursiteBanners.push(tempFileObject);
+            company.save();
+          });
+          newUUID = req.files[0].filename;
+          resolve();
+        }
+      });
+    });
+  }
+  function onUploadSuccess () {
+    res.json({success: true, newUuid: newUUID});
+    return true;
+  }
+}
+
+exports.deleteToursiteBanners = function (req, res) {
+  var url = config.uploads.toursiteBannersUploads.dest + req.body.qquuid;
+  Company.findOne({ user: req.user._id }).exec(function (err, company) {
+    if (err) {
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong...'
+      });
+    }
+    var filesObjectArray =  company.toursiteBanners;
+    var deleteIndex = -1;
+    for(var index = 0; index < filesObjectArray.length; index++) {
+      if (filesObjectArray[index].url == url) {
+        deleteIndex = index;
+        break;
+      }
+    }
+    filesObjectArray.splice(deleteIndex, 1);
+    company.toursiteBanners = filesObjectArray;
+   
+    company.save(function () {
+      fs.unlink(config.uploads.toursiteBannersUploads.dest + req.body.qquuid)
+      res.json({success: true, deletedUuid: req.body.qquuid});
+    });
+  });
+}
+
+exports.getUploadedBannersForTheToursite = function (req, res) {
+  console.log('fetching ' + req.user._id);
+  Company.findOne({ user: req.user._id }).exec(function (err, company) {
+    if (err) {
+      console.log('fetching the error' + err);
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    var previouslyUploadedBanners = [];
+    var previouslyUploadedBannersTemp = company.toursiteBanners;
+    for (var index = 0; index < previouslyUploadedBannersTemp.length; index ++) {
+      var tempFilePath = previouslyUploadedBannersTemp[index].url.split('/');
+      var tempFile = {uuid: tempFilePath[tempFilePath.length - 1], name: previouslyUploadedBannersTemp[index].name, thumbnailUrl:  previouslyUploadedBannersTemp[index].url, size: previouslyUploadedBannersTemp[index].size};
+      previouslyUploadedBanners.push(tempFile);
+    }
+    res.json(previouslyUploadedBanners);
+  });
+}

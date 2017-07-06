@@ -157,15 +157,6 @@
           pageTitle: 'Payments'
         }
       })
-      .state('host.toursite', {
-        url: '/settings/toursite',
-        templateUrl: 'modules/hosts/client/views/settings/toursite-settings.client.view.html',
-        controller: 'HostSettingsController',
-        controllerAs: 'vm',
-        data: {
-          pageTitle: 'Toursite'
-        }
-      })
       .state('host.account', {
         url: '/settings/account',
         templateUrl: 'modules/hosts/client/views/settings/account-settings.client.view.html',
@@ -182,6 +173,24 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'Region'
+        }
+      })
+      .state('host.toursiteDomain', {
+        url: '/toursite/domain',
+        templateUrl: 'modules/hosts/client/views/settings/toursite-domain-settings.client.view.html',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Toursite'
+        }
+      })
+      .state('host.toursiteBanners', {
+        url: '/toursite/banners',
+        templateUrl: 'modules/hosts/client/views/settings/toursite-banners-settings.client.view.html',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Toursite'
         }
       })
       .state('host.allNotifications', {
