@@ -51,7 +51,7 @@
 
 @media (max-width:767px) {
 	.body-content .navbar-default .navbar-toggle .icon-bar{background-color:#fff;width:15px;}
-	.navbar-fixed-side{margin: 0 -15px;}
+	.navbar-fixed-side{margin: 0 -15px; padding-top: 5px;}
 }
 
 .navbar-fixed-side{border: 1px solid #e7e7e7 !important;}
