@@ -59,13 +59,13 @@
 
 
     function fetchAllBookingRecords () {
-      $http.get('/api/host/allBookings/' + vm.numberOfItemsInOnePage).success(function (response) {
+      $http.get('/api/host/allBookings/' + parseInt(vm.numberOfItemsInOnePage)).success(function (response) {
         vm.bookings = response.bookingArray;
         if(vm.bookings.length == 0)
           $('#listViewOfBookings').hide();
         else
           $('#listViewOfBookings').show();
-        vm.totalPages = Math.ceil(response.bookingsCount / vm.numberOfItemsInOnePage);
+        vm.totalPages = Math.ceil(response.bookingsCount / parseInt(vm.numberOfItemsInOnePage));
         if(vm.totalPages <= vm.paginationWindow)
           vm.pageTo = vm.totalPages;
         else
