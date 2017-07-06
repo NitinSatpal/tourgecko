@@ -3,11 +3,18 @@
 
   angular
     .module('hosts')
-    .controller('HostSettingsController', HostSettingsController);
+    .controller('HostSettingsController', HostSettingsController)
+    .constant('paymentSettingcErrorContentData', {
+      "bankBenificieryName" : "Please enter your name registered with bank account",
+      "bankIFSCCode" : "Please enter IFSC code of your bank",
+      "bankAccountNumber" : "Please enter your bank account number",
+      "bankAccountNumberConfirmed" : "Please re-enter your bank account number",
+      "pan_number": "Please enter the Permanent account number"
+    });
 
-  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService', 'Upload'];
+  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService', 'Upload', 'paymentSettingcErrorContentData'];
 
-  function HostSettingsController($scope, $state, $http, $timeout, $window, Authentication, HostCompanyService, LanguageService, SpecificUserService, Upload) {
+  function HostSettingsController($scope, $state, $http, $timeout, $window, Authentication, HostCompanyService, LanguageService, SpecificUserService, Upload, paymentSettingcErrorContentData) {
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
@@ -163,13 +170,35 @@
 
     // Payment Settings
     vm.paymentBankAccError = [];
-    vm.savePaymentSettings = function () {
-      vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
+    vm.savePaymentSettings = function (isValid) {
       vm.error = null;
+      vm.paymentBankAccError.length = 0;
+      if (!isValid) {
+        vm.showErrorsOFBankAcc = true;
+        $scope.$broadcast('show-errors-check-validity', 'vm.form.paymentSettingForm');
+        if(vm.form.paymentSettingForm.host_name_on_bank_acc.$error.required)
+          vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankBenificieryName']);
+        if(vm.form.paymentSettingForm.bank_ifsc_code.$error.required)          
+          vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankIFSCCode']);
+        if(vm.form.paymentSettingForm.bank_acc_number.$error.required)
+          vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankAccountNumber']);
+        if(vm.form.paymentSettingForm.bank_acc_number_confirm.$error.required)
+          vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankAccountNumberConfirmed']);
+        if(vm.form.paymentSettingForm.pan_number.$error.required)
+          vm.paymentBankAccError.push(paymentSettingcErrorContentData['pan_number']);
+        console.log(vm.paymentBankAccError);
+        return false;
+      }
+      if (vm.paymentDetails[0].hostBankAccountDetails && vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber != vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumberConfirmed) {
+        vm.showErrorsOFBankAcc = true;
+        vm.paymentBankAccError.push('Account number does not match');
+        return false;
+      }
+      vm.paymentAccountDetails = {otherAccDetails: vm.paymentDetails, accCountryDetails: vm.beneficiaryBankCountry}
+      
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
-        console.log(response);
         if (response.status == 'failure') {
           vm.paymentBankAccError = response.messages;
           vm.showErrorsOFBankAcc = true;

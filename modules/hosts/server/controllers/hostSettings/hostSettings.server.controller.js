@@ -438,7 +438,6 @@ exports.uploadHostAddressProof = function (req, res) {
     uploadAddressProof()
       .then(onUploadSuccess)
       .catch(function (err) {
-        console.log('the error in catch ' + err);
         res.json(err);
       });
   } else {
@@ -448,11 +447,9 @@ exports.uploadHostAddressProof = function (req, res) {
   }
 
   function uploadAddressProof () {
-    console.log('inside uploader');
     return new Promise(function (resolve, reject) {
       upload(req, res, function (uploadError) {
         if (uploadError) {
-          console.log('the error inisde uploader ' + uploadError);
           // Send error code as we are customising the error messages.
           // reject(errorHandler.getErrorMessage(uploadError));
           reject(uploadError.code);
@@ -465,10 +462,8 @@ exports.uploadHostAddressProof = function (req, res) {
   }
 
   function onUploadSuccess () {
-    console.log('inside upload success');
     Company.findOne({user: req.user._id}).exec(function (err, company) {
       if (err) {
-        console.log('inside upload success error ' + err);
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });

@@ -21,7 +21,7 @@
                   			Your toursite and booking page accepts payment with: 
                   			<strong>tourgecko Payments!</strong> 
                 		</div>
-						<form class="form-horizontal" name="vm.paymentSettingForm" ng-submit="vm.savePaymentSettings()" novalidate autocomplete="off">
+						<form class="form-horizontal" name="vm.form.paymentSettingForm"  novalidate>
 							<div class="panel panel_two">
                         		<div class="row margin-bottom padding-bottom">
 									<div class="col-lg-12 col-md-12 col-sm-12 payment-method-card">
@@ -62,7 +62,7 @@
 																<h5 ng-if="vm.paymentBankAccError.length == 1"> There is {{vm.paymentBankAccError.length}} error in payout details </h5>
 																<h5 ng-if="vm.paymentBankAccError.length > 1"> There are {{vm.paymentBankAccError.length}} errors in payout details </h5>
 																<ul>
-																	<li ng-repeat="error in vm.paymentBankAccError"> {{error}} </li>
+																	<li ng-repeat="error in vm.paymentBankAccError track by $index"> {{error}} </li>
 																</ul>
 															</span> 
 														</div>
@@ -73,43 +73,55 @@
         									<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
         									<div class="bank-account-details">
 						                        <div class="col-lg-6 col-md-6 col-sm-6">
-						                            <div class="form-group">
+						                            <div class="form-group" show-errors>
 						                                <label for="host_name_on_bank_acc" class="cols-sm-2 control-label">Name on bank account</label>
 						                                <div class="input_group">
 						                                    <div>
 						                                        <input type="text" class="form-control" name="host_name_on_bank_acc" id="host_name_on_bank_acc"  placeholder="Full Name" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryName" required/>
 						                                    </div>
 						                                </div>
+						                                <div ng-messages="vm.form.paymentSettingForm.host_name_on_bank_acc.$error" role="alert">
+										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                </div>
 						                            </div>
 						                        </div>
 						                        <div class="col-lg-6 col-md-6 col-sm-6">
-						                            <div class="form-group">
-						                                <label for="bank_acnumber" class="cols-sm-2 control-label">Bank IFSC Code</label>
+						                            <div class="form-group" show-errors>
+						                                <label for="bank_ifsc_code" class="cols-sm-2 control-label">Bank IFSC Code</label>
 						                                <div class="input_group">
 						                                    <div>
-						                                        <input type="text" class="form-control" name="bank_acnumber" id="bank_acnumber"  placeholder="Ex: CITI00000020" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryBankIFSCcode" required/>
+						                                        <input type="text" class="form-control" name="bank_ifsc_code" id="bank_ifsc_code"  placeholder="Ex: CITI00000020" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryBankIFSCcode" required/>
 						                                    </div>
 						                                </div>
+						                                <div ng-messages="vm.form.paymentSettingForm.bank_ifsc_code.$error" role="alert">
+										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                </div>
 						                            </div>
 						                        </div>
 						                        <div class="col-lg-6 col-md-6 col-sm-6">
-						                            <div class="form-group">
-						                                <label for="bank_bic" class="cols-sm-2 control-label">Bank account number</label>
+						                            <div class="form-group" show-errors>
+						                                <label for="bank_acc_number" class="cols-sm-2 control-label">Bank account number</label>
 						                                <div class="input_group">
 						                                    <div>
-						                                        <input type="password" class="form-control" name="bank_acn" id="bank_acn"  placeholder="Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber" required/>
+						                                        <input type="password" class="form-control" name="bank_acc_number" id="bank_acc_number"  placeholder="Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber" required/>
 						                                    </div>
 						                                </div>
+						                                <div ng-messages="vm.form.paymentSettingForm.bank_acc_number.$error" role="alert">
+										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                </div>
 						                            </div>
 						                        </div>
 						                        <div class="col-lg-6 col-md-6 col-sm-6 margin-bottom">
-						                            <div class="form-group">
-						                                <label for="bank_country" class="cols-sm-2 control-label">Re-enter account number</label>
+						                            <div class="form-group" show-errors>
+						                                <label for="bank_acc_number_confirm" class="cols-sm-2 control-label">Re-enter account number</label>
 						                                <div class="input_group">
 						                                    <div>
-						                                       <input type="text" class="form-control" name="confirm_bank_acn" id="confirm_bank_acn"  placeholder="Re-enter Account Number" g-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumberConfirmed" required/>
+						                                       <input type="text" class="form-control" name="bank_acc_number_confirm" id="bank_acc_number_confirm"  placeholder="Re-enter Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumberConfirmed" required/>
 						                                    </div>
 						                                </div>
+						                                <div ng-messages="vm.form.paymentSettingForm.bank_acc_number_confirm.$error" role="alert">
+										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                </div>
 						                            </div>
 						                        </div>
         										<div class="col-md-12 col-sm-12 margin-bottom padding-bottom">
@@ -129,13 +141,20 @@
         										<h4 class="padding-top margin-top">2. PAN Details</h4>
         										<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
 						                        <div class="col-md-12 col-sm-12">
-						                        	<div class="form-group col-sm-12 col-md-6 padding-none-left">
-						                        		<label class="control-label" for="pan-number">Permanent Account Number (PAN)</label>
-						                        		<input type="text" class="form-control" name="PAN number" id="pan-number" placeholder="Permanent Account Number">
+						                        	<div class="form-group col-sm-12 col-md-6 padding-none-left" show-errors>
+						                        		<label class="control-label" for="pan_number">Permanent Account Number (PAN)</label>
+						                        		<div class="input_group">
+						                                    <div>
+								                        		<input type="text" class="form-control" name="pan_number" id="pan_number" placeholder="Permanent Account Number" ng-model="vm.paymentDetails[0].hostBankAccountDetails.permanentAccountNumber" required>
+												            </div>
+												        </div>
+												        <div ng-messages="vm.form.paymentSettingForm.pan_number.$error" role="alert">
+										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                </div>
 						                        		<div class="fileUpload margin-bottom margin-top">
 							                          		<div id="host-panProof-uploader"></div>
 						                   				</div>
-        												<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings()">Submit</a>
+        												<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings(vm.form.paymentSettingForm.$valid)">Submit</a>
         											</div>
 												</div>
         									</div>
@@ -165,13 +184,10 @@
 		$(".setup-payment").removeClass("disabled");
 	});
 </script>
-<script type="text/template" id="qq-template">
+<script type="text/template" id="qq-template-addressProof">
 
-    <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
-        <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-            <span class="qq-upload-drop-area-text-selector"></span>
-        </div>
-        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;">
+    <div class="qq-uploader-selector qq-uploader qq-gallery">
+        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;" id="addressProofButton">
             <div>Select</div>
         </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
@@ -193,10 +209,78 @@
                     <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
                     Retry
                 </button>
-                 <div class="qq-upload-button-selector qq-upload-button pull-right" style="background-color: #40C4FF !important;">
-		            <div>Upload</div>
-		        </div>
+                <div class="qq-file-info">
+                    <div class="qq-file-name" style="color: #929292">
+                        <span class="qq-upload-file-selector qq-upload-file"></span>
+                        <span class="qq-edit-filename-icon-selector qq-btn qq-edit-filename-icon" aria-label="Edit filename"></span>
+                    </div>
+                    <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                    <span class="qq-upload-size-selector qq-upload-size"></span>
+                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
+                        <span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
+                    </button>
+                    <button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
+                        <span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
+                    </button>
+                    <button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
+                        <span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
+                    </button>
+                </div>
+            </li>
+        </ul>
 
+        <dialog class="qq-alert-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">Close</button>
+            </div>
+        </dialog>
+
+        <dialog class="qq-confirm-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">No</button>
+                <button type="button" class="qq-ok-button-selector">Yes</button>
+            </div>
+        </dialog>
+
+        <dialog class="qq-prompt-dialog-selector">
+            <div class="qq-dialog-message-selector"></div>
+            <input type="text">
+            <div class="qq-dialog-buttons">
+                <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                <button type="button" class="qq-ok-button-selector">Ok</button>
+            </div>
+        </dialog>
+    </div>
+</script>
+
+<script type="text/template" id="qq-template-panProof">
+
+    <div class="qq-uploader-selector qq-uploader qq-gallery">
+        
+        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;" id="panProofButton">
+            <div>Select</div>
+        </div>
+        <span class="qq-drop-processing-selector qq-drop-processing">
+            <span>Processing dropped files...</span>
+            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+        </span>
+        <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
+            <li style="max-width: 255px !important;">
+                <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                <div class="qq-progress-bar-container-selector qq-progress-bar-container">
+                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+                </div>
+                <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                <div class="qq-thumbnail-wrapper" style="width: 255px;">
+                    <img class="qq-thumbnail-selector" qq-max-size="255" qq-server-scale>
+                </div>
+                <button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
+                <button type="button" class="qq-upload-retry-selector qq-upload-retry">
+                    <span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
+                    Retry
+                </button>
                 <div class="qq-file-info">
                     <div class="qq-file-name" style="color: #929292">
                         <span class="qq-upload-file-selector qq-upload-file"></span>
@@ -245,7 +329,7 @@
 <script>
 	var addressProofUploader = new qq.FineUploader({
 	    element: document.getElementById("host-addressProof-uploader"),
-	    template: 'qq-template',
+	    template: 'qq-template-addressProof',
 	    multiple: false,
 	    debug: false,
 	    request: {
@@ -262,18 +346,13 @@
         },
         callbacks: {
             onComplete: function(id, name, responseJSON, maybeXhr) {
-            	if (responseJSON.success) {
-            		$('#hostAddressProofFile').attr("src", responseJSON.url);
-            		$('#hostAddressProofFileContainer').css('display', 'block');
-                    addressProofUploader.reset();
-                }
             },
             onSubmit: function (id, name) {
             	
             }
         },
 	    validation: {
-            allowedExtensions: ['jpeg', 'jpg', 'png', 'pdf']
+            allowedExtensions: ['jpeg', 'jpg', 'png', 'pdf'],
         },
 	    showMessage: function(message) {
 	    	//either include an empty body, or some other code to display (error) messages
@@ -281,7 +360,8 @@
 	});
 	var panProofUploader = new qq.FineUploader({
 	    element: document.getElementById("host-panProof-uploader"),
-	    template: 'qq-template',
+	    template: 'qq-template-panProof',
+	    multiple: false,
 	    debug: false,
 	    request: {
             customHeaders: {},
@@ -297,20 +377,26 @@
         },
         callbacks: {
             onComplete: function(id, name, responseJSON, maybeXhr) {
-            	if (responseJSON.success) {
-                    panProofUploader.reset();
-                }
             },
             onSubmit: function (id, name) {
             	
             }
         },
 	    validation: {
-            allowedExtensions: ['jpeg', 'jpg', 'png', 'pdf']
+            allowedExtensions: ['jpeg', 'jpg', 'png', 'pdf'],
         },
 	    showMessage: function(message) {
 	    	
 	        //either include an empty body, or some other code to display (error) messages
 	    }
+	});
+
+	$('#addressProofButton input').click(function () {
+		console.log('aya na bawa');
+		addressProofUploader.reset();
+	});
+	$('#panProofButton input').click(function () {
+		console.log('aya na bawa')
+		panProofUploader.reset();
 	});
 </script>
