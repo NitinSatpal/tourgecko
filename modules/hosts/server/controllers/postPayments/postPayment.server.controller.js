@@ -15,6 +15,7 @@ var path = require('path'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
   tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
+  mailAndMessage = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -25,7 +26,7 @@ Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWay
 Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
-  Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').exec(function (err, booking) {
+  Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -40,6 +41,8 @@ exports.postPaymentEventsAndProcess = function (req, res) {
         logCapturedPayment(booking._id, req.body.paymentRequestId, req.body.paymentId, booking.hostOfThisBooking);
         traceLogForThisEvent(booking._id, booking.bookedVia);
         sendNotification(booking, booking.product.productTitle, booking._id);
+        var smsBody = getBookingDoneSms(booking);
+        mailAndMessage.sendBookingDoneSms(smsBody, booking.providedGuestDetails.mobile);
         if(!booking.isOpenDateTour)
           updateSession(booking);
         else
@@ -112,7 +115,7 @@ function sendNotification (bookingObject, productTitle, bookingId) {
   notification.notificationTimestamp = new Date();
   // var tz = momentTimezone.tz.guess();
   // For now hardcoding the time zone to Indian timezone. Need to find a good way to detect the timezone.
-  // Above commented line always giving UTC or may be the server of Zure is in UTC timezone.
+  // Above commented line always giving UTC or may be the server of Azure is in UTC timezone.
   notification.notificationTimestampToDisplay = momentTimezone.utc(new Date()).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
   notification.created = Date.now();
 
@@ -123,6 +126,8 @@ function sendNotification (bookingObject, productTitle, bookingId) {
       // notification successfully sent
     }
   });
+
+
 }
 
 function traceLogForThisEvent (bookingId, via) {
@@ -210,6 +215,18 @@ function createSession (booking, product, paymentRequestId, paymentId) {
       // session successfully saved
     }
   });
+}
+
+function getBookingDoneSms (booking) {
+  var customerName = booking.providedGuestDetails.firstName;
+  var tourName = booking.product.productTitle;
+  var bookingId = booking.bookingReference;
+  var hostCompanyName = booking.hostCompany.companyName;
+
+  var smsBody = 'Thank you ' + customerName + ' for booking ' + tourName + ' with us! Your booking id is ' + bookingId + 
+  ' and is awaiting confirmation from us. You will hear from us soon.' + '- Team ' + hostCompanyName;
+
+  return smsBody;
 }
 
 

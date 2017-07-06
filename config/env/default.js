@@ -38,6 +38,11 @@ module.exports = {
       domain : process.env.MAILGUN_DOMAIN_NAME
     }
   },
+  textlocal: {
+    username: process.env.textlocalusername,
+    hash: process.env.textlocalhash,
+    sender: process.env.textlocalsender
+  },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
   // DOMAIN config should be set to the fully qualified application accessible
@@ -93,6 +98,18 @@ module.exports = {
     },
     hostCompanyLogoUploads: {
       dest: './modules/hosts/client/companyLogo/', // company logo upload destination path
+      limits: {
+        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
+      }
+    },
+    hostCompanyAddressProofUploads: {
+      dest: './modules/hosts/client/companyProof/address/', // company logo upload destination path
+      limits: {
+        // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
+      }
+    },
+    hostCompanyPanProofUploads: {
+      dest: './modules/hosts/client/companyProof/pan/', // company logo upload destination path
       limits: {
         // fileSize: 5 * 1024 * 1024 // Max file size in bytes (5 MB)
       }

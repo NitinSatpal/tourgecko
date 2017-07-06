@@ -155,6 +155,12 @@ var HostCompanySchema = new Schema({
   paymentActivated: {
     type: Boolean,
     default: false
+  },
+  addressProofURL: {
+    type: String
+  },
+  panProofURL: {
+    type: String
   }
 });
 

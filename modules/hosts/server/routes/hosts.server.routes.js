@@ -136,6 +136,12 @@ module.exports = function (app) {
   app.route('/api/host/company/logo/')
     .post(hosts.uploadCompanyLogo);
     
+  app.route('/api/host/paymentActivation/addressProof/')
+    .post(hosts.uploadHostAddressProof);
+
+  app.route('/api/host/paymentActivation/panProof/')
+    .post(hosts.uploadHostPanProof);
+
   app.route('/api/host/contact')
     .post(hosts.saveContactDetails);
 

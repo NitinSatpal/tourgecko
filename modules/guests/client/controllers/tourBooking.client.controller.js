@@ -196,7 +196,7 @@
                 }
                 
                 vm.datesOfTheSessionsOfThisProduct.push(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate);
-                var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey}
+                var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey}
                 vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord)
             }
           }
@@ -239,6 +239,7 @@
     function is at scope level */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     $scope.getDepartureDate = function (isoDate, index) {
+      console.log(isoDate);
       var date = new Date(isoDate);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
       if (index == -1)

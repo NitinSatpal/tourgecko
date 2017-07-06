@@ -426,3 +426,105 @@ exports.saveRegionalDetails = function (req, res) {
     });
   }
 };
+
+// save regional details
+exports.uploadHostAddressProof = function (req, res) {
+  var upload = multer(config.uploads.hostCompanyAddressProofUploads).array('addressProof');
+  var user = req.user;
+  var addressProofURL = '';
+  console.log('i m here ' + upload);
+  if (user) {
+    console.log('uploading');
+    uploadAddressProof()
+      .then(onUploadSuccess)
+      .catch(function (err) {
+        console.log('the error in catch ' + err);
+        res.json(err);
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadAddressProof () {
+    console.log('inside uploader');
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          console.log('the error inisde uploader ' + uploadError);
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
+        } else {
+          addressProofURL = req.files[0].path;
+          resolve();
+        }
+      });
+    });
+  }
+
+  function onUploadSuccess () {
+    console.log('inside upload success');
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        console.log('inside upload success error ' + err);
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.addressProofURL = addressProofURL;
+      company.save(function () {
+        res.json({success: true, url: addressProofURL});
+      });
+    });
+    return true;
+  }
+};
+
+// save regional details
+exports.uploadHostPanProof = function (req, res) {
+  var upload = multer(config.uploads.hostCompanyPanProofUploads).array('panProof');
+  var user = req.user;
+  var panProofURL = '';
+  if (user) {
+    uploadPanProof()
+      .then(onUploadSuccess)
+      .catch(function (err) {
+        res.json(err);
+      });
+  } else {
+    res.status(400).send({
+      message: 'User is not signed in'
+    });
+  }
+
+  function uploadPanProof () {
+    return new Promise(function (resolve, reject) {
+      upload(req, res, function (uploadError) {
+        if (uploadError) {
+          // Send error code as we are customising the error messages.
+          // reject(errorHandler.getErrorMessage(uploadError));
+          reject(uploadError.code);
+        } else {
+          panProofURL = req.files[0].path;
+          resolve();
+        }
+      });
+    });
+  }
+
+  function onUploadSuccess () {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      company.panProofURL = panProofURL;
+      company.save();
+    });
+    res.json({success: true, url: panProofURL});
+    return true;
+  }
+};
