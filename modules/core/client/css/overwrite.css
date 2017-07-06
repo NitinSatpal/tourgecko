@@ -204,4 +204,8 @@
     .toursite .container {
         padding-right: 15px !important;
     }
+    .cardOrList {
+        float:left; clear:left
+    }
+
 }

@@ -20,7 +20,9 @@
 .left-nav-bar .navbar .navbar-nav{margin:0 -15px;}
 
 @media (max-width:767px){
-
+.navbar-toggle{position:absolute;top:5px;left:5px;z-index:999;}
+.navbar-toggle span.icon-bar{background:#40C4FF;}
+.main-wrapper.toggle .main-body-wrapper{left:200px;}
 .navbar-fixed-side .navbar-nav>li>a{padding-top:10px;padding-bottom:10px;border-bottom:1px solid #e7e7e7;padding-left:12px;}
 
 .navbar-fixed-side{margin-left:-15px;margin-right:-15px }
@@ -49,14 +51,14 @@
 
 @media (max-width:767px) {
 	.body-content .navbar-default .navbar-toggle .icon-bar{background-color:#fff;width:15px;}
-	.navbar-fixed-side{margin:-20px -15px;}
+	.navbar-fixed-side{margin: 0 -15px;}
 }
 
 .navbar-fixed-side{border: 1px solid #e7e7e7 !important;}
 .navbar-fixed-side .navbar-brand{padding:0;padding-left:0.4em;background:#fff;width:200px;}
 .navbar-fixed-side .navbar-brand:hover, .navbar-fixed-side .navbar-brand:active, .navbar-fixed-side .navbar-brand:focus{background:#fff;}
 
-@media (min-width:768px){.navbar-fixed-side{position:fixed;margin:-79px -15px;height:100vh;overflow:auto;border-top-width:0;border-bottom-width:0;border-radius:0 }
+@media (min-width:768px){.navbar-fixed-side{position:fixed;margin:0 -15px;height:100vh;overflow:auto;border-top-width:0;border-bottom-width:0;border-radius:0 }
  .navbar-fixed-side .container, .navbar-fixed-side .container-fluid{width:auto;padding-left:0;padding-right:0 }
  .navbar-fixed-side .navbar-header{float:none }
  .navbar-fixed-side .navbar-brand{height:auto;}

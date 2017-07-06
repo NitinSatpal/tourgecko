@@ -2112,11 +2112,11 @@ and (orientation : landscape) {/*.left-nav-bar .navbar-fixed-side{width: 23%;}#s
 @media (max-width:767px){
 	.collapse{display: block;}
 	.main-body-wrapper{left: 0px;margin-left: 0px;position: relative;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
-	.navbar-toggle{position: absolute; top: 5px; left: 5px; z-index: 999;}
+	/*.navbar-toggle{position: absolute; top: 5px; left: 5px; z-index: 999;}
 	.navbar-toggle span.icon-bar{background: #40C4FF;}
 	.main-wrapper.toggle .main-body-wrapper{left: 200px;}
 
-	/*.left-nav-bar .navbar-fixed-side{z-index: 1000;position: fixed; display: block;left: -200px;width: 200px;height: 100%;overflow-y: auto;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
+	.left-nav-bar .navbar-fixed-side{z-index: 1000;position: fixed; display: block;left: -200px;width: 200px;height: 100%;overflow-y: auto;-webkit-transition: all 0.2s ease;-moz-transition: all 0.2s ease;-o-transition: all 0.2s ease;transition: all 0.2s ease;}
 
 	.left-nav-bar .navbar .navbar-nav{position: relative;}
 	.main-wrapper.toggle .left-nav-bar .navbar-fixed-side{left: 15px;}
