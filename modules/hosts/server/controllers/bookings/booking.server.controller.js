@@ -125,11 +125,11 @@ exports.fetchCompanyBookingDetails = function (req, res) {
 // Fetch all bookings
 exports.fetchAllBookingDetailsOfCompany = function (req, res) {
   if (req.user) {
-    console.log('in else i m and now checking whats the problem is der in azure code ' + JSON.stringify(req));
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
       Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
         Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(req.params.itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
+            console.log('the error here is ' + err);
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
             });
@@ -141,6 +141,7 @@ exports.fetchAllBookingDetailsOfCompany = function (req, res) {
       Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
         Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).limit(10).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
+            console.log('the error here is ' + err);
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
             });
