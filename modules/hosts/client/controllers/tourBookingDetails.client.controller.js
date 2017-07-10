@@ -672,19 +672,7 @@
 
       if(vm.typeOfMsgToGuests == 'textMsg' || vm.typeOfMsgToGuests == 'both') {
         $http.post('/api/host/sessionGuestMassMessage/', {message: vm.msgBodyToSpecificSessionsGuest, sessionId: $stateParams.productSessionId}).success(function (response) {
-          var username = 'nitin@tourgecko.com';
-          var hash = '913c80bf51d363fea997045c8e29bbf2719428af3f17e18b2deb91d44d4cd41d';
-          var numbers = '9535519640';
-          var sender = 'TXTLCL';
-          var msg = response.msgBody;
-          var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
-          $http.get('http://api.Textlocal.in/send/?'+uri).success(function (res) {
-            console.log(res);
-            // success
-          }).error(function (err) {
-            console.log(err);
-            // error
-          });
+          console.log(response);
         }).error(function (response) {
           vm.error = response.message
         });

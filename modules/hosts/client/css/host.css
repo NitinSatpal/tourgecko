@@ -1260,7 +1260,7 @@ ul.cal_list_toggle li a.active {
 	border:2px solid #42AE5E;
 	padding:11px 19px;
 }
-.pinboard .head_content {
+/*.pinboard .head_content {
 	padding:2% 0 0 0;
 }
 .pinboard .info_content {
@@ -1308,7 +1308,7 @@ ul.cal_list_toggle li a.active {
 }
 .pinboard .row {
 	padding:2px 0;
-}
+}*/
 
 .info_content .zmdi {
 	margin-right:2px;

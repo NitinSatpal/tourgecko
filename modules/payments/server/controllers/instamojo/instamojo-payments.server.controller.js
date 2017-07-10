@@ -14,6 +14,7 @@ var _ = require('lodash'),
   Booking = mongoose.model('Booking'),
   tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  mailAndMessage = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
   bookingRecordCreation = require(path.resolve('./modules/hosts/server/controllers/bookings/booking.server.controller'));
 
 
@@ -38,7 +39,6 @@ exports.createInstamojoPayment = function (req, res) {
     	if (userTokenError) {
         console.log(userTokenError);
     	} else {
-        console.log(userTokenResponse);
     		Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                   	config.paymentGateWayInstamojo.instamojoSecret,
                   	'Bearer' + ' ' + userTokenResponse.access_token);
@@ -110,7 +110,7 @@ exports.refundInstamojoPayment = function (req, res) {
               paymentRecord.save(function (paymentEditError, success) {
                 if (paymentEditError)
                   res.json('error');               
-                Booking.findOne({paymentId: req.body.paymentId}).exec(function (error, booking) {
+                Booking.findOne({paymentId: req.body.paymentId}).populate('product').populate('productSession').populate('hostCompany').exec(function (error, booking) {
                   if (error)
                     res.json('error')
                   booking.isRefundApplied = true;
@@ -122,6 +122,7 @@ exports.refundInstamojoPayment = function (req, res) {
                     }
                     var tracelogMessage = req.user.displayName + ' Cancelled this booking.';
                     tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
+                    mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
                     res.json('success')
                   });
                 });

@@ -28,21 +28,25 @@
     $http.get('/api/host/postbooking/'+ paymentRequestId).success(function (response) {
       vm.specificBookingDetails = response;
       vm.companyData= response.hostCompany;
-      var duration;
+      var startDate;
+      var endDate;
       if(!vm.specificBookingDetails.isOpenDateTour) {
-        var startDate = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
-        var endDate = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
-        if (vm.specificBookingDetails.product.productDurationType == 'Days')
-          duration = vm.specificBookingDetails.product.productDuration;
-        else
-          duration = 1;
-        endDate =  new Date(endDate.setDate(endDate.getDate() + duration - 1));
-
-        vm.startDateOfTheBooking = weekdays[startDate.getDay()] + ', ' + startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
-        vm.endDateOfTheBooking = weekdays[endDate.getDay()] + ', ' + endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
+        startDate = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
+        endDate = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
       } else {
-        vm.startDateOfTheBooking = vm.specificBookingDetails.openDatedTourDepartureDate
+        startDate = new Date(vm.specificBookingDetails.openDatedTourDepartureDate);
+        endDate = new Date(vm.specificBookingDetails.openDatedTourDepartureDate);
       }
+      var duration;
+      if (vm.specificBookingDetails.product.productDurationType == 'Days')
+        duration = vm.specificBookingDetails.product.productDuration;
+      else
+        duration = 1;
+      
+      endDate =  new Date(endDate.setDate(endDate.getDate() + duration - 1));
+
+      vm.startDateOfTheBooking = weekdays[startDate.getDay()] + ', ' + startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
+      vm.endDateOfTheBooking = weekdays[endDate.getDay()] + ', ' + endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
 
 
       vm.bookingOptionsSelected = vm.specificBookingDetails.selectedpricingoptionindexandquantity;

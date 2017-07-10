@@ -9,7 +9,7 @@ var path = require('path'),
   multer = require('multer'),
   Company = mongoose.model('HostCompany'),
   User = mongoose.model('User'),
-  Pinboard = mongoose.model('Pinboard'),
+  Pinboard = mongoose.model('PinboardPins'),
   Language = mongoose.model('I18NLanguage'),
   InstamojoUser = mongoose.model('InstamojoUsers'),
   config = require(path.resolve('./config/config')),
@@ -88,12 +88,12 @@ function editPinBoardPinsForThisHost (company, code) {
   } else if (code == 'inquiryAndSocial') {
     if(company.hostSocialAccounts || company.blogLink !== "" || company.areSocialAccountsPresent == false)
     Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [company.user.toString()]}}}, {$push: {todoCompletedBy:  company.user.toString()}}).exec(function (err, pinboardData) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-      });
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+    });
   }
 }
 
@@ -432,9 +432,7 @@ exports.uploadHostAddressProof = function (req, res) {
   var upload = multer(config.uploads.hostCompanyAddressProofUploads).array('addressProof');
   var user = req.user;
   var addressProofURL = '';
-  console.log('i m here ' + upload);
   if (user) {
-    console.log('uploading');
     uploadAddressProof()
       .then(onUploadSuccess)
       .catch(function (err) {

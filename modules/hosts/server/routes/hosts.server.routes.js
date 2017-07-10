@@ -5,6 +5,7 @@
  */
 var path = require('path'),
     hosts = require('../controllers/hosts.server.controller'),
+    mailsAndSms = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
     tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
     payment = require(path.resolve('./modules/payments/server/controllers/instamojo/instamojo-payments.server.controller'));
 
@@ -160,20 +161,23 @@ module.exports = function (app) {
   app.route('/api/social/host/shortenURL')
     .get(hosts.shortenTheURL);
 
-  app.route('/api/host/pinboard')
-    .get(hosts.fetchPinboardData);
+  app.route('/api/host/pinboardgoals')
+    .get(hosts.fetchPinboardGoals);
 
-  app.route('/api/host/pinboard/dismiss')
+  app.route('/api/host/pinboardpins')
+    .get(hosts.fetchPinboardPins);
+
+  app.route('/api/host/pinboard/pins/dismiss')
     .post(hosts.setDismissedMessageIds);
 
   app.route('/api/host/sessionGuestMassMail/')
-    .post(hosts.sendMassMailForTheSession);
+    .post(mailsAndSms.sendMassMailForTheSession);
 
   app.route('/api/host/sessionGuestMassMessage/')
-    .post(hosts.sendMassMessagesForTheSession);
+    .post(mailsAndSms.sendMassMessagesForTheSession);
 
   app.route('/api/host/sendContentToHostFromContactUs/')
-    .post(hosts.sendContactUsContentToHost);
+    .post(mailsAndSms.sendContactUsContentToHost);
 
   app.route('/api/host/postpaymentevents/')
     .post(hosts.postPaymentEventsAndProcess);

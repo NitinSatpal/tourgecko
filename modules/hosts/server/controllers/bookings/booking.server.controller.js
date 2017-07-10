@@ -15,6 +15,7 @@ var path = require('path'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
   tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
+  mailAndMessage = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -320,7 +321,7 @@ exports.fetchSingleBookingDetailsFromPaymentRequestId = function (req, res) {
 
 // Confirm the booking
 exports.modifyBooking = function (req, res) {
-  Booking.findOne({_id: req.body.bookingId}).populate('hostCompany').exec(function (err, booking) {
+  Booking.findOne({_id: req.body.bookingId}).populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -362,6 +363,7 @@ exports.modifyBooking = function (req, res) {
                           res.json(bookingEditError);
                         }
                         tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
+                        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
                         res.json('success')
                       });
                     })
@@ -413,6 +415,7 @@ exports.modifyBooking = function (req, res) {
         if (err)
           res.json('Something went wrong. Please try again or contact tourgecko support')
         tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
+        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
         res.json('success')
       });
     }

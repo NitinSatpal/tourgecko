@@ -1,4 +1,3 @@
-.pinboard .pin-group ul{ margin-top:-2rem}
 .bg-highlight{ background-color:#fffff5}
 .menu-alert{ height:30px; width:30px; text-align:center; border-radius:50%; padding-top:.5rem; margin-top:.8rem}
 .zmdi-airline-seat-recline-normal.check::after{ content: '\f26a'; display: inline-block; font-size:12px; vertical-align: super; margin-left: -.2rem;}
@@ -143,6 +142,27 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 .text-readable15, .text-readable15 span { font-size:15px !important; line-height:normal !important;}
 .text-readable16, .text-readable16 span { font-size:16px !important; line-height:normal !important;}
 
+.pinboard .head_content{padding:2% 0 0 0;}
+.pinboard .info_content{background-color:#fffff5;border-radius:5px;padding:1rem;margin-bottom:1rem;}
+.pinboard li .info_content{margin-left:-1rem;margin-bottom:0;}
+.pinboard .btn-default{color:#40C4FF;border:1px solid #40C4FF;background:none;}
+.pinboard .btn-default:hover{background-color:#fff;}
+.pinboard .info{display:inline-block;}
+.pinboard .todo{color:#ED9C28;}
+.pinboard .info p{font-size:14px;font-weight:400;padding:0;margin:0;line-height:25px;}
+.pinboard .dismiss{position:absolute;right:5%;top:50%;transform:translateY(-50%);color:#40C4FF;}
+.pinboard .todo, .pinboard .time{display:inline-block;font-weight:900 !important;padding-right:30px !important;}
+.pinboard .todo i{font-weight:300;color:#999;}
+.pinboard .row{padding:2px 0;}
+.pinboard .alert{margin-bottom:1.1rem}
+.pin-group li{list-style-type:none;line-height:0;padding:0;margin:0; min-height:70px; }
+.pin-group{margin-top:3rem}
+.pin-group:after, .pin-group ul{display:block;content:'';clear:right}
+.pin-group li:before{content:"\f26f";display:block;margin-left:-34px;font:normal normal normal 14px/1 'Material-Design-Iconic-Font';position:relative;top:36px;color:#777;line-height:0;}
+.pin-group li:after{border-left:1px solid;height:130px;display:block;content:"";margin-left:-28px;margin-top:-122px;border-color:#999;line-height:0;position:relative;top:41px; z-index:-1}
+.pin-group li:last-child:after{display:none}
+.pin-group li:only-child:after{display:block !important; height:50px}
+
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -170,6 +190,7 @@ and (max-device-width : 1024px){
 	.sign-up-successful{ text-align:center}
 	#tours_list .panel .tour_utils {position: relative;width: 100%;padding: 20px 0; border-top: 1px solid #eee;text-align: center; right: 0px; top: 0px;}
 	span.text-huge{ font-size:4.5em;}
+	.info_content h3, .info_content .btn{margin-top:-34px}
 }
 
 @media (max-width: 425px){    
@@ -183,6 +204,8 @@ and (max-device-width : 1024px){
 	span.text-huge{ font-size:3.5em;}
 	h2.text-300{ font-size:1.5em;}
 	h4.text-huge-slogan{ font-size:1em}
+	.pin-group li:after{height: 130px; margin-left: -28px; margin-top: -123px; top: 40px;}
+	.pin-group li:only-child:after{margin-top:-82px; top:0;}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -190,7 +213,7 @@ and (max-device-width : 1024px){
 	.booking-payment-date{width:45%}
 	.booking-payment-amount{width:30%}
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
-
+	.pin-group li:only-child:after{margin-top:-106px; top:25px;}
 }
 
 

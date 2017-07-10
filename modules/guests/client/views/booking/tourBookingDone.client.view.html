@@ -21,7 +21,8 @@
                             <span class="col-xs-12 col-sm-4">{{vm.endDateOfTheBooking}}</span>
                         </div>
                         <div class="host-guest-common-style-row" ng-if="vm.specificBookingDetails.product.productAvailabilityType == 'Open Date'">
-                            <span class="col-xs-12 col-sm-4">{{vm.startDateOfTheBooking}} {{vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime}}</span>
+                            <span class="col-xs-12 col-sm-4 arrow">{{vm.startDateOfTheBooking}} {{vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime}}</span>
+                            <span class="col-xs-12 col-sm-4">{{vm.endDateOfTheBooking}}</span>
                         </div>
                         <div class="host-guest-common-style-row pay-contact-wrapper">
                             <span class="col-xs-12"><span>{{vm.specificBookingDetails.providedGuestDetails.email}}</span> |<span> {{vm.specificBookingDetails.providedGuestDetails.mobile}}</span></span>
@@ -52,7 +53,7 @@
                                             </tr>
                                             <tr ng-if="vm.validPricingOptions[$index].pricingType == 'Group'">
                                                 <td>Group of {{vm.validPricingOptions[$index].minGroupSize}} to {{vm.validPricingOptions[$index].maxGroupSize}}</td>
-                                                <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
+                                                <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}} (vm.validPricingOptions[$index].groupOption)</td>
                                                 <td>{{selectedBookingOption}}</td>
                                                 <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
                                             </tr>

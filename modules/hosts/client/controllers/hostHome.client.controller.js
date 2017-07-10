@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionCountService', 'PinboardService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionCountService', 'PinboardPinService', 'PinboardGoalService'];
 
-  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardService) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardPinService, PinboardGoalService) {
     var vm = this;
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
@@ -19,7 +19,8 @@
     vm.bookings = CalendarBookingService.query();
     vm.messages = MessageService.query();
     vm.productSessionCount = ProductSessionCountService.query();
-    vm.pinboardData = PinboardService.query();
+    vm.pinboardPins = PinboardPinService.query();
+    vm.pinboardGoals = PinboardGoalService.query();
     vm.totalRevenue = 0;
     vm.pinboardDismissedMessagesId = [];
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -53,12 +54,17 @@
       return displayDate;
     }
 
-    vm.dismissPinboardMessage = function (index) {
-      vm.pinboardDismissedMessagesId.push(vm.pinboardData[index]._id);
-      vm.pinboardData.splice(index, 1);
+    vm.dismissPinboardMessage = function (id, type, index) {
+      if (type == 'pin') {
+        console.log('the id is ' + id);
+        vm.pinboardPins.splice(index, 1)
+        $http.post('/api/host/pinboard/pins/dismiss', {pinId: id}).success(function (response) {
+        }).error(function (response){
+        });
+      }
     }
 
-    $scope.$on('$stateChangeSuccess', stateChangeSuccess);
+    /* $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
       if (vm.pinboardDismissedMessagesId.length > 0)
@@ -67,7 +73,7 @@
       }).error(function (response){
 
       });
-    }
+    } */
 
     vm.fetchPrevMonthSessions = function () {
       $('#calendar').fullCalendar('prev');

@@ -10,9 +10,9 @@
       "Add a tour to tour inventory" : 'tourAdd'
     });
 
-  TourgeckoAdminController.$inject = ['$scope', '$http', '$filter', '$state', 'Authentication', 'AdminService', 'HostService', 'ThemeService', 'ActivityService', 'pinBoardConstants'];
+  TourgeckoAdminController.$inject = ['$scope', '$http', '$filter', '$state', 'Authentication', 'AdminService', 'HostService', 'ThemeService', 'ActivityService', 'PinboardGoalAdminService', 'pinBoardConstants'];
 
-  function TourgeckoAdminController($scope, $http, $filter, $state, Authentication, AdminService, HostService, ThemeService, ActivityService, pinBoardConstants) {
+  function TourgeckoAdminController($scope, $http, $filter, $state, Authentication, AdminService, HostService, ThemeService, ActivityService, PinboardGoalAdminService, pinBoardConstants) {
     var vm = this;
     vm.userGuide = true;
     vm.authentication = Authentication;
@@ -39,11 +39,14 @@
       vm.addRichData = false;
       vm.analysis = false;
       vm.userGuide = false;
+      vm.addGoals = false;
       vm.addPins = false;
       if (tabId == 'browseAndModifyData')
         vm.browseAndModifyData = true;
       else if (tabId == 'addRichData')
         vm.addRichData = true;
+      else if (tabId == 'addGoals')
+        vm.addGoals = true;
       else if (tabId == 'addPins')
         vm.addPins = true;
       else
@@ -99,6 +102,26 @@
     };
     // Rich data addition ends here
 
+    // Add goals
+    vm.goalToUsers = [];
+    vm.addGoalsForPinboard = function () {
+      var toUsersForGoals = [];
+      for (var index = 0; index < vm.goalToUsers.length; index++)
+        toUsersForGoals.push(nameToId.get(vm.goalToUsers[index]));
+
+      vm.goal.to = toUsersForGoals;
+
+      $http.post('/api/admin/pinboardGoals', vm.goal)
+        .success(function (response) {
+          $state.reload();
+        })
+        .error(function (error) {
+          console.log(error);
+        });
+    }
+    // Add goals, ends here
+
+    // Add pins
     vm.pinToUsers = [];
     vm.pinType;
     vm.pin = {};
@@ -109,11 +132,12 @@
         toUsersForPins.push(nameToId.get(vm.pinToUsers[index]));
 
       vm.pin.to = toUsersForPins;
-
-      if(vm.pin.isInitialPin)
-        vm.pin.initialPinUniqueCode = pinBoardConstants[vm.pin.message];
-
-      $http.post('/api/admin/pinboardPins', vm.pin)
+      if (vm.goalForThisPin)
+        vm.goal = goalToId.get(vm.goalForThisPin[0]);
+      else
+        vm.goal = false;
+      var pinDetails = {pinData: vm.pin, goal: vm.goal}
+      $http.post('/api/admin/pinboardPins', pinDetails)
         .success(function (response) {
           $state.reload();
         })
@@ -121,6 +145,9 @@
           console.log(error);
         });
     }
+    // Add pins ends here
+
+
     // Functions and queries for browse and modify data
 
     AdminService.query(function (data) {
@@ -130,11 +157,11 @@
 
     HostService.query(function (data) {
       vm.hosts = data;
-      createSelect2ForPins(data);
+      createUSersSelect2ForPinsAndGoals(data);
     });
 
     var nameToId = new Map();
-    function createSelect2ForPins (users) {
+    function createUSersSelect2ForPinsAndGoals (users) {
       var select2Data = [];
       nameToId.set('all', 'all');
       for (var index = 0; index < users.length; index++) {
@@ -144,6 +171,33 @@
       }
       $('#pinsFor').select2({
         placeholder: "Select users to whom pin has to sent",
+        width: '100%',
+        data: select2Data
+      });
+
+      $('#goalFor').select2({
+        placeholder: "Select users to whom goal has to be set",
+        width: '100%',
+        data: select2Data
+      });
+    }
+
+    PinboardGoalAdminService.query(function (data) {
+      createGoalSelect2ForPins(data);
+    });
+
+
+    var goalToId = new Map();
+    function createGoalSelect2ForPins (goals) {
+      var select2Data = [];
+      for (var index = 0; index < goals.length; index++) {
+        var temp = goals[index].goalText;
+        goalToId.set(temp, goals[index]._id);
+        select2Data.push(temp);
+      }
+
+      $('#pinGoal').select2({
+        placeholder: "Select the goal to which this pin belongs",
         width: '100%',
         data: select2Data
       });

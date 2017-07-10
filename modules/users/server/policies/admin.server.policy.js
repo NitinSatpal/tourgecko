@@ -35,6 +35,9 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/admin/pinboardPins',
       permissions: '*'
+    }, {
+      resources: '/api/admin/pinboardGoals',
+      permissions: '*'
     }]
   }]);
 };
@@ -44,7 +47,6 @@ exports.invokeRolesPolicies = function () {
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
-
   // Check for user roles
   acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {
     if (err) {

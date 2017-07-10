@@ -24,6 +24,11 @@ module.exports = function (app) {
   app.route('/api/admin/languages')
     .post(adminPolicy.isAllowed, admin.saveLanguages);
 
+  app.route('/api/admin/pinboardGoals')
+    .post(adminPolicy.isAllowed, admin.savePinBoardGoals)
+    .get(adminPolicy.isAllowed, admin.fetchPinBoardGoals);
+
   app.route('/api/admin/pinboardPins')
     .post(adminPolicy.isAllowed, admin.savePinBoardPins);
+
 };

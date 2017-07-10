@@ -1,0 +1,269 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Booking Request</title>
+    <style type="text/css">
+    img {
+        max-width: 100%;
+    }
+    
+    body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+        width: 100% !important;
+        height: 100%;
+        line-height: 1.6em;
+    }
+    
+    body {
+        background-color: #f6f6f6;
+    }
+    
+    @media only screen and (max-width: 640px) {
+        body {
+            padding: 0 !important;
+        }
+        h1 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+        h2 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+        h3 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+        h4 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+        h1 {
+            font-size: 22px !important;
+        }
+        h2 {
+            font-size: 18px !important;
+        }
+        h3 {
+            font-size: 16px !important;
+        }
+        .container {
+            padding: 0 !important;
+            width: 100% !important;
+        }
+        .content {
+            padding: 0 !important;
+        }
+        .content-wrap {
+            padding: 10px !important;
+        }
+        .invoice {
+            width: 100% !important;
+        }
+    }
+    </style>
+</head>
+
+<body itemscope="" itemtype="http://allegoryweb.com" style="font-family: &quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100% ! important; height: 100%; line-height: 1.6em; background-color: rgb(255, 255, 255); margin: 0px;" bgcolor="#f6f6f6">
+    <table class="body-wrap" style="font-family: &quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: rgb(255, 255, 255); margin: 0px;" bgcolor="#f6f6f6">
+        <tbody>
+            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top">
+                </td>
+                <td class="container" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;margin-top: 20px" valign="top" width="600">
+                    <p style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 24px; vertical-align: top; margin:0 0 10px; padding: 0 0 10px;text-align: left;" valign="top">
+                        <b>{{hostName}}</b>
+                    </p>
+                    <table class="main" itemprop="action" itemscope="" itemtype="http://allegoryweb.com" style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 0px; margin: 0px;" bgcolor="#fff" cellpadding="0" cellspacing="0" width="100%">
+                        <tr class="main-message" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                            <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;" valign="top">
+                                You have received a new booking from <span><b>{{customerName}}</b> </span> for <span><b>{{tourName}}</b> </span> and is awaiting your confirmation.
+                            </td>
+                        </tr>
+                        <tr class="main-message" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                            <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;" valign="top">
+                                You can review the booking at <span> <a href="{{bookingURL}}" style="color: rgb(83, 194, 239);text-decoration: none;">{{bookingURL}}</a></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="container" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top" width="600">
+                                <p style="font-family: &quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 24px; vertical-align: top; margin: 20px 0px 10px; padding: 10px; text-align: left; border-bottom: 1px solid rgb(221, 221, 221); background-color: rgb(243, 243, 243);" valign="top">
+                                    Booking Summary
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="main" itemprop="action" itemscope="" itemtype="http://allegoryweb.com" style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 0px; margin: 0px; border-bottom: 1px solid rgb(194, 194, 194); background-color: rgb(240, 240, 240); border-top: 1px solid rgb(194, 194, 194);" bgcolor="#fff" cellpadding="0" cellspacing="0" width="100%">
+                        <tbody>
+                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                <td class="content-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;" valign="top">
+                                    <meta itemprop="name" content="Confirm Email" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                    <table style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" cellpadding="0" cellspacing="0" width="100%">
+                                        <tbody>
+                                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                <td class="call-to-action-label" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 24px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;" valign="top">{{tourName}}
+                                                </td>
+                                            </tr>
+                                            <tr class="main-message" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 0px;text-align: left;" valign="top">
+                                                    <span>{{startDate}} {{startTime}} --- {{endDate}} </span>
+                                                </td>
+                                            </tr>
+                                            <tr class="main-message" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0px;text-align: left;" valign="top">
+                                                    <span>{{customerEmail}} </span> |<span> {{customerMobile}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr class=" main-message " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; ">
+                                                <td class="content-block " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 0 10px 0;text-align: left; " valign="top ">
+                                                    <b> <!--<span>xyz@gmail.com </span> |-->
+                                                     <span style="font-family:Helvetica,Arial,sans-serif; color: rgb(254, 178, 65)">{{bookingStatus}}</span></b>
+                                                </td>
+                                            </tr>
+                                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin-bottom: 10px; ">
+                                                <table style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 0px; margin: 0px;width: 100% ">
+                                                    <thead>
+                                                        <tr style="border-bottom: 1px solid #ddd;">
+                                                            <th class="call-to-action-label " style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                Item
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                Total
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {{#each bookingPricingObject}}
+                                                            <tr>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <b>{{this.pricingType}}</b>
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <span class="currency">₹</span>{{this.price}}
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    {{this.quantity}}
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <span class="currency">₹</span>{{this.totalPrice}}
+                                                                </td>
+                                                            </tr>
+                                                        {{/each}}
+                                                        <tr>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                <b><span class="currency">₹</span>{{totalAmountForProduct}}</b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 0px; margin: 0px;width: 100% ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                Add-Ons
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </th>
+                                                            <th style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {{#each bookingAddonObject}}
+                                                            <tr>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <b>{{this.name}}</b>
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <span class="currency">₹</span>{{this.price}}
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    {{this.quantity}}
+                                                                </td>
+                                                                <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top">
+                                                                    <span class="currency">₹</span>{{this.totalPrice}}
+                                                                </td>
+                                                            </tr>
+                                                        {{/each}}
+                                                        <tr>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                            </td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                <b><span class="currency">₹</span>{{totalAmountForAddons}}</b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 0px; margin: 0px;width: 100% ">
+                                                    <tbody>
+                                                        <!--<tr>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top"><b>Discount</b></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%" valign="top"><span class="currency">₹</span><b>100</b></td>
+                                                        </tr> -->
+                                                        <tr class="border-bottom">
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">Total</td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"><span class="currency">₹</span>{{totalAmountPaid}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top"><b>Due Now</b></td>
+                                                            <td style="font-family:Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 10px;text-align: left;width: 25%;border-bottom: 1px solid #ddd;" valign="top">
+                                                                <span class="currency">₹</span><b>{{totalDueAmount}}</b>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class=" footer " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px; ">
+                        <table style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; " width="100% ">
+                            <tbody>
+                                <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; ">
+                                    <td class="aligncenter content-block " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 11px; vertical-align: top; color: #000; text-align: center; margin: 0; padding: 0 0 10px; " align="center " valign="top ">@ 2017 tourgecko, All Rights Reserved
+                                        <br>
+                                        <a href="http://www.allegoryweb.com " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 11px; color: rgb(83, 194, 239); text-decoration: underline; margin: 0 5px 0 0; ">Privacy Policy  </a> |
+                                        <a href="http://www.allegoryweb.com " style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 11px; color: rgb(83, 194, 239); text-decoration: underline; margin: 0 0 0 5px; "> Terms and Conditions</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; " valign="top "></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

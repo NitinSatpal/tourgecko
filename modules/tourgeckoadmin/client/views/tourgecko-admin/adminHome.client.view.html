@@ -4,6 +4,7 @@
   		<br>
 	  	<button type="button" class="btn btn-info" ng-click="vm.showOptions('browseAndModifyData')" data-target="#browseData" aria-expanded="false">Browse and Modify Data</button>&nbsp;&nbsp;
 	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addRichData')">Add Rich Data</button>&nbsp;&nbsp;
+	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addGoals')">Add Goals</button>&nbsp;&nbsp;
 	  	<button type="button" class="btn btn-primary" ng-click="vm.showOptions('addPins')">Add Pins</button>&nbsp;&nbsp;
 	  	<button type="button" class="btn btn-success" ng-click="vm.showOptions('analysis')">Analysis</button>
 	</div>
@@ -158,10 +159,35 @@
 	  		</div>
 	  	</div>
 	</div>
+	<div id="addGoals" ng-show="vm.addGoals">
+		<form class="form-horizontal" name="vm.form.pinsForm" novalidate>
+			<label for="goalDetails" class="control-label">
+				To whom this goal shoul be visible? &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<select id="goalFor" multiple="true" ng-model="vm.goalToUsers">
+						<option value="all"> All </option>
+					</select>
+				</div>
+			</div>
+			<label for="goalDetails" class="control-label">
+				What is the goal? &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<input id="goalDetails" name="goalDetails" type="text" ng-model="vm.goal.goalText" class="form-control">
+				</div>
+			</div>
+			
+  			<br>
+			<button type="button" class="adminButtons" ng-click="vm.addGoalsForPinboard()">Add Goal</button>
+		</form>
+	</div>
 	<div id="addPinboardData" ng-show="vm.addPins">
 		<form class="form-horizontal" name="vm.form.pinsForm" novalidate>
 			<label for="pinsFor" class="control-label">
-				To &nbsp;&nbsp;
+				To whom this pin should be visible? &nbsp;&nbsp;
 			</label>
 			<div class="input_group">
 				<div>
@@ -171,6 +197,15 @@
 				</div>
 			</div>
 
+			<label for="pinGoal" class="control-label">
+				Is this pin belogs to some goal? &nbsp;&nbsp;
+			</label>
+			<div class="input_group">
+				<div>
+					<select id="pinGoal" multiple="true" ng-model="vm.goalForThisPin">
+					</select>
+				</div>
+			</div>
 			<label for="pinsFor" class="control-label">
 				Type &nbsp;&nbsp;
 			</label>
@@ -181,16 +216,6 @@
 						<option value="advise">Advise</option>
 						<option value="notification">Notification</option>
 					</select>
-				</div>
-			</div>
-
-			<label for="isInitialPin" class="control-label">
-				Is this initial pin to be shown after first signin? &nbsp;&nbsp;
-			</label>
-			<div>
-				<div>
-					<input id="isInitialPin" name="isInitialPin" type="radio" ng-model="vm.pin.isInitialPin" value="true"> Yes
-					<input id="isInitialPin" name="isLinkRequired" type="radio" ng-model="vm.pin.isInitialPin" value="false"> No
 				</div>
 			</div>
 

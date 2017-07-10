@@ -43,6 +43,7 @@ exports.postPaymentEventsAndProcess = function (req, res) {
         sendNotification(booking, booking.product.productTitle, booking._id);
         var smsBody = getBookingDoneSms(booking);
         mailAndMessage.sendBookingDoneSms(smsBody, booking.providedGuestDetails.mobile);
+        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, 'bookingDone');
         if(!booking.isOpenDateTour)
           updateSession(booking);
         else
@@ -224,9 +225,7 @@ function getBookingDoneSms (booking) {
   var hostCompanyName = booking.hostCompany.companyName;
 
   var smsBody = 'Thank you ' + customerName + ' for booking ' + tourName + ' with us! Your booking id is ' + bookingId + 
-  ' and is awaiting confirmation from us. You will hear from us soon.' + '- Team ' + hostCompanyName;
+  ' and is awaiting confirmation from us. You will hear from us soon.' + '%n-Team ' + hostCompanyName;
 
   return smsBody;
 }
-
-

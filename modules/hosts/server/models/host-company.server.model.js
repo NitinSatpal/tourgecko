@@ -165,6 +165,22 @@ var HostCompanySchema = new Schema({
   toursiteBanners: {
     type: Array,
     default: []
+  },
+  pinboardGoalsCompleted: {
+    type: Array,
+    default: []
+  },
+  pinboardGoalsDismissed: {
+    type: Array,
+    default: []
+  },
+  pinboardPinsCompleted: {
+    type: Array,
+    default: []
+  },
+  pinboardPinsDismissed: {
+    type: Array,
+    default: []
   }
 });
 
