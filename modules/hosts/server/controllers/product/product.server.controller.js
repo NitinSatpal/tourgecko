@@ -171,8 +171,9 @@ exports.fetchSingleProductDetails = function (req, res) {
 // Fetch Company product details
 exports.fetchCompanyProductDetails = function (req, res) {
   if (req.user) {
+    var itemsPerPage = 10;
     Product.count({ 'hostCompany': req.user.company }, function(error, count) {
-      Product.find({ 'hostCompany': req.user.company }).limit(10).sort('-created').populate('').exec(function (err, products) {
+      Product.find({ 'hostCompany': req.user.company }).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)
@@ -189,8 +190,9 @@ exports.fetchCompanyProductDetails = function (req, res) {
 exports.fetchAllProductDetailsOfCompany = function (req, res) {
   if (req.user) {
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
+      var itemsPerPage = parseInt(req.params.itemsPerPage);
       Product.count({ 'hostCompany': req.user.company }, function(error, count) {
-        Product.find({ 'hostCompany': req.user.company }).limit(req.params.itemsPerPage).sort('-created').populate('').exec(function (err, products) {
+        Product.find({ 'hostCompany': req.user.company }).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -200,8 +202,9 @@ exports.fetchAllProductDetailsOfCompany = function (req, res) {
         });
       });
     } else {
+      var itemsPerPage = 10;
       Product.count({ 'hostCompany': req.user.company }, function(error, count) {
-        Product.find({ 'hostCompany': req.user.company }).limit(10).sort('-created').populate('').exec(function (err, products) {
+        Product.find({ 'hostCompany': req.user.company }).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -217,8 +220,8 @@ exports.fetchAllProductDetailsOfCompany = function (req, res) {
 // Fetch Company product details for current page
 exports.fetchCompanyProductDetailsForCurrentPage = function (req, res) {
   if (req.user) {
-    var pageNumber = req.params.pageNumber;
-    var itemsPerPage = req.params.itemsPerPage;
+    var pageNumber = parseInt(req.params.pageNumber);
+    var itemsPerPage = parseInt(req.params.itemsPerPage);
     Product.find({ 'hostCompany': req.user.company }).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
       if (err) {
         return res.status(400).send({
@@ -233,8 +236,8 @@ exports.fetchCompanyProductDetailsForCurrentPage = function (req, res) {
 // Fetch Company product details for current page after product edit
 exports.fetchCompanyProductDetailsForCurrentPageAfterEdit = function (req, res) {
   if (req.user) {
-    var pageNumber = req.params.pageNumber;
-    var itemsPerPage = req.params.itemsPerPage;
+    var pageNumber = parseInt(req.params.pageNumber);
+    var itemsPerPage = parseInt(req.params.itemsPerPage);
     Product.count({ 'hostCompany': req.user.company }, function(error, count) {
       Product.find({ 'hostCompany': req.user.company }).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('').exec(function (err, products) {
         if (err) {
