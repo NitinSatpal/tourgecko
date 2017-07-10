@@ -162,7 +162,9 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 .pin-group li:after{border-left:1px solid;height:130px;display:block;content:"";margin-left:-28px;margin-top:-122px;border-color:#999;line-height:0;position:relative;top:41px; z-index:-1}
 .pin-group li:last-child:after{display:none}
 .pin-group li:only-child:after{display:block !important; height:50px}
-
+.pull-right {
+	float: right !important;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -172,7 +174,7 @@ and (max-device-width : 1024px){
 	.booking-payment-amount{width:15%} 
 	#booking-detail .input-group-addon.trip-booking-input{ display:none;}
 	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
-	#booking-detail .nav-div{ display:none;}  
+	#booking-detail .nav-div{ display:none;}
 }
 @media (max-width: 767px){
 	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(2){padding-right: .5rem;}
@@ -191,6 +193,8 @@ and (max-device-width : 1024px){
 	#tours_list .panel .tour_utils {position: relative;width: 100%;padding: 20px 0; border-top: 1px solid #eee;text-align: center; right: 0px; top: 0px;}
 	span.text-huge{ font-size:4.5em;}
 	.info_content h3, .info_content .btn{margin-top:-34px}
+	.pinboard .info{display:block;}
+	.pinboard .dismiss{position:relative;right:0;}
 }
 
 @media (max-width: 425px){    
@@ -206,6 +210,8 @@ and (max-device-width : 1024px){
 	h4.text-huge-slogan{ font-size:1em}
 	.pin-group li:after{height: 130px; margin-left: -28px; margin-top: -123px; top: 40px;}
 	.pin-group li:only-child:after{margin-top:-82px; top:0;}
+	.pinboard .info{display:block;}
+	.pinboard .dismiss{position:relative;right:0;}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -214,6 +220,9 @@ and (max-device-width : 1024px){
 	.booking-payment-amount{width:30%}
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	.pin-group li:only-child:after{margin-top:-106px; top:25px;}
+	.pinboard .info{display:block;}
+	.pinboard .dismiss{position:relative;right:0;}
+	.pinboard .update_profile{float:none !important;}
 }
 
 

@@ -920,9 +920,6 @@ form > .error_msg {
 	#signup-step1 .row.header img {
 		display:inline-block;
 	}
-	.pull-right {
-		float:none !important;
-	}
 	#tours #tours_itinerary .itinerary_panel_container .add_itinerary_done {
 		float: right;
 	}
@@ -2013,7 +2010,6 @@ p.sub_desc{ color:#aaaaaa !important;}
 .latest .bookings{border:none;}
 .pinboard .info{display:block;}
 .pinboard .dismiss{position:relative;right:0;}
-.pinboard .update_profile{float:none !important;}
 .footer .navbar-nav li{border: none;}
 #fullCalModal .modal-dialog{width: 80%; position: relative; top: 20px;margin: 0 auto;}
 }
@@ -2700,8 +2696,8 @@ span.multiselect-native-select select {
 		display: table-cell;
 		vertical-align: middle;
 		padding: 0 10px;
-		margin-left: 1.5%;
-		margin-top: -2.8%;
+		margin-left: -22%;
+		margin-top: 1.5%;
 	}
 	#tours .help_info .onoffswitch {
 		display: table-cell;
@@ -2710,9 +2706,10 @@ span.multiselect-native-select select {
 		position:absolute;width: 40px;
 		-webkit-user-select:none;
 		-moz-user-select:none;-ms-user-select:none;
-		margin-left: 15%;
-		margin-top: -4.4%;
+		margin-left: -10%;
+		margin-top: 0%;
 	}
+	#tours .preview-button {display: table;float: left; margin-top:30% !important;margin-left: 50%;}
 	
 	#settings .account_overview .account_details .details {
 		position: absolute;

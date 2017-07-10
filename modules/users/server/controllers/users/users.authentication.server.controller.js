@@ -112,9 +112,10 @@ exports.signup = function (req, res) {
               httpTransport = 'https://';
             }
             var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+            var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
             res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
               name: user.displayName,
-              appName: config.app.title,
+              assetOneUrl: assetOneUrl,
               url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + user.id
             }, function (err, emailHTML) {
               done(err, emailHTML, user);
