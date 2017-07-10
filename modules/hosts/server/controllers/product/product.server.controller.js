@@ -87,7 +87,7 @@ function onInsert(err, docs) {
 exports.editProduct = function(req, res) {
   Product.findOne({ '_id': req.body.tour._id }).exec(function (err, product) {
     if(err) {
-      console.log(err);
+      
     } else {
       for (var field in Product.schema.paths) {
         if ((field !== '_id') && (field !== '__v')) {

@@ -377,8 +377,11 @@
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.getRepeaterIndexForGroupAndCustomPricing = function(min, max) {
       var groupPricingArr = [];
+      var min = parseInt(min);
+      var max = parseInt(max);
       for (var index = min; index <= max; index ++)
         groupPricingArr.push(index);
+
       return groupPricingArr;
     }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -919,6 +922,11 @@ vm.areAddonsSelected = function () {
           currentActiveMonth = month;
         }
         
+        var monthDateIterator = new Date(currentActiveYear, currentActiveMonth, 1);
+        var month = (monthDateIterator.getMonth() + 1).toString();
+        var year = monthDateIterator.getFullYear().toString();
+        var dayAdder = 1;
+        var lastDay = new Date(currentActiveYear, currentActiveMonth + 1, 0);
         // For Open Date tour
         if (vm.bookingProductDetails.productAvailabilityType == 'Open Date') {
           if (vm.bookingProductDetails.productUnavailableMonths.indexOf(unavailableMonthsMap[currentActiveMonth]) != -1) {
@@ -926,19 +934,28 @@ vm.areAddonsSelected = function () {
           } else {
             $('.day-style').removeClass('not-availableDates');
           }
+
+          // disable past dates
+          // disable past dates
+          if (lastDay.getTime() < new Date().getTime()) {
+            $('.day-style').addClass('not-availableDates');
+          }
+
+          var daysDiff = (new Date() - monthDateIterator) / oneDay;
+          $timeout(function() {
+            for (var index = 0; index < daysDiff - 1; index++) {
+              var day = monthDateIterator.getDate().toString();
+              var divId = ('#' + day + month + year).toString();
+              $(divId).addClass('not-availableDates');
+              monthDateIterator.setDate(monthDateIterator.getDate() + dayAdder);
+            }
+          }, 1000);
           $('#loadingDivTourBooking').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
           // For Fixed departure tours
           var monthDateInMilliseconds = new Map();
-          var monthDateIterator = new Date(currentActiveYear, currentActiveMonth, 1);
-          var month = (monthDateIterator.getMonth() + 1).toString();
-
-          var year = monthDateIterator.getFullYear().toString();
-          var firstDay = new Date(currentActiveYear, currentActiveMonth, 1);
-          var lastDay = new Date(currentActiveYear, currentActiveMonth + 1, 0);
           var daysDiff = (lastDay - monthDateIterator) / oneDay + 1;
-          var dayAdder = 1;
           
           $timeout(function() {
             if (vm.bookingProductDetails.productAvailabilityType != 'Open Date') {

@@ -8,6 +8,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
+  mg = require('nodemailer-mailgun-transport'),
   nodemailer = require('nodemailer'),
   async = require('async'),
   xoauth2 = require('xoauth2'),
@@ -20,6 +21,8 @@ var smtpTransport = nodemailer.createTransport({
     xoauth2: xoauth2.createXOAuth2Generator(config.mailer.auth)
   }
 });
+
+var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 
 /**
  * Forgot for reset password (forgot POST)
@@ -79,25 +82,26 @@ exports.forgot = function (req, res, next) {
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Password Reset',
-        html: emailHTML
-      };
-      smtpTransport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          res.send({
-            message: 'An email has been sent to the provided email with further instructions.'
-          });
-        } else {
-          return res.status(400).send({
-            message: JSON.stringify(err)
-          });
-        }
-
-        done(err);
-      });
+      nodemailerMailgun.sendMail({
+          from: 'noreply@tourgecko.com',
+          to: user.email, // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'Password reset',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: emailHTML,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            res.json('failure');
+          }
+          else {
+            res.send({
+              message: 'An email has been sent to the provided email with further instructions.'
+            });
+          }
+        });
     }
   ], function (err) {
     if (err) {
@@ -179,25 +183,39 @@ exports.reset = function (req, res, next) {
       });
     },
     function (user, done) {
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
       res.render('modules/users/server/templates/reset-password-confirm-email', {
         name: user.displayName,
-        appName: config.app.title
+        appName: config.app.title,
+        url: baseUrl + '/host/login/'
       }, function (err, emailHTML) {
         done(err, emailHTML, user);
       });
     },
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
-      var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'Your password has been changed',
-        html: emailHTML
-      };
-
-      smtpTransport.sendMail(mailOptions, function (err) {
-        done(err, 'done');
-      });
+      nodemailerMailgun.sendMail({
+          from: 'noreply@tourgecko.com',
+          to: user.email, // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'Your password has been changed',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: emailHTML,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            res.json('failure');
+          }
+          else {
+            res.json('success');
+          }
+        });
     }
   ], function (err) {
     if (err) {

@@ -368,12 +368,7 @@ exports.resendverificationemail = function (req, res) {
 /* Verify the user who is registered with us */
 exports.validateUserVerification = function(req, res) {
   var userId = new mongoose.mongo.ObjectId(req.query.user);
-  User.findOne({
-    verificationToken: req.query.token,
-    verificationTokenExpires: {
-      $gt: Date.now()
-    }
-  }, function (err, user) {
+  User.findOne({verificationToken: req.query.token, verificationTokenExpires: {$gt: Date.now()}}).populate('company').exec(function (err, user) {
     if (err) {
       res.status(500).render('modules/core/server/views/500', {
         error: 'Oops! Something went wrong! Please try again by clicking the same Activation link'
@@ -402,10 +397,48 @@ exports.validateUserVerification = function(req, res) {
             if (err) {
               res.status(400).send(err);
             } else {
+              var httpTransport = 'http://';
+              if (config.secure && config.secure.ssl === true) {
+                httpTransport = 'https://';
+              }
+              var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+              var letsDoItUrl = baseUrl + '/host/admin';
+              var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
+              var assetTwourl = baseUrl + '/modules/core/client/img/assets/welcomeHostEmailPic.png'
+              var hostToursiteUrl = httpTransport + user.company.toursite + '.' + req.headers.host;
+
+              res.render(path.resolve('modules/users/server/templates/user-activated-email'), {
+                hostName: user.company.companyName,
+                hostEmail: user.email,
+                hostToursiteUrl: hostToursiteUrl,
+                letsDoItUrl: letsDoItUrl,
+                assetOneUrl: assetOneUrl,
+                assetTwourl: assetTwourl
+              }, function (err, emailHTML) {
+                nodemailerMailgun.sendMail({
+                  from: 'noreply@tourgecko.com',
+                  to: user.email, // An array if you have multiple recipients.
+                  //cc:'',
+                  //bcc:'',
+                  subject: 'Account activated',
+                  //You can use "html:" to send HTML email content. It's magic!
+                  html: emailHTML,
+                  //You can use "text:" to send plain-text content. It's oldschool!
+                  // text: req.body.guestDetails.guestMessage
+                }, function (err, info) {
+                  if (err) {
+                    console.log('failure');
+                  }
+                  else {
+                    console.log('success');
+                  }
+                });
+              });
               if (user.userType == 'host')
                 res.redirect('/host/admin');
               else
                 res.redirect('/guest/home');
+
             }
           });
         }

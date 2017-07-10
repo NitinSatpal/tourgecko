@@ -559,6 +559,8 @@
 
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     function makeThisDayActive (makeThisElementActive) {
+        if($(makeThisElementActive).hasClass('not-availableDates'))
+            return;
         var date = $(makeThisElementActive).children().attr("data-day") + '-' + months[$(makeThisElementActive).children().attr("data-month") - 1] + '-' + $(makeThisElementActive).children().attr("data-year");
         var displayDate = angular.element('#bookingDateSelector').scope().getDepartureDate(date, -1);
         

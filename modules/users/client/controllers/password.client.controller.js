@@ -5,9 +5,9 @@
     .module('users')
     .controller('PasswordController', PasswordController);
 
-  PasswordController.$inject = ['$scope', '$stateParams', '$http', '$location', 'Authentication', 'PasswordValidator'];
+  PasswordController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$timeout', 'Authentication', 'PasswordValidator'];
 
-  function PasswordController($scope, $stateParams, $http, $location, Authentication, PasswordValidator) {
+  function PasswordController($scope, $state, $stateParams, $http, $location, $timeout, Authentication, PasswordValidator) {
     var vm = this;
 
     vm.resetUserPassword = resetUserPassword;
@@ -35,6 +35,10 @@
         // Show user success message and clear form
         vm.credentials = null;
         vm.success = response.message;
+        $timeout(function() {
+            $state.go('authentication.hostSignin');
+          }, 3000);
+        
         $("#loadingDivPassword").css("display", "none");
         $("#tourgeckoBody").removeClass("waitCursor");
 
