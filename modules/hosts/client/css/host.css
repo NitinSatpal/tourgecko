@@ -2003,7 +2003,7 @@ p.sub_desc{ color:#aaaaaa !important;}
 .panel.panel_two.pointer-box .row{ padding:0 1.5rem !important;}
 .panel.panel_two.pointer-box .pointer-line .pointer.pointer_a{ margin-left: 6%;}
 .pointer-line .pointer.pointer_a {margin-left: 33%;}
-.pointer-line .pointer.pointer_b {margin-left: 66.5%;}
+.pointer-line .pointer.pointer_b {margin-left: 66.4%;}
 
 /*.left-nav-bar .navbar{position:relative;border:1px solid transparent;}
 .left-nav-bar .navbar .navbar-nav{margin:0 -15px;}*/
@@ -2696,8 +2696,8 @@ span.multiselect-native-select select {
 		display: table-cell;
 		vertical-align: middle;
 		padding: 0 10px;
-		margin-left: -46%;
-		margin-top: 7.3%;
+		right: 50px !important;
+		margin-top: 11.3%;
 	}
 	#tours .help_info .onoffswitch {
 		display: table-cell;
@@ -2706,9 +2706,19 @@ span.multiselect-native-select select {
 		position:absolute;width: 40px;
 		-webkit-user-select:none;
 		-moz-user-select:none;-ms-user-select:none;
-		margin-left: -34%;
-		margin-top: 6%;
-		float: left !important;
+		right: 10px !important;
+		margin-top: 10%;
+		float: right !important;
+	}
+	.home_add_tour .tours_head_content{
+		padding-bottom: 17px !important;
+	}
+	.fixedDepartureAddTourMobile p {
+		margin-left: 20px !important;
+	}
+	.fixedDepartureAddTourMobile .radio_label .zmdi-check-circle,
+	.fixedDepartureAddTourMobile .radio_label .zmdi-circle-o {
+		margin-top: -15px !important;
 	}
 	#tours .preview-button {display: table;float: left; margin-top:30% !important;margin-left: 50%;}
 	
