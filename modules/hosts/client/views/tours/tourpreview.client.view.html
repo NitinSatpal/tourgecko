@@ -2,31 +2,26 @@
     <div ng-include="'/modules/guests/client/views/guestSideNav.client.view.html'"></div>
     <div class="container-fluid">
         <div class="row">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#toursiteCarousel" class="" ng-repeat="img in vm.companyData.toursiteBanners track by $index" data-slide-to="{{$index}}"></li>
                 </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero1.png" alt="Los Angeles" style="width:100%;">
+                        <img src="{{vm.companyData.toursiteBanners[0].url}}" alt="{{vm.companyData.toursiteBanners[0].name}}" class="banners-carousel">
                     </div>
-                    <div class="item">
-                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero2.png" alt="Chicago" style="width:100%;">
-                    </div>
-                    <div class="item">
-                        <img src="modules/core/client/img/hostGuestCommonImages/details_hero/main_hero3.png" alt="New york" style="width:100%;">
+                    <div class="item" ng-repeat="img in vm.companyData.toursiteBanners track by $index" ng-if="$index != 0 ">
+                        <img src="{{img.url}}" alt="{{img.name}}" class="banners-carousel">
                     </div>
                 </div>
                 <!-- Left and right controls -->
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <a class="carousel-control left" href="" data-slide="prev">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <a class="carousel-control right" href="" data-slide="next">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                     <span class="sr-only">Next</span>
                 </a>
@@ -81,7 +76,7 @@
                     <div class="row">
                         <div class="panel-group" id="accordion">
                             <div class="panel panel-default my-panel">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse1">
                                     <h4 class="panel-title"><i class="zmdi zmdi-info-outline orange-text"></i> Overview</h4>
                                 </div>
                                 <div id="collapse1" class="panel-collapse collapse in">
@@ -91,7 +86,7 @@
                                 </div>
                             </div>
                            <!-- <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse2">
                                     <h4 class="panel-title"><i class="zmdi zmdi-format-list-bulleted orange-text"></i> At a Glance</h4>
                                 </div>
                                 <div id="collapse2" class="host-guest-common-style-active">
@@ -154,7 +149,7 @@
                                 </div>
                             </div> -->
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse3">
                                     <h4 class="panel-title"><i class="zmdi zmdi-file-text orange-text"></i> Itinerary</h4>
                                 </div>
                                 <div class="panel-collapse collapse in">
@@ -174,7 +169,7 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse4">
                                     <h4 class="panel-title"><i class="zmdi zmdi-comment-list orange-text"></i> Guidelines</h4>
                                 </div>
                                 <div id="collapse4" class="host-guest-common-style-active">
@@ -185,7 +180,7 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse5">
                                     <h4 class="panel-title"><i class="zmdi zmdi-calendar-check orange-text"></i> Inclusions</h4>
                                 </div>
                                 <div id="collapse5" class="panel-collapse collapse in">
@@ -196,7 +191,7 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse6">
                                     <h4 class="panel-title"><i class="zmdi zmdi-calendar-close orange-text"></i> Exclusions</h4>
                                 </div>
                                 <div id="collapse6" class="panel-collapse collapse in in">
@@ -207,7 +202,7 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse7">
                                     <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Availlbility and Prices</h4>
                                 </div>
                                 <div id="collapse7" class="panel-collapse collapse in">
@@ -274,7 +269,7 @@
                                 </div>
                             </div>
                             <div class="panel panel-default">
-                                <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse8">
                                     <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Cancellation & Refund</h4>
                                 </div>
                                 <div id="collapse8" class="panel-collapse collapse in">
@@ -360,6 +355,12 @@
         </div>
     </footer>
 </div>
-<p class="text-center booking">
-    <i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko
-</p>
+<script>
+    $('.carousel-control.left').click(function() {
+        $('#toursiteCarousel').carousel('prev');
+    });
+
+    $('.carousel-control.right').click(function() {
+      $('#toursiteCarousel').carousel('next');
+    });
+</script>

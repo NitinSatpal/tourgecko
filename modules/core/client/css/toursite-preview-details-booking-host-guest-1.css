@@ -219,7 +219,11 @@
         font-size: 20px;
         margin-top: 10px;
         margin-bottom: 10px;
+        margin-left: 50px !important;
         padding: 0px 0 0 10px;
+    }
+    .host-guest-common-style .detail-card-city {
+        margin-left: 60px !important;
     }
 }
 
@@ -227,5 +231,19 @@
     .host-guest-common-style-marginFromBothSides {
         margin-right: 15px !important;
         margin-left: 15px !important;
+    }
+    .host-guest-common-style .detail-card-title {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 50px !important;
+        padding: 0px 0 0 10px;
+    }
+    .host-guest-common-style .detail-card-city {
+        margin-left: 60px !important;
+    }
+    .host-guest-common-style-preview-details-marginFromBothSides {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
     }
 }

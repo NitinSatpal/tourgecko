@@ -2012,6 +2012,12 @@ p.sub_desc{ color:#aaaaaa !important;}
 .pinboard .dismiss{position:relative;right:0;}
 .footer .navbar-nav li{border: none;}
 #fullCalModal .modal-dialog{width: 80%; position: relative; top: 20px;margin: 0 auto;}
+	.booking-trip-start::after {
+		content: url(../images/fromtoline.svg);
+		float: right;
+		margin-right: -3rem !important;
+		margin-top: -3rem;
+	}
 }
 
 /* Side NAV*/
