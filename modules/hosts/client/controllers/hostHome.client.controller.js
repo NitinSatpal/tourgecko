@@ -28,7 +28,7 @@
     }).error(function (response){
     });
 
-    console.log('ammammama ' + JSON.stringify(AnalyticsDepartureCountService.query()));
+    vm.departuresCount = AnalyticsDepartureCountService.query();
     vm.pinboardPins = PinboardPinService.query();
     vm.pinboardGoals = PinboardGoalService.query();
     vm.pinboardDismissedMessagesId = [];
