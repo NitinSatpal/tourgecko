@@ -36,8 +36,8 @@ exports.fetchCompanyBookingDetailsForAnalyticsAndLatestData = function (req, res
 
 exports.countCompanyProductSessions =function (req, res) {
 	var startDate = new Date();
-  startDate = new Date (startDate.setDate(startDate.getDate() - 31));
-  var endDate = new Date();
+  startDate = new Date (startDate.setDate(startDate.getDate() - 31)).toISOString();
+  var endDate = new Date().toISOString();
 	if(req.user) {
   	ProductSession.find({ 'hostCompany': req.user.company, sessionDepartureDate: {$gt: startDate},  sessionDepartureDate: {$lte: endDate}}, function(error, sessions) {
     		if (error) {
@@ -53,7 +53,6 @@ exports.countCompanyProductSessions =function (req, res) {
       	weekDaysNumber.set('Thursday', 4);
       	weekDaysNumber.set('Friday', 5);
       	weekDaysNumber.set('Saturday', 6);
-
       	var finalCounter = 0;
     		for (var index = 0; index < sessions.length; index++) {
       		if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
@@ -80,7 +79,7 @@ exports.countCompanyProductSessions =function (req, res) {
 			  } else
 				finalCounter = finalCounter + 1;
 		  }
-    	res.json(finalCounter);
+    	res.json({count: finalCounter});
   	});
 	}
 }

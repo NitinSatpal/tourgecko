@@ -60,7 +60,7 @@ function createDepartureSessions (departureSessions, departureSessionPricings, s
     productSession.sessionSeriesName = sessionSeriesNames[index];
     productSession.isSessionPricingValid = sessionPricingValid;
     productSession.utcDate =  momentTimezone.utc(new Date());
-    productSession.sessionDepartureDate = new Date(departureSessions[index].startDate);
+    productSession.sessionDepartureDate = new Date(departureSessions[index].startDate).toISOString();
     productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);

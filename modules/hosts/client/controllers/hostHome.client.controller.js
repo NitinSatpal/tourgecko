@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'AnalyticsDepartureCountService', 'PinboardPinService', 'PinboardGoalService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'PinboardPinService', 'PinboardGoalService'];
 
-  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, AnalyticsDepartureCountService, PinboardPinService, PinboardGoalService) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, PinboardPinService, PinboardGoalService) {
     var vm = this;
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
@@ -28,7 +28,11 @@
     }).error(function (response){
     });
 
-    vm.departuresCount = AnalyticsDepartureCountService.query();
+    $http.get('/api/host/companyproductsessioncount/').success(function (response) {
+      vm.departuresCount = response.count;
+    }).error(function (response){
+    });
+
     vm.pinboardPins = PinboardPinService.query();
     vm.pinboardGoals = PinboardGoalService.query();
     vm.pinboardDismissedMessagesId = [];

@@ -245,7 +245,7 @@ function createSession (booking, product, paymentRequestId, paymentId) {
   productSession.monthsThisSessionCovering = uniqueString;
   productSession.hostCompany = product.hostCompany;
   productSession.product = product._id;
-  productSession.sessionDepartureDate = new Date(booking.openDatedTourDepartureDate);
+  productSession.sessionDepartureDate = new Date(booking.openDatedTourDepartureDate).toISOString();
   productSession.save(function (err, res) {
     if (err) {
       // session saving failed
