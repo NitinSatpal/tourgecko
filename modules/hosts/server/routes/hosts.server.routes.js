@@ -81,8 +81,11 @@ module.exports = function (app) {
   app.route('/api/host/allBookings/:itemsPerPage')
     .get(hosts.fetchAllBookingDetailsOfCompany);
 
-  app.route('/api/host/bookingDetailsForCalendar')
-    .get(hosts.fetchCompanyBookingDetailsForCalendar);
+  app.route('/api/host/bookingDetailsForAnalyticsAndLatestData')
+    .get(hosts.fetchCompanyBookingDetailsForAnalyticsAndLatestData);
+
+  app.route('/api/host/messageDetailsForAnalyticsAndLatestData')
+    .get(hosts.fetchMessageCountForAnalyticsAndLatestData);
 
   app.route('/api/host/bookingsForCurrentPage/:pageNumber/:itemsPerPage')
     .get(hosts.fetchCompanyBookingDetailsForCurrentPage);
@@ -151,6 +154,9 @@ module.exports = function (app) {
 
  /* app.route('/api/host/account')
     .post(hosts.saveAccountDetails); */
+
+  app.route('/api/host/booking/status/count/:bookingStatus')
+    .get(hosts.getBookingCountForParticularStatus);
 
   app.route('/api/host/language')
     .get(hosts.getSupportedLanguages);

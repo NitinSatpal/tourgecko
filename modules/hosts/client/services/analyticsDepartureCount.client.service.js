@@ -3,11 +3,11 @@
 
   angular
     .module('hosts.services')
-    .factory('ProductSessionCountService', ProductSessionCountService);
+    .factory('AnalyticsDepartureCountService', AnalyticsDepartureCountService);
 
-  ProductSessionCountService.$inject = ['$resource'];
+  AnalyticsDepartureCountService.$inject = ['$resource'];
 
-  function ProductSessionCountService($resource) {
+  function AnalyticsDepartureCountService($resource) {
     return $resource('/api/host/companyproductsessioncount/', {
     }, {
       update: {

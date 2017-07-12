@@ -136,4 +136,22 @@
   .settings-content .home_add_tour .heading-icn-mobile {
     margin-top: 20px;
   }
+  .login-panel {
+    max-width:300px;
+    width:100%;
+    height: auto;
+    margin:0 auto;
+    margin-top:5%;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 0 13px, rgba(0, 0, 0, 0.117647) 0 1px 4px !important;
+  }
+  .login-panel .body-container .createAccountBtn .login-button {
+    float:none;
+    margin-top: 20px;
+  }
+  .login-panel .form-group.createAccountBtn {
+    text-align: center !important;
+  }
+  #signup-step1 .main_container {
+    margin-left: -20px;
+  }
 }

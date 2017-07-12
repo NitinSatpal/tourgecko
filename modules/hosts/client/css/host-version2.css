@@ -171,6 +171,13 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 	height: 400px !important;
 	object-fit: cover;
 }
+.noLogoPresent {
+	margin-left: 85px !important;
+	margin-top: 16px;
+}
+.footer-menu .noLogoPresent {
+	margin-left: 0 !important;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -206,10 +213,21 @@ and (max-device-width : 1024px){
 		height: 250px !important;
 		object-fit: cover;
 	}
-
+	#bookings .booking-search-input{
+		min-width:190px !important;
+	}
+	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
+	.noLogoPresent {
+		margin-left: 0 !important;
+		
+	}
+	.footer-menu .noLogoPresent {
+		margin-left: 0 !important;
+	}
 }
 
-@media (max-width: 425px){    
+@media (max-width: 425px){
+	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	#booking .booking-analytics-icon{ font-size: 2rem;}
 	.booking-trip-start::after{margin-right: -1.4rem; margin-top: -3rem;} 
 	#bookings .booking-search-input{width:90px !important}
@@ -224,17 +242,42 @@ and (max-device-width : 1024px){
 	.pin-group li:only-child:after{margin-top:-82px; top:0;}
 	.pinboard .info{display:block;}
 	.pinboard .dismiss{position:relative;right:0;}
+	.banners-carousel {
+		width:100%;
+		height: 250px !important;
+		object-fit: cover;
+	}
+	.noLogoPresent {
+		margin-left: 0 !important;
+		
+	}
+	.footer-menu .noLogoPresent {
+		margin-left: 0 !important;
+	}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
 	.booking-payment-method{width:20%}
 	.booking-payment-date{width:45%}
 	.booking-payment-amount{width:30%}
+	#bookings .booking-search-input{width:90px !important}
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	.pin-group li:only-child:after{margin-top:-106px; top:25px;}
 	.pinboard .info{display:block;}
 	.pinboard .dismiss{position:relative;right:0;}
 	.pinboard .update_profile{float:none !important;}
+	.banners-carousel {
+		width:100%;
+		height: 250px !important;
+		object-fit: cover;
+	}
+	.noLogoPresent {
+		margin-left: 0 !important;
+		
+	}
+	.footer-menu .noLogoPresent {
+		margin-left: 0 !important;
+	}
 }
 
 

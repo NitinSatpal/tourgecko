@@ -33,7 +33,7 @@
 				<li onclick="showLoaderSideNav('bookings')" id="bookingsTab">
 					<a ui-sref="host.allBookings">
 						<i class="zmdi zmdi-calendar-check"></i> Bookings
-						<span class="pull-right menu-alert alert-warning orange-text">2</span>
+						<span class="pull-right menu-alert alert-warning orange-text">{{vm.pendingBookingCount}}</span>
 					</a>
 				</li>
                 <li onclick="showLoaderSideNav('customers')" id="cutomersTab">

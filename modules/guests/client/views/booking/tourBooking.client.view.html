@@ -229,17 +229,17 @@
                                         </div>
                                     </div>
                                     <div class="booking-radio-wrappers" ng-if="pricing.pricingType != 'Custom' && pricing.pricingType != 'Group'">
-                                        <div class="col-xs-6 col-sm-3">
+                                        <div class="col-xs-3 col-sm-3">
                                             <div class="checkbox">
                                                 <label class="text-lighten-1">{{pricing.pricingType}}
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-xs-6 col-sm-6 text-lighten-1">
+                                        <div class="col-xs-3 col-sm-6 text-lighten-1">
                                             <span class="currency text-lighten-1">&#8377;</span>
                                             <strong>{{pricing.price}}</strong>
                                         </div>
-                                        <div class="col-xs-12 col-sm-3">
+                                        <div class="col-xs-6 col-sm-3">
                                             <div class="input-group">
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'decrement')">
@@ -389,8 +389,8 @@
                                         <h4>{{vm.bookingProductDetails.productTitle}}</h4>
                                     </div>
                                     <div class="host-guest-common-style-row">
-                                        <span class="col-xs-12 col-sm-6 arrow">{{vm.selectedDate}}</span>
-                                        <span class="col-xs-12 col-sm-6">{{vm.endDateOFTheTour}}</span>
+                                        <span class="col-xs-6 col-sm-6 arrow">{{vm.selectedDate}}</span>
+                                        <span class="col-xs-6 col-sm-6">{{vm.endDateOFTheTour}}</span>
                                     </div>
                                     <div class="host-guest-common-style-row pay-contact-wrapper">
                                         <span class="col-xs-12">Contact : <b><a href="#">{{vm.providedGuestDetails.email}}</a></b> | <a href="tel:{{vm.providedGuestDetails.mobile}}"><strong>{{vm.providedGuestDetails.mobile}}</strong></a></span>

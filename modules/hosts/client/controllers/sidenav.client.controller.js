@@ -26,9 +26,13 @@
             $('#' + $location.path().split('/')[3] + 'Setting').addClass('active');
         }
     }
+    $http.get('/api/host/booking/status/count/' + 'Pending').success(function (response) {
+        vm.pendingBookingCount = response;
+      }).error(function (response) {
+        vm.error = response.message;
+      });
 
     vm.goToHostWebsite = function() {
-      
       $http.get('/api/host/toursite').success(function (response) {
         if (response.toursite === null || response.toursite === '' || response.toursite === undefined) {
           alert('You have not provided touriste name at the time of registration. Please update the same in your settings.');

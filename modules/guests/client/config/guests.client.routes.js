@@ -12,7 +12,7 @@
   	$stateProvider
       .state('guest', {
         abstract: true,
-        url: '/guest',
+        url: '',
         templateUrl: 'modules/guests/client/views/guest.client.view.html',
         controller: '',
         controllerAs: '',

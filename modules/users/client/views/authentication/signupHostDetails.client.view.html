@@ -1,6 +1,6 @@
 <div id="signup-step1" class="wrapper">
   <div class="row main_container">
-    <div class="col-lg-5 col-sm-5 col-md-5 step2 signup-step2">
+    <div class="col-lg-5 col-sm-5 col-md-5 col-xs-12 step2 signup-step2">
       <div class="panel">
         <div class="panel-header">
           <h2>Tell us little about yourself and we are done!</h2>
@@ -8,14 +8,14 @@
         <div class="panel-container">
           <form class="form-horizontal" name="vm.userDetailsForm" ng-submit="vm.signupDetails(vm.userDetailsForm.$valid)" novalidate autocomplete="off">
             <div class="row">
-              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" show-errors>
                 <label for="firstName" class="control-label">First Name</label>
                 <input type="text" id="firstName" name="firstName" class="form-control" ng-model="vm.credentialsDetails.firstName" required>
                 <div ng-messages="vm.userDetailsForm.firstName.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">First name is required.</p>
                 </div>
               </div>
-              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right" show-errors>
                 <label for="lastName" class="control-label">Last Name</label>
                 <input type="text" id="lastName" name="lastName" class="form-control" ng-model="vm.credentialsDetails.lastName" required>
                 <div ng-messages="vm.userDetailsForm.lastName.$error" role="alert">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" show-errors>
                 <label for="companyName" class="control-label">Name of Business</label>
                 <input type="text" id="companyName" name="companyName" class="form-control" ng-model="vm.credentialsDetails.companyName" required> 
                 <div ng-messages="vm.userDetailsForm.companyName.$error" role="alert">
@@ -33,7 +33,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" show-errors>
                 <label for="companyWebsite" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Current Website</label>
                 <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
                   <label><input type="checkbox" ng-model="shouldDisable"><span>I don't have website yet</span></label>
@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 col-md-12 col-sm-12" show-errors>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" show-errors>
                 <label for="hostType" class="control-label">How do you describe yourself?</label>
                 <select type="select" id="hostType" name="hostType" class="form-control" ng-init="vm.credentialsDetails.hostType = vm.hostType" ng-model="vm.credentialsDetails.hostType"  placeholder="Describe yourself" required>
                   <!-- For now we can hard code this drop down data, as we are not expecting this to grow fast -->
@@ -57,7 +57,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 col-md-12 col-sm-12 nopadding" show-errors>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" show-errors>
                 <label for="streetAddress" class="control-label">Street Address</label>
                 <input type="text" id="streetAddress" name="streetAddress" class="form-control" ng-model="vm.credentialsDetails.streetAddress" required>
                 <div ng-messages="vm.userDetailsForm.streetAddress.$error" role="alert">
@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" show-errors>
                 <label for="state" class="control-label">State</label>
                 <input type="text" id="state" name="state" class="form-control" ng-model="vm.credentialsDetails.state" ng-pattern="regExForStateAndCity" required>
                 <div ng-messages="vm.userDetailsForm.state.$error" role="alert">
@@ -74,7 +74,7 @@
                   <p class="help-block error-text" ng-message="pattern">Please enter a valid state name.</p>
                 </div> 
               </div>
-              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right" show-errors>
                 <label for="city" class="control-label">City</label>
                 <input type="text" id="city" name="city" class="form-control" ng-model="vm.credentialsDetails.city" ng-pattern="regExForStateAndCity" required>
                 <div ng-messages="vm.userDetailsForm.city.$error" role="alert">
@@ -84,7 +84,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-6 col-md-6 col-sm-6" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12" show-errors>
                 <label for="postalCode" class="control-label">Postal Code</label>
                 <input type="text" id="postalCode" name="postalCode" class="form-control" ng-model="vm.credentialsDetails.postalCode" ng-pattern="regExForPostalCode" required>
                 <div ng-messages="vm.userDetailsForm.postalCode.$error" role="alert">
@@ -92,7 +92,7 @@
                   <p class="help-block error-text" ng-message="pattern">Please enter a valid postal code.</p>
                 </div>
               </div>
-              <div class="form-group col-lg-6 col-md-6 col-sm-6 pull-right" show-errors>
+              <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12 pull-right" show-errors>
                 <label for="country" class="control-label">Country</label>
                 <select class="form-control" id="country" name="country" ng-init="vm.credentialsDetails.country=vm.country" ng-model="vm.credentialsDetails.country" required>
                   <option>India</option>

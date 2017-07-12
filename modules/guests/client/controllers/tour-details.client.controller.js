@@ -15,7 +15,7 @@
   function TourDetailsController($scope, $state, $window, $http, $location, Authentication) {
     var vm = this;
     vm.authentication = Authentication;
-    var productId = $location.path().split('/')[3];
+    var productId = $location.path().split('/')[2];
     vm.productDetails;
     vm.productImageURLs = [];
     vm.sessionPricing = [];

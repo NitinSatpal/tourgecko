@@ -27,7 +27,7 @@
 									<div class="col-lg-12 col-md-12 col-sm-12 payment-method-card">
 										<div class="payment_radio">
 											<label class="radio_label">
-												<input type="radio" name="payment" value="tourgecko_payment" class="tourgecko_payment"/>
+												<input type="radio" name="payment" value="instamojo" class="tourgecko_payment" ng-model="vm.paymentDetails[0].paymentGateway" ng-disabled="vm.paymentDetails[0].paymentGateway != ''"/>
 												<span class="tourgecko-payments">
 													<img src="modules/core/client/img/brand/tourgecko-payments.png" alt="tourgeck payments">
 												</span>
@@ -35,7 +35,7 @@
 												<i class="zmdi zmdi-circle-o"></i>
 											</label>
                                 		</div>
-                                		<a href="#" class="pull-right text-readable11 payment-guide">How it works?</a>
+                                		<a href="#" class="text-readable11 payment-guide">How it works?</a>
 										<p class="payment_wallet_subdesc sub_desc margin-top text-readable14">Your tour gecko account comes pre-integrated with a payment processors so that you can start to take online bookings without having to setup any external gateways.
 										Before you can start to use it and receive your money from bookings in your bank account, you need to provide us the additional information to activate your account.</p>
 									</div>

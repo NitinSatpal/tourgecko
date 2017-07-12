@@ -126,7 +126,7 @@ $('#calendar').fullCalendar({
 		// CSS of event
 		var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
 		// Booking data will come here
-		var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Bookings";
+		var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Seats booked";
 		var availabilityType = event.tourDepartureType;
 		var bodyHtml = 	"<p>" + 
 			   			"<i class='zmdi zmdi-calendar'></i> &nbsp;" +
@@ -207,7 +207,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        			endDate.setDate(endDate.getDate() + document.product.productDuration);
 		        				var limit;
 		        				var percentBooking = 'NA';
-		        				var numOfSeatsKey = eventDate.getTime();
+		        				var numOfSeatsKey = eventDate.getTime().toString();
 				        		if(document.product.productAvailabilityType == 'Open Date')
 				        			limit = '-';
 				        		else {
@@ -216,8 +216,8 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        		else {
 					        			if (document.product.productSeatLimit) {
 					        				limit = document.product.productSeatLimit;
-					        				if (document.numberOfSeats && document.numberOfSeats[numOfSeatsKey])
-					        					percentBooking = parseInt(document.numberOfSeats[numOfSeatsKey]) / parseInt(limit) * 100;
+					        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
+					        					percentBooking = parseInt(document.numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
 					        			} else
 					        			 	limit = '-';
 					        		}
@@ -228,8 +228,8 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        				var colorSelectionAndTitleForMobile;
 		        				var bookingDetailsInCalendar;
 		        				var colorClassForListItems;
-		        				if (document.numberOfSeats && document.numberOfSeats[numOfSeatsKey])
-		        					bookingDetailsInCalendar = document.numberOfSeats[numOfSeatsKey];
+		        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
+		        					bookingDetailsInCalendar = document.numberOfSeatsSession[numOfSeatsKey];
 		        				else
 		        					bookingDetailsInCalendar = 0;
 		        				if (percentBooking != 'NA') {

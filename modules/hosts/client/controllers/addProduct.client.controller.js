@@ -90,6 +90,11 @@
       vm.tourActionCanBePerformed = 'Create Tour';
     else
       vm.tourActionCanBePerformed = 'Edit Tour';
+
+    if (window.innerWidth <= 767) {
+      $('.fixedDepartureAddTourMobile #onMobile').css('display', 'block');
+      $('.fixedDepartureAddTourMobile #notOnMobile').css('display', 'none');
+    }
 /* ------------------------------------------------------------------------------------------------------------------------- */
     /* Initialization ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
@@ -833,7 +838,6 @@ vm.createDepartureSession = function () {
   var eventDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   var validatorDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   //eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds());
-  
   var monthTracker = new Set();
   var monthsCovered = [];
   

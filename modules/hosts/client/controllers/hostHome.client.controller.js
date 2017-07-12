@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('HostHomeController', HostHomeController);
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'CalendarBookingService', 'MessageService', 'ProductSessionCountService', 'PinboardPinService', 'PinboardGoalService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'AnalyticsDepartureCountService', 'PinboardPinService', 'PinboardGoalService'];
 
-  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, CalendarBookingService, MessageService, ProductSessionCountService, PinboardPinService, PinboardGoalService) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, AnalyticsDepartureCountService, PinboardPinService, PinboardGoalService) {
     var vm = this;
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
@@ -16,19 +16,27 @@
     vm.listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
     $scope.productSessions;
     vm.authentication = Authentication;
-    vm.bookings = CalendarBookingService.query();
-    vm.messages = MessageService.query();
-    vm.productSessionCount = ProductSessionCountService.query();
+    vm.messageCount = 0;
+    $http.get('/api/host/bookingDetailsForAnalyticsAndLatestData/').success(function (response) {
+      vm.bookings = response.bookings;
+      vm.totalRevenue = response.totalRevenue;
+    }).error(function (response){
+    });
+    $http.get('/api/host/messageDetailsForAnalyticsAndLatestData/').success(function (response) {
+      vm.messages = response.messages;
+      vm.messageCount = response.messageCount;
+    }).error(function (response){
+    });
+
+    vm.productSessionCount = AnalyticsDepartureCountService.query();
     vm.pinboardPins = PinboardPinService.query();
     vm.pinboardGoals = PinboardGoalService.query();
-    vm.totalRevenue = 0;
     vm.pinboardDismissedMessagesId = [];
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     var index = 0;
-    for (index = 0; index < vm.bookings.length; index ++)
-      vm.totalRevenue = vm.totalRevenue + vm.bookings[index].totalAmountPaid;
+    
 
     vm.getDepartureDateOfBookings = function (index) {
       var displayDate;

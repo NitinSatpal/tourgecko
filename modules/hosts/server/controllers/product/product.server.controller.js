@@ -60,6 +60,7 @@ function createDepartureSessions (departureSessions, departureSessionPricings, s
     productSession.sessionSeriesName = sessionSeriesNames[index];
     productSession.isSessionPricingValid = sessionPricingValid;
     productSession.utcDate =  momentTimezone.utc(new Date());
+    productSession.sessionDepartureDate = new Date(departureSessions[index].startDate);
     productSessions.push(productSession.toObject());
   }
   ProductSession.collection.insert(productSessions, onInsert);
@@ -316,19 +317,6 @@ exports.fetchCompanyProductSessionDetails = function (req, res) {
     });
   }
 };
-
-exports.countCompanyProductSessions =function (req, res) {
-  if(req.user) {
-    ProductSession.count({ 'hostCompany': req.user.company }, function(error, count) {
-      if (error) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(error)
-        });
-      }
-      res.json({counterValue : count});
-    });
-  }
-}
 
 exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
   if(req.user) {

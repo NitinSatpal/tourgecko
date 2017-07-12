@@ -174,6 +174,39 @@ function updateSession(booking) {
 
       session.markModified('numberOfBookings');
       session.markModified('numberOfSeats');
+
+      var sessionKey = booking.actualSessionDate;
+
+      if (!session.numberOfBookingsSession) {
+        session.numberOfBookingsSession = {
+          [sessionKey] : 1
+        }
+      } else {
+        if(session.numberOfBookingsSession[sessionKey]) {
+          var value = parseInt(session.numberOfBookingsSession[sessionKey]) + 1;
+          session.numberOfBookingsSession[sessionKey] = value;
+        } else {
+          session.numberOfBookingsSession[sessionKey] = 1;
+        }
+      }
+      
+      if (!session.numberOfSeatsSession) {
+        var value = parseInt(booking.numberOfSeats);
+        session.numberOfSeatsSession = {
+          [sessionKey] : value
+        }
+      } else {
+        if (session.numberOfSeatsSession[sessionKey]) {
+          var value = parseInt(session.numberOfSeatsSession[sessionKey]) + parseInt(booking.numberOfSeats);
+          session.numberOfSeatsSession[sessionKey] = value;
+        } else {
+          session.numberOfSeatsSession[sessionKey] = parseInt(booking.numberOfSeats);
+        }
+      }
+
+      session.markModified('numberOfBookingsSession');
+      session.markModified('numberOfSeatsSession');
+
       session.save(function (err) {
         if (err) {
           // session saving failed
@@ -196,23 +229,32 @@ function createSession (booking, product, paymentRequestId, paymentId) {
   productSession.sessionDepartureDetails = departureDetails;
   productSession.isSessionPricingValid = true;
   productSession.sessionPricingDetails = product.productPricingOptions;
-  var keyBooking = booking.actualSessionDate;
+  var keyBooking = booking.actualSessionDate + booking.actualSessionTime;
   productSession.numberOfBookings[keyBooking] = 1;
-  var keySeats = booking.actualSessionDate;
+  var keySeats = booking.actualSessionDate + booking.actualSessionTime;
   productSession.numberOfSeats[keySeats] = parseInt(booking.numberOfSeats);
   productSession.markModified('numberOfBookings');
   productSession.markModified('numberOfSeats');
+  var keySession = booking.actualSessionDate;
+  productSession.numberOfBookingsSession[keySession] = 1
+  productSession.numberOfSeatsSession[keySession] = parseInt(booking.numberOfSeats);
+  productSession.markModified('numberOfBookingsSession');
+  productSession.markModified('numberOfSeatsSession');
   var eventDate = new Date(booking.openDatedTourDepartureDate);
   var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
   productSession.monthsThisSessionCovering = uniqueString;
   productSession.hostCompany = product.hostCompany;
   productSession.product = product._id;
-  productSession.save(function (err) {
+  productSession.sessionDepartureDate = new Date(booking.openDatedTourDepartureDate);
+  productSession.save(function (err, res) {
     if (err) {
       // session saving failed
     } else {
-      booking.productSession = productSession._id;
-      booking.save();
+      Booking.findOne({_id: booking._id}).exec(function (err, bookingInstance) {
+        bookingInstance.productSession = res._id;
+        bookingInstance.save();
+      });
+      
       // session successfully saved
     }
   });

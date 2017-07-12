@@ -817,7 +817,7 @@
 }
 
 .host-guest-common-style .arrow::after {
-    content: "-----";
+    content: "to";
     margin-left: 30%;
 }
 
@@ -1074,7 +1074,7 @@
 }
 
 .host-guest-common-style .thanks-white .arrow::after {
-    content: "---";
+    content: "to";
     position: absolute;
     right: 0px;
 }
@@ -1196,7 +1196,7 @@
     width: 120px;
     border-radius: 1rem;
 }
-.host-guest-common-style-navbar img {
+.host-guest-common-style .host-guest-common-style-navbar .navbar-brand.logo img {
     display: block;
     object-fit: contain;
 }

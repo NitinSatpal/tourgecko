@@ -62,7 +62,7 @@
 
     var tourType;
 
-    var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var weekdays = ['Sun' , 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Satur'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
@@ -102,7 +102,7 @@
     var departureDates = new Map();
 
     // Get the product id
-    var productId = $location.path().split('/')[4];
+    var productId = $location.path().split('/')[3];
     // We cannot use map here, as keys can be duplicate i.e there can be more than one tour with the same start date
     var sessionIndex = [];
     vm.datesOfTheSessionsOfThisProduct = [];
@@ -794,6 +794,7 @@ vm.areAddonsSelected = function () {
         var bookingData = createBookingObject();
         $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
           // $("a.im-checkout-btn.btn--light").attr('href', response);
+          console.log('The response is ' + response);
           Instamojo.open(response)
           //document.getElementsByClassName('im-checkout-btn')[0].click();
         }).error(function (error) {
@@ -802,33 +803,33 @@ vm.areAddonsSelected = function () {
       } else if (vm.bookingProductDetails.hostCompany.paymentGateway == 'razorpay') {
           var bookingData = createBookingObject();
           var options = {
-              "key": 'rzp_test_0xMZsuLBjAjZ6i',
-              "amount": parseInt(bookingData.bookingDetails.totalAmountPaid * 100), // 2000 paise = INR 20
-              "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' +bookingData.bookingDetails.providedGuestDetails.lastName,
-              "description": vm.bookingProductDetails.productTitle,
-              "image": "/your_logo.png",
-              "handler": function (response){
-                  var razorpayData = {bookingObject: bookingData, paymentId: response.razorpay_payment_id};
-                  $http.post('/api/payment/razorpay/', razorpayData).success (function (response) {
-                  }).error(function (error) {
+            "key": 'rzp_test_0xMZsuLBjAjZ6i',
+            "amount": parseInt(bookingData.bookingDetails.totalAmountPaid * 100), // 2000 paise = INR 20
+            "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' +bookingData.bookingDetails.providedGuestDetails.lastName,
+            "description": vm.bookingProductDetails.productTitle,
+            "image": "/your_logo.png",
+            "handler": function (response){
+                var razorpayData = {bookingObject: bookingData, paymentId: response.razorpay_payment_id};
+                $http.post('/api/payment/razorpay/', razorpayData).success (function (response) {
+                }).error(function (error) {
 
-                  });
-              },
-              "prefill": {
-                  "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' + bookingData.bookingDetails.providedGuestDetails.lastName,
-                  "email": bookingData.bookingDetails.providedGuestDetails.email,
-                  "contact": bookingData.bookingDetails.providedGuestDetails.mobile
-              },
-              "notes": {
-                  "address": "my home jewel"
-              },
-              "theme": {
-                  "color": "#F37254"
-              }
+                });
+            },
+            "prefill": {
+                "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' + bookingData.bookingDetails.providedGuestDetails.lastName,
+                "email": bookingData.bookingDetails.providedGuestDetails.email,
+                "contact": bookingData.bookingDetails.providedGuestDetails.mobile
+            },
+            "notes": {
+                "address": "my home jewel"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
           };
-          var rzp1 = new Razorpay(options);
-          rzp1.open();
-        }
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+      }
     }
 
     vm.getDynamicCSSForBookingScreenNav = function () {

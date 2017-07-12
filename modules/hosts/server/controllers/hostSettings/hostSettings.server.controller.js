@@ -320,6 +320,7 @@ exports.savePaymentDetails = function (req, res) {
                                   company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
                                   company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
                                   company.paymentActivated = true;
+                                  company.paymentGateway = otherChangedPaymentDetails.paymentGateway;
                                   company.markModified('hostBankAccountDetails');
                                   company.save(function (error, response) {
                                     if (error) {

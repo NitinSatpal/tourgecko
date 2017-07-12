@@ -160,8 +160,8 @@
         display: none;
     }
     .host-guest-common-style .arrow::after {
-        content: "--";
-        margin-left: 2%;
+        content: "to";
+        margin-left: 11% !important;
         position: absolute;
     }
     .host-guest-common-style .booking-date-name {
@@ -225,12 +225,24 @@
     .host-guest-common-style .detail-card-city {
         margin-left: 60px !important;
     }
+    .host-guest-common-style-marginFromBothSides {
+        margin-right: 15px !important;
+        margin-left: 15px !important;
+    }
+    .host-guest-common-style-bookings-marginFromBothSides {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
+    }
 }
 
 @media (max-width:767px) {
     .host-guest-common-style-marginFromBothSides {
         margin-right: 15px !important;
         margin-left: 15px !important;
+    }
+    .host-guest-common-style-bookings-marginFromBothSides {
+        margin-left: 15px !important;
+        margin-right: 15px !important;
     }
     .host-guest-common-style .detail-card-title {
         font-size: 20px;

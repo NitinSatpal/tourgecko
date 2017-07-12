@@ -197,6 +197,16 @@
 .removeBackgroundColor {
     background-color: transparent !important;
 }
+.cardOrList {
+    float:right;
+}
+.uplodLogoStyle {
+    background-color: #40C4FF;
+    margin-left: 43%;
+}
+.social-links-wrapper .social-links a .fa {
+    padding-top: 17px;
+}
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;
@@ -205,10 +215,27 @@
         padding-right: 15px !important;
     }
     .cardOrList {
-        float:left; clear:left
+        float:left;
+        clear:left;
     }
     a.setup-payment {
         float: right !important;
+    }
+    .uplodLogoStyle {
+        margin-left: 33%;
+    }
+    .host-guest-common-style.contact-us-page .host-guest-common-style-row label {
+        margin-bottom: 0 !important;
+    }
+    .host-guest-common-style.contact-us-page .host-guest-common-style-row input {
+        margin-bottom: 0 !important;
+    }
+    .host-guest-common-style.contact-us-page .host-guest-common-style-row textarea {
+        margin-bottom: 0 !important;
+    }
+    .host-guest-common-style.contact-us-page .host-guest-common-style-row {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
     }
 
 }

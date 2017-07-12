@@ -548,7 +548,8 @@
 															<div class="days_radio text_align_left">
 																<label class="radio_label">
 																	<input type="radio" name="time_required" value="Fixed Departure" id="fixedDepartureRadio" ng-model="vm.productAvailabilityType" ng-click="vm.enableSaveButton()"/>
-																	<p><span>Fixed Departure</span></p>
+																	<span id="notOnMobile">Fixed Departure</span>
+																	<p id="onMobile" style="display: none;"><span>Fixed Departure</span></p>
 																	<i class="zmdi zmdi-check-circle"></i>
 																	<i class="zmdi zmdi-circle-o"></i>
 																</label>

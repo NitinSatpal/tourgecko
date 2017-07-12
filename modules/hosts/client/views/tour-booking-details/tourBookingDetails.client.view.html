@@ -226,7 +226,7 @@
                                             </li>
                                             <li>
                                                 <span class="content-primary">No. of seats</span>
-                                                <span class="content-secondary">{{booking.numberOfBookings}}</span>
+                                                <span class="content-secondary">{{booking.numberOfSeats}}</span>
                                             </li>
                                             <li>
                                                 <span class="content-primary">Amount</span>
@@ -267,8 +267,8 @@
                                 <span> <h4> This is where you process and track respective session's booking </h4> </span>
                                 <img src="/modules/core/client/img/assets/empty_state_one.png">
                             </div> -->
-                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && vm.filterApplied">
-                                <span> <h2> No bookings found </h2></span>
+                            <div class="col-sm-12 col-md-12 col-lg-12" ng-if="vm.bookings.length == 0">
+                                <span> <h4> No bookings found </h4></span>
                             </div>
                         </div>
                    	</div>
@@ -305,9 +305,8 @@
                         </div>
                         <br>
                         <br>
-                        <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.guestData.length == 0">
-                            <span> <h2> Guest details of respective session </h2></span>
-                            <span>Some image will come here</span>
+                        <div class="col-sm-12 col-md-12 col-lg-12 text-center" ng-if="vm.guestData.length == 0">
+                            <span> <h4> No guests record found </h4></span>
                         </div>
                     </div>
 				</div>

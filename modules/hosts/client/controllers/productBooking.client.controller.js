@@ -583,7 +583,6 @@
         fetchAllBookingRecords();
         return;
       }
-
       var itemsPerPageSelected = parseInt(vm.numberOfItemsInOnePage);
       $http.post('/api/host/categorizedBooking/' ,{categoryKeys: filterKeys,
         pageNumber: vm.currentPageNumber,

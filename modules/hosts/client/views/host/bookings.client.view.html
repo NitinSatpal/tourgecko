@@ -22,7 +22,7 @@
                             	<a href="" ng-click="vm.categorizedBooking('All', true)" onclick="showLoaderForFilters('#allBookings')">All</a>
                             </li>
                             <li id="pendingBookings" class="inline-block margin-right">
-                            	<a href="#" ng-click="vm.categorizedBooking('Pending', true)"  onclick="showLoaderForFilters('#pendingBookings')">Pending</a>
+                            	<a href="#" ng-click="vm.categorizedBooking('Pending', true)" onclick="showLoaderForFilters('#pendingBookings')">Pending</a>
                             </li>
                             <li id="confirmedBookings" class="inline-block margin-right">
                             	<a href="#" ng-click="vm.categorizedBooking('Confirmed', true)" onclick="showLoaderForFilters('#confirmedBookings')">Confirmed</a>
@@ -32,7 +32,7 @@
                             </li>
                         </ul>
                             
-                        <div class="pull-right padding-top padding-bottom cardOrList">
+                        <div class="padding-top padding-bottom cardOrList">
                             <a class="card-layout-cta active margin-right" href="#"><i class="zmdi zmdi-view-agenda"></i> Cards</a>
                             <a class="table-layout-cta" href="#"><i class="zmdi zmdi-grid"></i> Table</a></li>
                         </div>
@@ -69,7 +69,7 @@
                             <div class="bookings-search pull-left margin-bottom" ng-if="vm.bookings.length > 0">
                                 <input type="text" class="form-control booking-search-input" placeholder="Search by Booking ID" ng-model="vm.BookingReferenceToBeSearched">   
                                 <a class="btn btn-default margin-left" ng-click="vm.searchThisBooking(vm.BookingReferenceToBeSearched)">
-                                	<i class="zmdi zmdi-search"></i>&nbsp;<span class=" hidden-xs">Search</span>
+                                	<i class="zmdi zmdi-search"></i>&nbsp;<span>Search</span>
                                 </a>
                             </div>
                                 
@@ -136,7 +136,7 @@
                                         </li>
                                        	<li>
                                        		<span class="content-primary">No. of seats</span>
-                                           	<span class="content-secondary">{{booking.numberOfBookings}}</span>
+                                           	<span class="content-secondary">{{booking.numberOfSeats}}</span>
                                         </li>
                                        	<li>
                                        		<span class="content-primary">Amount</span>
@@ -169,8 +169,8 @@
                                     <td>{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}</td>
                                     <td>{{vm.getDisplayDate(booking.created)}}</td>
                                     <td>{{booking.product.productTitle}}</td>
-                                    <td>{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</td>
-                                    <td>{{booking.numberOfBookings}}</td>
+                                    <td>{{booking.isOpenDateTour == true ? vm.getDisplayDate(booking.openDatedTourDepartureDate) : vm.getDisplayDate(booking.actualSessionDate)}}</td>
+                                    <td>{{booking.numberOfSeats}}</td>
                                     <td>{{booking.totalAmountPaid}}</td>
                                     <td ng-if="booking.bookingStatus == 'Pending'"><i class="zmdi zmdi-circle orange-text"></i></td>
                                     <td ng-if="booking.bookingStatus == 'Confirmed'"><i class="zmdi zmdi-circle green-text"></i></td>
@@ -181,7 +181,7 @@
                         </table>
                     </div>
                 </div>
-				<div class="row text-center" ng-if="vm.pageTo > 5">
+				<div class="row text-center" ng-if="vm.pageTo >= 1">
 					<div class="col-sm-12 col-md-12 col-lg-12" >
 						<div class="pagination">
 							<a href="#" ng-click="vm.decrementWindowSize()" style="margin-right: 5px;">&laquo;</a>

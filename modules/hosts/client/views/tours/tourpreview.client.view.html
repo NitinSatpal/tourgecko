@@ -1,5 +1,4 @@
 <div class="host-guest-common-style" id="host-guest-common-style">
-    <div ng-include="'/modules/guests/client/views/guestSideNav.client.view.html'"></div>
     <div class="container-fluid">
         <div class="row">
             <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
@@ -342,11 +341,11 @@
         </div>
     </div>
     <footer>
-        <div ng-include="'/modules/guests/client/views/guestFooter.client.view.html'"></div>
+        <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
         <div class="mobile-contact">
             <div class="wid50 ">
                 <p class="Starting-form">Starting From</p>
-                <span class=""><span class="currency">&#8377;</span>{vm.getMinimumPricing(vm.productDetails)}}</span>
+                <span class=""><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
             </div>
             <div class="wid50 text-center">
                 <a  href="" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
