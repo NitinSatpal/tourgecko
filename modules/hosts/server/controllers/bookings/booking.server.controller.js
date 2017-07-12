@@ -176,6 +176,21 @@ exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
   }
 };
 
+// Fetch all bookings for current page
+exports.fetchAllBookingsForAParticularSession = function (req, res) {
+  if (req.user) {
+    var actualSessionDate = new Date(req.params.sessionStartDate).getTime().toString();
+    Booking.find({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}).sort('-created').exec(function (err, bookings) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(bookings);
+    });
+  }
+};
+
 // Fetch categorized bookings for company
 exports.fetchCategorizedBookings = function (req, res) {
   var pageNumber = parseInt(req.body.pageNumber);
@@ -202,12 +217,13 @@ exports.fetchCategorizedBookingsForASession = function (req, res) {
   var pageNumber = parseInt(req.body.pageNumber);
   var itemsPerPage = parseInt(req.body.itemsPerPage);
   var sessionId = req.body.productSessionId;
+  var actualSessionDate = new Date(req.body.sessionStartDate).getTime().toString();
   if (pageNumber == 0)
       pageNumber = 1;
-  Booking.count({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
+  Booking.count({productSession: sessionId, actualSessionDate: actualSessionDate, bookingStatus: {$in: req.body.categoryKeys}}, function(error, count) {
     if (count <= itemsPerPage * (pageNumber - 1))
       pageNumber = 1;
-    Booking.find({productSession: sessionId, bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    Booking.find({productSession: sessionId, actualSessionDate: actualSessionDate, bookingStatus: {$in: req.body.categoryKeys}, isPaymentDone: true}).skip((pageNumber - 1) * itemsPerPage).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -255,9 +271,10 @@ exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
 exports.fetchAllBookingsOfProductSession = function (req, res) {
   if (req.user) {
     var itemsPerPage = parseInt(req.params.itemsPerPage);
+    var actualSessionDate = new Date(req.params.sessionStartDate).getTime().toString();
     if(req.params.itemsPerPage !== undefined && req.params.itemsPerPage !== null && req.params.itemsPerPage !== '') {
-      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
-        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
@@ -268,8 +285,8 @@ exports.fetchAllBookingsOfProductSession = function (req, res) {
       });
     } else {
       var itemsPerPage = 10;
-      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
-        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+      Booking.count({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}, function(error, count) {
+        Booking.find({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}).limit(itemsPerPage).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)

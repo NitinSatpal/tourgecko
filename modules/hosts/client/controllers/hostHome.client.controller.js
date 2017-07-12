@@ -28,7 +28,7 @@
     }).error(function (response){
     });
 
-    vm.productSessionCount = AnalyticsDepartureCountService.query();
+    console.log('ammammama ' + JSON.stringify(AnalyticsDepartureCountService.query()));
     vm.pinboardPins = PinboardPinService.query();
     vm.pinboardGoals = PinboardGoalService.query();
     vm.pinboardDismissedMessagesId = [];
@@ -120,8 +120,16 @@
       $('#calendar').fullCalendar('changeView', whichView);
     }
     
-    vm.goToSessionBookingDetails = function (index) {
-      $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId});
+    vm.goToSessionBookingDetailsViaList = function (index) {
+      console.log('khappa ' + JSON.stringify($scope.productSessions[index]));
+      $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: $scope.productSessions[index].start});
+    }
+
+    vm.goToSessionBookingDetailsViaCalendar = function (id) {
+      var element = document.getElementById(id);
+      var sessionId = element.getAttribute('sessionId');
+      var sessionStartDate = element.getAttribute('sessionStartDate');
+      $state.go('host.sessionBookingDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
     }
   }
 }());

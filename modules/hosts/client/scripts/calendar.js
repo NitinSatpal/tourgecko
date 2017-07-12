@@ -147,7 +147,8 @@ $('#calendar').fullCalendar({
 		$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).removeClass();
 		$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
 		$('#calendarTourPopupBody').html(bodyHtml);
-		$('#eventUrl').attr('href','host/tour/' + event.productSessionId + '/bookings/');
+		$('#eventUrl').attr('sessionId', event.productSessionId);
+		$('#eventUrl').attr('sessionStartDate', event._start._i);
 		$('#fullCalModal').modal();
 	}
 });

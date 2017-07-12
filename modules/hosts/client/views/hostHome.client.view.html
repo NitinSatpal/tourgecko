@@ -150,7 +150,7 @@
 							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
 								<span> No Tours found</span>
 							</div>
-							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetails($index)">
+							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
 										<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
@@ -190,7 +190,7 @@
 			</div>
 			<div id="calendarTourPopupBody" class="modal-body"></div>
 			<div class="modal-footer">
-				<a id="eventUrl" type="button" onclick="showLoaderFromModalClick()" class="btn btn-primary">Details</a>
+				<a id="eventUrl" type="button" onclick="showLoaderFromModalClick()" class="btn btn-primary" ng-click="vm.goToSessionBookingDetailsViaCalendar('eventUrl')">Details</a>
 			</div>
 		</div>
 	</div>

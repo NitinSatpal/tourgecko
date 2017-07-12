@@ -5,15 +5,36 @@
     .module('hosts')
     .controller('TourBookingDetailsController', TourBookingDetailsController)
 
-  TourBookingDetailsController.$inject = ['$scope', '$state', '$stateParams', '$http', '$window'];
+  TourBookingDetailsController.$inject = ['$scope', '$state', '$window', '$location', '$stateParams', '$http'];
 
-  function TourBookingDetailsController($scope, $state, $stateParams, $http, $window) {
+  function TourBookingDetailsController($scope, $state, $window, $location, $stateParams, $http) {
     var vm = this;
     vm.tourEndDate = '';
     vm.skipIndexForGuestData = 0;
     vm.lastIndexForGuestData = 0;
     var asynRequestCounter = 0;
-
+    vm.confirmedBookings = 0;
+    vm.confirmedSeats = 0;
+    vm.totalRevenue = 0;
+    var sessionStartDate;
+    if ($stateParams.sessionStartDate == null)
+      sessionStartDate = $window.localStorage.getItem('savedSessionStartDate');
+    else {
+      sessionStartDate = $stateParams.sessionStartDate;
+      $window.localStorage.setItem('savedSessionStartDate', $stateParams.sessionStartDate);
+    }
+    
+    $http.get('/api/host/bookingDetailsForParticularSession/' + $stateParams.productSessionId + '/' + sessionStartDate ).success(function (response) {
+      var bookings = response;
+      for (var index = 0; index < bookings.length; index++) {
+        vm.totalRevenue = vm.totalRevenue + parseInt(bookings[index].totalAmountPaid);
+        if(bookings[index].bookingStatus == 'Confirmed') {
+          vm.confirmedBookings ++;
+          vm.confirmedSeats = vm.confirmedSeats + parseInt(bookings[index].numberOfSeats);
+        }
+      }
+    }).error(function (response){
+    });
     /* This will change and we will fetch only one as per date */
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
@@ -102,8 +123,7 @@
     }
 
     function fetchAllBookingRecords () {
-      console.log($stateParams.productSessionId);
-     $http.get('/api/host/productsession/allBookings/' + $stateParams.productSessionId + '/' + vm.numberOfItemsInOnePage).success(function (response) {
+     $http.get('/api/host/productsession/allBookings/' + $stateParams.productSessionId + '/' + sessionStartDate + '/' + vm.numberOfItemsInOnePage).success(function (response) {
         vm.bookings = response.bookingArray;
         vm.totalPages = Math.ceil(response.bookingsCount / vm.numberOfItemsInOnePage);
         if(vm.totalPages <= vm.paginationWindow)
@@ -136,6 +156,11 @@
           vm.showAtLast = true;
         if(vm.pageTo == vm.totalPages)
           vm.showAtLast = false;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }).error(function (err) {
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 
@@ -432,6 +457,7 @@
       var itemsPerPageSelected = parseInt(vm.numberOfItemsInOnePage);
       $http.post('/api/host/productsession/categorizedBooking/' ,{categoryKeys: filterKeys,
         productSessionId : $stateParams.productSessionId,
+        sessionStartDate: sessionStartDate,
         pageNumber: vm.currentPageNumber,
         itemsPerPage: itemsPerPageSelected
       })
@@ -545,22 +571,6 @@
       vm.tourEndMonthAndYear = months[tourEndDate.getMonth()] +  ' ' + tourEndDate.getFullYear();
       
       return displayDate;
-    }
-
-    vm.getAmountEarnedAndConfirmedBookings = function () {
-      var totalAmountPaid = 0;
-      vm.confirmedBookings = 0
-      vm.confirmedSeats = 0;
-      if (vm.bookings) {
-        for (var index = 0; index < vm.bookings.length; index++) {
-          totalAmountPaid = totalAmountPaid + vm.bookings[index].totalAmountPaid;
-          if(vm.bookings[index].bookingStatus == 'Confirmed') {
-            vm.confirmedBookings ++;
-            vm.confirmedSeats = vm.confirmedSeats + vm.bookings[index].numberOfBookings;
-          }
-        }
-      }
-      return totalAmountPaid;
     }
 
     vm.oneDayTour = false;

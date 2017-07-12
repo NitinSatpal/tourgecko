@@ -115,7 +115,8 @@
         controller: 'TourBookingDetailsController',
         controllerAs: 'vm',
         params: {
-          productSessionId: null
+          productSessionId: null,
+          sessionStartDate: null
         },
         data: {
           pageTitle: 'Admin | Tour Bookings'

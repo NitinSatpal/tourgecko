@@ -81,6 +81,9 @@ module.exports = function (app) {
   app.route('/api/host/allBookings/:itemsPerPage')
     .get(hosts.fetchAllBookingDetailsOfCompany);
 
+  app.route('/api/host/bookingDetailsForParticularSession/:productSessionId/:sessionStartDate')
+    .get(hosts.fetchAllBookingsForAParticularSession);
+
   app.route('/api/host/bookingDetailsForAnalyticsAndLatestData')
     .get(hosts.fetchCompanyBookingDetailsForAnalyticsAndLatestData);
 
@@ -96,7 +99,7 @@ module.exports = function (app) {
   app.route('/api/host/productsession/bookings/:productSessionId')
     .get(hosts.fetchProductSessionBookingDetails);
 
-   app.route('/api/host/productsession/allBookings/:productSessionId/:itemsPerPage')
+   app.route('/api/host/productsession/allBookings/:productSessionId/:sessionStartDate/:itemsPerPage')
     .get(hosts.fetchAllBookingsOfProductSession);
 
   app.route('/api/host/categorizedBooking/')

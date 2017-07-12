@@ -8,8 +8,8 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
                             <h1 class="orange-text booking-analytics-icon">&#8377;</h1>    
                             <div class="text-center booking-analytics-info">    
-                                <p class="section-desc">Amount Recieved</p>
-                                <h4>{{vm.getAmountEarnedAndConfirmedBookings()}}</h4>
+                                <p class="section-desc">Amount</p>
+                                <h4>{{vm.totalRevenue}}</h4>
                             </div>    
                         </div>    
                     </div>
@@ -35,7 +35,8 @@
                             <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-check"></i></h1>    
                             <div class="text-center booking-analytics-info">           
 	                            <p class="section-desc">Confirmed</p>
-	                            <h4 class="">{{vm.productSession.numberOfConfirmedBookings}}&nbsp;<span class="sub-desc">Booking/s</span></h4>
+	                            <h4 class="" ng-show="vm.confirmedBookings <= 1">{{vm.confirmedBookings}}&nbsp;<span class="sub-desc">Booking</span></h4>
+                                <h4 class="" ng-show="vm.confirmedBookings > 1">{{vm.confirmedBookings}}&nbsp;<span class="sub-desc">Bookings</span></h4>
                             </div>
                         </div>
                     </div>
@@ -222,7 +223,7 @@
                                             </li>
                                             <li>
                                                 <span class="content-primary">Departure</span>
-                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
+                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getFullDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}} {{booking.actualSessionTime}}</span>
                                             </li>
                                             <li>
                                                 <span class="content-primary">No. of seats</span>
