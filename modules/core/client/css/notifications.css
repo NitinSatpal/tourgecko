@@ -60,6 +60,16 @@
   width: 398px;
   border-bottom: 1px solid #dddddd;
 }
+#noNotificationTitle {
+  z-index: 9999;
+  font-weight: 500;
+  padding: 8px;
+  margin-bottom: -15px;
+  font-size: 15px;
+  color: #40C4FF;
+  background-color: #ffffff;
+  width: 398px;
+}
 #notificationsBody {
   max-height: 360px;
   overflow-x: hidden;

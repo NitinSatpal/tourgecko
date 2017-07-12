@@ -45,7 +45,11 @@
             							<span class="pull-left activated inactive">
             								<i class="zmdi zmdi-power green-text text-readable16"></i> Activated
             							</span>
-            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom"> Setup and activate
+            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="!vm.paymentDetails[0].paymentActivated"> Setup and activate
+            								<i class="zmdi zmdi-chevron-down"></i>
+            							</a>
+
+            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="vm.paymentDetails[0].paymentActivated	"> View Details
             								<i class="zmdi zmdi-chevron-down"></i>
             							</a>
             

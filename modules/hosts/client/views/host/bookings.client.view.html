@@ -132,7 +132,7 @@
                                         </li>
                                        	<li>
                                        		<span class="content-primary">Departure</span>
-                                           	<span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}}</span>
+                                           	<span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}} {{booking.actualSessionTime != 'No Time' ? booking.actualSessionTime : ''}}</span>
                                         </li>
                                        	<li>
                                        		<span class="content-primary">No. of seats</span>

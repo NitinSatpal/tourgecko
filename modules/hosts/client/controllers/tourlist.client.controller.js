@@ -102,6 +102,7 @@
             mappingObject[key] = product.isPublished;
             changedProductStatus.push(mappingObject);
             changedProductIds.push(product._id);
+            changeProductVisibility();
             alert('Please make sure all the details are correct. Tours with more details are booked more often');
     	} else {
     		// In case host is trying to make the tour invisible. Just give the info of what will happen with this
@@ -113,6 +114,7 @@
             mappingObject[key] = product.isPublished;
             changedProductStatus.push(mappingObject);
             changedProductIds.push(product._id);
+            changeProductVisibility();
     		alert('The tour will not be visible to guests and cannot be booked if you make it invisible');
     	}
     }

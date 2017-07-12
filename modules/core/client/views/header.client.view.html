@@ -18,7 +18,7 @@
                                 <img class="headerNotificationPointer" src="modules/hosts/client/images/pointer.svg">
                             </div>
                             <div id="notificationTitle" ng-show="vm.notifications.length > 0">Notifications</div>
-                            <div id="notificationTitle" ng-show="vm.notifications.length == 0" style="text-align: center;">You have no notifications.</div>
+                            <div id="noNotificationTitle" ng-show="vm.notifications.length == 0" style="text-align: center;">You have no notifications.</div>
                             <div id="notificationsBody" class="notifications" ng-show="vm.notifications.length > 0">
                                 <div ng-repeat="notification in vm.notifications track by $index">
                                     <div class="notification-Item row" ng-style="vm.changeCSSDynamically($index)" ng-click="vm.markNotificationRead($index)">

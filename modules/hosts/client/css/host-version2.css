@@ -218,14 +218,9 @@ and (max-device-width : 1024px){
 	}
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	.noLogoPresent {
-		margin-left: 0 !important;
+		margin-left: 14px !important;
 		
 	}
-	.footer-menu .noLogoPresent {
-		margin-left: 0 !important;
-	}
-}
-
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	#booking .booking-analytics-icon{ font-size: 2rem;}

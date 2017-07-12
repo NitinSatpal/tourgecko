@@ -56,13 +56,20 @@
     vm.errorContent = [];
     vm.agreedToTermsAndConditions = false;
 
+    $timeout(function () {
+      $('.host-guest-common-style-Top-Info-Section').addClass('conditionalHide');
+      $('.host-guest-common-style-navbar .navbar-header .navbar-toggle').addClass('conditionalHide');
+      $('.host-guest-common-style-navbar #toursiteTopNav.navbar-collapse .navbar-nav').addClass('conditionalHide');
+      $('.host-guest-common-style-footer-menu-toursite').addClass('conditionalHide');
+    });
+    
     // For now allowing all the numbers starting from 1 and just checking 10 digits for Indian mobile numbers. We can become more
     // strcit and just allow number starting from 7, 8, 9 as in India number series starts only from these numbers.
     $scope.regExForMobileValidity = '^[1-9][0-9]{9}$';
 
     var tourType;
 
-    var weekdays = ['Sun' , 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Satur'];
+    var weekdays = ['Sun' , 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 

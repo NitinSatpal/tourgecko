@@ -204,8 +204,25 @@
     background-color: #40C4FF;
     margin-left: 43%;
 }
-.social-links-wrapper .social-links a .fa {
+.footer-menu .social-links-wrapper .social-links a .fa {
     padding-top: 17px;
+}
+.host-guest-common-style.contact-us-page .host-guest-common-style-row label {
+    margin-bottom: 5px !important;
+}
+.host-guest-common-style.contact-us-page .host-guest-common-style-row input {
+    margin-bottom: 5px !important;
+}
+.host-guest-common-style.contact-us-page .host-guest-common-style-row textarea {
+    margin-bottom: 5px !important;
+}
+.host-guest-common-style.contact-us-page .host-guest-common-style-row {
+    margin-bottom: 5px !important;
+    margin-top: 5px !important;
+}
+.host-guest-common-style.contact-us-page .host-guest-common-style-row .contactUSSendButton .btn {
+    background-color: #ff9800;
+    margin-top: 10px;
 }
 @media  (max-width: 767px) {
     .pricing-divider-css {
