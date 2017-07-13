@@ -512,12 +512,23 @@ function updateSession (booking) {
 
 
 exports.getBookingCountForParticularStatus = function (req, res) {
-  Booking.count({hostOfThisBooking: req.user._id, bookingStatus: req.params.bookingStatus, isPaymentDone: true}, function(error, count) {
-    if (error) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(error)
-      });
-    }
-    res.json(count);
-  });
+  if (req.params.bookingStatus == 'All') {
+    Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
+      if (error) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(error)
+        });
+      }
+      res.json(count);
+    });
+  } else {
+    Booking.count({hostOfThisBooking: req.user._id, bookingStatus: req.params.bookingStatus, isPaymentDone: true}, function(error, count) {
+      if (error) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(error)
+        });
+      }
+      res.json(count);
+    });
+  }
 }

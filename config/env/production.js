@@ -88,6 +88,33 @@ module.exports = {
       }
     }
   },
+  paymentGateWayInstamojo: {
+    instamojoKey: process.env.instamojoKey,
+    instamojoSecret: process.env.instamojoSecret,
+    userPwdCommonPrefix: process.env.instamojoUserCommonPrefixSecret,
+    referer: process.env.instamojoUserReferer,
+    clientId: process.env.instamojoClientId,
+    clientSecret: process.env.instamojoClientSecret
+  },
+  paymentGateWayRazorpay: {
+    razorpaykey_id: process.env.razorpayKey,
+    razorpaykey_secret: process.env.razorpaySecret
+  },
+  bitly: {
+    accessToken: process.env.BITLY_ACCESS_TOKEN
+  },
+  mailgun: {
+    auth: {
+      api_key: process.env.MAILGUN_API_KEY,
+      domain : process.env.MAILGUN_DOMAIN_NAME
+    }
+  },
+  textlocal: {
+    username: process.env.textlocalusername,
+    hash: process.env.textlocalhash,
+    sender: process.env.textlocalsender
+  },
+  livereload: false,
   seedDB: {
     seed: process.env.MONGO_SEED === 'true',
     options: {

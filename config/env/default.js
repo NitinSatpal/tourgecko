@@ -2,46 +2,11 @@
 
 module.exports = {
   app: {
-    title: 'Tourgecko Development',
+    title: 'tourgecko Software Pvt. Ltd.',
     description: 'Simplified tours',
-    keywords: 'mongodb, express, angularjs, node.js, mongoose, passport',
+    keywords: 'Tours, Activities, Price, Addons, Product',
     // domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
-  },
-  paymentGateWayInstamojo: {
-    instamojoKey: process.env.instamojoKey,
-    instamojoSecret: process.env.instamojoSecret,
-    userPwdCommonPrefix: process.env.instamojoUserCommonPrefixSecret,
-    referer: process.env.instamojoUserReferer,
-    clientId: process.env.instamojoClientId,
-    clientSecret: process.env.instamojoClientSecret
-  },
-  paymentGateWayRazorpay: {
-    razorpaykey_id: process.env.razorpayKey,
-    razorpaykey_secret: process.env.razorpaySecret
-  },
-  mailer: {
-    service: 'gmail',
-    from: 'nitinsatpal@gmail.com',
-    auth: {
-      user: process.env.gmailUser,
-      pass: process.env.gmailPass,
-      clientId: process.env.clientId,
-      clientSecret: process.env.clientSecret,
-      refreshToken: process.env.refreshToken,
-      accessToken: process.env.accessToken
-    }
-  },
-  mailgun: {
-    auth: {
-      api_key: process.env.MAILGUN_API_KEY,
-      domain : process.env.MAILGUN_DOMAIN_NAME
-    }
-  },
-  textlocal: {
-    username: process.env.textlocalusername,
-    hash: process.env.textlocalhash,
-    sender: process.env.textlocalsender
   },
   port: process.env.PORT || 3000,
   host: process.env.HOST || '0.0.0.0',
@@ -61,7 +26,7 @@ module.exports = {
     secure: false
   },
   // sessionSecret should be changed for security measures and concerns
-  sessionSecret: process.env.SESSION_SECRET || 'MEAN',
+  sessionSecret: process.env.SESSION_SECRET || 'tourgecko',
   // sessionKey is the cookie session name
   sessionKey: 'sessionId',
   sessionCollection: 'sessions',

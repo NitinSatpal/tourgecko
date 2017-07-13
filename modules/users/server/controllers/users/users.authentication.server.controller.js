@@ -25,13 +25,6 @@ var noReturnUrls = [
   '/guest/signup'
 ];
 
-var smtpTransport = nodemailer.createTransport({
-  service: config.mailer.service,
-  auth: {
-    xoauth2: xoauth2.createXOAuth2Generator(config.mailer.auth)
-  }
-});
-
 var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 /**
  * Signup
@@ -125,22 +118,23 @@ exports.signup = function (req, res) {
         });
       },
       function (emailHTML, user, done) {
-        var mailOptions = {
-          to: user.email,
-          from: config.mailer.from,
-          subject: 'User verification',
-          html: emailHTML
-        };
-        smtpTransport.sendMail(mailOptions, function (err) {
-          if (!err) {
-            console.log('Message sent');
-          } else {
-            console.log('Message sending failed.');
-            // return res.status(400).send({
-              // message: 'Some problem occurred. Please try again after sometime or call us.'
-            // });
+        nodemailerMailgun.sendMail({
+          from: 'noreply@tourgecko.com',
+          to: user.email, // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'Verification at Tourgecko',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: emailHTML,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            // console.log('error');
           }
-          done(err);
+          else {
+            // console.log('success');
+          }
         });
       }
     ], function (err) {
@@ -272,23 +266,6 @@ exports.signupDetails = function(req, res, next) {
             // console.log('success');
           }
         });
-      /*var mailOptions = {
-        to: user.email,
-        from: config.mailer.from,
-        subject: 'User verification',
-        html: emailHTML
-      };
-      smtpTransport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          console.log('Message sent');
-        } else {
-          console.log('Message sending failed.');
-          // return res.status(400).send({
-            // message: 'Some problem occurred. Please try again after sometime or call us.'
-          // });
-        }
-        done(err);
-      });*/
     }
   ], function (err) {
     if (err) {

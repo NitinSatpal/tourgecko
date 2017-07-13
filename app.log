@@ -65312,3 +65312,9 @@
 
 2017-07-12T05:53:17.100Z - info: [0mGET /modules/chat/client/images/booking-request.png [36m304 [0m1.491 ms - -[0m
 
+2017-07-13T09:22:43.352Z - info: [0mGET /api/notification/initialfetch/ [36m304 [0m44.214 ms - -[0m
+
+2017-07-13T09:22:43.355Z - info: [0mGET /api/notification/unreadCount/ [36m304 [0m43.842 ms - -[0m
+
+2017-07-13T09:22:43.382Z - info: [0mGET /modules/chat/client/images/booking-request.png [36m304 [0m2.691 ms - -[0m
+

@@ -14,14 +14,6 @@ var path = require('path'),
   xoauth2 = require('xoauth2'),
   crypto = require('crypto');
 
-// var smtpTransport = nodemailer.createTransport(config.mailer.options);
-var smtpTransport = nodemailer.createTransport({
-  service: config.mailer.service,
-  auth: {
-    xoauth2: xoauth2.createXOAuth2Generator(config.mailer.auth)
-  }
-});
-
 var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 
 /**
