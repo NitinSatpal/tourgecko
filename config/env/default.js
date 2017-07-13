@@ -5,7 +5,7 @@ module.exports = {
     title: 'tourgecko Software Pvt. Ltd.',
     description: 'Simplified tours',
     keywords: 'Tours, Activities, Price, Addons, Product',
-    // domain: 'http://www.tourgecko.com',
+    //domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
   port: process.env.PORT || 3000,
@@ -23,7 +23,7 @@ module.exports = {
     // secure cookie should be turned to true to provide additional
     // layer of security so that the cookie is set only when working
     // in HTTPS mode.
-    secure: true
+    secure: false
   },
   // sessionSecret should be changed for security measures and concerns
   sessionSecret: process.env.SESSION_SECRET || 'tourgecko',
