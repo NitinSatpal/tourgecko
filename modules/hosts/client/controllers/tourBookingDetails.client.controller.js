@@ -38,6 +38,15 @@
     /* This will change and we will fetch only one as per date */
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
+      var startDate = new Date(vm.productSession.sessionDepartureDetails.startDate);
+      var startDateToSend = vm.productSession.sessionDepartureDetails.startDate;
+      var duration = vm.productSession.product.productDuration;
+      var tourEndDate;
+      if (duration && vm.productSession.product.productDurationType == 'Days') {
+        tourEndDate = startDate.setDate(startDate.getDate() + duration - 1);
+      } else
+        tourEndDate = startDate;
+      initializeRemainingTimeCounter(startDateToSend, tourEndDate);
       asynRequestCounter++;
       if(asynRequestCounter >= 2) {
         $('#loadingDivHostSide').css('display', 'none');
@@ -573,76 +582,13 @@
       return displayDate;
     }
 
-    vm.oneDayTour = false;
-    vm.singularityInDay = false;
-    vm.getDaysRemainingToStartOfTour = function(isoDate, duration) {
-      var tourEndDate;
-      var currentDate = new Date();
-      var startDate = new Date(isoDate);
-      if (duration && vm.productSession.product.productDurationType == 'Days') {
-        tourEndDate = startDate.setDate(startDate.getDate() + duration - 1);
-        tourEndDate = new Date(tourEndDate);
-      } else
-        tourEndDate = startDate;
-
-      var diffFromStartDate = Math.ceil((startDate.getTime() - currentDate.getTime()) /  (1000 * 3600 * 24));
-      var diffFromEndDateDate = Math.ceil((tourEndDate.getTime() - currentDate.getTime()) /  (1000 * 3600 * 24));
-      
-      if (diffFromStartDate == diffFromEndDateDate)
-        vm.oneDayTour = true;
-
-      if (diffFromStartDate > 0) {
-        vm.startsIn = true;
-        vm.started = false;
-        vm.starting = false;
-        vm.ended = false;
-        vm.ending = false;
-        return Math.abs(diffFromStartDate);
-      } else if (diffFromStartDate == 0) {
-        vm.started = false;
-        vm.startsIn = false;
-        vm.starting = true;
-        vm.ended = false;
-        vm.ending = false;
-        if (Math.abs(diffFromStartDate) == 1)
-          vm.singularityInDay = true;
-        return 'Today';
-      } else {
-          if (diffFromEndDateDate > 0) {
-            vm.started = true;
-            vm.startsIn = false;
-            vm.starting = false;
-            vm.ended = false;
-            vm.ending = false;
-            return Math.abs(diffFromStartDate);
-          } else if (diffFromEndDateDate == 0) {
-            vm.ending = true;
-            vm.started = false;
-            vm.startsIn = false;
-            vm.starting = false;
-            vm.ended = false;
-            return 'Today'
-          } else {
-            vm.ended = true;
-            vm.ending = false;
-            vm.started = false;
-            vm.startsIn = false;
-            vm.starting = false;
-            if (Math.abs(diffFromEndDateDate) == 0)
-              vm.singularityInDay = true;
-            return Math.abs(diffFromEndDateDate);
-          }
-      }
-      return diffDays;
-    }
-
     vm.getSeatsAvailability = function() {
       if (vm.productSession) {
         if(vm.productSession.product.productAvailabilityType == 'Open Date' || 
           (vm.productSession.product.productAvailabilityType == 'Fixed Departure' && vm.productSession.product.productSeatsLimitType == 'unlimited'))
           return 'No Limit';
-        else
-          return vm.productSession.product.productSeatLimit - vm.confirmedSeats;
+        else 
+          return parseInt(vm.productSession.product.productSeatLimit) - parseInt(vm.confirmedSeats);
       }
     }
 

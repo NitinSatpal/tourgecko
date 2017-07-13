@@ -648,6 +648,14 @@ vm.openDepartureSessionModal = function() {
   vm.isFixedTourTimeSlotAvailable = false;
   vm.isFixedDepartureSeriesAvailable = false;
   vm.seriesName = '';
+  if (vm.productSeatsLimitType == 'limited' && !vm.tour.productSeatLimit) {
+    toasty.error({
+      title: 'Provide seat limit!',
+      msg: 'You have selected limited seats. Please provide the limit!',
+      sound: false
+    });
+    return false;
+  }
   if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     toasty.error({
       title: 'Tour name and Pricing required!',
