@@ -212,7 +212,10 @@
                         <img src="/modules/core/client/img/assets/empty_state_one.png">
 					</div>
 					<div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && (vm.filterApplied || !vm.noSearchQueryFired)">
-						<span> <h2> No bookings found </h2></span>
+						<span> 
+                            <h4> No bookings found </h4>
+                            <p>Try changing the filters or search term.</p>
+                        </span>
 					</div>
 				</div>
             </div>
