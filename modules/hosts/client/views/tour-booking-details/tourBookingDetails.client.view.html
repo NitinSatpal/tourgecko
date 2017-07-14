@@ -120,7 +120,7 @@
                 <!-- tab content begins -->
                	<div class="tab-content">
                   	<div id="current-tour-bookings" class="tab-pane fade in active" print-section>
-                        <ul class="nav-bookings sessionDetailsFilterNav">
+                        <ul class="nav-bookings sessionDetailsFilterNav" ng-if="vm.bookings.length > 0 || (vm.bookings.length == 0 && vm.filterApplied)">
                             <li id="allBookings" class="inline-block margin-right active">
                                 <a href="" ng-click="vm.categorizedBooking('All', true)" onclick="showLoaderForFilters('#allBookings')">All</a>
                             </li>
@@ -216,8 +216,11 @@
                                     &nbsp; bookings per page
                                 </span>
                             </div>
-                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0">
-                                <span> <h2> No bookings found </h2></span>
+                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && !vm.filterApplied">
+                                <span> <h4> There are no bookings for this session yet. </h4></span>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && vm.filterApplied">
+                                <span> <h4> No bookings found </h4></span>
                             </div>
                         </div>
                    	</div>

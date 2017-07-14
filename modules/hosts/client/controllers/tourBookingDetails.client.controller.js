@@ -463,6 +463,7 @@
     }
 
     vm.categorizedBooking = function (filterKeys, startFromTop) {
+      vm.filterApplied = true;
       categorizedBooking(filterKeys, startFromTop);
     }
 

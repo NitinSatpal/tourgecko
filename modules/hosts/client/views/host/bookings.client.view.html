@@ -16,7 +16,7 @@
 				
 				</div>                     
                 <div class="row booking-list-version-2">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="vm.bookings.length > 0 || vm.bookings.length == 0 && (vm.filterApplied || !vm.noSearchQueryFired)">
                         <ul class="nav-bookings padding-top padding-bottom pull-left margin-none-left padding-none-left margin-none-bottom">
                             <li id="allBookings" class="inline-block margin-right active">
                             	<a href="" ng-click="vm.categorizedBooking('All', true)" onclick="showLoaderForFilters('#allBookings')">All</a>
