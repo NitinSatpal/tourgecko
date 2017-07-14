@@ -16,6 +16,7 @@ var path = require('path'),
   momentTimezone = require('moment-timezone'),
   tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
   mailAndMessage = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
+  randomstring = require("randomstring"),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -35,8 +36,11 @@ exports.createBooking = function (data, user, paymentURL, paymentRequestId, paym
   var booking = new Booking(data.bookingDetails);
   booking.user = user;
   booking.hostCompany = data.productData.hostCompany._id;
-  var bookingReferenceTemp = Math.random().toString(36).substring(10);
-  var bookingReference = bookingReferenceTemp.toUpperCase();
+  var bookingReference = randomstring.generate({
+    length: 5,
+    charset: 'numeric',
+    capitalization: 'uppercase'
+  });
   booking.bookingReference = bookingReference;
   if (paymentMethod == 'instamojo') {
     booking.paymentRequestId = paymentRequestId;
