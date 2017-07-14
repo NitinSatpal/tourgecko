@@ -37,8 +37,8 @@ exports.createBooking = function (data, user, paymentURL, paymentRequestId, paym
   booking.user = user;
   booking.hostCompany = data.productData.hostCompany._id;
   var bookingReference = randomstring.generate({
-    length: 5,
-    charset: 'numeric',
+    length: 6,
+    charset: 'alphanumeric',
     capitalization: 'uppercase'
   });
   booking.bookingReference = bookingReference;
