@@ -278,9 +278,11 @@
                                     <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Cancellation & Refund</h4>
                                 </div>
                                 <div id="collapse8" class="panel-collapse collapse in">
-                                    <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
-                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
-                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a>
+                                    <div class="panel-body">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productCancellationPolicy)">
+                                        <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productInclusions | htmlData">{{vm.productDetails.productCancellationPolicy}}</p>
+                                       <!-- <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
+                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a> -->
                                     </div>
                                 </div>
                             </div>
