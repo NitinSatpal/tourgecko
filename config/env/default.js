@@ -5,7 +5,7 @@ module.exports = {
     title: 'tourgecko Software Pvt. Ltd.',
     description: 'Simplified tours',
     keywords: 'Tours, Activities, Price, Addons, Product',
-    //domain: 'http://www.tourgecko.com',
+    domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
   port: process.env.PORT || 3000,
