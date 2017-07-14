@@ -67,7 +67,11 @@ span.text-huge {
 box-shadow: 0px 5px 8px 2px rgba(0,0,0,0.16); transition: all 0.2s ease-in-out}
 .list-group-item.z-depth-1{ background-color:#f6f6f6; border-radius:0}
 
-.booking-payment-method, .booking-payment-date, .booking-payment-amount { width:25%; display: inline-block; vertical-align: middle;}
+.booking-payment-method, .booking-payment-date, .booking-payment-amount {
+	width:25%;
+	display: inline-block;
+	vertical-align: middle;
+}
 .booking-payment-method{ width:20%;}
 .sub_desc.booking-reference{ position:relative; top:-8px}
 
@@ -193,7 +197,7 @@ and (max-device-width : 1024px){
 	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
 	#booking-detail .nav-div{ display:none;}
 }
-@media (max-width: 767px){
+@media (max-width: 767px) {
 	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(2){padding-right: .5rem;}
 	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(3){padding-left: .5rem;}
 	#booking .col5.col-sm-6.col-xs-6 .text-center{ text-align: left } 
@@ -225,6 +229,10 @@ and (max-device-width : 1024px){
 		margin-left: 14px !important;
 		
 	}
+	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
+		word-wrap: break-word;
+	}
+}
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	#booking .booking-analytics-icon{ font-size: 2rem;}
@@ -253,6 +261,9 @@ and (max-device-width : 1024px){
 	.footer-menu .noLogoPresent {
 		margin-left: 0 !important;
 	}
+	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
+		word-wrap: break-word;
+	}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -276,6 +287,9 @@ and (max-device-width : 1024px){
 	}
 	.footer-menu .noLogoPresent {
 		margin-left: 0 !important;
+	}
+	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
+		word-wrap: break-word;
 	}
 }
 
