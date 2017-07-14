@@ -178,6 +178,10 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 .footer-menu .noLogoPresent {
 	margin-left: 0 !important;
 }
+.sessionDetails .sessionDetailsFilterNav {
+	margin-top: 20px;
+	padding-left: 0 !important;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 

@@ -576,7 +576,12 @@
       $('#filter-dropdown-button').click();
     }
 
-     vm.categorizedBooking = function(filterKeys, startFromTop) {
+    vm.categorizedBooking = function (filterKeys, startFromTop) {
+      vm.filterApplied = true;
+      categorizedBooking(filterKeys, startFromTop);
+    }
+
+    function categorizedBooking (filterKeys, startFromTop) {
       vm.BookingReferenceToBeSearched = '';
       vm.bookings.length = 0;
       if (filterKeys == 'All') {

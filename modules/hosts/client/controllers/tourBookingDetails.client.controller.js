@@ -462,7 +462,16 @@
       $('#filter-dropdown-button').click();
     }
 
+    vm.categorizedBooking = function (filterKeys, startFromTop) {
+      categorizedBooking(filterKeys, startFromTop);
+    }
+
     function categorizedBooking (filterKeys, startFromTop) {
+      vm.bookings.length = 0;
+      if (filterKeys == 'All') {
+        fetchAllBookingRecords();
+        return;
+      }
       var itemsPerPageSelected = parseInt(vm.numberOfItemsInOnePage);
       $http.post('/api/host/productsession/categorizedBooking/' ,{categoryKeys: filterKeys,
         productSessionId : $stateParams.productSessionId,

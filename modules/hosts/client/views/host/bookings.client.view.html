@@ -94,10 +94,10 @@
 					<div class="card margin-top" ng-repeat="booking in vm.bookings">
                         <div ng-click="vm.goToBookingDetails(booking._id)">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border-bottom margin-bottom padding-top padding-bottom">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 booking-ref">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-6 booking-ref">
                                     <h5>Booking ID: <strong>{{booking.bookingReference}}</strong></h5>
                                 </div>
-                               	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 booking-user-parent">
+                               	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-6 booking-user-parent">
                                  	<a href="#" class="pull-right booking-user">
                                  		<img alt="user image" src="{{booking.user.profileImageURL != undefined ? booking.user.profileImageURL : 'modules/users/client/img/profile/default.png'}}" class="margin-right booking-user-image">{{booking.providedGuestDetails.firstName.length + booking.providedGuestDetails.lastName.length > 15 ? booking.providedGuestDetails.firstName : booking.providedGuestDetails.firstName + '&nbsp;' + booking.providedGuestDetails.lastName}}
                                  	</a>
