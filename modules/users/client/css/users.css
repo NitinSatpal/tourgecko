@@ -96,7 +96,13 @@
 .welcome_note {
   font-size: 20px !important;
 }
-
+.resetPasswordSuccess {
+  font-weight: 500;
+  color: #40C4FF;
+}
+.resetPasswordSuccessOtherInfo {
+  font-weight: 300;
+}
 @media  (max-width: 767px){
   .cropArea {
     background: transparent;

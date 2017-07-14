@@ -35,9 +35,6 @@
         // Show user success message and clear form
         vm.credentials = null;
         vm.success = response.message;
-        $timeout(function() {
-            $state.go('authentication.hostSignin');
-          }, 3000);
         
         $("#loadingDivPassword").css("display", "none");
         $("#tourgeckoBody").removeClass("waitCursor");
@@ -70,7 +67,7 @@
         $("#loadingDivPassword").css("display", "none");
         $("#tourgeckoBody").removeClass("waitCursor");
         // And redirect to the index page
-        $location.path('/password/reset/success');
+        $location.path('/host/login');
       }).error(function (response) {
         vm.error = response.message;
         $("#loadingDivPassword").css("display", "none");

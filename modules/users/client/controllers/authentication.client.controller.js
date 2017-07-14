@@ -33,11 +33,11 @@
     vm.error = $location.search().err;
 
     // If user is signed in then redirect back home
-    if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'hostAdmin') {
+    if (vm.authentication.user &&  vm.authentication.user.roles && vm.authentication.user.roles[0] == 'hostAdmin') {
       $location.path('/host/admin');
-    } else if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'user') {
+    } else if (vm.authentication.user && vm.authentication.user.roles && vm.authentication.user.roles[0] == 'user') {
       $location.path('/guest/home');
-    } else if (vm.authentication.user &&  vm.authentication.user.roles[0] == 'admin') {
+    } else if (vm.authentication.user && vm.authentication.user.roles && vm.authentication.user.roles[0] == 'admin') {
       $location.path('/admin/home');
     }
 

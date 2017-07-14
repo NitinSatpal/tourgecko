@@ -77,3 +77,4 @@ mongod
 
 # environment variables
 exportEnvironmentVariables.sh
+exportdev.sh

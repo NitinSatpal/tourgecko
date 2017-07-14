@@ -75,7 +75,7 @@ exports.forgot = function (req, res, next) {
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
       nodemailerMailgun.sendMail({
-          from: 'noreply@tourgecko.com',
+          from: 'tourgecko <noreply@tourgecko.com>',
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
@@ -90,7 +90,7 @@ exports.forgot = function (req, res, next) {
           }
           else {
             res.send({
-              message: 'An email has been sent to the provided email with further instructions.'
+              message: 'An email with the requested information has been sent'
             });
           }
         });
@@ -147,19 +147,7 @@ exports.reset = function (req, res, next) {
                   message: errorHandler.getErrorMessage(err)
                 });
               } else {
-                req.login(user, function (err) {
-                  if (err) {
-                    res.status(400).send(err);
-                  } else {
-                    // Remove sensitive data before return authenticated user
-                    user.password = undefined;
-                    user.salt = undefined;
-
-                    res.json(user);
-
-                    done(err, user);
-                  }
-                });
+                done(err, user);
               }
             });
           } else {
@@ -191,7 +179,7 @@ exports.reset = function (req, res, next) {
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
       nodemailerMailgun.sendMail({
-          from: 'noreply@tourgecko.com',
+          from: 'tourgecko <noreply@tourgecko.com>',
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
