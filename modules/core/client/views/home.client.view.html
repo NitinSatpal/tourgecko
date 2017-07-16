@@ -1,47 +1,5 @@
-<section id="landingPage" class="landingPage" ng-style="vm.getDynamicCssForLandingPage()">
-	<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-  	<nav class="navbar navbar-default navbar-fixed-top landing-nav">
-        <div class="container landingPageHeader">
-          	<div class="navbar-header">
-            	<button  id="ChangeToggle" type="button" class="navbar-right navbar-toggle collapsed" data-toggle="collapse" data-target="#landingPageNavbar" aria-expanded="false" aria-controls="navbar">
-	              	<div class="navbar-hamburger">
-		              	<span class="sr-only">Toggle navigation</span>
-		              	<span class="icon-bar"></span>
-		              	<span class="icon-bar"></span>
-		              	<span class="icon-bar"></span>
-		            </div>
-	              	<div id="navbar-close" class="hidden">
-	          			<i class="zmdi zmdi-close"></i>
-	        		</div>
-            	</button>
-            	<a class="navbar-Beta-brand landing-branding" ui-sref="abstractHome.home" href="">
-            		<img src="modules/core/client/img/brand/logo-beta.svg" alt="Tourgecko">
-            	</a>
-          	</div>
-          	<div id="loadingDiv" class="loaderDisplayDiv" ng-show="vm.showLoaderForHomePageClicks"></div>
-          	<div id="landingPageNavbar" class="navbar-collapse collapse navbar-ex1-collapse" style="height: 1px;">
-	            <ul class="nav navbar-nav">
-	              	<li>
-	              		<a href="#" ng-click="vm.showLoaderForHomePageClicks = true">About Us</a>
-	              	</li>
-	              	<li>
-	              		<a ui-sref="host.hostHome" ng-hide="!vm.authentication.user" ng-click="vm.showLoaderForHomePageClicks = true">Go to Admin Panel</a>
-	              	</li>
-	              	<li>
-	              		<a href="/api/auth/signout" target="_self" ng-hide="!vm.authentication.user" ng-click="vm.showLoaderForHomePageClicks = true">Logout</a>
-	              	</li>
-	              	<li class="nav-btn-primary main-cta" ng-show="!vm.authentication.user">
-	              		<a ui-sref="authentication.hostSignup" ng-click="vm.showLoaderForHomePageClicks = true">Sign Up</a>
-	              	</li>
-	              	<li class="nav-btn-default" ng-show="!vm.authentication.user">
-	              		<a ui-sref="authentication.hostSignin" ng-click="vm.showLoaderForHomePageClicks = true">Login</a>
-	              	</li>
-	            </ul>
-          	</div><!--/.nav-collapse -->
-        </div>
-    </nav>
-
+<section id="landingPage" class="landingPage" ng-style="vm.getDynamicCssForLandingPage()">	
+	<div class="tourgeckoAdminHeader" ng-include="'/modules/core/client/views/tourgeckoAdminHeader.client.view.html'"></div>
   	<div id="landing" class="container-fluid">
         <div id="hero" class="hero row">
             <div class="container">
@@ -121,16 +79,12 @@
 		        </div>    
 	        </div> 
         
-    	</div>    
-        
-	    <footer class="footer row">
-	      <div class="container text-center">
-	          <h2 class="heading">A foundation for your tour and activity  business</h2>
-	          <a ui-sref="authentication.hostSignup" class="btn btn-warning btn-lg" ng-hide="vm.authentication.user">Sign up now!</a>
-	      </div>
-	    </footer>
-    </div>    
+    	</div>
+    </div>
 </section>
+<footer class="footer tourgeckoAdminFooter">
+    <div ng-include="'/modules/core/client/views/tourgeckoAdminFooter.client.view.html'">
+</footer>   
 <script type="text/javascript">
    	$(function() {
     	var images = ['random-Top-Image-1.png', 'random-Top-Image-2.png', 'random-Top-Image-3.png', 'random-Top-Image-4.png'];

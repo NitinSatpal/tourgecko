@@ -40,13 +40,12 @@ var HostCompanySchema = new Schema({
   },
   toursite: {
     type: String,
+    trim: true,
     index: {
       unique: true,
-      sparse: true // For this to work on a previously indexed field, the index must be dropped & the application restarted.
+      sparse: true
     },
-    lowercase: true,
-    trim: true,
-    default: ''
+    lowercase: true
   },
   aboutHost: {
     type: String,

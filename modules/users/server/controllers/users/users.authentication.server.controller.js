@@ -60,7 +60,8 @@ exports.signup = function (req, res) {
             });
           } else {
             hostCompany.user = user._id;
-            hostCompany.toursite = toursite;
+            if (toursite)
+              hostCompany.toursite = toursite;
             hostCompany.notificationEmail = user.email;
             hostCompany.notificationMobile =user.mobile;
             hostCompany.inquiryEmail = user.email;

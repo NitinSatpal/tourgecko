@@ -6,19 +6,28 @@
 .dynamicLandingPageCSS {
 	margin-top: -70px;
 }
-
+.tourgeckoAdmin-terms-of-use, .tourgeckoAdmin-privacy-policy, .tourgeckoAdmin-pricing {
+	margin-top: 58px !important;
+}
 .landingPage h4 {
 	font-weight: 300;
 }
 .landingPage .landingPageHeader {
 	overflow-y: hidden !important;
 }
-.landingPage .landingPageHeader .navbar-right {
-	margin-right: 8%;
+.tourgeckoAdminHeader .navbar-default {
+	background-color: #f8f8f8 !important;
 }
+.landing-page-body {
+	background-color: #fff;
+}
+/*.landingPage .landingPageHeader .navbar-right {
+	margin-right: 8%;
+}*/
 .navbar-Beta-brand {
 
 }
+.navbar-default
 .navbar-Beta-brand::after {
 	content: 'BETA';
 	font-size: 1rem ;
@@ -29,7 +38,6 @@
 	display: inline-block;
 	width: 17.5rem;
 }
-
 .landing-nav {
 	border-color: transparent;
 }
@@ -37,12 +45,27 @@
 	padding: 0;
 	border-color: transparent;
 }
+.nav-btn-primary.btn.btn-warning.main-cta {
+	padding:0;
+	height:32px;
+	margin-top:1rem;
+}
+.nav-btn-primary.btn.btn-warning.main-cta a {
+	margin-top:-1rem;
+	color:#fff !important;
+}
 #landing {
 	margin-top: 5rem;
 }
 #landing .hero-copy {
 	margin-top: 10rem;
 	margin-left: 4%;
+}
+#about .hero-copy {
+	margin-top:10rem;
+}
+#about .hero-copy h4 {
+	font-weight: 300 !important;
 }
 #landing .hero h1 {
 	text-align: left;
@@ -86,17 +109,94 @@
 #landing .info-block-copy {
 
 }
-.footer {
+.tourgeckoAdminFooter {
 	width: 100%;
 	padding-top: 4rem;
 	border-top: 1px solid #EEE;
+	margin-top: 0 !important;
 }
-.footer .heading {
+.tourgeckoAdminFooter .heading {
 	font-weight: 300;
 	color: #666;
 	margin-bottom: 2rem;
 }
+.tourgeckoAdminFooter p {
+	color: #999 !important;
+}
+.tourgeckoAdminFooter .footer-info-center p {
+	color: #777 !important;
+}
+.tourgeckoAdminFooter{width:100%;min-height:40px;border-top:1px solid #eee;background-color:#f6f6f6;display:block;padding:0 1em;}
+.tourgeckoAdminFooter .container{padding:0.5em 0;}
+.tourgeckoAdminFooter p{margin-bottom:0px;color:#999;}
+.tourgeckoAdminFooter a{color:#666}
+.tourgeckoAdminFooter a:hover, .tourgeckoAdminFooter a:focus, .tourgeckoAdminFooter a:active{text-decoration:underline;}
+.tourgeckoAdminFooter .links a{}
+.tourgeckoAdminFooter .text-muted i{color:orange;}
+.tourgeckoAdminFooter .footer-info-center p{font-size:.9em;margin-top:4px;}
+.tourgeckoAdminFooter footer-icon {
+	-webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+.tourgeckoAdminFooter .footer-icon:hover,.tourgeckoAdminFooter .footer-icon:focus,.tourgeckoAdminFooter .footer-icon:active{-webkit-filter:grayscale(0%);-moz-filter:grayscale(0%);-o-filter:grayscale(0%);-ms-filter:grayscale(0%);filter:grayscale(0%);}
+.tourgeckoAdminFooter .footer-icon img{width:24px;}
 
+.tourgeckoAdminFooter .list-inline .link-social{ text-align:center }
+.tourgeckoAdminFooter .list-inline .link-social a{display:block;  margin-top: .45rem;width:30px; height:30px;border:1px solid #ddd; -webkit-border-radius:50%; -moz-border-radius:50%; border-radius:50%; padding-top: .5rem;    background-color: #ddd;}
+.tourgeckoAdminFooter .list-inline .link-social a:hover{ color:orange; background-color:#fff; border:none;}
+.tourgeckoAdminFooter .footer-info-right{ text-align:right}
+.tourgeckoAdminFooter .footer-info-left p{ font-size:10px;}
+.tourgeckoAdminFooter .footer-info-center{ margin-top:1rem}
+.title-holder{ height:150px; background-color:#585650; margin-bottom:5rem}
+.title-holder h1{ color:#fff; margin-top:5rem}
+
+.terms-date{ display:block; margin:2rem auto; color:#888}
+.simple-words{ color:#777; background-color:#f6f6f6; padding:1rem}
+.simple-words h4{ font-weight:400; margin-top:0}
+.tourgeckoAdmin-terms-of-use.main-content,
+.tourgeckoAdmin-privacy-policy.main-content,
+.tourgeckoAdmin-pricing.main-content,
+.tourgeckoAdmin-about-us.main-content {
+	margin-top: 5rem !important;
+    margin-right: auto !important;
+    margin-bottom: 0 !important;
+    margin-left: auto !important;
+    background-color: #fff !important;
+}
+.tourgeckoAdmin-terms-of-use .marginFromBothEnds div {
+	width: 100%;
+	right: 43px;
+	margin-left: 43px;
+}
+#help .contact-details li p{ font-size:11px; color:#777; margin-top:.5rem }
+#help .contact-details li a{ margin-top:2rem}
+#about #hero{ height: 500px; background:url(/modules/core/client/img/assets/tourgeckoadmin-about-us-symbol-logo.jpg) no-repeat; background-size:cover; background-color:#000; }
+#about #hero .about-logo-holder{ text-align:center}
+#about #hero .about-logo-holder .about-logo { display:block; margin-top:20%}
+#about #hero .about-logo-holder .about-logo img{width:30%}
+#about #hero h1{ color:#555}
+#about .contact-details{padding:5rem 0}
+#about .contact-details li{ margin-right:1rem; margin-top:1rem;}
+#about .contact-details a:before{display:inline-block; margin-right:.5rem; vertical-align:middle; color:#19A0DC; font:normal normal normal 20px/1 'Material-Design-Iconic-Font'}
+#about .contact-details a.email:before{ content:"\f15a"; }
+#about .contact-details a.phone:before{ content:"\f2be"; }
+#about .contact-details h4{ font-weight:400; color:#777}
+#pricing{ margin-bottom:5rem;}
+#pricing .pricing-overview{ padding:3rem 0 1rem 0}
+#pricing .pricing-overview .alert.alert-info h3{margin-top:1rem}
+#pricing .pricing-overview .alert.alert-warning .btn {margin-bottom: .3rem;}
+#pricing .pricing-overview .alert.alert-warning{ margin-left:1rem}
+#pricing  .premium-benefits .section-head{ list-style-type:none;}
+#pricing  .premium-benefits .section-head strong{ border-bottom:1px solid #ddd; display:block; background-color: #ddd;
+    padding: 1rem;}
+#pricing  .premium-benefits .section-head ul li{ line-height:36px; list-style-type:none;; display:block; background-color:rgba(246,246,246,0);}
+#pricing  .premium-benefits .section-head ul li i{ font-size:26px; color:#42AE5E;}
+#pricing  .premium-benefits .section-head ul{ margin-left:0; padding-left:0;}
+#pricing  .premium-benefits{ margin-left:0; padding-left:0;}
+#pricing .col-sm-6.col-xs-10{ background-color: #f6f6f6; border-bottom: 1px solid #eee;}
 @media (max-width: 767px){
     #landing .hero-copy {
     	margin-top: 4rem;
@@ -130,6 +230,14 @@
 	.landingPage .navbar-fixed-top {
 		margin-bottom: -5px !important;
 	}
+	.nav-btn-primary.btn.btn-warning.main-cta a {
+		margin-top:-.5rem;
+	}
+	.nav-btn-primary.btn.btn-warning.main-cta {
+		margin-left:1rem;
+		margin-right:1rem;
+	}
+	#help .contact-details a.phone{ margin-top:1rem}
 }
 
 @media (max-width: 420px) {
@@ -151,4 +259,21 @@
 	.dynamicLandingPageCSS {
 		margin-top: -70px;
 	}
+	.tourgeckoAdminFooter .footer-info-right, .tourgeckoAdminFooter .footer-info-center{ text-align:center; margin-top:1rem}
+	.tourgeckoAdminFooter .footer-icon img{width:18px;}
+	.tourgeckoAdminFooter .footer-info-left{ text-align:center} 
+	.tourgeckoAdminFooter .footer-icon{margin:1rem 0; display: block;}
+	#about #hero .about-logo-holder .about-logo img{width:30%}
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+	#about #hero .about-logo-holder .about-logo img{width:50%}
+}
+@media (max-width: 425px){
+    #landing img.icn_info-block{ width: 5rem; margin-top: 1.1rem; opacity: .5}
+	#about .hero-copy{ margin-top:0}
+	#about #hero .about-logo-holder .about-logo{ margin-top:2rem}
+	#pricing .pricing-overview .alert.alert-warning{ margin-left:0}
+	#about #hero{background-position-x: -720px;}
+
 }

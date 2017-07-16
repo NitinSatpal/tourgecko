@@ -42,10 +42,10 @@
           toursite: null
         }
       })
-      .state('contact-us', {
-        url: '/contact-us',
-        templateUrl: 'modules/hosts/client/views/toursite/contact-us.client.view.html',
-        controller: 'ToursiteCommonController',
+      .state('hostToursite-toursite-tours', {
+        url: '/tours',
+        templateUrl: 'modules/hosts/client/views/toursite/tours.client.view.html',
+        controller: 'ToursiteController',
         controllerAs: 'vm',
         params: {
           toursite: null
@@ -54,7 +54,7 @@
           pageTitle: 'Contact-US'
         }
       })
-      .state('about-us', {
+      .state('hostToursite-about-us', {
         url: '/about-us',
         templateUrl: 'modules/hosts/client/views/toursite/about-us.client.view.html',
         controller: 'ToursiteCommonController',
@@ -66,10 +66,10 @@
           pageTitle: 'Contact-US'
         }
       })
-      .state('toursite-tours', {
-        url: '/tours',
-        templateUrl: 'modules/hosts/client/views/toursite/tours.client.view.html',
-        controller: 'ToursiteController',
+      .state('hostToursite-contact-us', {
+        url: '/contact-us',
+        templateUrl: 'modules/hosts/client/views/toursite/contact-us.client.view.html',
+        controller: 'ToursiteCommonController',
         controllerAs: 'vm',
         params: {
           toursite: null
@@ -84,21 +84,45 @@
         controller: 'HomeController',
         controllerAs: 'vm'
       })
-      .state('security', {
-        url: '/security',
+      .state('tourgeckoAdmin-pricing', {
+        url: '/pricing',
+        templateUrl: 'modules/core/client/views/pricing.client.view.html',
+        controller: 'ToursiteController',
+        controllerAs: 'vm',
+        params: {
+          toursite: null
+        },
+        data: {
+          pageTitle: 'Contact-US'
+        }
+      })
+      .state('tourgeckoAdmin-about-us', {
+        url: '/about',
+        templateUrl: 'modules/core/client/views/tourgeckoAdmin-about-us.client.view.html',
+        controller: 'ToursiteController',
+        controllerAs: 'vm',
+        params: {
+          toursite: null
+        },
+        data: {
+          pageTitle: 'Contact-US'
+        }
+      })
+      .state('legal', {
+        url: '/legal',
         templateUrl: 'modules/core/client/views/security.client.view.html',
         controller: '',
         controllerAs: ''
       })
-      .state('security.privacypolicy', {
-        url: '/privacypolicy',
-        templateUrl: 'modules/core/client/views/privacypolicy.client.view.html',
+      .state('legal.privacypolicy', {
+        url: '/privacy-policy',
+        templateUrl: 'modules/core/client/views/privacy-policy.client.view.html',
         controller: '',
         controllerAs: ''
       })
-      .state('security.terms-and-conditions', {
-        url: '/terms-and-conditions',
-        templateUrl: 'modules/core/client/views/termsAndConditions.client.view.html',
+      .state('legal.terms-of-use', {
+        url: '/terms-of-use',
+        templateUrl: 'modules/core/client/views/terms-of-use.client.view.html',
         controller: '',
         controllerAs: ''
       })

@@ -205,7 +205,10 @@
     margin-left: 43%;
 }
 .footer-menu .social-links-wrapper .social-links a .fa {
-    padding-top: 17px;
+    padding-top: 15px !important;
+}
+.booking-wrapper .social-links-wrapper .social-links a .fa {
+    padding-top: 15px !important;
 }
 .host-guest-common-style.contact-us-page .host-guest-common-style-row label {
     margin-bottom: 5px !important;
