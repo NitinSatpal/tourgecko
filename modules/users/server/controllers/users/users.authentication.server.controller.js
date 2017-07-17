@@ -43,7 +43,7 @@ exports.signup = function (req, res) {
         if ((alreadyExistedUser.userType == 'host' && req.body.toursite) || 
           (alreadyExistedUser.userType == 'customer') && !req.body.toursite) {
           return res.status(400).send({
-            message: 'account already exists'
+            message: 'Account with this email already exists'
           });
         } else {
           // create the account
