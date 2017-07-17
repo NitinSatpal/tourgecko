@@ -284,6 +284,7 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
+          // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
           previousPricingOption = vm.tour.productPricingOptions;
             
           vm.showCreatedItinerary = true;
@@ -1136,7 +1137,8 @@ function findValidityOFOVerlappingSessions () {
       vm.tour.productInclusions = CKEDITOR.instances.tour_inclusions.getData();
       vm.tour.productExclusions = CKEDITOR.instances.tour_exclusions.getData();
       vm.tour.productItineraryDescription = vm.itineraries;
-      vm.tour.productType = $window.localStorage.getItem('productType');
+      if ($window.localStorage.getItem('productType') != '')
+        vm.tour.productType = $window.localStorage.getItem('productType');
       $window.localStorage.setItem('productType', '');
       vm.tour.productPricingOptions = vm.pricingParams;
       vm.tour.areAddonsAvailable = vm.isAddonAvailable;
