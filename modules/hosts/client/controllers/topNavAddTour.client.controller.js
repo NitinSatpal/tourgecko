@@ -9,6 +9,7 @@
 
   function TopNavAddTourController($state, $scope, $window, $timeout) {
     var vm = this;
+    vm.productType = 'Multi-day tour';
     /* ------------------------------------------------------------------------------------------------------------------------- */    
     	/* This function handles the button click of add tour */
 	/* ------------------------------------------------------------------------------------------------------------------------- */
@@ -18,7 +19,7 @@
         	return false;
       	}
       	$('#loadingDivHostSide').css('display', 'block');
-		$('#tourgeckoBody').addClass('waitCursor');
+		    $('#tourgeckoBody').addClass('waitCursor');
       	$('#select-tour-type').slideUp('slow');
       	$timeout(function () {
         	$('.modal-backdrop').remove();

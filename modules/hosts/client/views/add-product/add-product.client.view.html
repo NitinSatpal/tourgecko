@@ -50,7 +50,7 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
-												<label class="control-label" style="float: left;">Type: &nbsp; </label> <h5> {{vm.productType}}</h5>
+												<label class="control-label" style="float: left;">Type: &nbsp; </label> <h5> {{vm.productType ? vm.productType : vm.tour.productType}}</h5>
 												<div class="form-group" show-errors>
 													<label for="name_of_the_tour" class="control-label">Name this tour</label>
 													<div class="input_group">
