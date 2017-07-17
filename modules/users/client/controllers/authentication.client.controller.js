@@ -3,11 +3,16 @@
 
   angular
     .module('users', [])
-    .controller('AuthenticationController', AuthenticationController);
+    .controller('AuthenticationController', AuthenticationController)
+    .constant('authenticationErrorCodeToMessages', {
+      "contactSupport" : "Something went wrong. Please contact tourgecko support.",
+      "expiredVerificationMail" : "Account already present. We resent you the verification mail.",
+      "aliveVerificationMail" : "Account already present and verification mail was sent already. Please check email or contact support. "
+    });
 
-  AuthenticationController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$window', '$timeout', 'Authentication', 'PasswordValidator'];
+  AuthenticationController.$inject = ['$scope', '$state', '$stateParams', '$http', '$location', '$window', '$timeout', 'Authentication', 'PasswordValidator', 'authenticationErrorCodeToMessages'];
 
-  function AuthenticationController($scope, $state, $stateParams, $http, $location, $window, $timeout, Authentication, PasswordValidator) {
+  function AuthenticationController($scope, $state, $stateParams, $http, $location, $window, $timeout, Authentication, PasswordValidator, authenticationErrorCodeToMessages) {
     var vm = this;
 
     vm.authentication = Authentication;
@@ -57,7 +62,9 @@
       $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/auth/signup', vm.signupDateStore).success(function (response) {
         // And redirect to the Details page with the id of the user
-        if (response.company)
+        if (authenticationErrorCodeToMessages[response]) {
+          vm.error = authenticationErrorCodeToMessages[response];
+        } else if (response.company)
           $state.go('hostDetails.details', { id: response._id});
         else
           $state.go('authentication.guestSignupDone');
@@ -102,8 +109,6 @@
       $http.post('/api/auth/resendverificationemail', {email: vm.userEmail}).success(function (response) {
         vm.successMsgs.length = 0;
         vm.errorMsgs.length = 0;
-        console.log(vm.authentication.user);
-        console.log(vm.authentication);
         if (response == 'User Already Activated') {
           vm.successMsgs.push('The user with email emailId is already activated. Redirecting...');
           vm.showSuccessMsgOnTop = true;

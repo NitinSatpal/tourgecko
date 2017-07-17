@@ -32,6 +32,88 @@ var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
+
+  // check if email already exists. If yes, then check different cases.
+  User.findOne({email: req.body.signupData.email}).exec(function (alreadyExistedUserError, alreadyExistedUser) {
+    // check if user is already active. If user is already active, the check the existing user's role and the requested user role.
+    // If they are same, throw an error else create the account as in this case, either our already existed host is trying to be
+    // the customer or already existed customer is trying to be host
+    if (alreadyExistedUser) {
+      if (alreadyExistedUser.isActive) {
+        if ((alreadyExistedUser.userType == 'host' && req.body.toursite) || 
+          (alreadyExistedUser.userType == 'customer') && !req.body.toursite) {
+          return res.status(400).send({
+            message: 'account already exists'
+          });
+        } else {
+          // create the account
+          createTheUserAccount(req, res);
+        }
+      } else if (alreadyExistedUser.verificationTokenExpires) {
+          // If user is not acitve. Check if verification token expiry  is set. If the verification token expiry is set, then again check
+          // for the user roles as mentioned in the above if comment and take the decision accordingly. In case the verification token
+          // expiry is undefined, the user is for sure the host and user has completed the first step of signup and not the second
+          // and trying to create the account again. So just edit the existed user,
+
+          if ((alreadyExistedUser.userType == 'host' && req.body.toursite) || 
+            (alreadyExistedUser.userType == 'customer') && !req.body.toursite) {
+            // check do we need to re fire the verification mail or need to ask the user to click the already fired mail
+            var timeNow = Date.now();
+            if (timeNow >= alreadyExistedUser.verificationTokenExpires.getTime()) {
+              // it means the verification token is expired. Fire the verification mail again.
+              fireTheVerificationMail(req, res, alreadyExistedUser);
+            } else {
+              res.json('aliveVerificationMail');
+            }
+          } else {
+            // create the account
+            createTheUserAccount(req, res);
+          }
+      } else {
+        // the present account is for sure of the host. Just check wehther the requested account is also for the host. If yes
+        // edit the already present account else create the account
+        if (req.body.toursite) {
+          // edit the present account. Email will be same, but user may have changed the mobile, toursite and password
+          alreadyExistedUser.mobile = req.body.signupData.mobile;
+          alreadyExistedUser.password = req.body.signupData.password;
+          alreadyExistedUser.save(function (userEditError) {
+            if (userEditError) {
+              res.json('contactSupport');
+            }
+            HostCompany.findOne({user: alreadyExistedUser._id}).exec(function (err, theCompany) {
+            if (err) {
+              res.json('contactSupport');
+            }
+              theCompany.toursite = req.body.toursite;
+              theCompany.notificationEmail = alreadyExistedUser.email;
+              theCompany.notificationMobile = alreadyExistedUser.mobile;
+              theCompany.inquiryEmail = alreadyExistedUser.email;
+              theCompany.inquiryMobile = alreadyExistedUser.mobile;
+              theCompany.isAccountActive = false;
+              theCompany.isOwnerAccount = true;
+              theCompany.save(function (err) {
+                if(err) {
+                  res.json('contactSupport');
+                } else {
+                  // if user has changed password
+                  res.json(alreadyExistedUser);
+                }
+              });
+            });
+          });
+        } else {
+          // create the account
+          createTheUserAccount(req, res);
+        }
+      }
+    } else {
+      createTheUserAccount(req, res);
+    }
+  });
+};
+
+function createTheUserAccount (req, res) {
+
   // Init user and add missing fields
   var user = new User(req.body.signupData);
   user.username = user.email;
@@ -60,20 +142,19 @@ exports.signup = function (req, res) {
             });
           } else {
             hostCompany.user = user._id;
-            if (toursite)
-              hostCompany.toursite = toursite;
+            //if (toursite)
+            hostCompany.toursite = toursite;
             hostCompany.notificationEmail = user.email;
-            hostCompany.notificationMobile =user.mobile;
+            hostCompany.notificationMobile = user.mobile;
             hostCompany.inquiryEmail = user.email;
             hostCompany.inquiryMobile = user.mobile;
-            hostCompany.isAccountActive = true;
+            hostCompany.isAccountActive = false;
             hostCompany.isOwnerAccount = true;
             hostCompany.save(function (err) {
               if(err) {
                 return res.status(400).send({
                   message: errorHandler.getErrorMessage(err)
                 });
-                console.log('the error is ' + err);
               } else {
                 // Do nothing
                 res.json(user);
@@ -94,7 +175,8 @@ exports.signup = function (req, res) {
       function (token, user, done) {
         user.displayName = user.firstName + ' ' + user.lastName;
         user.verificationToken = token;
-        user.verificationTokenExpires =  Date.now() + 3600000; // 1 hour
+        user.verificationTokenExpires =  Date.now()+ 3600000; // 1 millisecond
+        user.userType = 'customer';
         user.save(function (err) {
           if (err) {
             return res.status(400).send({
@@ -120,7 +202,7 @@ exports.signup = function (req, res) {
       },
       function (emailHTML, user, done) {
         nodemailerMailgun.sendMail({
-          from: 'noreply@tourgecko.com',
+          from: 'tourgecko <noreply@tourgecko.com>',
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
@@ -144,7 +226,7 @@ exports.signup = function (req, res) {
       }
     }); 
   }
-};
+}
 
 exports.signupDetails = function(req, res, next) {
   async.waterfall([
@@ -250,7 +332,7 @@ exports.signupDetails = function(req, res, next) {
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
       nodemailerMailgun.sendMail({
-          from: 'noreply@tourgecko.com',
+          from: 'tourgecko <noreply@tourgecko.com>',
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
@@ -319,7 +401,7 @@ exports.resendverificationemail = function (req, res) {
     // If valid email, send reset email using service
     function (emailHTML, user, done) {
       nodemailerMailgun.sendMail({
-          from: 'noreply@tourgecko.com',
+          from: 'tourgecko <noreply@tourgecko.com>',
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
@@ -364,67 +446,147 @@ exports.validateUserVerification = function(req, res) {
       user.isActive = true;
       user.save(function (err) {
         if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
+          res.status(500).render('modules/core/server/views/500', {
+            error: 'Oops! Something went wrong. Please contact tourgecko support.'
           });
         } else {
-          // Remove sensitive data before login
-          user.password = undefined;
-          user.salt = undefined;
-
-          req.login(user, function (err) {
-            if (err) {
-              res.status(400).send(err);
-            } else {
-              var httpTransport = 'http://';
-              if (config.secure && config.secure.ssl === true) {
-                httpTransport = 'https://';
-              }
-              var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
-              var letsDoItUrl = baseUrl + '/host/admin';
-              var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
-              var assetTwourl = baseUrl + '/modules/core/client/img/assets/welcomeHostEmailPic.png'
-              var hostToursiteUrl = httpTransport + user.company.toursite + '.' + req.headers.host;
-
-              res.render(path.resolve('modules/users/server/templates/user-activated-email'), {
-                hostName: user.company.companyName,
-                hostEmail: user.email,
-                hostToursiteUrl: hostToursiteUrl,
-                letsDoItUrl: letsDoItUrl,
-                assetOneUrl: assetOneUrl,
-                assetTwourl: assetTwourl
-              }, function (err, emailHTML) {
-                nodemailerMailgun.sendMail({
-                  from: 'noreply@tourgecko.com',
-                  to: user.email, // An array if you have multiple recipients.
-                  //cc:'',
-                  //bcc:'',
-                  subject: 'Account activated',
-                  //You can use "html:" to send HTML email content. It's magic!
-                  html: emailHTML,
-                  //You can use "text:" to send plain-text content. It's oldschool!
-                  // text: req.body.guestDetails.guestMessage
-                }, function (err, info) {
-                  if (err) {
-                    console.log('failure');
-                  }
-                  else {
-                    console.log('success');
-                  }
-                });
+          HostCompany.findOne({ user: user._id }, '-salt -password').sort('-created').exec(function (hostCompanyErr, hostCompany) {
+            if (hostCompanyErr) {
+              res.status(500).render('modules/core/server/views/500', {
+                error: 'Oops! Something went wrong. Please contact tourgecko support.'
               });
-              if (user.userType == 'host')
-                res.redirect('/host/admin');
-              else
-                res.redirect('/guest/home');
-
             }
+            hostCompany.isAccountActive = true;
+            hostCompany.save(function(hostCompanySaveErr) {
+              if (hostCompanySaveErr) {
+                res.status(500).render('modules/core/server/views/500', {
+                  error: 'Oops! Something went wrong. Please contact tourgecko support.'
+                });
+              }
+              // Remove sensitive data before login
+              user.password = undefined;
+              user.salt = undefined;
+
+              req.login(user, function (err) {
+                if (err) {
+                  res.status(400).send(err);
+                } else {
+                  var httpTransport = 'http://';
+                  if (config.secure && config.secure.ssl === true) {
+                    httpTransport = 'https://';
+                  }
+                  var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+                  var letsDoItUrl = baseUrl + '/host/admin';
+                  var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
+                  var assetTwourl = baseUrl + '/modules/core/client/img/assets/welcomeHostEmailPic.png'
+                  var hostToursiteUrl = httpTransport + user.company.toursite + '.' + req.headers.host;
+
+                  res.render(path.resolve('modules/users/server/templates/user-activated-email'), {
+                    hostName: user.company.companyName,
+                    hostEmail: user.email,
+                    hostToursiteUrl: hostToursiteUrl,
+                    letsDoItUrl: letsDoItUrl,
+                    assetOneUrl: assetOneUrl,
+                    assetTwourl: assetTwourl
+                  }, function (err, emailHTML) {
+                    nodemailerMailgun.sendMail({
+                      from: 'tourgecko <noreply@tourgecko.com>',
+                      to: user.email, // An array if you have multiple recipients.
+                      //cc:'',
+                      //bcc:'',
+                      subject: 'Account activated',
+                      //You can use "html:" to send HTML email content. It's magic!
+                      html: emailHTML,
+                      //You can use "text:" to send plain-text content. It's oldschool!
+                      // text: req.body.guestDetails.guestMessage
+                    }, function (err, info) {
+                      if (err) {
+                        console.log('failure');
+                      }
+                      else {
+                        console.log('success');
+                      }
+                    });
+                  });
+                  if (user.userType == 'host')
+                    res.redirect('/host/admin');
+                  else
+                    res.redirect('/guest/home');
+
+                }
+              });
+            });
           });
         }
       });
     }
   });
 };
+
+function fireTheVerificationMail (req, res, existedUser) {
+  async.waterfall([
+    // Generate random token
+    function (done) {
+      crypto.randomBytes(20, function (err, buffer) {
+        var token = buffer.toString('hex');
+        done(err, token);
+      });
+    },
+    // Lookup user by username
+    function (token, done) {
+      User.findOne({_id: existedUser._id}, '-salt -password', function (err, queriedUser) {
+        queriedUser.verificationToken = token;
+        queriedUser.verificationTokenExpires = Date.now() + 3600000; // 1 hour
+        queriedUser.save(function (err) {
+          if (err) {
+            res.json('failure');
+          }
+          done(err, token, queriedUser);
+        });
+      });
+    },
+    function (token, user, done) {
+
+      var httpTransport = 'http://';
+      if (config.secure && config.secure.ssl === true) {
+        httpTransport = 'https://';
+      }
+      var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
+        name: user.displayName,
+        appName: config.app.title,
+        url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + user._id
+      }, function (err, emailHTML) {
+        done(err, emailHTML, user);
+      });
+    },
+    // If valid email, send reset email using service
+    function (emailHTML, user, done) {
+      nodemailerMailgun.sendMail({
+          from: 'tourgecko <noreply@tourgecko.com>',
+          to: user.email, // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'Verification at Tourgecko',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: emailHTML,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            res.json('contactSupport');
+          }
+          else {
+            res.json('expiredVerificationMail');
+          }
+        });
+    }
+  ], function (err) {
+    if (err) {
+      return next(err);
+    }
+  });
+}
 
 /**
  * Signin after passport authentication

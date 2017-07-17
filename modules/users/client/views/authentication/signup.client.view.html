@@ -20,7 +20,6 @@
                 <div class="error_group" ng-messages="vm.userForm.email.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Please enter Email address</p>
                   <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
-                  <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>
               </div>
             </div>
@@ -35,7 +34,6 @@
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.password.$error" role="alert">
                   <p class="help-block error-text" ng-message="required">Please enter a password.</p>
-                  <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>
               </div>
             </div>
@@ -55,19 +53,21 @@
                 <div class="error_group" ng-messages="vm.userForm.mobile.$error" role="alert">
                   <p class="help-block error-text " ng-message="required"> Please enter Mobile Number</p>
                   <p class="help-block error-text " ng-message="pattern">Please enter valid Mobile Number</p>
-                  <i class="zmdi zmdi-alert-triangle help-block error-text"></i>
                 </div>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" show-errors>
               <label for="toursite" class="cols-sm-2 control-label">Toursite</label>
               <p class="form-group-addontext">This will be used to host your<br/> booking pages or create your toursite</p>
               <div class="cols-sm-10 input_group">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
-                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase>
+                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase required>
                   <span class="input-group-addon">.tourgecko.com</span>
+                </div>
+                <div class="error_group" ng-messages="vm.userForm.toursite.$error" role="alert">
+                  <p class="help-block error-text " ng-message="required"> Please enter toursite name</p>
                 </div>
               </div>
             </div>
