@@ -148,7 +148,7 @@
 							</div>
 							<br><br><br>
 							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
-								<span> No Tours found</span>
+								<span><h4> There are no tour or activities sessions scheduled in this time period!</h4></span>
 							</div>
 							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)">
 								<div class="row">
