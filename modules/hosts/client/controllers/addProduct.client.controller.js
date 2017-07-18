@@ -509,7 +509,7 @@ function setRichTextData () {
         vm.everyonePricingValid = true;
       }
 
-      if(vm.pricingParams.length == 1 && (!vm.pricingParams.price || vm.pricingParams.price == '' || vm.pricingParams.price == null)) {
+      if(vm.pricingParams.length == 1 && (!vm.pricingParams[0].price || vm.pricingParams[0].price == '' || vm.pricingParams[0].price == null)) {
         vm.pricingPresent = false;
         vm.pricingValid = false;
       }
