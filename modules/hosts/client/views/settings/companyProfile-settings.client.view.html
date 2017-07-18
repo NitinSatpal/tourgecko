@@ -57,7 +57,7 @@
 											<p class="sub_desc">Describe what you do and what kind of tours and activities you provide. This is shown to guests on tour site and tour pages.</p>
 											<div class="input_group">
 												<div>
-													<textarea class="form-control" rows="5" id="about_business" ng-model="vm.companyDetails[0].aboutHost"></textarea>
+													<textarea ck-editor class="form-control" rows="5" id="about_business" name="about_business"></textarea>
 												</div>
 											</div>
 										</div>
@@ -207,6 +207,16 @@
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	});
+</script>
+<script type="text/javascript" src="lib/scripts-inside-html/ckeditor/ckeditor.js"></script>
+<script>
+	CKEDITOR.replace('about_business', {
+		toolbarGroups: [
+            {name: 'basicstyles', groups: 'basicstyles'},
+            {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
+       	]
+	});
+
 </script>
 <script type="text/template" id="qq-simple-thumbnails-template">
     <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">

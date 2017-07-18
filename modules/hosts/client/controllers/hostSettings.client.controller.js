@@ -22,6 +22,7 @@
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
+      CKEDITOR.instances.about_business.setData(vm.companyDetails[0].aboutHost);
       vm.noLogoPresent = !vm.companyDetails[0].isLogoPresent;
       if (vm.companyDetails[0].isLogoPresent) {
         $("#noLogoPresent").css("display", "none");
@@ -66,7 +67,6 @@
       performance. So, even if user changes something and later make it the same, we will assume it's changed and call the rest api
       POST method. As that will be much better than checking each value.
     */
-    
     // Company Profile settings
     vm.saveCompanyProfileSettings = function () {
       vm.error = null;
@@ -76,6 +76,8 @@
         vm.companyDetails[0].logoURL = $(".company_logo .img_info img").attr("src");
       else
         vm.companyDetails[0].logoURL = $("#hostLogoContainer .company_logo .img_info img").attr("src");
+      
+      vm.companyDetails[0].aboutHost = CKEDITOR.instances.about_business.getData();
       
       $http.post('/api/host/company', vm.companyDetails).success(function (response) {
           $window.location.reload();
