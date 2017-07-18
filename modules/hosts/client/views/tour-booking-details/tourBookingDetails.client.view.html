@@ -414,8 +414,11 @@
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
             // Output the result in an element with id="demo"
-            document.getElementById("remainingTime").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
+            if (days <= 1)
+                document.getElementById("remainingTime").innerHTML = days + " day";
+            else
+                document.getElementById("remainingTime").innerHTML = days + " days";
+                // + hours + "h "//+ minutes + "m " + seconds + "s ";
             
             if (callingSecondTime) {
                 $('#tourStartsIn').css('display', 'none');
@@ -436,7 +439,7 @@
                     $('#tourStartsIn').css('display', 'none');
                     $('#tourEndsIn').css('display', 'none');
                     $('#tourEnded').css('display', 'block');
-                    document.getElementById("remainingTime").innerHTML = "00:00:00:00";
+                    document.getElementById("remainingTime").innerHTML = "";
                 }
             }
         }, 1000);
