@@ -125,7 +125,6 @@
     }
     
     vm.goToSessionBookingDetailsViaList = function (index) {
-      console.log('khappa ' + JSON.stringify($scope.productSessions[index]));
       $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: $scope.productSessions[index].start});
     }
 
