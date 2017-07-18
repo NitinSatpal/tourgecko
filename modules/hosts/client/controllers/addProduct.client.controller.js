@@ -1041,14 +1041,14 @@ function findValidityOFOVerlappingSessions () {
           
         return false;
       }
-      if(productId !== undefined && isPricingOptionsModified == true && areSessionsPresent == 'positive') {
-        $('#pricingApplicability').click();
-      } else {
+      //if(productId !== undefined && isPricingOptionsModified == true && areSessionsPresent == 'positive') {
+        // $('#pricingApplicability').click();
+      //} else {
         $('#loadingDivHostSide').css('display', 'block');
         $('#tourgeckoBody').addClass('waitCursor');
         setProductInformation();
         saveTheProduct();
-      }
+      //}
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function ends here */
