@@ -30,7 +30,7 @@
     vm.isAddonAvailable = false;
     vm.isDepositApplicable = false;
     vm.isAvailableThroughoutTheYear = true;
-    vm.productGrade = 'Easy';
+    vm.productGrade = 'Select';
     vm.productAvailabilityType = 'unavailable';
     vm.productDurationType = 'Days';
     vm.productSeatsLimitType = 'limited';

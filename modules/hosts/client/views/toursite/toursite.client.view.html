@@ -56,7 +56,7 @@
                         <div class="tour-image toursite-Product-Image" ng-if="data.productPictureURLs[0]">
                             <img alt="tour1" class="responsive-img" ng-src="{{data.productPictureURLs[0].url}}">
                             <span class="tour-days">{{data.productDuration}} {{data.productDurationType}}</span>
-                            <span class="tour-difficulty">{{data.productGrade}}</span>
+                            <span class="tour-difficulty">{{data.productGrade != 'Select' ?  data.productGrade : ''}}</span>
                         </div>
                         <div class="tour-image toursite-Product-Image" ng-if="!data.productPictureURLs[0]">
                             <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">
