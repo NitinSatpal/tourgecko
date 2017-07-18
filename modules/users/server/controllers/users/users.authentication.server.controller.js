@@ -594,11 +594,14 @@ function fireTheVerificationMail (req, res, existedUser) {
 exports.signin = function (req, res, next) {
   passport.authenticate('local', function (err, user, info) {
     if (err || !user) {
-      res.status(400).send(info);
+      return res.status(400).send({
+        message: 'Account with given email and password does not exist.'
+      });
     } else {
-      if (user.isActive === false) {
-        res.status(403).send(info);
-        return res.redirect(path.resolve('./modules/core/server/views/userNotActivated'));
+      if (!user.isActive) {
+        return res.status(400).send({
+          message: 'Account with this email is not verified.'
+        });
       } else {
         // Remove sensitive data before login
         // var tz = momentTimezone.tz.guess();
