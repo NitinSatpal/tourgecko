@@ -1,7 +1,7 @@
 <div class="multiline-header home_add_tour fixed-in-div margin-bottom" id="topNavSessionBookingDetails">
 	<i class="zmdi zmdi-shopping-cart heading-icn"></i>
 	<h2>{{vm.productSession.product.productTitle}}<br>
-		<span class="sub_head no_of_tours" style="padding-top: 10px;">{{vm.getFullDisplayDate(vm.productSession.sessionDepartureDetails.startDate)}}</span>
+		<span class="sub_head no_of_tours" style="padding-top: 10px;">{{vm.getFullDisplayDate(vm.productSession.sessionDepartureDetails.startDate)}} {{vm.productSession.sessionDepartureDetails.startTime}}</span>
 	</h2>
 	<!-- <div class="pull-right">
     	<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#sendMsgToSessionsGuest">
