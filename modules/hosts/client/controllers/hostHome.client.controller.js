@@ -33,6 +33,11 @@
     }).error(function (response){
     });
 
+    $http.get('/api/host/companyproductsessions/').success(function (response) {
+      vm.departureSessions = response;
+    }).error(function (response){
+    });
+
     vm.pinboardPins = PinboardPinService.query();
     vm.pinboardGoals = PinboardGoalService.query();
     vm.pinboardDismissedMessagesId = [];
@@ -74,6 +79,15 @@
         }).error(function (response){
         });
       }
+    }
+
+    vm.getStartsInDays = function (startDate) {
+      // Set the date we're counting down to
+        var countDownDate = new Date(startDate).getTime();
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        return days + 1;
     }
 
     /* $scope.$on('$stateChangeSuccess', stateChangeSuccess);

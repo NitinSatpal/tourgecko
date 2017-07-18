@@ -21,9 +21,9 @@
 						<p><span>{{vm.totalRevenue}}</span> Revenue</p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
-						<i class="zmdi zmdi-email"></i>
-						<p ng-show="vm.messageCount > 1"><span>{{vm.messageCount}}</span> Messages</p>
-						<p ng-show="vm.messageCount <= 1"><span>{{vm.messageCount}}</span> Message</p>
+						<i class="zmdi zmdi-card-travel"></i>
+						<p ng-show="vm.messageCount > 1"><span>{{vm.messageCount}}</span> Tours</p>
+						<p ng-show="vm.messageCount <= 1"><span>{{vm.messageCount}}</span> Tour<ur/p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
 						<i class="zmdi zmdi-airplane"></i>
@@ -97,7 +97,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-6 col-mg-6 col-sm-6 message">
+					<!--<div class="col-lg-6 col-mg-6 col-sm-6 message">
 						<h4>Messages</h4>
 						<div class="info_content" ng-repeat="message in vm.messages | limitTo:5">
 							<p class="name">{{message.messageFrom}}</p>
@@ -109,6 +109,20 @@
 							<a ng-show="vm.messages.length == 0">No Messages</a>
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5" onclick="showLoaderHostHome('#messagesTab')">Go to Messages</a>
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5" onclick="showLoaderHostHome('#messagesTab')">See all Messages</a>
+						</div>
+					</div> -->
+					<div class="col-lg-6 col-mg-6 col-sm-6 message">
+						<h4>Sessions</h4>
+						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'sessionDepartureDate' | limitTo:5" ng-show="vm.getStartsInDays(session.sessionDepartureDetails.startDate) > 0">
+							<p class="name">{{session.product.productTitle}}</p>
+							<p class="date">{{session.sessionDepartureDetails.startDate}}</p>			
+							<p class="outing">Starts in <span style="color:#ED9C28;">{{vm.getStartsInDays(session.sessionDepartureDetails.startDate)}} days</p>
+						</div>
+
+						<div class="seemoreinfo">
+							<a ng-show="vm.departureSessions.length == 0">No Sessions</a>
+							<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 0 && vm.departureSessions.length <= 5" onclick="showLoaderHostHome('#sessionsTab')">Go to Sessions</a>
+							<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 5" onclick="showLoaderHostHome('#sessionsTab')">See all Sessions</a>
 						</div>
 					</div>
 				</div>
