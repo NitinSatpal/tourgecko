@@ -457,6 +457,7 @@ exports.validateUserVerification = function(req, res) {
               });
             }
             hostCompany.isAccountActive = true;
+            hostCompany.paymentGateway = 'instamojo';
             hostCompany.save(function(hostCompanySaveErr) {
               if (hostCompanySaveErr) {
                 res.status(500).render('modules/core/server/views/500', {

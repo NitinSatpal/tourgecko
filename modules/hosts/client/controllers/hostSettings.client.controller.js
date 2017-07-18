@@ -12,17 +12,19 @@
       "pan_number": "Please enter the Permanent account number"
     });
 
-  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService', 'Upload', 'paymentSettingcErrorContentData'];
+  HostSettingsController.$inject = ['$scope', '$state', '$http', '$timeout', '$window', '$location', 'Authentication', 'HostCompanyService', 'LanguageService', 'SpecificUserService', 'Upload', 'paymentSettingcErrorContentData'];
 
-  function HostSettingsController($scope, $state, $http, $timeout, $window, Authentication, HostCompanyService, LanguageService, SpecificUserService, Upload, paymentSettingcErrorContentData) {
+  function HostSettingsController($scope, $state, $http, $timeout, $window,$location, Authentication, HostCompanyService, LanguageService, SpecificUserService, Upload, paymentSettingcErrorContentData) {
     var vm = this;
     vm.user = Authentication.user;
     vm.authentication = Authentication;
-    vm.showErrorsOFBankAcc = false;
+    vm.showErrorsPaymentSettings = false;
+    vm.showSuccessPaymentSettings= false;
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
-      CKEDITOR.instances.about_business.setData(vm.companyDetails[0].aboutHost);
+      if ($location.path() == '/host/settings/companyprofile')
+        CKEDITOR.instances.about_business.setData(vm.companyDetails[0].aboutHost);
       vm.noLogoPresent = !vm.companyDetails[0].isLogoPresent;
       if (vm.companyDetails[0].isLogoPresent) {
         $("#noLogoPresent").css("display", "none");
@@ -176,7 +178,8 @@
       vm.error = null;
       vm.paymentBankAccError.length = 0;
       if (!isValid) {
-        vm.showErrorsOFBankAcc = true;
+        vm.showErrorsPaymentSettings = true;
+        vm.showSuccessPaymentSettings = false;
         $scope.$broadcast('show-errors-check-validity', 'vm.form.paymentSettingForm');
         if(vm.form.paymentSettingForm.host_name_on_bank_acc.$error.required)
           vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankBenificieryName']);
@@ -188,11 +191,11 @@
           vm.paymentBankAccError.push(paymentSettingcErrorContentData['bankAccountNumberConfirmed']);
         if(vm.form.paymentSettingForm.pan_number.$error.required)
           vm.paymentBankAccError.push(paymentSettingcErrorContentData['pan_number']);
-        console.log(vm.paymentBankAccError);
         return false;
       }
       if (vm.paymentDetails[0].hostBankAccountDetails && vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumber != vm.paymentDetails[0].hostBankAccountDetails.beneficiaryAccNumberConfirmed) {
-        vm.showErrorsOFBankAcc = true;
+        vm.showErrorsPaymentSettings = true;
+        vm.showSuccessPaymentSettings = false;
         vm.paymentBankAccError.push('Account number does not match');
         return false;
       }
@@ -203,15 +206,20 @@
       $http.post('/api/host/payment', vm.paymentAccountDetails).success(function (response) {
         if (response.status == 'failure') {
           vm.paymentBankAccError = response.messages;
-          vm.showErrorsOFBankAcc = true;
+          vm.showErrorsPaymentSettings = true;
+          vm.showSuccessPaymentSettings = false;
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
-          $window.location.reload();
+          vm.showSuccessPaymentSettings = true;
+          vm.showErrorsPaymentSettings = false;
+          //$window.location.reload();
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
         }
       }).error(function (response) {
-        console.log(response);
-        vm.showErrorsOFBankAcc = true;
+        vm.showErrorsPaymentSettings = true;
+        vm.showSuccessPaymentSettings = false;
         vm.paymentBankAccError = response.messages;
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
