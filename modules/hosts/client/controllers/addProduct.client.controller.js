@@ -14,7 +14,8 @@
       "tourDestination" : "Main Destination cannot be blank",
       "groupPricingFinalValidation" : "'Group' sizes  in group price option can not overlap",
       "everyonePricingFinalValidation" : "Price for 'Everyone' option can not be used with any other option",
-      "tourDuration": "Duration of the tour cannot be blank"
+      "tourDuration": "Duration of the tour cannot be blank",
+      "onePricingOptionRequired": "Minimum one price option is required"
     });
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
@@ -465,6 +466,7 @@ function setRichTextData () {
       var groupRange = [];
       var isEveryonePricingPresent;
       vm.pricingValid = true;
+      vm.pricingPresent = true;
       vm.groupPricingValid = true;
       vm.everyonePricingValid = true;
       var everyonePricingErrorIndex;
@@ -506,7 +508,11 @@ function setRichTextData () {
       } else  {
         vm.everyonePricingValid = true;
       }
-      
+
+      if(vm.pricingParams.length == 1 && (!vm.pricingParams.price || vm.pricingParams.price == '' || vm.pricingParams.price == null)) {
+        vm.pricingPresent = false;
+        vm.pricingValid = false;
+      }
       for (var index = 0; index < groupPricingErrorIndex.length; index++)
         $("#pricingOption"+groupPricingErrorIndex[index]).css("border", "1px solid #a94442");
       return vm.pricingValid;
@@ -1012,6 +1018,8 @@ function findValidityOFOVerlappingSessions () {
           if(vm.form.tourForm.tours_sa_date_time.$error.required)
             vm.errorContent.push(errorContentData['tourDuration']);
         }
+        if (!vm.pricingPresent)
+          vm.errorContent.push(errorContentData['onePricingOptionRequired']);
         if (!vm.groupPricingValid) {          
           vm.errorContent.push(errorContentData['groupPricingFinalValidation']);
         }
