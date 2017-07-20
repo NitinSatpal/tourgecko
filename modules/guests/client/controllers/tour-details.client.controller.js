@@ -78,10 +78,13 @@
         var repeatedDays = 0;
         var notAllowedDays = new Set();
         var allowedDays = new Set();
+        var firstDate;
+        var secondDate;
+        var oneDay;
         if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-          var firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
-          var secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
-          var oneDay = 24*60*60*1000;
+          firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
+          secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
+          oneDay = 24*60*60*1000;
           repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
           repeatedDays = repeatedDays + 1;
           if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && sessions[index].sessionDepartureDetails.notRepeatOnDays) {            
@@ -92,7 +95,8 @@
             for (var weeklyIndex = 0; weeklyIndex < sessions[index].sessionDepartureDetails.repeatOnDays.length; weeklyIndex++)
               allowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.repeatOnDays[weeklyIndex]));
           }
-        }
+        } else
+          firstDate = new Date(sessions[index].sessionDepartureDetails.startDate);
 
         var iteratorDate = new Date(sessions[index].sessionDepartureDetails.startDate);
         for (var repeatIndex = 0; repeatIndex <= repeatedDays; repeatIndex ++) {
