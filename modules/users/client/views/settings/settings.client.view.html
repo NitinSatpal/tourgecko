@@ -1,12 +1,11 @@
-<section>
-  	<header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
-</section>
 <section class="content main-wrapper">
 	<section class="container-fluid tourgecko-left-nav"  ng-controller="sidenavController as vm">
         <div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>
     </section>
-</section>
-<section class="main-body-wrapper">
-	<div id="loadingDivUserSettingSide" class="loaderDisplayDiv" style="display: none;"></div>
-  	<div ui-view></div>
+	<section class="main-body-wrapper">
+		<header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
+		<div id="loadingDivUserSettingSide" class="loaderDisplayDiv" style="display: none;"></div>
+  		<div ui-view></div>
+  		<footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" id="mainFooterElement"></footer>
+  	</section>
 </section>
