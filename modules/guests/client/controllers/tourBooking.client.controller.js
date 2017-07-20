@@ -402,6 +402,7 @@
     vm.validPricingOptions = [];
     vm.setSelectedDate = function (session , index) {
       vm.selectedDate = departureDates.get(index);
+      vm.selectedTimeslot = session.startTime;
       maxSeatsAvailable = parseInt(getRemainingSeatsForList(session));
       var key = new Date(session.startDate).getTime().toString() + session.startTime.toString();
       var actualSessionIndex = dateTimestampToActualSession.get(key);
@@ -486,7 +487,7 @@ vm.selectedTimeslot = 'Select Time';
         return false;
       }
       if (stepNumberTo == 2) {
-        if (vm.timesForThisDate.length == 0)
+        if (vm.timesForThisDate.length == 0 && vm.sesisonDateAndTimeForDisplayAndAvailability.length > 20 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure')
           vm.selectedTimeslot = 'No Time';
         findThePricingOptionsForSelectedDateTimestamp(vm.selectedDate, vm.selectedTimeslot);
       }
