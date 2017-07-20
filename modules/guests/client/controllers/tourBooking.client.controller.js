@@ -752,7 +752,6 @@ vm.areAddonsSelected = function () {
         bookingObject.isOpenDateTour = false;
         var key = new Date(vm.selectedDate).getTime().toString() + vm.selectedTimeslot.toString();
         var actualSessionIndex = dateTimestampToActualSession.get(key);
-        console.log('what is actualSessionIndex here ' + actualSessionIndex + ' ' + vm.sessionsOfThisProduct[actualSessionIndex])
         bookingObject.productSession = vm.sessionsOfThisProduct[actualSessionIndex]._id;
       }
       bookingObject.selectedpricingoptionindexandquantity = vm.pricingOptionIndexAndQuantity;
