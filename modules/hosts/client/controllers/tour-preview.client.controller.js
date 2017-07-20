@@ -21,6 +21,15 @@
     vm.sessionPricing = [];
 
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    var weekDaysNumber = new Map();
+            weekDaysNumber.set('Sunday', 0);
+            weekDaysNumber.set('Monday', 1);
+            weekDaysNumber.set('Tuesday', 2);
+            weekDaysNumber.set('Wednesday', 3);
+            weekDaysNumber.set('Thursday', 4);
+            weekDaysNumber.set('Friday', 5);
+            weekDaysNumber.set('Saturday', 6);
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
@@ -76,52 +85,82 @@
       var sessionDates = new Map();
       
       for (var index = 0; index < sessions.length; index ++) {
-        var isSavingRequired = true;
-        if (sessions[index].sessionDepartureDetails.startTime != '' && sessions[index].sessionDepartureDetails.startTime !== undefined) {
-          if (!sessionDates.has(new Date(sessions[index].sessionDepartureDetails.startDate).getTime())) {
-            var sessionTimes = [];
-            sessionTimes.push(sessions[index].sessionDepartureDetails.startTime);
-            sessionDates.set(new Date(sessions[index].sessionDepartureDetails.startDate).getTime(), sessionTimes);
-          } else {
-            isSavingRequired = false;
-            var sessionTimes = sessionDates.get(new Date(sessions[index].sessionDepartureDetails.startDate).getTime());
-            sessionTimes.push(sessions[index].sessionDepartureDetails.startTime);
-            sessionDates.set(new Date(sessions[index].sessionDepartureDetails.startDate).getTime(), sessionTimes);
+        var repeatedDays = 0;
+        var notAllowedDays = new Set();
+        var allowedDays = new Set();
+        if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
+          var firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
+          var secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
+          var oneDay = 24*60*60*1000;
+          repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+          repeatedDays = repeatedDays + 1;
+          if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && sessions[index].sessionDepartureDetails.notRepeatOnDays) {            
+            for (var dailyIndex = 0; dailyIndex < sessions[index].sessionDepartureDetails.notRepeatOnDays.length; dailyIndex++)
+              notAllowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.notRepeatOnDays[dailyIndex]));
           }
-          var key = new Date(sessions[index].sessionDepartureDetails.startDate).getTime().toString() + sessions[index].sessionDepartureDetails.startTime.toString();
-            key = key.replace(/\s/g,'');
-            if (sessions[index].isSessionPricingValid)
-              sessionDateTimePrice.set(key, sessions[index].sessionPricingDetails);
-            else
-              sessionDateTimePrice.set(key, vm.productDetails.productPricingOptions);
+          if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && sessions[index].sessionDepartureDetails.repeatOnDays) {
+            for (var weeklyIndex = 0; weeklyIndex < sessions[index].sessionDepartureDetails.repeatOnDays.length; weeklyIndex++)
+              allowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.repeatOnDays[weeklyIndex]));
+          }
         }
-        if (isSavingRequired) {
-          var sessionPricingObject = {};
-          var duration;
-          var startDate = new Date(sessions[index].sessionDepartureDetails.startDate);
-          var endDate = new Date(sessions[index].sessionDepartureDetails.startDate);
-          if (vm.productDetails.productDurationType == 'Days')
-            duration = vm.productDetails.productDuration;
-          else
-            duration = 1;
-          endDate =  new Date(endDate.setDate(endDate.getDate() + duration - 1));
-          sessionPricingObject['fromDay'] = weekdays[startDate.getDay()];
-          sessionPricingObject['toDay'] = weekdays[endDate.getDay()];
-          sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
-          sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
-          sessionPricingObject['sessionTimes'] = sessionDates.get(new Date(sessions[index].sessionDepartureDetails.startDate).getTime());
-          if (sessions[index].isSessionPricingValid)
-            sessionPricingObject['pricing'] = sessions[index].sessionPricingDetails;
-          else
-            sessionPricingObject['pricing'] = vm.productDetails.productPricingOptions;
 
-          vm.sessionPricing.push(sessionPricingObject);
+        var iteratorDate = new Date(sessions[index].sessionDepartureDetails.startDate);
+        for (var repeatIndex = 0; repeatIndex <= repeatedDays; repeatIndex ++) {
+          if((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(iteratorDate.getDay()) ||
+                    sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && allowedDays.has(iteratorDate.getDay()) ||
+                    sessions[index].sessionDepartureDetails.repeatBehavior == 'Do not repeat') &&
+                    iteratorDate <= firstDate) {
+            var isSavingRequired = true;            
+            if (sessions[index].sessionDepartureDetails.startTime != '' && sessions[index].sessionDepartureDetails.startTime !== undefined) {
+              if (!sessionDates.has(iteratorDate.getTime())) {
+                var sessionTimes = [];
+                sessionTimes.push(sessions[index].sessionDepartureDetails.startTime);
+                sessionDates.set(iteratorDate.getTime(), sessionTimes);
+              } else {
+                isSavingRequired = false;
+                var sessionTimes = sessionDates.get(iteratorDate.getTime());
+                sessionTimes.push(sessions[index].sessionDepartureDetails.startTime);
+                sessionDates.set(iteratorDate.getTime(), sessionTimes);
+              }
+              var key = iteratorDate.getTime().toString() + sessions[index].sessionDepartureDetails.startTime.toString();
+                key = key.replace(/\s/g,'');
+                if (sessions[index].isSessionPricingValid)
+                  sessionDateTimePrice.set(key, sessions[index].sessionPricingDetails);
+                else
+                  sessionDateTimePrice.set(key, vm.productDetails.productPricingOptions);
+            }
+            if (isSavingRequired) {
+              var sessionPricingObject = {};
+              var duration;
+              var startDate = iteratorDate;
+              var endDate = iteratorDate;
+              if (vm.productDetails.productDurationType == 'Days')
+                duration = vm.productDetails.productDuration;
+              else
+                duration = 1;
+              endDate =  new Date(endDate.setDate(endDate.getDate() + duration - 1));
+              sessionPricingObject['fromDay'] = weekdays[startDate.getDay()];
+              sessionPricingObject['toDay'] = weekdays[endDate.getDay()];
+              sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
+              sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
+              sessionPricingObject['sessionTimes'] = sessionDates.get(iteratorDate.getTime());
+              if (sessions[index].isSessionPricingValid)
+                sessionPricingObject['pricing'] = sessions[index].sessionPricingDetails;
+              else
+                sessionPricingObject['pricing'] = vm.productDetails.productPricingOptions;
+
+              vm.sessionPricing.push(sessionPricingObject);
+            }
+          }
+          iteratorDate = new Date (iteratorDate);
+          iteratorDate = iteratorDate.setDate(iteratorDate.getDate() + 1);
+          iteratorDate = new Date (iteratorDate);
         }
       }
     }
     var activeIndex = new Map();
     vm.getPricingDetailsOfGivenTimeSlot = function (parentIndex, index, timeslot) {
-      var key = new Date(vm.sessionsOfThisProduct[parentIndex].sessionDepartureDetails.startDate).getTime().toString() + timeslot.toString();
+      var key = new Date(vm.sessionPricing[parentIndex].startDate).getTime().toString() + timeslot.toString();
       key = key.replace(/\s/g,'');
       vm.sessionPricing[parentIndex].pricing = sessionDateTimePrice.get(key);
       if (!activeIndex.has(parentIndex))

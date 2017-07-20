@@ -208,7 +208,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
-                                                <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing track by $index">
+                                                <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing | limitTo : 20 track by $index">
                                                     <div class="booking-date-wrapper">
                                                         <p class="booking-day-name">
                                                             <small>{{session.fromDay}}</small >
@@ -243,6 +243,7 @@
                                                         </p>
                                                     </div>
                                                 </div>
+                                                <span class="more-departure pricingAndAvailability" ng-if="vm.sessionPricing.length > 20"><b>{{vm.sessionPricing.length - 20}}</b> more departure. <a href="" ng-click="vm.goTobookingPageOfThisProduct()"> Book </a> now to choose!</span>
                                             </div>
                                             <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType == 'Open Date'">
                                                 <div class="seats-sys-wrapper">
@@ -313,7 +314,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <span class="more-departure" ng-if="vm.sessionPricing.length.length > 5"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
+                            <span class="more-departure" ng-if="vm.sessionPricing.length > 5"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
                         </div>
                         <div class="col-xs-12 text-center">
                             <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>

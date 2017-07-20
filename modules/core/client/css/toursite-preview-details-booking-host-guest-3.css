@@ -985,6 +985,10 @@
     text-decoration: none;
 }
 
+.host-guest-common-style .more-departure.pricingAndAvailability a {
+    color: #ff9800 !important;
+}
+
 .host-guest-common-style .navbar-default .navbar-toggle {
     border-color: #FEA420;
 }
