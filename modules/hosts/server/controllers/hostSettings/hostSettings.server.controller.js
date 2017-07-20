@@ -192,8 +192,8 @@ exports.savePaymentDetails = function (req, res) {
     var user = req.user;
     /* Get data for app based authentication */
     var data = new Insta.ApplicationBasedAuthenticationData();
-    data.client_id = config.paymentGateWayInstamojo.clientId;
-    data.client_secret = config.paymentGateWayInstamojo.clientSecret;
+    data.client_id = config.paymentGateWayInstamojo.instamojoKey;
+    data.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
     // App based authentication to get access token
     Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
       if (appTokenError) {
@@ -221,8 +221,8 @@ exports.savePaymentDetails = function (req, res) {
           } else {
             // Get and set data for user based authentication
             var userDetails = Insta.UserBasedAuthenticationData();
-            userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-            userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+            userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+            userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
             userDetails.username = signupResponse.email;
             userDetails.password = password;
 
@@ -268,8 +268,8 @@ exports.savePaymentDetails = function (req, res) {
                     }
                     instaUser.save(function() {
                       var userDetails = Insta.UserBasedAuthenticationData();
-                      userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-                      userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+                      userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+                      userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
                       userDetails.username = instaUser.instamojo_email;
                       userDetails.password = instaUser.instamojo_password;
                       var errors = [];

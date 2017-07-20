@@ -58,8 +58,8 @@ exports.postPaymentEventsAndProcess = function (req, res) {
 function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
   InstamojoUser.findOne({user: host}).exec(function (err, instaUser) {
     var userDetails = Insta.UserBasedAuthenticationData();
-    userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-    userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+    userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+    userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
     userDetails.username = instaUser.instamojo_email;
     userDetails.password = instaUser.instamojo_password;
     Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {

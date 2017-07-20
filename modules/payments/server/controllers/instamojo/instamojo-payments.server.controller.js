@@ -31,8 +31,8 @@ exports.createInstamojoPayment = function (req, res) {
   var requestBodyData = req.body;
 	InstamojoUser.findOne({user: req.body.bookingDetails.hostOfThisBooking}).exec(function (err, instaUser) {
   	var userDetails = Insta.UserBasedAuthenticationData();
-  	userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-  	userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+  	userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+  	userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
   	userDetails.username = instaUser.instamojo_email;
   	userDetails.password = instaUser.instamojo_password;
   	Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
@@ -83,8 +83,8 @@ exports.createInstamojoPayment = function (req, res) {
 exports.refundInstamojoPayment = function (req, res) {
   InstamojoUser.findOne({user: req.body.host}).exec(function (err, instaUser) {
     var userDetails = Insta.UserBasedAuthenticationData();
-    userDetails.client_id = config.paymentGateWayInstamojo.clientId;
-    userDetails.client_secret = config.paymentGateWayInstamojo.clientSecret;
+    userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+    userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
     userDetails.username = instaUser.instamojo_email;
     userDetails.password = instaUser.instamojo_password;
     Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {

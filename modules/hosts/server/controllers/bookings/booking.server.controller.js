@@ -342,8 +342,8 @@ exports.modifyBooking = function (req, res) {
         // This if and it's respective else if block will get removed one the internal gateway is fixed.
         if(booking.hostCompany.paymentGateway == 'instamojo') {
           var data = new Insta.ApplicationBasedAuthenticationData();
-              data.client_id = config.paymentGateWayInstamojo.clientId;
-              data.client_secret = config.paymentGateWayInstamojo.clientSecret;
+              data.client_id = config.paymentGateWayInstamojo.instamojoKey;
+              data.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
           /* App based authentication to get access token */
           Insta.getAuthenticationAccessToken(data, function(appTokenError, appTokenResponse) {
             if (appTokenError) {

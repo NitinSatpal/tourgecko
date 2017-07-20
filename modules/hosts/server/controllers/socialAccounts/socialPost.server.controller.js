@@ -22,6 +22,8 @@ exports.shortenTheURL = function (req, res) {
       res.json(short_url);
       // Do something with data 
     }, function(error) {
+      console.log(error);
+      res.json(error);
       throw error;
     });
 };
