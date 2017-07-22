@@ -57,8 +57,8 @@
 			                        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
 			                    </div>
 			                    <a class="update_profile btn btn-default pull-right"  ng-show="!pin.isclickeventRequired && !pin.islinkRequired" href="#">Dismiss</a>
-			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired" href="#">{{pin.linkButtonLabel}}</a>
+			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
 			                </div>
 			            </li>
 			        </ul>
@@ -210,21 +210,61 @@
 	</div>
 </div>
 <div id="myModal" class="modal fade">
-<div class="modal-dialog">
-    <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Event</h4>
-            </div>
-            <div class="modal-body">
-                <p>Loading...</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-    </div>
+	<div class="modal-dialog">
+	    <div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	            <h4 class="modal-title">Event</h4>
+	        </div>
+	        <div class="modal-body">
+	            <p>Loading...</p>
+	        </div>
+	        <div class="modal-footer">
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	            <button type="submit" class="btn btn-primary">Save changes</button>
+	        </div>
+	    </div>
+	</div>
 </div>
+<a class="update_profile btn btn-default pull-right" href="#" data-target="#enter-phone-verification-otp" data-toggle="modal" id="verifyAccountPhoneNumber" style="display: none;"></a>
+<div id="enter-phone-verification-otp" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">×</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="">Verify that you have this phone</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+						<form action="">
+							<div class="text-center">
+                            	<p class="text-readable16">Enter the Account Key we sent to</p>
+                            	<p class="text-readable16"><strong>{{vm.authentication.user.mobile}}</strong></p>
+                           
+                           		<div class="form-group">
+                            		<input type="text" class="form-control" id="inputError1" placeholder="-----" ng-model="vm.mobileVerificationCodeEntered">
+                           		</div>
+                           		<p class="margin-bottom" id="initialMobileVerificationMessage">Your Account Key may take a few moments to arrive. <br>Please wait <span><strong>49</strong></span> seconds before trying to <a href="" ng-click="vm.resendMobileVerificationKey()">resend</a>.</p>
+                           		<p class="margin-bottom"  id="regenerateNew" style="display: none;">Your Account Key is invalid or has expired. <br>Please click here to <a href="" ng-click="vm.resendMobileVerificationKey()">regenrate</a> new Account key.</p>
+                           		<p class="margin-bottom" id="successfullyVerified" style="color: #40C4FF; display: none;">Your Account Key has been verified successfuly.</p>
+                           		<p class="margin-bottom text-danger" id="accountKeyMismatch" style="display: none;">You have entered the wrong Account Key. <br>Please try again.</p>
+                           		<p class="margin-bottom text-danger" id="alreadyVerified" style="display: none;">This mobile is already verified.</p>
+                            </div>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer text-center margin-top">
+					<a class="btn btn-primary" ng-click="vm.verifyMobileNumber(vm.mobileVerificationCodeEntered)">Verify</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript" src="modules/hosts/client/scripts/calendar.js"></script>
 <script>
 	$(document).ready(function(){

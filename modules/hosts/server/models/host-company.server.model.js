@@ -39,13 +39,14 @@ var HostCompanySchema = new Schema({
     default: 'modules/hosts/client/companyLogo/default/logo.png'
   },
   toursite: {
-    type: String,
-    trim: true,
+    type: String,    
     index: {
       unique: true,
       sparse: true
     },
-    lowercase: true
+    lowercase: true,
+    trim: true,
+    default: ''
   },
   aboutHost: {
     type: String,

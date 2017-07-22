@@ -88,6 +88,7 @@
       $('#loadingDivAuthenticationSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/auth/signupDetails', detailsInfo).success(function (response) {
+        console.log('the response is ' + response);
         $state.go('hostDetails.signupDone');
         $('#loadingDivAuthenticationSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');

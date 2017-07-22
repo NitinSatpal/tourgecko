@@ -3,11 +3,17 @@
 
   angular
     .module('hosts')
-    .controller('HostHomeController', HostHomeController);
+    .controller('HostHomeController', HostHomeController)
+    .constant('mobileverificationServerResponseCodes', {
+      "askForNewTokenGeneration" : "regenerateNew",
+      "mobileVerificationSuccess" : "successfullyVerified",
+      "mobileVerificationTokeMismatch" : "accountKeyMismatch",
+      "mobileAlreadyVerified": "alreadyVerified"
+    });
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'PinboardPinService', 'PinboardGoalService'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'PinboardPinService', 'PinboardGoalService', 'mobileverificationServerResponseCodes'];
 
-  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, PinboardPinService, PinboardGoalService) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, PinboardPinService, PinboardGoalService, mobileverificationServerResponseCodes) {
     var vm = this;
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
@@ -128,8 +134,46 @@
       return cssObject;
     }
 
-    vm.clickTheEvent = function (id) {
+    vm.clickThisElement = function (id) {
       $('#'+id).click();
+      if (id == 'verifyAccountPhoneNumber') {
+        $http.post('/api/host/verify/mobile').success(function (response) {
+          
+        }).error(function (response){
+        });
+      }
+    }
+
+    vm.verifyMobileNumber = function (verificationCode) {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $('#initialMobileVerificationMessage').css('display', 'none');
+      $('#regenerateNew').css('display', 'none');
+      $('#successfullyVerified').css('display', 'none');
+      $('#accountKeyMismatch').css('display', 'none');
+      $http.get('/api/auth/mobileverification/' + verificationCode).success(function (response) {
+          $('#initialMobileVerificationMessage').css('display', 'none');
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
+          $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
+          if (response == 'mobileVerificationSuccess') {
+            $timeout(function () {
+              $state.reload();
+            }, 2000);
+          }
+      }).error(function (response){
+      });
+    }
+
+    vm.resendMobileVerificationKey = function () {
+      $('#tourgeckoBody').addClass('waitCursor');
+      $('#initialMobileVerificationMessage').css('display', 'block');
+      $http.post('/api/host/reverify/mobile').success(function (response) {
+        $('#loadingDivHostSide').css('display', 'block');
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      }).error(function (response){
+      });
     }
 
     vm.changeCalendarView = function (whichView) {

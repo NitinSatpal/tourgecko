@@ -7,6 +7,7 @@ var _ = require('lodash'),
   path = require('path'),
   mongoose = require('mongoose'),
   Booking = mongoose.model('Booking'),
+  User = mongoose.model('User'),
   momentTimezone = require('moment-timezone'),
   request= require('request'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
@@ -58,3 +59,28 @@ exports.sendMassMessagesForTheSession = function (req, res) {
     
   }); */
 };
+
+
+exports.sendMobileVerificationCode = function (req, res) {
+  User.findOne({_id: req.user._id}).exec(function (err, user) {
+    if (!user.mobileVerificationToken) {
+      user.mobileVerificationToken = Math.floor(10000 + Math.random() * 90000);
+      user.mobileVerificationTokenExpires = Date.now() + 900000; // 15 minutes
+      user.save(function (userSaveErr) {
+        var username = config.textlocal.username;
+        var hash = config.textlocal.hash;
+        var sender = config.textlocal.sender;
+        var numbers = user.mobile;
+        var smsBody = 'Your tourgecko account phone verification key is ' + user.mobileVerificationToken;
+        var msg = encodeURIComponent(smsBody);
+        var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
+        request.get({
+          //headers : this.HEADERSWITHTOKEN,
+          url : 'http://api.Textlocal.in/send/?' + uri
+        }, function(error, response, body) {
+          var result = JSON.parse(body);
+        });
+      });
+    }
+  });
+}

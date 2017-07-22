@@ -370,6 +370,7 @@ exports.uploadProductPicture = function (req, res) {
         if (uploadError) {
           // Send error code as we are customising the error messages.
           // reject(errorHandler.getErrorMessage(uploadError));
+          console.log('the error is ' + uploadError)
           reject(uploadError.code);
         } else {
           newUUID = req.files[0].filename;

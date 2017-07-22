@@ -32,7 +32,6 @@ var nodemailerMailgun = nodemailer.createTransport(mg(config.mailgun));
 exports.signup = function (req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
-
   // check if email already exists. If yes, then check different cases.
   User.findOne({email: req.body.signupData.email}).exec(function (alreadyExistedUserError, alreadyExistedUser) {
     // check if user is already active. If user is already active, the check the existing user's role and the requested user role.
@@ -74,33 +73,64 @@ exports.signup = function (req, res) {
         // edit the already present account else create the account
         if (req.body.toursite) {
           // edit the present account. Email will be same, but user may have changed the mobile, toursite and password
-          alreadyExistedUser.mobile = req.body.signupData.mobile;
-          alreadyExistedUser.password = req.body.signupData.password;
-          alreadyExistedUser.save(function (userEditError) {
-            if (userEditError) {
-              res.json('contactSupport');
-            }
-            HostCompany.findOne({user: alreadyExistedUser._id}).exec(function (err, theCompany) {
-            if (err) {
-              res.json('contactSupport');
-            }
-              theCompany.toursite = req.body.toursite;
-              theCompany.notificationEmail = alreadyExistedUser.email;
-              theCompany.notificationMobile = alreadyExistedUser.mobile;
-              theCompany.inquiryEmail = alreadyExistedUser.email;
-              theCompany.inquiryMobile = alreadyExistedUser.mobile;
-              theCompany.isAccountActive = false;
-              theCompany.isOwnerAccount = true;
-              theCompany.save(function (err) {
-                if(err) {
-                  res.json('contactSupport');
-                } else {
-                  // if user has changed password
-                  res.json(alreadyExistedUser);
-                }
-              });
+          HostCompany.findOne({user: alreadyExistedUser._id}).exec(function (theCompanyErr, theCompany) {
+              if (theCompanyErr) {
+                res.json('contactSupport');
+              }
+              if (theCompany == null) {
+                var hostCompany = new HostCompany();
+                hostCompany.user = alreadyExistedUser._id;
+                //if (toursite)
+                hostCompany.toursite = req.body.toursite;
+                hostCompany.notificationEmail = alreadyExistedUser.email;
+                hostCompany.notificationMobile = alreadyExistedUser.mobile;
+                hostCompany.inquiryEmail = alreadyExistedUser.email;
+                hostCompany.inquiryMobile = alreadyExistedUser.mobile;
+                hostCompany.isAccountActive = false;
+                hostCompany.isOwnerAccount = true;
+                hostCompany.save(function (err) {
+                  if(err) {
+                    return res.status(400).send({
+                      message: errorHandler.getErrorMessage(err)
+                    });
+                  } else {
+                    // Do nothing
+                    alreadyExistedUser.mobile = req.body.signupData.mobile;
+                    alreadyExistedUser.password = req.body.signupData.password;
+                    alreadyExistedUser.company = hostCompany._id;
+                    alreadyExistedUser.save(function (userEditError) {
+                      if (userEditError) {
+                        res.json('contactSupport');
+                      }
+                      res.json(alreadyExistedUser);
+                    });
+                  }
+                });
+              } else {
+                theCompany.toursite = req.body.toursite;
+                theCompany.notificationEmail = alreadyExistedUser.email;
+                theCompany.notificationMobile = alreadyExistedUser.mobile;
+                theCompany.inquiryEmail = alreadyExistedUser.email;
+                theCompany.inquiryMobile = alreadyExistedUser.mobile;
+                theCompany.isAccountActive = false;
+                theCompany.isOwnerAccount = true;
+                theCompany.save(function (companySaveErr) {
+                  if(companySaveErr) {
+                    res.json('contactSupport')
+                  } else {
+                    // if user has changed password
+                    alreadyExistedUser.mobile = req.body.signupData.mobile;
+                    alreadyExistedUser.password = req.body.signupData.password;
+                    alreadyExistedUser.save(function (userEditError) {
+                      if (userEditError) {
+                        res.json('contactSupport');
+                      }
+                      res.json(alreadyExistedUser);
+                    });
+                  }
+                });
+              }
             });
-          });
         } else {
           // create the account
           createTheUserAccount(req, res);
@@ -213,10 +243,10 @@ function createTheUserAccount (req, res) {
           // text: req.body.guestDetails.guestMessage
         }, function (err, info) {
           if (err) {
-            // console.log('error');
+            // console.warn('error');
           }
           else {
-            // console.log('success');
+            // console.warn('success');
           }
         });
       }
@@ -259,10 +289,6 @@ exports.signupDetails = function(req, res, next) {
             user.lastName = userDetails.lastName;
             user.verificationToken = token;
             user.verificationTokenExpires = Date.now() + 3600000; // 1 hour
-            //user.emailVerificationToken = Math.floor(100000 + Math.random() * 900000);
-            //user.emailVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
-            user.mobileVerificationToken = Math.floor(100000 + Math.random() * 900000);
-            user.mobileVerificationTokenExpires = Date.now() + 3600000; // 1 hour;
             user.userType = 'host';
             user.roles = ['hostAdmin'];
 
@@ -343,10 +369,10 @@ exports.signupDetails = function(req, res, next) {
           // text: req.body.guestDetails.guestMessage
         }, function (err, info) {
           if (err) {
-            // console.log('error');
+            // console.warn('error');
           }
           else {
-            // console.log('success');
+            // console.warn('success');
           }
         });
     }
@@ -470,6 +496,7 @@ exports.validateUserVerification = function(req, res) {
 
               req.login(user, function (err) {
                 if (err) {
+                  console.log('the error here is ' + err);
                   res.status(400).send(err);
                 } else {
                   var httpTransport = 'http://';
@@ -502,10 +529,10 @@ exports.validateUserVerification = function(req, res) {
                       // text: req.body.guestDetails.guestMessage
                     }, function (err, info) {
                       if (err) {
-                        console.log('failure');
+                        console.warn('failure');
                       }
                       else {
-                        console.log('success');
+                        console.warn('success');
                       }
                     });
                   });
@@ -513,7 +540,6 @@ exports.validateUserVerification = function(req, res) {
                     res.redirect('/host/admin');
                   else
                     res.redirect('/guest/home');
-
                 }
               });
             });
@@ -523,6 +549,31 @@ exports.validateUserVerification = function(req, res) {
     }
   });
 };
+
+exports.validateUserMobileNumberVerification = function (req, res) {
+  User.findOne({_id: req.user._id, mobileVerificationToken: {$gt: Date.now()}}).exec(function (err, user) {
+    if (err) {
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong. Please contact tourgecko support.'
+      });
+    } else if (user == null || !user) {
+      res.json('askForNewTokenGeneration');
+    } else if (user.isMobileNumberVerified == true) {
+      res.json('mobileAlreadyVerified');
+    } else if (user.mobileVerificationToken == req.params.mobileVerificationToken) {
+      user.isMobileNumberVerified = true;
+      user.save(function (err) {
+        if (err) {
+          res.status(500).render('modules/core/server/views/500', {
+            error: 'Oops! Something went wrong. Please contact tourgecko support.'
+          });
+        }
+        res.json('mobileVerificationSuccess');
+      });
+    } else
+      res.json('mobileVerificationTokeMismatch');
+  });
+}
 
 function fireTheVerificationMail (req, res, existedUser) {
   async.waterfall([
@@ -712,6 +763,7 @@ exports.saveOAuthUserProfile = function (req, providerUserProfile, done) {
               username: availableUsername,
               displayName: providerUserProfile.displayName,
               email: providerUserProfile.email,
+              mobile: providerUserProfile.mobile,
               profileImageURL: providerUserProfile.profileImageURL,
               provider: providerUserProfile.provider,
               providerData: providerUserProfile.providerData

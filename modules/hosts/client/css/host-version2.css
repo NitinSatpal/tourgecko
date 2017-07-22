@@ -186,6 +186,7 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 	margin-top: 20px;
 	padding-left: 0 !important;
 }
+#enter-phone-verification-otp input{ width:100px; text-align:center; margin:2rem auto; font-size:1.8rem; font-weight:600}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 

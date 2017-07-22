@@ -999,6 +999,7 @@ function findValidityOFOVerlappingSessions () {
     /* Save function */
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.errorContent = [];
+    vm.showErrorsOnTop = false;
     vm.save = function (isValid) {
       if (vm.saveBtnDisabled)
         return;

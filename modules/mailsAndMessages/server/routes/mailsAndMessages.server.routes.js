@@ -3,9 +3,11 @@
 /**
  * Module dependencies
  */
-var payment = require('../controllers/mailsAndMessages.server.controller');
+var mailAndMessage = require('../controllers/mailsAndMessages.server.controller');
 
 module.exports = function (app) {
   // mails and messages collection routes
+  app.route('/api/host/verify/mobile')
+    .post(mailAndMessage.sendMobileVerificationCode);
  
 };
