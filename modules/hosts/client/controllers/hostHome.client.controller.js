@@ -15,6 +15,7 @@
 
   function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, PinboardPinService, PinboardGoalService, mobileverificationServerResponseCodes) {
     var vm = this;
+    vm.goalPinStatus = [];
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
     vm.sessionsFetched = false;
     var currentDate = new Date($('#calendar').fullCalendar('getDate'));     
@@ -28,6 +29,12 @@
       vm.totalRevenue = response.totalRevenue;
     }).error(function (response){
     });
+    $http.get('/api/host/companyproductscount/').success(function (response) {
+      console.log('dkkdkdaskdkddsksd ' + response);
+      vm.productCount = response.count;
+    }).error(function (response){
+    });
+    
     $http.get('/api/host/messageDetailsForAnalyticsAndLatestData/').success(function (response) {
       vm.messages = response.messages;
       vm.messageCount = response.messageCount;
@@ -44,14 +51,37 @@
     }).error(function (response){
     });
 
-    vm.pinboardPins = PinboardPinService.query();
-    vm.pinboardGoals = PinboardGoalService.query();
+    vm.noPinboardData = true;
+    $http.get('/api/host/company/').success(function (response)  {
+      vm.companyDetails = response[0];
+      for (var index = 0; index < vm.companyDetails.pinboardGoals.length; index++) {
+        if (!vm.companyDetails.pinboardGoals[index].isGoalCompleted) {
+          vm.noPinboardData = false;
+          break;
+        }
+      }
+      for (var index = 0; index < vm.companyDetails.pinboardPins.length; index++) {
+        if (!vm.companyDetails.pinboardPins[index].isPinCompleted) {
+          vm.noPinboardData = false;
+          break;
+        }
+      }
+      
+    }).error(function (response){
+    });
+
+    //vm.pinboardPins = PinboardPinService.query();
+    //vm.pinboardGoals = PinboardGoalService.query();
     vm.pinboardDismissedMessagesId = [];
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     var index = 0;
-    
+      
+    vm.getPercentCompletionOfGoal = function (goal) {
+      vm.percentCompletion = goal.completedPinsCounter / goal.pinsForthisGoal.length * 100;
+      return 'p' + vm.percentCompletion;
+    }
 
     vm.getDepartureDateOfBookings = function (index) {
       var displayDate;
@@ -159,6 +189,7 @@
           if (response == 'mobileVerificationSuccess') {
             $timeout(function () {
               $state.reload();
+              $('.modal-backdrop').remove();
             }, 2000);
           }
       }).error(function (response){

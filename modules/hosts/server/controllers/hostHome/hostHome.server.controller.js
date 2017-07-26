@@ -8,8 +8,10 @@ var path = require('path'),
   Pin = mongoose.model('PinboardPins'),
   Goal = mongoose.model('PinboardGoals'),
   Booking = mongoose.model('Booking'),
+  Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
   Message = mongoose.model('Message'),
+  ModifyPinboard = require(path.resolve('./modules/hosts/server/controllers/pinboard/modifyPinboardForParticularUser.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 
@@ -19,7 +21,9 @@ exports.fetchCompanyBookingDetailsForAnalyticsAndLatestData = function (req, res
     var startDate = new Date();
     startDate = new Date (startDate.setDate(startDate.getDate() - 31));
     var endDate = new Date();
-    Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true, created: {$gt: startDate}, created: {$lte: endDate}}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
+    // The following line is removed from the query condition as for now we are not querying for last 30 days
+    // , created: {$gt: startDate}, created: {$lte: endDate}
+    Booking.find({hostOfThisBooking: req.user._id, isPaymentDone: true}).sort('-created').populate('user').populate('product').populate('productSession').exec(function (err, bookings) {
       	if (err) {
         	return res.status(400).send({
           		message: errorHandler.getErrorMessage(err)
@@ -39,7 +43,9 @@ exports.countCompanyProductSessions =function (req, res) {
   startDate = new Date (startDate.setDate(startDate.getDate() - 31)).toISOString();
   var endDate = new Date().toISOString();
 	if(req.user) {
-  	ProductSession.find({ 'hostCompany': req.user.company, sessionDepartureDate: {$gt: startDate},  sessionDepartureDate: {$lte: endDate}}, function(error, sessions) {
+    // The following line is removed from the query conditions as for now we are nto queryying for last 30 days
+    // , sessionDepartureDate: {$gt: startDate},  sessionDepartureDate: {$lte: endDate}
+  	ProductSession.find({ 'hostCompany': req.user.company}, function(error, sessions) {
     		if (error) {
       		return res.status(400).send({
         			message: errorHandler.getErrorMessage(error)
@@ -85,12 +91,32 @@ exports.countCompanyProductSessions =function (req, res) {
 }
 
 
+exports.countCompanyProducts =function (req, res) {
+  var startDate = new Date();
+  startDate = new Date (startDate.setDate(startDate.getDate() - 31));
+  var endDate = new Date();
+  // the following line is removed from query condition as for now we are not querying for last 30 days
+  // , created: {$gt: startDate}, created: {$lte: endDate}
+  if(req.user) {
+    Product.count({ 'hostCompany': req.user.company}, function(error, count) {
+      if (error) {
+        return res.status(400).send({
+            message: errorHandler.getErrorMessage(error)
+        });
+      }
+      res.json({count: count});
+    });
+  }
+}
+
 exports.fetchMessageCountForAnalyticsAndLatestData = function (req, res) {
   if (req.user) {
   	var startDate = new Date();
     startDate = new Date (startDate.setDate(startDate.getDate() - 31));
     var endDate = new Date();
-  	Message.count({'messageToId': req.user._id, created: {$gt: startDate}, created: {$lte: endDate}}).sort('-created').exec(function (err, count) {
+    // the following line is removed from query condition as for now we are not querying for last 30 days
+    // , created: {$gt: startDate}, created: {$lte: endDate}
+  	Message.count({'messageToId': req.user._id}).sort('-created').exec(function (err, count) {
 	    Message.find({'messageToId': req.user._id, created: {$gt: startDate}, created: {$lte: endDate}}).limit(5).sort('-created').exec(function (err, messages) {
 	      if (err) {
 	        return res.status(400).send({

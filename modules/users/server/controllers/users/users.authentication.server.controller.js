@@ -10,6 +10,8 @@ var path = require('path'),
   User = mongoose.model('User'),
   UserAdmin = mongoose.model('UserAdministration'),
   HostCompany = mongoose.model('HostCompany'),
+  PinboardGoal = mongoose.model('PinboardGoals'),
+  PinboardPin = mongoose.model('PinboardPins'),
   passport = require('passport'),
   nodemailer = require('nodemailer'),
   mg = require('nodemailer-mailgun-transport'),
@@ -17,6 +19,7 @@ var path = require('path'),
   async = require('async'),
   crypto = require('crypto'),
   moment = require('moment'),
+  ModifyPinboard = require(path.resolve('./modules/hosts/server/controllers/pinboard/modifyPinboardForParticularUser.server.controller')),
   momentTimezone = require('moment-timezone');
 
 // URLs for which user can't be redirected on signin
@@ -325,11 +328,12 @@ exports.signupDetails = function(req, res, next) {
                       message: errorHandler.getErrorMessage(err)
                     });
                   } else {
+                    assignInitialGoalsAndPins(hostCompany, user, req, res);
+                    //res.json(user);
                     // company saved successfully
                   }
                 });
               });
-              res.json(user);
               done(err, token, user);
             });
           }
@@ -370,8 +374,12 @@ exports.signupDetails = function(req, res, next) {
         }, function (err, info) {
           if (err) {
             // console.warn('error');
+            res.status(500).render('modules/core/server/views/500', {
+              error: 'Oops! Something went wrong. Please contact tourgecko support.'
+            });
           }
           else {
+            res.json(user)
             // console.warn('success');
           }
         });
@@ -383,6 +391,70 @@ exports.signupDetails = function(req, res, next) {
   });
 };
 
+function assignInitialGoalsAndPins (company, user, req, res) {
+  HostCompany.findOne({ _id: company._id }).exec(function (err, hostCompany) {
+    if (err) {
+      // Do nothing for now
+      res.status(500).render('modules/core/server/views/500', {
+        error: 'Oops! Something went wrong. Please contact tourgecko support.'
+      });
+    }
+    PinboardGoal.find({isInitialGoal: true, $or: [{to : 'all'}, {to : user._id}]}).exec(function (err, goals) {
+      if (err) {
+        res.status(500).render('modules/core/server/views/500', {
+          error: 'Oops! Something went wrong. Please contact tourgecko support.'
+        });
+      }
+      var goalsObject = [];
+      for (var index = 0; index < goals.length; index ++) {
+        var tempObject = {};
+        var goal = goals[index];
+        for (var field in PinboardGoal.schema.paths) {          
+           if ((field !== '_id') && (field !== '__v')) {
+            var value = goal[field];
+            tempObject[field] = value;
+          }
+        }
+        goalsObject.push(tempObject);
+      }
+      hostCompany.pinboardGoals = goalsObject;
+      hostCompany.save(function (companySaveErr) {
+        if (companySaveErr) {
+          res.status(500).render('modules/core/server/views/500', {
+            error: 'Oops! Something went wrong. Please contact tourgecko support.'
+          });
+        }
+        PinboardPin.find({isInitialPin: true, $or: [{to : 'all'}, {to : user._id}]}).exec(function (err, pins) {
+          if (err) {
+            res.status(500).render('modules/core/server/views/500', {
+              error: 'Oops! Something went wrong. Please contact tourgecko support.'
+            });
+          }
+          var pinsObject = [];
+          for (var index = 0; index < pins.length; index ++) {
+            var tempObject = {};
+            var pin = pins[index];
+            for (var field in PinboardPin.schema.paths) {          
+               if ((field !== '_id') && (field !== '__v')) {
+                var value = pin[field];
+                tempObject[field] = value;
+              }
+            }
+            pinsObject.push(tempObject);
+          }
+          hostCompany.pinboarPins = pinsObject;
+          hostCompany.save(function (companySaveErr) {
+            if (companySaveErr) {
+              res.status(500).render('modules/core/server/views/500', {
+                error: 'Oops! Something went wrong. Please contact tourgecko support.'
+              });
+            }
+          });
+        });
+      });
+    });
+  });
+}
 exports.resendverificationemail = function (req, res) {
   async.waterfall([
     // Generate random token
@@ -568,6 +640,7 @@ exports.validateUserMobileNumberVerification = function (req, res) {
             error: 'Oops! Something went wrong. Please contact tourgecko support.'
           });
         }
+        ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'verifyMobile', user.company);
         res.json('mobileVerificationSuccess');
       });
     } else

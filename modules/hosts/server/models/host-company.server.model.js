@@ -166,19 +166,11 @@ var HostCompanySchema = new Schema({
     type: Array,
     default: []
   },
-  pinboardGoalsCompleted: {
+  pinboardGoals: {
     type: Array,
     default: []
   },
-  pinboardGoalsDismissed: {
-    type: Array,
-    default: []
-  },
-  pinboardPinsCompleted: {
-    type: Array,
-    default: []
-  },
-  pinboardPinsDismissed: {
+  pinboardPins: {
     type: Array,
     default: []
   }

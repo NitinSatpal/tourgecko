@@ -6,7 +6,7 @@
 			<div class="home-section analytics">
 				<div class="head_content">
 					<h4>Analytics</h4>
-					<p>Last 30 days</p>
+					<!-- <p>Last 30 days</p> -->
 				</div>
 				<!-- We are suppose to give the analytics for last 30 days as per written in heading. For now, its overall. Will
 					 check whether I need to change it to last 30 days or we will change the heading to total -->
@@ -20,14 +20,20 @@
 						<i class="fa fa-inr" aria-hidden="true"></i>
 						<p><span>{{vm.totalRevenue}}</span> Revenue</p>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
+					<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
 						<i class="zmdi zmdi-card-travel"></i>
 						<p ng-show="vm.messageCount > 1"><span>{{vm.messageCount}}</span> Tours</p>
 						<p ng-show="vm.messageCount <= 1"><span>{{vm.messageCount}}</span> Tour<ur/p>
+					</div> -->
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
+						<i class="zmdi zmdi-card-travel"></i>
+						<p ng-show="vm.productCount > 1"><span>{{vm.productCount}}</span> Tours</p>
+						<p ng-show="vm.productCount <= 1"><span>{{vm.productCount}}</span> Tour<ur/p>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
 						<i class="zmdi zmdi-airplane"></i>
-						<p><span>{{vm.departuresCount}}</span> Departures</p>
+						<p ng-show="vm.departuresCount > 1"><span>{{vm.departuresCount}}</span> Departures</p>
+						<p ng-show="vm.departuresCount <= 1"><span>{{vm.departuresCount}}</span> Departure</p>
 					</div>
 				</div>
 			</div>
@@ -35,12 +41,12 @@
 				<div class="head_content">
 						<h4>Pinboard</h4>
 				</div>
-			    <div class="col pin-group" ng-repeat="goal in vm.pinboardGoals track by $index">
+			    <div class="col pin-group" ng-repeat="goal in vm.companyDetails.pinboardGoals track by $index" ng-if="!goal.isGoalCompleted">
 			        <div class="alert alert-info">
 			            <strong class="pull-left">Goal:</strong>&nbsp;{{goal.goalText}}
 			            <div class="pull-right">
-			                <div class="c100 p50 small orange">
-			                    <span class="orange-text">50%</span>
+			                <div class="c100 small orange" id="goal{{$index}}" ng-class="vm.getPercentCompletionOfGoal(goal)">
+			                    <span class="orange-text">{{vm.percentCompletion}}%</span>
 			                    <div class="slice">
 			                        <div class="bar"></div>
 			                        <div class="fill"></div>
@@ -56,14 +62,14 @@
 			                        <p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i>{{pin.type}}</p>
 			                        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
 			                    </div>
-			                    <a class="update_profile btn btn-default pull-right"  ng-show="!pin.isclickeventRequired && !pin.islinkRequired" href="#">Dismiss</a>
-			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-			                    <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+			                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.islinkRequired == 'true' && !pin.isPinCompleted" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+			                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.isclickeventRequired == 'true' && !pin.isPinCompleted" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+			                    <h3 class="pull-right" ng-if="pin.isPinCompleted"><i class="zmdi zmdi-assignment-check green-text"></i></h3>
 			                </div>
 			            </li>
 			        </ul>
 			    </div>
-			    <div class="info_content" ng-repeat="pin in vm.pinboardPins track by $index">
+			    <div class="info_content" ng-repeat="pin in vm.companyDetails.pinboardPins track by $index">
 			        <div class="info">
 					        <p>{{pin.message}}</p>
 					        <p class="todo text-uppercase"><i class="zmdi zmdi-lamp invert"></i>{{pin.type}}</p>
@@ -73,6 +79,9 @@
 	                <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
 	                <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired" href="#">{{pin.linkButtonLabel}}</a>
 				    <!-- <h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3> -->
+			    </div>
+			    <div ng-if="vm.noPinboardData">
+			    	<p style="color: #40C4FF; font-size: 14px; font-weight: 500;"> No pins for now </p>
 			    </div>
 			</div>
 			
@@ -111,12 +120,21 @@
 							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5" onclick="showLoaderHostHome('#messagesTab')">See all Messages</a>
 						</div>
 					</div> -->
-					<div class="col-lg-6 col-mg-6 col-sm-6 message">
+					<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
 						<h4>Sessions</h4>
 						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'sessionDepartureDate' | limitTo:5" ng-show="vm.getStartsInDays(session.sessionDepartureDetails.startDate) > 0">
-							<p class="name">{{session.product.productTitle}}</p>
-							<p class="date">{{session.sessionDepartureDetails.startDate}}</p>			
-							<p class="outing">Starts in <span style="color:#ED9C28;">{{vm.getStartsInDays(session.sessionDepartureDetails.startDate)}} days</p>
+                            <div class="occupancy-indicator light-blue">
+                                <i class="zmdi zmdi-account green-text"></i>
+                                <h5>
+                                    <span class="current">0</span>&nbsp;/
+                                    <span class="total">10</span>
+                                </h5>
+                            </div>
+							<div class="session-info">
+                            <p class="name">{{session.product.productTitle}}</p>
+                            <p class="date">{{session.sessionDepartureDetails.startDate}}</p>
+							<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.sessionDepartureDetails.startDate)}} days</span></p>
+                            </div>
 						</div>
 
 						<div class="seemoreinfo">
@@ -294,6 +312,6 @@
 	function showLoaderFromModalClick() {
 		$('#loadingDivHostSide').css('display', 'block');
       	$('#tourgeckoBody').addClass('waitCursor');
-		$('.modal-backdrop').remove()
+		$('.modal-backdrop').remove();
 	}
 </script>

@@ -42,6 +42,17 @@ var PinboardPinsSchema = new Schema({
   linkButtonLabel: {
     type: String
   },
+  uniquePinName: {
+    type: String
+  },
+  isInitialPin: {
+    type: Boolean,
+    default: false
+  },
+  isPinCompleted: {
+    type: Boolean,
+    default: false
+  },
   created: {
     type: Date
   }

@@ -13,6 +13,7 @@ var path = require('path'),
   Language = mongoose.model('I18NLanguage'),
   InstamojoUser = mongoose.model('InstamojoUsers'),
   config = require(path.resolve('./config/config')),
+  ModifyPinboard = require(path.resolve('./modules/hosts/server/controllers/pinboard/modifyPinboardForParticularUser.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /* Payment gateway account signup */
@@ -50,52 +51,28 @@ exports.saveCompanyDetails = function (req, res) {
       company.hostType = changedCompanyDetails.hostType;
       company.companyName = changedCompanyDetails.companyName;
       company.aboutHost = changedCompanyDetails.aboutHost;
+      if (company.aboutHost != '' && company.aboutHost != null && company.aboutHost !== undefined) {
+        ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'aboutHostAndLogo', company._id);
+      }
+
       company.establishedIn = changedCompanyDetails.establishedIn;
       company.logoURL = changedCompanyDetails.logoURL;
       company.inquiryTime = changedCompanyDetails.inquiryTime;
       company.hostCompanyAddress = changedCompanyDetails.hostCompanyAddress;
-      company.isLogoPresent = changedCompanyDetails.isLogoPresent;
+      //company.isLogoPresent = changedCompanyDetails.isLogoPresent;
       if (company.logoURL === undefined || company.logoURL == '')
         company.logoURL = 'modules/hosts/client/companyLogo/default/logo.png';
-      if (company.logoURL != 'modules/hosts/client/companyLogo/default/logo.png')
-        company.isLogoPresent = true;
-      else
-        company.isLogoPresent = false;
       company.markModified('hostCompanyAddress');
       company.save(function (err, response) {
         if (err) {
           // error
         } else {
-          editPinBoardPinsForThisHost(response, 'logoAndAboutUs');
         }
       });
       res.json(company);
     });
   }
 };
-
-function editPinBoardPinsForThisHost (company, code) {
-  if (code == 'logoAndAboutUs') {
-    if (company.aboutHost != '' && (company.logoURL != '' || company.isLogoPresent == false)) {
-      Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [company.user.toString()]}}}, {$push: {todoCompletedBy:  company.user.toString()}}).exec(function (err, pinboardData) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-      });
-    }
-  } else if (code == 'inquiryAndSocial') {
-    if(company.hostSocialAccounts || company.blogLink !== "" || company.areSocialAccountsPresent == false)
-    Pinboard.findOneAndUpdate({ initialPinUniqueCode: code, todoCompletedBy: {$not: { $in: [company.user.toString()]}}}, {$push: {todoCompletedBy:  company.user.toString()}}).exec(function (err, pinboardData) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-    });
-  }
-}
 
 exports.uploadCompanyLogo = function (req, res) {
   var upload = multer(config.uploads.hostCompanyLogoUploads).array('newLogo');
@@ -170,11 +147,12 @@ exports.saveContactDetails = function (req, res) {
       if (company.hostSocialAccounts || company.blogLink !== "")
         company.areSocialAccountsPresent = true;
       company.markModified('hostSocialAccounts');
+      if (!company.areSocialAccountsPresent || company.hostSocialAccounts || company.blogLink !== "")
+        ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'socialProfiles', company._id);
       company.save(function (err, response) {
         if (err) {
           // error
         } else {
-          editPinBoardPinsForThisHost(response, 'inquiryAndSocial');
         }
       });
       res.json(company);
@@ -327,6 +305,7 @@ exports.savePaymentDetails = function (req, res) {
                                       errors.push('Something went wrong while saving the company details. Please contact tourgecko support');
                                       res.json({messages: errors, status: 'failure'});
                                     }
+                                    ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'activatePayment', company._id);
                                     res.json({messages: editHostResponse, status: 'success'});
                                   });
                                 });

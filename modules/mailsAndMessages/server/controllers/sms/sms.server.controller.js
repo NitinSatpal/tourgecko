@@ -64,7 +64,7 @@ exports.sendMassMessagesForTheSession = function (req, res) {
 exports.sendMobileVerificationCode = function (req, res) {
   User.findOne({_id: req.user._id}).exec(function (err, user) {
     if (!user.mobileVerificationToken) {
-      user.mobileVerificationToken = Math.floor(10000 + Math.random() * 90000);
+      user.mobileVerificationToken = Math.floor(10000 + Math.random() * 89999);
       user.mobileVerificationTokenExpires = Date.now() + 900000; // 15 minutes
       user.save(function (userSaveErr) {
         var username = config.textlocal.username;

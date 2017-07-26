@@ -19,6 +19,24 @@ var PinboardGoalsSchema = new Schema({
   pinsForthisGoal: {
   	type: Array,
   	default: []
+  },
+  uniqueGoalName: {
+    type: String
+  },
+  isInitialGoal: {
+    type: Boolean,
+    default: false
+  },
+  completedPinsCounter: {
+    type: Number,
+    default: 0
+  },
+  isGoalCompleted: {
+    type: Boolean,
+    default: false
+  },
+  created: {
+    type: Date
   }
 
 });
