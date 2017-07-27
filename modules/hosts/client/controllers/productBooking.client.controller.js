@@ -114,17 +114,30 @@
         else
           vm.validPricingOptions = vm.specificBookingDetails.product.productPricingOptions;
 
-        var date;
-        if (vm.specificBookingDetails.isOpenDateTour == true)
-          date = new Date(vm.specificBookingDetails.openDatedTourDepartureDate);
-        else
-          date = new Date(vm.specificBookingDetails.productSession.sessionDepartureDetails.startDate);
-
+        // vm.specificBookingDetails.actualSessionDate is nothing but milliseconds in string format
+        // unary operator '+' is conveting it to number format to create the date
+        var date = new Date(+vm.specificBookingDetails.actualSessionDate);
         var year = date.getFullYear().toString();
         var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
         var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
         $('#startDateOfTheTour').attr("value", startDateOfTheTour);
+
+        var hourPart = vm.specificBookingDetails.actualSessionTime.split(':')[0];
+        var minutePart = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[0];
+        var dayTime = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[1];
+        if (dayTime == 'AM') {
+          if (parseInt(hourPart) == 12 || hourPart == '00')
+            hourPart = '00';
+          else
+            hourPart = parseInt(hourPart) < 10 ? '0' + hourPart : hourPart;
+        } else {
+          if (parseInt(hourPart) < 12)
+            hourPart = 12 + parseInt(hourPart);
+        }
+
+        var startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
+        $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
 
         if (!vm.specificBookingDetails.isOpenDateTour && vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {
           var hourPart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[0];
@@ -166,15 +179,6 @@
 
     vm.goToBookingDetailScreen = function (index) {
       $state.go('host.bookingdetails', {bookingId: vm.bookings[index]._id});
-    }
-
-    vm.goToPreviousState = function () {
-      // This if else is not really required as, even if we send productSessionId in both the cases, in one case it will be utilized and
-      // in other it will not. But for the understanding of functionality, i am putting if else
-      if ( $stateParams.sessionId != null )
-        $state.go('host.sessionBookingDetails', {productSessionId: $stateParams.sessionId});
-      else
-        $state.go('host.allBookings');
     }
 
     vm.getEmailIdToDisplay = function (email) {

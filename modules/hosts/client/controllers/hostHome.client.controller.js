@@ -213,14 +213,16 @@
     }
     
     vm.goToSessionBookingDetailsViaList = function (index) {
-      $state.go('host.sessionBookingDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: $scope.productSessions[index].start});
+      var sessionStartDate = new Date($scope.productSessions[index].start).getTime().toString();
+      $state.go('host.sessionDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: sessionStartDate});
     }
 
     vm.goToSessionBookingDetailsViaCalendar = function (id) {
       var element = document.getElementById(id);
       var sessionId = element.getAttribute('sessionId');
       var sessionStartDate = element.getAttribute('sessionStartDate');
-      $state.go('host.sessionBookingDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
+      sessionStartDate = new Date(sessionStartDate).getTime().toString();
+      $state.go('host.sessionDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
     }
   }
 }());

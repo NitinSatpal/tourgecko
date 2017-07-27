@@ -16,13 +16,8 @@
     vm.confirmedBookings = 0;
     vm.confirmedSeats = 0;
     vm.totalRevenue = 0;
-    var sessionStartDate;
-    if ($stateParams.sessionStartDate == null)
-      sessionStartDate = $window.localStorage.getItem('savedSessionStartDate');
-    else {
-      sessionStartDate = $stateParams.sessionStartDate;
-      $window.localStorage.setItem('savedSessionStartDate', $stateParams.sessionStartDate);
-    }
+
+    var sessionStartDate = $location.path().split('/')[4];
     
     $http.get('/api/host/bookingDetailsForParticularSession/' + $stateParams.productSessionId + '/' + sessionStartDate ).success(function (response) {
       var bookings = response;
@@ -554,8 +549,8 @@
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-    vm.getFullDisplayDate = function (isoDate) {
-      var date = new Date(isoDate);
+    vm.getFullDisplayDate = function () {
+      var date = new Date(+sessionStartDate);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
       return displayDate;
     }
