@@ -3,7 +3,12 @@
 
   angular
     .module('hosts')
-    .controller('ToursiteController', ToursiteController);
+    .controller('ToursiteController', ToursiteController)
+    .filter('htmlData', function($sce) {
+        return function(val) {
+          return $sce.trustAsHtml(val);
+        };
+    });
 
   ToursiteController.$inject = ['$scope', '$state', '$stateParams', 'Authentication', '$http' , '$window', '$location', 'toasty'];
 

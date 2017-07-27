@@ -215,6 +215,7 @@
 .host-guest-common-style .about-us-data {
     line-height: 25px;
     text-align: justify;
+    overflow-wrap: break-word;
 }
 
 .host-guest-common-style  .card {

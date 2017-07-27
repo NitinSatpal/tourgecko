@@ -747,9 +747,7 @@ vm.openDepartureSessionModal = function() {
 }
 
 vm.markAsSessionNotCreated = function () {
-  console.log('came here ' + JSON.stringify(vm.fixedProductSchedule));
   vm.fixedProductSchedule.splice((vm.fixedProductSchedule.length - 1), 1);
-  console.log('and now ' + JSON.stringify(vm.fixedProductSchedule));
 }
 
 var createdSessionTracker = new Set();
@@ -910,6 +908,7 @@ vm.createDepartureSession = function () {
     }
 
     if (needToSave) {
+      vm.productScheduledDates.push(eventDate);
       if ($window.events.length % 3 == 0) {
         if (window.innerWidth > 767)
           $window.events.push({
@@ -964,7 +963,7 @@ vm.createDepartureSession = function () {
   
   sessionMonthsCovered[vm.fixedDepartureSessionCounter] = monthsCovered;
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
-  vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
+  // vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
   sessionSeriesNames[vm.fixedDepartureSessionCounter] = vm.seriesName;
   if (currentSessionHasSpecialPricing == true) {
@@ -1153,7 +1152,6 @@ function findValidityOFOVerlappingSessions () {
       vm.tour.areAddonsAvailable = vm.isAddonAvailable;
       vm.tour.productAddons = vm.addonParams.params;
       vm.tour.isDepositNeeded = vm.isDepositApplicable;
-      console.log($scope.timeslots);
       //angular.copy($scope.timeslots, vm.tour.productTimeSlots);
       vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;

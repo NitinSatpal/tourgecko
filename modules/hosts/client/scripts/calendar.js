@@ -155,7 +155,6 @@ $('#calendar').fullCalendar({
 
 function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, toDate, theDate) {
 	if((viewName == 'month' && (monthArrays[monthNumber].length == 0 || monthListArrays[monthNumber].length == 0 )) || viewName == 'agendaWeek' || viewName == 'agendaDay') {
-		console.log('came here');
 		$.ajax({
 	      	url:'/api/host/companyproductsessionsforgivenmonth/' + uniqueString,
 	        type:'GET',

@@ -110,12 +110,11 @@
 
         var iteratorDate = new Date(sessions[index].sessionDepartureDetails.startDate);
         for (var repeatIndex = 0; repeatIndex <= repeatedDays; repeatIndex ++) {
-          console.log('firstDate ' + firstDate);
           if(((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(iteratorDate.getDay())) ||
               (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && allowedDays.has(iteratorDate.getDay())) ||
               (sessions[index].sessionDepartureDetails.repeatBehavior == 'Do not repeat')) &&
               iteratorDate <= firstDate) {
-            var isSavingRequired = true;            
+            var isSavingRequired = true;
             if (sessions[index].sessionDepartureDetails.startTime != '' && sessions[index].sessionDepartureDetails.startTime !== undefined) {
               if (!sessionDates.has(iteratorDate.getTime())) {
                 var sessionTimes = [];
@@ -137,8 +136,8 @@
             if (isSavingRequired) {
               var sessionPricingObject = {};
               var duration;
-              var startDate = iteratorDate;
-              var endDate = iteratorDate;
+              var startDate = angular.copy(iteratorDate);
+              var endDate = angular.copy(iteratorDate);
               if (vm.productDetails.productDurationType == 'Days')
                 duration = vm.productDetails.productDuration;
               else

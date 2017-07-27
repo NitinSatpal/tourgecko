@@ -30,7 +30,6 @@
     }).error(function (response){
     });
     $http.get('/api/host/companyproductscount/').success(function (response) {
-      console.log('dkkdkdaskdkddsksd ' + response);
       vm.productCount = response.count;
     }).error(function (response){
     });

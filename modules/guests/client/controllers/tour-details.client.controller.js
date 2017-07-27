@@ -126,8 +126,8 @@
             if (isSavingRequired) {
               var sessionPricingObject = {};
               var duration;
-              var startDate = iteratorDate;
-              var endDate = iteratorDate;
+              var startDate = angular.copy(iteratorDate);
+              var endDate = angular.copy(iteratorDate);
               if (vm.productDetails.productDurationType == 'Days')
                 duration = vm.productDetails.productDuration;
               else
