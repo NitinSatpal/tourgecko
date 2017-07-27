@@ -1,0 +1,25 @@
+<div class="host-guest-common-style" id="host-guest-common-style">
+	<div id="checkout-error" class="checkout-error-page">
+	    <div class="error-info">
+	        <img class="error-logo" src="/modules/core/client/img/brand/logo-checkout-locked-icn.svg" alt="tourgecko-icon">
+	        <h1><i class="zmdi zmdi-lock"></i>&nbsp;&nbsp;Checkout is locked</h1>
+	        <h4>Checkout is locked as no payment method is active. <br>If you are a host, you can activate payments <a onclick="goToPaymentSettingsTab()" href="" id="activatePayment">here.</a>
+	        </h4>
+	    </div>
+	</div>
+</div>
+<script>
+function goToPaymentSettingsTab () {
+	var url = window.location.href;
+	var splittedURL = url.split("/");
+	var spllitedHost = splittedURL[2].split('.');
+	var secondPart = '';
+	for (var index = 0; index < spllitedHost.length; index ++) {
+		if (index > 0)
+			secondPart = secondPart + spllitedHost[index]
+	}
+	var destinationUrl = splittedURL[0] + "//" + secondPart + '/host/settings/payments';
+	console.log(destinationUrl);
+	$('#activatePayment').attr('href', destinationUrl);
+}
+</script>

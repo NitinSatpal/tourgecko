@@ -377,6 +377,7 @@ p {
 	width: 100%;
 	height: auto;
 	object-fit: cover;
+	border-radius: 1rem;
 }
 .tourlist-Product-Image img {
 	display: block;
@@ -1079,7 +1080,7 @@ body {
 .home_add_tour .btn.btn-primary.pull-right {
 	position:relative; top:8px;
 }
-.home-section .bookings, .home-section .message {
+.home-section .bookings, .home-section .sessions, .home-section .message {
 	margin-top:1rem;
 }
 
@@ -1321,7 +1322,7 @@ ul.cal_list_toggle li a.active {
 .latest .bookings {
 	border-right:1px solid #DADBDB;
 }
-.latest .bookings h4, .latest .message h4 {
+.latest .bookings h4, .latest .sessions h4, .latest .message h4 {
 	text-align: center;
 }
 .latest p {
@@ -1329,7 +1330,7 @@ ul.cal_list_toggle li a.active {
 	font-weight:300;
 	margin:0;
 }
-.latest .bookings p.name, .latest .message p.name {
+.latest .bookings p.name, .latest .sessions p.name, .latest .message p.name {
 	font-weight:500;
 	font-size:14px;
 }
@@ -2637,7 +2638,7 @@ span.multiselect-native-select select {
 		margin: 0 0 1rem 0;
 		float: right !important;
 	}
-	.home-section .message {
+	.home-section .sessions, .home-section .message {
 		border-top: 1px solid #ddd
 	}
 	.sub_btn.btn.btn-primary.pull-right {

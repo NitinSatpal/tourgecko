@@ -220,6 +220,15 @@ body.modal-open[style] {
     100% { transform: rotate(360deg); }
 }
 
+.generic-cover-no-image i{font-size: 60px; color: #ccc;}
+.generic-cover-no-image .generic_cover_no_image{min-height: 200px;position: relative;background: #eee;border-radius: 1rem;}
+.generic-cover-no-image .generic_cover_no_image div{position: absolute;width: 60px;height: 60px;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+.generic-cover-no-image .generic_cover_no_image div span{font-size: 12px;position: absolute;bottom: -5px;left: 0px;color: #ccc;}
+
+.generic-banner-no-image i{font-size: 60px; color: #ccc;}
+.generic-banner-no-image .generic_banner_no_image{min-height: 400px;position: relative;background: #eee;border-radius: 1rem;}
+.generic-banner-no-image .generic_banner_no_image div{position: absolute;width: 60px;height: 60px;top: 50%;left: 50%;transform: translate(-50%,-50%);}
+.generic-banner-no-image .generic_banner_no_image div span{font-size: 12px;position: absolute;bottom: -5px;left: 0px;color: #ccc;}
 @media  (max-width: 767px) {
   .noHorizontalScroll {
     overflow-x: hidden !important;
@@ -240,5 +249,11 @@ body.modal-open[style] {
     max-height: 100%;
     width: auto;
     height: auto;
+  }
+ .generic-cover-no-image .generic_cover_no_image {
+    border-radius: 10px;
+  }
+  .generic-banner-no-image .generic_banner_no_image {
+    border-radius: 10px;
   }
 }

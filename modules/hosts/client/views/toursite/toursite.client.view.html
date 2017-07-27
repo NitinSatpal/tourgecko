@@ -2,7 +2,7 @@
     <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
     <script src="modules/core/client/scripts/showmore.js"></script>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" ng-if="vm.companyData.toursiteBanners.length > 0">
             <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
@@ -28,6 +28,14 @@
                 </a>
             </div>
         </div>
+        <div class="row generic-banner-no-image" ng-if="vm.companyData.toursiteBanners.length == 0">
+            <div class="generic_banner_no_image">
+                <div>
+                    <i class="zmdi zmdi-image-alt"></i>
+                    <span>no picture</span>
+                </div>
+            </div>
+        </div> 
     </div>
     <div class="host-guest-common-style-marginFromBothSides" style="min-height: 300px;">
         <h1 class="text-center"></h1>
@@ -60,8 +68,13 @@
                             <span class="tour-days">{{data.productDuration}} {{data.productDurationType}}</span>
                             <span class="tour-difficulty">{{data.productGrade != 'Select' ?  data.productGrade : ''}}</span>
                         </div>
-                        <div class="tour-image toursite-Product-Image" ng-if="!data.productPictureURLs[0]">
-                            <img alt="tour1" class="responsive-img" ng-src="modules/hosts/client/companyBanners/main_hero4.png">
+                        <div class="tour-image toursite-Product-Image generic-cover-no-image" ng-if="!data.productPictureURLs[0]">
+                            <div class="generic_cover_no_image">
+                                <div>
+                                    <i class="zmdi zmdi-image-alt"></i>
+                                    <span>no picture</span>
+                                </div>
+                            </div>
                         </div> 
                         <div class="card-data-wrapper">
                             <h3 class="col-xs-12 tour-title">

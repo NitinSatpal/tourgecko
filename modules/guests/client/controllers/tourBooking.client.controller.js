@@ -798,45 +798,49 @@ vm.areAddonsSelected = function () {
         });
         return;
       }
-      if (vm.bookingProductDetails.hostCompany.paymentGateway == 'instamojo') {
-        var bookingData = createBookingObject();
-        $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
-          // $("a.im-checkout-btn.btn--light").attr('href', response);
-          console.log('The response is ' + response);
-          Instamojo.open(response)
-          //document.getElementsByClassName('im-checkout-btn')[0].click();
-        }).error(function (error) {
-
-        });
-      } else if (vm.bookingProductDetails.hostCompany.paymentGateway == 'razorpay') {
+      if (!vm.bookingProductDetails.hostCompany.paymentActivated) {
+        $state.go('guest.lockedCheckout');
+      } else {
+        if (vm.bookingProductDetails.hostCompany.paymentGateway == 'instamojo') {
           var bookingData = createBookingObject();
-          var options = {
-            "key": 'rzp_test_0xMZsuLBjAjZ6i',
-            "amount": parseInt(bookingData.bookingDetails.totalAmountPaid * 100), // 2000 paise = INR 20
-            "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' +bookingData.bookingDetails.providedGuestDetails.lastName,
-            "description": vm.bookingProductDetails.productTitle,
-            "image": "/your_logo.png",
-            "handler": function (response){
-                var razorpayData = {bookingObject: bookingData, paymentId: response.razorpay_payment_id};
-                $http.post('/api/payment/razorpay/', razorpayData).success (function (response) {
-                }).error(function (error) {
+          $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
+            // $("a.im-checkout-btn.btn--light").attr('href', response);
+            console.log('The response is ' + response);
+            Instamojo.open(response)
+            //document.getElementsByClassName('im-checkout-btn')[0].click();
+          }).error(function (error) {
 
-                });
-            },
-            "prefill": {
-                "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' + bookingData.bookingDetails.providedGuestDetails.lastName,
-                "email": bookingData.bookingDetails.providedGuestDetails.email,
-                "contact": bookingData.bookingDetails.providedGuestDetails.mobile
-            },
-            "notes": {
-                "address": "my home jewel"
-            },
-            "theme": {
-                "color": "#F37254"
-            }
-          };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
+          });
+        } else if (vm.bookingProductDetails.hostCompany.paymentGateway == 'razorpay') {
+            var bookingData = createBookingObject();
+            var options = {
+              "key": 'rzp_test_0xMZsuLBjAjZ6i',
+              "amount": parseInt(bookingData.bookingDetails.totalAmountPaid * 100), // 2000 paise = INR 20
+              "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' +bookingData.bookingDetails.providedGuestDetails.lastName,
+              "description": vm.bookingProductDetails.productTitle,
+              "image": "/your_logo.png",
+              "handler": function (response){
+                  var razorpayData = {bookingObject: bookingData, paymentId: response.razorpay_payment_id};
+                  $http.post('/api/payment/razorpay/', razorpayData).success (function (response) {
+                  }).error(function (error) {
+
+                  });
+              },
+              "prefill": {
+                  "name": bookingData.bookingDetails.providedGuestDetails.firstName + ' ' + bookingData.bookingDetails.providedGuestDetails.lastName,
+                  "email": bookingData.bookingDetails.providedGuestDetails.email,
+                  "contact": bookingData.bookingDetails.providedGuestDetails.mobile
+              },
+              "notes": {
+                  "address": "my home jewel"
+              },
+              "theme": {
+                  "color": "#F37254"
+              }
+            };
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+        }
       }
     }
 

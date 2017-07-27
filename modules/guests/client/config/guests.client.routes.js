@@ -53,6 +53,19 @@
           pageTitle: 'Tour | Booking'
         }
       })
+      .state('guest.lockedCheckout', {
+        url: '/chekout/error',
+        templateUrl: 'modules/guests/client/views/booking/lockedCheckout.client.view.html',
+        controller: '',
+        controllerAs: '',
+        params: {
+          productId: null,
+          via: null
+        },
+        data: {
+          pageTitle: 'Tour | Booking'
+        }
+      })
       .state('guest.bookingDone', {
         url: '/tour/booking/done?payment_id&payment_request_id',
         templateUrl: 'modules/guests/client/views/booking/tourBookingDone.client.view.html',

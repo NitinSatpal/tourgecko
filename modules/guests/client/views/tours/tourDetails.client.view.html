@@ -6,18 +6,18 @@
 <div class="host-guest-common-style" id="host-guest-common-style">
     <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" ng-if="vm.productDetails.productPictureURLs.length > 0">
             <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#toursiteCarousel" class="" ng-repeat="img in vm.companyData.toursiteBanners track by $index" data-slide-to="{{$index}}"></li>
+                    <li data-target="#toursiteCarousel" class="" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" data-slide-to="{{$index}}"></li>
                 </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="{{vm.companyData.toursiteBanners[0].url}}" alt="{{vm.companyData.toursiteBanners[0].name}}" class="banners-carousel">
+                        <img src="{{vm.productDetails.productPictureURLs[0].url}}" alt="{{vm.productDetails.productPictureURLs[0].name}}" class="banners-carousel">
                     </div>
-                    <div class="item" ng-repeat="img in vm.companyData.toursiteBanners track by $index" ng-if="$index != 0 ">
+                    <div class="item" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" ng-if="$index != 0 ">
                         <img src="{{img.url}}" alt="{{img.name}}" class="banners-carousel">
                     </div>
                 </div>
@@ -32,6 +32,14 @@
                 </a>
             </div>
         </div>
+        <div class="row generic-banner-no-image" ng-if="vm.productDetails.productPictureURLs.length == 0">
+            <div class="generic_banner_no_image">
+                <div>
+                    <i class="zmdi zmdi-image-alt"></i>
+                    <span>no picture</span>
+                </div>
+            </div>
+        </div> 
     </div>
     <div class="host-guest-common-style-preview-details-marginFromBothSides">
         <div class="row card-wrapper">
