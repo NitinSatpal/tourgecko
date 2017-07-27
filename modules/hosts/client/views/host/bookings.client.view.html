@@ -373,21 +373,20 @@
 	})(jQuery);
 	
     var lastClickedElement = 'All';
-	$(".card-layout-cta").click(function() {
-        console.log(lastClickedElement);
-		$(".list-layout").addClass("hide");
-		$(".card-layout").removeClass("hide");
-		$(".table-layout-cta").removeClass("active");
-		$(this).addClass("active");
-	});
+    $(document).on("click", ".card-layout-cta", function(event) {
+        $(".list-layout").addClass("hide");
+        $(".card-layout").removeClass("hide");
+        $(".table-layout-cta").removeClass("active");
+        $(this).addClass("active");
+    });
 	
-	$(".table-layout-cta").click(function(){
-		$(".list-layout").removeClass("hide");
-		$(".card-layout").addClass("hide");
-		$(".card-layout-cta").removeClass("active");
-		$(this).addClass("active");
-		
-	});
+	$(document).on("click", ".table-layout-cta", function(event) {
+        $(".list-layout").removeClass("hide");
+        $(".card-layout").addClass("hide");
+        $(".card-layout-cta").removeClass("active");
+        $(this).addClass("active");
+    });
+	
     function showLoaderForFilters (id) {
         $(".nav-bookings").find(".active").removeClass("active");
         $(id).addClass('active');
