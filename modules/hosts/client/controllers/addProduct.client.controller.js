@@ -76,7 +76,6 @@
     var productMapURLs;
     var previousPricingOption = [];
     var standardTagSet = new Set();
-    var areSessionsPresent;
     standardTagSet.add('Hiking');
     standardTagSet.add('Trekking');
     standardTagSet.add('Cycling');
@@ -252,13 +251,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
       vm.saveBtnDisabled = false;
       $http.get('/api/host/product/'+ productId).success(function (response) {
           vm.tour = response[0];
-          $scope.$watch('vm.pricingParams', function() {
-            if (initializing) {
-              $timeout(function() { initializing = false; });
-            } else {
-              isPricingOptionsModified = true;
-            }
-          }, true);
 
           $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
 
@@ -286,7 +278,7 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
           // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
-          previousPricingOption = vm.tour.productPricingOptions;
+          angular.copy(vm.tour.productPricingOptions, previousPricingOption);
             
           vm.showCreatedItinerary = true;
           
@@ -317,9 +309,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           else
             vm.dayCounter = maxVal + 1;
           setRichTextData();
-      });
-      $http.get('/api/host/fetchFutureSessionsOfGivenProduct/'+ productId).success(function (response) {
-        areSessionsPresent = response;
       });
     } else {
       openUnavailableDeparturePanel();
@@ -999,6 +988,8 @@ function findValidityOFOVerlappingSessions () {
 /* ------------------------------------------------------------------------------------------------------------------------- */
     vm.errorContent = [];
     vm.showErrorsOnTop = false;
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    var weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     vm.save = function (isValid) {
       if (vm.saveBtnDisabled)
         return;
@@ -1041,14 +1032,42 @@ function findValidityOFOVerlappingSessions () {
           
         return false;
       }
-      //if(productId !== undefined && isPricingOptionsModified == true && areSessionsPresent == 'positive') {
-        // $('#pricingApplicability').click();
-      //} else {
+      if(productId !== undefined) {
+        var areSessionsPresent = false;
+        var isPriceSame = true;
+        isPriceSame = angular.equals(previousPricingOption, vm.pricingParams);        
+        if (!isPriceSame && vm.productScheduledDates.length > 0) {
+          var today = (new Date().getDate()).toString() + ' ' + months[new Date().getMonth()] + ' ' + (new Date().getFullYear()).toString();
+          today = new Date (today);
+          for (var index = 0; index < vm.productScheduledDates.length; index++) {
+            var iteratorDay = new Date (vm.productScheduledDates[index]);
+
+            if (iteratorDay.getTime() > today.getTime()) {
+              areSessionsPresent = true;
+              break;
+            }
+          }
+
+          if (areSessionsPresent)
+            $('#pricingApplicability').click();
+          else {
+            $('#loadingDivHostSide').css('display', 'block');
+            $('#tourgeckoBody').addClass('waitCursor');
+            setProductInformation();
+            saveTheProduct();
+          }
+        } else {
+          $('#loadingDivHostSide').css('display', 'block');
+          $('#tourgeckoBody').addClass('waitCursor');
+          setProductInformation();
+          saveTheProduct();
+        }
+      } else {
         $('#loadingDivHostSide').css('display', 'block');
         $('#tourgeckoBody').addClass('waitCursor');
         setProductInformation();
         saveTheProduct();
-      //}
+      }
     };
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Save function ends here */
@@ -1070,13 +1089,13 @@ function findValidityOFOVerlappingSessions () {
     }
 
     vm.saveTheEditedProduct = function (applyPriceToNewSessions) {
-      if (applyPriceToNewSessions == false) {
+      /*if (applyPriceToNewSessions == false) {
         for (var index = 0; index < sessionSpecialPricing.length; index ++) {
           if (!specialPricingIndexTracker.has(index)) {
             sessionSpecialPricing[index] = vm.pricingParams;
           }
         }
-      }
+      }*/
       vm.isNewPricingApplicableOnNewSessions = applyPriceToNewSessions;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
