@@ -15,8 +15,11 @@ function goToPaymentSettingsTab () {
 	var spllitedHost = splittedURL[2].split('.');
 	var secondPart = '';
 	for (var index = 0; index < spllitedHost.length; index ++) {
-		if (index > 0)
-			secondPart = secondPart + spllitedHost[index]
+		if (index > 0) {
+			secondPart = secondPart + spllitedHost[index];
+			if (index != spllitedHost.length - 1)
+				secondPart = secondPart + '.';
+		}
 	}
 	var destinationUrl = splittedURL[0] + "//" + secondPart + '/host/settings/payments';
 	console.log(destinationUrl);
