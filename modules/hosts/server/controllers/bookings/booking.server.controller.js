@@ -64,7 +64,7 @@ exports.createBooking = function (data, user, paymentURL, paymentRequestId, paym
   });
 };
 
-function updateSession(booking, paymentURL, paymentRequestId) {
+/*function updateSession(booking, paymentURL, paymentRequestId) {
   if (booking.productSession) {
     ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
       if (err) {
@@ -83,7 +83,7 @@ function updateSession(booking, paymentURL, paymentRequestId) {
       });
     });
   }
-};
+}; */
 
 exports.searchBooking = function (req, res) {
   // var reference = req.params.bookingReference.charAt(0).toUpperCase() + req.params.bookingReference.slice(1);
@@ -371,7 +371,7 @@ exports.modifyBooking = function (req, res) {
                         }
                         tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
                         mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-                        updateSession(booking);
+                        updateSessionPositiveForConfirmedStatus(booking);
                         res.json('success')
                       });
                     })
@@ -406,7 +406,7 @@ exports.modifyBooking = function (req, res) {
                   if (bookingEditError) {
                     res.json(bookingEditError);
                   }
-                  updateSession(booking);
+                  updateSessionPositiveForConfirmedStatus(booking);
                   res.json(transferResponse);
                 });
               });
@@ -425,14 +425,15 @@ exports.modifyBooking = function (req, res) {
           res.json('Something went wrong. Please try again or contact tourgecko support')
         tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
         mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-        updateSession(booking);
+        if (req.body.bookingStatus != 'Pending')
+          updateSessionNegativeForNonConfirmedAndNonCancelledStatus(booking);
         res.json('success')
       });
     }
   });
 };
 
-function updateSession (booking) {
+function updateSessionPositiveForConfirmedStatus (booking) {
   if (booking.productSession) {
     ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
       if (err) {
@@ -503,6 +504,62 @@ function updateSession (booking) {
       session.markModified('numberOfConfirmedBookingsSession');
       session.markModified('numberOfConfirmedSeatsSession');
 
+      session.save(function (err) {
+        if (err) {
+          // session saving failed
+        } else {
+          // session successfully saved
+        }
+      });
+    });
+  }
+}
+
+function updateSessionNegativeForNonConfirmedAndNonCancelledStatus (booking) {
+  if (booking.productSession) {
+    ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      var key = booking.actualSessionDate + booking.actualSessionTime;
+      if (session.numberOfBookings) {
+        if(session.numberOfBookings[key]) {
+          var value = parseInt(session.numberOfBookings[key]) - 1;
+          session.numberOfBookings[key] = value;
+        }
+      } 
+      
+      if (session.numberOfSeats) {
+        if (session.numberOfSeats[key]) {
+          var value = parseInt(session.numberOfSeats[key]) - parseInt(booking.numberOfSeats);
+          session.numberOfSeats[key] = value;
+        }
+      }
+
+      session.markModified('numberOfBookings');
+      session.markModified('numberOfSeats');
+
+      var sessionKey = booking.actualSessionDate;
+
+      if (session.numberOfBookingsSession) {
+        if(session.numberOfBookingsSession[sessionKey]) {
+          var value = parseInt(session.numberOfBookingsSession[sessionKey]) - 1;
+          session.numberOfBookingsSession[sessionKey] = value;
+        }
+      }
+      
+      if (session.numberOfSeatsSession) {
+        if (session.numberOfSeatsSession[sessionKey]) {
+          var value = parseInt(session.numberOfSeatsSession[sessionKey]) - parseInt(booking.numberOfSeats);
+          session.numberOfSeatsSession[sessionKey] = value;
+        }
+      }
+
+      session.markModified('numberOfBookingsSession');
+      session.markModified('numberOfSeatsSession');
+      
       session.save(function (err) {
         if (err) {
           // session saving failed
