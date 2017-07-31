@@ -74,7 +74,7 @@
                                             </label>
                                         </div>
                                         <a href="#" class="select-date-btn">
-                                            <span class="card-tour-price" id="remainingSeats">
+                                            <span class="card-tour-price" id="remainingSeats{{$index}}">
                                                 <span></span> {{vm.getSeatsRemainingForList(session, $index)}} 
                                             </span>
                                         </a>
@@ -148,7 +148,7 @@
                                     </button>
                                     <ul class="dropdown-menu per-page-count">
                                         <li ng-repeat="time in vm.timesForThisDate track by $index">
-                                            <a href="" ng-click="vm.selectedTimeslot = time">{{time}} <span ng-if="vm.bookingProductDetails.isAvailabilityVisibleToGuests">- ({{vm.getSeatsRemainingForCalendar(time)}})</span></a>
+                                            <a href="" ng-click="vm.findMaximumCapcityOfThisTimestamp(time)">{{time}} <span>{{vm.getSeatsRemainingForCalendar(time)}}</span></a>
                                         </li>
                                     </ul>
                                 </div>

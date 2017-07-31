@@ -589,10 +589,10 @@
     vm.getSeatsAvailability = function() {
       if (vm.productSession) {
         if(vm.productSession.product.productAvailabilityType == 'Open Date' || 
-          (vm.productSession.product.productAvailabilityType == 'Fixed Departure' && vm.productSession.product.productSeatsLimitType == 'unlimited'))
+          (vm.productSession.product.productAvailabilityType == 'Fixed Departure' && vm.productSession.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited'))
           return 'No Limit';
         else 
-          return parseInt(vm.productSession.product.productSeatLimit) - parseInt(vm.confirmedSeats);
+          return parseInt(vm.productSession.sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.confirmedSeats);
       }
     }
 

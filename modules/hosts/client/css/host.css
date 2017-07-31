@@ -2234,7 +2234,6 @@ p.sub_desc, span.sub_desc{font-size: 12px;line-height: 1.2rem; color:#aaaaaa !im
 #tours .ds_calendar_grid > div > div .inactive{border: 1px solid #ababac; background: #c9c9c9;}
 #calendar{ margin-bottom: 1rem;}
 .availability{ margin-top: 1.2rem}
-#departureSession .ds_repeat_daily, #departureSession  .dsChangePrice{display: none;}
 
 .fixed-departure-onoffswitch{position:absolute;width:40px;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none; margin-left:40%; margin-top: -2.6rem;}
 

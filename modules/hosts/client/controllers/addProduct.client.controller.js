@@ -34,9 +34,10 @@
     vm.productGrade = 'Select';
     vm.productAvailabilityType = 'unavailable';
     vm.productDurationType = 'Days';
-    vm.productSeatsLimitType = 'limited';
+    vm.sessionSeatsLimitType = 'select';
     vm.pricingOptions = ['Everyone'];
     vm.fixedProductSchedule = [];
+    vm.fixedProductScheduleCapacities = [];
     vm.productScheduledDates = [];
     vm.productScheduledTimestamps = [];
     vm.imageFileSelected = false;
@@ -66,7 +67,7 @@
     $scope.productTimeSlotsAvailability = 'No Time Required';
     $scope.departureSessions = [];
     var sessionSpecialPricing = [];
-    var sessionSeriesNames = [];
+    var sessionInternalNames = [];
     var initializing = true;
     var isPricingOptionsModified = false;
     var isSessionCreatedWhileEditing = false;
@@ -74,6 +75,7 @@
     var currentSessionHasSpecialPricing = false;
     var specialPricingIndexTracker = new Set();
     var sessionMonthsCovered = [];
+    var sessionCapacities = [];
     var productPictureURLs;
     var productMapURLs;
     var previousPricingOption = [];
@@ -276,8 +278,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.addonParams.params = vm.tour.productAddons;
           vm.isDepositApplicable = vm.tour.isDepositNeeded;
           vm.productDurationType = vm.tour.productDurationType;
-          vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
-          vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
           vm.productScheduledTimestamps = vm.tour.productScheduledTimestamps;
           // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
@@ -644,16 +644,7 @@ function setRichTextData () {
 vm.openDepartureSessionModal = function() {
   vm.isSpecialPricingPresent = false;
   vm.isFixedTourTimeSlotAvailable = false;
-  vm.isFixedDepartureSeriesAvailable = false;
-  vm.seriesName = '';
-  if (vm.productSeatsLimitType == 'limited' && !vm.tour.productSeatLimit) {
-    toasty.error({
-      title: 'Provide seat limit!',
-      msg: 'You have selected limited seats. Please provide the limit!',
-      sound: false
-    });
-    return false;
-  }
+  vm.sessionName = '';
   if((vm.tour === undefined || (vm.tour && vm.tour.productTitle === undefined)) && (vm.pricingParams.length == 1 && vm.pricingParams[0].price === undefined)) {
     toasty.error({
       title: 'Tour name and Pricing required!',
@@ -690,28 +681,15 @@ vm.openDepartureSessionModal = function() {
     });
     return false;
   } else {
-    if (vm.productSeatsLimitType == 'Limited' && !vm.tour.productSeatLimit) {
-      toasty.error({
-        title: 'Seats capacity!',
-        msg: "Please enter seats capacity for the session or make it 'Unlimited'!",
-        sound: false
-      });
-      return false;
-    } else if (vm.productSeatsLimitType == 'Limited' && !Number.isInteger(parseInt(vm.tour.productSeatLimit)) || parseInt(vm.tour.productSeatLimit) <= 0) {
-      toasty.error({
-        title: 'Seats capacity!',
-        msg: 'Please enter valid seat capacity for departure session!',
-        sound: false
-      });
-      return false
-    }
-
+    $('ul.nav-tabs a[href="#session_dt"]').tab('show');
     var modalOpened = true;
     vm.sessionPricing = []
     angular.copy(vm.pricingParams, vm.sessionPricing);
     vm.fixedDepartureSessionCounter = vm.fixedProductSchedule.length;
     var newSchedule = {'repeatBehavior':'Do not repeat'}
     vm.fixedProductSchedule[vm.fixedDepartureSessionCounter] = newSchedule;
+    var newCapacityObject = {sessionSeatLimit: '', isSessionAvailabilityVisibleToGuests: false};
+    vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter] = newCapacityObject;
     /*$('.ds_repeat_daily_except button span').html('Select Days');
     $('.ds_repeat_daily_except input:checkbox').removeAttr('checked');
     $('.dsRepeatWeekly button span').html('Select Days');*/
@@ -743,7 +721,21 @@ vm.markAsSessionNotCreated = function () {
 
 var createdSessionTracker = new Set();
 vm.createDepartureSession = function () {
-  if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
+  if (vm.sessionName == '' && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
+    toasty.error({
+      title: 'Session name and start date required!',
+      msg: 'Please give some name to the session and select start date for creating a departure session!',
+      sound: false
+    });
+    return false;
+  } else if (vm.sessionName == '') {
+    toasty.error({
+      title: 'Session name required!',
+      msg: 'Please give some name to the session!',
+      sound: false
+    });
+    return false;
+  } else if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
     toasty.error({
       title: 'Start date required!',
       msg: 'Please select start date for creating a departure session!',
@@ -757,26 +749,17 @@ vm.createDepartureSession = function () {
       sound: false
     });
     return false;
-  } else if (vm.isFixedDepartureSeriesAvailable && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Do not repeat') {
-    toasty.error({
-      title: 'Create series!',
-      msg: 'You have opted for series. Please create one or opt out the same!',
-      sound: false
-    });
-    return false;
-  } else if ((vm.isFixedDepartureSeriesAvailable && 
-              vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
+  } else if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') &&
               vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate === undefined) {
     toasty.error({
       title: 'End date required!',
-      msg: 'Please select the end date of reptition of this tour!',
+      msg: "Please select the 'Repeat until' date of this session!",
       sound: false
     });
     return false;
   }
-  if ((vm.isFixedDepartureSeriesAvailable &&
-      vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
+  if ((vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') && 
       (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays === undefined || vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays.length == 0)){
     toasty.error({
       title: 'Week days!',
@@ -785,8 +768,30 @@ vm.createDepartureSession = function () {
     });
     return false;
   }
+  if (vm.sessionSeatsLimitType == 'select') {
+    toasty.error({
+      title: 'Provide capacity details!',
+      msg: 'Please provide capacity details for this session!',
+      sound: false
+    });
+    return false;
+  } else if (vm.sessionSeatsLimitType == 'limited' && !vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit) {
+    toasty.error({
+      title: 'Provide seat limit!',
+      msg: 'You have selected limited seats. Please provide the limit!',
+      sound: false
+    });
+    return false;
+  } else if (vm.sessionSeatsLimitType == 'Limited' && !Number.isInteger(parseInt(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit)) || parseInt(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit) <= 0) {
+    toasty.error({
+      title: 'Seats capacity!',
+      msg: 'Please enter valid seat capacity for departure session!',
+      sound: false
+    });
+    return false
+  }
 
-
+  vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatsLimitType = vm.sessionSeatsLimitType;
   // if any tour is repeted, then populate the calendar accordingly
   var weekDaysNumber = new Map();
       weekDaysNumber.set('Sunday', 0);
@@ -873,7 +878,6 @@ vm.createDepartureSession = function () {
   
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
-
   
 
 
@@ -957,7 +961,7 @@ vm.createDepartureSession = function () {
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
   // vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
-  sessionSeriesNames[vm.fixedDepartureSessionCounter] = vm.seriesName;
+  sessionInternalNames[vm.fixedDepartureSessionCounter] = vm.sessionName;
   if (currentSessionHasSpecialPricing == true) {
     currentSessionHasSpecialPricing = false;
     specialPricingIndexTracker.add(vm.fixedDepartureSessionCounter);
@@ -974,16 +978,13 @@ vm.createDepartureSession = function () {
 
   $(".ds_repeat_daily").hide();
   $(".dsChangePrice").hide();
+  vm.sessionSeatsLimitType = 'select';
   return true;
   
 }
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Fixed Date departure session validation function, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
-function findValidityOFOVerlappingSessions () {
-
-}
 
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -1112,9 +1113,12 @@ function findValidityOFOVerlappingSessions () {
 
     function saveTheProduct () {
       if(productId) {
-        $http.post('/api/host/editproduct/', {tour: vm.tour, toursessions: vm.fixedProductSchedule, 
-                                              sessionPricings: sessionSpecialPricing, monthsCovered: sessionMonthsCovered,
-                                              sessionSeriesNames: sessionSeriesNames,
+        $http.post('/api/host/editproduct/', {tour: vm.tour,
+                                              toursessions: vm.fixedProductSchedule, 
+                                              sessionPricings: sessionSpecialPricing,
+                                              monthsCovered: sessionMonthsCovered,
+                                              sessionInternalNames: sessionInternalNames,
+                                              sessionCapacities: vm.fixedProductScheduleCapacities,
                                               changePreviouslyCreatedSessionPricing: vm.isNewPricingApplicableOnOldSessions,
                                               changeNewlyCreatedSessionPricing: vm.isNewPricingApplicableOnNewSessions})
         .success(function (response) {
@@ -1136,7 +1140,8 @@ function findValidityOFOVerlappingSessions () {
                                           toursessions: vm.fixedProductSchedule,
                                           sessionPricings: sessionSpecialPricing,
                                           monthsCovered: sessionMonthsCovered,
-                                          sessionSeriesNames: sessionSeriesNames})
+                                          sessionInternalNames: sessionInternalNames,
+                                          sessionCapacities: vm.fixedProductScheduleCapacities})
         .success(function (response) {
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
@@ -1160,12 +1165,7 @@ function findValidityOFOVerlappingSessions () {
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
       vm.tour.productScheduledTimestamps = vm.productScheduledTimestamps;
       vm.tour.productScheduledDates = vm.productScheduledDates;
-      vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
       vm.tour.productDurationType = vm.productDurationType;
-      if (vm.productSeatsLimitType == 'unlimited') {
-        vm.tour.productSeatLimit = '';
-        vm.tour.isAvailabilityVisibleToGuests = false;
-      }
       vm.tour.productSummary = CKEDITOR.instances.describe_tour_briefly.getData();
       vm.tour.productCancellationPolicy = CKEDITOR.instances.cancellationPolicies.getData();
       vm.tour.productGuidelines = CKEDITOR.instances.tour_guidelines.getData();

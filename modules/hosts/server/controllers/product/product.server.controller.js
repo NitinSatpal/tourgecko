@@ -31,7 +31,7 @@ exports.createProduct = function (req, res) {
       });
     }
     if(req.body.tour.isProductScheduled == true)
-      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionSeriesNames, product, true);
+      createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionInternalNames, req.body.sessionCapacities, product, true);
 
     Product.count({ 'hostCompany': req.user.company}, function(error, count) {
       if (error) {
@@ -45,7 +45,7 @@ exports.createProduct = function (req, res) {
   });
 };
 
-function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, sessionSeriesNames, product, sessionPricingValid) {
+function createDepartureSessions (departureSessions, departureSessionPricings, sessionMonthsCovering, sessionInternalNames, sessionCapacities, product, sessionPricingValid) {
   var productSessions = [];
   for(var index = 0; index < departureSessions.length; index++) {
     var productSession = new ProductSession();
@@ -54,7 +54,8 @@ function createDepartureSessions (departureSessions, departureSessionPricings, s
     productSession.sessionDepartureDetails = departureSessions[index];
     productSession.sessionPricingDetails = departureSessionPricings[index];
     productSession.monthsThisSessionCovering = sessionMonthsCovering[index];
-    productSession.sessionSeriesName = sessionSeriesNames[index];
+    productSession.sessionInternalName = sessionInternalNames[index];
+    productSession.sessionCapacityDetails = sessionCapacities[index];
     productSession.isSessionPricingValid = sessionPricingValid;
     productSession.utcDate =  momentTimezone.utc(new Date());
     productSession.sessionDepartureDate = new Date(departureSessions[index].startDate).toISOString();
@@ -72,7 +73,7 @@ function editOldDepartureSessionPricing (request, product) {
         });
       }
       if (request !== undefined)
-        createDepartureSessions(request.body.toursessions, request.body.sessionPricings, request.body.monthsCovered, req.body.sessionSeriesNames, product, true);
+        createDepartureSessions(request.body.toursessions, request.body.sessionPricings, request.body.monthsCovered, request.body.sessionInternalNames, request.body.sessionCapacities, product, true);
     }
   );
 }
@@ -100,7 +101,7 @@ exports.editProduct = function(req, res) {
           editOldDepartureSessionPricing(undefined);
         else {
           if(req.body.changeNewlyCreatedSessionPricing == true) {
-            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionSeriesNames, product, false);
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionInternalNames, req.body.sessionCapacities, product, false);
             editOldDepartureSessionPricing(undefined);
           } else {
             editOldDepartureSessionPricing(req, product);
@@ -109,9 +110,9 @@ exports.editProduct = function(req, res) {
       } else {
         if(req.body.toursessions.length > 0) {
           if(req.body.changeNewlyCreatedSessionPricing == true) {
-            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionSeriesNames, product, false);
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionInternalNames, req.body.sessionCapacities, product, false);
           } else {
-            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionSeriesNames, product, true);
+            createDepartureSessions(req.body.toursessions, req.body.sessionPricings, req.body.monthsCovered, req.body.sessionInternalNames, req.body.sessionCapacities, product, true);
           }
         }
       }

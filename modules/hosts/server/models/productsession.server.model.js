@@ -17,6 +17,7 @@ var ProductSessionSchema = new Schema({
     type: Array,
     default: []
   },
+  sessionCapacityDetails: {},
   /* There cannot be more than one session of the same product with same timestamp.
    * There can be sessions of the product, with same date but different time. These
    * will be the independent sessions of the same product. But when we iterate over bookings,
@@ -101,7 +102,7 @@ var ProductSessionSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  sessionSeriesName: {
+  sessionInternalName: {
     type: String
   }
 });

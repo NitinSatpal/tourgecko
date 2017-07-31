@@ -126,6 +126,13 @@
         controller: '',
         controllerAs: ''
       })
+      .state('coming-soon', {
+        url: '/coming-soon',
+        templateUrl: 'modules/core/client/views/coming-soon.client.view.html',
+        data: {
+          pageTitle: 'coming-soon'
+        }
+      })
       .state('not-found', {
         url: '/not-found',
         templateUrl: 'modules/core/client/views/404.client.view.html',

@@ -639,40 +639,6 @@
 														<div class="pointer-line">
 															<img class="pointer pointer_b" src="modules/hosts/client/images/pointer.svg">
 														</div>
-
-														<div class="col-sm-12 col-md-12 col-lg-12">
-		                                                  <div class="form-group">
-		                                                    <label for="tours_sa_limited" class="control-label">Seats capacity</label>
-		                                                    <p class="sub_desc">You can limit capacity for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
-		                                                      <div class="input_group col-md-4 col-lg-4 col-sm-12 col-xs-12 padding-zero">
-		                                                        <select class="form-control" id="tours_sa_limited" ng-model="vm.productSeatsLimitType" name="tours_sa_limited">
-																	<option value="limited">Limited</option>
-																	<option value="unlimited">Unlimited</option>
-																</select>
-		                                                      </div>
-		                                                   </div>
-		                                                </div>
-
-														<div class="col-sm-12 col-md-12 col-lg-12 limited_container" ng-show="vm.productSeatsLimitType == 'limited'">
-															<div class="row">
-																<div class="col-sm-4 col-md-4 col-lg-4 padding-five">
-																	<div class="form-group">
-																		<div class="input_group">
-																			<div class="input-group">
-																				<span class="input-group-addon">limit</span>
-																				<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.tour.productSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="col-sm-6 col-md-6 col-lg-4 text-readable13 availability padding-five">
-			                                                        <label class="checkbox-inline">
-			                                                        	<input type="checkbox" name="show_to_guests" value="show" ng-model="vm.tour.isAvailabilityVisibleToGuests" id="show-availability">
-			                                                        	<span>Show availability to guests</span>
-			                                                        </label>
-			                                                     </div>
-															</div>
-														</div>
 														<div class="col-sm-12 col-md-12 col-lg-12">
 															<br>
 															<div class="row">
@@ -963,202 +929,263 @@
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style="border-bottom: none !important">
 					<button type="button" class="close" id="closeDepartureSession" ng-click="vm.markAsSessionNotCreated()">&times;</button>
 					<h4 class="modal-title">Create fixed departure Session</h4>
 				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-							  <label for="dsStartDate" class="control-label">Start Date</label>
-							  <div class="input_group">
-								 <div class="input-group">
-								 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate">
-								 	<span class="input-group-addon" id="dsStartDateCalendarIcon">
-								 		<i class="fa fa-calendar" aria-hidden="true"></i>
-								 	</span>
-								 </div>
-							  </div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						 <div class="col-sm-12 col-md-12 col-lg-12">
-						   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
-						   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-							  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
-							  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
-						   </div>
-						</div>
-					</div>
-					<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
-						<div class="col-sm-6 col-md-6 col-lg-6">
-							<div class="form-group">
-							  <label for="dsTimeSlot" class="control-label">Time slot</label>
-							  <div class="input-group">
-								 <div class="input-group">
-								 	<input class="form-control" id="dsTimeSlot" name="dsTimeSlot" placeholder="Time-slot" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime">
-								 	<span class="input-group-addon customized-inputGroup-addon" id="dsTimeSlotCalendarIcon">
-								 		<i class="fa fa-clock-o" aria-hidden="true"></i>
-								 	</span>
-								 </div>
-							  </div>
-							</div>
-						</div>
-					</div>
-					<br>
-					<div class="row">
-						 <div class="col-sm-12 col-md-12 col-lg-12">
-						   <label for="sdSTimeSwitch" class="control-label">Create a Repeat Series?</label>
-						   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-							  <input type="checkbox" name="repeat-series-onoffSwitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedDepartureSeriesAvailable" id="repeat-series-onoffSwitch" ng-click="vm.initilizeTheRepeatSeriesData()">
-							  <label class="fixedTouronoffswitch-label" for="repeat-series-onoffSwitch"></label>
-						   </div>
-						</div>
-					</div>
-					<div id="repeatSessionDetails" ng-show="vm.isFixedDepartureSeriesAvailable">
+				<!-- Added by Gaurav  for tabs start -->
+				<ul class="nav nav-tabs" id="navTabsForDepartureSession">
+	              	<li class="active nav-item" id="dateAndTime">
+	              		<a data-toggle="tab" href="#session_dt">Date and Time</a>
+	              	</li>
+	              	<li class="nav-item" id="repeatSession">
+	              		<a data-toggle="tab" href="#session_repeat">Repeat</a>
+	              	</li>
+	              	<li class="nav-item" id="priceAndCapacity">
+	              		<a data-toggle="tab" href="#tours_Pc">Price and Capacity</a>
+	              	</li>
+	            </ul>
+	            <!-- Added by Gaurav  for tabs end -->
+				<div class="modal-body tab-content" style="overflow: visible;">
+					<div id="session_dt" class="tab-pane fade in active">
 						<div class="row">
 							<div class="col-sm-12 col-md-12 col-lg-12">
-							   	<label for="repeatSeriesName" class="control-label">Name of series</label>
-							   	<p class="sub_desc">This series name is only for your internal purpose.</p>
+							   	<label for="repeatSeriesName" class="control-label">Name</label>
+							   	<p class="sub_desc"> Name is used only internally for your reference and is not shown  to guests while booking.</p>
 								  <div class="input-group">
 									 <div class="input-group">
-									 	<input class="form-control" id="repeatSeriesName" name="repeatSeriesName" placeholder="Series name" type="text" ng-model="vm.seriesName">
+									 	<input class="form-control" id="sessionName" name="sessionName" placeholder="Session name" type="text" ng-model="vm.sessionName" required>
 									 </div>
 								  </div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6 col-lg-6 col-md-6">
-							   <div class="form-group">
-								  <label for="dsRepeat" class="control-label">Repeat</label>
-								  <div class="input_group">
-									 <div>
-										<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
-										   <option value="Do not repeat">Select Repeat Behavior</option>
-										   <option value="Repeat Daily">Repeat Daily</option>
-										   <option value="Repeat Weekly">Repeat Weekly</option>
-										</select>
-									 </div>
-								  </div>
-							   </div>
-							</div>
-						</div>
-						<div class="row ds_repeat_daily">
 							<div class="col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group">
-								  <label for="dsRepeatTill" class="control-label">Until</label>
+								  <label for="dsStartDate" class="control-label">Start Date</label>
 								  <div class="input_group">
 									 <div class="input-group">
-									 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
-									 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
+									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" required>
+									 	<span class="input-group-addon" id="dsStartDateCalendarIcon">
 									 		<i class="fa fa-calendar" aria-hidden="true"></i>
 									 	</span>
 									 </div>
 								  </div>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
-								<div class="form-group"><label class="control-label">Except On</label><br>
-								   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
-										<option value="Monday">Monday</option>
-										<option value="Tuesday">Tuesday</option>
-										<option value="Wednesday">Wednesday</option>
-										<option value="Thursday">Thursday</option>
-										<option value="Friday">Friday</option>
-										<option value="Saturday">Saturday</option>
-										<option value="Sunday">Sunday</option>
-									</select>
-								</div>
+						</div>
+						<div class="row">
+							 <div class="col-sm-12 col-md-12 col-lg-12">
+							   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
+							   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+								  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
+								  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
+							   </div>
 							</div>
-							<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
-								<div class="form-group"><label class="control-label">Repeat On</label><br>
-								   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
-										<option value="Monday">Monday</option>
-										<option value="Tuesday">Tuesday</option>
-										<option value="Wednesday">Wednesday</option>
-										<option value="Thursday">Thursday</option>
-										<option value="Friday">Friday</option>
-										<option value="Saturday">Saturday</option>
-										<option value="Sunday">Sunday</option>
-									</select>
+						</div>						
+						<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
+							<div class="col-sm-6 col-md-6 col-lg-6">
+								<div class="form-group">
+								  <label for="dsTimeSlot" class="control-label">Time slot</label>
+								  <div class="input-group">
+									 <div class="input-group">
+									 	<input class="form-control" id="dsTimeSlot" name="dsTimeSlot" placeholder="Time-slot" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime">
+									 	<span class="input-group-addon customized-inputGroup-addon" id="dsTimeSlotCalendarIcon">
+									 		<i class="fa fa-clock-o" aria-hidden="true"></i>
+									 	</span>
+									 </div>
+								  </div>
 								</div>
 							</div>
 						</div>
+						<br>
+						<div class="dsCreate text-center modal-footer">
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+						</div>
 					</div>
-					<br>
-					<a href="#" class="dsChangePrice_link">Change price  and capacity  for this session?</a><br><br>
-					<div class="row dsChangePrice">
-						<div class="col-sm-12 col-md-12 col-lg-12" ng-repeat="pricing in vm.sessionPricing track by $index">
-							<div class="row" ng-show="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">
-								<div class="col-sm-6 col-md-6 col-lg-6" >
-									 <div class="form-group">
-										<label for="dsPriceAdult" class="control-label">{{pricing.pricingType}}</label>
-										<div class="input_group">
-										   <div class="input-group">
-											  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-											  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-										   </div>
-										</div>
-									 </div>
+					<div id="session_repeat" class="tab-pane fade">
+						<!--<div class="row">
+							 <div class="col-sm-12 col-md-12 col-lg-12">
+							   <label for="sdSTimeSwitch" class="control-label">Create a Repeat Series?</label>
+							   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+								  <input type="checkbox" name="repeat-series-onoffSwitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedDepartureSeriesAvailable" id="repeat-series-onoffSwitch" ng-click="vm.initilizeTheRepeatSeriesData()">
+								  <label class="fixedTouronoffswitch-label" for="repeat-series-onoffSwitch"></label>
+							   </div>
+							</div>
+						</div>-->
+					
+						<div id="repeatSessionDetails">							
+							<div class="row">
+								<div class="col-sm-6 col-lg-6 col-md-6">
+								   <div class="form-group">
+									  <label for="dsRepeat" class="control-label">Repeat</label>
+									  <div class="input_group">
+										 <div>
+											<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
+											   <option value="Do not repeat">Select Repeat Behavior</option>
+											   <option value="Repeat Daily">Repeat Daily</option>
+											   <option value="Repeat Weekly">Repeat Weekly</option>
+											</select>
+										 </div>
+									  </div>
+								   </div>
 								</div>
 							</div>
-							<div class="row" ng-show="pricing.pricingType == 'Group'">
+							<div class="row ds_repeat_daily">
 								<div class="col-sm-6 col-md-6 col-lg-6">
-									 <div class="form-group">
-										<label for="dsPriceAdult" class="control-label">Group: From {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</label>
-										<div class="input_group">
-										   <div class="input-group">
-											  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-											  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-										   </div>
-										</div>
-									 </div>
+									<div class="form-group">
+									  <label for="dsRepeatTill" class="control-label">Repeat until</label>
+									  <div class="input_group">
+										 <div class="input-group">
+										 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
+										 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
+										 		<i class="fa fa-calendar" aria-hidden="true"></i>
+										 	</span>
+										 </div>
+									  </div>
+									</div>
 								</div>
-								<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Group'">
-									 <div class="form-group">
-										<label for="dsPriceAdult" class="control-label">Pricing By</label>
-										<div class="input_group">
-										   <div class="input-group">
-											  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-											  <select class="form-control" id="pricefor" ng-model="pricing.groupOption">
-													<option>Per Group</option>
-													<option>Per Person</option>
-												</select>
-										   </div>
-										</div>
-									 </div>
+								<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
+									<div class="form-group"><label class="control-label">Except On</label><br>
+									   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+											<option value="Monday">Monday</option>
+											<option value="Tuesday">Tuesday</option>
+											<option value="Wednesday">Wednesday</option>
+											<option value="Thursday">Thursday</option>
+											<option value="Friday">Friday</option>
+											<option value="Saturday">Saturday</option>
+											<option value="Sunday">Sunday</option>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="row"  ng-show="pricing.pricingType == 'Custom'">
-								<div class="col-sm-6 col-md-6 col-lg-6">
-									 <div class="form-group">
-										<label for="dsPriceAdult" class="control-label">Custom: {{pricing.customLabel}}</label>
-										<div class="input_group">
-										   <div class="input-group">
-											  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-											  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
-										   </div>
-										</div>
-									 </div>
-								</div>
-								<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Custom'">
-									 <div class="form-group">
-										<label for="dsPriceAdult" class="control-label">Seats Used</label>
-										<div class="input_group">
-										   <div class="input-group">
-											  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-											  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed"/>
-										   </div>
-										</div>
-									 </div>
+								<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
+									<div class="form-group"><label class="control-label">Repeat On</label><br>
+									   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
+											<option value="Monday">Monday</option>
+											<option value="Tuesday">Tuesday</option>
+											<option value="Wednesday">Wednesday</option>
+											<option value="Thursday">Thursday</option>
+											<option value="Friday">Friday</option>
+											<option value="Saturday">Saturday</option>
+											<option value="Sunday">Sunday</option>
+										</select>
+									</div>
 								</div>
 							</div>
 						</div>
+						<br>
+						<div class="dsCreate text-center modal-footer">
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+						</div>
 					</div>
-					<div class="dsCreate text-center modal-footer">
-						<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">create</a>
+					<div id="tours_Pc" class="tab-pane fade">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12" ng-repeat="pricing in vm.sessionPricing track by $index">
+								<div class="row" ng-show="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">
+									<div class="col-sm-6 col-md-6 col-lg-6" >
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">{{pricing.pricingType}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+								</div>
+								<div class="row" ng-show="pricing.pricingType == 'Group'">
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Group: From {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Group'">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Pricing By</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <select class="form-control" id="pricefor" ng-model="pricing.groupOption">
+														<option>Per Group</option>
+														<option>Per Person</option>
+													</select>
+											   </div>
+											</div>
+										 </div>
+									</div>
+								</div>
+								<div class="row"  ng-show="pricing.pricingType == 'Custom'">
+									<div class="col-sm-6 col-md-6 col-lg-6">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Custom: {{pricing.customLabel}}</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-6" ng-show="pricing.pricingType == 'Custom'">
+										 <div class="form-group">
+											<label for="dsPriceAdult" class="control-label">Seats Used</label>
+											<div class="input_group">
+											   <div class="input-group">
+												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed"/>
+											   </div>
+											</div>
+										 </div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+								<div class="form-group">
+	                                <label for="tours_sa_limited" class="control-label">Seats capacity</label>
+	                                <p class="sub_desc">You can limit capacity for each batch  or run of fixed date tour. Or  make it unlimited if there is no capacity limit.</p>
+	                                <div class="input_group col-md-4 col-lg-4 col-sm-12 col-xs-12 padding-zero">
+	                                    <select class="form-control" id="tours_sa_limited" ng-model="vm.sessionSeatsLimitType" name="tours_sa_limited">
+	                                    	<option value="select">Select</option>
+											<option value="limited">Limited</option>
+											<option value="unlimited">Unlimited</option>
+										</select>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-sm-12 col-md-12 col-lg-12 limited_container" ng-show="vm.sessionSeatsLimitType == 'limited'">
+								<div class="row">
+									<div class="col-sm-4 col-md-4 col-lg-4 ">
+										<div class="form-group">
+											<div class="input_group">
+												<div class="input-group">
+													<span class="input-group-addon">limit</span>
+													<input type="text" class="form-control" name="tours_sa_limit_members" ng-model="vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit" id="tours_sa_limit_members"  placeholder="Ex: 15"/>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-6 col-lg-4 text-readable13 availability padding-five">
+                                        <label class="checkbox-inline">
+                                        	<input type="checkbox" name="show_to_guests" value="show" ng-model="vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].isSessionAvailabilityVisibleToGuests" id="show-availability">
+                                        	<span>Show availability to guests</span>
+                                        </label>
+                                     </div>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="dsCreate text-center modal-footer">
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1573,7 +1600,6 @@ function openUnavailableDeparturePanel() {
 </script>
 
 <script>
-	var sessionPricingVisible = false;
 	$("#departureSession").on("change","#dsRepeat",function(e) {
 		e.preventDefault();
 		if($(this).val() == "Do not repeat"){
@@ -1588,20 +1614,11 @@ function openUnavailableDeparturePanel() {
 			$(".ds_repeat_daily_except").hide();
 		}
 	});
-	$("#departureSession").on("click",".dsChangePrice_link",function(e){
-		e.preventDefault();
-		$(".dsChangePrice").toggle();
-		sessionPricingVisible = !sessionPricingVisible;
-	});
 	$("#closeDepartureSession").on("click", function(e){
 		e.preventDefault();
 		$('body').css('overflow', 'scroll');
 		$("#departureSession").fadeOut();
 		$('.modal-backdrop').remove();
-		if (sessionPricingVisible == true) {
-			$(".dsChangePrice").toggle('slow');
-			sessionPricingVisible = false;
-		}
 	})
 
 </script>

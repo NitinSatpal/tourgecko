@@ -20,7 +20,7 @@
       "bookingOptionMaxSeatLimitReached" : "Please select number of seats within the available range",
       "bookingOptionProductMinSeatLimitReached": "Please select number of seats more than the minimum seats required",
       "bookingOptionProductMaxSeatLimitReached": "Please select number of seats less than the maximum seats allowed",
-      "dateSelection" : "Please select departure date first as prices shown on next screen may vary according to the date selected",
+      "dateSelection" : "Please select a departure date to proceed",
       "timeslotSelection" : "Please select your preferred time from the available time slot options"
     })
     .constant('unavailableMonthsMap', {
@@ -169,9 +169,8 @@
                          * It will also be used to either enable or disable the date on the calendar.
                          */
                         vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
-
                         /* Get the date and the time so display on the booking page */
-                        var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey}
+                        var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                         /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
                         vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
 
@@ -180,7 +179,7 @@
                         var fullyBookedKey;
                         fullyBookedKey = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
                         if (vm.sessionsOfThisProduct[index] && vm.sessionsOfThisProduct[index].numberOfSeats && vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey])
-                          remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
+                          remainingSeats = parseInt(vm.sessionsOfThisProduct[index].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
 
                         if (parseInt(remainingSeats) == 0)
                           sessionFullyBooked.set(sessionDateIterator.toString(), 'Yes');
@@ -244,7 +243,7 @@
                       vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
 
                       /* Get the date and the time so display on the booking page */
-                      var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey}
+                      var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                       /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
                       vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
 
@@ -253,7 +252,7 @@
                       var fullyBookedKey;
                       fullyBookedKey = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
                       if (vm.sessionsOfThisProduct[index] && vm.sessionsOfThisProduct[index].numberOfSeats && vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey])
-                        remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
+                        remainingSeats = parseInt(vm.sessionsOfThisProduct[index].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
                       if (parseInt(remainingSeats) == 0)
                         sessionFullyBooked.set(sessionDateIterator.toString(), 'Yes');
                       else
@@ -310,8 +309,8 @@
                   dateToTimeslots.set(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime().toString(), tempArr);
                 }
 
-                vm.datesOfTheSessionsOfThisProduct.push(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate);
-                var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey}
+                vm.datesOfTheSessionsOfThisProduct.push(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).toString());
+                var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                 vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
 
                 /* Check whether any seats are remaining for the above time stamp */
@@ -319,7 +318,7 @@
                 var fullyBookedKey;
                 fullyBookedKey = new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime().toString() + sessionPricingPartialKey;
                 if (vm.sessionsOfThisProduct[index] && vm.sessionsOfThisProduct[index].numberOfSeats && vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey])
-                  remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
+                  remainingSeats = parseInt(vm.sessionsOfThisProduct[index].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
                 if (parseInt(remainingSeats) == 0)
                   sessionFullyBooked.set(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).toString(), 'Yes');
                 else
@@ -805,7 +804,6 @@ vm.areAddonsSelected = function () {
           var bookingData = createBookingObject();
           $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
             // $("a.im-checkout-btn.btn--light").attr('href', response);
-            console.log('The response is ' + response);
             Instamojo.open(response)
             //document.getElementsByClassName('im-checkout-btn')[0].click();
           }).error(function (error) {
@@ -997,7 +995,6 @@ vm.areAddonsSelected = function () {
     $scope.setThisDateAsSelected = function (displayDate) {
       vm.selectedTimeslot = 'Select Time';
       vm.selectedDate = displayDate;
-      maxSeatsAvailable = parseInt(getRemainingSeatsForCalendar(vm.selectedTimeslot));
       if(vm.bookingProductDetails.productAvailabilityType == 'Open Date') {
         if (vm.bookingProductDetails.productTimeSlotsAvailability == 'Fixed Slots' && vm.bookingProductDetails.productTimeSlots.length > 0)
           vm.timesForThisDate = vm.bookingProductDetails.productTimeSlots;
@@ -1006,7 +1003,6 @@ vm.areAddonsSelected = function () {
         if (vm.timesForThisDate.length == 1 && vm.timesForThisDate[0] == 'No Time')
           vm.timesForThisDate.length  = 0;
       }
-
       $scope.$apply();
     }
 
@@ -1034,21 +1030,21 @@ vm.areAddonsSelected = function () {
     }
 
     vm.getSeatsRemainingForList = function (session, index) {
-      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.bookingProductDetails.productSeatsLimitType == 'unlimited') {
-        if (vm.bookingProductDetails.isAvailabilityVisibleToGuests)
+      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
+        if (session.capacityDetails.isSessionAvailabilityVisibleToGuests)
           return 'No Limit';
         else
-          $('.card-tour-price').addClass('removeBackgroundColor');
+          $('#remainingSeats'+index).addClass('removeBackgroundColor');
       } else {
         var remainingSeats =  getRemainingSeatsForList(session);
         if (remainingSeats == 0) {
           $('#optionsRadios' + index).attr('disabled', 'true');
         }
         remainingSeats = remainingSeats <= 1 ? remainingSeats.toString() + ' seat available' : remainingSeats.toString() + ' seats available';
-        if (vm.bookingProductDetails.isAvailabilityVisibleToGuests)
+        if (session.capacityDetails.isSessionAvailabilityVisibleToGuests)
           return remainingSeats;
         else
-          $('.card-tour-price').addClass('removeBackgroundColor');
+          $('#remainingSeats'+index).addClass('removeBackgroundColor');
       }
       return '';
     }
@@ -1060,25 +1056,25 @@ vm.areAddonsSelected = function () {
         key = new Date(session.startDate).getTime().toString() + session.startTime.toString();
       var actualSessionIndex = dateTimestampToActualSession.get(key);
       if (vm.sessionsOfThisProduct && vm.sessionsOfThisProduct[actualSessionIndex] && vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats && vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]) {
-        remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit) - parseInt(vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]);
+        remainingSeats = parseInt(vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]);
       } else {
-        if (vm.bookingProductDetails)
-          remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit);
+        remainingSeats = parseInt(session.capacityDetails.sessionSeatLimit);
       }
 
       return remainingSeats;
     }
 
     vm.getSeatsRemainingForCalendar = function (time) {
-
-      if(vm.bookingProductDetails.productAvailabilityType == 'Open Date' || (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.bookingProductDetails.productSeatsLimitType == 'unlimited')) {
-        if (vm.bookingProductDetails.isAvailabilityVisibleToGuests)
-          return 'No Limit';
+      var key = new Date(vm.selectedDate).getTime().toString() + time.toString();
+      var actualSessionIndex = dateTimestampToActualSession.get(key);
+      if(vm.bookingProductDetails.productAvailabilityType == 'Open Date' || (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')) {
+        if (vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.isSessionAvailabilityVisibleToGuests)
+          return ' - (No Limit)';
       } else {
         var remainingSeats = getRemainingSeatsForCalendar(time);
         remainingSeats = remainingSeats <= 1 ? remainingSeats.toString() + ' seat available' : remainingSeats.toString() + ' seats available';
-        if (vm.bookingProductDetails.isAvailabilityVisibleToGuests)
-          return remainingSeats;
+        if (vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.isSessionAvailabilityVisibleToGuests)
+          return ' - (' + remainingSeats + ')';
       }
       return '';
     }
@@ -1088,11 +1084,17 @@ vm.areAddonsSelected = function () {
       var key = new Date(vm.selectedDate).getTime().toString() + time.toString();
       var actualSessionIndex = dateTimestampToActualSession.get(key);
       if (vm.sessionsOfThisProduct[actualSessionIndex] && vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats && vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]) {
-        remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit) - parseInt(vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]);
+        remainingSeats = parseInt(vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[actualSessionIndex].numberOfSeats[key]);
       } else
-        remainingSeats = parseInt(vm.bookingProductDetails.productSeatLimit);
+        remainingSeats = parseInt(vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatLimit);
 
       return remainingSeats;
     }
+
+    vm.findMaximumCapcityOfThisTimestamp = function (time) {
+      vm.selectedTimeslot = time;
+      maxSeatsAvailable = parseInt(getRemainingSeatsForCalendar(time));
+    }
+    
   }
 }());

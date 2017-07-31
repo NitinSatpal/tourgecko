@@ -219,11 +219,11 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        		if(document.product.productAvailabilityType == 'Open Date')
 				        			limit = '-';
 				        		else {
-				        			if (document.product.productSeatsLimitType == 'unlimited')
+				        			if (document.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited') {
 					        			limit = 'No Limit';
-					        		else {
-					        			if (document.product.productSeatLimit) {
-					        				limit = document.product.productSeatLimit;
+				        			} else {
+					        			if (document.sessionCapacityDetails.sessionSeatLimit) {
+					        				limit = document.sessionCapacityDetails.sessionSeatLimit;
 					        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
 					        					percentBooking = parseInt(document.numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
 					        			} else
@@ -244,21 +244,21 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        					if (percentBooking <= 40) {
 		        						colorClassForListItems = '#42AE5E';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
-						        			document.product.productTitle + '</span> <br>' +
+						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 		        					} else if (percentBooking > 40 && percentBooking <= 80) {
 		        						colorClassForListItems = '#ED9C28';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' + 
-						        			document.product.productTitle + '</span> <br>' + 
+						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' + 
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
 						        			'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
 		        					} else {
 		        						colorClassForListItems = '#D84040';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' +
-					        				document.product.productTitle + '</span> <br>' +
+					        				document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
 					        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
 					        				'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
 					        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"><span class="eventname redFC"></span></i>';
@@ -267,14 +267,13 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        				} else {
 		        					colorClassForListItems = '#42AE5E';
 		        					colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
-						        			document.product.productTitle + '</span> <br>' +
+						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 		        				}
 
 				        		if (window.innerWidth > 767) {
-				        			console.log('gabra junun ' + eventDate);
 				        			eventObject = {
 				        				title: colorSelectionAndTitle,
 				        				titleText: document.product.productTitle,

@@ -97,20 +97,6 @@ var ProductSchema = new Schema({
   },
   /* Open date tour ends here */
 
-  /* For fixed date tours */
-  productSeatsLimitType: {
-    type: String,
-    default: ''
-  },
-  productSeatLimit: {
-    type:Number
-  },
-  isAvailabilityVisibleToGuests: {
-    type: Boolean,
-    default: false
-  },
-  /* Fixed date tour ends here */
-
   productBookingAvailabilityType: {
     type: String,
     default: '',
