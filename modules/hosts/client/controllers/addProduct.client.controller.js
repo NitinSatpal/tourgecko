@@ -875,7 +875,7 @@ vm.createDepartureSession = function () {
   }
 
   vm.isProductScheduled = true;
-  
+  sessionInternalNames[vm.fixedDepartureSessionCounter] = vm.sessionName;
   $("#departureSession").fadeOut();
   $('.modal-backdrop').remove();
   
@@ -908,7 +908,7 @@ vm.createDepartureSession = function () {
       if ($window.events.length % 3 == 0) {
         if (window.innerWidth > 767)
           $window.events.push({
-            title: '<span class="eventname orangeFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>',
+            title: '<span class="eventname orangeFC">' + sessionInternalNames[vm.fixedDepartureSessionCounter] + '(' + vm.tour.productTitle + ')' + '</span><br><i class="zmdi zmdi-circle orangeFC"></i>',
             start: eventDate,
             allDay: true,
             backgroundColor: 'rgba(237,156,40, 0.2)'
@@ -923,7 +923,7 @@ vm.createDepartureSession = function () {
       } else if ($window.events.length % 3 == 1) {
         if (window.innerWidth > 767)
           $window.events.push({
-            title: '<span class="eventname greenFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle greenFC"></i>',
+            title: '<span class="eventname greenFC">' + sessionInternalNames[vm.fixedDepartureSessionCounter] + '(' + vm.tour.productTitle + ')' + '</span><br><i class="zmdi zmdi-circle greenFC"></i>',
             start: eventDate,
             allDay: true,
             backgroundColor: 'rgba(66,174,94,0.2)'
@@ -938,7 +938,7 @@ vm.createDepartureSession = function () {
       } else {
         if (window.innerWidth > 767)
           $window.events.push({
-            title: '<span class="eventname redFC">' + vm.tour.productTitle + '</span><br><i class="zmdi zmdi-circle redFC"></i>',
+            title: '<span class="eventname redFC">' + sessionInternalNames[vm.fixedDepartureSessionCounter] + '(' + vm.tour.productTitle + ')' + '</span><br><i class="zmdi zmdi-circle redFC"></i>',
             start: eventDate,
             allDay: true,
             backgroundColor: 'rgba(216,64,64,0.2)'
@@ -961,7 +961,7 @@ vm.createDepartureSession = function () {
   vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime = $('#dsTimeSlot').val();
   // vm.productScheduledDates.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
   sessionSpecialPricing[vm.fixedDepartureSessionCounter] = vm.sessionPricing;
-  sessionInternalNames[vm.fixedDepartureSessionCounter] = vm.sessionName;
+  
   if (currentSessionHasSpecialPricing == true) {
     currentSessionHasSpecialPricing = false;
     specialPricingIndexTracker.add(vm.fixedDepartureSessionCounter);

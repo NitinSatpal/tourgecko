@@ -244,21 +244,21 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        					if (percentBooking <= 40) {
 		        						colorClassForListItems = '#42AE5E';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
-						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
+						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
 		        					} else if (percentBooking > 40 && percentBooking <= 80) {
 		        						colorClassForListItems = '#ED9C28';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' + 
-						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' + 
+						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' + 
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
 						        			'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
 		        					} else {
 		        						colorClassForListItems = '#D84040';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' +
-					        				document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
+					        				document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
 					        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
 					        				'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
 					        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"><span class="eventname redFC"></span></i>';
@@ -267,7 +267,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        				} else {
 		        					colorClassForListItems = '#42AE5E';
 		        					colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
-						        			document.product.productTitle + '(' + document.sessionInternalName + ')</span> <br>' +
+						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
