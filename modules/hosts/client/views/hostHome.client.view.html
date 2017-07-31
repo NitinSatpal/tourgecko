@@ -42,9 +42,11 @@
 						<h4>Pinboard</h4>
 				</div>
 			    <div class="col pin-group" ng-repeat="goal in vm.companyDetails.pinboardGoals track by $index" ng-if="!goal.isGoalCompleted">
-			        <div class="alert alert-info">
-			            <strong class="pull-left">Goal:</strong>&nbsp;{{goal.goalText}}
-			            <div class="pull-right">
+			        <div class="alert alert-info row">
+			        	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-9" ng-style="vm.getDynamicPadding()">
+			            	<strong>Goal:</strong>&nbsp;{{goal.goalText}}
+			            </div>
+			            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3" style="margin-top: 15px;">
 			                <div class="c100 small orange" id="goal{{$index}}" ng-class="vm.getPercentCompletionOfGoal(goal)">
 			                    <span class="orange-text">{{vm.percentCompletion}}%</span>
 			                    <div class="slice">
@@ -56,15 +58,19 @@
 			        </div>
 			        <ul>
 			            <li ng-repeat="pin in goal.pinsForthisGoal track by $index">
-			                <div class="info_content">
-			                    <div class="info">
+			                <div class="info_content row">
+			                    <div class="info col-lg-8 col-md-8 col-sm-8 col-xs-6">
 			                        <p>{{pin.message}}</p>
 			                        <p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i>{{pin.type}}</p>
 			                        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
 			                    </div>
-			                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.islinkRequired == 'true' && !pin.isPinCompleted" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-			                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.isclickeventRequired == 'true' && !pin.isPinCompleted" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
-			                    <h3 class="pull-right" ng-if="pin.isPinCompleted"><i class="zmdi zmdi-assignment-check green-text"></i></h3>
+			                    <div ng-if="!pin.isPinCompleted" class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-style="vm.getDynamicMarginPinboardButtons()">
+				                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+				                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+				                </div>
+				                <div ng-if="pin.isPinCompleted" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-style="vm.getDynamicMarginPinboardCompletion()">
+			                    	<h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3>
+			                    </div>
 			                </div>
 			            </li>
 			        </ul>
@@ -178,7 +184,7 @@
 							<div class="title-listview" style="margin-left: 35%;">
 								<span class="listViewMonthTitle">{{listViewMonthTitle}}</span>
 							</div>
-							<br><br><br>
+							<br><br>
 							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
 								<span><h4> There are no tour or activities sessions scheduled in this time period!</h4></span>
 							</div>
@@ -202,11 +208,62 @@
 										</div>
 									</div>
 								</div>
-
 							</div>
+							<div class="row" ng-hide="productSessions.length == 0">
+			                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				                    <ul class="list-inline occupancy-indicator-legend">
+				                        <li class="text-center">
+				                            <p><span class="outline"><i class="zmdi zmdi-account green-text"></i></span></p>
+				                            <p class="text-readable12">Occupancy Indicator</p>
+				                        </li> 
+				                        <li class="text-center">
+				                            <p><span class="light-blue"></span></p>
+				                            <p class="text-readable12">0</p>
+				                        </li> 
+				                        <li class="text-center">
+				                            <p><span class="light-green"></span></p>
+				                            <p class="text-readable12">&gt;=1</p>
+				                        </li> 
+				                        <li class="text-center">
+				                            <p><span class="light-orange"></span></p>
+				                            <p class="text-readable12">&gt;50%</p>
+				                        </li> 
+				                        <li class="text-center">
+				                            <p><span class="light-red"></span></p>
+				                            <p class="text-readable12">100%</p>
+				                        </li> 
+				                    </ul>    
+			                    </div>
+	                    	</div>
 						</div>
 						<!-- ************************************************************************************************ -->
 						<div id='calendar'></div>
+						<div class="row">
+		                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			                    <ul class="list-inline occupancy-indicator-legend">
+			                        <li class="text-center">
+			                            <p><span class="outline"><i class="zmdi zmdi-account green-text"></i></span></p>
+			                            <p class="text-readable12">Occupancy Indicator</p>
+			                        </li> 
+			                        <li class="text-center">
+			                            <p><span class="light-blue"></span></p>
+			                            <p class="text-readable12">0</p>
+			                        </li> 
+			                        <li class="text-center">
+			                            <p><span class="light-green"></span></p>
+			                            <p class="text-readable12">&gt;=1</p>
+			                        </li> 
+			                        <li class="text-center">
+			                            <p><span class="light-orange"></span></p>
+			                            <p class="text-readable12">&gt;50%</p>
+			                        </li> 
+			                        <li class="text-center">
+			                            <p><span class="light-red"></span></p>
+			                            <p class="text-readable12">100%</p>
+			                        </li> 
+			                    </ul>    
+		                    </div>
+                    	</div>
 					</div>
 				</div>
 			</div>

@@ -6,11 +6,11 @@
 <div class="host-guest-common-style" id="host-guest-common-style">
     <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
     <div class="container-fluid">
-        <div class="row" ng-if="vm.productDetails.productPictureURLs.length > 0">
-            <div id="toursiteCarousel" class="carousel slide" data-ride="carousel">
+        <div class="row" id="productPictureTourDetailsCarousel">
+            <div id="tourDetailsCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#toursiteCarousel" class="" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" data-slide-to="{{$index}}"></li>
+                    <li data-target="#tourDetailsCarousel" class="" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" data-slide-to="{{$index}}"></li>
                 </ol>
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
@@ -32,7 +32,7 @@
                 </a>
             </div>
         </div>
-        <div class="row generic-banner-no-image" ng-if="vm.productDetails.productPictureURLs.length == 0">
+        <div class="row generic-banner-no-image" ng-if="vm.checkProductPicturePresence()">
             <div class="generic_banner_no_image">
                 <div>
                     <i class="zmdi zmdi-image-alt"></i>
@@ -375,5 +375,19 @@
 <script>
     $(document).ready(function(){
         $(this).scrollTop(0);
+    });
+
+    $(document).ready(function() {
+        $('#tourDetailsCarousel').carousel({
+          interval: 5000
+        })
+    });
+
+    $('.carousel-control.left').click(function() {
+        $('#tourDetailsCarousel').carousel('prev');
+    });
+
+    $('.carousel-control.right').click(function() {
+      $('#tourDetailsCarousel').carousel('next');
     });
 </script>

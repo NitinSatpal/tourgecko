@@ -511,6 +511,15 @@
       }
     }
 
+    vm.checkBannersPresence = function () {
+      if (vm.companyData.toursiteBanners.length == 0) {
+        $('#bannerCarousel').css('display', 'none');
+        return true;
+      }
+
+      return false;
+    }
+
     vm.goToProductDetailsPage = function (index) {
       $state.go('guest.tourDetails', {productId: vm.toursitedata[index]._id});
     }

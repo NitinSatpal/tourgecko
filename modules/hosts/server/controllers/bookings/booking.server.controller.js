@@ -89,7 +89,7 @@ exports.searchBooking = function (req, res) {
   // var reference = req.params.bookingReference.charAt(0).toUpperCase() + req.params.bookingReference.slice(1);
   var reference = req.params.bookingReference;
   if (req.user) {
-    Booking.find({bookingReference: reference}).sort('-created').populate('').exec(function (err, bookings) {
+    Booking.find({bookingReference: reference}).populate('product').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
@@ -329,7 +329,7 @@ exports.fetchSingleBookingDetailsFromPaymentRequestId = function (req, res) {
 
 // Confirm the booking
 exports.modifyBooking = function (req, res) {
-  Booking.findOne({_id: req.body.bookingId}).populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
+  Booking.findOne({_id: req.body.bookingId}).populate('product').populate('productSession').populate('hostCompany').populate('hostOfThisBooking').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)

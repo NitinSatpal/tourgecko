@@ -173,6 +173,49 @@
       }
     }
 
+    vm.getDynamicPadding = function () {
+      var cssObjectOne = {
+        "padding-top" : "5px"
+      }
+      var cssObjectTwo = {
+        "padding-top" : "15px"
+      }
+      if (window.innerWidth <= 767) {
+        return cssObjectOne;
+      } else {
+        return cssObjectTwo;
+      }
+    }
+
+    vm.getDynamicMarginPinboardButtons = function () {
+      var cssObjectOne = {
+        "margin-top" : "55px"
+      }
+      var cssObjectTwo = {
+        "margin-top" : "8px"
+      }
+      if (window.innerWidth <= 767) {
+        return cssObjectOne;
+      } else {
+        return cssObjectTwo;
+      }
+    }
+
+    vm.getDynamicMarginPinboardCompletion = function () {
+      var cssObjectOne = {
+        "margin-top" : "55px"
+      }
+      var cssObjectTwo = {
+        "margin-top" : "-5px"
+      }
+      if (window.innerWidth <= 767) {
+        return cssObjectOne;
+      } else {
+        return cssObjectTwo;
+      }
+    }
+    
+
     vm.verifyMobileNumber = function (verificationCode) {
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');

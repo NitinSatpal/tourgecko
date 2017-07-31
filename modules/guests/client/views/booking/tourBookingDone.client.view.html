@@ -53,7 +53,7 @@
                                             </tr>
                                             <tr ng-if="vm.validPricingOptions[$index].pricingType == 'Group'">
                                                 <td>Group of {{vm.validPricingOptions[$index].minGroupSize}} to {{vm.validPricingOptions[$index].maxGroupSize}}</td>
-                                                <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}} (vm.validPricingOptions[$index].groupOption)</td>
+                                                <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}} ({{vm.validPricingOptions[$index].groupOption}})</td>
                                                 <td>{{selectedBookingOption}}</td>
                                                 <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
                                             </tr>

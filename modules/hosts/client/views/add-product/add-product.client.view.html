@@ -1769,7 +1769,7 @@ function openUnavailableDeparturePanel() {
             <span class="qq-upload-drop-area-text-selector"></span>
         </div>
         <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;" ng-click="initializeImageUploadErrorContent(false)">
-            <div>Select</div>
+            <div>Upload</div>
         </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
             <span>Processing dropped files...</span>
@@ -1895,6 +1895,7 @@ function openUnavailableDeparturePanel() {
 					    }
 					}
 	            	angular.element('#product-photo-uploader').scope().uploadedProductPicturesForThisProduct.splice(deleteIndex, 1);
+	            	angular.element('#product-photo-uploader').scope().setUploadedPcituresUrls(true);
 	            },
 	            onError: function (id, name, reason, maybeXhrOrXdr) {
 	            	angular.element('#product-photo-uploader').scope().showImageUploadErrors(reason);
@@ -1908,7 +1909,7 @@ function openUnavailableDeparturePanel() {
 		        //either include an empty body, or some other code to display (error) messages
 		    }
 	    });
-		$('.hostHome .home-content .add-product .tours_page .nav-tabs a').click(function(){
+		$('.hostHome').click(function(){
 		    if (this.id != 'tours_media_Selector')
 		    	angular.element('#product-photo-uploader').scope().initializeImageUploadErrorContent(true);
 		});

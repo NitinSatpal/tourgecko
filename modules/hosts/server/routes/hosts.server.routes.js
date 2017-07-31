@@ -28,6 +28,9 @@ module.exports = function (app) {
   app.route('/api/host/editproduct/')
     .post(hosts.editProduct);
 
+  app.route('/api/host/editproduct/productpictureurls')
+    .post(hosts.editProductPictureUrls);
+
   app.route('/api/host/productVisibility/')
     .post(hosts.changeProductVisibility);
 

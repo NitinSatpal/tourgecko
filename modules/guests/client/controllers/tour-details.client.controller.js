@@ -273,6 +273,15 @@
       }
     }
 
+    vm.checkProductPicturePresence = function () {
+      if (vm.productDetails.productPictureURLs.length == 0) {
+        $('#productPictureTourDetailsCarousel').css('display', 'none');
+        return true;
+      }
+
+      return false;
+    }
+
     vm.goTobookingPageOfThisProduct = function () {
       if($location.search().via == 'bookButton')
         $state.go('guest.booking', {productId: vm.productDetails._id, via: 'bookButton'});

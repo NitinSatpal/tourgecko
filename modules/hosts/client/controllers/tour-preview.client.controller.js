@@ -284,5 +284,14 @@
           return vm.companyData.inquiryTimeRangeFrom + ' to ' + vm.companyData.inquiryTimeRangeTo;
       }
     }
+
+    vm.checkProductPicturePresence = function () {
+      if (vm.productDetails.productPictureURLs.length == 0) {
+        $('#productPicturePreviewCarousel').css('display', 'none');
+        return true;
+      }
+
+      return false;
+    }
   }
 }());

@@ -72,8 +72,7 @@
       } else if (imageUploaded == true) {
         $window.location.reload();
       } else {
-        if (isPasswordDetailsChanged == false)
-          alert('you have not changed anything');
+        $window.location.reload();
         $('#loadingDivUserSettingSide').css('display', 'none');
         document.body.style.cursor='default';
       }

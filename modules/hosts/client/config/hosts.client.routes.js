@@ -110,7 +110,7 @@
         }
       })
       .state('host.sessionDetails', {
-        url: '/tour/:productSessionId/:sessionStartDate',
+        url: '/tour/session/:productSessionId/:sessionStartDate',
         templateUrl: 'modules/hosts/client/views/tour-booking-details/tourBookingDetails.client.view.html',
         controller: 'TourBookingDetailsController',
         controllerAs: 'vm',
@@ -201,6 +201,15 @@
         controllerAs: 'vm',
         data: {
           pageTitle: 'notifications'
+        }
+      })
+      .state('host.hostHelp', {
+        url: '/help',
+        templateUrl: 'modules/hosts/client/views/host/hostHelp.client.view.html',
+        controller: '',
+        controllerAs: '',
+        data: {
+          pageTitle: 'help'
         }
       })
       .state('hostAndGuest', {

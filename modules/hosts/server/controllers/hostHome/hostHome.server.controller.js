@@ -71,20 +71,22 @@ exports.countCompanyProductSessions =function (req, res) {
         		if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && sessions[index].sessionDepartureDetails.notRepeatOnDays) {
 			      	for (var dailyIndex = 0; dailyIndex < sessions[index].sessionDepartureDetails.notRepeatOnDays.length; dailyIndex++)
 			        	notAllowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.notRepeatOnDays[dailyIndex]));
-			    }
-			    if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && sessions[index].sessionDepartureDetails.repeatOnDays) {
-			      	for (var weeklyIndex = 0; weeklyIndex < sessions[index].sessionDepartureDetails.repeatOnDays.length; weeklyIndex++)
-			        	allowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.repeatOnDays[weeklyIndex]));
-			    }
-			    for (var counterIndex = 0; counterIndex <= repeatedDays; counterIndex++) {
-			    	if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
-			          sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()))
-			    		repeatedDays = repeatedDays - 1;
-			    }
-			    finalCounter = finalCounter + repeatedDays;
-			  } else
-				finalCounter = finalCounter + 1;
-		  }
+			      }
+  			    if (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && sessions[index].sessionDepartureDetails.repeatOnDays) {
+  			      	for (var weeklyIndex = 0; weeklyIndex < sessions[index].sessionDepartureDetails.repeatOnDays.length; weeklyIndex++)
+  			        	allowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.repeatOnDays[weeklyIndex]));
+  			    }
+  			    for (var counterIndex = 0; counterIndex <= repeatedDays; counterIndex++) {
+  			    	if((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(firstDate.getDay())) ||
+  			          (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(firstDate.getDay())))
+  			    		repeatedDays = repeatedDays - 1;
+
+              firstDate = new Date(firstDate.setDate(firstDate.getDate() + 1));
+  			    }
+  			    finalCounter = finalCounter + repeatedDays;
+			    } else
+				    finalCounter = finalCounter + 1;
+		    }
     	res.json({count: finalCounter});
   	});
 	}

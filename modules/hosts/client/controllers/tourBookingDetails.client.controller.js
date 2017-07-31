@@ -17,7 +17,7 @@
     vm.confirmedSeats = 0;
     vm.totalRevenue = 0;
 
-    var sessionStartDate = $location.path().split('/')[4];
+    var sessionStartDate = $location.path().split('/')[5];
     
     $http.get('/api/host/bookingDetailsForParticularSession/' + $stateParams.productSessionId + '/' + sessionStartDate ).success(function (response) {
       var bookings = response;
@@ -33,15 +33,14 @@
     /* This will change and we will fetch only one as per date */
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
-      var startDate = new Date(vm.productSession.sessionDepartureDetails.startDate);
-      var startDateToSend = vm.productSession.sessionDepartureDetails.startDate;
+      var startDate = new Date(+sessionStartDate);
       var duration = vm.productSession.product.productDuration;
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
         tourEndDate = startDate.setDate(startDate.getDate() + duration - 1);
       } else
         tourEndDate = startDate;
-      initializeRemainingTimeCounter(startDateToSend, tourEndDate);
+      initializeRemainingTimeCounter(startDate, tourEndDate);
       asynRequestCounter++;
       if(asynRequestCounter >= 2) {
         $('#loadingDivHostSide').css('display', 'none');

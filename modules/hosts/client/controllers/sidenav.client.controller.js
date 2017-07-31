@@ -26,11 +26,21 @@
             $('#' + $location.path().split('/')[3] + 'Setting').addClass('active');
         }
     }
+
     $http.get('/api/host/booking/status/count/' + 'All').success(function (response) {
+      vm.pendingBookingCount = response;
+    }).error(function (response) {
+      vm.error = response.message;
+    });
+
+    setInterval(function () {
+      $http.get('/api/host/booking/status/count/' + 'All').success(function (response) {
         vm.pendingBookingCount = response;
       }).error(function (response) {
         vm.error = response.message;
       });
+    }, 60000);
+    
 
     vm.goToHostWebsite = function() {
       $http.get('/api/host/toursite').success(function (response) {

@@ -59,7 +59,10 @@ var ProductSchema = new Schema({
     type: Boolean,
     default: false
   },
-
+  productScheduledTimestamps: {
+    type: Array,
+    default: []
+  },
   productScheduledDates: {
     type: Array,
     default: []

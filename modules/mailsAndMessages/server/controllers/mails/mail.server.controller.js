@@ -112,12 +112,16 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
       totalAmountPaid: booking.totalAmountPaid,
       totalDueAmount: totalDueAmount
     }, function (err, emailHTML) {
+      var fromName = booking.hostCompany.companyName.toString();
+      var fromEmail = booking.hostOfThisBooking.email;
+      var replyTo = booking.hostCompany.inquiryEmail;
       nodemailerMailgun.sendMail({
-            from: 'noreply@tourgecko.com',
+            from: fromName + ' <'+ fromEmail + '>',
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
             subject: 'Booking Successful!',
+            'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
             //You can use "text:" to send plain-text content. It's oldschool!
@@ -135,7 +139,18 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
     if (config.secure && config.secure.ssl === true) {
       httpTransport = 'https://';
     }
-    var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+    var host = req.headers.host.split('.');
+    var hostPart = '';
+    for (var index = 0; index < host.length; index ++) {
+      if (index > 0) {
+        hostPart = hostPart + host[index];
+        if (index != host.length - 1)
+          hostPart = hostPart + '.';
+      }
+    }
+
+
+    var baseUrl = httpTransport + hostPart;
     var bookingURL = baseUrl + '/host/booking/' + booking._id;
     res.render(path.resolve('modules/hosts/server/templates/booking-created-host-email'), {
       customerName: booking.providedGuestDetails.firstName,
@@ -159,7 +174,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
       totalDueAmount: totalDueAmount
     }, function (err, emailHTML) {
       nodemailerMailgun.sendMail({
-            from: 'noreply@tourgecko.com',
+            from: 'tourgecko <noreply@tourgecko.com>',
             to: booking.hostCompany.notificationEmail, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
@@ -198,12 +213,16 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
       totalAmountPaid: booking.totalAmountPaid,
       totalDueAmount: totalDueAmount
     }, function (err, emailHTML) {
+      var fromName = booking.hostCompany.companyName.toString();
+      var fromEmail = booking.hostOfThisBooking.email;
+      var replyTo = booking.hostCompany.inquiryEmail;
       nodemailerMailgun.sendMail({
-            from: 'noreply@tourgecko.com',
+            from: fromName + '<' + fromEmail + '>',
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
             subject: 'Booking Confirmed!',
+            'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
             //You can use "text:" to send plain-text content. It's oldschool!
@@ -237,13 +256,17 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
       totalAmountForAddons: booking.totalAmountForAddons,
       totalAmountPaid: booking.totalAmountPaid,
       totalDueAmount: totalDueAmount
-    }, function (err, emailHTML) {      
+    }, function (err, emailHTML) { 
+      var fromName = booking.hostCompany.companyName.toString();
+      var fromEmail = booking.hostOfThisBooking.email;
+      var replyTo = booking.hostCompany.inquiryEmail;    
       nodemailerMailgun.sendMail({
-            from: 'noreply@tourgecko.com',
+            from: fromName + '<' + fromEmail + '>',
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
             subject: 'Booking ' + booking.bookingStatus +'!',
+            'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
             //You can use "text:" to send plain-text content. It's oldschool!
@@ -301,7 +324,6 @@ exports.sendContactUsContentToHost = function (req, res) {
     //cc:'',
     //bcc:'',
     subject: req.body.guestDetails.guestSubject,
-    'h:Reply-To': req.hostMail,
     //You can use "html:" to send HTML email content. It's magic!
     // html: req.body.guestDetails.guestMessage,
     //You can use "text:" to send plain-text content. It's oldschool!

@@ -184,7 +184,6 @@
     }
 
     vm.getEmailIdToDisplay = function (email) {
-      console.log(email);
       if (email) {
         if ($window.innerWidth > 767) {
           if (email.length >= 25)
@@ -650,7 +649,6 @@
       $http.get('/api/host/booking/search/' + bookingReference).success(function (response) {
         vm.noSearchQueryFired = false;
         vm.bookings = response;
-        console.log(vm.bookings);
       });
     }
 

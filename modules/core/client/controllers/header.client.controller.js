@@ -15,6 +15,12 @@
     $scope.unreadNotificationCount = -1;
     vm.notificationSkipIndex = 0;
 
+    $http.get('/api/notification/initialfetch/').success(function (response) {
+      vm.notifications = response;
+    });
+    $http.get('/api/notification/unreadCount/').success(function (response) {      
+      $scope.unreadNotificationCount = response.counterValue;
+    });
     setInterval(function () {
       $http.get('/api/notification/initialfetch/').success(function (response) {
         vm.notifications = response;

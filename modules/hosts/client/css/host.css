@@ -1901,7 +1901,15 @@ p.sub_desc{ color:#aaaaaa !important;}
 #settings .settings_account_info .fileUpload:hover,#settings .settings_account_info .fileUpload:visited,#settings .settings_account_info .fileUpload:active,#settings .settings_account_info .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #settings .settings_account_info .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}
 
-#settings .company_logo_info .company_logo img{width: 12.6rem; /*border-radius: 100%;*/ margin:1em; display: inline;}
+#settings .company_logo_info .company_logo img{
+	height: 200px;
+    width: 250px;
+    border-radius: 1rem;
+	/*border-radius: 100%;*/
+	margin:1em;
+	display: inline-block;
+    object-fit: contain;
+}
 #settings .company_logo_info .fileUpload {overflow: hidden;display: inline-block;background: none;color: #40C4FF; transform: translateY(-50%);}
 #settings .company_logo_info .fileUpload:hover,#settings .company_logo_info .fileUpload:visited,#settings .company_logo_info .fileUpload:active,#settings .company_logo_info .fileUpload:focus{background: none; color: #40C4FF;text-decoration: underline;box-shadow: none;}
 #settings .company_logo_info .fileUpload input.upload {position: absolute;top: 0;right: 0;margin: 0;padding: 0;font-size: 20px;cursor: pointer;opacity: 0;filter: alpha(opacity=0);}

@@ -120,6 +120,19 @@ exports.editProduct = function(req, res) {
   });
 };
 
+
+exports.editProductPictureUrls = function(req, res) {
+  Product.findOne({ '_id': req.body.productId }).exec(function (err, product) {
+    if(err) {
+      
+    } else {
+      product.productPictureURLs = req.body.productPictureURLs;
+      product.save();
+      res.json(product);
+    }
+  });
+};
+
 // Change product visibility
 exports.changeProductVisibility = function (req, res) {
   var productArray = req.body.changedStatus;

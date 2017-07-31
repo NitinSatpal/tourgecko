@@ -169,6 +169,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		      	weekDaysNumber.set('Friday', 5);
 		      	weekDaysNumber.set('Saturday', 6);
 		      	monthListArrays[monthNumber].length = 0;
+		      	monthArrays[monthNumber].length = 0;
 	        	$.each(sessions, function(index, document) {
 	        		if(document) {
 		        		var repeatedDays = 0;
@@ -195,6 +196,9 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
 		        		for (var index = 0; index <= repeatedDays; index ++) {
 		        			var needToSave = true;
+		        			var allDay;
+		        			var minTime;
+		        			var maxTime;
 		        			if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
 				        		document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
 				        		eventDate > firstDate)
@@ -202,9 +206,13 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 
 		        			if (needToSave) {
 		        				var endDate = angular.copy(eventDate);
-
-				        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Days')
+				        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Days') {
 				        			endDate.setDate(endDate.getDate() + document.product.productDuration);
+				        			allDay = true;
+				        		}
+				        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Hours') {
+				        			allDay = false;
+				        		}
 		        				var limit;
 		        				var percentBooking = 'NA';
 		        				var numOfSeatsKey = eventDate.getTime().toString();
@@ -266,12 +274,14 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        				}
 
 				        		if (window.innerWidth > 767) {
+				        			console.log('gabra junun ' + eventDate);
 				        			eventObject = {
 				        				title: colorSelectionAndTitle,
 				        				titleText: document.product.productTitle,
 					        			start: eventDate,
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
+					        			allDay: allDay,
 					        			productSessionId: document._id,
 					        			backgroundColor:  '#ffe4b2',
 					        			tourDepartureType: document.product.productAvailabilityType
@@ -283,6 +293,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			start: eventDate,
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
+					        			allDay: allDay,
 					        			productSessionId: document._id,
 					        			tourDepartureType: document.product.productAvailabilityType
 				        			}

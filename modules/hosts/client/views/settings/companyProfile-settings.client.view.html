@@ -172,9 +172,6 @@
 												<div>
 													<select class="form-control" id="country_addr" ng-model="vm.companyDetails[0].hostCompanyAddress.country">
 														<option>India</option>
-														<option>Option 2</option>
-														<option>Option 3</option>
-														<option>Option 4</option>
 													</select>
 												</div>
 											</div>
@@ -319,7 +316,7 @@
 	        //either include an empty body, or some other code to display (error) messages
 	    }
     });
-    $("#uploadLogoBtn").click(function () {
+    $(document).on('click', '#uploadLogoBtn', function () {
     	$("#logoUploadErrorContainer").css("display", "none");
     })
 </script>

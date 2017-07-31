@@ -21,7 +21,7 @@ exports.getToursite = function (req, res) {
     userId = req.user._id;
   var tourSite = req.query.toursite;
   if (userId === undefined) {
-    Company.findOne({ toursite: tourSite }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
+    Company.findOne({ toursite: tourSite, isToursiteInactive: false }, '-salt -password').sort('-created').populate('user').exec(function (err, company) {
       if (err) {
         res.status(500).render('modules/core/server/views/500', {
           error: 'Oops! Something went wrong...'

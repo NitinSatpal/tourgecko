@@ -244,18 +244,13 @@
     .uplodLogoStyle {
         margin-left: 33%;
     }
-    .host-guest-common-style.contact-us-page .host-guest-common-style-row label {
-        margin-bottom: 0 !important;
-    }
     .host-guest-common-style.contact-us-page .host-guest-common-style-row input {
-        margin-bottom: 0 !important;
+        margin-bottom: 15px !important;
     }
     .host-guest-common-style.contact-us-page .host-guest-common-style-row textarea {
-        margin-bottom: 0 !important;
+        margin-bottom: 15px !important;
     }
-    .host-guest-common-style.contact-us-page .host-guest-common-style-row {
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
+    .contactUsEmail {
+        padding-top: 10px !important;
     }
-
 }

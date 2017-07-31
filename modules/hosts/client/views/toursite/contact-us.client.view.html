@@ -20,7 +20,7 @@
                                 <p class="help-block error-text" ng-message="required">Please enter your name</p>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-6 contactUsEmail">
                             <label for="email" class="text-lighten-1">Email</label>
                             <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="vm.contentToHost.guestEmail" required lowercase style="margin-bottom: 20px;">
                             <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
@@ -96,7 +96,6 @@
     <footer>
         <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
     </footer>
-    <p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> Outrider Inc, 2017 Powered by tourgecko</p>
 </div>
 <script>
         var geocoder;

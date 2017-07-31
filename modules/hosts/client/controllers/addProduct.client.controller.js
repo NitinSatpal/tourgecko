@@ -15,7 +15,8 @@
       "groupPricingFinalValidation" : "'Group' sizes  in group price option can not overlap",
       "everyonePricingFinalValidation" : "Price for 'Everyone' option can not be used with any other option",
       "tourDuration": "Duration of the tour cannot be blank",
-      "onePricingOptionRequired": "Minimum one price option is required"
+      "onePricingOptionRequired": "Minimum one price option is required",
+      "openDatTimeSlotNotPresent": "Please enter at least one available time-slot or change the time-slot availability option"
     });
   AddProductController.$inject = ['$scope', '$rootScope', '$state', '$stateParams', '$http', '$timeout', '$window', '$location', 'Upload', 'ProductDataShareService', 'errorContentData', 'toasty'];
 
@@ -37,6 +38,7 @@
     vm.pricingOptions = ['Everyone'];
     vm.fixedProductSchedule = [];
     vm.productScheduledDates = [];
+    vm.productScheduledTimestamps = [];
     vm.imageFileSelected = false;
     vm.mapFileSelected = false;
     vm.showProgressbar = false;
@@ -277,6 +279,7 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productSeatsLimitType = vm.tour.productSeatsLimitType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
+          vm.productScheduledTimestamps = vm.tour.productScheduledTimestamps;
           // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
           angular.copy(vm.tour.productPricingOptions, previousPricingOption);
             
@@ -318,7 +321,6 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function ends */
 /* ------------------------------------------------------------------------------------------------------------------------- */
-
 
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* function to get the next day counter */
@@ -799,7 +801,7 @@ vm.createDepartureSession = function () {
   var allowedDays = new Set();
 
   if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' ||
-     vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') {
+    vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly') {
     var firstDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate);
     var secondDate = new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate);
     var oneDay = 24 * 60 * 60 * 1000;
@@ -853,7 +855,7 @@ vm.createDepartureSession = function () {
         else
           sessionCreatedTimestamp = new Date(validatorDate).getTime().toString() + $('#dsTimeSlot').val().toString();
 
-        if (createdSessionTracker.has(sessionCreatedTimestamp)) {
+        if (createdSessionTracker.has(sessionCreatedTimestamp) || vm.productScheduledTimestamps.indexOf(sessionCreatedTimestamp) != -1) {
           toasty.error({
             title: 'Duplicate Session!',
             msg: 'Session with same timestamp already created',
@@ -889,6 +891,7 @@ vm.createDepartureSession = function () {
       else
         sessionCreatedTimestamp = new Date(eventDate).getTime().toString() + $('#dsTimeSlot').val().toString();
       createdSessionTracker.add(sessionCreatedTimestamp);
+      vm.productScheduledTimestamps.push(sessionCreatedTimestamp);
       var uniqueString = eventDate.getMonth().toString() + eventDate.getUTCFullYear().toString();
       if (!monthTracker.has(uniqueString)) {
         monthTracker.add(uniqueString);
@@ -897,7 +900,7 @@ vm.createDepartureSession = function () {
     }
 
     if (needToSave) {
-      vm.productScheduledDates.push(eventDate);
+      vm.productScheduledDates.push(eventDate);      
       if ($window.events.length % 3 == 0) {
         if (window.innerWidth > 767)
           $window.events.push({
@@ -1017,6 +1020,8 @@ function findValidityOFOVerlappingSessions () {
         if (!vm.everyonePricingValid) {
           vm.errorContent.push(errorContentData['everyonePricingFinalValidation']);
         }
+        if(vm.productAvailabilityType == 'Open Date' && $scope.productTimeSlotsAvailability == 'Fixed Slots' && $scope.timeslots.length == 0)
+          vm.errorContent.push(errorContentData['openDatTimeSlotNotPresent']);
         return false;
       }
 
@@ -1028,10 +1033,12 @@ function findValidityOFOVerlappingSessions () {
         if(vm.form.tourForm.tour_main_destination.$error.required)
           vm.errorContent.push(errorContentData['tourDestination']);
         if(vm.form.tourForm.tours_sa_date_time.$error.required)
-            vm.errorContent.push(errorContentData['tourDuration']);
+          vm.errorContent.push(errorContentData['tourDuration']);
           
         return false;
       }
+      if(vm.productAvailabilityType == 'Open Date' &&$scope.productTimeSlotsAvailability == 'Fixed Slots' && $scope.timeslots.length == 0)
+        vm.errorContent.push(errorContentData['openDatTimeSlotNotPresent']);
       if(productId !== undefined) {
         var areSessionsPresent = false;
         var isPriceSame = true;
@@ -1151,6 +1158,7 @@ function findValidityOFOVerlappingSessions () {
       vm.tour.destination = document.getElementById('tour_main_destination').value;
       vm.tour.productGrade = vm.productGrade;
       vm.tour.productAvailabilityType = vm.productAvailabilityType;
+      vm.tour.productScheduledTimestamps = vm.productScheduledTimestamps;
       vm.tour.productScheduledDates = vm.productScheduledDates;
       vm.tour.productSeatsLimitType = vm.productSeatsLimitType;
       vm.tour.productDurationType = vm.productDurationType;
@@ -1175,22 +1183,9 @@ function findValidityOFOVerlappingSessions () {
       vm.tour.productTimeSlots = $scope.timeslots;
       vm.tour.isProductScheduled = vm.isProductScheduled;
       vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;
-      var modifiedUploadedProductMapsForThisProduct = [];
-      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/maps/'
-      for (var index = 0; index < $scope.uploadedProductMapsForThisProduct.length; index++) {
-        modifiedUploadedProductMapsForThisProduct.push(productPictureConstPath + $scope.uploadedProductMapsForThisProduct[index]);
-      }
-
-      vm.tour.productMapURLs = modifiedUploadedProductMapsForThisProduct;
-      
-
-      var modifiedUploadedProductPicturesForThisProduct = [];
-      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/photos/'
-      for (var index = 0; index < $scope.uploadedProductPicturesForThisProduct.length; index++) {
-        var tempFileObject = {url: productPictureConstPath + $scope.uploadedProductPicturesForThisProduct[index].uuid, size: $scope.uploadedProductPicturesForThisProduct[index].size, name: $scope.uploadedProductPicturesForThisProduct[index].name}
-        modifiedUploadedProductPicturesForThisProduct.push(tempFileObject);
-      }      
-      vm.tour.productPictureURLs =  modifiedUploadedProductPicturesForThisProduct;
+      // Maps upload are not present in beta
+      //setUploadedMapsUrls();
+      setUploadedPcituresUrls(false);
       vm.tour.isProductAvailabileAllTime = vm.isProductAvailabileAllTime;
       if (vm.tour.isProductAvailabileAllTime && vm.tour.productUnavailableMonths)
         vm.tour.productUnavailableMonths.length = 0;
@@ -1198,6 +1193,40 @@ function findValidityOFOVerlappingSessions () {
 /* ------------------------------------------------------------------------------------------------------------------------- */    
     /* Assign form data to product record properly, ends here */
 /* ------------------------------------------------------------------------------------------------------------------------- */
+    
+    $scope.setUploadedPcituresUrls = function (saveIt) {
+      setUploadedPcituresUrls(saveIt);
+    }
+
+    function setUploadedPcituresUrls (saveIt) {
+      var modifiedUploadedProductPicturesForThisProduct = [];
+      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/photos/'
+      for (var index = 0; index < $scope.uploadedProductPicturesForThisProduct.length; index++) {
+        var tempFileObject = {url: productPictureConstPath + $scope.uploadedProductPicturesForThisProduct[index].uuid, size: $scope.uploadedProductPicturesForThisProduct[index].size, name: $scope.uploadedProductPicturesForThisProduct[index].name}
+        modifiedUploadedProductPicturesForThisProduct.push(tempFileObject);
+      }
+      if (!saveIt)
+        vm.tour.productPictureURLs =  modifiedUploadedProductPicturesForThisProduct;
+      else {
+        $http.post('/api/host/editproduct/productpictureurls', {productId: vm.tour._id, productPictureURLs: modifiedUploadedProductPicturesForThisProduct})
+        .success(function (response) {
+          //success
+        }).error(function (response) {
+        });
+      }
+    }
+
+    /* Map uploads are not present in beta */
+    /*
+    function setUploadedMapsUrls () {
+      var modifiedUploadedProductMapsForThisProduct = [];
+      var productPictureConstPath = '/modules/hosts/client/pictures/products/tours/maps/'
+      for (var index = 0; index < $scope.uploadedProductMapsForThisProduct.length; index++) {
+        modifiedUploadedProductMapsForThisProduct.push(productPictureConstPath + $scope.uploadedProductMapsForThisProduct[index]);
+      }
+
+      vm.tour.productMapURLs = modifiedUploadedProductMapsForThisProduct;
+    } */
     
     vm.enableSaveButton = function () {
       vm.saveBtnDisabled = false;
