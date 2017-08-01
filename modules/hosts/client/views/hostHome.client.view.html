@@ -128,18 +128,20 @@
 					</div> -->
 					<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
 						<h4>Sessions</h4>
-						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'sessionDepartureDate' | limitTo:5" ng-show="vm.getStartsInDays(session.sessionDepartureDetails.startDate) > 0">
+						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'utcDate' | limitTo: 5">
                             <div class="occupancy-indicator light-blue">
                                 <i class="zmdi zmdi-account green-text"></i>
                                 <h5>
-                                    <span class="current">0</span>&nbsp;/
-                                    <span class="total">10</span>
+                                    <span class="current" ng-if="session.sessionInternalName">{{vm.getAvailabilityFigureForLatestSection(session.startDate, session.numberOfSeatsSession)}}</span>&nbsp;/
+                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? 'No limit' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
+                                    <span class="total" ng-if="!session.sessionInternalName">{{vm.getAvailabilityFigureForLatestSection(session.startDate)}}</span>
                                 </h5>
                             </div>
 							<div class="session-info">
-                            <p class="name">{{session.product.productTitle}}</p>
-                            <p class="date">{{session.sessionDepartureDetails.startDate}}</p>
-							<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.sessionDepartureDetails.startDate)}} days</span></p>
+                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
+                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
+                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}}</p>
+							<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}} days</span></p>
                             </div>
 						</div>
 

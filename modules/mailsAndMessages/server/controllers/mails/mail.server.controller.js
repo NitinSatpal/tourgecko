@@ -116,7 +116,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
       var fromEmail = booking.hostOfThisBooking.email;
       var replyTo = booking.hostCompany.inquiryEmail;
       nodemailerMailgun.sendMail({
-            from: fromName + ' <'+ fromEmail + '>',
+            from: fromName + '<'+ fromEmail + '>',
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
@@ -128,6 +128,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             // text: req.body.guestDetails.guestMessage
           }, function (err, info) {
             if (err) {
+              console.log('what the hell is this ' + err);
               return err;
             } else {
               return 'success';
@@ -273,6 +274,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             // text: req.body.guestDetails.guestMessage
           }, function (err, info) {
             if (err) {
+              console.log('what the hell is this ' + err);
               return err;
             } else {
               return 'success';

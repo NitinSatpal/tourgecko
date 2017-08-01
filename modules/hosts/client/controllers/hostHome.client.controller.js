@@ -40,13 +40,10 @@
     }).error(function (response){
     });
 
-    $http.get('/api/host/companyproductsessioncount/').success(function (response) {
+    $http.get('/api/host/companyproductsessionsForAnalyticsAndLatestData/').success(function (response) {
       vm.departuresCount = response.count;
-    }).error(function (response){
-    });
-
-    $http.get('/api/host/companyproductsessions/').success(function (response) {
-      vm.departureSessions = response;
+      vm.departureSessions = response.departureSessions;
+      console.log(JSON.stringify(vm.departureSessions));
     }).error(function (response){
     });
 
@@ -65,7 +62,6 @@
           break;
         }
       }
-      
     }).error(function (response){
     });
 
@@ -106,23 +102,21 @@
       return displayDate;
     }
 
+    vm.getAvailabilityFigureForLatestSection = function (startDate, numberOfSeatsSession) {
+      var key = new Date(startDate).getTime().toString();
+      if (numberOfSeatsSession && numberOfSeatsSession[key])
+        return numberOfSeatsSession[key];
+      else
+        return 0;
+    }
+
     vm.dismissPinboardMessage = function (id, type, index) {
       if (type == 'pin') {
-        console.log('the id is ' + id);
         vm.pinboardPins.splice(index, 1)
         $http.post('/api/host/pinboard/pins/dismiss', {pinId: id}).success(function (response) {
         }).error(function (response){
         });
       }
-    }
-
-    vm.getStartsInDays = function (startDate) {
-      // Set the date we're counting down to
-        var countDownDate = new Date(startDate).getTime();
-        var now = new Date().getTime();
-        var distance = countDownDate - now;
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        return days + 1;
     }
 
     /* $scope.$on('$stateChangeSuccess', stateChangeSuccess);

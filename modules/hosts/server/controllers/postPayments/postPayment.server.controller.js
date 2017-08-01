@@ -26,7 +26,7 @@ Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWay
 Insta.isSandboxMode(true);
 
 exports.postPaymentEventsAndProcess = function (req, res) {
-  Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').populate('hostCompany').exec(function (err, booking) {
+  Booking.findOne({paymentRequestId: req.body.paymentRequestId, isPaymentDone: false}).populate('product').populate('productSession').populate('hostCompany').populate('hostOfThisBooking').exec(function (err, booking) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
@@ -230,10 +230,9 @@ function createSession (booking, product, paymentRequestId, paymentId) {
   productSession.sessionDepartureDetails = departureDetails;
   productSession.isSessionPricingValid = true;
   productSession.sessionPricingDetails = product.productPricingOptions;
-  var keyBooking = booking.actualSessionDate + booking.actualSessionTime;
-  productSession.numberOfBookings[keyBooking] = 1;
-  var keySeats = booking.actualSessionDate + booking.actualSessionTime;
-  productSession.numberOfSeats[keySeats] = parseInt(booking.numberOfSeats);
+  var keySeatsBooking = booking.actualSessionDate + booking.actualSessionTime;
+  productSession.numberOfBookings[keySeatsBooking] = 1;
+  productSession.numberOfSeats[keySeatsBooking] = parseInt(booking.numberOfSeats);
   productSession.markModified('numberOfBookings');
   productSession.markModified('numberOfSeats');
   var keySession = booking.actualSessionDate;
@@ -246,6 +245,7 @@ function createSession (booking, product, paymentRequestId, paymentId) {
   productSession.monthsThisSessionCovering = uniqueString;
   productSession.hostCompany = product.hostCompany;
   productSession.product = product._id;
+  productSession.sessionInternalName = undefined;
   productSession.sessionDepartureDate = new Date(booking.openDatedTourDepartureDate).toISOString();
   productSession.save(function (err, res) {
     if (err) {

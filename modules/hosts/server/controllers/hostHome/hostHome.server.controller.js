@@ -38,19 +38,20 @@ exports.fetchCompanyBookingDetailsForAnalyticsAndLatestData = function (req, res
 };
 
 
-exports.countCompanyProductSessions =function (req, res) {
+exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (req, res) {
 	var startDate = new Date();
   startDate = new Date (startDate.setDate(startDate.getDate() - 31)).toISOString();
   var endDate = new Date().toISOString();
 	if(req.user) {
     // The following line is removed from the query conditions as for now we are nto queryying for last 30 days
     // , sessionDepartureDate: {$gt: startDate},  sessionDepartureDate: {$lte: endDate}
-  	ProductSession.find({ 'hostCompany': req.user.company}, function(error, sessions) {
+  	ProductSession.find({ 'hostCompany': req.user.company}).populate('product').sort('sessionDepartureDate').exec(function(error, sessions) {
     		if (error) {
       		return res.status(400).send({
         			message: errorHandler.getErrorMessage(error)
       		});
     		}
+        var departureSessions = [];
     		var weekDaysNumber = new Map();
       	weekDaysNumber.set('Sunday', 0);
       	weekDaysNumber.set('Monday', 1);
@@ -62,7 +63,7 @@ exports.countCompanyProductSessions =function (req, res) {
       	var finalCounter = 0;
     		for (var index = 0; index < sessions.length; index++) {
       		if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-				    var firstDate = new Date();
+				    var firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
     			  var secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
         		var oneDay = 24 * 60 * 60 * 1000;
         		var repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
@@ -77,19 +78,57 @@ exports.countCompanyProductSessions =function (req, res) {
   			        	allowedDays.add(weekDaysNumber.get(sessions[index].sessionDepartureDetails.repeatOnDays[weeklyIndex]));
   			    }
   			    for (var counterIndex = 0; counterIndex <= repeatedDays; counterIndex++) {
-  			    	if((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(firstDate.getDay())) ||
-  			          (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(firstDate.getDay())))
+  			    	if((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(secondDate.getDay())) ||
+  			          (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(secondDate.getDay())))
   			    		repeatedDays = repeatedDays - 1;
+              else {
+                if (isThisFutureSession(secondDate) && departureSessions.length < 7 ) {
+                  var tempObject = {};
+                  tempObject.startDate = new Date(secondDate);
+                  tempObject.utcDate = secondDate;
+                  tempObject.sessionInternalName = sessions[index].sessionInternalName;
+                  tempObject.productTitle = sessions[index].product.productTitle;
+                  tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
+                  tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
+                  tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+                  departureSessions.push(tempObject);
+                }
+              }
 
-              firstDate = new Date(firstDate.setDate(firstDate.getDate() + 1));
+              secondDate = new Date(secondDate.setDate(secondDate.getDate() + 1));
   			    }
   			    finalCounter = finalCounter + repeatedDays;
-			    } else
+			    } else {
 				    finalCounter = finalCounter + 1;
+            if (isThisFutureSession(sessions[index].sessionDepartureDetails.startDate) && departureSessions.length < 7 ) {
+              var tempObject = {};
+              tempObject.startDate = sessions[index].sessionDepartureDetails.startDate;
+              tempObject.utcDate = new Date(sessions[index].sessionDepartureDetails.startDate);
+              tempObject.sessionInternalName = sessions[index].sessionInternalName;
+              tempObject.productTitle = sessions[index].product.productTitle;
+              tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
+              tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
+              tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+              departureSessions.push(tempObject);
+            }
+          }
 		    }
-    	res.json({count: finalCounter});
+    	res.json({departureSessions: departureSessions, count: finalCounter});
   	});
 	}
+}
+
+
+function isThisFutureSession (startDate) {
+  var countDownDate = new Date(startDate).getTime();
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+  if (days >= 0)
+    return true;
+
+  return false;
 }
 
 

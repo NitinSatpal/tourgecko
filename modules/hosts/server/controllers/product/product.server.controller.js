@@ -315,20 +315,6 @@ exports.fetchFutureSessionDetailsOfGivenProduct = function (req, res) {
   });
 };
 
-// Fetching sessions of a specific product
-exports.fetchCompanyProductSessionDetails = function (req, res) {
-  if(req.user) {
-    ProductSession.find({'hostCompany': req.user.company}).sort('-created').populate('product').exec(function (err, productSessions) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      res.json(productSessions);
-    });
-  }
-};
-
 exports.fetchCompanyProductSessionDetailsForGivenMonth = function (req, res) {
   if(req.user) {
     var uniqueString = req.params.uniqueMonthYearString;

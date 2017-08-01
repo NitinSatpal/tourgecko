@@ -111,7 +111,7 @@ exports.refundInstamojoPayment = function (req, res) {
               paymentRecord.save(function (paymentEditError, success) {
                 if (paymentEditError)
                   res.json('error');               
-                Booking.findOne({paymentId: req.body.paymentId}).populate('product').populate('productSession').populate('hostCompany').exec(function (error, booking) {
+                Booking.findOne({paymentId: req.body.paymentId}).populate('product').populate('productSession').populate('hostCompany').populate('hostOfThisBooking').exec(function (error, booking) {
                   if (error)
                     res.json('error')
                   booking.isRefundApplied = true;

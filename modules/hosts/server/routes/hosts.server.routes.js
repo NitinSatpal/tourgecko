@@ -52,11 +52,8 @@ module.exports = function (app) {
   app.route('/api/host/productsessions/guestData/:productSessionId/:skipIndex')
     .get(hosts.fetchProductSessionBookingDetailsForGuestData);
 
-  app.route('/api/host/companyproductsessions/')
-    .get(hosts.fetchCompanyProductSessionDetails);
-
-  app.route('/api/host/companyproductsessioncount/')
-    .get(hosts.countCompanyProductSessions);
+  app.route('/api/host/companyproductsessionsForAnalyticsAndLatestData/')
+    .get(hosts.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData);
 
   app.route('/api/host/companyproductscount/')
     .get(hosts.countCompanyProducts);

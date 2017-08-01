@@ -1002,6 +1002,10 @@ vm.areAddonsSelected = function () {
         vm.timesForThisDate = dateToTimeslots.get(new Date(vm.selectedDate).getTime().toString());
         if (vm.timesForThisDate.length == 1 && vm.timesForThisDate[0] == 'No Time')
           vm.timesForThisDate.length  = 0;
+
+        if (vm.timesForThisDate.length == 0) {
+          maxSeatsAvailable = getRemainingSeatsForCalendar('No Time');
+        }
       }
       $scope.$apply();
     }
