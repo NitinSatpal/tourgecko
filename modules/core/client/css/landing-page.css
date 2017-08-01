@@ -15,6 +15,10 @@
 .landingPage .landingPageHeader {
 	overflow-y: hidden !important;
 }
+.landingPage .landingPageHeader .navbar-toggle{
+	position: relative !important;
+	margin-right: 20px;
+}
 .tourgeckoAdminHeader .navbar-default {
 	background-color: #f8f8f8 !important;
 }

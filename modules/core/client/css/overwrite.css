@@ -227,6 +227,9 @@
     background-color: #ff9800;
     margin-top: 10px;
 }
+.tourgeckoAdminNavbar {
+    margin-top: 5px !important;
+}
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;

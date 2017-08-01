@@ -278,7 +278,7 @@ and (max-device-width : 1024px){
 		object-fit: cover;
 	}
 	.noLogoPresent {
-		margin-left: 0 !important;
+		margin-left: 15px !important;
 		
 	}
 	.footer-menu .noLogoPresent {
@@ -305,7 +305,7 @@ and (max-device-width : 1024px){
 		object-fit: cover;
 	}
 	.noLogoPresent {
-		margin-left: 0 !important;
+		margin-left: 15px !important;
 		
 	}
 	.footer-menu .noLogoPresent {

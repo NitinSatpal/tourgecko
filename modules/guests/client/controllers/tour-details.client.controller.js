@@ -274,7 +274,7 @@
     }
 
     vm.checkProductPicturePresence = function () {
-      if (vm.productDetails.productPictureURLs.length == 0) {
+      if (vm.productDetails && vm.productDetails.productPictureURLs.length == 0) {
         $('#productPictureTourDetailsCarousel').css('display', 'none');
         return true;
       }

@@ -40,7 +40,7 @@
     </ul>
 </div>
 <nav class="navbar navbar-default host-guest-common-style-navbar">
-    <div class="container" >
+    <div class="container" id="toursiteTopNavContainer">
         <div class="navbar-header">
             <button type="button" data-target="#toursiteTopNav" data-toggle="collapse" class="navbar-toggle">
                 <span class="icon-bar"></span>
@@ -54,7 +54,7 @@
                 <span> {{vm.companyData.companyName}}
             </a>
         </div>
-        <div id="toursiteTopNav" class="collapse navbar-collapse">
+        <div id="toursiteTopNav" class="collapse navbar-collapse toursiteTopNav">
             <ul class="nav navbar-nav navbar-right">
                 <li id="toursiteMainPage">
                     <a href="" ui-sref="abstractHome.toursite">
@@ -91,10 +91,4 @@
         $('#open-host-admin-bar').hide();
         $('#host-admin-bar').show();
     }
-
-    $('.nav.navbar-nav > li').on('click', function(e) {
-        $('.nav.navbar-nav > li').removeClass('active');
-        $(this).addClass('active');
-        e.stopPropagation();
-    });    
 </script>

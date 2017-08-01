@@ -51,7 +51,7 @@
         text-align: center;
     }
     .host-guest-common-style .navbar-nav > li {
-        float: left;
+        
         height: 45px;
         line-height: 45px;
         width: 100%;
@@ -257,5 +257,24 @@
     .host-guest-common-style-preview-details-marginFromBothSides {
         margin-left: 15px !important;
         margin-right: 15px !important;
+    }
+    .host-guest-common-style .host-guest-common-style-navbar .toursiteTopNav {
+        margin-top: 14px;
+    }
+
+    .host-guest-common-style .host-guest-common-style-navbar .navbar-collapse.collapse {
+        line-height: 20px !important;
+        margin-right: -15px !important;
+    }
+    .host-guest-common-style .host-guest-common-style-navbar .navbar-nav > li {
+        height: 40px;
+        line-height: 40px;
+    }
+    .host-guest-common-style .host-guest-common-style-navbar .navbar-nav > li a {
+        margin-right: -15px !important;
+    }
+
+    .host-guest-common-style .host-guest-common-style-navbar .navbar-toggle {
+        position: relative !important;
     }
 }

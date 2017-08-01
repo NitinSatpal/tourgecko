@@ -160,7 +160,7 @@
                                     <h4 class="panel-title"><i class="zmdi zmdi-file-text orange-text"></i> Itinerary</h4>
                                 </div>
                                 <div class="panel-collapse collapse in">
-                                    <div class="panel-body">
+                                    <div class="panel-body" id="collapsibleDivParent">
                                         <ol class="collapsible list-group vertical-steps">
                                             <li class="list-group-item" data-toggle="collapse" href="#itineraryDescription{{$index}}"  ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index">
                                                 <div class="blue-grey-text text-darken-1 collapsible-header"><strong>{{itinerary.title}}</strong>
