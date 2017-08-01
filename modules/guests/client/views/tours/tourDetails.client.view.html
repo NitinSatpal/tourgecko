@@ -172,7 +172,7 @@
                                                 <div class="blue-grey-text text-darken-1 collapsible-header"><strong>{{itinerary.title}}</strong>
                                                     <br>
                                                 </div>
-                                                <div id="itineraryDescription{{$index}}" class="collapse">
+                                                <div id="itineraryDescription{{$index}}" class="collapse in">
                                                     <ng-bind-html="vm.getHtmlTrustedData(itinerary.description)">
                                                     <p class= "listAlignment-itinerary wordWrap" ng-style="vm.getDynamicCSS(itinerary.description)" ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</p>
                                                 </div>

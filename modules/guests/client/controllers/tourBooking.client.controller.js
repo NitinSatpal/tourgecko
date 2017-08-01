@@ -534,11 +534,11 @@ var totalAddonForThisBooking= 0;
 vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
   if (behavior == 'decrement') {
     if (vm.pricingOptionIndexAndQuantity[index] == 0) {
-      toasty.error({
+      /* toasty.error({
         title: 'Minimum value reached',
         msg: 'Value cannot be negative',
         sound: false
-      });
+      }); */
       return;
     }
     vm.pricingOptionIndexAndQuantity[index] = parseInt(vm.pricingOptionIndexAndQuantity[index]) - 1;

@@ -64,7 +64,7 @@
 														<div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
 															<span>  
 																<h5 ng-if="vm.paymentBankAccError.length == 1"> There is {{vm.paymentBankAccError.length}} error in payout details </h5>
-																<h5 ng-if="vm.paymentBankAccError.length > 1"> There are {{vm.paymentBankAccError.length}} errors in payout details </h5>
+																<h5 ng-if="vm.paymentBankAccError.length > 1"> There are {{vm.paymentBankAccError.length}} errors in Payment Method setup </h5>
 																<ul>
 																	<li ng-repeat="error in vm.paymentBankAccError track by $index"> {{error}} </li>
 																</ul>
@@ -93,7 +93,7 @@
 						                                    </div>
 						                                </div>
 						                                <div ng-messages="vm.form.paymentSettingForm.host_name_on_bank_acc.$error" role="alert">
-										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                    <p class="help-block error-text" ng-message="required">Name on bank account is required</p>
 										                </div>
 						                            </div>
 						                        </div>
@@ -106,7 +106,7 @@
 						                                    </div>
 						                                </div>
 						                                <div ng-messages="vm.form.paymentSettingForm.bank_ifsc_code.$error" role="alert">
-										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                    <p class="help-block error-text" ng-message="required">Bank IFSC Code is required</p>
 										                </div>
 						                            </div>
 						                        </div>
@@ -119,7 +119,7 @@
 						                                    </div>
 						                                </div>
 						                                <div ng-messages="vm.form.paymentSettingForm.bank_acc_number.$error" role="alert">
-										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                    <p class="help-block error-text" ng-message="required">Bank account number is required</p>
 										                </div>
 						                            </div>
 						                        </div>
@@ -132,7 +132,7 @@
 						                                    </div>
 						                                </div>
 						                                <div ng-messages="vm.form.paymentSettingForm.bank_acc_number_confirm.$error" role="alert">
-										                    <p class="help-block error-text" ng-message="required">Name of the tour is required</p>
+										                    <p class="help-block error-text" ng-message="required">Please re-enter account number</p>
 										                </div>
 						                            </div>
 						                        </div>

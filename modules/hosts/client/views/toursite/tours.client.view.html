@@ -5,7 +5,7 @@
             <h1 class="text-center main-title">Our Tours</h1>
             <div class="col-xs-12">
                 <div class="form-group">
-                    <div class="dropdown show-btn">
+                    <!-- <div class="dropdown show-btn">
                         <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Show per page
                             <span class="caret"></span>
                         </button>
@@ -13,10 +13,10 @@
                             <li ng-click="vm.changeItemsPerPage(10)"><a href="#">10</a></li>
                             <li ng-click="vm.changeItemsPerPage(20)"><a href="#">20</a></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-            <div class="card-wrapper">
+            <div class="card-wrapper" ng-if="vm.toursitedata.length > 0">
                 <div class="col-sm-6 cart-flex" ng-repeat="data in vm.toursitedata track by $index" ng-click="vm.goToProductDetailsPage($index)" style="cursor: pointer;">
                     <div class="card">
                         <div class="tour-image toursite-Product-Image" ng-if="data.productPictureURLs[0]">
@@ -55,6 +55,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 empty-data-Image-two text-center" ng-if="vm.toursitedata.length == 0">
+                <span> <h4> Currently there are no tours or activities!</h4> </span>
+                <img src="/modules/core/client/img/assets/empty_state_two.png">
             </div>
             <div class="col-xs-12 text-center" ng-if="vm.pageTo > 1">
                 <ul class="pagination pagination-sm">
@@ -95,3 +99,8 @@
     </footer>
 </div>
 <script src="modules/core/client/scripts/showmore.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.nav.navbar-nav > li#tours').addClass('active');
+    });
+</script>

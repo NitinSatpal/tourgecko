@@ -1,54 +1,54 @@
-<div class="hostHome container-fluid">
+<div class="hostHome toursiteBannersSettingsPage container-fluid">
 	<div class="row body-content">
 		<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'" style="margin-left:30px !important;"></div>-->
 		<div id="settings">
-				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
-					<div class="home_add_tour">
-						<i class="zmdi zmdi-settings heading-icn"></i>
-						<h2><a href="#">Toursite</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Banners</span></h2>
-					</div>
-					<div class="row settings-subnav">
-						<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_toursite">
-							<form class="form-horizontal" ng-submit="vm.saveToursiteSettings()">
-								<h5>Banners <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site."></i></h5>
-								<p class="section-desc sub_desc">Banners will appear at the top of your toursite as a slide show</p>
-								<p class="sub_desc"><i class="zmdi zmdi-lamp icn_orange"></i>
-								    <span>You can  upload your banners here or if you dont have one you can create <a href="https://www.canva.com/">it here </a></span>
-								</p>
-								<div class="row error-success-notification-common" ng-show="showBannerUploadErrorsBlock" id="bannerUploadErrorBlock">
-									<div class="col-lg-12 col-md-12 col-sm-12 errors-common">
-										<div class="row">
-											<div class="col-lg-2 col-md-2 col-sm-2">
-												<i class="fa fa-ban" aria-hidden="true"></i>
-											</div>
-											<div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
-												<span>  
-													<h5 ng-if="vm.singleImageUploadError"> There is {{bannerUploadErrorContent.length}} error in banner upload </h5>
-													<h5 ng-if="vm.multipleImageUploadError"> There are {{bannerUploadErrorContent.length}} errors in banner upload </h5>
-													<ul>
-														<li ng-repeat="error in bannerUploadErrorContent track by $index"> {{error}} </li>
-													</ul>
-												</span> 
-												<h5> PS: Invalid banners are removed automatically</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-								<br>
-								<div class="panel">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 settings-content">
+				<div class="home_add_tour">
+					<i class="zmdi zmdi-settings heading-icn"></i>
+					<h2><a href="#">Toursite</a><i class="zmdi zmdi-caret-right bread-caret"></i><span class="bread-current">Banners</span></h2>
+				</div>
+				<div class="row settings-subnav">
+					<div class="col-lg-12 col-md-12 col-sm-12 pull-right settings_toursite">
+						<form class="form-horizontal" ng-submit="vm.saveToursiteSettings()">
+							<h5>Banners <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site."></i></h5>
+							<p class="section-desc sub_desc">Banners will appear at the top of your toursite as a slide show</p>
+							<p class="sub_desc"><i class="zmdi zmdi-lamp icn_orange"></i>
+							    <span>You can  upload your banners here or if you dont have one you can create <a href="https://www.canva.com/">it here </a></span>
+							</p>
+							<div class="row error-success-notification-common" ng-show="showBannerUploadErrorsBlock" id="bannerUploadErrorBlock">
+								<div class="col-lg-12 col-md-12 col-sm-12 errors-common">
 									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<div class="form-group">
-												<label for="toursite_banners" class="cols-sm-2 control-label">Your Toursite banners</label>
-												<div id="toursite-banners-uploader"></div>
-											</div>
+										<div class="col-lg-2 col-md-2 col-sm-2">
+											<i class="fa fa-ban" aria-hidden="true"></i>
+										</div>
+										<div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+											<span>  
+												<h5 ng-if="vm.singleImageUploadError"> There is {{bannerUploadErrorContent.length}} error in banner upload </h5>
+												<h5 ng-if="vm.multipleImageUploadError"> There are {{bannerUploadErrorContent.length}} errors in banner upload </h5>
+												<ul>
+													<li ng-repeat="error in bannerUploadErrorContent track by $index"> {{error}} </li>
+												</ul>
+											</span> 
+											<h5> PS: Invalid banners are removed automatically</h5>
 										</div>
 									</div>
 								</div>
-							</form>
-						</div>
+							</div>
+							<br>
+							<div class="panel">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form-group">
+											<label for="toursite_banners" class="cols-sm-2 control-label">Your Toursite banners</label>
+											<div id="toursite-banners-uploader"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -61,7 +61,7 @@
         <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
             <span class="qq-upload-drop-area-text-selector"></span>
         </div>
-        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;" ng-click="initializeImageUploadErrorContent(false)">
+        <div class="qq-upload-button-selector qq-upload-button" style="background-color: #40C4FF !important;" ng-click="vm.initializeBannerUploadErrorContent()">
             <div>Upload</div>
         </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
@@ -136,6 +136,7 @@
 	$(document).ready(function(){
 	    $(this).scrollTop(0);
 	});
+
 	var toursiteBannerUploader = new qq.FineUploader({
 	        element: document.getElementById("toursite-banners-uploader"),
 	        template: 'qq-template',

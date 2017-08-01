@@ -512,12 +512,16 @@
     }
 
     vm.checkBannersPresence = function () {
-      if (vm.companyData.toursiteBanners.length == 0) {
+      if (vm.companyData && vm.companyData.toursiteBanners.length == 0) {
         $('#bannerCarousel').css('display', 'none');
         return true;
       }
 
       return false;
+    }
+
+    vm.getSlicedAboutHostData = function (data) {
+      return 'data.slice(0,2)';
     }
 
     vm.goToProductDetailsPage = function (index) {

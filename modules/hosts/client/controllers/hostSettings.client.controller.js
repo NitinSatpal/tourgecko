@@ -317,7 +317,7 @@
      * fineuploader onError callback, and applying digest cycle manually. Even in this case, the best approach was to
      * call this function once all file uploads are done, so that we can start digest cycle for everything together.
      * But onAllcomplete callback of fineuploader is not working the way it should work. It's not getting called, if all
-     * the images uplaoded are failed. In that case, no error will be shown. Hence, we are calling this function for each
+     * the images upladed are failed. In that case, no error will be shown. Hence, we are calling this function for each
      * image. Maximum five times (banner upload maximum file limit is 5). For this reason, I have to set both
      * vm.singleBannereUploadError and vm.multipleBannerUploadError everytime, else both singular and plural message will be shown
     */
@@ -334,7 +334,10 @@
       }
       $scope.$apply();
     }
-
+    vm.initializeBannerUploadErrorContent = function () {
+      $scope.showBannerUploadErrorsBlock = false;
+    }
+    
     vm.saveToursiteBannersSettings = function () {
       $state.reload();
     }

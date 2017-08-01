@@ -47,19 +47,35 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand logo" href="#" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
+            <a class="navbar-brand logo" href="/" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
                 <img src="{{vm.companyData.logoURL}}" class="img-responsive">
             </a>
-            <a class="navbar-brand logo noLogoPresent" href="#" ng-if="vm.companyData.logoURL == 'modules/hosts/client/companyLogo/default/logo.png'">
+            <a class="navbar-brand logo noLogoPresent" href="/" ng-if="vm.companyData.logoURL == 'modules/hosts/client/companyLogo/default/logo.png'">
                 <span> {{vm.companyData.companyName}}
             </a>
         </div>
         <div id="toursiteTopNav" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active" id="toursiteMainPage"><a href="" ui-sref="abstractHome.toursite"><i class="fa fa-home menu-icon"></i>Home</a></li>
-                <li id="tours"><a href="" ui-sref="hostToursite-toursite-tours"><i class="fa fa-location-arrow menu-icon"></i>Tours</a></li>
-                <li id="about-us"><a href="" ui-sref="hostToursite-about-us" ><i class="fa fa-info-circle menu-icon"></i>About Us</a></li>
-                <li id="contact-us"><a href="" ui-sref="hostToursite-contact-us"><i class="fa fa-info-circle menu-icon"></i>Contact Us</a></li>
+                <li id="toursiteMainPage">
+                    <a href="" ui-sref="abstractHome.toursite">
+                        <i class="fa fa-home menu-icon"></i>Home
+                    </a>
+                </li>
+                <li id="tours">
+                    <a href="" ui-sref="hostToursite-toursite-tours">
+                        <i class="fa fa-location-arrow menu-icon"></i>Tours
+                    </a>
+                </li>
+                <li id="about-us">
+                    <a href="" ui-sref="hostToursite-about-us">
+                        <i class="fa fa-info-circle menu-icon"></i>About Us
+                    </a>
+                </li>
+                <li id="contact-us">
+                    <a href="" ui-sref="hostToursite-contact-us">
+                        <i class="fa fa-info-circle menu-icon"></i>Contact Us
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -75,4 +91,10 @@
         $('#open-host-admin-bar').hide();
         $('#host-admin-bar').show();
     }
+
+    $('.nav.navbar-nav > li').on('click', function(e) {
+        $('.nav.navbar-nav > li').removeClass('active');
+        $(this).addClass('active');
+        e.stopPropagation();
+    });    
 </script>

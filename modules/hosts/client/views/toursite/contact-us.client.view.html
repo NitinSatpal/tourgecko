@@ -15,14 +15,14 @@
                     <div class="host-guest-common-style-row form-group" show-errors>
                         <div class="col-sm-6">
                             <label for="fname" class="text-lighten-1">Name</label>
-                            <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required placeholder="Name">
+                            <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required>
                             <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
                                 <p class="help-block error-text" ng-message="required">Please enter your name</p>
                             </div>
                         </div>
                         <div class="col-sm-6 contactUsEmail">
                             <label for="email" class="text-lighten-1">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="vm.contentToHost.guestEmail" required lowercase style="margin-bottom: 20px;">
+                            <input type="email" class="form-control" name="email" id="email" ng-model="vm.contentToHost.guestEmail" required lowercase style="margin-bottom: 20px;">
                             <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
                                 <p class="help-block error-text" ng-message="required">Please enter Email address</p>
                                 <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
@@ -32,7 +32,7 @@
                     <div class="host-guest-common-style-row form-group" show-errors>
                         <div class="col-sm-12">
                             <label for="subject" class="text-lighten-1">Subject</label>
-                            <input type="text" class="form-control" id="subject" name="guestSubject" placeholder="Subject" ng-model="vm.contentToHost.guestSubject" required>
+                            <input type="text" class="form-control" id="subject" name="guestSubject" ng-model="vm.contentToHost.guestSubject" required>
                             <div ng-messages="vm.contentToHostForm.guestSubject.$error" role="alert" class="error-block">
                                 <p class="help-block error-text" ng-message="required">Please enter Subject of the message</p>
                             </div>
@@ -41,7 +41,7 @@
                     <div class="host-guest-common-style-row form-group" show-errors>
                         <div class="col-xs-12">
                             <label for="msg" class="text-lighten-1">Message</label>
-                            <textarea name="guestMessage" type="text" class="form-control" id="msg" ng-model="vm.contentToHost.guestMessage" required placeholder="Message"></textarea>
+                            <textarea name="guestMessage" type="text" class="form-control" id="msg" ng-model="vm.contentToHost.guestMessage" required></textarea>
                             <div ng-messages="vm.contentToHostForm.guestMessage.$error" role="alert" class="error-message-block">
                                 <p class="help-block error-text" ng-message="required">Please enter message</p>
                             </div>
@@ -98,38 +98,43 @@
     </footer>
 </div>
 <script>
-        var geocoder;
-        var map;
-        function initMap() {
-            var mapOptions = {
-               center:new google.maps.LatLng(17.4927060, 78.3360520),
-               zoom:17
-            }
-            map = new google.maps.Map(document.getElementById("hostPinnedAddressMap"),mapOptions);
-            var marker = new google.maps.Marker({
-               position: new google.maps.LatLng(17.4927060, 78.3360520),
-               map: map,
-            });
-
-            geocoder = new google.maps.Geocoder();
-            var address = angular.element('.contact-us-page').scope().hostAddress;
-            geocoder.geocode( { 'address': address}, function(results, status) {
-              if (status == 'OK') {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-              } else {
-                // alert('Geocode was not successful for the following reason: ' + status);
-              }
-            });
-         }
-
-        function codeAddress(address) {
-            //var address = document.getElementById('address').value;
+    var geocoder;
+    var map;
+    function initMap() {
+        var mapOptions = {
+           center:new google.maps.LatLng(17.4927060, 78.3360520),
+           zoom:17
         }
-      </script>
+        map = new google.maps.Map(document.getElementById("hostPinnedAddressMap"),mapOptions);
+        var marker = new google.maps.Marker({
+           position: new google.maps.LatLng(17.4927060, 78.3360520),
+           map: map,
+        });
+
+        geocoder = new google.maps.Geocoder();
+        var address = angular.element('.contact-us-page').scope().hostAddress;
+        geocoder.geocode( { 'address': address}, function(results, status) {
+          if (status == 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+          } else {
+            // alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+     }
+
+    function codeAddress(address) {
+        //var address = document.getElementById('address').value;
+    }
+</script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI&callback=initMap">
-    </script>   
+    </script>
+<script>
+    $(document).ready(function() {
+        $('.nav.navbar-nav > li#contact-us').addClass('active');
+    });
+</script>

@@ -3,7 +3,12 @@
 
   angular
     .module('hosts')
-    .controller('ToursiteCommonController', ToursiteCommonController);
+    .controller('ToursiteCommonController', ToursiteCommonController)
+    .filter('htmlData', function($sce) {
+        return function(val) {
+          return $sce.trustAsHtml(val);
+        };
+    });
 
   ToursiteCommonController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window', '$location', 'toasty'];
 
@@ -91,7 +96,6 @@
     }
 
     vm.sendContentToHost = function (isValid) {
-      console.log('came here');
       vm.error = null;
       if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
@@ -101,7 +105,6 @@
       $('#tourgeckoBody').addClass('waitCursor');
       var communicationParams = {guestDetails: vm.contentToHost, hostMail: vm.companyData.inquiryEmail}
       $http.post('/api/host/sendContentToHostFromContactUs/', communicationParams).success(function (response) {
-        // mail sent successfully
         $('#loadingDivToursite').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
         toasty.success({
@@ -109,7 +112,7 @@
           msg: 'Your message has been sent!',
           sound: false
         });
-        vm.contentToHost = {};
+        vm.contentToHost = null;
       }).error(function (response) {
         vm.error = response.message;
         $('#loadingDivToursite').css('display', 'none');
@@ -127,7 +130,6 @@
     }
 
     vm.goToToursiteMainPage = function () {
-      console.log('came here');
       var toursite = $location.host().split('.')[0];
       $state.go('abstractHome.toursite', {toursite: toursite});
     }
