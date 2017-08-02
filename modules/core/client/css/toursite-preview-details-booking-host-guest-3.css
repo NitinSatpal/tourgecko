@@ -984,14 +984,6 @@
     color: #ff9800 !important;
 }
 
-.host-guest-common-style .navbar-default .navbar-toggle {
-    border-color: #FEA420;
-}
-
-.host-guest-common-style .navbar-default .navbar-toggle .icon-bar {
-    background-color: #FEA420;
-}
-
 .host-guest-common-style .checkbox,
 .host-guest-common-style .radio {
     margin-top: 0px;
