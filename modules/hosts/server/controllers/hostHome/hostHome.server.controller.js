@@ -10,6 +10,7 @@ var path = require('path'),
   Booking = mongoose.model('Booking'),
   Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
+  HostCompany = mongoose.model('HostCompany'),
   Message = mongoose.model('Message'),
   ModifyPinboard = require(path.resolve('./modules/hosts/server/controllers/pinboard/modifyPinboardForParticularUser.server.controller')),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -85,6 +86,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
                 if (isThisFutureSession(secondDate) && departureSessions.length < 7 ) {
                   var tempObject = {};
                   tempObject.startDate = new Date(secondDate);
+                  tempObject.startTime = sessions[index].sessionDepartureDetails.startTime;
                   tempObject.utcDate = secondDate;
                   tempObject.sessionInternalName = sessions[index].sessionInternalName;
                   tempObject.productTitle = sessions[index].product.productTitle;
@@ -104,6 +106,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
             if (isThisFutureSession(sessions[index].sessionDepartureDetails.startDate) && departureSessions.length < 7 ) {
               var tempObject = {};
               tempObject.startDate = sessions[index].sessionDepartureDetails.startDate;
+              tempObject.startTime = sessions[index].sessionDepartureDetails.startTime;
               tempObject.utcDate = new Date(sessions[index].sessionDepartureDetails.startDate);
               tempObject.sessionInternalName = sessions[index].sessionInternalName;
               tempObject.productTitle = sessions[index].product.productTitle;
@@ -171,6 +174,25 @@ exports.fetchMessageCountForAnalyticsAndLatestData = function (req, res) {
 	});
   }
 };
+
+exports.dissmissTheWelcomMessage = function (req, res) {
+  HostCompany.findOne({user: req.user._id}).exec(function (err, hostCompany) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    hostCompany.newUserFirstLoginValidElements.push(req.body.dismissingElementUniqueCode);
+    hostCompany.save( function (hostCompanySaveError) {
+      if (hostCompanySaveError) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json(hostCompany);
+    });
+  })
+}
 
 
 

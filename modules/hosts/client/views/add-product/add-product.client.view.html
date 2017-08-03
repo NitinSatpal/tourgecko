@@ -87,7 +87,7 @@
 													<p class="sub_desc lheight" ng-show="vm.helpVisible">Describe in few clear sentences what makes this tour unique , what experiences could guest expect and why should it be taken.</p>
 													<div class="input_group">
 														<div>
-															<textarea ck-editor class="form-control" rows="5" id="describe_tour_briefly" name="describe_tour_briefly" ng-click="gogogo()"></textarea>
+															<textarea ck-editor class="form-control" rows="5" id="describe_tour_briefly" name="describe_tour_briefly"></textarea>
 														</div>
 													</div>
 													<div ng-messages="vm.form.tourForm.describe_tour_briefly.$error" role="alert">
@@ -190,12 +190,12 @@
 											</div>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_pricing')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
@@ -378,7 +378,7 @@
 																<p class="sub_desc lheight">Name of Addon</p>
 																<div class="input_group">
 																	<div>
-																		<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" ng-model="addon.name" placeholder="Camera, Phone, Speaker etc.">
+																		<input type="text" name="addon_name_one" class="form-control" id="addon_name_one" ng-model="addon.name" placeholder="E.g. Personal tent">
 																	</div>
 																</div>
 															</div>
@@ -470,12 +470,12 @@
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_bd')"><i class="zmdi zmdi-chevron-left"></i>&nbsp;&nbsp;Prev</a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_sa')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
@@ -583,7 +583,7 @@
 																		<select class="form-control" id="tours_sa_timeslot" ng-model="productTimeSlotsAvailability" name="tours_sa_timeslot" onchange="addSelectorElement('#tours_sa_timeslot', 0)" ng-click="vm.enableSaveButton()">
 																			<option value="No Time Required">No time required</option>
 																			<option value="Fixed Slots">Fixed Times</option>
-																			<option value="Guest Choice">Guest Choice</option>
+																			<!-- <option value="Guest Choice">Guest Choice</option> -->
 																		</select>
 																	</div>
 																</div>
@@ -707,12 +707,12 @@
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_pricing')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_itinerary')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
@@ -792,12 +792,12 @@
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_guidelines')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
@@ -837,12 +837,12 @@
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_itinerary')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_media')">Next&nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 
@@ -906,12 +906,12 @@
 											</div>
 											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_guidelines')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
 										</div>
-										<div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
 											<div class="tours_help">
 												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
 												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 											</div>
-										</div>
+										</div> -->
 									</div>
 								</div>
 							</div>

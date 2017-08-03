@@ -11,6 +11,9 @@
 .noHorizontalScroll {
   overflow-x: hidden !important;
 }
+textarea {
+  resize: vertical;
+}
 /*.container{
   width: 100% !important;
   padding-right: 0 !important;

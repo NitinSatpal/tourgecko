@@ -209,6 +209,10 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .light-green h5 .current{color:#008000}
 .light-orange h5 .current{color:#bf7f09}
 .light-red h5 .current{color:#af0707}
+.pinButtonsDynamicStyling .btn.btn-default {
+	float: right;
+	margin-top: -17px;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -255,6 +259,13 @@ and (max-device-width : 1024px){
 	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
 		word-wrap: break-word;
 	}
+	.pinButtonsDynamicStyling .btn.btn-default {
+		float: left;
+		margin-top: 0;
+	}
+	.pinButtonsDynamicStyling {
+		padding-bottom: 5px;
+	}
 }
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
@@ -287,6 +298,13 @@ and (max-device-width : 1024px){
 	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
 		word-wrap: break-word;
 	}
+	.pinButtonsDynamicStyling .btn.btn-default {
+		float: left;
+		margin-top: 0;
+	}
+	.pinButtonsDynamicStyling {
+		padding-bottom: 5px;
+	}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -313,6 +331,13 @@ and (max-device-width : 1024px){
 	}
 	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
 		word-wrap: break-word;
+	}
+	.pinButtonsDynamicStyling .btn.btn-default {
+		float: left;
+		margin-top: 0;
+	}
+	.pinButtonsDynamicStyling {
+		padding-bottom: 5px;
 	}
 }
 

@@ -101,6 +101,18 @@
       return displayDate;
     }
 
+    vm.getStartsInDays = function (startDate) {
+      // Set the date we're counting down to
+        var countDownDate = new Date(startDate).getTime();
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        if (days > 1)
+          return (days + 1).toString() + ' days';
+        else
+          return (days + 1).toString() + ' day';
+    }
+
     vm.getAvailabilityFigureForLatestSection = function (startDate, numberOfSeatsSession) {
       var key = new Date(startDate).getTime().toString();
       if (numberOfSeatsSession && numberOfSeatsSession[key])
@@ -257,6 +269,15 @@
       $state.go('host.sessionDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: sessionStartDate});
     }
 
+    vm.disMissWelcomeMessage = function (uniqueId) {
+      $http.post('/api/host/welcomemessage/dismiss', {dismissingElementUniqueCode: uniqueId}).success(function (response) {
+        // success
+        $('.home-section.alert.alert-welcome').css("display", "none");
+      }).error(function (response) {
+        // ignore if any error. let user dismiss it again
+      });
+    }
+
     vm.goToSessionBookingDetailsViaLatestSection = function (session) {
       var sessionStartDate = new Date(session.startDate).getTime().toString();
       $state.go('host.sessionDetails', {productSessionId: session.sessionId, sessionStartDate: sessionStartDate});
@@ -268,6 +289,12 @@
       var sessionStartDate = element.getAttribute('sessionStartDate');
       sessionStartDate = new Date(sessionStartDate).getTime().toString();
       $state.go('host.sessionDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
+    }
+
+    vm.isWelcomeMessageValid = function (uniqueId) {
+      if (vm.companyDetails && vm.companyDetails.newUserFirstLoginValidElements.indexOf(uniqueId) != -1)
+        return false;
+      return true;
     }
   }
 }());

@@ -280,6 +280,7 @@ vm.showSuccessMsgOnTop = $stateParams.showSuccessMsg;
           vm.productDurationType = vm.tour.productDurationType;
           vm.productScheduledDates = vm.tour.productScheduledDates;
           vm.productScheduledTimestamps = vm.tour.productScheduledTimestamps;
+          vm.isProductAvailabileAllTime = vm.tour.isProductAvailabileAllTime;
           // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
           angular.copy(vm.tour.productPricingOptions, previousPricingOption);
             

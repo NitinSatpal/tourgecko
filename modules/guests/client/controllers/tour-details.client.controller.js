@@ -71,6 +71,7 @@
     });
 
     var sessionDateTimePrice = new Map();
+    var sessionDateTimeAvailableSeats = new Map();
     function setSessionPricingOptions (sessions) {
       var sessionDates = new Map();
       
@@ -123,6 +124,14 @@
                 else
                   sessionDateTimePrice.set(key, vm.productDetails.productPricingOptions);
             }
+            var remainingSeatsKey;
+            if (sessions[index].sessionDepartureDetails.startTime != null &&  sessions[index].sessionDepartureDetails.startTime !== undefined &&  sessions[index].sessionDepartureDetails.startTime != '')
+              remainingSeatsKey = iteratorDate.getTime().toString() + sessions[index].sessionDepartureDetails.startTime.toString();
+            else
+              remainingSeatsKey = iteratorDate.getTime().toString() + 'No Time';
+
+            var remainingSeats = getRemainingSeats(sessions[index], iteratorDate);
+            sessionDateTimeAvailableSeats.set(remainingSeatsKey, remainingSeats);
             if (isSavingRequired) {
               var sessionPricingObject = {};
               var duration;
@@ -138,6 +147,7 @@
               sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
               sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
               sessionPricingObject['sessionTimes'] = sessionDates.get(iteratorDate.getTime());
+              sessionPricingObject['availableSeats'] = remainingSeats;
               if (sessions[index].isSessionPricingValid)
                 sessionPricingObject['pricing'] = sessions[index].sessionPricingDetails;
               else
@@ -152,17 +162,35 @@
         }
       }
     }
+
+    function getRemainingSeats (session, date) {
+      if (session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()])
+        return parseInt(session.sessionCapacityDetails.sessionSeatLimit) - parseInt(session.numberOfSeatsSession[date.getTime().toString()]);
+      else {
+        if (session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')
+          return 'No seat limit';
+        else
+          return session.sessionCapacityDetails.sessionSeatLimit;
+      }
+    }
+
+
     var activeIndex = new Map();
-    vm.getPricingDetailsOfGivenTimeSlot = function (parentIndex, index, timeslot) {
+    vm.getPricingDetailsOfGivenTimeSlot = function (parentIndex, index, timeslot, session) {
       var key = new Date(vm.sessionPricing[parentIndex].startDate).getTime().toString() + timeslot.toString();
       key = key.replace(/\s/g,'');
       vm.sessionPricing[parentIndex].pricing = sessionDateTimePrice.get(key);
+      var remainingSeatsKey = new Date(session.startDate).getTime().toString() + timeslot.toString();
+      if (sessionDateTimeAvailableSeats.get(remainingSeatsKey) == 'No seat limit')
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
+      else
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey) + ' seats available';
+
       if (!activeIndex.has(parentIndex))
         $("#timeslotValue" + parentIndex + '0').removeClass("timeslotValueActive0");
       else
         $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("timeslotValueActive0");
 
-      console.log("#timeslotValue" + parentIndex + index);
       $("#timeslotValue" + parentIndex + index).addClass("timeslotValueActive0");
       activeIndex.set(parentIndex, index);
     }

@@ -18,7 +18,7 @@
                             <a href="#step-1" type="button" class="btn host-guest-common-style-btn btn-circle" id="fixedDepartureStep1">1</a>
                             <p class="host-guest-common-style-btn-departure">
                                 <span>Departure</span></p>
-                            <small class="host-guest-common-style-btn-text text-lighten-1 ">{{vm.selectedDate}}</small>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 ">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}}</small>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-2" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep2">2</a>
@@ -184,7 +184,7 @@
                                     </div>
                                 </div>
                                 <h3 class="booking-form-title"><span class="currency orange-text">&#8377;</span> Booking Options</h3>
-                                <strong class="booking-form-subtitle"> Select options and quality
+                                <strong class="booking-form-subtitle"> Enter number of participants
                                     <span class="pull-right orange-text">Mandatory</span>
                                 </strong>
                                 <div ng-repeat="pricing in vm.validPricingOptions track by $index">
@@ -244,13 +244,13 @@
                                         <div class="col-xs-6 col-sm-3">
                                             <div class="input-group">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'decrement')">
+                                                    <button type="button" class="btn btn-default btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'decrement')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-minus"></span>
                                                     </button>
                                                 </span>
-                                                <input type="text" name="quant[2]" class="form-control input-number" value="vm.pricingOptionIndexAndQuantity[$index]" min="0" max="100" style="margin-bottom: 0; height: 28px; text-align: center;" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForNonGroupAndCustomOption()">
+                                                <input type="text" name="quant[2]" class="form-control input-number" value="vm.pricingOptionIndexAndQuantity[$index]" min="0" max="100" style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForNonGroupAndCustomOption()">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'increment')">
+                                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'increment')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-plus"></span>
                                                     </button>
                                                 </span>
@@ -278,15 +278,15 @@
                                         <div class="col-xs-12 col-sm-3">
                                             <div class="input-group">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'decrement')">
+                                                    <button type="button" class="btn btn-default btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'decrement')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-minus"></span>
                                                     </button>
                                                 </span>
                                                 <input type="text" name="quant[2]" class="form-control input-number" value="0" max="1" min="0" 
-                                                style="margin-bottom: 0; height: 28px; text-align: center;" ng-model="vm.addonOptionIndexAndQuantity[$index]" 
+                                                style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.addonOptionIndexAndQuantity[$index]" 
                                                 ng-change="vm.calculatePriceForAddons($index)">
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'increment')">
+                                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'increment')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-plus"></span>
                                                     </button>
                                                 </span>
@@ -391,7 +391,7 @@
                                         <h4>{{vm.bookingProductDetails.productTitle}}</h4>
                                     </div>
                                     <div class="host-guest-common-style-row">
-                                        <span class="col-xs-6 col-sm-6 arrow">{{vm.selectedDate}}</span>
+                                        <span class="col-xs-6 col-sm-6 arrow">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}}</span>
                                         <span class="col-xs-6 col-sm-6">{{vm.endDateOFTheTour}}</span>
                                     </div>
                                     <div class="host-guest-common-style-row pay-contact-wrapper">
@@ -406,7 +406,7 @@
                                                     <th style="font-weight: 500;">Booking</th>
                                                     <th></th>
                                                     <th></th>
-                                                    <th style="font-weight: 500;">Total Seat Price</th>
+                                                    <th style="font-weight: 500;">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody ng-repeat="selectedBookingOption in vm.pricingOptionIndexAndQuantity track by $index" ng-if="vm.checkIfTheBookingOptionIsSelected($index)">
@@ -436,7 +436,7 @@
                                                     <th style="font-weight: 500;">Addon</th>
                                                     <th></th>
                                                     <th></th>
-                                                    <th style="font-weight: 500;">Total Addon Price</th>
+                                                    <th style="font-weight: 500;">Total</th>
                                                 </tr>
                                             </thead>
                                             <tbody ng-repeat="selectedAddonOption in vm.addonOptionIndexAndQuantity track by $index">
@@ -485,7 +485,7 @@
                                             <a href="" class="pay-now-btn" ng-click="vm.makePaymentForTheBooking()">Confirm and Pay</a>
                                             <br>
                                         </div>
-                                        <p class="host-guest-common-style-row text-center">You will be charged only when we confirm your booking.</p>
+                                        <p class="host-guest-common-style-row text-center">On confirmation you will be taken to payment screen.</p>
                                         <br>
                                         <div class="host-guest-common-style-row form-np-btn">
                                             <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)">Previous</button>
@@ -521,10 +521,6 @@
     <footer>
         <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
     </footer>
-    <div style="display: none; position: fixed; overflow-y: hidden;">
-        <a rel="im-checkout" data-behaviour="remote" data-style="light" data-text="Checkout With Instamojo"></a>
-    </div>
-                
     <script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 </div>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>

@@ -311,13 +311,18 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 						        		listObject = {
 						        			title: document.product.productTitle,
 						        			start: eventDate,
+						        			startDate: eventDate,
+						        			startTime: document.sessionDepartureDetails.startTime,
 						        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : 'duration not provided',
 						        			tourDepartureType: document.product.productAvailabilityType,
 						        			numOfBookings: bookingDetailsInCalendar,
 						        			seatLimit: limit,
 						        			repeatingBehavior : tourRepeatingType,
 						        			percentBookingColor: colorClassForListItems,
-						        			sessionId: document._id
+						        			sessionId: document._id,
+						        			numberOfSeatsSession: document.numberOfSeatsSession,
+						        			sessionInternalName: document.sessionInternalName,
+						        			sessionCapacityDetails: document.sessionCapacityDetails
 						        		}
 					        			monthListArrays[monthNumber].push(listObject);
 					        		}
@@ -326,13 +331,18 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			listObject = {
 						        			title: document.product.productTitle,
 						        			start: eventDate,
+						        			startDate: eventDate,
+						        			startTime: document.sessionDepartureDetails.startTime,
 						        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : 'duration not provided',
 						        			tourDepartureType: document.product.productAvailabilityType,
 						        			numOfBookings: bookingDetailsInCalendar,
 						        			seatLimit: limit,
 						        			repeatingBehavior : tourRepeatingType,
 						        			percentBookingColor: colorClassForListItems,
-						        			sessionId: document._id
+						        			sessionId: document._id,
+						        			numberOfSeatsSession: document.numberOfSeatsSession,
+						        			sessionInternalName: document.sessionInternalName,
+						        			sessionCapacityDetails: document.sessionCapacityDetails
 						        		}
 					        			monthListArrays[monthNumber].push(listObject);
 					        		}
@@ -341,13 +351,18 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			listObject = {
 						        			title: document.product.productTitle,
 						        			start: eventDate,
+						        			startDate: eventDate,
+						        			startTime: document.sessionDepartureDetails.startTime,
 						        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : 'duration not provided',
 						        			tourDepartureType: document.product.productAvailabilityType,
 						        			numOfBookings: bookingDetailsInCalendar,
 						        			seatLimit: limit,
 						        			repeatingBehavior : tourRepeatingType,
 						        			percentBookingColor: colorClassForListItems,
-						        			sessionId: document._id
+						        			sessionId: document._id,
+						        			numberOfSeatsSession: document.numberOfSeatsSession,
+						        			sessionInternalName: document.sessionInternalName,
+						        			sessionCapacityDetails: document.sessionCapacityDetails
 						        		}
 					        			monthListArrays[monthNumber].push(listObject);
 					        		}

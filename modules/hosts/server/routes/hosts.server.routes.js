@@ -119,6 +119,10 @@ module.exports = function (app) {
   app.route('/api/host/postbooking/:paymentRequestId')
     .get(hosts.fetchSingleBookingDetailsFromPaymentRequestId);
 
+  app.route('/api/host/welcomemessage/dismiss')
+    .post(hosts.dissmissTheWelcomMessage);
+  
+
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 

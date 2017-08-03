@@ -23,13 +23,13 @@
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var weekDaysNumber = new Map();
-            weekDaysNumber.set('Sunday', 0);
-            weekDaysNumber.set('Monday', 1);
-            weekDaysNumber.set('Tuesday', 2);
-            weekDaysNumber.set('Wednesday', 3);
-            weekDaysNumber.set('Thursday', 4);
-            weekDaysNumber.set('Friday', 5);
-            weekDaysNumber.set('Saturday', 6);
+    weekDaysNumber.set('Sunday', 0);
+    weekDaysNumber.set('Monday', 1);
+    weekDaysNumber.set('Tuesday', 2);
+    weekDaysNumber.set('Wednesday', 3);
+    weekDaysNumber.set('Thursday', 4);
+    weekDaysNumber.set('Friday', 5);
+    weekDaysNumber.set('Saturday', 6);
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
@@ -75,12 +75,11 @@
       });
       vm.productDetails = JSON.parse($window.localStorage.getItem('productData'));
       vm.productImageURLs = vm.productDetails.productPictureURLs;
-
-      console.log(vm.productDetails);
     }
 
 
     var sessionDateTimePrice = new Map();
+    var sessionDateTimeAvailableSeats = new Map();
     function setSessionPricingOptions (sessions) {
       var sessionDates = new Map();
       
@@ -91,6 +90,7 @@
         var firstDate;
         var secondDate;
         var oneDay;
+        var sessionPricingObject = {};
         if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
           firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
           secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
@@ -107,7 +107,6 @@
           }
         } else
           firstDate = new Date(sessions[index].sessionDepartureDetails.startDate);
-
         var iteratorDate = new Date(sessions[index].sessionDepartureDetails.startDate);
         for (var repeatIndex = 0; repeatIndex <= repeatedDays; repeatIndex ++) {
           if(((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(iteratorDate.getDay())) ||
@@ -127,14 +126,22 @@
                 sessionDates.set(iteratorDate.getTime(), sessionTimes);
               }
               var key = iteratorDate.getTime().toString() + sessions[index].sessionDepartureDetails.startTime.toString();
-                key = key.replace(/\s/g,'');
-                if (sessions[index].isSessionPricingValid)
-                  sessionDateTimePrice.set(key, sessions[index].sessionPricingDetails);
-                else
-                  sessionDateTimePrice.set(key, vm.productDetails.productPricingOptions);
+              key = key.replace(/\s/g,'');
+              if (sessions[index].isSessionPricingValid) {
+                sessionDateTimePrice.set(key, sessions[index].sessionPricingDetails);
+              } else {
+                sessionDateTimePrice.set(key, vm.productDetails.productPricingOptions);
+              }
             }
+            var remainingSeatsKey;
+            if (sessions[index].sessionDepartureDetails.startTime != null &&  sessions[index].sessionDepartureDetails.startTime !== undefined &&  sessions[index].sessionDepartureDetails.startTime != '')
+              remainingSeatsKey = iteratorDate.getTime().toString() + sessions[index].sessionDepartureDetails.startTime.toString();
+            else
+              remainingSeatsKey = iteratorDate.getTime().toString() + 'No Time';
+
+            var remainingSeats = getRemainingSeats(sessions[index], iteratorDate);
+            sessionDateTimeAvailableSeats.set(remainingSeatsKey, remainingSeats);
             if (isSavingRequired) {
-              var sessionPricingObject = {};
               var duration;
               var startDate = angular.copy(iteratorDate);
               var endDate = angular.copy(iteratorDate);
@@ -148,6 +155,7 @@
               sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
               sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
               sessionPricingObject['sessionTimes'] = sessionDates.get(iteratorDate.getTime());
+              sessionPricingObject['availableSeats'] = remainingSeats;
               if (sessions[index].isSessionPricingValid)
                 sessionPricingObject['pricing'] = sessions[index].sessionPricingDetails;
               else
@@ -162,17 +170,34 @@
         }
       }
     }
+
+    function getRemainingSeats (session, date) {
+      if (session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()])
+        return parseInt(session.sessionCapacityDetails.sessionSeatLimit) - parseInt(session.numberOfSeatsSession[date.getTime().toString()]);
+      else {
+        if (session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')
+          return 'No seat limit';
+        else
+          return session.sessionCapacityDetails.sessionSeatLimit;
+      }
+    }
     var activeIndex = new Map();
-    vm.getPricingDetailsOfGivenTimeSlot = function (parentIndex, index, timeslot) {
+    vm.getPricingDetailsOfGivenTimeSlot = function (parentIndex, index, timeslot, session) {
+      console.log(sessionDateTimeAvailableSeats);
       var key = new Date(vm.sessionPricing[parentIndex].startDate).getTime().toString() + timeslot.toString();
       key = key.replace(/\s/g,'');
       vm.sessionPricing[parentIndex].pricing = sessionDateTimePrice.get(key);
+      var remainingSeatsKey = new Date(session.startDate).getTime().toString() + timeslot.toString();
+      if (sessionDateTimeAvailableSeats.get(remainingSeatsKey) == 'No seat limit')
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
+      else
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey) + ' seats available';
+      
       if (!activeIndex.has(parentIndex))
         $("#timeslotValue" + parentIndex + '0').removeClass("timeslotValueActive0");
       else
         $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("timeslotValueActive0");
 
-      console.log("#timeslotValue" + parentIndex + index);
       $("#timeslotValue" + parentIndex + index).addClass("timeslotValueActive0");
       activeIndex.set(parentIndex, index);
     }
@@ -256,7 +281,6 @@
         }
         return cssObject;
       } else {
-        console.log('coming here');
         var cssObject = {
           "margin-left": "15%",
           "margin-right": "15%"

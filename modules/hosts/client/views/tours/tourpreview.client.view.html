@@ -210,7 +210,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse7">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Availlbility and Prices</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Availability and Prices</h4>
                                 </div>
                                 <div id="collapse7" class="panel-collapse collapse in">
                                     <div class="panel-body">
@@ -231,14 +231,14 @@
                                                             <span>{{session.endDate}}</span>
                                                         </span>
                                                         <span class="more-departure" id="timeslotsForThisSession">
-                                                            <a href="#" ng-repeat="timeslot in session.sessionTimes track by $index" ng-click="vm.getPricingDetailsOfGivenTimeSlot($parent.$index, $index, timeslot)">
+                                                            <a href="#" ng-repeat="timeslot in session.sessionTimes track by $index" ng-click="vm.getPricingDetailsOfGivenTimeSlot($parent.$index, $index, timeslot, session)">
                                                                 <span id="timeslotValue{{$parent.$index}}{{$index}}" class="timeslotValueActive{{$index}}">{{timeslot}}</span>
                                                                  &nbsp;&nbsp;
                                                             </a>
                                                         </span>
                                                     </div>
                                                     <div class="all-seats-wrapper">
-                                                        <p class="seats-wrapper"><span class="seats-avai">10 seats left</span>
+                                                        <p class="seats-wrapper"><span class="seats-avai" id="availableSeats{{$index}}">{{session.availableSeats}}</span>
                                                         </p>
                                                         <p class="seats-wrapper">
                                                             <span class="booking-date-title">Prices</span>

@@ -2,7 +2,35 @@
 	<div class="row body-content">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
 			<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
+			<div class="home-section alert alert-welcome" ng-if="vm.isWelcomeMessageValid('firstLoginWelcomeMessage')">
+               <div class="welcome_block">
+					<p>
+						<span>
+							<Strong>Welcome to tourgecko, <span style="text-transform: capitalize; display: inline-block;">{{vm.companyDetails.user.displayName}}</span>.</Strong>
+						</span>
+						We have stuck some steps  on your pinboard below to guide you to complete your account  setup  and start taking online bookings. It takes only few minutes…...
+					</p>														
+					<a class="dismiss " href="" ng-click="vm.disMissWelcomeMessage('firstLoginWelcomeMessage')">Dismiss</a>
+				</div>
+			</div>
+			<style> 
+				.alert-welcome  {
+					color: white;
+					background-color: #ddffdd;
+					border-color: #ddffdd;
+				}
+			    .welcome_block p span {
+			    	font-size:2rem;
+			    	display: block;
+			    }
+				.welcome_block {
+					padding-top:1rem;
+					display: block;
+					text-align: center;
+				}
+			</style>
 
+					
 			<div class="home-section analytics">
 				<div class="head_content">
 					<h4>Analytics</h4>
@@ -59,18 +87,28 @@
 			        <ul>
 			            <li ng-repeat="pin in goal.pinsForthisGoal track by $index">
 			                <div class="info_content row">
-			                    <div class="info col-lg-8 col-md-8 col-sm-8 col-xs-6">
+			                    <div class="info col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			                        <p>{{pin.message}}</p>
+			                    </div>
+			                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			                        <p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i>{{pin.type}}</p>
-			                        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
+			                        <p class="time" ng-show="pin.timeRequired">
+			                        	<i class="zmdi zmdi-timer"></i>
+			                        	{{pin.timeRequired}}
+			                        	<span ng-show="pin.timeRequired == 1">min</span>
+			                        	<span ng-show="pin.timeRequired > 1">mins</span>
+			                        </p>
 			                    </div>
-			                    <div ng-if="!pin.isPinCompleted" class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-style="vm.getDynamicMarginPinboardButtons()">
-				                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-				                    <a class="update_profile btn btn-default pull-right"  ng-if="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+			                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12 pinButtonsDynamicStyling">
+				                    <div ng-if="!pin.isPinCompleted">
+					                    <a class="update_profile btn btn-default"  ng-if="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+					                    <a class="update_profile btn btn-default"  ng-if="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+					                </div>
+
+					                <div ng-if="pin.isPinCompleted" ng-style="vm.getDynamicMarginPinboardCompletion()">
+				                    	<h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3>
+				                    </div>
 				                </div>
-				                <div ng-if="pin.isPinCompleted" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" ng-style="vm.getDynamicMarginPinboardCompletion()">
-			                    	<h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3>
-			                    </div>
 			                </div>
 			            </li>
 			        </ul>
@@ -130,7 +168,7 @@
 					</div> -->
 					<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
 						<h4>Sessions</h4>
-						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'utcDate' | limitTo: 5">
+						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy: 'utcDate' | limitTo: 5">
 							
 	                            <div class="occupancy-indicator light-blue" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
 	                                <i class="zmdi zmdi-account green-text"></i>
@@ -143,8 +181,8 @@
 								<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
 		                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
 		                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
-		                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}}</p>
-									<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}} days</span></p>
+		                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}} {{session.startTime}}</p>
+									<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}}</span></p>
 	                            </div>
 	                       
 						</div>
@@ -194,8 +232,24 @@
 							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
 								<span><h4> There are no tour or activities sessions scheduled in this time period!</h4></span>
 							</div>
-							<div class="card list-content" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)">
-								<div class="row">
+							<div class="card list-content sessions" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)" ng-if="vm.getStartsInDays(session.startDate) != '0 day'">
+								<div class="info_content">
+		                            <div class="occupancy-indicator light-blue" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
+		                                <i class="zmdi zmdi-account green-text"></i>
+		                                <h5>
+		                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.start, session.numberOfSeatsSession)}}</span>&nbsp;/
+		                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? '-' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
+		                                    <span class="total" ng-if="!session.sessionInternalName">-</span>
+		                                </h5>
+		                            </div>
+									<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
+			                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.title}})</p>
+			                            <p class="name" ng-if="!session.sessionInternalName">{{session.title}}</p>
+			                            <p class="date">{{vm.getDepartureDateOfSession(session.start)}} {{session.startTime}}</p>
+										<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.start)}}</span></p>
+		                            </div>
+								</div>
+								<!--<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
 										<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
 											<div class="dataDiv">
@@ -213,7 +267,7 @@
 											</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 							<div class="row" ng-hide="productSessions.length == 0">
 			                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

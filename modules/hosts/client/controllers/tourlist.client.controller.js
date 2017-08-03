@@ -390,7 +390,7 @@
     vm.tweetTheProduct = function () {
         changeProductVisibility();
         var tweet = vm.products[vm.index].productTitle + '%0A' + vm.products[vm.index].destination + '%0A';
-        var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
+        var longURL = 'http://tourgecko.com:3000/tour/' + vm.products[vm.index]._id;
         $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
             tweet = tweet + response + '%0A';
             $window.open("http://twitter.com/share?text="+tweet+"&via=tourgecko&hashtags=''&url=''");
@@ -412,7 +412,7 @@
     }
     vm.shareTheProductOnWhatsapp = function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            var longURL = 'http://tourgecko.com:3000/guest/tour/' + vm.products[vm.index]._id;
+            var longURL = 'http://tourgecko.com:3000/tour/' + vm.products[vm.index]._id;
             $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
                 var tourName = vm.products[vm.index].productTitle;
                 var tourDestination = vm.products[vm.index].destination;

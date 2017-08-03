@@ -63,11 +63,12 @@
               <div class="cols-sm-10 input_group">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="zmdi zmdi-globe"></i></span>
-                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase required>
+                  <input type="toursite" id="toursite" name="toursite" class="form-control" ng-model="vm.toursite" placeholder="toursite" lowercase required disallow-spaces ng-pattern ="/^[a-zA-Z\s]*$/">
                   <span class="input-group-addon">.tourgecko.com</span>
                 </div>
                 <div class="error_group" ng-messages="vm.userForm.toursite.$error" role="alert">
                   <p class="help-block error-text " ng-message="required"> Please enter toursite name</p>
+                  <p class="help-block error-text " ng-message="pattern"> Only letters are allowed in toursite name</p>
                 </div>
               </div>
             </div>

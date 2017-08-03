@@ -173,6 +173,10 @@ var HostCompanySchema = new Schema({
   pinboardPins: {
     type: Array,
     default: []
+  },
+  newUserFirstLoginValidElements: {
+    type: Array,
+    default: []
   }
 });
 

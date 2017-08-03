@@ -17,9 +17,9 @@
       "guestMobileRequired" : "Mobile cannot be blank",
       "guestMobileValidity" : "Mobile number is not valid",
       "bookingOptionNoMaxSeatLimitReached" : "Please select booking option to proceed further",
-      "bookingOptionMaxSeatLimitReached" : "Please select number of seats within the available range",
-      "bookingOptionProductMinSeatLimitReached": "Please select number of seats more than the minimum seats required",
-      "bookingOptionProductMaxSeatLimitReached": "Please select number of seats less than the maximum seats allowed",
+      "bookingOptionMaxSeatLimitReached" : "Please select number of participants within the available range",
+      "bookingOptionProductMinSeatLimitReached": "Please select number of participants more than the minimum participants required",
+      "bookingOptionProductMaxSeatLimitReached": "Please select number of participants less than the maximum participants allowed",
       "dateSelection" : "Please select a departure date to proceed",
       "timeslotSelection" : "Please select your preferred time from the available time slot options"
     })
@@ -652,11 +652,11 @@ vm.changeAddonsQuantity = function (index, behavior) {
   }
   if (behavior == 'decrement') {
     if (vm.addonOptionIndexAndQuantity[index] == 0) {
-      toasty.error({
+      /*toasty.error({
         title: 'Minimum value reached',
         msg: 'Value cannot be negative',
         sound: false
-      });
+      }); */
       return;
     }
     vm.addonOptionIndexAndQuantity[index] = parseInt(vm.addonOptionIndexAndQuantity[index]) - 1;
@@ -1025,6 +1025,10 @@ vm.areAddonsSelected = function () {
     }
 
     function findThePricingOptionsForSelectedDateTimestamp (date, time) {
+      vm.totalDiscount = 0;
+      vm.totalCalculatedSeatPrice = 0;
+      vm.totalcalculatedAddonPrice = 0;
+      vm.totalPayablePrice = 0;
       // For open date, irrespective of fate and time selected, pricing options will always be constant
       if(vm.bookingProductDetails.productAvailabilityType == 'Open Date')
         vm.validPricingOptions = vm.bookingProductDetails.productPricingOptions;
@@ -1113,6 +1117,14 @@ vm.areAddonsSelected = function () {
       vm.selectedTimeslot = time;
       maxSeatsAvailable = parseInt(getRemainingSeatsForCalendar(time));
     }
+
+    vm.getTheSelectedTimeslot = function () {
+      if (vm.selectedTimeslot != 'No Time' && vm.selectedTimeslot != 'Select Time')
+        return vm.selectedTimeslot;
+      else
+        return '';
+    }
+    
     
   }
 }());
