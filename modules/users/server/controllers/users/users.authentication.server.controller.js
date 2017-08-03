@@ -239,7 +239,7 @@ function createTheUserAccount (req, res) {
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
-          subject: 'Verification at Tourgecko',
+          subject: 'Activate your tourgecko account',
           //You can use "html:" to send HTML email content. It's magic!
           html: emailHTML,
           //You can use "text:" to send plain-text content. It's oldschool!
@@ -351,8 +351,10 @@ exports.signupDetails = function(req, res, next) {
         httpTransport = 'https://';
       }
       var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
+      var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
       res.render(path.resolve('modules/users/server/templates/user-verification-email'), {
         name: user.displayName,
+        assetOneUrl: assetOneUrl,
         appName: config.app.title,
         url: baseUrl + '/api/auth/userverification?token=' + token + '&user=' + req.body.userId
       }, function (err, emailHTML) {
@@ -366,7 +368,7 @@ exports.signupDetails = function(req, res, next) {
           to: user.email, // An array if you have multiple recipients.
           //cc:'',
           //bcc:'',
-          subject: 'Verification at Tourgecko',
+          subject: 'Activate your tourgecko account',
           //You can use "html:" to send HTML email content. It's magic!
           html: emailHTML,
           //You can use "text:" to send plain-text content. It's oldschool!
@@ -578,7 +580,8 @@ exports.validateUserVerification = function(req, res) {
                   var baseUrl = req.app.get('domain') || httpTransport + req.headers.host;
                   var letsDoItUrl = baseUrl + '/host/admin';
                   var assetOneUrl = baseUrl + '/modules/core/client/img/brand/logo.png';
-                  var assetTwourl = baseUrl + '/modules/core/client/img/assets/welcomeHostEmailPic.png'
+                  var assetTwourl = baseUrl + '/modules/core/client/img/assets/welcomeHostEmailPic.png';
+                  console.log('why its showing here ' + assetOneUrl);
                   var hostToursiteUrl = httpTransport + user.company.toursite + '.' + req.headers.host;
 
                   res.render(path.resolve('modules/users/server/templates/user-activated-email'), {
@@ -594,7 +597,7 @@ exports.validateUserVerification = function(req, res) {
                       to: user.email, // An array if you have multiple recipients.
                       //cc:'',
                       //bcc:'',
-                      subject: 'Account activated',
+                      subject: 'Welcome to tourgecko !!',
                       //You can use "html:" to send HTML email content. It's magic!
                       html: emailHTML,
                       //You can use "text:" to send plain-text content. It's oldschool!

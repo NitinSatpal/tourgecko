@@ -245,6 +245,13 @@
         data: {
           pageTitle: 'Admin | Tour'
         }
+      })
+      .state('host.coming-soon', {
+        url: '/coming-soon',
+        templateUrl: 'modules/hosts/client/views/coming-soon.client.view.html',
+        data: {
+          pageTitle: 'coming-soon'
+        }
       });
   }
 

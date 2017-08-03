@@ -220,7 +220,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        			limit = '-';
 				        		else {
 				        			if (document.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited') {
-					        			limit = 'No Limit';
+					        			limit = '-';
 				        			} else {
 					        			if (document.sessionCapacityDetails.sessionSeatLimit) {
 					        				limit = document.sessionCapacityDetails.sessionSeatLimit;
@@ -266,11 +266,18 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 
 		        				} else {
 		        					colorClassForListItems = '#42AE5E';
-		        					colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
-						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
-						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
-						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
-						        	colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
+		        					colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
+		        					if (document.sessionInternalName) {
+			        					colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
+							        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
+							        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+							        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
+						        	} else {
+						        		colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
+							        			document.product.productTitle + '</span> <br>' +
+							        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+							        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
+						        	}
 		        				}
 
 				        		if (window.innerWidth > 767) {

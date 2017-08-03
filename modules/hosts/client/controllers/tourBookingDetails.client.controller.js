@@ -590,7 +590,7 @@
       if (vm.productSession) {
         if(vm.productSession.product.productAvailabilityType == 'Open Date' || 
           (vm.productSession.product.productAvailabilityType == 'Fixed Departure' && vm.productSession.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited'))
-          return 'No Limit';
+          return '-';
         else 
           return parseInt(vm.productSession.sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.confirmedSeats);
       }

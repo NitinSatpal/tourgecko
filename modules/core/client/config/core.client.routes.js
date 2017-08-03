@@ -117,21 +117,14 @@
       .state('legal.privacypolicy', {
         url: '/privacy-policy',
         templateUrl: 'modules/core/client/views/privacy-policy.client.view.html',
-        controller: '',
-        controllerAs: ''
+        controller: 'LegalController',
+        controllerAs: 'vm'
       })
       .state('legal.terms-of-use', {
         url: '/terms-of-use',
         templateUrl: 'modules/core/client/views/terms-of-use.client.view.html',
-        controller: '',
-        controllerAs: ''
-      })
-      .state('coming-soon', {
-        url: '/coming-soon',
-        templateUrl: 'modules/core/client/views/coming-soon.client.view.html',
-        data: {
-          pageTitle: 'coming-soon'
-        }
+        controller: 'LegalController',
+        controllerAs: 'vm'
       })
       .state('not-found', {
         url: '/not-found',

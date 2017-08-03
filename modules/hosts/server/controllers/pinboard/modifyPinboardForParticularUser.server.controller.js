@@ -17,9 +17,11 @@ exports.modifyPinboardGoalsForThisUser = function (uniqueGoalName, uniquePinName
       if (goalsOfThisUser[goalIndex].uniqueGoalName == uniqueGoalName) {
         for (var pinIndex = 0; pinIndex < goalsOfThisUser[goalIndex].pinsForthisGoal.length; pinIndex++) {
           if (goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].uniquePinName == uniquePinName) {
-            goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].isPinCompleted = true;
-            goalsOfThisUser[goalIndex].completedPinsCounter = goalsOfThisUser[goalIndex].completedPinsCounter + 1;
-            if (goalsOfThisUser[goalIndex].completedPinsCounter ==goalsOfThisUser[goalIndex].pinsForthisGoal.length)
+            if (!goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].isPinCompleted) {
+              goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].isPinCompleted = true;
+              goalsOfThisUser[goalIndex].completedPinsCounter = goalsOfThisUser[goalIndex].completedPinsCounter + 1;
+            }
+            if (goalsOfThisUser[goalIndex].completedPinsCounter == goalsOfThisUser[goalIndex].pinsForthisGoal.length)
               goalsOfThisUser[goalIndex].isGoalCompleted = true;
           }
         }

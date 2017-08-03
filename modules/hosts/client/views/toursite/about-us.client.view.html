@@ -6,7 +6,7 @@
         <hr>
         <div class="col-xs-12">
             <ng-bind-html="vm.getHtmlTrustedData(vm.companyData.aboutHost)">
-            <p class="about-us-data minimize" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
+            <p class="about-us-data text-center" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
         </div>
     </div>
     <footer>
@@ -16,5 +16,7 @@
 <script>
     $(document).ready(function() {
         $('.nav.navbar-nav > li#about-us').addClass('active');
+        var tempAboutHostData = $('#about-us-data').text();
+        $('#about-us-data').html(tempAboutHostData);  
     });
 </script>

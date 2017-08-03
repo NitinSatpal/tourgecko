@@ -36,6 +36,7 @@
     $scope.$on('$stateChangeSuccess', stateChangeSuccess);
 
     function stateChangeSuccess() {
+      $window.scrollTo(0, 0);
       if($location.path() == '/settings/profile')
         $('#account-dropdown-menuitem0').addClass('activePElementForAccountDropdown');
       else

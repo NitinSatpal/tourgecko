@@ -91,6 +91,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
                   tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
                   tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
                   tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+                  tempObject.sessionId = sessions[index]._id;
                   departureSessions.push(tempObject);
                 }
               }
@@ -109,6 +110,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+              tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
           }

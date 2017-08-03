@@ -18,21 +18,21 @@
                             <a href="#step-1" type="button" class="btn host-guest-common-style-btn btn-circle" id="fixedDepartureStep1">1</a>
                             <p class="host-guest-common-style-btn-departure">
                                 <span>Departure</span></p>
-                            <small class="host-guest-common-style-btn-text text-lighten-1">{{vm.selectedDate}}</small>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 ">{{vm.selectedDate}}</small>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-2" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep2">2</a>
                             <p>
                                 <span>Options</span>
                             </p>
-                            <small class="host-guest-common-style-btn-text text-lighten-1" ng-if="vm.totalPayablePrice != 0">
+                            <small class="host-guest-common-style-btn-text text-lighten-1 col-xs-hidden" ng-if="vm.totalPayablePrice != 0">
                                 <span class="currency"> &#8377;</span> {{vm.totalPayablePrice}}
                             </small>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-3" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep3">3</a>
                             <p> <span>Guest</span> </p>
-                            <small class="host-guest-common-style-btn-text text-lighten-1">{{vm.providedGuestDetails.email}}</small>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 col-xs-hidden" >{{vm.providedGuestDetails.email}}</small>
                         </div>
                         <div class="stepwizard-step">
                             <a href="#step-4" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep4">4</a>
@@ -531,8 +531,12 @@
 <script>
     $(document).ready(function() {
         $('#stepwizard-step #fixedDepartureStep1').click();
+        document.getElementById('fixedDepartureStep2').style.pointerEvents = 'none';
+        document.getElementById('fixedDepartureStep3').style.pointerEvents = 'none';
+        document.getElementById('fixedDepartureStep4').style.pointerEvents = 'none';
     });
 
+    
     function generateCalendar() {
         var date = new Date();
         var year = date.getFullYear().toString();

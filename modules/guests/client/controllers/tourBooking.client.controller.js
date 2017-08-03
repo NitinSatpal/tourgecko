@@ -486,16 +486,21 @@ vm.selectedTimeslot = 'Select Time';
         return false;
       }
       if (stepNumberTo == 2) {
+        document.getElementById('fixedDepartureStep2').style.pointerEvents = 'auto';
         if (vm.timesForThisDate.length == 0 && vm.sesisonDateAndTimeForDisplayAndAvailability.length > 20 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure')
           vm.selectedTimeslot = 'No Time';
         findThePricingOptionsForSelectedDateTimestamp(vm.selectedDate, vm.selectedTimeslot);
       }
+      if (stepNumberTo == 3)
+        document.getElementById('fixedDepartureStep3').style.pointerEvents = 'auto';
       $('#fixedDepartureStep'+stepNumberFrom).removeClass('host-guest-common-style-btn');
       $('#fixedDepartureStep'+stepNumberFrom).addClass('host-guest-common-style-default-btn');
       $('#fixedDepartureStep'+stepNumberTo).removeClass("host-guest-common-style-default-btn");
       $('#fixedDepartureStep'+stepNumberTo).addClass("host-guest-common-style-btn");
-      if(stepNumberTo == 4)
+      if(stepNumberTo == 4) {
+        document.getElementById('fixedDepartureStep4').style.pointerEvents = 'auto';
         setTheEndDateOfTheTour()
+      }
       $('#fixedDepartureStep'+stepNumberTo).click();
       return true;
     }
@@ -543,6 +548,15 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
     }
     vm.pricingOptionIndexAndQuantity[index] = parseInt(vm.pricingOptionIndexAndQuantity[index]) - 1;
   } else {
+    if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
+      productMinSeatLimitError = true;
+      toasty.error({
+        title: 'Minimum limit on seats!',
+        msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' need to be booked',
+        sound: false
+      });
+      return;
+    }
     if(vm.bookingProductDetails.maxSeatsPerBookingAllowed && (parseInt(totalSeatsForThisBooking) > vm.bookingProductDetails.maxSeatsPerBookingAllowed)) {
       productMaxSeatLimitError = true;
       toasty.error({
@@ -552,7 +566,7 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
       });
       return;
     }
-    if (parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
+    if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
       maxSeatLimitError = true;
       toasty.error({
         title: 'Maximum Seat limit!',
@@ -604,7 +618,7 @@ function calculatePrice () {
         });
         return;
       }
-      if (parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
+      if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
         maxSeatLimitError = true;
         toasty.error({
           title: 'Maximum seats remaining!',
@@ -1036,7 +1050,7 @@ vm.areAddonsSelected = function () {
     vm.getSeatsRemainingForList = function (session, index) {
       if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
         if (session.capacityDetails.isSessionAvailabilityVisibleToGuests)
-          return 'No Limit';
+          return '-';
         else
           $('#remainingSeats'+index).addClass('removeBackgroundColor');
       } else {
@@ -1073,7 +1087,7 @@ vm.areAddonsSelected = function () {
       var actualSessionIndex = dateTimestampToActualSession.get(key);
       if(vm.bookingProductDetails.productAvailabilityType == 'Open Date' || (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')) {
         if (vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.isSessionAvailabilityVisibleToGuests)
-          return ' - (No Limit)';
+          return ' - (-)';
       } else {
         var remainingSeats = getRemainingSeatsForCalendar(time);
         remainingSeats = remainingSeats <= 1 ? remainingSeats.toString() + ' seat available' : remainingSeats.toString() + ' seats available';

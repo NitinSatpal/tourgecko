@@ -122,10 +122,15 @@
         var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
         $('#startDateOfTheTour').attr("value", startDateOfTheTour);
-
-        var hourPart = vm.specificBookingDetails.actualSessionTime.split(':')[0];
-        var minutePart = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[0];
-        var dayTime = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[1];
+        var hourPart;
+        var minutePart;
+        var dayTime
+        if (vm.specificBookingDetails.actualSessionTime)
+          hourPart = vm.specificBookingDetails.actualSessionTime.split(':')[0];
+        if (vm.specificBookingDetails.actualSessionTime && vm.specificBookingDetails.actualSessionTime.split(':')[1])
+          minutePart = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[0];
+        if (vm.specificBookingDetails.actualSessionTime && vm.specificBookingDetails.actualSessionTime.split(':')[1])
+          dayTime = vm.specificBookingDetails.actualSessionTime.split(':')[1].split(' ')[1];
         if (dayTime == 'AM') {
           if (parseInt(hourPart) == 12 || hourPart == '00')
             hourPart = '00';
@@ -135,8 +140,9 @@
           if (parseInt(hourPart) < 12)
             hourPart = 12 + parseInt(hourPart);
         }
-
-        var startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
+        var startTimeOfTheTour;
+        if (hourPart && minutePart)
+          startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
         $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
 
         if (!vm.specificBookingDetails.isOpenDateTour && vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {

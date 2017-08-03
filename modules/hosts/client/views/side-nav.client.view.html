@@ -36,8 +36,8 @@
 						<span class="pull-right menu-alert alert-warning orange-text">{{vm.pendingBookingCount}}</span>
 					</a>
 				</li>
-                <li onclick="showLoaderSideNav('customers')" id="cutomersTab">
-                	<a href="" ui-sref="coming-soon">
+                <li id="cutomersTab">
+                	<a href="" ui-sref="host.coming-soon">
                 		<i class="zmdi zmdi-accounts"></i> Customers
                 	</a>
                 </li>
@@ -57,7 +57,7 @@
 					</ul>
                 </li>
                 <li id="salesChannelBookBtnTab">
-                	<a href="" ui-sref="coming-soon">
+                	<a href="" ui-sref="host.coming-soon">
                 		<i class="zmdi zmdi-code"></i> Book Button
                 	</a>
                 </li>
@@ -131,7 +131,6 @@
 	});
 
 	$("li[data-toggle='slide-collapse']").click(function(e){
-		console.log('aya');
 		e.stopPropagation();
 		$(this).toggleClass("toggle");
 	});
@@ -148,7 +147,6 @@
 
 	$("#myNavbar .nav a").on("click", function(event){
 	   	$(".nav").find(".active").removeClass("active");
-	   	console.log($(this)[0].innerText);
 	   	if($(this)[0].innerText != 'Online Toursite' && $(this)[0].innerText != 'Settings')
 	   		$(this).parent().addClass("active");
 	});

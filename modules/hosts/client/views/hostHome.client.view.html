@@ -99,10 +99,12 @@
 					<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
 						<h4>Bookings</h4>
 						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
-							<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
-							<p class="outing">{{booking.product.productTitle}}</p>
-							<p class="date">{{vm.getDepartureDateOfBookings($index)}}</p>
-							<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
+							<div ng-click="vm.goToBookingDetails(booking._id)" style="cursor: pointer;">
+								<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
+								<p class="outing">{{booking.product.productTitle}}</p>
+								<p class="date">{{vm.getDepartureDateOfBookings($index)}}</p>
+								<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
+							</div>
 						</div>
 						<div class="seemoreinfo">
 							<a ng-show="vm.bookings.length == 0">No Bookings</a>
@@ -129,20 +131,22 @@
 					<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
 						<h4>Sessions</h4>
 						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy:'utcDate' | limitTo: 5">
-                            <div class="occupancy-indicator light-blue">
-                                <i class="zmdi zmdi-account green-text"></i>
-                                <h5>
-                                    <span class="current" ng-if="session.sessionInternalName">{{vm.getAvailabilityFigureForLatestSection(session.startDate, session.numberOfSeatsSession)}}</span>&nbsp;/
-                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? 'No limit' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
-                                    <span class="total" ng-if="!session.sessionInternalName">{{vm.getAvailabilityFigureForLatestSection(session.startDate)}}</span>
-                                </h5>
-                            </div>
-							<div class="session-info">
-                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
-                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
-                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}}</p>
-							<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}} days</span></p>
-                            </div>
+							
+	                            <div class="occupancy-indicator light-blue" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
+	                                <i class="zmdi zmdi-account green-text"></i>
+	                                <h5>
+	                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.startDate, session.numberOfSeatsSession)}}</span>&nbsp;/
+	                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? '-' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
+	                                    <span class="total" ng-if="!session.sessionInternalName">-</span>
+	                                </h5>
+	                            </div>
+								<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
+		                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
+		                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
+		                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}}</p>
+									<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}} days</span></p>
+	                            </div>
+	                       
 						</div>
 
 						<div class="seemoreinfo">
@@ -345,7 +349,6 @@
 <script type="text/javascript" src="modules/hosts/client/scripts/calendar.js"></script>
 <script>
 	$(document).ready(function(){
-	    $(this).scrollTop(0);
 	    $('#loadingDiv').css('display', 'none');
 	    $('a[rel="im-checkout"]').trigger("click");
 	});

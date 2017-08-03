@@ -43,7 +43,6 @@
     $http.get('/api/host/companyproductsessionsForAnalyticsAndLatestData/').success(function (response) {
       vm.departuresCount = response.count;
       vm.departureSessions = response.departureSessions;
-      console.log(JSON.stringify(vm.departureSessions));
     }).error(function (response){
     });
 
@@ -249,9 +248,18 @@
       $('#calendar').fullCalendar('changeView', whichView);
     }
     
+    vm.goToBookingDetails = function (id) {
+      $state.go('host.bookingdetails', {bookingId: id});
+    }
+
     vm.goToSessionBookingDetailsViaList = function (index) {
       var sessionStartDate = new Date($scope.productSessions[index].start).getTime().toString();
       $state.go('host.sessionDetails', {productSessionId: $scope.productSessions[index].sessionId, sessionStartDate: sessionStartDate});
+    }
+
+    vm.goToSessionBookingDetailsViaLatestSection = function (session) {
+      var sessionStartDate = new Date(session.startDate).getTime().toString();
+      $state.go('host.sessionDetails', {productSessionId: session.sessionId, sessionStartDate: sessionStartDate});
     }
 
     vm.goToSessionBookingDetailsViaCalendar = function (id) {

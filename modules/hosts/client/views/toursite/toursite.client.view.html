@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col-xs-offset-2 col-xs-8">
                 <ng-bind-html="vm.getHtmlTrustedData(vm.companyData.aboutHost)">
-                <p id="about-us-data" class="about-us-data minimize" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
+                <p id="about-us-data" class="about-us-data text-center" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
             </div>
         </div>
         <div class="row">
@@ -91,7 +91,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 mbt1">
-                                    <p class="card-departure "><i class="fa  fa-calendar"></i>Availability: {{vm.getDepartureDateToShow($index)}}
+                                    <p class="card-departure "><i class="fa  fa-calendar"></i>{{vm.getDepartureDateToShow($index)}}
                                     </p>
                                 </div>
                             </div>
@@ -152,6 +152,9 @@
           interval: 5000
         });
         $('.nav.navbar-nav > li#toursiteMainPage').addClass('active');
+        var tempAboutHostData = $('#about-us-data').html();
+        tempAboutHostData = tempAboutHostData.slice(0,600) +'<span>... </span><a href="about-us" onclick="goToAboutHostTab()" class="more" style="color:#ff9800;">Read More</a>';
+        $('#about-us-data').html(tempAboutHostData);        
     });
     $('.carousel-control.left').click(function() {
         $('#toursiteCarousel').carousel('prev');

@@ -1,10 +1,10 @@
 <ul class="footer-menu host-guest-common-style-footer-menu-toursite">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <li>
-            <a class="navbar-brand logo" href="#" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
+            <a class="navbar-brand logo" href="/" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
                 <img src="{{vm.companyData.logoURL}}" class="img-responsive">
             </a>
-            <a class="navbar-brand logo noLogoPresent" href="#" ng-if="vm.companyData.logoURL == 'modules/hosts/client/companyLogo/default/logo.png'">
+            <a class="navbar-brand logo noLogoPresent" href="/" ng-if="vm.companyData.logoURL == 'modules/hosts/client/companyLogo/default/logo.png'">
                 <span> {{vm.companyData.companyName}}
             </a>
         </li>
