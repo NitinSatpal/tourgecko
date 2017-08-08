@@ -8,6 +8,7 @@
   TourCalendarController.$inject = ['$state', '$scope', '$window', '$http'];
 
   function TourCalendarController($state, $scope, $window, $http) {
+    $('.modal-backdrop').remove();
     var vm = this;
     $scope.productSessions;
     var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

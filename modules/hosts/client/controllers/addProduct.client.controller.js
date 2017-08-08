@@ -37,6 +37,7 @@
       vm.sessionSeatsLimitType = 'select';
       vm.pricingOptions = ['Everyone'];
       vm.oldSessionEditing = false;
+      vm.fixedProductScheduleVisibility = [];
       vm.fixedProductSchedule = [];
       vm.fixedProductScheduleCapacities = [];
       vm.fixedProductScheduleUniqueId = [];
@@ -729,6 +730,7 @@
       vm.fixedProductSchedule.splice((vm.fixedProductSchedule.length - 1), 1);
     else {
       vm.editingTheSession = false;
+      vm.oldSessionEditing = false;
       vm.onlyCapacityEditAllowed = false;
     }
   }
@@ -805,38 +807,41 @@
       return false
     }
 
-    if (vm.editingTheSession && vm.onlyCapacityEditAllowed) {
-      if (vm.sessionSeatsLimitType == 'limited') {
-        if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior != 'Do not repeat') {
-          toasty.error({
-            title: 'Capacity cannot be changed!',
-            msg: 'You cannot change the capacity of repeative session. Please contact tourgecko support.',
-            sound: false
-          });
-          return false
-        } else {
-          $http.get('/api/host/countNumOfSeatsForParticularSession/' + vm.fixedProductScheduleUniqueId[vm.fixedDepartureSessionCounter] + '/' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).success(function (response) {
-            if (parseInt(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit) < response.numOfSeats) {
-              toasty.error({
-                title: 'Capacity cannot be saved!',
-                msg: 'This session already have booking more than ' + vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit,
-                sound: false
-              });
-              return false
-            } else
-              return createDepartureSession();
-          }).error(function (err) {
+    if (vm.editingTheSession && vm.oldSessionEditing) {
+      if (vm.onlyCapacityEditAllowed) {
+        if (vm.sessionSeatsLimitType == 'limited') {
+          if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior != 'Do not repeat') {
             toasty.error({
-              title: 'Something went wrong!',
-              msg: 'Capacity cannot be edited. Please try again',
+              title: 'Capacity cannot be changed!',
+              msg: 'You cannot change the capacity of repeative session. Please contact tourgecko support.',
               sound: false
             });
             return false
-          });
+          } else {
+            $http.get('/api/host/countNumOfSeatsForParticularSession/' + vm.fixedProductScheduleUniqueId[vm.fixedDepartureSessionCounter] + '/' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).success(function (response) {
+              if (parseInt(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit) < response.numOfSeats) {
+                toasty.error({
+                  title: 'Capacity cannot be saved!',
+                  msg: 'This session already have booking more than ' + vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit,
+                  sound: false
+                });
+                return false
+              } else
+                return createDepartureSession(true);
+            }).error(function (err) {
+              toasty.error({
+                title: 'Something went wrong!',
+                msg: 'Capacity cannot be edited. Please try again',
+                sound: false
+              });
+              return false
+            });
+          }
         }
-      }
+      } else
+        return createDepartureSession(true);
     } else {
-      return createDepartureSession();
+      return createDepartureSession(false);
     }
   }
   /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -850,7 +855,7 @@
   weekDaysNumber.set('Thursday', 4);
   weekDaysNumber.set('Friday', 5);
   weekDaysNumber.set('Saturday', 6);
-  function createDepartureSession () {
+  function createDepartureSession (alreadySavedSession) {
     vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatsLimitType = vm.sessionSeatsLimitType;
     // if any tour is repeted, then populate the calendar accordingly
     var repeatedDays = 0;
@@ -975,11 +980,42 @@
     $(".ds_repeat_daily").hide();
     $(".dsChangePrice").hide();
     vm.sessionSeatsLimitType = 'select';
-    vm.editingTheSession = false;
-    vm.onlyCapacityEditAllowed = false;
     vm.showTheList = true;
-    $('#sessionsCreatedAndUnsaved').click();
-    return true;
+    console.log('why why ' + vm.editingTheSession);
+    console.log('again why ' + vm.oldSessionEditing);
+    if (!vm.editingTheSession) {
+      vm.fixedProductScheduleVisibility[vm.fixedDepartureSessionCounter] = true;
+      $('#sessionsCreatedAndUnsaved').click();
+      return true;
+    } else if (vm.editingTheSession && !vm.oldSessionEditing) {
+      vm.editingTheSession = false;
+      vm.onlyCapacityEditAllowed = false;
+      vm.fixedProductScheduleVisibility[vm.fixedDepartureSessionCounter] = true;
+      $('#sessionsCreatedAndUnsaved').click();
+      return true;
+    } else {
+      vm.fixedProductScheduleVisibility[vm.fixedDepartureSessionCounter] = false;
+        $http.post('/api/host/deleteParticularSession/' + productId + '/' + vm.fixedProductScheduleUniqueIdOld[vm.oldEditedSessionIndex], {removedTimeStampsOFDeletedSessionArr: vm.productScheduledTimestamps}).success(function (response) {
+          vm.fixedProductScheduleOld.splice(vm.oldEditedSessionIndex, 1);
+          vm.sessionSpecialPricingOld.splice(vm.oldEditedSessionIndex, 1);
+          vm.sessionInternalNamesOld.splice(vm.oldEditedSessionIndex, 1);
+          vm.fixedProductScheduleCapacitiesOld.splice(vm.fixedProductScheduleUniqueIdOld[index], 1);
+
+          vm.fixedProductScheduleOld.push(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter]);
+          vm.sessionSpecialPricingOld.push(vm.sessionSpecialPricing[vm.fixedDepartureSessionCounter]);
+          vm.sessionInternalNamesOld.push(vm.sessionInternalNames[vm.fixedDepartureSessionCounter]);
+          vm.fixedProductScheduleCapacitiesOld.push(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter]);
+          saveTheProduct();
+          $('#sessionsCreatedAndSaved').click();
+        }).error(function (error) {
+          toasty.error({
+            title: 'Something went wrong!',
+            msg: 'The duplicate session has been created. Please delete it or contact tourgecko support',
+            sound: false
+          });
+          return false;
+        });
+    }
   }
 
   /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -1119,15 +1155,36 @@
           .success(function (response) {
             $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
-            $state.go('host.showProduct', {productId: response._id, showSuccessMsg: false, showEditSuccessMsg: true});
-            if ($state.previous.state.name == 'host.showProduct' || $state.previous.state.name == 'host.editProduct')
+            if (!vm.editingTheSession)
+              $state.go('host.showProduct', {productId: response._id, showSuccessMsg: false, showEditSuccessMsg: true});
+            if (vm.editingTheSession) {
+              $('#tours_sa_Selector').click();
+              $('#sessionsCreatedAndSaved').click();
+              vm.showTheList = true;
+              vm.fixedProductScheduleCapacities.length = 0;
+              vm.fixedProductSchedule.length = 0;
+              vm.sessionSpecialPricing.length = 0;
+              vm.sessionInternalNames.length = 0;
+            }
+            if (!vm.editingTheSession && $state.previous.state.name == 'host.showProduct' || $state.previous.state.name == 'host.editProduct')
               $state.reload();
             $rootScope.productCreationOrEditDirtyDataPresent = false;
-            
+            vm.editingTheSession = false;
+            vm.oldSessionEditing = false;
           }).error(function (response) {
             vm.error = response.message;
             $('#loadingDivHostSide').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
+            if (vm.editingTheSession) {
+              toasty.error({
+                title: 'Session cannot be edited!',
+                msg: 'The session cannot be edited. Please contact tourgecko support before changing anything!',
+                sound: false
+              });
+              return false;
+            }
+            vm.editingTheSession = false;
+            vm.oldSessionEditing = false;
           });
         } else {
           vm.tour.isPublished = true;
@@ -1290,6 +1347,10 @@
       }
       vm.viewThisSession = function (index, alreadySavedSession) {
         if (productId && alreadySavedSession) {
+          if (vm.fixedProductScheduleOld[index].repeatBehavior != 'Do not repeat') {
+            $('#confirm-navigation-to-sessions-btn').click();
+            return;
+          }
           var sessionStartDate = new Date(vm.fixedProductScheduleOld[index].startDate).getTime().toString();
           $state.go('host.sessionDetails', {productSessionId: vm.fixedProductScheduleUniqueIdOld[index], sessionStartDate: sessionStartDate});
         } else {
@@ -1317,7 +1378,8 @@
               if (!$rootScope.productCreationOrEditDirtyDataPresent)
                 unWatchTheTour = true;
               refreshThePreviouslyCreatedTimeStamp(index, true);
-              $http.post('/api/host/deleteParticularSession/' + productId + '/' + vm.fixedProductScheduleUniqueIdOld[index], {removedTimeStampsOFDeletedSessionArr: vm.productScheduledTimestamps}).success(function (response) {                if (response == 'errorInDelete') {
+              $http.post('/api/host/deleteParticularSession/' + productId + '/' + vm.fixedProductScheduleUniqueIdOld[index], {removedTimeStampsOFDeletedSessionArr: vm.productScheduledTimestamps}).success(function (response) {
+                if (response == 'errorInDelete') {
                   toasty.error({
                     title: 'Error in delete!',
                     msg: 'The session could not be deleted. Please try again',
@@ -1378,10 +1440,14 @@
               // only capacity edit allowed
               vm.onlyCapacityEditAllowed = true;
               vm.editingTheSession = true;
+              vm.editingOldSession = true;
+              vm.oldEditedSessionIndex = index;
               vm.fixedDepartureSessionCounter = vm.fixedProductSchedule.length;
               setTheSessionDetailsToEdit(index, true);
             } else {
               vm.editingTheSession = true;
+              vm.editingOldSession = true;
+              vm.oldEditedSessionIndex = index;
               vm.fixedDepartureSessionCounter = vm.fixedProductSchedule.length;
               setTheSessionDetailsToEdit(index, true);
             }
@@ -1391,6 +1457,7 @@
           });
         } else {
           vm.editingTheSession = true;
+          vm.editingOldSession = false;
           vm.fixedDepartureSessionCounter = index;
           setTheSessionDetailsToEdit(index, false);
         }
@@ -1454,7 +1521,7 @@
 
           if (vm.fixedSchedule[sessionIndex].repeatBehavior == 'Repeat Daily' && vm.fixedSchedule[sessionIndex].notRepeatOnDays) {
             for (var index = 0; index < vm.fixedSchedule[sessionIndex].notRepeatOnDays.length; index++)
-              notAllowedDays.add(weekDaysNumber.get(vm.vm.fixedSchedule[sessionIndex].notRepeatOnDays[index]));
+              notAllowedDays.add(weekDaysNumber.get(vm.fixedSchedule[sessionIndex].notRepeatOnDays[index]));
           }
           if (vm.fixedSchedule[sessionIndex].repeatBehavior == 'Repeat Weekly' && vm.fixedSchedule[sessionIndex].repeatOnDays) {
             for (var index = 0; index < vm.fixedSchedule[sessionIndex].repeatOnDays.length; index++)

@@ -661,7 +661,7 @@
 																	    	<a href="#current" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true" id="sessionsCreatedAndUnsaved">Current</a>
 																	    </li>
 																	    <li role="presentation" class="">
-																	    	<a href="#past" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Past</a>
+																	    	<a href="#past" aria-controls="profile" role="tab" id="sessionsCreatedAndSaved" data-toggle="tab" aria-expanded="false">Past</a>
 																	    </li>
 																	</ul>
 																	<div class="tab-content">
@@ -682,9 +682,12 @@
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, false)">Delete</a></p>
 															                    </div>
 														                	</div>
+														                	<div class="text-center" ng-if=" vm.fixedProductSchedule.length == 0">
+														                		<h5>No curent sessions created</h5>
+														                	</div>
 														            	</div>
 														            	<div role="tabpanel" class="tab-pane" id="past">
-								                                            <div class="card" ng-repeat="currentSession in vm.fixedProductScheduleOld track by $index">
+								                                            <div class="card" ng-repeat="savedSession in vm.fixedProductScheduleOld track by $index">
 														                		<h5>{{vm.sessionInternalNamesOld[$index]}}</h5>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
 															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].startDate)}} {{vm.fixedProductScheduleOld[$index].startTime}}</span></p>
@@ -699,6 +702,9 @@
 															                        <p><a href="" ng-click="vm.editThisSession($index, true)">Edit</a></p>
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
 															                    </div>
+														                	</div>
+														                	<div class="text-center" ng-if=" vm.fixedProductScheduleOld.length == 0">
+														                		<h5>No past sessions present</h5>
 														                	</div>
 								                                        </div>                                      
 																	</div>
@@ -1300,6 +1306,22 @@
 	        </div>
 	    </div>
 	</div>
+</div>
+<a class="btn btn-primary pull-right" data-toggle="modal" data-target="#confirm-navigation-to-sessions" style="display: none" id="confirm-navigation-to-sessions-btn"></a>
+<div id="confirm-navigation-to-sessions" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Repeative session!</h4>
+            </div>
+            <div class="modal-body">
+                <p> This is the repeative session. To get the details of the required date, please go to sessions tab. </p>
+                <a ui-sref="host.calendar" class="btn btn-warning pull-left margin-right btn-sm">Go to Sessions</a>
+                <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">No</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="lib/scripts-inside-html/js/multiselect.js"></script>
