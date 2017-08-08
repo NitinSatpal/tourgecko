@@ -453,6 +453,36 @@ exports.deleteProductMap = function (req, res) {
   res.json({success: true, deletedUuid: req.body.qquuid});
 }
 
+exports.deleteAParticularSession = function (req, res) {
+  Product.findOne({ '_id': req.params.productId }).exec(function (err, product) {
+    if (err) {
+      res.json('errorInDelete');
+    }
+    product.productScheduledTimestamps = req.body.removedTimeStampsOFDeletedSessionArr;
+    product.save(function (productSaveErr) {
+      if (productSaveErr)
+        res.json('errorInDelete');
+      ProductSession.findByIdAndRemove(req.params.productSessionId, {}, function(err, doc) {
+        if (err)
+          res.json('errorInDelete');
+        res.json('deleteSuccess');
+      });
+    })
+  });
+}
+
+exports.getNumberOfSeatsForTheSession = function (req, res) {
+  ProductSession.findOne({ '_id': req.params.productSessionId }).exec(function (err, productSession) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    var key = new Date (req.params.sessionStartDate).getTime().toString();
+    res.json({numOfSeats: productSession.numberOfSeatsSession[key]});
+  });
+}
+
 /* var cronJob = cron.job('00 30 00 * * *', function() {
   async.waterfall([
     function (done) {

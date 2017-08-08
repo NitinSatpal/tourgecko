@@ -94,6 +94,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
                   tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
                   tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
                   tempObject.sessionId = sessions[index]._id;
+                  
                   departureSessions.push(tempObject);
                 }
               }
@@ -113,6 +114,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+              tempObject.percentBookingColor = finBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
               tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
@@ -122,7 +124,6 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
   	});
 	}
 }
-
 
 function isThisFutureSession (startDate) {
   var countDownDate = new Date(startDate).getTime();
@@ -134,6 +135,33 @@ function isThisFutureSession (startDate) {
     return true;
 
   return false;
+}
+
+function finBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
+  var numOfSeatsKey = new Date(startDate).getTime().toString();
+  var percentBooking;
+  if (sessionCapacityDetails.sessionSeatLimit) {
+    var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
+    if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey])
+      percentBooking = parseInt(numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
+    else
+      percentBooking = 0;
+  } else
+    percentBooking = 1;
+
+  var cssObject = {
+
+  }
+  if (percentBooking == 0)
+    cssObject["background-color"] = "#3fb7ee";
+  else if (percentBooking > 0 && percentBooking <= 50)
+    cssObject["background-color"] = "#34C76E";
+  else if (percentBooking > 50 && percentBooking < 100)
+    cssObject["background-color"] = "#f7c836";
+  else
+    cssObject["background-color"] = "#EC8484";
+
+  return cssObject;
 }
 
 

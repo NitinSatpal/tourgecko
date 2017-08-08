@@ -63,7 +63,12 @@ exports.sendMassMessagesForTheSession = function (req, res) {
 
 exports.sendMobileVerificationCode = function (req, res) {
   User.findOne({_id: req.user._id}).exec(function (err, user) {
-    if (!user.mobileVerificationToken) {
+    var currentDateTime = new Date().getTime();
+    var mobileVerificationTokenExpirationtime = new Date(user.mobileVerificationTokenExpires).getTime();
+    var isResending = false;
+    if (!user.mobileVerificationToken || (user.mobileVerificationToken && (currentDateTime > mobileVerificationTokenExpirationtime))) {
+      if (user.mobileVerificationToken)
+        isResending = true;
       user.mobileVerificationToken = Math.floor(10000 + Math.random() * 89999);
       user.mobileVerificationTokenExpires = Date.now() + 900000; // 15 minutes
       user.save(function (userSaveErr) {
@@ -75,10 +80,77 @@ exports.sendMobileVerificationCode = function (req, res) {
         var msg = encodeURIComponent(smsBody);
         var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
         request.get({
-          //headers : this.HEADERSWITHTOKEN,
           url : 'http://api.Textlocal.in/send/?' + uri
         }, function(error, response, body) {
           var result = JSON.parse(body);
+          if (result.status == 'success') {
+            //success
+            if (!isResending)
+              res.json('success');
+            else
+              res.json('successfullyResentNewAccountKey');        
+          } else {
+            //failure
+            res.json('someThingWentWrong');
+          }
+        });
+      });
+    } else {
+      res.json('sentCodeIsActive');
+    }
+  });
+}
+
+exports.resendMobileVerificationCode = function (req, res) {
+  User.findOne({_id: req.user._id}).exec(function (err, user) {
+    var currentDateTime = new Date().getTime();
+    var mobileVerificationTokenExpirationtime = new Date(user.mobileVerificationTokenExpires).getTime();
+    var isResending = false;
+    if (!user.mobileVerificationToken || (user.mobileVerificationToken && (currentDateTime > mobileVerificationTokenExpirationtime))) {
+      user.mobileVerificationToken = Math.floor(10000 + Math.random() * 89999);
+      user.mobileVerificationTokenExpires = Date.now() + 900000; // 15 minutes
+      user.save(function (userSaveErr) {
+        var username = config.textlocal.username;
+        var hash = config.textlocal.hash;
+        var sender = config.textlocal.sender;
+        var numbers = user.mobile;
+        var smsBody = 'Your tourgecko account phone verification key is ' + user.mobileVerificationToken;
+        var msg = encodeURIComponent(smsBody);
+        var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
+        request.get({
+          url : 'http://api.Textlocal.in/send/?' + uri
+        }, function(error, response, body) {
+          var result = JSON.parse(body);
+          if (result.status == 'success') {
+            //success
+            res.json('successfullyResentAccountKey')        
+          } else {
+            //failure
+            res.json('someThingWentWrong');
+          }
+        });
+      });
+    } else {
+      user.mobileVerificationTokenExpires = Date.now() + 900000; // 15 minutes
+      user.save(function (userSaveErr) {
+        var username = config.textlocal.username;
+        var hash = config.textlocal.hash;
+        var sender = config.textlocal.sender;
+        var numbers = user.mobile;
+        var smsBody = 'Your tourgecko account phone verification key is ' + user.mobileVerificationToken;
+        var msg = encodeURIComponent(smsBody);
+        var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
+        request.get({
+          url : 'http://api.Textlocal.in/send/?' + uri
+        }, function(error, response, body) {
+          var result = JSON.parse(body);
+          if (result.status == 'success') {
+            //success
+            res.json('successfullyResentAccountKey')        
+          } else {
+            //failure
+            res.json('someThingWentWrong');
+          }
         });
       });
     }

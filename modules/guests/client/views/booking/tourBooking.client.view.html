@@ -199,8 +199,8 @@
                                             <!--<p class="text-lighten-1 text-justify">(For family of 4)</p>-->
                                         </div>
                                         <div class="col-xs-12 col-sm-3">
-                                            <select class="form-control" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForCustomOption($index)">
-                                                <option>Please Select</option>
+                                            <select class="form-control groupCustomQuantityQuantity" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForCustomOption($index)">
+                                                <option value="Please Select">Please Select</option>
                                                 <option ng-repeat="size in vm.getRepeaterIndexForGroupAndCustomPricing(1, pricing.seatsUsed) track by $index">{{size}}</option>
                                             </select>
                                         </div>
@@ -220,8 +220,8 @@
                                             <p class="text-lighten-1 text-justify">({{pricing.groupOption}})</p>
                                         </div>
                                         <div class="col-xs-12 col-sm-3">
-                                            <select class="form-control" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForGroupOption()">
-                                                <option>Please Select</option>
+                                            <select class="form-control groupCustomQuantityQuantity" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForGroupOption()">
+                                                <option value="Please Select">Please Select</option>
                                                 <option ng-repeat="size in vm.getRepeaterIndexForGroupAndCustomPricing(pricing.minGroupSize, pricing.maxGroupSize) track by $index">{{size}}</option>
                                             </select>
                                         </div>
@@ -248,7 +248,7 @@
                                                         <span class="glyphicon glyphicon-minus"></span>
                                                     </button>
                                                 </span>
-                                                <input type="text" name="quant[2]" class="form-control input-number" value="vm.pricingOptionIndexAndQuantity[$index]" min="0" max="100" style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForNonGroupAndCustomOption()">
+                                                <input  name="quant[2]" class="form-control input-number" value="vm.pricingOptionIndexAndQuantity[$index]" style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForNonGroupAndCustomOption()" numbers-only>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'increment')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-plus"></span>
@@ -262,11 +262,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="booking-checkbox-wrappers" style="margin-top: -11px" ng-if="vm.bookingProductDetails.productAddons[0].name != ''">
+                                <div class="booking-checkbox-wrappers" style="margin-top: -11px">
                                     <p class="booking-checkbox-title text-lighten-1">Add-Ons and extras
                                         <span class="pull-right orange-text">Optional</span>
                                     </p>
-                                    <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')" ng-if="addon.name != '' && addon.price != ''">
+                                    <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')" ng-show="addon.name != '' && addon.price != ''">
                                         <div class="col-xs-6 col-sm-3">
                                             <div class="checkbox">
                                                 <label class="text-lighten-1"> {{addon.name}}</label>
@@ -284,7 +284,7 @@
                                                 </span>
                                                 <input type="text" name="quant[2]" class="form-control input-number" value="0" max="1" min="0" 
                                                 style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.addonOptionIndexAndQuantity[$index]" 
-                                                ng-change="vm.calculatePriceForAddons($index)">
+                                                ng-change="vm.calculatePriceForAddons($index)" numbers-only>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'increment')" style="background-color: #ddd;">
                                                         <span class="glyphicon glyphicon-plus"></span>
@@ -300,8 +300,9 @@
                                 <div class="booking-total-wrappers" ng-style="vm.getDynamicCSSForAddonSection()">
                                     <div class="booking-total">
                                         <div class="host-guest-common-style-row">
-                                            <div class="col-xs-6">Total</div>
-                                            <b><span class="currency">&#8377;</span>{{vm.totalPayablePrice}}</b>
+                                            <div class="col-xs-3 pull-right">Total 
+                                            <b><span class="currency" style="margin-left:10px">&#8377;</span>{{vm.totalPayablePrice}}</b>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -391,8 +392,11 @@
                                         <h4>{{vm.bookingProductDetails.productTitle}}</h4>
                                     </div>
                                     <div class="host-guest-common-style-row">
+                                        <span class="col-xs-6 col-sm-6">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}} &nbsp;&nbsp; to &nbsp;&nbsp; {{vm.endDateOFTheTour}}</span>
+                                        <!--
                                         <span class="col-xs-6 col-sm-6 arrow">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}}</span>
                                         <span class="col-xs-6 col-sm-6">{{vm.endDateOFTheTour}}</span>
+                                        -->
                                     </div>
                                     <div class="host-guest-common-style-row pay-contact-wrapper">
                                         <span class="col-xs-12">Contact : <b><a href="#">{{vm.providedGuestDetails.email}}</a></b> | <a href="tel:{{vm.providedGuestDetails.mobile}}"><strong>{{vm.providedGuestDetails.mobile}}</strong></a></span>
@@ -487,11 +491,11 @@
                                         </div>
                                         <p class="host-guest-common-style-row text-center">On confirmation you will be taken to payment screen.</p>
                                         <br>
-                                        <div class="host-guest-common-style-row form-np-btn">
-                                            <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)">Previous</button>
-                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="host-guest-common-style-row form-np-btn">
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)">Previous</button>
                             </div>
                         </div>
                     </div>

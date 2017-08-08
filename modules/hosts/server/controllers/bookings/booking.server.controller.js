@@ -180,6 +180,20 @@ exports.fetchSessionBookingDetailsForCurrentPage = function (req, res) {
   }
 };
 
+exports.countBookingsForAParticularSession = function (req, res) {
+  if (req.user) {
+    var sessionId = req.params.productSessionId;
+    Booking.count({productSession: sessionId, isPaymentDone: true}).exec(function (err, bookingCount) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      res.json({bookingCount: bookingCount});
+    });
+  }
+};
+
 // Fetch all bookings for current page
 exports.fetchAllBookingsForAParticularSession = function (req, res) {
   if (req.user) {

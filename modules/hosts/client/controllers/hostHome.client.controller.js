@@ -8,7 +8,12 @@
       "askForNewTokenGeneration" : "regenerateNew",
       "mobileVerificationSuccess" : "successfullyVerified",
       "mobileVerificationTokeMismatch" : "accountKeyMismatch",
-      "mobileAlreadyVerified": "alreadyVerified"
+      "mobileAlreadyVerified": "alreadyVerified",
+      "missingVerificationCode": "missingVerificationCode",
+      "someThingWentWrong": "someThingWentWrong",
+      "successfullyResentAccountKey": "successfullyResentAccountKey",
+      "successfullyResentNewAccountKey": "successfullyResentNewAccountKey",
+      "sentCodeIsActive": "sentCodeIsActive"
     });
 
   HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'PinboardPinService', 'PinboardGoalService', 'mobileverificationServerResponseCodes'];
@@ -171,8 +176,18 @@
     vm.clickThisElement = function (id) {
       $('#'+id).click();
       if (id == 'verifyAccountPhoneNumber') {
+        vm.mobileVerificationCodeEntered = undefined;
+        $('#initialMobileVerificationMessage').css('display', 'block');
+        $('#regenerateNew').css('display', 'none');
+        $('#successfullyVerified').css('display', 'none');
+        $('#accountKeyMismatch').css('display', 'none');
+        $('#missingVerificationCode').css('display', 'none');
+        $('#someThingWentWrong').css('display', 'none');
+        $('#successfullyResentAccountKey').css('display', 'none');
+        $('#successfullyResentNewAccountKey').css('display', 'none');
+        $('#sentCodeIsActive').css('display', 'none');
         $http.post('/api/host/verify/mobile').success(function (response) {
-          
+          $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
         }).error(function (response){
         });
       }
@@ -224,12 +239,23 @@
     vm.verifyMobileNumber = function (verificationCode) {
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
-      $('#initialMobileVerificationMessage').css('display', 'none');
       $('#regenerateNew').css('display', 'none');
       $('#successfullyVerified').css('display', 'none');
       $('#accountKeyMismatch').css('display', 'none');
+      $('#missingVerificationCode').css('display', 'none');
+      $('#someThingWentWrong').css('display', 'none');
+      $('#successfullyResentAccountKey').css('display', 'none');
+      $('#successfullyResentNewAccountKey').css('display', 'none');
+      $('#sentCodeIsActive').css('display', 'none');
+
+      if (verificationCode === undefined || verificationCode == '' || verificationCode == null || verificationCode == ' ') {
+        $('#' + mobileverificationServerResponseCodes['missingVerificationCode']).css('display', 'block');
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        return;
+      }
+      
       $http.get('/api/auth/mobileverification/' + verificationCode).success(function (response) {
-          $('#initialMobileVerificationMessage').css('display', 'none');
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
           $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
@@ -244,9 +270,18 @@
     }
 
     vm.resendMobileVerificationKey = function () {
+      $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
-      $('#initialMobileVerificationMessage').css('display', 'block');
+      $('#regenerateNew').css('display', 'none');
+      $('#successfullyVerified').css('display', 'none');
+      $('#accountKeyMismatch').css('display', 'none');
+      $('#missingVerificationCode').css('display', 'none');
+      $('#someThingWentWrong').css('display', 'none');
+      $('#successfullyResentAccountKey').css('display', 'none');
+      $('#successfullyResentNewAccountKey').css('display', 'none');
+      $('#sentCodeIsActive').css('display', 'none');
       $http.post('/api/host/reverify/mobile').success(function (response) {
+        $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
         $('#loadingDivHostSide').css('display', 'block');
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');

@@ -119,12 +119,13 @@ $('#calendar').fullCalendar({
 
 		// Convert start date in ISO format Date to show
 		var startDate = new Date(event._start._i);
-		var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
+		var showDate = startDate.getDate() + " " + months[startDate.getMonth()] + ' ' + event.startTime;
 		var duration = event.duration === undefined ? 'Duration not provided' :  event.duration;
 		// Name of the tour or event
 		var event_name = event.titleText; //$(jsEvent.currentTarget).find(".eventname").text();
 		// CSS of event
-		var event_color = $(jsEvent.currentTarget).find(".eventname").attr("class").split(" ")[1];
+		var event_color = event.percentBookingColor;
+		console.log(event_color);
 		// Booking data will come here
 		var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Seats booked";
 		var availabilityType = event.tourDepartureType;
@@ -144,8 +145,7 @@ $('#calendar').fullCalendar({
 							"<i class='zmdi zmdi-account'></i>" +
 							bookings + 
 						"</p>";
-		$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).removeClass();
-		$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle'></i> " + event_name).addClass(event_color);
+		$('#calendarTourPopupTitle').html("<i class='zmdi zmdi-circle' style='color:" +event_color + "'></i> " + "<span style='color: #40C4FF'>" + event_name + "</span>");
 		$('#calendarTourPopupBody').html(bodyHtml);
 		$('#eventUrl').attr('sessionId', event.productSessionId);
 		$('#eventUrl').attr('sessionStartDate', event._start._i);
@@ -226,6 +226,8 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        				limit = document.sessionCapacityDetails.sessionSeatLimit;
 					        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
 					        					percentBooking = parseInt(document.numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
+					        				else
+					        					percentBooking = 0;
 					        			} else
 					        			 	limit = '-';
 					        		}
@@ -241,47 +243,60 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        				else
 		        					bookingDetailsInCalendar = 0;
 		        				if (percentBooking != 'NA') {
-		        					if (percentBooking <= 40) {
-		        						colorClassForListItems = '#42AE5E';
+		        					if (percentBooking == 0) {
+		        						colorClassForListItems = {"background-color" : "#3fb7ee"};
+		        						colorForEventItems = '#3fb7ee';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
 						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
-						        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+						        			'<span class="lbreak"><i class="zmdi zmdi-circle light-blue-color"></i>' +
 						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
-						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
-		        					} else if (percentBooking > 40 && percentBooking <= 80) {
-		        						colorClassForListItems = '#ED9C28';
+						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle light-blue-color"><span class="eventname light-blue-color"></span></i>';
+		        					} else if (percentBooking > 0 && percentBooking <= 50) {
+		        						colorClassForListItems = {"background-color" : "#34C76E"};
+		        						colorForEventItems = '#34C76E';
+		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
+						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
+						        			'<span class="lbreak"><i class="zmdi zmdi-circle light-green-color"></i>' +
+						        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
+						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle light-green-color"><span class="eventname light-green-color"></span></i>';
+		        					} else if (percentBooking > 50 && percentBooking < 100) {
+		        						colorClassForListItems = {"background-color" : "#f7c836"};
+		        						colorForEventItems = '#f7c836';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' + 
 						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' + 
-						        			'<span class="lbreak"><i class="zmdi zmdi-circle orangeFC"></i>' + 
+						        			'<span class="lbreak"><i class="zmdi zmdi-circle light-orange-color"></i>' + 
 						        			'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
-						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle orangeFC"><span class="eventname orangeFC"></span></i>';
+						        		colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle light-orange-color"><span class="eventname light-orange-color"></span></i>';
 		        					} else {
-		        						colorClassForListItems = '#D84040';
+		        						colorClassForListItems =  {"background-color" : "#EC8484"};
+		        						colorForEventItems = '#EC8484';
 		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' +
 					        				document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
-					        				'<span class="lbreak"><i class="zmdi zmdi-circle redFC"></i>' + 
+					        				'<span class="lbreak"><i class="zmdi zmdi-circle light-red-color"></i>' + 
 					        				'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
-					        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle redFC"><span class="eventname redFC"></span></i>';
+					        			colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle light-red-color"><span class="eventname light-red-color"></span></i>';
 		        					}
 
 		        				} else {
-		        					colorClassForListItems = '#42AE5E';
-		        					colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle greenFC"><span class="eventname greenFC"></span></i>';
+		        					colorClassForListItems = {"background-color" : "#34C76E"};
+		        					colorForEventItems = '#34C76E';
+		        					colorSelectionAndTitleForMobile = '<i class="zmdi zmdi-circle light-green-color"><span class="eventname light-green-color"></span></i>';
 		        					if (document.sessionInternalName) {
 			        					colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
 							        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
-							        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+							        			'<span class="lbreak"><i class="zmdi zmdi-circle light-green-color"></i>' +
 							        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        	} else {
 						        		colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
 							        			document.product.productTitle + '</span> <br>' +
-							        			'<span class="lbreak"><i class="zmdi zmdi-circle greenFC"></i>' +
+							        			'<span class="lbreak"><i class="zmdi zmdi-circle light-green-color"></i>' +
 							        			'<i class="zmdi zmdi-account"></i> &nbsp; ' + bookingDetailsInCalendar + '/' +limit +'</span>';
 						        	}
 		        				}
 
 				        		if (window.innerWidth > 767) {
 				        			eventObject = {
+				        				startTime: document.sessionDepartureDetails.startTime,
 				        				title: colorSelectionAndTitle,
 				        				titleText: document.product.productTitle,
 					        			start: eventDate,
@@ -290,10 +305,12 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			allDay: allDay,
 					        			productSessionId: document._id,
 					        			backgroundColor:  '#ffe4b2',
+					        			percentBookingColor: colorForEventItems,
 					        			tourDepartureType: document.product.productAvailabilityType
 				        			}
 					        	} else {
 					        		eventObject = {
+					        			startTime: document.sessionDepartureDetails.startTime,
 				        				title: colorSelectionAndTitleForMobile,
 				        				titleText: document.product.productTitle,
 					        			start: eventDate,
@@ -301,6 +318,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			end: endDate,
 					        			allDay: allDay,
 					        			productSessionId: document._id,
+					        			percentBookingColor: colorForEventItems,
 					        			tourDepartureType: document.product.productAvailabilityType
 				        			}
 				        		}

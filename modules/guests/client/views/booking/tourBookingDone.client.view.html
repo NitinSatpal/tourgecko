@@ -4,11 +4,10 @@
         <div class="thanks-wrapper">
             <div class="thanks-white">
                 <div class="host-guest-common-style-row text-center">
-                    <img src="modules/core/client/img/hostGuestCommonImages/success.png" class="success-img"><span class="success-text">Success !</span>
+                    <img src="modules/core/client/img/hostGuestCommonImages/success.png" class="success-img" style="background: transparent !important;"><span class="success-text">Success !</span>
                 </div>
                 <div class="col-xs-12">
                     <p class="text-center"><strong>{{vm.specificBookingDetails.providedGuestDetails.firstName}}, </strong>your booking request is created and is in<span class="Pending orange-text">{{vm.specificBookingDetails.bookingStatus}}</span> status !</p>
-                    <p class="text-center">We will get back to you as soon as possible. </p>
                 </div>
                 <div class="col-xs-12">
                     <h4>Booking Summary</h4>
@@ -29,7 +28,7 @@
                         </div>
                         <div class="booking-ref">
                             <div class="col-xs-12">
-                                <small class="ref-text">Booking Ref: <b>{{vm.specificBookingDetails.bookingReference}}</b></small>
+                                <small class="ref-text">Booking Id: <b>{{vm.specificBookingDetails.bookingReference}}</b></small>
                                 <strong class="Pending orange-text">{{vm.specificBookingDetails.bookingStatus}}</strong>
                                 <a class="details-list" data-toggle="collapse" data-target="#detailsOfBooking">Detail <i class="fa fa-plus"></i></a>
                             </div>

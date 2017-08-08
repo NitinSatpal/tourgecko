@@ -297,6 +297,7 @@ exports.savePaymentDetails = function (req, res) {
                                   company.hostBankAccountDetails.beneficiaryAccNumber = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryAccNumber;
                                   company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
                                   company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
+                                  company.hostBankAccountDetails.permanentAccountNumber = otherChangedPaymentDetails.hostBankAccountDetails.permanentAccountNumber;
                                   company.paymentActivated = true;
                                   company.paymentGateway = otherChangedPaymentDetails.paymentGateway;
                                   company.markModified('hostBankAccountDetails');

@@ -143,9 +143,6 @@
         font-size: 25px;
         margin-top: 5px;
     }
-    .host-guest-common-style .select-date-wrapper .card-tour-price {
-        font-size: 13px;
-    }
     .host-guest-common-style .listing .tour_tags {
         margin: 0px;
     }
@@ -283,4 +280,9 @@
         content: "to";
         margin-left: 4% !important;
     }
+    .host-guest-common-style .select-date-wrapper .card-tour-price {
+        font-size: 12px !important;
+        font-weight: 300 !important;
+    }
+
 }

@@ -9,5 +9,7 @@ module.exports = function (app) {
   // mails and messages collection routes
   app.route('/api/host/verify/mobile')
     .post(mailAndMessage.sendMobileVerificationCode);
- 
+
+  app.route('/api/host/reverify/mobile')
+    .post(mailAndMessage.resendMobileVerificationCode);
 };

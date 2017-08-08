@@ -1,4 +1,4 @@
-<ul class="footer-menu host-guest-common-style-footer-menu-toursite">
+<!--<ul class="footer-menu host-guest-common-style-footer-menu-toursite">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
         <li>
             <a class="navbar-brand logo" href="/" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
@@ -40,4 +40,65 @@
         </li>
     </div>
 </ul>
-<p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> {{vm.companyData.companyName}}, 2017 Powered by tourgecko</p>
+<p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> {{vm.companyData.companyName}}, 2017 Powered by tourgecko</p> -->
+
+<ul class="social-links list-inline" ng-if="vm.facebookLink || vm.twitterLink || vm.instagramLink">
+    <li class="list-inline-item">Follow us:</li>
+    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('facebook')" ng-if="vm.facebookLink">
+        <a href="{{vm.facebookLink}}" class="social icn-fb">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+        </a>
+    </li>
+    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('twitter')" ng-if="vm.twitterLink">
+        <a href="{{vm.twitterLink}}" class="social icn-twitter">
+            <i class="fa fa-twitter" aria-hidden="true"></i>
+        </a>
+    </li>
+    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('instagram')" ng-if="vm.instagramLink">
+        <a href="{{vm.instagramLink}}" class="social icn-instagram">
+            <i class="fa fa-instagram" aria-hidden="true"></i>
+        </a>
+    </li>
+</ul>
+
+<ul class="list-inline footer-links">
+    <li class="list-inline-item"><a href="" ui-sref="abstractHome.toursite" onclick="animateToTop('/')">Home</a></li>
+    <li class="list-inline-item">|</li>
+    <li class="list-inline-item"><a href="" ui-sref="hostToursite-about-us" onclick="animateToTop('/about-us')">About</a></li>
+    <li class="list-inline-item">|</li>
+    <li class="list-inline-item"><a href="" ui-sref="hostToursite-contact-us" onclick="animateToTop('/contact-us')">Contact</a></li>
+</ul>
+<hr>
+<div class="row footer-diclaimer">
+    <div class="col-md-6 col-xs-12 copyright">{{vm.companyData.companyName}} &copy; 2017.</div>
+    <div class="col-md-6 col-xs-12 developer">Powered by <a href="">tourgecko</a></div>
+</div>
+
+
+
+<style>
+footer{ text-align:center; padding:2rem}
+    .social{ height:30px; font-size:1.8rem; width:30px; border-radius:50%; background-color:transparent; color:#fff; padding-top:.25rem; display:block}
+    .social:hover{ opacity:.9; color:rgba(255,255,255,.8); cursor:pointer; }
+    .social.icn-fb{ background-color:#4267b2}
+    .social.icn-twitter{background-color:#1da1f2}
+    .social.icn-instagram{
+    background:#7265D0;
+    background-image: -webkit-linear-gradient(287deg, #7265D0 8%, #DF356D 57%, #F9C05B 100%);
+    background-image: -o-linear-gradient(287deg, #7265D0 8%, #DF356D 57%, #F9C05B 100%);
+    background-image: linear-gradient(-197deg, #7265D0 8%, #DF356D 57%, #F9C05B 100%);
+    }
+    .footer-links{ font-size:1.2rem; color:#999; margin-top:2rem}
+    .footer-links a{ color:#999; }
+    .footer-diclaimer{ font-size:1.2rem}
+    @media (min-width:720px){
+        .copyright{ text-align:left;}
+        .developer{ text-align:right;}
+}
+</style>
+
+<script>
+    function animateToTop(clickedTab) {        
+        $('html, body').animate({scrollTop : 0},800);
+    }
+</script>

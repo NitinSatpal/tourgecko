@@ -19,20 +19,20 @@
         <a href="tel:{{vm.companyData.inquiryMobile}}" class=""><i class="fa fa-phone"></i> {{vm.companyData.inquiryMobile}} - <i class="fa fa-clock-o"></i> {{vm.getInquiryHours()}}</a>
     </div>
     <div class="col-sm-3 email">
-        <a href="#" class=""><i class="fa fa-envelope"></i> {{vm.companyData.inquiryEmail}}</a>
+        <a href="mailto:{{vm.companyData.inquiryEmail}}" class=""><i class="fa fa-envelope"></i> {{vm.companyData.inquiryEmail}}</a>
     </div>
-    <ul class="social-links-wrapper col-sm-3">
-        <li class="social-links" ng-click="vm.goToHostSocialSite('facebook')">
+    <ul class="social-links-wrapper col-sm-3" ng-if="vm.facebookLink || vm.twitterLink || vm.instagramLink">
+        <li class="social-links" ng-click="vm.goToHostSocialSite('facebook')" ng-if="vm.facebookLink">
             <a href="{{vm.facebookLink}}">
                 <i class="fa fa-facebook"></i>
             </a>
         </li>
-        <li class="social-links" ng-click="vm.goToHostSocialSite('twitter')">
+        <li class="social-links" ng-click="vm.goToHostSocialSite('twitter')" ng-if="vm.twitterLink">
             <a href="{{vm.twitterLink}}">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
-        <li class="social-links" ng-click="vm.goToHostSocialSite('instagram')">
+        <li class="social-links" ng-click="vm.goToHostSocialSite('instagram')" ng-if="vm.instagramLink">
             <a href="{{vm.instagramLink}}">
                 <i class="fa fa-instagram"></i>
             </a>

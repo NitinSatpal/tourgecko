@@ -31,6 +31,14 @@
       $scope.listViewMonthTitle = $('#calendar').fullCalendar('getView').title;
     }
 
+    vm.getAvailabilityFigureForLatestSection = function (startDate, numberOfSeatsSession) {
+      var key = new Date(startDate).getTime().toString();
+      if (numberOfSeatsSession && numberOfSeatsSession[key])
+        return numberOfSeatsSession[key];
+      else
+        return 0;
+    }
+
     vm.getLoaderPositionForHomePageCalendar = function() {
       var leftMargin = ($('.home-content').width() - 25.719) / 2;
       var cssObject = {

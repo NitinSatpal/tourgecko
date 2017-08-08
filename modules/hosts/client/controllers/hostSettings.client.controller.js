@@ -211,18 +211,21 @@
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
+          $(".activated").removeClass("inactive");
           vm.showSuccessPaymentSettings = true;
           vm.showErrorsPaymentSettings = false;
           //$window.location.reload();
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         }
+        $('html, body').animate({scrollTop : 0},800);
       }).error(function (response) {
         vm.showErrorsPaymentSettings = true;
         vm.showSuccessPaymentSettings = false;
         vm.paymentBankAccError = response.messages;
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
+        $('html, body').animate({scrollTop : 0},800);
       });
     }
 

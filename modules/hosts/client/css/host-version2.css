@@ -146,7 +146,7 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 .text-readable15, .text-readable15 span { font-size:15px !important; line-height:normal !important;}
 .text-readable16, .text-readable16 span { font-size:16px !important; line-height:normal !important;}
 
-.pinboard .head_content{padding:2% 0 0 0;}
+.pinboard .head_content{padding:2% 0 0 0; border-bottom: 1px solid #DADBDB;}
 .pinboard .info_content{background-color:#fffff5;border-radius:5px;padding:1rem;margin-bottom:1rem;}
 .pinboard li .info_content{margin-left:-1rem;margin-bottom:0;}
 .pinboard .btn-default{color:#40C4FF;border:1px solid #40C4FF;background:none;}
@@ -205,6 +205,14 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .light-green{ background-color: #e0f2f1 !important;}
 .light-orange{ background-color: #fff3e0 !important;}
 .light-red{ background-color: #ffcdd2 !important;}
+.light-blue-color{ color: #3fb7ee !important;}
+.light-green-color{ color: #34C76E !important;}
+.light-orange-color{ color: #f7c836 !important;}
+.light-red-color{ color: #EC8484 !important;}
+.light-blue-bak-color{ background-color: #3fb7ee !important;}
+.light-green-bak-color{ background-color: #34C76E !important;}
+.light-orange-bak-color{ background-color: #f7c836 !important;}
+.light-red-bak-color{ background-color: #EC8484 !important;}
 .light-blue h5 .current{color:#688498}
 .light-green h5 .current{color:#008000}
 .light-orange h5 .current{color:#bf7f09}
@@ -212,6 +220,57 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .pinButtonsDynamicStyling .btn.btn-default {
 	float: right;
 	margin-top: -17px;
+}
+.fixedDatedTourSessionsAddProductPage .multiselect-native-select select{
+	display: none;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs {
+	border-bottom: 2px solid #DDD;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li.active > a,
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li.active > a:focus,
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li.active > a:hover {
+	border-width: 0;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li > a {
+	border: none;
+	color: #19A0DC;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li.active > a,
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li > a:hover {
+	border: none; color: #444 !important;
+	background: transparent;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li > a::after {
+	content: "";
+	background: #444;
+	height: 2px;
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: -1px;
+	transition: all 250ms ease 0s;
+	transform: scale(0);
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .nav-tabs > li.active > a::after,
+.fixedDatedTourSessionsAddProductPage .nav-tabs > li:hover > a::after {
+	transform: scale(1);
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .tab-nav > li > a::after {
+	background: #21527d none repeat scroll 0% 0%;
+	color: #fff;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .tab-pane {
+	padding: 10px 0;
+}
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability .card {
+	background: #FFF none repeat scroll 0% 0%;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+	margin-bottom:1rem;
+}
+
+.fixedDatedTourSessionsAddProductPage .fixed-date-availability ul.nav-tabs {
+	margin:1rem;
 }
 @media only screen
 and (min-device-width : 768px)

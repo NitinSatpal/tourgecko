@@ -120,7 +120,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
-            subject: 'Booking Successful!',
+            subject: 'Booking #' + booking.bookingReference + ' is Pending for ' +  booking.product.productTitle,
             'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
@@ -179,7 +179,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             to: booking.hostCompany.notificationEmail, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
-            subject: 'Booking Request!',
+            subject: 'New Online Booking #' + booking.bookingReference + ' for ' + booking.product.productTitle,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
             //You can use "text:" to send plain-text content. It's oldschool!
@@ -222,7 +222,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
-            subject: 'Booking Confirmed!',
+            subject: 'Booking #' + booking.bookingReference + ' is Confirmed for ' + booking.product.productTitle,
             'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,
@@ -266,7 +266,7 @@ exports.sendBookingEmailsToGuestAndHost = function (booking, req, res, requestTy
             to: booking.providedGuestDetails.email, // An array if you have multiple recipients.
             //cc:'',
             //bcc:'',
-            subject: 'Booking ' + booking.bookingStatus +'!',
+            subject: 'Booking #' + booking.bookingReference + ' is '+ booking.bookingStatus +' for ' + booking.product.productTitle,
             'h:Reply-To': replyTo,
             //You can use "html:" to send HTML email content. It's magic!
             html: emailHTML,

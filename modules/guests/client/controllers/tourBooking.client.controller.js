@@ -550,6 +550,13 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
   } else {
     if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
       productMinSeatLimitError = true;
+      $('.groupCustomQuantityQuantity').val('Please Select');
+      reinitializeThePricingOptionIndexAndQuantityArray();
+      vm.totalDiscount = 0;
+      vm.totalCalculatedSeatPrice = 0;
+      vm.totalcalculatedAddonPrice = 0;
+      vm.totalPayablePrice = 0;
+      totalSeatsForThisBooking = 0;
       toasty.error({
         title: 'Minimum limit on seats!',
         msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' need to be booked',
@@ -559,6 +566,13 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
     }
     if(vm.bookingProductDetails.maxSeatsPerBookingAllowed && (parseInt(totalSeatsForThisBooking) > vm.bookingProductDetails.maxSeatsPerBookingAllowed)) {
       productMaxSeatLimitError = true;
+      $('.groupCustomQuantityQuantity').val('Please Select');
+      reinitializeThePricingOptionIndexAndQuantityArray();
+      vm.totalDiscount = 0;
+      vm.totalCalculatedSeatPrice = 0;
+      vm.totalcalculatedAddonPrice = 0;
+      vm.totalPayablePrice = 0;
+      totalSeatsForThisBooking = 0;
       toasty.error({
         title: 'Maximum limit on seats!',
         msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' need to be booked',
@@ -568,9 +582,16 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
     }
     if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
       maxSeatLimitError = true;
+      $('.groupCustomQuantityQuantity').val('Please Select');
+      reinitializeThePricingOptionIndexAndQuantityArray();
+      vm.totalDiscount = 0;
+      vm.totalCalculatedSeatPrice = 0;
+      vm.totalcalculatedAddonPrice = 0;
+      vm.totalPayablePrice = 0;
+      totalSeatsForThisBooking = 0;
       toasty.error({
-        title: 'Maximum Seat limit!',
-        msg: 'Only ' + maxSeatsAvailable +' seats ara available', 
+        title: 'Maximum capacity reached!',
+        msg: 'Only ' + maxSeatsAvailable +' seats ara available now', 
         sound: false
       });
       return;
@@ -602,6 +623,13 @@ function calculatePrice () {
       totalSeatsForThisBooking = totalSeatsForThisBooking + parseInt(vm.pricingOptionIndexAndQuantity[index]);
       if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
         productMinSeatLimitError = true;
+        $('.groupCustomQuantityQuantity').val('Please Select');
+        reinitializeThePricingOptionIndexAndQuantityArray();
+        vm.totalDiscount = 0;
+        vm.totalCalculatedSeatPrice = 0;
+        vm.totalcalculatedAddonPrice = 0;
+        vm.totalPayablePrice = 0;
+        totalSeatsForThisBooking = 0;
         toasty.error({
           title: 'Minimum limit on seats!',
           msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' need to be booked',
@@ -611,6 +639,13 @@ function calculatePrice () {
       }
       if(vm.bookingProductDetails.maxSeatsPerBookingAllowed && (parseInt(totalSeatsForThisBooking) > vm.bookingProductDetails.maxSeatsPerBookingAllowed)) {
         productMaxSeatLimitError = true;
+        $('.groupCustomQuantityQuantity').val('Please Select');
+        reinitializeThePricingOptionIndexAndQuantityArray();
+        vm.totalDiscount = 0;
+        vm.totalCalculatedSeatPrice = 0;
+        vm.totalcalculatedAddonPrice = 0;
+        vm.totalPayablePrice = 0;
+        totalSeatsForThisBooking = 0;
         toasty.error({
           title: 'Maximum limit on seats!',
           msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' need to be booked',
@@ -620,9 +655,16 @@ function calculatePrice () {
       }
       if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
         maxSeatLimitError = true;
+        $('.groupCustomQuantityQuantity').val('Please Select');
+        reinitializeThePricingOptionIndexAndQuantityArray();
+        vm.totalDiscount = 0;
+        vm.totalCalculatedSeatPrice = 0;
+        vm.totalcalculatedAddonPrice = 0;
+        vm.totalPayablePrice = 0;
+        totalSeatsForThisBooking = 0;
         toasty.error({
-          title: 'Maximum seats remaining!',
-          msg: 'Only ' + maxSeatsAvailable +' seats ara available',
+          title: 'Maximum capacity reached!',
+          msg: 'Only ' + maxSeatsAvailable +' seats ara available now',
           sound: false
         });
         return;
@@ -874,7 +916,8 @@ vm.areAddonsSelected = function () {
         "border-bottom" : "none",
         "margin-bottom": "0"
       };
-      if (index == vm.bookingProductDetails.productAddons.length - 1)
+
+      if (index == vm.bookingProductDetails.productAddons.length - 1 || vm.bookingProductDetails.productAddons[index].name == '' || vm.bookingProductDetails.productAddons[index].price == '')
         return cssObject;
     }
 
@@ -1124,7 +1167,15 @@ vm.areAddonsSelected = function () {
       else
         return '';
     }
-    
-    
+
+    function reinitializeThePricingOptionIndexAndQuantityArray () {
+      for (var index = 0; index < vm.validPricingOptions.length; index ++) {
+        if (vm.validPricingOptions[index].pricingType != 'Custom'
+          && vm.validPricingOptions[index].pricingType != 'Group')
+          vm.pricingOptionIndexAndQuantity[index] = 0;
+        else
+          vm.pricingOptionIndexAndQuantity[index] = 'Please Select';
+      }
+    }    
   }
 }());

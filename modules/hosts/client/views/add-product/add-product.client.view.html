@@ -1,4 +1,4 @@
-<div class="hostHome container-fluid" id="tours">
+<div class="hostHome container-fluid theClassToCallTheScope" id="tours">
 	<!--<div ng-include="'/modules/hosts/client/views/side-nav.client.view.html'"></div>-->
 	<div class="row body-content addproduct-content">
 	<toasty></toasty>
@@ -246,7 +246,7 @@
 																<div class="input_group">
 																	<div class="input-group">
 																		<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-																		<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price"  placeholder="Ex: 200"/>
+																		<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price"  placeholder="Ex: 200" numbers-only/>
 																	</div>
 																</div>
 															</div>
@@ -269,7 +269,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">min</span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.minGroupSize" placeholder="Ex:2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.minGroupSize" placeholder="Ex:2" numbers-only/>
 																</div>
 															</div>
 														</div>
@@ -280,7 +280,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon minmax">max</span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.maxGroupSize" placeholder="Ex:2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.maxGroupSize" placeholder="Ex:2" numbers-only/>
 																</div>
 															</div>
 														</div>
@@ -302,7 +302,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price" placeholder="Ex:2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price" placeholder="Ex:2" numbers-only/>
 																</div>
 															</div>
 														</div>
@@ -333,7 +333,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price" placeholder="Ex: 200"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.price" placeholder="Ex: 200" numbers-only/>
 																</div>
 															</div>
 														</div>
@@ -343,7 +343,7 @@
 															<div class="input_group">
 																<div class="input-group">
 																	<span class="input-group-addon seats_used">Seats Used</span>
-																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.seatsUsed" placeholder="Ex: 2"/>
+																	<input type="text" class="form-control" name="pf_price" id="" ng-model="pricing.seatsUsed" placeholder="Ex: 2" numbers-only/>
 																</div>
 															</div>
 														</div>
@@ -371,7 +371,7 @@
 												</h5>
 												<p class="sub_desc" ng-show="vm.helpVisible">Addon is extra service or item that can be offered to guest for additional price . For example, a private tent on a trekking tour, separate room,or insurance etc.</p>
 												<div class="addon-panel" ng-show="vm.isAddonAvailable">
-													<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params" ng-style="vm.getDynamicCSS($index)">
+													<div class="row no_margin_row" ng-repeat="addon in vm.addonParams.params track by $index" ng-style="vm.getDynamicCSS($index)">
 														<div class="col-sm-4 col-lg-4 col-md-4">
 															<div class="form-group">
 																<label for="addon_name_one" class="control-label">Addon</label>
@@ -390,7 +390,7 @@
 																<div class="input_group">
 																	<div class="input-group">
 																		<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-																		<input type="text" name="addon_price" class="form-control" id="addon_price" ng-model="addon.price" placeholder="Ex: 200">
+																		<input type="text" name="addon_price" class="form-control" id="addon_price" ng-model="addon.price" placeholder="Ex: 200" numbers-only>
 																	</div>
 																</div>
 															</div>
@@ -420,7 +420,7 @@
 																</div>
 															</div>
 															<a href="#" class="add_addon" ng-click="vm.addMoreAddons()" ng-show="$index == vm.addonParams.params.length - 1"><i class="zmdi zmdi-plus"></i> Add more </a>&nbsp;&nbsp;
-	                                                   		<a href="#" class="delete_addon pull-right" ng-click="vm.removeAddon()"><i class="zmdi zmdi-delete"></i> Delete</a>
+	                                                   		<a href="#" class="delete_addon pull-right" ng-click="vm.removeAddon($index)"><i class="zmdi zmdi-delete"></i> Delete</a>
 														</div>
 													</div>
 												</div>
@@ -643,78 +643,127 @@
 															<br>
 															<div class="row">
 									                            <div class="col-sm-8 col-md-8 col-lg-8 departureSession_section">
-																	<a href="" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
+																	<a href="" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()" id="fixedDepartureSessionCreationModalTrigger"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
+															   	</div>
+															   	<div class="col-sm-4 col-md-4 col-lg-4 departureSession_section">
+																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == false || vm.showTheList == undefined"> Show the session list</a>
+																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == true"> Hide the session list</a>
 															   	</div>
 
-															   	<div class="col-sm-4 col-md-4 col-lg-4">
-															   		<a href="" id="showCalendar" onclick="openCalendarForFixedDepartures();" ng-show="vm.ShowCalendarButton" ng-click="vm.ShowCalendarButton = !vm.ShowCalendarButton"> Show calendar </a>
-
-															   		<a href="" id="showCalendar" ng-show="!vm.ShowCalendarButton" ng-click="vm.ShowCalendarButton = !vm.ShowCalendarButton" onclick="destroyFullCalendar();"> Hide calendar </a>
-															   	</div>
 															</div>
 															<br>
 														</div>
-
-				               							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				               								<div id='calendar' class=".fullCalendar"></div>
-				               							</div>
+				               							<div class="row fixedDatedTourSessionsAddProductPage" ng-if="vm.showTheList">
+															<div class="col-sm-12 col-md-12 col-lg-12  fixed-date-availability">
+																<div class="row">
+																	<ul class="nav nav-tabs" role="tablist" style="margin-top: 0 !important">
+																	    <li role="presentation" class="active">
+																	    	<a href="#current" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true" id="sessionsCreatedAndUnsaved">Current</a>
+																	    </li>
+																	    <li role="presentation" class="">
+																	    	<a href="#past" aria-controls="profile" role="tab" data-toggle="tab" aria-expanded="false">Past</a>
+																	    </li>
+																	</ul>
+																	<div class="tab-content">
+														            	<div role="tabpanel" class="tab-pane active" id="current">
+														                	<div class="card" ng-repeat="currentSession in vm.fixedProductSchedule track by $index">
+														                		<h5>{{vm.sessionInternalNames[$index]}}</h5>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductSchedule[$index].startDate)}} {{vm.fixedProductSchedule[$index].startTime}}</span></p>
+															                        <p><label>Until:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductSchedule[$index].repeatTillDate)}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Repeats:</label> <span>{{vm.fixedProductSchedule[$index].repeatBehavior}}</span></p>
+															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacities[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacities[$index].sessionSeatLimit}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><a href="" ng-click="vm.viewThisSession($index, false)">View</a></p>
+															                        <p><a href="" ng-click="vm.editThisSession($index, false)">Edit</a></p>
+															                        <p><a href="" ng-click="vm.deleteThisSession($index, false)">Delete</a></p>
+															                    </div>
+														                	</div>
+														            	</div>
+														            	<div role="tabpanel" class="tab-pane" id="past">
+								                                            <div class="card" ng-repeat="currentSession in vm.fixedProductScheduleOld track by $index">
+														                		<h5>{{vm.sessionInternalNamesOld[$index]}}</h5>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].startDate)}} {{vm.fixedProductScheduleOld[$index].startTime}}</span></p>
+															                        <p><label>Until:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].repeatTillDate)}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Repeats:</label> <span>{{vm.fixedProductScheduleOld[$index].repeatBehavior}}</span></p>
+															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><a href="" ng-click="vm.viewThisSession($index, true)">View</a></p>
+															                        <p><a href="" ng-click="vm.editThisSession($index, true)">Edit</a></p>
+															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
+															                    </div>
+														                	</div>
+								                                        </div>                                      
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
-												</div>
-												<hr>
-												<div class="row no_margin_row">
-													<div class="col-sm-12 col-md-12 col-lg-12">
-														<label for="tours_sa_notice" class="control-label">How many seats can be booked per booking?
-														</label>
+													
+													<hr>
+													<div class="row no_margin_row">
+														<div class="col-sm-12 col-md-12 col-lg-12">
+															<label for="tours_sa_notice" class="control-label">How many seats can be booked per booking?
+															</label>
+														</div>
+
+														<div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
+															<div class="input_group from-to">
+																<div class="form-group">
+	                                                               <div class="input-group">
+	                                                                  <span class="input-group-addon">Min</span>
+	                                                                  <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minSeatsPerBookingRequired">
+	                                                               </div>
+	                                                            </div>
+	                                                        </div>
+	                                                    </div>
+
+	                                                    <div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
+	                                                        <div class="input_group from-to">
+	                                                        	<div class="form-group">
+	                                                               <div class="input-group">
+	                                                                  <span class="input-group-addon">Max</span>
+	                                                                  <input type="text" class="form-control" name="pf_price" placeholder="Ex: 200" ng-model="vm.tour.maxSeatsPerBookingAllowed">
+	                                                               </div>
+	                                                            </div>
+	                                                        </div>
+	                                                    </div>
 													</div>
 
-													<div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
-														<div class="input_group from-to">
+													<div class="row no_margin_row">
+														<div class="col-sm-6 col-md-6 col-lg-6">
+															<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
 															<div class="form-group">
-                                                               <div class="input-group">
-                                                                  <span class="input-group-addon">Min</span>
-                                                                  <input type="text" class="form-control" name="pf_price"  placeholder="Ex: 200" ng-model="vm.tour.minSeatsPerBookingRequired">
-                                                               </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6 col-md-3 col-lg-3 col-xs-6">
-                                                        <div class="input_group from-to">
-                                                        	<div class="form-group">
-                                                               <div class="input-group">
-                                                                  <span class="input-group-addon">Max</span>
-                                                                  <input type="text" class="form-control" name="pf_price" placeholder="Ex: 200" ng-model="vm.tour.maxSeatsPerBookingAllowed">
-                                                               </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-												</div>
-
-												<div class="row no_margin_row">
-													<div class="col-sm-6 col-md-6 col-lg-6">
-														<label for="tours_sa_notice" class="control-label">What is the minimum notice needed to book this Tour?</label>
-														<div class="form-group">
-															<div class="input_group">
-																<div class="input-group">
-																	<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  ng-model="vm.tour.productMinNoticeDays" placeholder="Ex: 15"/>
-																	<span class="input-group-addon">Days before departure date.</span>
+																<div class="input_group">
+																	<div class="input-group">
+																		<input type="text" class="form-control" name="tours_sa_notice" id="tours_sa_notice"  ng-model="vm.tour.productMinNoticeDays" placeholder="Ex: 15"/>
+																		<span class="input-group-addon">Days before departure date.</span>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 											</div>
-											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_pricing')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
-											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_itinerary')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_pricing')">
+												<i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i>
+											</a>
+												<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_itinerary')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
+											<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
+												<div class="tours_help">
+													<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
+													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+												</div>
+											</div> -->
 										</div>
-										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
-											<div class="tours_help">
-												<h3><i class="zmdi zmdi-help-outline"></i> Help</h3>
-												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-											</div>
-										</div> -->
 									</div>
-								</div>
 
 								<div id="tours_itinerary" class="tab-pane fade">
 									<h5><i class="zmdi zmdi-view-list-alt icn_orange"></i> Detailed Itinerary</h5>
@@ -789,7 +838,9 @@
 												</div>
 												<a href="" class="add_itinerary_day" ng-click="vm.createItinerary(false)" ng-show="vm.doneClicked"><i class="zmdi zmdi-plus"></i> Add another day</a>
 											</div>
-											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')"><i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i></a>
+											<a class="sub_btn btn btn-primary pull-left" href="#" onclick="changeTab('tours_sa')">
+												<i class="zmdi zmdi-chevron-left">&nbsp;&nbsp;Prev</i>
+											</a>
 											<a class="sub_btn btn btn-primary pull-right" href="#" onclick="changeTab('tours_guidelines')">Next &nbsp;&nbsp;<i class="zmdi zmdi-chevron-right"></i></a>
 										</div>
 										<!-- <div class="col-sm-2 col-md-2 col-lg-2 tour_help_info hidden-xs">
@@ -954,7 +1005,7 @@
 							   	<p class="sub_desc"> Name is used only internally for your reference and is not shown  to guests while booking.</p>
 								  <div class="input-group">
 									 <div class="input-group">
-									 	<input class="form-control" id="sessionName" name="sessionName" placeholder="Session name" type="text" ng-model="vm.sessionName" required>
+									 	<input class="form-control" id="sessionName" name="sessionName" placeholder="Session name" type="text" ng-model="vm.sessionName" required ng-disabled="vm.onlyCapacityEditAllowed">
 									 </div>
 								  </div>
 							</div>
@@ -965,7 +1016,7 @@
 								  <label for="dsStartDate" class="control-label">Start Date</label>
 								  <div class="input_group">
 									 <div class="input-group">
-									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" required>
+									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" required ng-disabled="vm.onlyCapacityEditAllowed">
 									 	<span class="input-group-addon" id="dsStartDateCalendarIcon">
 									 		<i class="fa fa-calendar" aria-hidden="true"></i>
 									 	</span>
@@ -978,18 +1029,18 @@
 							 <div class="col-sm-12 col-md-12 col-lg-12">
 							   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
 							   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-								  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch">
+								  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch" ng-disabled="vm.onlyCapacityEditAllowed">
 								  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
 							   </div>
 							</div>
 						</div>						
-						<div class="row" ng-show="vm.isFixedTourTimeSlotAvailable">
+						<div class="row" ng-show="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].isFixedTourTimeSlotAvailable">
 							<div class="col-sm-6 col-md-6 col-lg-6">
 								<div class="form-group">
 								  <label for="dsTimeSlot" class="control-label">Time slot</label>
 								  <div class="input-group">
 									 <div class="input-group">
-									 	<input class="form-control" id="dsTimeSlot" name="dsTimeSlot" placeholder="Time-slot" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime">
+									 	<input class="form-control" id="dsTimeSlot" name="dsTimeSlot" placeholder="Time-slot" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startTime" ng-disabled="vm.onlyCapacityEditAllowed">
 									 	<span class="input-group-addon customized-inputGroup-addon" id="dsTimeSlotCalendarIcon">
 									 		<i class="fa fa-clock-o" aria-hidden="true"></i>
 									 	</span>
@@ -1021,7 +1072,7 @@
 									  <label for="dsRepeat" class="control-label">Repeat</label>
 									  <div class="input_group">
 										 <div>
-											<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior">
+											<select class="form-control" id="dsRepeat" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior" ng-disabled="vm.onlyCapacityEditAllowed">
 											   <option value="Do not repeat">Select Repeat Behavior</option>
 											   <option value="Repeat Daily">Repeat Daily</option>
 											   <option value="Repeat Weekly">Repeat Weekly</option>
@@ -1037,7 +1088,7 @@
 									  <label for="dsRepeatTill" class="control-label">Repeat until</label>
 									  <div class="input_group">
 										 <div class="input-group">
-										 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate">
+										 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate" ng-disabled="vm.onlyCapacityEditAllowed">
 										 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
 										 		<i class="fa fa-calendar" aria-hidden="true"></i>
 										 	</span>
@@ -1047,7 +1098,7 @@
 								</div>
 								<div class="col-sm-6 col-md-6 col-lg-6 ds_repeat_daily_except">
 									<div class="form-group"><label class="control-label">Except On</label><br>
-									   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays">
+									   <select id="dailyExcept" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays" ng-disabled="vm.onlyCapacityEditAllowed">
 											<option value="Monday">Monday</option>
 											<option value="Tuesday">Tuesday</option>
 											<option value="Wednesday">Wednesday</option>
@@ -1060,7 +1111,7 @@
 								</div>
 								<div class="col-sm-6 col-md-6 col-lg-6 dsRepeatWeekly">
 									<div class="form-group"><label class="control-label">Repeat On</label><br>
-									   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays">
+									   <select id="weeksRepeatOn" multiple="multiple" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays" ng-disabled="vm.onlyCapacityEditAllowed">
 											<option value="Monday">Monday</option>
 											<option value="Tuesday">Tuesday</option>
 											<option value="Wednesday">Wednesday</option>
@@ -1088,7 +1139,7 @@
 											<div class="input_group">
 											   <div class="input-group">
 												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price" ng-disabled="vm.onlyCapacityEditAllowed"/>
 											   </div>
 											</div>
 										 </div>
@@ -1101,7 +1152,7 @@
 											<div class="input_group">
 											   <div class="input-group">
 												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price" ng-disabled="vm.onlyCapacityEditAllowed"/>
 											   </div>
 											</div>
 										 </div>
@@ -1112,7 +1163,7 @@
 											<div class="input_group">
 											   <div class="input-group">
 												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-												  <select class="form-control" id="pricefor" ng-model="pricing.groupOption">
+												  <select class="form-control" id="pricefor" ng-model="pricing.groupOption" ng-disabled="vm.onlyCapacityEditAllowed">
 														<option>Per Group</option>
 														<option>Per Person</option>
 													</select>
@@ -1128,7 +1179,7 @@
 											<div class="input_group">
 											   <div class="input-group">
 												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price"/>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.price" ng-disabled="vm.onlyCapacityEditAllowed"/>
 											   </div>
 											</div>
 										 </div>
@@ -1139,7 +1190,7 @@
 											<div class="input_group">
 											   <div class="input-group">
 												  <span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed"/>
+												  <input type="text" class="form-control" name="dsPriceAdult" id="dsPriceAdult"  placeholder="Ex: 2000" ng-model="pricing.seatsUsed" ng-disabled="vm.onlyCapacityEditAllowed"/>
 											   </div>
 											</div>
 										 </div>
@@ -1310,28 +1361,24 @@
 				alert('you are at the last tab');
 		}
 	}
-</script>
 
-<script type="text/javascript">
-$('.nav-tabs-dropdown').each(function(i, elm) {
-    $(elm).text($(elm).next('ul').find('li.active a').text());
-});
+	$('.nav-tabs-dropdown').each(function(i, elm) {
+	    $(elm).text($(elm).next('ul').find('li.active a').text());
+	});
 
-$('.nav-tabs-dropdown').on('click', function(e) {
-    e.preventDefault();
-    $(e.target).toggleClass('open').next('ul').slideToggle();
-});
+	$('.nav-tabs-dropdown').on('click', function(e) {
+	    e.preventDefault();
+	    $(e.target).toggleClass('open').next('ul').slideToggle();
+	});
 
 
-$('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
-    e.preventDefault();
-    if ($(window).width() < 767) {
-    	$(e.target).closest('ul').hide().prev('a').removeClass('open').text($(this).text());
-    }
-});
-</script>
+	$('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
+	    e.preventDefault();
+	    if ($(window).width() < 767) {
+	    	$(e.target).closest('ul').hide().prev('a').removeClass('open').text($(this).text());
+	    }
+	});
 
-<script>
 	$(".onoffswitch").on("change","#myonoffswitch",function(){
 		if($(this).is(':checked')){
 			$(".tour_help_info").show();
@@ -1370,8 +1417,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 			$(".tours_sa_unavailable").hide();
 		}
 	});
-</script>
-<script>
+
     $(document).ready(function() {
     	$('#dsStartDateCalendarIcon').click(function() {
 	       $(document).ready(function(){
@@ -1388,8 +1434,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	    };
       	$('#dsStartDate').datepicker(options);
     })
-</script>
-<script>
+
 	$(document).ready(function() {
     	$('#dsTimeSlotCalendarIcon').click(function(){
 	       $(document).ready(function(){
@@ -1400,8 +1445,7 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	        format: 'LT'
 	    });
     })
-</script>
-<script>
+
     $(document).ready(function() {
     	$('#dsRepeatTillCalendarIcon').click(function(){
 	       $(document).ready(function(){
@@ -1418,174 +1462,23 @@ $('#addProductabs a[data-toggle="tab"]').on('click', function(e) {
 	    };
       	$('#dsRepeatTill').datepicker(options);
     })
-</script>
 
-<script>
-	var events = [];
-	$(document).ready(function() {
-		if(window.location.pathname.split('/')[4]) {
-			$.ajax({
-		    	url:'/api/host/product/productsession/' + window.location.pathname.split('/')[4],
-		        type:'GET',
-		        dataType: 'json',
-		      	success: function( sessions ) {
-		      		var cssCounter = 0;
-		      		var weekDaysNumber = new Map();
-			      	weekDaysNumber.set('Sunday', 0);
-			      	weekDaysNumber.set('Monday', 1);
-			      	weekDaysNumber.set('Tuesday', 2);
-			      	weekDaysNumber.set('Wednesday', 3);
-			      	weekDaysNumber.set('Thursday', 4);
-			      	weekDaysNumber.set('Friday', 5);
-			      	weekDaysNumber.set('Saturday', 6);
-		        	$.each(sessions, function(index, document) {
-		        		if(document) {
-		        			var repeatedDays = 0;
-	        				var notAllowedDays = new Set();
-	        				var allowedDays = new Set();
-	        				var firstDate;
-	        				if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-	        					firstDate = new Date(document.sessionDepartureDetails.repeatTillDate);
-		        				var secondDate = new Date(document.sessionDepartureDetails.startDate);
-		        				var oneDay = 24*60*60*1000;
-		        				repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-		        				repeatedDays = repeatedDays + 1;
+	function openFixedDeparturePanel () {
+		$(".tours_sa_open_dates").hide();
+		$(".tours_sa_unavailable").hide();
+	    $(".tours_sa_fixed_departure").show();
+	}
+	function openOpenDeparturePanel () {
+		$(".tours_sa_unavailable").hide();
+	    $(".tours_sa_fixed_departure").hide();
+	    $(".tours_sa_open_dates").show();
+	}
+	function openUnavailableDeparturePanel() {
+		$(".tours_sa_unavailable").show();
+	    $(".tours_sa_fixed_departure").hide();
+	    $(".tours_sa_open_dates").hide();
+	}
 
-		        				if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && document.sessionDepartureDetails.notRepeatOnDays) {
-				        			for (var index = 0; index < document.sessionDepartureDetails.notRepeatOnDays.length; index++)
-				        				notAllowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.notRepeatOnDays[index]));
-				        		}
-				        		if (document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && document.sessionDepartureDetails.repeatOnDays) {
-							      	for (var index = 0; index < document.sessionDepartureDetails.repeatOnDays.length; index++)
-							        	allowedDays.add(weekDaysNumber.get(document.sessionDepartureDetails.repeatOnDays[index]));
-							    }
-			        		}
-	        				var eventDate = new Date(document.sessionDepartureDetails.startDate);
-	        				/* eventDate = new Date(eventDate.getUTCFullYear(), eventDate.getUTCMonth(), eventDate.getUTCDate(),  eventDate.getUTCHours(), eventDate.getUTCMinutes(), eventDate.getUTCSeconds()); */
-
-
-	        				for (var index = 0; index <= repeatedDays; index ++) {
-	        					var needToSave = true;
-	        					if(document.sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) ||
-			        				document.sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
-			        				eventDate > firstDate)
-			        				needToSave = false;
-	        			
-	        					// eventDate = eventDate.setDate(eventDate.getDate() + 1);
-
-	        					if (needToSave) {
-					        		if (cssCounter == 0) {
-					        			if (window.innerWidth > 767)
-					        				events.push ({
-					        					title: '<span class="eventname orangeFC">' + document.product.productTitle,
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(237,156,40, 0.2)'
-					        				});
-					        			else
-					        				events.push ({
-					        					title: '<i class="zmdi zmdi-circle orangeFC"></i>',
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(237,156,40, 0.2)'
-					        				});
-					        			cssCounter++;
-					        		} else if (cssCounter == 1) {
-					        			if (window.innerWidth > 767)
-					        				events.push ({
-					        					title: '<span class="eventname greenFC" >' + document.product.productTitle,
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(66,174,94,0.2)'
-					        				});
-					        			else
-					        				events.push ({
-					        					title: '<i class="zmdi zmdi-circle greenFC"></i>',
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(66,174,94,0.2)'
-					        				});
-					        			cssCounter++;
-					        		} else {
-					        			if (window.innerWidth > 767)
-					        				events.push({
-					        					title: '<span class="eventname redFC">' + document.product.productTitle,
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(216,64,64,0.2)'
-					        				});
-					        			else
-					        				events.push({
-					        					title: '<i class="zmdi zmdi-circle redFC"></i>',
-					        					start: eventDate,
-					        					backgroundColor: 'rgba(216,64,64,0.2)'
-					        				});
-					        			cssCounter = 0;
-					        		}
-					        	}
-					        	eventDate = new Date (eventDate);
-					        	eventDate = eventDate.setDate(eventDate.getDate() + 1);
-			        			eventDate = new Date (eventDate);
-					        }
-			        	}
-		        	});
-		        }
-		    });
-		}
-	});
-
-	function openCalendarForFixedDepartures () {
-		$('#calendar').fullCalendar({
-  			header: {
-				left: 'title',
-				center: '',
-				right:'prev,next'
-			},
-			scrollTime: '00:00',
-			eventLimit: true, // allow "more" link when too many events
-			events: events,
-			eventRender: function (event, element) {
-				element.find('.fc-title').html(event.title);
-			}
-		});
-  	}
-
-  	function rebuildFullCalendar () {
-  		$('#calendar').fullCalendar('destroy');
-  		$('#calendar').fullCalendar({
-  			header: {
-				left: 'title',
-				center: '',
-				right:'prev,next'
-			},
-			scrollTime: '00:00',
-			eventLimit: true, // allow "more" link when too many events
-			events: events,
-			eventRender: function (event, element) {
-				element.find('.fc-title').html(event.title);
-			}
-		});
-  	}
-
-  	function destroyFullCalendar () {
-  		$('#calendar').fullCalendar('destroy');
-  	}
-</script>
-
-<script>
-function openFixedDeparturePanel () {
-	$(".tours_sa_open_dates").hide();
-	$(".tours_sa_unavailable").hide();
-    $(".tours_sa_fixed_departure").show();
-}
-function openOpenDeparturePanel () {
-	$(".tours_sa_unavailable").hide();
-    $(".tours_sa_fixed_departure").hide();
-    $(".tours_sa_open_dates").show();
-}
-function openUnavailableDeparturePanel() {
-	$(".tours_sa_unavailable").show();
-    $(".tours_sa_fixed_departure").hide();
-    $(".tours_sa_open_dates").hide();
-}
-</script>
-<!--script for enabling month selector-->
-<script type="text/javascript">
 	$(document).ready(function() {
 	  	$('#months').multiselect({
 
@@ -1597,13 +1490,13 @@ function openUnavailableDeparturePanel() {
 			nonSelectedText: 'Select Days'
 		});
 	});
-</script>
 
-<script>
 	$("#departureSession").on("change","#dsRepeat",function(e) {
 		e.preventDefault();
 		if($(this).val() == "Do not repeat"){
 			$(".ds_repeat_daily").hide();
+          	$(".dsRepeatWeekly").hide();
+          	$(".ds_repeat_daily_except").hide();
 		}else if($(this).val() == "Repeat Daily"){
 			$(".ds_repeat_daily").show();
 			$(".ds_repeat_daily_except").show();
@@ -1621,16 +1514,11 @@ function openUnavailableDeparturePanel() {
 		$('.modal-backdrop').remove();
 	})
 
-</script>
-
-<script type="text/javascript">
     $(document).ready(function() {
        $('#months').multiselect({
        });
     });
-</script>
 
-<script>
 	CKEDITOR.replace('describe_tour_briefly', {
 		toolbarGroups: [
             {name: 'basicstyles', groups: 'basicstyles'},
@@ -1672,20 +1560,17 @@ function openUnavailableDeparturePanel() {
             {name: 'paragraph',   groups: [ 'list', 'indent', 'align']}
        	]
 	});
-</script>
-<script>
+
     $("#productTagging").select2({
       	tags: true,
       	placeholder: "Type and Enter"
     });
-</script>
-<script>
+
 	function initAutocomplete() {
 		var destination = document.getElementById('tour_main_destination');
     	var searchBox = new google.maps.places.SearchBox(destination);
 	}
-</script>
-<script>
+
 	var slots= ['Select', 
 				'00:00 AM','00:15 AM', '00:30 AM', '00:45 AM' , '01:00 AM', '01:15 AM', '01:30 AM', '01:45 AM',
                 '02:00 AM','02:15 AM', '02:30 AM', '02:45 AM' , '03:00 AM', '03:15 AM', '03:30 AM', '03:45 AM',
@@ -1768,14 +1653,73 @@ function openUnavailableDeparturePanel() {
     	} else {
     	}
     }
-</script>
 
-<script>
 	$(document).ready(function(){
 	    angular.element('#tours').scope().showEditSuccessMsg();
 	});
+
+	 $(document).ready(function() {
+    	$('#dsStartDateCalendarIcon').click(function() {
+	       $(document).ready(function(){
+	           $("#dsStartDate").datepicker().focus();
+	       });
+	   	});
+    	var date = new Date();
+		date.setDate(date.getDate());
+      	var options={
+	        format: "dd MM yyyy",
+	        todayHighlight: true,
+	        autoclose: true,
+	       	startDate: date
+	    };
+      	$('#dsStartDate').datepicker(options);
+    })
 </script>
- <script type="text/template" id="qq-template">
+<script>
+	$(document).ready(function() {
+    	$('#dsTimeSlotCalendarIcon').click(function(){
+	       $(document).ready(function(){
+	           $('#dsTimeSlot').datetimepicker().focus();
+	       });
+	   	});
+    	$('#dsTimeSlot').datetimepicker({
+	        format: 'LT'
+	    });
+    })
+</script>
+<script>
+    $(document).ready(function() {
+    	$('#dsRepeatTillCalendarIcon').click(function(){
+	       $(document).ready(function(){
+	           $('#dsRepeatTill').datepicker().focus();
+	       });
+	   	});
+    	var date = new Date();
+		date.setDate(date.getDate());
+      	var options={
+	        format: "dd MM yyyy",
+	        todayHighlight: true,
+	        autoclose: true,
+	       	startDate: date
+	    };
+      	$('#dsRepeatTill').datepicker(options);
+    })
+</script>
+
+<script>
+	function fetchSessionsOfThisProduct(productId) {
+		console.log(productId);
+		$.ajax({
+	    	url:'/api/host/product/productsession/' + productId,
+	        type:'GET',
+	        dataType: 'json',
+	      	success: function( sessions ) {		      		
+	      		angular.element('#dsRepeatTill').scope().setTheSessionListItem(sessions);
+	        }
+	    });
+	}
+</script>
+<script type="text/template" id="qq-template">
 
     <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
         <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
