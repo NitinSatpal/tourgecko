@@ -128,11 +128,14 @@
          * This key will be used along with dat to represent a unique session so that all the details of that session can be fetched like remaining seats
          * pricing options etc. */
         var sessionPricingPartialKey;
-
+        var lowestAvailableDate = Number.POSITIVE_INFINITY;
         /* If the product is not 'Open Date', go inside and set things to show on booking page */
         if (vm.bookingProductDetails.productAvailabilityType != 'Open Date') {
           /* Iterate over all the sessions of the above fetched product */
           for (var index = 0; index < vm.sessionsOfThisProduct.length; index ++) {
+            if (lowestAvailableDate == 'Infinity' || lowestAvailableDate > new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime())
+              lowestAvailableDate = new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime();
+            console.log(lowestAvailableDate);
             /* Set the partial key */
             if (vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == undefined || vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == ''
               || vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == ' ')
@@ -327,10 +330,42 @@
           }
         }
 
-        /* Generate the calendar in case of Opn Date or more than 20 sessions */
-        if (vm.bookingProductDetails.productAvailabilityType == 'Open Date' || vm.datesOfTheSessionsOfThisProduct.length > 20)
-          generateCalendar();
-        else
+
+        /* Generate the calendar in case of Open Date or more than 20 sessions */
+        var minimumMonthNotAvailableLower = -1;
+        var minimumMonthNotAvailableUpper = -1;
+        if (vm.bookingProductDetails.productAvailabilityType == 'Open Date' || vm.datesOfTheSessionsOfThisProduct.length > 20) {
+          if (vm.bookingProductDetails.productAvailabilityType == 'Open Date') {
+            if (!vm.bookingProductDetails.productUnavailableMonths || vm.bookingProductDetails.productUnavailableMonths.length ==0)
+              generateCalendar(new Date().getMonth(), new Date().getFullYear());
+            else {
+              if (!vm.bookingProductDetails.productUnavailableMonths || vm.bookingProductDetails.productUnavailableMonths.length ==0)
+                generateCalendar(new Date().getMonth(), new Date().getFullYear());
+              else {
+                if (vm.bookingProductDetails.productUnavailableMonths.indexOf(unavailableMonthsMap[new Date().getMonth()]) == -1)
+                  generateCalendar(new Date().getMonth(), new Date().getFullYear());
+                else {
+                  var currentMonth = new Date().getMonth();
+                  var nextYearStarted = false;
+                  for (var index = 1; index < 12; index ++) {
+                    var currentMonthIterator = (currentMonth + index) % 12;
+                    if (currentMonth + index == 12)
+                      nextYearStarted = true;
+                    if (vm.bookingProductDetails.productUnavailableMonths.indexOf(unavailableMonthsMap[currentMonthIterator]) == -1) {
+                      if (nextYearStarted)
+                        generateCalendar(currentMonthIterator, new Date().getFullYear() + 1);
+                      else
+                        generateCalendar(currentMonthIterator, new Date().getFullYear());
+
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+          } else
+            generateCalendar(new Date(lowestAvailableDate).getMonth(), new Date(lowestAvailableDate).getFullYear());
+        } else
           $('#bookingCalendar').hide();
 
       }).error(function(response) {
@@ -997,11 +1032,10 @@ vm.areAddonsSelected = function () {
         var lastDay = new Date(currentActiveYear, currentActiveMonth + 1, 0);
         // For Open Date tour
         if (vm.bookingProductDetails.productAvailabilityType == 'Open Date') {
-          if (vm.bookingProductDetails.productUnavailableMonths.indexOf(unavailableMonthsMap[currentActiveMonth]) != -1) {
+          if (vm.bookingProductDetails.productUnavailableMonths.indexOf(unavailableMonthsMap[currentActiveMonth]) != -1)
            $('.day-style').addClass('not-availableDates');
-          } else {
+          else
             $('.day-style').removeClass('not-availableDates');
-          }
 
           // disable past dates
           // disable past dates
@@ -1010,6 +1044,7 @@ vm.areAddonsSelected = function () {
           }
 
           var daysDiff = (new Date() - monthDateIterator) / oneDay;
+
           $timeout(function() {
             for (var index = 0; index < daysDiff - 1; index++) {
               var day = monthDateIterator.getDate().toString();
@@ -1045,7 +1080,7 @@ vm.areAddonsSelected = function () {
             $('#loadingDivTourBooking').css('display', 'none');
             $('#tourgeckoBody').removeClass('waitCursor');
           }, 1000);
-        }        
+        }
     }
 
     vm.timesForThisDate = [];

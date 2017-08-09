@@ -1,4 +1,5 @@
 <div class="hostHome container-fluid">
+    <toasty></toasty>
     <div id="booking-detail" class="container-fluid">
         <div class="row body-content">
             <div class="col-md-12 col-sm-12 col-lg-12">
@@ -342,13 +343,43 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Confirm refunding</h4>
+                <h4 class="modal-title">Confirm cancellation</h4>
             </div>
             <div class="modal-body">
-                <p> Enter the amount to be refunded. </p> 
-                <input type="text" ng-model="vm.refundAmount"> <br> <br>
-                <a ng-click="vm.refundTheGivenAmount()" class="btn btn-warning pull-left margin-right btn-sm">Cancel</a>
-                <a onclick="closeModal('#refund-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
+                <!-- <p> Are you sure you want to cancel this booking?</p> -->
+                <p> Is there any refund to issue? </p>
+                <div class="row" style="margin-left: 0 !important">
+                    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-3">
+                        <div class="generic-o-checkbox">
+                            <input type="checkbox" value="true" name="" id="filter-checkbox-one" class="" ng-change="vm.refundTheAmount(true)" ng-model="vm.refundAmountPositive">
+                            <label for="filter-checkbox-one"> <span class="filterName">Yes</span> </label>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+                        <div class="generic-o-checkbox">
+                            <input type="checkbox" value="false" name="" id="filter-checkbox-two" class="" ng-change="vm.refundTheAmount(false)" ng-model="vm.refundAmountNegative">
+                            <label for="filter-checkbox-two"> <span class="filterName">No</span></label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row" style="margin-left: 0 !important" ng-if="vm.showRefundAmountEntryPanel">
+                    <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xs-12">
+                        <label for="refundAmount" class="control-label">Refund Amount</label>
+                        <div class="input_group">
+                            <div>
+                                <input type="text" class="form-control" ng-model="vm.refundAmount" id="refundAmount" name="refundAmount" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-left: 0 !important">
+                    <div class="form-group col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                        <a ng-click="vm.refundTheGivenAmount(vm.form.refundForm.$valid)" class="btn btn-warning pull-left margin-right btn-sm">Cancel now</a>
+                        <a onclick="closeModal('#refund-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
+                        <p class="text-danger"> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please note that this action cannot be undone. </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

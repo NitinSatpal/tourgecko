@@ -62,7 +62,7 @@ $('#calendar').fullCalendar({
 		left: 'prev,next today',
 		center: 'title',
 		right: 'month,agendaWeek,agendaDay'
-	},
+	}, 
 	lazyFetching: false,
 	scrollTime: '00:00',
 	navLinks: true, // can click day/week names to navigate views
@@ -195,6 +195,11 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 						}
 		        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
 		        		for (var index = 0; index <= repeatedDays; index ++) {
+		        			console.log( eventDate.toISOString().split('T')[0]);
+		        			//var date = eventDate.getDay() + '-' + eventDate.getMonth() + '-' + eventDate.getFullYear();
+		        			var dateTimeString = eventDate.toISOString().split('T')[0] + ' ' +  document.sessionDepartureDetails.startTime;
+		        			var eventDateEventObject = new Date(dateTimeString);
+		        			//console.log(eventDateEventObject);
 		        			var needToSave = true;
 		        			var allDay;
 		        			var minTime;
@@ -212,6 +217,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        		}
 				        		if (document.product.productDuration !== undefined && document.product.productDurationType == 'Hours') {
 				        			allDay = false;
+				        			endDate = null;
 				        		}
 		        				var limit;
 		        				var percentBooking = 'NA';
@@ -299,10 +305,10 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        				startTime: document.sessionDepartureDetails.startTime,
 				        				title: colorSelectionAndTitle,
 				        				titleText: document.product.productTitle,
-					        			start: eventDate,
+					        			start: eventDateEventObject,
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
-					        			allDay: allDay,
+										allDay: allDay,
 					        			productSessionId: document._id,
 					        			backgroundColor:  '#ffe4b2',
 					        			percentBookingColor: colorForEventItems,
@@ -313,7 +319,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 					        			startTime: document.sessionDepartureDetails.startTime,
 				        				title: colorSelectionAndTitleForMobile,
 				        				titleText: document.product.productTitle,
-					        			start: eventDate,
+					        			start: eventDateEventObject,
 					        			duration: document.product.productDuration ? document.product.productDuration + '&nbsp' + document.product.productDurationType : undefined,
 					        			end: endDate,
 					        			allDay: allDay,

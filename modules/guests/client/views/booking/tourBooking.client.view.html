@@ -537,13 +537,11 @@
     });
 
     
-    function generateCalendar() {
-        var date = new Date();
-        var year = date.getFullYear().toString();
-        var month = date.getMonth() + 1;
+    function generateCalendar(lowestAvailableMonth, lowestAvailableYear) {
+        var month = lowestAvailableMonth + 1;
         month = month < 10 ? '0' + month.toString() : month.toString();
-        var currentMonth = year + '-' + month;
-        angular.element('#host-guest-common-style').scope().findUnavailableMonthsAndDates(date.getMonth(), year);
+        var currentMonth = lowestAvailableYear + '-' + month;
+        angular.element('#host-guest-common-style').scope().findUnavailableMonthsAndDates(lowestAvailableMonth, lowestAvailableYear);
         $("#bookingDateSelector").responsiveCalendar({
             time: currentMonth,
             events: {

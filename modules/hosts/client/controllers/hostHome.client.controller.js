@@ -326,10 +326,10 @@
       $state.go('host.sessionDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
     }
 
+    vm.showTheWelcomeMessage = false;
     vm.isWelcomeMessageValid = function (uniqueId) {
-      if (vm.companyDetails && vm.companyDetails.newUserFirstLoginValidElements.indexOf(uniqueId) != -1)
-        return false;
-      return true;
+      if (vm.companyDetails && vm.companyDetails.newUserFirstLoginValidElements.indexOf(uniqueId) == -1)
+        vm.showTheWelcomeMessage = true;
     }
   }
 }());

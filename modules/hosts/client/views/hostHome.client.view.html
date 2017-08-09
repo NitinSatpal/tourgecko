@@ -1,8 +1,9 @@
 <div class="hostHome container-fluid" id="hostHome">
 	<div class="row body-content">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
+			{{vm.isWelcomeMessageValid('firstLoginWelcomeMessage')}}
 			<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
-			<div class="home-section alert alert-welcome" ng-if="vm.isWelcomeMessageValid('firstLoginWelcomeMessage')">
+			<div class="home-section alert alert-welcome" ng-show="vm.showTheWelcomeMessage">
                <div class="welcome_block">
 					<p>
 						<span>

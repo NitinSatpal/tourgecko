@@ -240,6 +240,13 @@
         margin-left: 15px !important;
         margin-right: 15px !important;
     }
+    .host-guest-common-style-bookings-marginFromBothSides .thanks-wrapper {
+        width: 100% !important;
+    }
+    .host-guest-common-style-table.concludingSection .finalRow{
+        float: right;
+        margin-right: 23px;
+    }   
     .host-guest-common-style .detail-card-title {
         font-size: 20px;
         margin-top: 10px;
@@ -283,6 +290,9 @@
     .host-guest-common-style .select-date-wrapper .card-tour-price {
         font-size: 12px !important;
         font-weight: 300 !important;
+    }
+    .host-guest-common-style-marginFromBothSides.host-guest-common-style-Top-Info-Section {
+        margin-left: 30px !important;
     }
 
 }

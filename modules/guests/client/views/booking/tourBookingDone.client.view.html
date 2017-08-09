@@ -16,8 +16,7 @@
                             <h4>{{vm.specificBookingDetails.product.productTitle}}</h4>
                         </div>
                         <div class="host-guest-common-style-row" ng-if="vm.specificBookingDetails.product.productAvailabilityType != 'Open Date'">
-                            <span class="col-xs-12 col-sm-4 arrow">{{vm.startDateOfTheBooking}} {{vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime}}</span>
-                            <span class="col-xs-12 col-sm-4">{{vm.endDateOfTheBooking}}</span>
+                            <span class="col-xs-12 col-sm-12">{{vm.startDateOfTheBooking}} {{vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime}} &nbsp;&nbsp;to&nbsp;&nbsp; {{vm.endDateOfTheBooking}}</span>
                         </div>
                         <div class="host-guest-common-style-row" ng-if="vm.specificBookingDetails.product.productAvailabilityType == 'Open Date'">
                             <span class="col-xs-12 col-sm-4 arrow">{{vm.startDateOfTheBooking}} {{vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime}}</span>
@@ -82,7 +81,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <table class="table table-hover host-guest-common-style-table" style="border-collapse: initial;">
+                                    <table class="table table-hover host-guest-common-style-table concludingSection" style="border-collapse: initial;">
                                         <tbody style="border-top:1px #ddd !important;">
                                             <!--<tr>
                                                 <td></td>
@@ -90,7 +89,7 @@
                                                 <td>Discount</td>
                                                 <td><span class="currency">&#8377;</span>100</td>
                                             </tr> -->
-                                            <tr>
+                                            <tr class="finalRow">
                                                 <td></td>
                                                 <td></td>
                                                 <td>Total</td>

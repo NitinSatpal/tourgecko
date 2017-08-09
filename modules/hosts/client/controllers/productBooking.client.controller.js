@@ -6,9 +6,9 @@
     .module('hosts')
     .controller('ProductBookingController', ProductBookingController)
 
-  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$timeout', '$http'];
+  ProductBookingController.$inject = ['$state', '$scope', '$stateParams', '$window', '$timeout', '$http', 'toasty'];
 
-  function ProductBookingController($state, $scope, $stateParams, $window, $timeout, $http) {
+  function ProductBookingController($state, $scope, $stateParams, $window, $timeout, $http, toasty) {
     var vm = this;
     vm.numberOfItemsInOnePage = '10';
     vm.currentPageNumber = 1;
@@ -231,7 +231,24 @@
       $(anchorId).attr("data-target", modalId);
     };
 
-    vm.refundTheGivenAmount = function () {
+    vm.refundTheGivenAmount = function (isValid) {
+      if(vm.refundAmountPositive != true && vm.refundAmountNegative != true) {
+        toasty.error({
+          title: 'Is there a refund?',
+          msg: 'Please select whether to refund amount or not!',
+          sound: false
+        });
+        return false;
+      }
+
+      if (vm.refundAmountPositive == true && (vm.refundAmount === undefined || !vm.refundAmount)) {
+        toasty.error({
+          title: 'Enter amount!',
+          msg: 'Please enter the amount to be refunded!',
+          sound: false
+        });
+        return false;
+      }
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
       
@@ -690,6 +707,20 @@
 
         return false;
       }
+    }
+
+    vm.refundAmountEntryPanel = false;
+    vm.refundAmountPositive = false;
+    vm.refundAmountNegative = false;
+    vm.refundTheAmount = function (isRefunding) {
+      if (isRefunding) {
+        vm.refundAmountPositive = true;
+        vm.refundAmountNegative = false;
+      } else {
+        vm.refundAmountPositive = false;
+        vm.refundAmountNegative = true;
+      }
+      vm.showRefundAmountEntryPanel = isRefunding;
     }
   }
 }());

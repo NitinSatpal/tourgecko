@@ -1171,8 +1171,11 @@
     height: 100% !important;
 }
 .host-guest-common-style-marginFromBothSides {
-    margin-right: 58px;
-    margin-left: 58px;
+    margin-right: 103px;
+    margin-left: 103px;
+}
+.host-guest-common-style-marginFromBothSides.host-guest-common-style-Top-Info-Section {
+    margin-left: 87px;
 }
 .host-guest-common-style-preview-details-marginFromBothSides {
     margin-left: 65px;
@@ -1188,6 +1191,9 @@
     border-radius: 1rem;
     display: block;
     object-fit: contain;
+}
+.host-guest-common-style .host-guest-common-style-navbar .navbar-brand {
+    margin-left: 0 !important;
 }
 .host-guest-common-style-footer-menu-toursite .navbar-brand.logo img {
     height: 56px;

@@ -1,0 +1,50 @@
+.generic-o-checkbox {
+ 	width: 30px;
+ 	position: relative;
+ }
+.generic-o-checkbox input[type=checkbox] {
+ 	visibility: hidden;
+ }
+.generic-o-checkbox input[type=checkbox]:checked + label:after {
+ 	opacity: 1;
+ }
+ .generic-o-checkbox input[type=checkbox][disabled] + label {
+ 	background-color: #ddd;
+ }
+.generic-o-checkbox label {
+ 	width: 25px;
+ 	height: 25px;
+ 	cursor: pointer;
+ 	position: absolute;
+ 	top: 0;
+ 	left: 0;
+ 	background: #FBFFFE;
+ 	border: 1px solid #D1D1D1;
+ 	border-radius: 4px;
+ 	float: left;
+}
+.generic-o-checkbox label:after {
+	content: ' ';
+	width: 15px;
+	height: 9px;
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	border: 5px solid #f39200;
+	border-top: none;
+	border-right: none;
+	background: transparent;
+	opacity: 0;
+	transform: rotate(-45deg);
+	color: #f39200;
+	font-size: 20px;
+}
+
+.generic-o-checkbox .filterName {
+	padding-left: 40px;
+	color: grey;
+	font-size: 14px;
+}
+.generic-o-checkbox {
+	align-self: center;
+}
