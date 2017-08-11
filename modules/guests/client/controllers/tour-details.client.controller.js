@@ -164,13 +164,22 @@
     }
 
     function getRemainingSeats (session, date) {
-      if (session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()])
-        return parseInt(session.sessionCapacityDetails.sessionSeatLimit) - parseInt(session.numberOfSeatsSession[date.getTime().toString()]);
+      if (session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()]) {
+        var remainingSeats = parseInt(session.sessionCapacityDetails.sessionSeatLimit) - parseInt(session.numberOfSeatsSession[date.getTime().toString()]);
+        if (remainingSeats == 1)
+          return remainingSeats.toString() + ' seat';
+        else
+          return remainingSeats.toString() + ' seats';
+      }
       else {
         if (session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')
           return 'No seat limit';
-        else
-          return session.sessionCapacityDetails.sessionSeatLimit;
+        else {
+          if (parseInt(session.sessionCapacityDetails.sessionSeatLimit) <= 1)
+            return  session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seat';
+          else
+            return session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seats';
+        }
       }
     }
 

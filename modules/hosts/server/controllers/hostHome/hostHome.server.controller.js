@@ -138,7 +138,7 @@ function isThisFutureSession (startDate) {
 }
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
-  var localeDateString  = new Date(startDate).toLocaleDateString();
+  var localeDateString = momentTimezone.utc(new Date(startDate)).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
   var keyTime = new Date(localeDateString).getTime();
   var numOfSeatsKey = keyTime.toString();
   console.log('the session key final is ' + numOfSeatsKey);
