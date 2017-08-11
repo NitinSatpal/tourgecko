@@ -143,7 +143,7 @@ function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacit
   var stringMillis = new Date(startDate).getTime();
   console.log('the stringMillis is ' +stringMillis);
   var keyDate = moment.tz(stringMillis, "Asia/Calcutta").format();
-  var keyTime = (stringMillis + 19800000).toString();
+  var keyTime = (stringMillis - 19800000).toString();
   console.log('the keyTime is ' + keyTime);
 
   //console.log('is it working ' + localeDateString.getTime());
