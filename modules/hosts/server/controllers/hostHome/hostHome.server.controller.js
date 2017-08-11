@@ -138,9 +138,9 @@ function isThisFutureSession (startDate) {
 }
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
-  var isoDateString  = new Date(startDate).toISOString();
-  var keyDate = new Date(isoDateString).getTime();
-  var numOfSeatsKey = keyDate.toString();
+  var localeDateString  = new Date(startDate).toLocaleDateString();
+  var keyTime = new Date(localeDateString).getTime();
+  var numOfSeatsKey = keyTime.toString();
   console.log('the session key final is ' + numOfSeatsKey);
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
