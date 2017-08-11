@@ -126,6 +126,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
 }
 
 function isThisFutureSession (startDate) {
+  console.log(new Date(startDate.toISOString()).getTime());
   var countDownDate = new Date(startDate).getTime();
   var now = new Date().getTime();
   var distance = countDownDate - now;
