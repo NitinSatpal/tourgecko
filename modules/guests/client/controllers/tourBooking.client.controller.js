@@ -135,7 +135,6 @@
           for (var index = 0; index < vm.sessionsOfThisProduct.length; index ++) {
             if (lowestAvailableDate == 'Infinity' || lowestAvailableDate > new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime())
               lowestAvailableDate = new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime();
-            console.log(lowestAvailableDate);
             /* Set the partial key */
             if (vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == undefined || vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == ''
               || vm.sessionsOfThisProduct[index].sessionDepartureDetails.startTime == ' ')
