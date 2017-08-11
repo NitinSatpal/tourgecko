@@ -13,7 +13,8 @@ var path = require('path'),
   HostCompany = mongoose.model('HostCompany'),
   Message = mongoose.model('Message'),
   ModifyPinboard = require(path.resolve('./modules/hosts/server/controllers/pinboard/modifyPinboardForParticularUser.server.controller')),
-  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
+  errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  momentTimezone = require('moment-timezone');
 
 
 // Fetch all bookings
@@ -138,10 +139,10 @@ function isThisFutureSession (startDate) {
 }
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
-  var localeDateString = momentTimezone.utc(new Date(startDate)).tz('Asia/Calcutta').format('ddd Do MMMM YYYY h:mma');
+  var localeDateString = momentTimezone.utc(new Date(startDate)).tz('Asia/Calcutta');
   var keyTime = new Date(localeDateString).getTime();
   var numOfSeatsKey = keyTime.toString();
-  console.log('the session key final is ' + numOfSeatsKey);
+  //console.log('the session key final is ' + numOfSeatsKey);
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
