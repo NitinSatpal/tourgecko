@@ -93,8 +93,8 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
                   tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
                   tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
                   tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
+                  tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, secondDate);
                   tempObject.sessionId = sessions[index]._id;
-                  
                   departureSessions.push(tempObject);
                 }
               }
@@ -114,7 +114,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
-              tempObject.percentBookingColor = finBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
+              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
               tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
@@ -137,7 +137,7 @@ function isThisFutureSession (startDate) {
   return false;
 }
 
-function finBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
+function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
   var numOfSeatsKey = new Date(startDate).getTime().toString();
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {

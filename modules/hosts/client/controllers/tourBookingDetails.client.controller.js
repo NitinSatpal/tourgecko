@@ -632,7 +632,7 @@
 
       if(vm.typeOfMsgToGuests == 'textMsg' || vm.typeOfMsgToGuests == 'both') {
         $http.post('/api/host/sessionGuestMassMessage/', {message: vm.msgBodyToSpecificSessionsGuest, sessionId: $stateParams.productSessionId}).success(function (response) {
-          console.log(response);
+          
         }).error(function (response) {
           vm.error = response.message
         });

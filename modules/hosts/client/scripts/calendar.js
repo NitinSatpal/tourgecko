@@ -125,7 +125,6 @@ $('#calendar').fullCalendar({
 		var event_name = event.titleText; //$(jsEvent.currentTarget).find(".eventname").text();
 		// CSS of event
 		var event_color = event.percentBookingColor;
-		console.log(event_color);
 		// Booking data will come here
 		var bookings = $(jsEvent.currentTarget).find(".lbreak").text().split("/")[0]+" Seats booked";
 		var availabilityType = event.tourDepartureType;
@@ -195,11 +194,11 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 						}
 		        		var eventDate = new Date(document.sessionDepartureDetails.startDate);
 		        		for (var index = 0; index <= repeatedDays; index ++) {
-		        			console.log( eventDate.toISOString().split('T')[0]);
 		        			//var date = eventDate.getDay() + '-' + eventDate.getMonth() + '-' + eventDate.getFullYear();
-		        			var dateTimeString = eventDate.toISOString().split('T')[0] + ' ' +  document.sessionDepartureDetails.startTime;
+		        			var localeDate = eventDate.toLocaleDateString();
+		        			localeDate = localeDate.split('/')[2] + '-' + localeDate.split('/')[1] + '-' + localeDate.split('/')[0];
+		        			var dateTimeString = localeDate + ' ' +  document.sessionDepartureDetails.startTime;
 		        			var eventDateEventObject = new Date(dateTimeString);
-		        			//console.log(eventDateEventObject);
 		        			var needToSave = true;
 		        			var allDay;
 		        			var minTime;
