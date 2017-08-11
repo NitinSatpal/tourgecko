@@ -262,7 +262,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="booking-checkbox-wrappers" style="margin-top: -11px">
+                                <div class="booking-checkbox-wrappers" style="margin-top: -11px" ng-if="vm.bookingProductDetails.productAddons.length > 1 || (vm.bookingProductDetails.productAddons.length == 0 && vm.bookingProductDetails.productAddons[0].name != '' && vm.bookingProductDetails.productAddons[0].price != '')">
                                     <p class="booking-checkbox-title text-lighten-1">Add-Ons and extras
                                         <span class="pull-right orange-text">Optional</span>
                                     </p>
@@ -300,7 +300,7 @@
                                 <div class="booking-total-wrappers" ng-style="vm.getDynamicCSSForAddonSection()">
                                     <div class="booking-total">
                                         <div class="host-guest-common-style-row">
-                                            <div class="col-xs-3 pull-right">Total 
+                                            <div class="col-xs-6 pull-right">Total 
                                             <b><span class="currency" style="margin-left:10px">&#8377;</span>{{vm.totalPayablePrice}}</b>
                                             </div>
                                         </div>
@@ -522,11 +522,11 @@
             </div>
         </div>
     </div>
-    <footer>
+    <footer style="position: fixed; bottom: 0;">
         <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
     </footer>
-    <script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 </div>
+<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>
 <script>
     $(document).ready(function() {

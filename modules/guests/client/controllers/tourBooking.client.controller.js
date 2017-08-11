@@ -851,6 +851,7 @@ vm.areAddonsSelected = function () {
       bookingObject.numberOfSeats = totalSeatsForThisBooking;
       bookingObject.numberOfAddons = totalAddonForThisBooking;
       bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime().toString();
+      console.log('the date selected or key created is ' + bookingObject.actualSessionDate);
       bookingObject.actualSessionTime = vm.selectedTimeslot.toString();
       // There is no discount for now. So Always zero
       bookingObject.totalDiscount = 0;

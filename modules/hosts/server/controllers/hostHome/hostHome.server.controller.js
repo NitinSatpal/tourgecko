@@ -114,7 +114,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
-              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, new Date(sessions[index].sessionDepartureDetails.startDate));
+              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
               tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
@@ -139,15 +139,12 @@ function isThisFutureSession (startDate) {
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
   var numOfSeatsKey = new Date(startDate).getTime().toString();
-  console.log('the key is ' + numOfSeatsKey)
+  console.log('the key is ' + key);
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
-    console.log('the limit is ' + limit);
-    if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey]) {
+    if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey])
       percentBooking = parseInt(numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
-      console.log('the percent booking is ' + percentBooking);
-    }
     else
       percentBooking = 0;
   } else
@@ -156,22 +153,14 @@ function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacit
   var cssObject = {
 
   }
-  if (percentBooking == 0) {
-    console.log('here with 0 ' + percentBooking);
+  if (percentBooking == 0)
     cssObject["background-color"] = "#3fb7ee";
-  }
-  else if (percentBooking > 0 && percentBooking <= 50) {
-    console.log('here with 1 - 50 ' + percentBooking);
+  else if (percentBooking > 0 && percentBooking <= 50)
     cssObject["background-color"] = "#34C76E";
-  }
-  else if (percentBooking > 50 && percentBooking < 100) {
-    console.log('here with 51 - 100 ' + percentBooking);
+  else if (percentBooking > 50 && percentBooking < 100)
     cssObject["background-color"] = "#f7c836";
-  }
-  else {
-    console.log('here with 100 ' + percentBooking);
+  else
     cssObject["background-color"] = "#EC8484";
-  }
 
   return cssObject;
 }

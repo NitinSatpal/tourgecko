@@ -42,36 +42,39 @@
 </ul>
 <p class="text-center booking"><i class="fa fa-copyright" aria-hidden="true"></i> {{vm.companyData.companyName}}, 2017 Powered by tourgecko</p> -->
 
-<ul class="social-links list-inline" ng-if="vm.facebookLink || vm.twitterLink || vm.instagramLink">
-    <li class="list-inline-item">Follow us:</li>
-    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('facebook')" ng-if="vm.facebookLink">
-        <a href="{{vm.facebookLink}}" class="social icn-fb">
-            <i class="fa fa-facebook" aria-hidden="true"></i>
-        </a>
-    </li>
-    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('twitter')" ng-if="vm.twitterLink">
-        <a href="{{vm.twitterLink}}" class="social icn-twitter">
-            <i class="fa fa-twitter" aria-hidden="true"></i>
-        </a>
-    </li>
-    <li class="list-inline-item" ng-click="vm.goToHostSocialSite('instagram')" ng-if="vm.instagramLink">
-        <a href="{{vm.instagramLink}}" class="social icn-instagram">
-            <i class="fa fa-instagram" aria-hidden="true"></i>
-        </a>
-    </li>
-</ul>
+<div class="host-guest-common-style-footer-menu-toursite">
+    <ul class="social-links list-inline" ng-if="vm.facebookLink || vm.twitterLink || vm.instagramLink">
+        <li class="list-inline-item">Follow us:</li>
+        <li class="list-inline-item" ng-click="vm.goToHostSocialSite('facebook')" ng-if="vm.facebookLink">
+            <a href="{{vm.facebookLink}}" class="social icn-fb">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="list-inline-item" ng-click="vm.goToHostSocialSite('twitter')" ng-if="vm.twitterLink">
+            <a href="{{vm.twitterLink}}" class="social icn-twitter">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="list-inline-item" ng-click="vm.goToHostSocialSite('instagram')" ng-if="vm.instagramLink">
+            <a href="{{vm.instagramLink}}" class="social icn-instagram">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
 
-<ul class="list-inline footer-links">
-    <li class="list-inline-item"><a href="" ui-sref="abstractHome.toursite" onclick="animateToTop('/')">Home</a></li>
-    <li class="list-inline-item">|</li>
-    <li class="list-inline-item"><a href="" ui-sref="hostToursite-about-us" onclick="animateToTop('/about-us')">About</a></li>
-    <li class="list-inline-item">|</li>
-    <li class="list-inline-item"><a href="" ui-sref="hostToursite-contact-us" onclick="animateToTop('/contact-us')">Contact</a></li>
-</ul>
-<hr>
+    <ul class="list-inline footer-links">
+        <li class="list-inline-item"><a href="" ui-sref="abstractHome.toursite" onclick="animateToTop('/')">Home</a></li>
+        <li class="list-inline-item">|</li>
+        <li class="list-inline-item"><a href="" ui-sref="hostToursite-about-us" onclick="animateToTop('/about-us')">About</a></li>
+        <li class="list-inline-item">|</li>
+        <li class="list-inline-item"><a href="" ui-sref="hostToursite-contact-us" onclick="animateToTop('/contact-us')">Contact</a></li>
+    </ul>
+    <hr>
+</div>
+
 <div class="row footer-diclaimer">
     <div class="col-md-6 col-xs-12 copyright">{{vm.companyData.companyName}} &copy; 2017.</div>
-    <div class="col-md-6 col-xs-12 developer">Powered by <a href="">tourgecko</a></div>
+    <div class="col-md-6 col-xs-12 developer">Powered by <a href="http://tourgecko.com">tourgecko</a></div>
 </div>
 
 
