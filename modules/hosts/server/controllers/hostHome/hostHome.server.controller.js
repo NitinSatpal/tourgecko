@@ -139,11 +139,15 @@ function isThisFutureSession (startDate) {
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
   var numOfSeatsKey = new Date(startDate).getTime().toString();
+  console.log('the key is ' + numOfSeatsKey)
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
-    if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey])
+    console.log('the limi is ' + limit);
+    if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey]) {
       percentBooking = parseInt(numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
+      console.log('the percent booking is ' + percentBooking);
+    }
     else
       percentBooking = 0;
   } else
@@ -152,14 +156,22 @@ function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacit
   var cssObject = {
 
   }
-  if (percentBooking == 0)
+  if (percentBooking == 0) {
+    console.log('here with 0 ' + percentBooking);
     cssObject["background-color"] = "#3fb7ee";
-  else if (percentBooking > 0 && percentBooking <= 50)
+  }
+  else if (percentBooking > 0 && percentBooking <= 50) {
+    console.log('here with 1 - 50 ' + percentBooking);
     cssObject["background-color"] = "#34C76E";
-  else if (percentBooking > 50 && percentBooking < 100)
+  }
+  else if (percentBooking > 50 && percentBooking < 100) {
+    console.log('here with 51 - 100 ' + percentBooking);
     cssObject["background-color"] = "#f7c836";
-  else
+  }
+  else {
+    console.log('here with 100 ' + percentBooking);
     cssObject["background-color"] = "#EC8484";
+  }
 
   return cssObject;
 }
