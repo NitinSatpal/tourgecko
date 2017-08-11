@@ -114,7 +114,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
-              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
+              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, new Date(sessions[index].sessionDepartureDetails.startDate));
               tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
@@ -143,7 +143,7 @@ function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacit
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
-    console.log('the limi is ' + limit);
+    console.log('the limit is ' + limit);
     if (numberOfSeatsSession && numberOfSeatsSession[numOfSeatsKey]) {
       percentBooking = parseInt(numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
       console.log('the percent booking is ' + percentBooking);
