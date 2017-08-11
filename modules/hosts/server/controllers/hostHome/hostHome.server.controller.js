@@ -126,7 +126,6 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
 }
 
 function isThisFutureSession (startDate) {
-  console.log(new Date(startDate.toISOString()).getTime());
   var countDownDate = new Date(startDate).getTime();
   var now = new Date().getTime();
   var distance = countDownDate - now;
@@ -139,8 +138,9 @@ function isThisFutureSession (startDate) {
 }
 
 function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacityDetails, startDate) {
-  var numOfSeatsKey = new Date(startDate).getTime().toString();
-  console.log('the key is ' + numOfSeatsKey);
+  var isoDateString  = new Date(startDate).toISOString();
+  var keyDate = new Date(isoDateString).getTime();
+  var numOfSeatsKey = keyDate.toString();
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);
