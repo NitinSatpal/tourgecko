@@ -67,6 +67,7 @@ $('#calendar').fullCalendar({
 	scrollTime: '00:00',
 	navLinks: true, // can click day/week names to navigate views
 	selectHelper: true,
+	eventStartEditable: false,
 	select: function(start, end) {
 		var title = prompt('Event Title:');
 		var eventData;
@@ -267,7 +268,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        					} else if (percentBooking > 50 && percentBooking < 100) {
 		        						colorClassForListItems = {"background-color" : "#f7c836"};
 		        						colorForEventItems = '#f7c836';
-		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' + 
+		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' + 
 						        			document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' + 
 						        			'<span class="lbreak"><i class="zmdi zmdi-circle light-orange-color"></i>' + 
 						        			'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';
@@ -275,7 +276,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        					} else {
 		        						colorClassForListItems =  {"background-color" : "#EC8484"};
 		        						colorForEventItems = '#EC8484';
-		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;>' +
+		        						colorSelectionAndTitle = '<span class="eventname"  style="color: #40C4FF;">' +
 					        				document.sessionInternalName + ' (' + document.product.productTitle + ')</span> <br>' +
 					        				'<span class="lbreak"><i class="zmdi zmdi-circle light-red-color"></i>' + 
 					        				'<i class="zmdi zmdi-account"></i> &nbsp;' + bookingDetailsInCalendar + '/' +limit +'</span>';

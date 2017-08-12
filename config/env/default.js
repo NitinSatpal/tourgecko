@@ -2,8 +2,8 @@
 
 module.exports = {
   app: {
-    title: 'tourgecko Software Pvt. Ltd.',
-    description: 'Simplified tours',
+    title: 'tourgecko',
+    description: 'All-In-One tour and activity management platform',
     keywords: 'Tours, Activities, Price, Addons, Product',
     domain: 'http://www.tourgecko.com',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
