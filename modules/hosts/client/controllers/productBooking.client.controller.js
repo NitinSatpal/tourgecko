@@ -231,7 +231,7 @@
       $(anchorId).attr("data-target", modalId);
     };
 
-    vm.refundTheGivenAmount = function (isValid) {
+    vm.validateRefundAction = function () {
       if(vm.refundAmountPositive != true && vm.refundAmountNegative != true) {
         toasty.error({
           title: 'Is there a refund?',
@@ -248,10 +248,43 @@
           sound: false
         });
         return false;
+      } else if (vm.refundAmountPositive == true && parseFloat(vm.refundAmount) <= 0) {
+        toasty.error({
+          title: 'Enter valid amount!',
+          msg: 'Refund amount is not valid!',
+          sound: false
+        });
+        return false;
+      } else if (vm.refundAmountPositive == true && parseFloat(vm.refundAmount) > parseFloat(vm.specificBookingDetails.totalAmountPaid)) {
+        toasty.error({
+          title: 'You are refunding more!',
+          msg: 'Total amount customer paid for this booking is ' + vm.specificBookingDetails.totalAmountPaid,
+          sound: false
+        });
+        return false;
+      } else if (vm.refundAmountPositive == true && 
+                 parseFloat(vm.refundAmount) == parseFloat(vm.specificBookingDetails.refundTopLimit)) {
+        vm.hostGettingNothing = true;
+        vm.hostGoingNegative = false;
+        $('#refund-confirmation-two-trigger').click();
+      } else if (vm.refundAmountPositive == true && 
+                 parseFloat(vm.refundAmount) <= parseFloat(vm.specificBookingDetails.totalAmountPaid) && 
+                 parseFloat(vm.refundAmount) > parseFloat(vm.specificBookingDetails.refundTopLimit)) {
+        vm.hostGettingNothing = false;
+        vm.hostGoingNegative = true;
+        $('#refund-confirmation-two-trigger').click();
+      } else {
+        vm.hostGoingNegative = false;
+        vm.hostGettingNothing = false;
+        $('#refund-confirmation-two-trigger').click();
       }
+    }
+
+    vm.refundTheGivenAmount = function () {
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
-      
+      vm.hostGoingNegative = false;
+      vm.hostGettingNothing = false;
       if (vm.specificBookingDetails.hostCompany.paymentGatewayBehavior == 'internal') {
         // This if and its respective else if block will get removed once we fix which internal gateway we are using finally
         if(vm.specificBookingDetails.hostCompany.paymentGateway == 'instamojo') {

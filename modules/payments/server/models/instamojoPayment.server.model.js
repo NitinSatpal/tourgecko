@@ -78,6 +78,9 @@ var InstaomojoPaymentSchema = new Schema({
 	instamojo_service_tax_fees: {
 		type: String
 	},
+	instamojo_total_taxes: {
+		type: String
+	},
 	instamojo_cases: {
 		type: Array
 	},

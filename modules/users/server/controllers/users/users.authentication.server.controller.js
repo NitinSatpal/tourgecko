@@ -321,6 +321,8 @@ exports.signupDetails = function(req, res, next) {
                   state: userDetails.state,
                   country: userDetails.country
                 };
+                hostCompany.tourgeckoFeeType = 'percent',
+                hostCompany.tourgeckoFee = 7;
                 hostCompany.markModified('hostCompanyAddress');
                 hostCompany.save(function (err) {
                   if (err) {

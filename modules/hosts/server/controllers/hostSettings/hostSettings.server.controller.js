@@ -237,6 +237,7 @@ exports.savePaymentDetails = function (req, res) {
                     var instaUser = new InstamojoUser();
                     instaUser.instamojo_password = password;
                     instaUser.user = user._id;
+                    instaUser.hostCompany = otherChangedPaymentDetails._id;
                     var commonPrefix = 'instamojo_';
                     for (var key in editHostResponse) {
                       if (editHostResponse.hasOwnProperty(key)) {

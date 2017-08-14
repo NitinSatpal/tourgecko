@@ -119,6 +119,12 @@ var HostCompanySchema = new Schema({
     default: '',
     trim: true
   },
+  tourgeckoFeeType: {
+    type: String
+  },
+  tourgeckoFee: {
+    type: Number
+  },
   hostPackage: {
     type: String,
     default: '',
