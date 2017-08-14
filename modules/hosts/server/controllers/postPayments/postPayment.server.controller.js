@@ -38,7 +38,7 @@ exports.postPaymentEventsAndProcess = function (req, res) {
       if (err) {
 
       } else {
-        logCapturedPayment(booking._id, req.body.paymentRequestId, req.body.paymentId, booking.hostOfThisBooking);
+        logCapturedPayment(booking._id, req.body.paymentRequestId, req.body.paymentId, booking.hostOfThisBooking, booking.hostCompany);
         traceLogForThisEvent(booking._id, booking.bookedVia);
         sendNotification(booking, booking.product.productTitle, booking._id);
         var smsBody = getBookingDoneSms(booking);
@@ -55,7 +55,7 @@ exports.postPaymentEventsAndProcess = function (req, res) {
   });
 }
 
-function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
+function logCapturedPayment (bookingId, paymentRequestId, paymentId, host, hostCompany) {
   InstamojoUser.findOne({user: host}).exec(function (err, instaUser) {
     var userDetails = Insta.UserBasedAuthenticationData();
     userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
@@ -95,7 +95,25 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host) {
               }
             }
             instamojoPayment.bookingId = bookingId;
-            instamojoPayment.save(); 
+            instamojoPayment.save(function (paymentSaveErr) {
+              if (paymentSaveErr) {
+
+              }
+              Booking.findOne({_id: bookingId}).exec(function (err, booking) {
+                var instamojoCut = parseFloat(instamojoPayment.instamojo_fees) + parseFloat(instamojoPayment.instamojo_total_taxes);
+                var tourgeckoCut;
+                if (hostCompany.tourgeckoFeeType == 'fixed') {
+                  console.log('in if ' + Number(instamojoPayment.instamojo_amount) - Number(hostCompany.tourgeckoFee))
+                  tourgeckoCut = parseFloat(instamojoPayment.instamojo_amount) - parseFloat(hostCompany.tourgeckoFee);
+                }
+                else {
+                  console.log('in else ' + Number(instamojoPayment.instamojo_amount) - (Number(hostCompany.tourgeckoFee) * Number(instamojoPayment.instamojo_amount) / 100));
+                  tourgeckoCut = parseFloat(hostCompany.tourgeckoFee) * parseFloat(instamojoPayment.instamojo_amount) / 100;
+                }
+                booking.refundTopLimit = parseFloat(instamojoPayment.instamojo_amount) - (instamojoCut + tourgeckoCut);
+                booking.save();
+              });
+            }); 
           }
         });
       }

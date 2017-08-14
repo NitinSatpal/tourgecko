@@ -30,7 +30,7 @@ Insta.isSandboxMode(true);
 // Capture the payment.
 exports.createInstamojoPayment = function (req, res) {
   var requestBodyData = req.body;
-	InstamojoUser.findOne({user: req.body.bookingDetails.hostOfThisBooking}).exec(function (err, instaUser) {
+	InstamojoUser.findOne({user: req.body.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
   	var userDetails = Insta.UserBasedAuthenticationData();
   	userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
   	userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
@@ -46,7 +46,8 @@ exports.createInstamojoPayment = function (req, res) {
         var purpose = req.body.productData.productTitle.length > 25 ? req.body.productData.productTitle.slice(0,25) + '...' : req.body.productData.productTitle;
       	var paymentData = new Insta.PaymentData();
       	paymentData.amount = req.body.bookingDetails.totalAmountPaid;
-      	paymentData.partner_fee = 10;
+        paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
+      	paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
       	paymentData.purpose = purpose;//,
         var redirectURL = 'http://' + req.get('host');
         redirectURL = redirectURL + '/tour/booking/done';

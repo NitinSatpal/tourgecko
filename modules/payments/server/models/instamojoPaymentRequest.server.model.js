@@ -28,6 +28,12 @@ var InstaomojoPaymentRequestSchema = new Schema({
 	instamojo_amount: {
 		type: String
 	},
+	instamojo_partner_fee_type: {
+		type: String
+	},
+	instamojo_partner_fee: {
+		type: String
+	},
 	instamojo_purpose: {
 		type: String
 	},

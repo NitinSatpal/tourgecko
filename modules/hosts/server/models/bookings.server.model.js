@@ -124,6 +124,9 @@ var BookingSchema = new Schema({
     type: Boolean,
     default: false
   },
+  refundTopLimit: {
+    type: Number
+  },
   isRefundApplied: {
     type: Boolean,
     default: false

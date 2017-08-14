@@ -396,7 +396,7 @@ exports.modifyBooking = function (req, res) {
             }
           });
         } else if (booking.hostCompany.paymentGateway == 'razorpay') {
-          var amountToTransfer = parseInt(booking.totalAmountPaid) - 0.05 * parseInt(booking.totalAmountPaid);
+          var amountToTransfer = parseInt(booking.totalAmountPaid) - 0.07 * parseInt(booking.totalAmountPaid);
           instance.payments.transfer(booking.paymentId, {
             transfers: [
               {
