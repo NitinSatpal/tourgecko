@@ -25,7 +25,13 @@
       });
     } else {
       if (tourHostToursite == 'www') {
-        console.log ('akakakakakaakak ' + hostURL.split('.'));
+        var targetURL = '';
+        for (var index = 1; index < hostURL.split('.'); index++) {
+          targetURL = targetURL + hostURL.split('.')[index];
+          if (index != hostURL.split('.').length)
+            targetURL = targetURL + '.';
+        }
+        console.log ('akakakakakaakak ' + targetURL);
         //$window.location.href = $window.location.protocol + '//' + response.toursite + '.' + $window.location.host;
         //$window.location.href = 'https://tourgecko.com';
       } else {
