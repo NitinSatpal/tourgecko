@@ -36,7 +36,7 @@
               <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" show-errors>
                 <label for="companyWebsite" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Current Website</label>
                 <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
-                  <label><input type="checkbox" ng-model="shouldDisable"><span>I don't have website yet</span></label>
+                  <label><input type="checkbox" ng-model="shouldDisable" ng-click="vm.credentialsDetails.companyWebsite = ''"><span>I don't have website yet</span></label>
                 </div>
                 <input type="text" id="companyWebsite" name="companyWebsite" class="form-control" ng-model="vm.credentialsDetails.companyWebsite" ng-disabled="shouldDisable" lowercase>
               </div>

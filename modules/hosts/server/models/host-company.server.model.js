@@ -26,6 +26,13 @@ var HostCompanySchema = new Schema({
   establishedIn: {
     type: String
   },
+  companyGSTIN: {
+    type: String
+  },
+  noGSTIN: {
+    type: Boolean,
+    default: false
+  },
   isLogoPresent: {
     type: Boolean,
     default: true

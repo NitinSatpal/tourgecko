@@ -151,6 +151,7 @@
   /* ------------------------------------------------------------------------------------------------------------------------- */
       /* Checking if user has entered anything so that save button can be enabled */
   /* ------------------------------------------------------------------------------------------------------------------------- */
+      var isPricePresent = false;
       $scope.$watch('vm.pricingParams', function() {
         if (initializing) {
           $timeout(function() { initializing = false; });
@@ -771,6 +772,13 @@
       toasty.error({
         title: 'End date required!',
         msg: "Please select the 'Repeat until' date of this session!",
+        sound: false
+      });
+      return false;
+    } else if (new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate).getTime() <= new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).getTime()) {
+      toasty.error({
+        title: 'Invalid dates!',
+        msg: "Repeat till date should be greater than the session start date!",
         sound: false
       });
       return false;

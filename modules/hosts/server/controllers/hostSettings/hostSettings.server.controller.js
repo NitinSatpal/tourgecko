@@ -51,6 +51,8 @@ exports.saveCompanyDetails = function (req, res) {
       company.hostType = changedCompanyDetails.hostType;
       company.companyName = changedCompanyDetails.companyName;
       company.aboutHost = changedCompanyDetails.aboutHost;
+      company.companyGSTIN = changedCompanyDetails.companyGSTIN;
+      company.noGSTIN = changedCompanyDetails.noGSTIN;
       if (company.aboutHost != '' && company.aboutHost != null && company.aboutHost !== undefined) {
         ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'aboutHostAndLogo', company._id);
       }

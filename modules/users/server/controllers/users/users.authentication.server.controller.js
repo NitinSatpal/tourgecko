@@ -324,6 +324,8 @@ exports.signupDetails = function(req, res, next) {
                 hostCompany.tourgeckoFeeType = 'percent',
                 hostCompany.tourgeckoFee = 7;
                 hostCompany.markModified('hostCompanyAddress');
+                // going forward host will choose this at the time of signup
+                hostCompany.hostPackage = 'go';
                 hostCompany.save(function (err) {
                   if (err) {
                     return res.status(400).send({

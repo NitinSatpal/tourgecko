@@ -127,6 +127,21 @@
 									</div>
 								</div>
 							</div>
+							<h5>GSTIN <img class="icn_hold" src="modules/hosts/client/images/icn_hold.svg" data-toggle="tooltip" data-placement="right" title="This information is not shown publicly"></h5>
+							<p class="section-desc sub_desc">Your unique tax identification number.</p>
+							<div class="panel">
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12">
+										<div class="form-group">
+											<label for="companyGSTIN" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">GSTIN</label>
+							                <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
+							                  <label><input type="checkbox" ng-model="vm.companyDetails[0].noGSTIN" ng-click="vm.companyDetails[0].companyGSTIN = ''"><span>I don't have GSTIN yet</span></label>
+							                </div>
+							                <input type="text" id="companyGSTIN" name="companyGSTIN" class="form-control" ng-model="vm.companyDetails[0].companyGSTIN" ng-disabled="vm.companyDetails[0].noGSTIN" lowercase>
+										</div>
+									</div>
+								</div>
+							</div>
 							<h5>Address <i class="zmdi zmdi-globe icn_orange" data-toggle="tooltip" data-placement="auto right" title="This information is public and will be shown on tour pages site."></i></h5>
 							<p class="section-desc sub_desc">Your legal address and location. Please be specific with your address as it will be shown on map in your about us page.</p>
 							<div class="panel">

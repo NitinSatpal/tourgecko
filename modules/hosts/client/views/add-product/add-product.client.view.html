@@ -205,16 +205,7 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
-												<div class="form-group">
-													<label for="starting_price" class="control-label">Starting Price</label>
-													<p class="sub_desc" ng-show="vm.helpVisible">This is used for display purpose. Use the lowest price.</p>
-													<div class="input_group">
-														<div class="input-group">
-															<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-															<input type="text" class="form-control" name="starting_price" id="starting_price"  ng-model="vm.tour.productAdvertisedprice" placeholder="Ex: 3000"/>
-														</div>
-													</div>
-												</div>
+												
 												<label class="control-label">What is the Price of this tour?</label>
 												<p class="section-desc sub_desc" ng-show="vm.helpVisible">You can create multiple pricing options if needed. For example you can add multiple prices for different sizes of groups or have just a single price for everyone. You can also create custom pricing labels and prices.</p>
 												<div id="pricingOption{{$index}}" class="row no_margin_row" ng-repeat="pricing in vm.pricingParams track by $index" ng-style="vm.getDynamicCSS($index)">
@@ -359,6 +350,16 @@
 													</div>
 													<a href="#" class="close_group" ng-hide="$index == 0" ng-click="vm.removePricingOption($index)"><i class="zmdi zmdi-close"></i></a>
 													<a href="#" class="add_price_option" ng-click="vm.addPricingOption($index)" ng-show="$index == vm.pricingParams.length - 1 || vm.pricingParams.length == 0">Add price option</a>
+												</div>
+												<div class="form-group">
+													<label for="starting_price" class="control-label">Starting Price</label>
+													<p class="sub_desc" ng-show="vm.helpVisible">This is used for display purpose. Use the lowest price.</p>
+													<div class="input_group">
+														<div class="input-group">
+															<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
+															<input type="text" class="form-control" name="starting_price" id="starting_price"  ng-model="vm.tour.productAdvertisedprice" placeholder="Ex: 3000"/>
+														</div>
+													</div>
 												</div>
 											</div>
 											<div class="panel">
