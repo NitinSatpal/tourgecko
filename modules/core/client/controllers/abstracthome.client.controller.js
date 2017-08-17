@@ -27,9 +27,10 @@
       if (tourHostToursite == 'www') {
         console.log ('akakakakakaakak ' + hostURL.split('.'));
         //$window.location.href = $window.location.protocol + '//' + response.toursite + '.' + $window.location.host;
-        $window.location.href = 'https://tourgecko.com';
+        //$window.location.href = 'https://tourgecko.com';
+      } else {
+        $state.go('abstractHome.home');
       }
-      $state.go('abstractHome.home');
     }
   }
 }());
