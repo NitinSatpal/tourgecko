@@ -26,7 +26,7 @@
     } else {
       if (tourHostToursite == 'www') {
         var targetURL = '';
-        for (var index = 1; index < hostURL.split('.'); index++) {
+        for (var index = 1; index < hostURL.split('.').length; index++) {
           targetURL = targetURL + hostURL.split('.')[index];
           if (index != hostURL.split('.').length)
             targetURL = targetURL + '.';
