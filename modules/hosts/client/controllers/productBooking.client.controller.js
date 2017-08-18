@@ -117,11 +117,16 @@
         // vm.specificBookingDetails.actualSessionDate is nothing but milliseconds in string format
         // unary operator '+' is conveting it to number format to create the date
         var date = new Date(+vm.specificBookingDetails.actualSessionDate);
+        console.log('dat is ' + date);
         var year = date.getFullYear().toString();
+        console.log('year is ' + year);
         var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        console.log('month is ' + month);
         var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        console.log('dateValue is ' + dateValue);
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
         $('#startDateOfTheTour').attr("value", startDateOfTheTour);
+        console.log('lady gaga ' + startDateOfTheTour)
         var hourPart;
         var minutePart;
         var dayTime
