@@ -104,6 +104,22 @@ var BookingSchema = new Schema({
     type: Number,
     default: 0
   },
+  instamojoCut: {
+    type: Number,
+    default: 0
+  },
+  tourgeckoCut: {
+    type: Number,
+    default: 0
+  },
+  hostCut: {
+    type: Number,
+    default: 0
+  },
+  totalAmountPaidToHost: {
+    type: Number,
+    default: 0
+  },
   paymentRequestId: {
     type: String
   },
@@ -115,11 +131,14 @@ var BookingSchema = new Schema({
     type: Boolean,
     default: false
   },
+  /* instamojo close */
   /* razorpay attribute equivalent */
   isPaymentTransferred: {
     type: Boolean,
     default: false
   },
+  /* razorpay close*/
+  
   isPaymentDone: {
     type: Boolean,
     default: false

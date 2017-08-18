@@ -380,6 +380,7 @@ exports.modifyBooking = function (req, res) {
                       booking.bookingStatus = req.body.bookingStatus;
                       booking.bookingComments = req.body.bookingComments;
                       booking.isPaymentFulfilled = true;
+                      booking.totalAmountPaidToHost = booking.hostCut;
                       booking.save(function(bookingEditError, bookingEditResponse) {
                         if (bookingEditError) {
                           res.json(bookingEditError);

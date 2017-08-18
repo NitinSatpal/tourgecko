@@ -102,14 +102,13 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host, hostC
               Booking.findOne({_id: bookingId}).exec(function (err, booking) {
                 var instamojoCut = parseFloat(instamojoPayment.instamojo_fees) + parseFloat(instamojoPayment.instamojo_total_taxes);
                 var tourgeckoCut;
-                if (hostCompany.tourgeckoFeeType == 'fixed') {
-                  console.log('in if ' + Number(instamojoPayment.instamojo_amount) - Number(hostCompany.tourgeckoFee))
+                if (hostCompany.tourgeckoFeeType == 'fixed')
                   tourgeckoCut = parseFloat(instamojoPayment.instamojo_amount) - parseFloat(hostCompany.tourgeckoFee);
-                }
-                else {
-                  console.log('in else ' + Number(instamojoPayment.instamojo_amount) - (Number(hostCompany.tourgeckoFee) * Number(instamojoPayment.instamojo_amount) / 100));
+                else
                   tourgeckoCut = parseFloat(hostCompany.tourgeckoFee) * parseFloat(instamojoPayment.instamojo_amount) / 100;
-                }
+                booking.instamojoCut = instamojoCut;
+                booking.tourgeckoCut = tourgeckoCut;
+                booking.hostCut = parseFloat(instamojoPayment.instamojo_amount) - (instamojoCut + tourgeckoCut);
                 booking.refundTopLimit = parseFloat(instamojoPayment.instamojo_amount) - (instamojoCut + tourgeckoCut);
                 booking.save();
               });

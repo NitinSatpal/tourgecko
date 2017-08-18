@@ -5,16 +5,16 @@
 				<div ng-include="'/modules/hosts/client/views/tour-booking-details/top-nav-tourBookingDetails.client.view.html'"></div>
 				<div class="row booking-analytics">
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 ">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center" onclick="opentatusWiseRevenueDistribution()" id="revenueDiv">
                             <h1 class="orange-text booking-analytics-icon">&#8377;</h1>    
                             <div class="text-center booking-analytics-info">    
-                                <p class="section-desc">Amount</p>
-                                <h4>{{vm.totalRevenue}}</h4>
+                                <p class="section-desc">Revenue</p>
+                                <h4>{{vm.totalRevenueOFAllBookings}} </h4>
                             </div>    
                         </div>    
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center" style="cursor: default;">
 	                        <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-time"></i></h1>    
 	                        <div class="text-center booking-analytics-info">
                                 <p class="section-desc" id="tourStarting" style="display: none;">Starting</p>
@@ -37,12 +37,14 @@
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card text-center" style="cursor: default;">
                             <h1 class="orange-text booking-analytics-icon"><i class="zmdi zmdi-calendar-check"></i></h1>    
                             <div class="text-center booking-analytics-info">           
-	                            <p class="section-desc">Confirmed</p>
-	                            <h4 class="" ng-show="vm.confirmedBookings <= 1">{{vm.confirmedBookings}}&nbsp;<span class="sub-desc">Booking</span></h4>
-                                <h4 class="" ng-show="vm.confirmedBookings > 1">{{vm.confirmedBookings}}&nbsp;<span class="sub-desc">Bookings</span></h4>
+	                            <p class="section-desc">Bookings</p>
+	                            <h4 class="">{{vm.totalNumberOfBookingRequests}}&nbsp;</h4> 
+                                <!-- <h4 class="" ng-show="vm.confirmedBookings <= 1">{{vm.bookingRequests}}&nbsp;<span class="sub-desc">Request</span></h4>
+                                <h4 class="" ng-show="vm.confirmedBookings > 1">{{vm.bookingRequests}}&nbsp;<span class="sub-desc">Requests</span></h4>
+                                -->
                             </div>
                         </div>
                     </div>
@@ -339,6 +341,59 @@
         </div>
     </div>
 </div>
+<div id="bookingRevenueDistribution" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Status-wise revenue distribution</h4>
+            </div>
+            <div class="modal-body">
+            <div class="table-responsive">
+                <table class="table table-striped">                    
+                    <tr>
+                        <td></td>
+                        <td>Confirmed</td>
+                        <td>Pending</td>
+                        <td>Declined</td>
+                        <td>Cancelled</td>
+                        <td>Expired</td>
+                        <td><b>Total</b></td>
+                    </tr>
+                    <tr>
+                        <td>Bookings</td>
+                        <td>{{vm.confirmedBookings}}</td>
+                        <td>{{vm.pendingBookings}}</td>
+                        <td>{{vm.declinedBookings}}</td>
+                        <td>{{vm.cancelledBookings}}</td>
+                        <td>{{vm.expiredBookings}}</td>
+                        <td><b>{{vm.totalNumberOfBookingRequests}}</b></td>
+                    </tr>
+                    <tr>
+                        <td>Revenue</td>
+                        <td>{{vm.confirmedBookingsRevenue}}</td>
+                        <td>{{vm.pendingBookingsRevenue}}</td>
+                        <td>{{vm.declinedBookingsRevenue}}</td>
+                        <td>{{vm.cancelledBookingsRevenue}}</td>
+                        <td>{{vm.expiredBookingsRevenue}}</td>
+                        <td><b>{{vm.totalRevenueOFAllBookings}}</b></td>
+                    </tr>
+                </table>
+            </div>
+                <br>
+                <a data-dismiss="modal" class="btn btn-primary btn-sm margin-bottom pull-right">Ok, got it</a> 
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #bookingRevenueDistribution td {
+        text-align: center;
+    }
+</style>
+<a data-toggle="modal" data-target="#bookingRevenueDistribution" style="display: none" id="bookingStatusWiseDistributionBtn">Decline</a>     
 <!-- CSS -->
 <link media="print" rel="stylesheet" href="lib/angularPrint/angularPrint.css">
 
@@ -479,5 +534,9 @@
         $(".nav-bookings a").css('text-decoration', 'none');
         $('#loadingDivHostSide').css('display', 'block');
         $('#tourgeckoBody').addClass('waitCursor');
+    }
+    function opentatusWiseRevenueDistribution() {
+        $('#bookingStatusWiseDistributionBtn').click();
+        $('#revenueDiv').removeAttr('title');
     }
 </script>

@@ -14,20 +14,51 @@
     vm.lastIndexForGuestData = 0;
     var asynRequestCounter = 0;
     vm.confirmedBookings = 0;
+    vm.confirmedBookingsRevenue = 0
+    vm.pendingBookings = 0;
+    vm.pendingBookingsRevenue = 0;
+    vm.declinedBookings = 0;
+    vm.declinedBookingsRevenue = 0;
+    vm.cancelledBookings = 0;
+    vm.cancelledBookingsRevenue = 0;
+    vm.expiredBookings = 0;
+    vm.expiredBookingsRevenue = 0;
+    vm.totalNumberOfBookingRequests = 0;
     vm.confirmedSeats = 0;
     vm.totalRevenue = 0;
+    vm.totalRevenueOFAllBookings = 0;
 
     var sessionStartDate = $location.path().split('/')[5];
     
     $http.get('/api/host/bookingDetailsForParticularSession/' + $stateParams.productSessionId + '/' + sessionStartDate ).success(function (response) {
-      var bookings = response;
+      var bookings = response;      
       for (var index = 0; index < bookings.length; index++) {
-        vm.totalRevenue = vm.totalRevenue + parseInt(bookings[index].totalAmountPaid);
         if(bookings[index].bookingStatus == 'Confirmed') {
           vm.confirmedBookings ++;
           vm.confirmedSeats = vm.confirmedSeats + parseInt(bookings[index].numberOfSeats);
+          vm.totalNumberOfBookingRequests++;
+          vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue + parseFloat(bookings[index].hostCut);
+          vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue.toFixed(2);
+        } else if (bookings[index].bookingStatus == 'Pending') {
+          vm.pendingBookings++;
+          vm.totalNumberOfBookingRequests++;
+          vm.pendingBookingsRevenue = vm.pendingBookingsRevenue + parseFloat(bookings[index].hostCut);
+          vm.pendingBookingsRevenue = vm.pendingBookingsRevenue.toFixed(2);
+        } else if (bookings[index].bookingStatus == 'Declined') {
+          vm.declinedBookings++;
+          vm.totalNumberOfBookingRequests++;
+        } else if (bookings[index].bookingStatus == 'Cancelled') {
+          vm.cancelledBookings++;
+          vm.totalNumberOfBookingRequests++;
+          vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue + parseFloat(bookings[index].hostCut) - parseFloat(bookings[index].refundAmount);
+          vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue.toFixed(2);
+        } else if (bookings[index].bookingStatus == 'Expired') {
+          vm.expiredBookings++;
+          vm.totalNumberOfBookingRequests++;
         }
       }
+      vm.totalRevenueOFAllBookings = parseFloat(vm.totalRevenueOFAllBookings) + parseFloat(vm.confirmedBookingsRevenue) + parseFloat(vm.pendingBookingsRevenue) + parseFloat(vm.cancelledBookingsRevenue);
+      vm.totalRevenueOFAllBookings =  vm.totalRevenueOFAllBookings.toFixed(2);
     }).error(function (response){
     });
     /* This will change and we will fetch only one as per date */
