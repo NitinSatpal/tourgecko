@@ -267,7 +267,8 @@
         margin-right: 15px !important;
     }
     .host-guest-common-style .host-guest-common-style-navbar .toursiteTopNav {
-        margin-top: 0px;
+        margin-top: -2px;
+        width: 108%;
     }
 
     .host-guest-common-style .host-guest-common-style-navbar .navbar-collapse.collapse {
