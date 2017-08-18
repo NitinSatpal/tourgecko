@@ -1193,9 +1193,6 @@
     display: block;
     object-fit: contain;
 }
-.host-guest-common-style .host-guest-common-style-navbar .navbar-brand {
-    margin-left: 0 !important;
-}
 .host-guest-common-style-footer-menu-toursite .navbar-brand.logo img {
     height: 56px;
     width: 150px;

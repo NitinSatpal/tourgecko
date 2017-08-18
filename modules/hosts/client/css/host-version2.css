@@ -176,7 +176,7 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 	object-fit: cover;
 }
 .noLogoPresent {
-	margin-left: 85px !important;
+	margin-left: 23px !important;
 	margin-top: 16px;
 }
 .footer-menu .noLogoPresent {
@@ -313,7 +313,6 @@ and (max-device-width : 1024px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
 	.noLogoPresent {
 		margin-left: 14px !important;
-		
 	}
 	.booking-payment-method, .booking-payment-date, .booking-payment-amount {
 		word-wrap: break-word;
@@ -352,8 +351,7 @@ and (max-device-width : 1024px){
 		object-fit: cover;
 	}
 	.noLogoPresent {
-		margin-left: 15px !important;
-		
+		margin-left: 11px !important;
 	}
 	.footer-menu .noLogoPresent {
 		margin-left: 0 !important;
@@ -386,7 +384,7 @@ and (max-device-width : 1024px){
 		object-fit: cover;
 	}
 	.noLogoPresent {
-		margin-left: 15px !important;
+		margin-left: 11px !important;
 		
 	}
 	.footer-menu .noLogoPresent {

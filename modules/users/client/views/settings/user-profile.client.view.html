@@ -132,7 +132,7 @@
 											</div>
 										</div>
 										
-										<a href="#" class="change_password" style="display:inline-block">Change Password</a>
+										<a href="#" class="change_password" style="display:inline-block; padding-bottom: 0;">Change Password</a>
 										<a href="#" class="cancel_password" style="display:none">Cancel</a>
 										<div class="panel panel_two pointer-box">
 											<div class="pointer-line"><img class="pointer pointer_a" src="modules/core/client/img/assets/pointer.svg">
@@ -214,7 +214,7 @@
 	$(document).ready(function() {
 		$("#settings .settings_account_info .panel_one").on("click",".change_password",function(e){
 			e.preventDefault();
-			$('html, body').animate({scrollTop : 350},800);
+			//$('html, body').animate({scrollTop : 350},800);
 			$(".change_password").css("display", "none");
 			$(".cancel_password").css("display", "inline-block");
 			$("#settings .settings_account_info .panel_one");
@@ -223,11 +223,11 @@
 		$("#settings .settings_account_info .panel_one").on("click",".cancel_password",function(e){
 			e.preventDefault();
 			$("#settings .settings_account_info .panel_one");
-			$("#settings .settings_account_info .panel_two").slideUp(1150);
+			$("#settings .settings_account_info .panel_two").slideUp(800);
 			setTimeout(function() {
 				$(".cancel_password").css("display", "none");
 				$(".change_password").css("display", "inline-block");
-			}, 1050);
+			}, 850);
 		});
 
 	});
