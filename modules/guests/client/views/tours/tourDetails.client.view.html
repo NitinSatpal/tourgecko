@@ -224,18 +224,33 @@
                                             <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
                                                 <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing | limitTo: 20 track by $index">
                                                     <div class="booking-date-wrapper">
-                                                        <p class="booking-day-name">
-                                                            <small>{{session.fromDay}}</small >
-                                                        </p>
-                                                        <p class="booking-day-name">
-                                                            <small>{{session.toDay}}</small >
-                                                        </p>
-                                                        <span class="booking-date-name">
-                                                            <span class="arrow">{{session.startDate}}</span>
-                                                        </span>
-                                                        <span class="booking-date-name">
-                                                            <span>{{session.endDate}}</span>
-                                                        </span>
+                                                        <div class="sessionFromSessionToNonMobile">
+                                                            <p class="booking-day-name">
+                                                                <small>{{session.fromDay}}</small >
+                                                            </p>
+                                                            <p class="booking-day-name">
+                                                                <small>{{session.toDay}}</small >
+                                                            </p>
+                                                            <span class="booking-date-name">
+                                                                <span class="arrow">{{session.startDate}}</span>
+                                                            </span>
+                                                            <span class="booking-date-name">
+                                                                <span>{{session.endDate}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="sessionFromSessionToMobile">
+                                                            <span> 
+                                                                <span>
+                                                                    {{session.fromDay}}
+                                                                    <span>{{session.startDate}}</span>
+                                                                </span>
+                                                                to
+                                                                <span>
+                                                                    {{session.toDay}}
+                                                                    <span>{{session.endDate}}</span>
+                                                                </span>
+                                                            </span>
+                                                        </div>
                                                         <span class="more-departure" id="timeslotsForThisSession">
                                                             <a href="#" ng-repeat="timeslot in session.sessionTimes track by $index" ng-click="vm.getPricingDetailsOfGivenTimeSlot($parent.$index, $index, timeslot, session)">
                                                                 <span id="timeslotValue{{$parent.$index}}{{$index}}" class="timeslotValueActive{{$index}}">{{timeslot}}</span>

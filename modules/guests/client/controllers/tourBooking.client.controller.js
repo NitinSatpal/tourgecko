@@ -172,9 +172,11 @@
                          */
                         vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
                         /* Get the date and the time so display on the booking page */
-                        var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
-                        /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
-                        vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                        if (new Date().getTime() < new Date(sessionDateIterator).getTime()) {
+                          var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
+                          /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
+                          vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                        }
 
                         /* Check whether any seats are remaining for the above time stamp */
                         var remainingSeats = -1;
@@ -244,10 +246,12 @@
                        */
                       vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
 
-                      /* Get the date and the time so display on the booking page */
-                      var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
-                      /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
-                      vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                      if (new Date().getTime() < new Date(sessionDateIterator).getTime()) {
+                        /* Get the date and the time so display on the booking page */
+                        var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
+                        /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
+                        vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                      }
 
                       /* Check whether any seats are remaining for the above time stamp */
                       var remainingSeats = -1;
@@ -312,8 +316,10 @@
                 }
 
                 vm.datesOfTheSessionsOfThisProduct.push(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).toString());
-                var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
-                vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                if (new Date().getTime() < new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime()) {
+                  var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
+                  vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                }
 
                 /* Check whether any seats are remaining for the above time stamp */
                 var remainingSeats = -1;

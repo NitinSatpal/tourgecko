@@ -325,6 +325,10 @@ and (max-device-width : 1024px){
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
 	}
+	.gstin .gstinInput {
+		float: left !important;
+		left: 0 !important;
+	}
 }
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}

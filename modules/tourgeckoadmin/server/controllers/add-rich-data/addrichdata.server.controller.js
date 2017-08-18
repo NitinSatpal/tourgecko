@@ -58,8 +58,6 @@ exports.saveLanguages = function (req, res) {
         var index;
         for (index = 0; index < req.body.supportedLanguages.length; index++)
           savedLanguages[0].supportedLanguages.push(req.body.supportedLanguages[index]);
-        
-
         savedLanguages[0].save();
         res.json(savedLanguages);
       }

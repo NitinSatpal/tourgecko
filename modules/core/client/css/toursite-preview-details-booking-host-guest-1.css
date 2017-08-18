@@ -229,6 +229,11 @@
         margin-left: 15px !important;
         margin-right: 15px !important;
     }
+    .host-guest-common-style .arrow::after {
+        content: "to";
+        margin-left: 0% !important;
+        position: absolute;
+    }
 }
 
 @media (max-width:767px) {
@@ -282,6 +287,14 @@
     }
     .host-guest-common-style-btn-text {
         display: none;
+    }
+    .host-guest-common-style .sessionFromSessionToNonMobile {
+        display: none;
+    }
+    .host-guest-common-style .sessionFromSessionToMobile {
+        display: block !important;
+        font-weight: 500;
+    color: #000;
     }
     .host-guest-common-style .arrow::after {
         content: "to";

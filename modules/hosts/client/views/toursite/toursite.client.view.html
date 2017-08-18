@@ -153,7 +153,8 @@
         });
         $('.nav.navbar-nav > li#toursiteMainPage').addClass('active');
         var tempAboutHostData = $('#about-us-data').html();
-        tempAboutHostData = tempAboutHostData.slice(0,600) +'<span>... </span><a href="about-us" onclick="goToAboutHostTab()" class="more" style="color:#ff9800;">Read More</a>';
+        if (tempAboutHostData.length > 600)
+            tempAboutHostData = tempAboutHostData.slice(0,600) +'<span>... </span><a href="about-us" onclick="goToAboutHostTab()" class="more" style="color:#ff9800;">Read More</a>';
         $('#about-us-data').html(tempAboutHostData);        
     });
     $('.carousel-control.left').click(function() {

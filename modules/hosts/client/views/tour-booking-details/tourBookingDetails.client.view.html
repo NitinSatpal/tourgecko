@@ -438,14 +438,14 @@
                 $('#tourEnding').css('display', 'none');
                 $('#tourEnded').css('display', 'none');
             } else if (days == -1) {
-                document.getElementById("remainingTime").innerHTML = days + " day ago";
+                document.getElementById("remainingTime").innerHTML = Math.abs(days) + " day ago";
                 $('#tourEnded').css('display', 'block');
                 $('#tourStarting').css('display', 'none');
                 $('#tourStartsIn').css('display', 'none');
                 $('#tourEnding').css('display', 'none');
                 $('#tourEndsIn').css('display', 'none');
             } else {
-                document.getElementById("remainingTime").innerHTML = days + " days ago";
+                document.getElementById("remainingTime").innerHTML = Math.abs(days) + " days ago";
                 $('#tourEnded').css('display', 'block');
                 $('#tourStarting').css('display', 'none');
                 $('#tourStartsIn').css('display', 'none');

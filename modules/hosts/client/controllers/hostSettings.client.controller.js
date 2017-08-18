@@ -50,6 +50,7 @@
     vm.userDetails = SpecificUserService.query();
     
     vm.languagesSupported = LanguageService.query();
+    console.log(LanguageService.query());
     vm.languages = vm.languagesSupported.supportedLanguages;
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';

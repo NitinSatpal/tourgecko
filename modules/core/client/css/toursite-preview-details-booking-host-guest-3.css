@@ -819,7 +819,9 @@
     float: left;
     width: 100%;
 }
-
+.host-guest-common-style .sessionFromSessionToMobile {
+        display: none;
+    }
 .host-guest-common-style .about-us-data a {
     color: inherit;
     margin-left: 5px;
