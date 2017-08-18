@@ -279,7 +279,7 @@ and (max-device-width : 1024px){
 	.booking-payment-method{width:30%}
 	.booking-payment-date{width:42%}
 	.booking-payment-amount{width:15%} 
-	#booking-detail .input-group-addon.trip-booking-input{ display:none;}
+	#booking-detail .input-group-addon span.trip-booking-input{ display:none;}
 	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
 	#booking-detail .nav-div{ display:none;}
 }
@@ -292,7 +292,7 @@ and (max-device-width : 1024px){
 	.booking-payment-method, .booking-payment-amount{ width:25%;}
 	.booking-payment-date{width:40%}
 	.booking-payment-method.edit-mode, .booking-payment-date.edit-mode, .booking-payment-amount.edit-mode{ display:block; margin-bottom:1rem;}
-	#booking-detail .input-group-addon.trip-booking-input{ display:none;}
+	#booking-detail .input-group-addon span.trip-booking-input{ display:none;}
 	#booking-detail .form-control.trip-booking-input{border-radius:5px !important}
 	#booking-detail .nav-div{ display:none;}
 	.booking-status-icon{ margin-top:0}
@@ -366,8 +366,18 @@ and (max-device-width : 1024px){
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
 	}
+	#action-log li:after {
+	    border-left: 1px solid;
+	    height: 50px;
+	    display: block;
+	    content: "";
+	    margin-left: -28px;
+	    margin-top: -30px;
+		border-color:#999;
+	}
 }
 @media (max-width: 320px){   
+	#booking-detail .input-group-addon span.trip-booking-input{display: none;}
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
 	.booking-payment-method{width:20%}
 	.booking-payment-date{width:45%}
@@ -399,6 +409,15 @@ and (max-device-width : 1024px){
 	}
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
+	}
+	#action-log li:after {
+	    border-left: 1px solid;
+	    height: 50px;
+	    display: block;
+	    content: "";
+	    margin-left: -28px;
+	    margin-top: -30px;
+		border-color:#999;
 	}
 }
 
