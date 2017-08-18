@@ -117,16 +117,11 @@
         // vm.specificBookingDetails.actualSessionDate is nothing but milliseconds in string format
         // unary operator '+' is conveting it to number format to create the date
         var date = new Date(+vm.specificBookingDetails.actualSessionDate);
-        console.log('dat is ' + date);
         var year = date.getFullYear().toString();
-        console.log('year is ' + year);
         var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        console.log('month is ' + month);
         var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-        console.log('dateValue is ' + dateValue);
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
         $('#startDateOfTheTour').attr("value", startDateOfTheTour);
-        console.log('lady gaga ' + startDateOfTheTour)
         var hourPart;
         var minutePart;
         var dayTime
@@ -178,15 +173,32 @@
       });
     }
 
-    var weekdays = ['Sunday' , 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var weekdays = ['Sun' , 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     vm.getDisplayDate = function (isoDate) {
       var date = new Date(isoDate);
+      console.log('ghagra choli ' + date);
       if (date == 'Invalid Date')
         date = new Date(+isoDate);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+      return displayDate;
+    }
+
+    var monthsForPaymentTimeline = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    vm.getPaymentTimelineDisplayDate = function (isoDate) {
+      var date = new Date(isoDate);
+      var hourPart = date.toString().split(' ')[4].split(':')[0];
+      var minutePart = date.toString().split(' ')[4].split(':')[1];
+      if (hourPart > 12) {
+        hourPart = hourPart - 12;
+        minutePart = minutePart + ' pm';
+      } else {
+        minutePart = minutePart + ' am';
+      }
+      var time = hourPart + ':' + minutePart;
+      var displayDate = weekdays[date.getDay()] + ' ' + date.getDate() + ' ' + monthsForPaymentTimeline[date.getMonth()] + ' ' + date.getFullYear() + ' ' + time;
       return displayDate;
     }
 

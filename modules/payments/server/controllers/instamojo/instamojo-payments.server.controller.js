@@ -104,32 +104,44 @@ exports.refundInstamojoPayment = function (req, res) {
         }        
         Insta.refundAPayment(refundData, req.body.paymentId, function(refundPaymentError, refundPaymentResponse) {
           if (refundPaymentError) {
-            res.json('Something went wrong. Please try again or contact tourgecko support');
+            res.json('Something went wrong. Please contact tourgecko support');
           } else {
-            InstamojoPaymentRequestRecord.findOne({instamojo_id: req.body.paymentRequestId}).exec(function (err, paymentRecord) {
-              paymentRecord.isRefundApplied = true;
-              paymentRecord.refundAmount = refundAmount;
-              paymentRecord.save(function (paymentEditError, success) {
-                if (paymentEditError)
-                  res.json('error');               
-                Booking.findOne({paymentId: req.body.paymentId}).populate('product').populate('productSession').populate('hostCompany').populate('hostOfThisBooking').exec(function (error, booking) {
-                  if (error)
-                    res.json('error')
-                  booking.isRefundApplied = true;
-                  booking.refundAmount = refundAmount;
-                  booking.bookingStatus = 'Cancelled';
-                  booking.save(function(bookingEditError, bookingEditSuccess) {
-                    if (bookingEditError) {
-                      res.json('error');
-                    }
-                    var tracelogMessage = req.user.displayName + ' Cancelled this booking.';
-                    tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
-                    mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-                    updateSessionNegativeForCancelledStatus(booking, req, res);
-                    res.json('success')
+            InstamojoPaymentRequestRecord.findOne({instamojo_id: req.body.paymentRequestId}).exec(function (paymentRequestFinderr, paymentRequestRecord) {
+              if (paymentRequestFinderr)
+                res.json('Something went wrong. Please contact tourgecko support');
+              paymentRequestRecord.isRefundApplied = true;
+              paymentRequestRecord.refundAmount = refundAmount;
+              paymentRequestRecord.save(function (paymentRequestEditError, paymentRequestEditResponse) {
+                if (paymentRequestEditError)
+                  res.json('Something went wrong. Please contact tourgecko support');
+
+                InstamojoPaymentRecord.findOne({instamojo_id: req.body.paymentId}).exec(function (paymentFinderr, paymentRecord) {
+                  if (paymentFinderr)
+                    res.json('Something went wrong. Please contact tourgecko support');
+                  paymentRecord.instamojo_refund = refundPaymentResponse.refund;
+                  paymentRecord.save(function (paymentEditError, paymentEditResponse) {
+                    if (paymentEditError)
+                      res.json('Something went wrong. Please contact tourgecko support');
+                    Booking.findOne({paymentId: req.body.paymentId}).populate('product').populate('productSession').populate('hostCompany').populate('hostOfThisBooking').exec(function (error, booking) {
+                      if (error)
+                        res.json('error')
+                      booking.isRefundApplied = true;
+                      booking.refundAmount = refundAmount;
+                      booking.bookingStatus = 'Cancelled';
+                      booking.save(function(bookingEditError, bookingEditSuccess) {
+                        if (bookingEditError) {
+                          res.json('error');
+                        }
+                        var tracelogMessage = req.user.displayName + ' Cancelled this booking.';
+                        tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
+                        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
+                        updateSessionNegativeForCancelledStatus(booking, req, res);
+                        res.json('success')
+                      });
+                    });
                   });
                 });
-              })
+              });
             });
           }
         });
@@ -226,7 +238,9 @@ function updateSessionNegativeForCancelledStatus (booking, req, res) {
 }
 
 exports.fetchPaymentsForThisBooking = function (req, res) {
-  InstamojoPaymentRecord.find({bookingId: req.params.bookingId}).exec(function (err, instaPayments) {
+  // For now it will always return one payment. Even if fulfilled or cancelled, everything is being modified in the
+  // same payment record and hence one booking will have one such payment record.
+  InstamojoPaymentRecord.find({bookingId: req.params.bookingId}).populate('hostCompany').exec(function (err, instaPayments) {
     if (err) {
       res.json('Something went wrong. Please contact tourgecko support');
     }

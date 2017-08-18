@@ -34,7 +34,8 @@ exports.fetchCompanyBookingDetailsForAnalyticsAndLatestData = function (req, res
       	}
       	var totalRevenue = 0;
       	for (var index = 0; index < bookings.length; index ++)
-        	totalRevenue = totalRevenue + parseInt(bookings[index].totalAmountPaid);
+        	totalRevenue = totalRevenue + parseInt(bookings[index].hostCut);
+        totalRevenue = totalRevenue.toFixed(2);
       	res.json({bookings: bookings, totalRevenue: totalRevenue});
     });
   }

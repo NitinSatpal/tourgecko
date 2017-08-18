@@ -10,6 +10,7 @@ var path = require('path'),
   Notification = mongoose.model('Notification'),
   ProductSession = mongoose.model('ProductSession'),
   InstamojoPaymentRequestRecord = mongoose.model('InstamojoPaymentRequest'),
+  InstamojoPaymentRecord = mongoose.model('InstamojoPayment'),
   RazorpayPaymentRecord = mongoose.model('razorpayPayment'),
   Razorpay = require('razorpay'),
   moment = require('moment'),
@@ -370,27 +371,42 @@ exports.modifyBooking = function (req, res) {
 
               Insta.fulfilPayment(booking.paymentId, function(fulfilPaymentError, fulfilPaymentResponse) {
                 if (fulfilPaymentError) {
-                  res.json('Something went wrong. Please try again or contact tourgecko support');
+                  res.json('Something went wrong. Please contact tourgecko support');
                 } else {
-                  InstamojoPaymentRequestRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (err, paymentRecord) {
-                    paymentRecord.instamojo_mark_fulfilled = true;
-                    paymentRecord.save(function (paymentEditError, paymentEditResponse) {
-                      if (paymentEditError)
+                  InstamojoPaymentRequestRecord.findOne({instamojo_id: booking.paymentRequestId}).exec(function (paymentRequestFinderr, paymentRequestRecord) {
+                    if (paymentRequestFinderr)
+                      res.json('Something went wrong. Please contact tourgecko support');
+                    paymentRequestRecord.instamojo_mark_fulfilled = true;
+                    paymentRequestRecord.save(function (paymentRequestEditError, paymentRequestEditResponse) {
+                      if (paymentRequestEditError)
                         res.json('error');
-                      booking.bookingStatus = req.body.bookingStatus;
-                      booking.bookingComments = req.body.bookingComments;
-                      booking.isPaymentFulfilled = true;
-                      booking.totalAmountPaidToHost = booking.hostCut;
-                      booking.save(function(bookingEditError, bookingEditResponse) {
-                        if (bookingEditError) {
-                          res.json(bookingEditError);
-                        }
-                        tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
-                        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-                        updateSessionPositiveForConfirmedStatus(booking);
-                        res.json('success')
+                      InstamojoPaymentRecord.findOne({instamojo_id: booking.paymentId}).exec(function (paymentFinderr, paymentRecord) {
+                        if (paymentFinderr)
+                          res.json('Something went wrong. Please contact tourgecko support');
+                        paymentRecord.instamojo_payment_fulfilled = true;
+                        paymentRecord.instamojo_payment_fulfilled_Timestamp = Date.now();
+                        paymentRecord.instamojoCut = booking.instamojoCut;
+                        paymentRecord.tourgeckoCut = booking.tourgeckoCut;
+                        paymentRecord.hostCut = booking.hostCut;
+                        paymentRecord.save(function (paymentEditError, paymentEditResponse) {
+                          if (paymentEditError)
+                            res.json('Something went wrong. Please contact tourgecko support');
+                          booking.bookingStatus = req.body.bookingStatus;
+                          booking.bookingComments = req.body.bookingComments;
+                          booking.isPaymentFulfilled = true;
+                          booking.totalAmountPaidToHost = booking.hostCut;
+                          booking.save(function(bookingEditError, bookingEditResponse) {
+                            if (bookingEditError) {
+                              res.json(bookingEditError);
+                            }
+                            tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
+                            mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
+                            updateSessionPositiveForConfirmedStatus(booking);
+                            res.json('success')
+                          });
+                        });
                       });
-                    })
+                    });
                   });
                 }
               });

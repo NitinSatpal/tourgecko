@@ -95,6 +95,7 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host, hostC
               }
             }
             instamojoPayment.bookingId = bookingId;
+            instamojoPayment.hostCompany = hostCompany._id;
             instamojoPayment.save(function (paymentSaveErr) {
               if (paymentSaveErr) {
 

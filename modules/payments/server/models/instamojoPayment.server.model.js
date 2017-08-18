@@ -105,9 +105,34 @@ var InstaomojoPaymentSchema = new Schema({
 	instamojo_resource_uri: {
 		type: String
 	},
+	instamojo_refund: {
+
+	},
+	instamojoCut: {
+	    type: Number,
+	    default: 0
+	},
+	tourgeckoCut: {
+	    type: Number,
+	    default: 0
+	},
+	hostCut: {
+	    type: Number,
+	    default: 0
+	},
+	instamojo_payment_fulfilled: {
+		type: Boolean
+	},
+	instamojo_payment_fulfilled_Timestamp: {
+		type: Date
+	},
 	bookingId: {
 		type: Schema.ObjectId,
 		ref: 'Booking'
+	},
+	hostCompany: {
+		type: Schema.ObjectId,
+		ref: 'HostCompany'
 	}
 });
 
