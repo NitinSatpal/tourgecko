@@ -84,6 +84,12 @@
         controller: 'HomeController',
         controllerAs: 'vm'
       })
+      .state('tourgeckoHome', {
+        url: '/',
+        templateUrl: 'modules/core/client/views/home.client.view.html',
+        controller: 'HomeController',
+        controllerAs: 'vm'
+      })
       .state('tourgeckoAdmin-pricing', {
         url: '/pricing',
         templateUrl: 'modules/core/client/views/pricing.client.view.html',

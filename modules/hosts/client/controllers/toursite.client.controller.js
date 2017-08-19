@@ -41,59 +41,63 @@
       toursite = $location.host().split('.')[0];
     else
       toursite = $stateParams.toursite;
-    $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
-        vm.toursitedata = response.productArray;
-        vm.companyData = response.companyData;
-        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
-          vm.facebookLink = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
-        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
-          vm.twitterLink = 'https://www.twitter.com/' + vm.companyData.hostSocialAccounts.twitter;
-        if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
-          vm.instagramLink = 'https://www.instagram.com/' + vm.companyData.hostSocialAccounts.instagram;
-        if (response.productArray.length > 0)
-          vm.userData = response.productArray[0].user;
+    
 
-        vm.totalPages = Math.ceil(response.productCount / 10);
-        if(vm.totalPages <= vm.paginationWindow)
-          vm.pageTo = vm.totalPages;
-        else
-          vm.pageTo = vm.paginationWindow;
+    if (toursite !== 'tourgecko' && toursite !== 'test' && toursite !== 'localhost' && toursite !== 'www') {
+      $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
+          vm.toursitedata = response.productArray;
+          vm.companyData = response.companyData;
+          if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
+            vm.facebookLink = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
+          if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
+            vm.twitterLink = 'https://www.twitter.com/' + vm.companyData.hostSocialAccounts.twitter;
+          if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.instagram && vm.companyData.hostSocialAccounts.instagram != "")
+            vm.instagramLink = 'https://www.instagram.com/' + vm.companyData.hostSocialAccounts.instagram;
+          if (response.productArray.length > 0)
+            vm.userData = response.productArray[0].user;
 
-        vm.pageCounterArray = new Array(vm.totalPages);
-        totalToursiteRecords = response.productCount;
-        if(vm.currentPageNumber > vm.totalPages) {
-          vm.currentPageNumber = vm.totalPages;
-          vm.showAtLast = false;
-          vm.pageTo = vm.currentPageNumber;
-          if(vm.pageTo - vm.paginationWindow >= 0)
-            vm.pageFrom = vm.pageTo - vm.paginationWindow;
-        } else {
-          if ((vm.currentPageNumber - vm.paginationWindow) > 0)
-            vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
-          else
-            vm.pageFrom = 0;
-          if ((vm.pageFrom + vm.paginationWindow) <= vm.totalPages)
-            vm.pageTo = vm.pageFrom + vm.paginationWindow;
-          else
+          vm.totalPages = Math.ceil(response.productCount / 10);
+          if(vm.totalPages <= vm.paginationWindow)
             vm.pageTo = vm.totalPages;
-          if (vm.pageTo + 1 < vm.totalPages)
-            vm.showAtLast = true;
           else
-            vm.showAtLast = false;
-        }
-        if (vm.pageFrom == 0)
-          vm.showAtLast = true;
-        if(vm.pageTo == vm.totalPages)
-          vm.showAtLast = false;
+            vm.pageTo = vm.paginationWindow;
 
-        $("#toursiteNavbar .nav").find(".active").removeClass("active");
-        if ($location.path().split('/')[1] == 'tours')
-          $("#toursiteNavbar .nav #"+$location.path().split('/')[1]).addClass('active');
-        else
-          $("#toursiteNavbar .nav #toursiteMainPage").addClass('active');
-    }).error(function (response) {
-      vm.error = response.message;
-    });
+          vm.pageCounterArray = new Array(vm.totalPages);
+          totalToursiteRecords = response.productCount;
+          if(vm.currentPageNumber > vm.totalPages) {
+            vm.currentPageNumber = vm.totalPages;
+            vm.showAtLast = false;
+            vm.pageTo = vm.currentPageNumber;
+            if(vm.pageTo - vm.paginationWindow >= 0)
+              vm.pageFrom = vm.pageTo - vm.paginationWindow;
+          } else {
+            if ((vm.currentPageNumber - vm.paginationWindow) > 0)
+              vm.pageFrom = Math.ceil((vm.currentPageNumber - vm.paginationWindow) / vm.paginationWindow) * vm.paginationWindow;
+            else
+              vm.pageFrom = 0;
+            if ((vm.pageFrom + vm.paginationWindow) <= vm.totalPages)
+              vm.pageTo = vm.pageFrom + vm.paginationWindow;
+            else
+              vm.pageTo = vm.totalPages;
+            if (vm.pageTo + 1 < vm.totalPages)
+              vm.showAtLast = true;
+            else
+              vm.showAtLast = false;
+          }
+          if (vm.pageFrom == 0)
+            vm.showAtLast = true;
+          if(vm.pageTo == vm.totalPages)
+            vm.showAtLast = false;
+
+          $("#toursiteNavbar .nav").find(".active").removeClass("active");
+          if ($location.path().split('/')[1] == 'tours')
+            $("#toursiteNavbar .nav #"+$location.path().split('/')[1]).addClass('active');
+          else
+            $("#toursiteNavbar .nav #toursiteMainPage").addClass('active');
+      }).error(function (response) {
+        vm.error = response.message;
+      });
+    }
 
     vm.changeItemsPerPage = function (itemsPerPage) {
         vm.numberOfItemsInOnePage = parseInt(itemsPerPage);

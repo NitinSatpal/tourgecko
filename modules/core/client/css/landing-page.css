@@ -15,7 +15,7 @@
 .landingPage .landingPageHeader {
 	overflow-y: hidden !important;
 }
-.landingPage .landingPageHeader .navbar-toggle{
+.landing-nav .landingPageHeader .navbar-toggle{
 	position: relative !important;
 	margin-right: 20px;
 }
@@ -51,8 +51,8 @@
 }
 .nav-btn-primary.btn.btn-warning.main-cta {
 	padding:0;
-	height:32px;
 	margin-top:1rem;
+	margin-bottom: 1rem;
 }
 .nav-btn-primary.btn.btn-warning.main-cta a {
 	margin-top:-1rem;
@@ -228,8 +228,10 @@
 	.dynamicLandingPageCSS {
 		margin-top: -70px;
 	}
-	.landingPage .navbar-collapse {
+	.landing-nav .landingPageHeader .navbar-collapse {
 		background-color: #F8F8F8;
+		max-height: 230px !important;
+		min-height: auto !important;
 	}
 	.landingPage .navbar-fixed-top {
 		margin-bottom: -5px !important;
@@ -263,6 +265,11 @@
 	.dynamicLandingPageCSS {
 		margin-top: -70px;
 	}
+	.landing-nav .landingPageHeader .navbar-collapse {
+		background-color: #F8F8F8;
+		max-height: 230px !important;
+		min-height: auto !important;
+	}
 	.tourgeckoAdminFooter .footer-info-right, .tourgeckoAdminFooter .footer-info-center{ text-align:center; margin-top:1rem}
 	.tourgeckoAdminFooter .footer-icon img{width:18px;}
 	.tourgeckoAdminFooter .footer-info-left{ text-align:center} 
@@ -279,5 +286,9 @@
 	#about #hero .about-logo-holder .about-logo{ margin-top:2rem}
 	#pricing .pricing-overview .alert.alert-warning{ margin-left:0}
 	#about #hero{background-position-x: -720px;}
-
+	.landing-nav .landingPageHeader .navbar-collapse {
+		background-color: #F8F8F8;
+		max-height: 230px !important;
+		min-height: auto !important;
+	}
 }

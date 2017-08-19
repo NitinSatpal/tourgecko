@@ -162,8 +162,29 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 .pin-group li{list-style-type:none;line-height:0;padding:0;margin:0; min-height:70px; }
 .pin-group{margin-top:3rem}
 .pin-group:after, .pin-group ul{display:block;content:'';clear:right}
-.pin-group li:before{content:"\f26f";display:block;margin-left:-34px;font:normal normal normal 14px/1 'Material-Design-Iconic-Font';position:relative;top:36px;color:#777;line-height:0;}
-.pin-group li:after{border-left:1px solid;height:130px;display:block;content:"";margin-left:-28px;margin-top:-122px;border-color:#999;line-height:0;position:relative;top:41px; z-index:-1}
+.pin-group li:before {
+	content:"\f26f";
+	display:block;
+	margin-left:-34px;
+	font:normal normal normal 14px/1 'Material-Design-Iconic-Font';
+	position:relative;
+	top:36px;
+	color:#777;
+	line-height:0;
+}
+.pin-group li:after {
+	border-left:1px solid;
+	height:130px;
+	display:block;
+	content:"";
+	margin-left:-28px;
+	margin-top:-122px;
+	border-color:#999;
+	line-height:0;
+	position:relative;
+	top:41px;
+	z-index:-1;
+}
 .pin-group li:last-child:after{display:none}
 .pin-group li:only-child:after{display:block !important; height:50px}
 .pull-right {
@@ -328,6 +349,19 @@ and (max-device-width : 1024px){
 		float: left !important;
 		left: 0 !important;
 	}
+	.pin-group li:after {
+		border-left:1px solid;
+		height:130px;
+		display:block;
+		content:"";
+		margin-left:-28px;
+		margin-top:-122px;
+		border-color:#999;
+		line-height:0;
+		position:relative;
+		top:41px;
+		z-index:-1;
+	}
 }
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
@@ -365,6 +399,19 @@ and (max-device-width : 1024px){
 	}
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
+	}
+	.pin-group li:after {
+		border-left:1px solid;
+		height:130px;
+		display:block;
+		content:"";
+		margin-left:-28px;
+		margin-top:-100px;		
+		border-color:#999;
+		line-height:0;
+		position:relative;
+		top:41px;
+		z-index:-1;
 	}
 	#action-log li:after {
 	    border-left: 1px solid;
@@ -408,6 +455,19 @@ and (max-device-width : 1024px){
 	}
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
+	}
+	.pin-group li:after {
+		border-left:1px solid;
+		height:130px;
+		display:block;
+		content:"";
+		margin-left:-28px;
+		margin-top:-100px;
+		border-color:#999;
+		line-height:0;
+		position:relative;
+		top:41px;
+		z-index:-1;
 	}
 	#action-log li:after {
 	    border-left: 1px solid;

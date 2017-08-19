@@ -223,10 +223,12 @@
 
     vm.getDynamicMarginPinboardCompletion = function () {
       var cssObjectOne = {
-        "margin-top" : "55px"
+        "margin-top" : "0",
+        "float": "right"
       }
       var cssObjectTwo = {
-        "margin-top" : "-5px"
+        "margin-top" : "-5px",
+        "float": "right"
       }
       if (window.innerWidth <= 767) {
         return cssObjectOne;

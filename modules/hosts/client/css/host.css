@@ -641,12 +641,12 @@ p {
 #login.wrapper {
 	background: url(/modules/core/client/img/signin-signup/background/bg_login.jpg) no-repeat;
 	background-size: cover;
-	height:100vh;
+	/*height:100vh;*/
 }
 #signup {
 	background:url(/modules/core/client/img/signin-signup/background/bg_signup.jpg) no-repeat;
 	background-size:cover;
-	height:100vh;
+	/*height:100vh;*/
 }
 #signup-step1.wrapper {
 	margin-top:-20px;
@@ -926,6 +926,9 @@ form > .error_msg {
 	}
 	.delete_addon.pull-right {
 		float:right !important;
+	}
+	.wrapper {
+		height:auto;
 	}
 	span.text-huge {
 		font-size:4.5em;

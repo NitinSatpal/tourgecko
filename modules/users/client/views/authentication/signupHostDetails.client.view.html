@@ -33,14 +33,17 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding" show-errors>
+              <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadding">
                 <label for="companyWebsite" class="control-label visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">Current Website</label>
-                <div class="checkbox visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block pull-right">
-                  <label><input type="checkbox" ng-model="shouldDisable" ng-click="vm.credentialsDetails.companyWebsite = ''"><span>I don't have website yet</span></label>
+                <div class="generic-o-checkbox" style="width: 100%; padding-bottom: 13px; margin-top: 4px;">
+                  <input id="currentWebsite" type="checkbox" ng-model="shouldDisable" ng-click="vm.credentialsDetails.companyWebsite = ''">
+                  <label for="currentWebsite"></label>
+                  <span style="padding-left: 20px;">I do not have website yet</span>
                 </div>
                 <input type="text" id="companyWebsite" name="companyWebsite" class="form-control" ng-model="vm.credentialsDetails.companyWebsite" ng-disabled="shouldDisable" lowercase>
               </div>
-            </div>
+            </div> 
+            
             <div class="row">
               <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" show-errors>
                 <label for="hostType" class="control-label">How do you describe yourself?</label>
