@@ -641,6 +641,11 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
   calculatePrice();
 }
 
+vm.getHtmlTrustedData = function(htmlData){
+     console.log('did i come here ' + htmlData);
+      return $sce.trustAsHtml(htmlData);
+    };
+
 
 vm.calculatePriceForNonGroupAndCustomOption = function () {
   calculatePrice();

@@ -484,9 +484,13 @@
                                             </tbody>
                                         </table>
                                         <div class="pay-now col-xs-12 text-center">
-                                            <p>
-                                                <input type="checkbox" name="" ng-model="vm.agreedToTermsAndConditions">I hereby agree to <a href=""> terms and conditions </a></p>
-                                            <a href="" class="pay-now-btn" ng-click="vm.makePaymentForTheBooking()">Confirm and Pay</a>
+                                            <div class="generic-o-checkbox" style="width: 100%; padding-bottom: 20px; margin-top: 10px;">
+                                                <input type="checkbox" name="bookingTermsAndConditions" id="bookingTermsAndConditions" ng-model="vm.agreedToTermsAndConditions">
+                                                <label for="bookingTermsAndConditions"></label>
+                                                <span style="padding-left: 40px;">I hereby agree to <a href="" data-toggle="modal" data-target="#bookings-terms-and-conditions"> terms and conditions </a> <br> <br>
+                                                <a href="" class="pay-now-btn" ng-click="vm.makePaymentForTheBooking()">Confirm and Pay</a>
+                                            </div> 
+                                            
                                             <br>
                                         </div>
                                         <p class="host-guest-common-style-row text-center">On confirmation you will be taken to payment screen.</p>
@@ -522,9 +526,26 @@
             </div>
         </div>
     </div>
+    <div id="bookings-terms-and-conditions" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Terms and conditions</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-bind-html="vm.getHtmlTrustedData(vm.bookingProductDetails.productCancellationPolicy)">
+                    <p ng-bind-html="vm.bookingProductDetails.productCancellationPolicy | htmlData">{{vm.bookingProductDetails.productCancellationPolicy}}</p>
+                    <p ng-show="vm.bookingProductDetails.productCancellationPolicy == ''"> No cancellation or refund policy defined for this tour</p>
+                    <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">Close</a> 
+                </div>
+            </div>
+        </div>
+    </div>
     <footer style="bottom: 0;">
         <div ng-include="'/modules/hosts/client/views/toursite/toursiteFooter.client.view.html'"></div>
     </footer>
+
 </div>
 <script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>

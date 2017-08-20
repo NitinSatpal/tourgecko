@@ -1024,6 +1024,58 @@
     margin-bottom: 10px;
 }
 
+.host-guest-common-style .pay-now .generic-o-checkbox {
+    width: 30px;
+    position: relative;
+ }
+.host-guest-common-style .pay-now .generic-o-checkbox input[type=checkbox] {
+    visibility: hidden;
+ }
+.host-guest-common-style .pay-now .generic-o-checkbox input[type=checkbox]:checked + label:after {
+    opacity: 1;
+ }
+ .host-guest-common-style .pay-now .generic-o-checkbox input[type=checkbox][disabled] + label {
+    background-color: #ddd;
+ }
+
+.host-guest-common-style .pay-now .generic-o-checkbox label {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: inherit !important;
+    background: #FBFFFE;
+    border: 1px solid #D1D1D1;
+    border-radius: 4px;
+    float: left;
+}
+.host-guest-common-style .pay-now .generic-o-checkbox label:after {
+    content: ' ';
+    width: 15px;
+    height: 9px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border: 5px solid #f39200;
+    border-top: none;
+    border-right: none;
+    background: transparent;
+    opacity: 0;
+    transform: rotate(-45deg);
+    color: #f39200;
+    font-size: 20px;
+}
+
+.host-guest-common-style .pay-now .generic-o-checkbox .filterName {
+    padding-left: 40px;
+    color: grey;
+    font-size: 14px;
+}
+.host-guest-common-style .pay-now .generic-o-checkbox {
+    align-self: center;
+}
+
 .host-guest-common-style .host-guest-common-style-table > tbody > tr > td {
     border: none;
 }
