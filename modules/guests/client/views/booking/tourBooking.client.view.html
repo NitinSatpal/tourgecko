@@ -158,7 +158,7 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="host-guest-common-style-row form-np-btn">
-                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(1,2)">Next</button>
+                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(1,2)" onclick="scrollToTop()" >Next</button>
                             </div>
                         </div>
                     </div>
@@ -308,8 +308,8 @@
                                 </div>
                             </div>
                             <div class="host-guest-common-style-row form-np-btn">
-                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(2,1)">Previous</button>
-                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(2,3)">Next</button>
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(2,1)" onclick="scrollToTop()">Previous</button>
+                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(2,3)" onclick="scrollToTop()">Next</button>
                             </div>
                         </div>
                     </div>
@@ -377,8 +377,8 @@
                                 </form>
                             </div>
                             <div class="host-guest-common-style-row form-np-btn">
-                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(3,2)">Previous</button>
-                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(3,4)">Next</button>
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(3,2)" onclick="scrollToTop()">Previous</button>
+                                <button onclick="scrollToTop()" class="btn nextButton pull-right" type="button" ng-click="vm.validateData(3,4)">Next</button>
                             </div>
                         </div>
                     </div>
@@ -495,7 +495,7 @@
                                 </div>
                             </div>
                             <div class="host-guest-common-style-row form-np-btn">
-                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)">Previous</button>
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)" onclick="scrollToTop()">Previous</button>
                             </div>
                         </div>
                     </div>
@@ -572,5 +572,9 @@
         
         $(makeThisElementActive).parent().find('div').removeClass("active");
         $(makeThisElementActive).addClass('active');
+    }
+
+    function scrollToTop() {
+        $('html, body').animate({scrollTop : 0},800);
     }
 </script>

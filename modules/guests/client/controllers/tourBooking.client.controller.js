@@ -1117,6 +1117,8 @@ vm.areAddonsSelected = function () {
       if(vm.bookingProductDetails.productAvailabilityType == 'Open Date')
         vm.validPricingOptions = vm.bookingProductDetails.productPricingOptions;
       else {
+        if (time == 'Select Time')
+          time = 'No Time';
         var key = new Date(date).getTime().toString() + time.toString();
         if (vm.sessionsOfThisProduct[dateTimestampToActualSession.get(key)].isSessionPricingValid)
           vm.validPricingOptions = vm.sessionsOfThisProduct[dateTimestampToActualSession.get(key)].sessionPricingDetails;
