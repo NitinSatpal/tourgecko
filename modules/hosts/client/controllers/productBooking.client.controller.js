@@ -121,7 +121,7 @@
         var month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
         var dateValue = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
         var startDateOfTheTour =  year + '-' + month.toString() + '-' + dateValue.toString();
-        $('#startDateOfTheTour').attr("value", startDateOfTheTour);
+        $('#startDateOfTheTour').prop("value", startDateOfTheTour);
         var hourPart;
         var minutePart;
         var dayTime
