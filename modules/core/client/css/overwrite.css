@@ -260,4 +260,7 @@
     #landingPageNavbar .navbar-nav > li {
         width: 100%;
     }
+    #navTabsForDepartureSession li {
+        width: 30%;
+    }
 }

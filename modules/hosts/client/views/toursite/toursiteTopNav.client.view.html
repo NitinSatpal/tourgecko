@@ -42,13 +42,13 @@
 <nav class="navbar navbar-default host-guest-common-style-navbar">
     <div class="container" id="toursiteTopNavContainer">
         <div class="navbar-header">
-            <button type="button" data-target="#toursiteTopNav" data-toggle="collapse" class="navbar-toggle">
+            <button type="button" data-target="#toursiteTopNav" data-toggle="collapse" class="navbar-toggle" ng-click="vm.applyTopMarginToDropdown()">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand logo" href="/" ng-if="vm.companyData.logoURL != 'modules/hosts/client/companyLogo/default/logo.png'">
-                <img src="{{vm.companyData.logoURL}}" class="img-responsive">
+                <img src="{{vm.companyData.logoURL}}" class="img-responsive" id="companyLogoImage">
             </a>
             <a class="navbar-brand logo noLogoPresent" href="/" ng-if="vm.companyData.logoURL == 'modules/hosts/client/companyLogo/default/logo.png'">
                 <span> {{vm.companyData.companyName}}

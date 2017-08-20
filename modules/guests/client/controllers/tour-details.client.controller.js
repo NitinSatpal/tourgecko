@@ -104,7 +104,7 @@
           if((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(iteratorDate.getDay()) ||
                     sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && allowedDays.has(iteratorDate.getDay()) ||
                     sessions[index].sessionDepartureDetails.repeatBehavior == 'Do not repeat') &&
-                    iteratorDate <= firstDate) {
+                    iteratorDate <= firstDate && iteratorDate.getTime() > new Date().getTime()) {
             var isSavingRequired = true;
             if (sessions[index].sessionDepartureDetails.startTime != '' && sessions[index].sessionDepartureDetails.startTime !== undefined) {
               if (!sessionDates.has(iteratorDate.getTime())) {
@@ -146,13 +146,14 @@
               sessionPricingObject['toDay'] = weekdays[endDate.getDay()];
               sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
               sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
+              sessionPricingObject['sortingAttribute'] = new Date(sessionPricingObject['startDate']);
               sessionPricingObject['sessionTimes'] = sessionDates.get(iteratorDate.getTime());
               sessionPricingObject['availableSeats'] = remainingSeats;
               if (sessions[index].isSessionPricingValid)
                 sessionPricingObject['pricing'] = sessions[index].sessionPricingDetails;
               else
                 sessionPricingObject['pricing'] = vm.productDetails.productPricingOptions;
-
+              
               vm.sessionPricing.push(sessionPricingObject);
             }
           }

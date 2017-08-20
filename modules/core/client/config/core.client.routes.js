@@ -93,11 +93,8 @@
       .state('tourgeckoAdmin-pricing', {
         url: '/pricing',
         templateUrl: 'modules/core/client/views/pricing.client.view.html',
-        controller: 'ToursiteController',
-        controllerAs: 'vm',
-        params: {
-          toursite: null
-        },
+        controller: '',
+        controllerAs: '',
         data: {
           pageTitle: 'Contact-US'
         }
@@ -105,11 +102,8 @@
       .state('tourgeckoAdmin-about-us', {
         url: '/about',
         templateUrl: 'modules/core/client/views/tourgeckoAdmin-about-us.client.view.html',
-        controller: 'ToursiteController',
-        controllerAs: 'vm',
-        params: {
-          toursite: null
-        },
+        controller: '',
+        controllerAs: '',
         data: {
           pageTitle: 'Contact-US'
         }

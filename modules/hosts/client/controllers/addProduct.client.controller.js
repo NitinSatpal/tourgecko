@@ -1333,9 +1333,14 @@
           });
           return false;
         }
-        setProductInformation();
-        $window.localStorage.setItem('productData', JSON.stringify(vm.tour));
-        $window.open($state.href('hostAndGuest.previewBeforeSave'),'_blank','heigth=600,width=600');
+        if (productId) {
+          var winPreview = $window.open($state.href('hostAndGuest.tourPreview', {productId: productId}),'_blank','heigth=600,width=600');
+          winPreview.document.body.innerHTML = "<div style='position:fixed;top:45%;left:46%;width:100%;height:100%;background-color:transparent;color:#40C4FF;font-size:20px;z-index: 9999 !important;pointer-events: none;filter: alpha(opacity=40);'>Please wait ...</div>"
+        } else {
+          setProductInformation();
+          $window.localStorage.setItem('productData', JSON.stringify(vm.tour));
+          $window.open($state.href('hostAndGuest.previewBeforeSave'),'_blank','heigth=600,width=600');
+        }
       }
 
       vm.showTourPreview = function() {

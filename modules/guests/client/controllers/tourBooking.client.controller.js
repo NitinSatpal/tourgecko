@@ -1136,7 +1136,7 @@ vm.areAddonsSelected = function () {
     }
 
     vm.getSeatsRemainingForList = function (session, index) {
-      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
+      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && session.capacityDetails && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
         if (session.capacityDetails.isSessionAvailabilityVisibleToGuests)
           return '-';
         else

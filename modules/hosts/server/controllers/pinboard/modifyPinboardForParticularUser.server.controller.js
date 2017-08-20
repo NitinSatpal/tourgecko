@@ -13,8 +13,10 @@ var path = require('path'),
 exports.modifyPinboardGoalsForThisUser = function (uniqueGoalName, uniquePinName, hostCompanyId) {
   Company.findOne({_id: hostCompanyId}).exec(function (err, company) {
     var goalsOfThisUser = company.pinboardGoals;
+    var goalIndexForAccountSetupAndLaunchGoal;
     for (var goalIndex = 0; goalIndex < goalsOfThisUser.length; goalIndex ++) {
       if (goalsOfThisUser[goalIndex].uniqueGoalName == uniqueGoalName) {
+        goalIndexForAccountSetupAndLaunchGoal = goalIndex;
         for (var pinIndex = 0; pinIndex < goalsOfThisUser[goalIndex].pinsForthisGoal.length; pinIndex++) {
           if (goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].uniquePinName == uniquePinName) {
             if (!goalsOfThisUser[goalIndex].pinsForthisGoal[pinIndex].isPinCompleted) {
@@ -28,6 +30,8 @@ exports.modifyPinboardGoalsForThisUser = function (uniqueGoalName, uniquePinName
       }
     }
     company.pinboardGoals = goalsOfThisUser;
+    if(uniqueGoalName == 'completionOfAccountSetupAndLaunch' && company.pinboardGoals[goalIndexForAccountSetupAndLaunchGoal].isGoalCompleted)
+      company.newUserFirstLoginValidElements.push('firstLoginWelcomeMessage');
     company.markModified('pinboardGoals');
     company.save(function (companySaveErr) {
       if (companySaveErr) {

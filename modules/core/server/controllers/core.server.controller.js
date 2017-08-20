@@ -19,7 +19,7 @@ exports.renderIndex = function (req, res) {
       mobile: req.user.mobile,
       lastName: validator.escape(req.user.lastName),
       firstName: validator.escape(req.user.firstName),
-      additionalProvidersData: req.user.additionalProvidersData
+      additionalProvidersData: req.user.additionalProvidersData,
     };
   }
 

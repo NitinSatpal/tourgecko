@@ -60,6 +60,17 @@
         return cssObject;
     }
 
+    vm.applyTopMarginToDropdown = function () {
+      var headerHeight = Math.max($('#toursiteTopNavContainer .navbar-header').innerHeight(), $('#toursiteTopNavContainer .navbar-header').height());
+      var imageHeght = Math.max($('#companyLogoImage').innerHeight(), $('#companyLogoImage').height());
+      var finalValue;
+      if (imageHeght > headerHeight)
+        finalValue = imageHeght - headerHeight + 8;
+      else
+        finalValue = headerHeight;
+      $('#toursiteTopNav').css('margin-top', finalValue);
+    }
+
     vm.goToHostSocialSite = function (socialSite) {
       if (socialSite == 'facebook') {
         if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")

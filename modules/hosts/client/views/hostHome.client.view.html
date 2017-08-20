@@ -301,7 +301,7 @@
 						</div>
 						<!-- ************************************************************************************************ -->
 						<div id='calendar'></div>
-						<div class="row">
+						<div class="row" id="occupancy-indicator-for-calendar">
 		                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			                    <ul class="list-inline occupancy-indicator-legend">
 			                        <li class="text-center">
@@ -416,6 +416,8 @@
 	});
 	function changeToListView () {
 		$('#calendar').css('opacity',0);
+		$('#calendar').css('display','none');
+		$('#occupancy-indicator-for-calendar').css('display', 'none');
 		$('#sessionList').show();
 		$('#calendarLink').removeClass('active');
 		$('#listLink').addClass('active');
@@ -423,6 +425,8 @@
 	function changeToCalendarView () {
 		$('#sessionList').hide();
 		$('#calendar').css('opacity',1);
+		$('#calendar').css('display','block');
+		$('#occupancy-indicator-for-calendar').css('display', 'block');
 		$('#listLink').removeClass('active');
 		$('#calendarLink').addClass('active');
 	}

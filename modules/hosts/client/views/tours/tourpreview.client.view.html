@@ -216,7 +216,7 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
-                                                <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing | limitTo : 20 track by $index">
+                                                <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing | orderBy: 'sortingAttribute' | limitTo : 20 track by $index">
                                                     <div class="booking-date-wrapper">
                                                         <div class="sessionFromSessionToNonMobile">
                                                             <p class="booking-day-name">
@@ -325,7 +325,7 @@
                             </div>
                             <div class="col-xs-9">
                                 <ul class="tour_tags">
-                                    <li class="tour_tags_dates text-lighten-1" ng-repeat="session in vm.sessionPricing | limitTo: 5 track by $index" ng-style="vm.getDynamicCSSForBorderIssue($index)" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
+                                    <li class="tour_tags_dates text-lighten-1" ng-repeat="session in vm.sessionPricing | orderBy: 'sortingAttribute' | limitTo: 5 track by $index" ng-style="vm.getDynamicCSSForBorderIssue($index)" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
                                         <b>{{session.startDate}}</b> <br>
                                         <span ng-repeat="timeslot in session.sessionTimes track by $index">{{timeslot}} <span ng-if="$index != session.sessionTimes.length - 1">&nbsp;&nbsp;</span></span>
                                     </li>

@@ -5,7 +5,7 @@
 		<div class="col-md-12 col-sm-12 col-lg-12 home-content">
 			<div ng-include="'/modules/hosts/client/views/add-product/top-nav-product.client.view.html'"></div>
 			<div class="add-product">
-				<div class="row error-success-notification" ng-if="vm.showErrorsOnTop">
+				<div class="row error-success-notification" ng-if="vm.showErrorsOnTop" id="errorMessageContainer">
 					<div class="col-lg-12 col-md-12 col-sm-12 errors">
 						<div class="row">
 							<div class="col-lg-2 col-md-2 col-sm-2">
@@ -50,7 +50,7 @@
 									<div class="row">
 										<div id="tour_main_content" class="col-lg-10 col-md-10 col-sm-10 col-xs-12 tour_main_content">
 											<div class="panel">
-												<label class="control-label" style="float: left;">Type: &nbsp; </label> <h5> {{vm.productType ? vm.productType : vm.tour.productType}}</h5>
+												<label class="control-label" style="float: left;">Type: &nbsp; </label> <h5 class="productType"> {{vm.productType ? vm.productType : vm.tour.productType}}</h5>
 												<div class="form-group" show-errors>
 													<label for="name_of_the_tour" class="control-label">Name this tour</label>
 													<div class="input_group">
@@ -349,7 +349,7 @@
 														</div>
 													</div>
 													<a href="#" class="close_group" ng-hide="$index == 0" ng-click="vm.removePricingOption($index)"><i class="zmdi zmdi-close"></i></a>
-													<a href="#" class="add_price_option" ng-click="vm.addPricingOption($index)" ng-show="$index == vm.pricingParams.length - 1 || vm.pricingParams.length == 0">Add price option</a>
+													<a href="#" class="add_price_option" ng-click="vm.addPricingOption($index)" ng-show="$index == vm.pricingParams.length - 1 || vm.pricingParams.length == 0">Add more price option</a>
 												</div>
 												<div class="form-group">
 													<label for="starting_price" class="control-label">Starting Price</label>
@@ -357,7 +357,7 @@
 													<div class="input_group">
 														<div class="input-group">
 															<span class="input-group-addon"><i class="fa fa-inr" aria-hidden="true"></i></span>
-															<input type="text" class="form-control" name="starting_price" id="starting_price"  ng-model="vm.tour.productAdvertisedprice" placeholder="Ex: 3000"/>
+															<input type="text" class="form-control" name="starting_price" id="starting_price"  ng-model="vm.tour.productAdvertisedprice" placeholder="Ex: 3000" allow-decimal-numbers/>
 														</div>
 													</div>
 												</div>
@@ -617,7 +617,7 @@
 															<div class="form-group">
 																<label class="control-label">Non-Available months</label><br>
 
-																<select id="months" multiple="multiple" ng-model="vm.tour.productUnavailableMonths">
+																<select id="months" multiple="multiple" ng-model="vm.tour.productUnavailableMonths" style="overflow: hidden;text-overflow: ellipse;">
 
 				                                                    <option value="january">January</option>
 				                                                    <option value="february">February</option>
@@ -643,10 +643,10 @@
 														<div class="col-sm-12 col-md-12 col-lg-12">
 															<br>
 															<div class="row">
-									                            <div class="col-sm-8 col-md-8 col-lg-8 departureSession_section">
+									                            <div class="col-sm-8 col-md-8 col-lg-8 col-xs-6 departureSession_section">
 																	<a href="" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()" id="fixedDepartureSessionCreationModalTrigger"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
 															   	</div>
-															   	<div class="col-sm-4 col-md-4 col-lg-4 departureSession_section">
+															   	<div class="col-sm-4 col-md-4 col-lg-4 col-xs-6 departureSession_section">
 																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == false || vm.showTheList == undefined"> Show the session list</a>
 																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == true"> Hide the session list</a>
 															   	</div>
@@ -993,29 +993,32 @@
 					<h4 class="modal-title">Create fixed departure Session</h4>
 				</div>
 				<!-- Added by Gaurav  for tabs start -->
-				<ul class="nav nav-tabs" id="navTabsForDepartureSession">
-	              	<li class="active nav-item" id="dateAndTime">
-	              		<a data-toggle="tab" href="#session_dt">Date and Time</a>
-	              	</li>
-	              	<li class="nav-item" id="repeatSession">
-	              		<a data-toggle="tab" href="#session_repeat">Repeat</a>
-	              	</li>
-	              	<li class="nav-item" id="priceAndCapacity">
-	              		<a data-toggle="tab" href="#tours_Pc">Price and Capacity</a>
-	              	</li>
-	            </ul>
 	            <!-- Added by Gaurav  for tabs end -->
 				<div class="modal-body tab-content" style="overflow: visible;">
+					<ul class="nav nav-tabs" id="navTabsForDepartureSession">
+		              	<li class="active" id="dateAndTime">
+		              		<a data-toggle="tab" href="#session_dt">Date and Time</a>
+		              	</li>
+		              	<li id="repeatSession">
+		              		<a data-toggle="tab" href="#session_repeat">Repeat</a>
+		              	</li>
+		              	<li id="priceAndCapacity">
+		              		<a data-toggle="tab" href="#tours_Pc">Price and Capacity</a>
+		              	</li>
+		            </ul>
+			        
 					<div id="session_dt" class="tab-pane fade in active">
 						<div class="row">
 							<div class="col-sm-12 col-md-12 col-lg-12">
-							   	<label for="repeatSeriesName" class="control-label">Name</label>
-							   	<p class="sub_desc"> Name is used only internally for your reference and is not shown  to guests while booking.</p>
-								  <div class="input-group">
-									 <div class="input-group">
-									 	<input class="form-control" id="sessionName" name="sessionName" placeholder="Session name" type="text" ng-model="vm.sessionName" required ng-disabled="vm.onlyCapacityEditAllowed">
-									 </div>
-								  </div>
+								<div class="form-group">
+								   	<label for="repeatSeriesName" class="control-label">Name</label>
+								   	<p class="sub_desc"> Name is used only internally for your reference and is not shown  to guests while booking.</p>
+									<div class="input-group">
+										 <div class="input-group">
+										 	<input class="form-control" id="sessionName" name="sessionName" placeholder="Session name" type="text" ng-model="vm.sessionName" required ng-disabled="vm.onlyCapacityEditAllowed">
+										 </div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row">
@@ -1024,7 +1027,7 @@
 								  <label for="dsStartDate" class="control-label">Start Date</label>
 								  <div class="input_group">
 									 <div class="input-group">
-									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" required ng-disabled="vm.onlyCapacityEditAllowed">
+									 	<input class="form-control" id="dsStartDate" name="dsStartDate" placeholder="Departure Session Date" type="" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate" required ng-disabled="vm.onlyCapacityEditAllowed">
 									 	<span class="input-group-addon" id="dsStartDateCalendarIcon">
 									 		<i class="fa fa-calendar" aria-hidden="true"></i>
 									 	</span>
@@ -1035,11 +1038,13 @@
 						</div>
 						<div class="row">
 							 <div class="col-sm-12 col-md-12 col-lg-12">
-							   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
-							   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
-								  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch" ng-disabled="vm.onlyCapacityEditAllowed">
-								  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
-							   </div>
+							 	<div class="form-group">
+								   <label for="sdSTimeSwitch" class="control-label">Need to mention a starting time?</label>
+								   <div class="fixedTouronoffswitch fixed-departure-onoffswitch tours_sd_st">
+									  <input type="checkbox" name="tours_sd_st-onoffswitch" class="fixedTouronoffswitch-checkbox" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].isFixedTourTimeSlotAvailable" id="tours_sd_st-onoffswitch" ng-disabled="vm.onlyCapacityEditAllowed">
+									  <label class="fixedTouronoffswitch-label" for="tours_sd_st-onoffswitch"></label>
+								   </div>
+								</div>
 							</div>
 						</div>						
 						<div class="row" ng-show="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].isFixedTourTimeSlotAvailable">
@@ -1096,7 +1101,7 @@
 									  <label for="dsRepeatTill" class="control-label">Repeat until</label>
 									  <div class="input_group">
 										 <div class="input-group">
-										 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="text" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate" ng-disabled="vm.onlyCapacityEditAllowed">
+										 	<input class="form-control" id="dsRepeatTill" name="dsRepeatTill" placeholder="Repeat till..." type="" ng-model="vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate" ng-disabled="vm.onlyCapacityEditAllowed">
 										 	<span class="input-group-addon" id="dsRepeatTillCalendarIcon">
 										 		<i class="fa fa-calendar" aria-hidden="true"></i>
 										 	</span>
@@ -1899,10 +1904,12 @@
 		});
 	});
 
-	$(document).on("click", "#tours", function () {
-		$("#successMessageContainer").hide();
-	})
-
+	$(document).on("click", ".add-product", function () {
+		if($("#successMessageContainer:visible"))
+			$("#successMessageContainer").hide();
+		if($('#errorMessageContainer:visible'))
+			$('#errorMessageContainer').hide();
+	});
     var mapUploader = new qq.FineUploader({
         element: document.getElementById("product-map-uploader"),
         request: {

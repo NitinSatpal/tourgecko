@@ -36,8 +36,6 @@
     if (productId) {
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
-        vm.companyDetails = response[0].hostCompany;
-
         $http.get('/api/host/product/productsession/' + productId).success(function (response) {
           vm.sessionsOfThisProduct = response;
           setSessionPricingOptions (response);
@@ -65,7 +63,7 @@
       });
     } else {
       $http.get('/api/host/company').success(function (response) {
-        vm.companyDetails = response[0];
+        vm.companyData = response[0];
         $('#loadingDivTourPreview').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
@@ -90,7 +88,6 @@
         var firstDate;
         var secondDate;
         var oneDay;
-        var sessionPricingObject = {};
         if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
           firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
           secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
@@ -112,7 +109,7 @@
           if(((sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' && !notAllowedDays.has(iteratorDate.getDay())) ||
               (sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly' && allowedDays.has(iteratorDate.getDay())) ||
               (sessions[index].sessionDepartureDetails.repeatBehavior == 'Do not repeat')) &&
-              iteratorDate <= firstDate) {
+              iteratorDate <= firstDate && iteratorDate.getTime() > new Date().getTime()) {
             var isSavingRequired = true;
             if (sessions[index].sessionDepartureDetails.startTime != '' && sessions[index].sessionDepartureDetails.startTime !== undefined) {
               if (!sessionDates.has(iteratorDate.getTime())) {
@@ -142,6 +139,7 @@
             var remainingSeats = getRemainingSeats(sessions[index], iteratorDate);
             sessionDateTimeAvailableSeats.set(remainingSeatsKey, remainingSeats);
             if (isSavingRequired) {
+              var sessionPricingObject = {};
               var duration;
               var startDate = angular.copy(iteratorDate);
               var endDate = angular.copy(iteratorDate);
@@ -154,6 +152,7 @@
               sessionPricingObject['toDay'] = weekdays[endDate.getDay()];
               sessionPricingObject['startDate'] = startDate.getDate() + ' ' + months[startDate.getMonth()] + ' ' + startDate.getFullYear();
               sessionPricingObject['endDate'] = endDate.getDate() + ' ' + months[endDate.getMonth()] + ' ' + endDate.getFullYear();
+              sessionPricingObject['sortingAttribute'] = new Date(sessionPricingObject['startDate']);
               sessionPricingObject['sessionTimes'] = sessionDates.get(iteratorDate.getTime());
               sessionPricingObject['availableSeats'] = remainingSeats;
               if (sessions[index].isSessionPricingValid)
