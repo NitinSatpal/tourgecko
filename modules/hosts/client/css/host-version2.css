@@ -305,6 +305,9 @@ and (max-device-width : 1024px){
 	#booking-detail .nav-div{ display:none;}
 }
 @media (max-width: 767px) {
+	.qq-thumbnail-wrapper {
+			width: 155px !important
+		}
 	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(2){padding-right: .5rem;}
 	#booking .booking-analytics .col-sm-6.col-xs-6:nth-child(3){padding-left: .5rem;}
 	#booking .col5.col-sm-6.col-xs-6 .text-center{ text-align: left } 
@@ -428,6 +431,9 @@ and (max-device-width : 1024px){
 	#tour_main_content .productType {
 		margin-top: 4px;
 	}
+	.qq-thumbnail-wrapper {
+			width: 155px !important
+		}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -487,6 +493,7 @@ and (max-device-width : 1024px){
 	#tour_main_content .productType {
 		margin-top: 4px
 	}
+	.qq-thumbnail-wrapper {
+			width: 155px !important
+		}
 }
-
-
