@@ -358,12 +358,15 @@ and (max-device-width : 1024px){
 		display:block;
 		content:"";
 		margin-left:-28px;
-		margin-top:-122px;
+		margin-top:-120px;		
 		border-color:#999;
 		line-height:0;
 		position:relative;
-		top:41px;
+		top:15px;
 		z-index:-1;
+	}
+	.pin-group li:nth-last-child(2):after {
+		top: 31px;
 	}
 	#tour_main_content .productType {
 		margin-top: 4px
@@ -406,7 +409,7 @@ and (max-device-width : 1024px){
 	.pinButtonsDynamicStyling {
 		padding-bottom: 5px;
 	}
-	.pin-group li:first-child:after {
+	.pin-group li:after {
 		border-left:1px solid;
 		height:130px;
 		display:block;
@@ -416,9 +419,13 @@ and (max-device-width : 1024px){
 		border-color:#999;
 		line-height:0;
 		position:relative;
-		top:41px;
+		top:15px;
 		z-index:-1;
 	}
+	.pin-group li:nth-last-child(2):after {
+		top: 31px;
+	}
+	
 	#action-log li:after {
 	    border-left: 1px solid;
 	    height: 50px;
@@ -474,12 +481,15 @@ and (max-device-width : 1024px){
 		display:block;
 		content:"";
 		margin-left:-28px;
-		margin-top:-100px;
+		margin-top:-120px;		
 		border-color:#999;
 		line-height:0;
 		position:relative;
-		top:41px;
+		top:15px;
 		z-index:-1;
+	}
+	.pin-group li:nth-last-child(2):after {
+		top: 31px;
 	}
 	#action-log li:after {
 	    border-left: 1px solid;

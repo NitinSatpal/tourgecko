@@ -1,2 +1,11 @@
 <div id="loadingDivToursite" class="loaderDisplayDiv" style="display: none;"></div>
-<div ui-view></div>
+<div ui-view onload="onDivLoad()">
+	<input type="hidden" id="refreshed" value="no"/>
+</div>
+<script>
+	function onDivLoad () {
+           var e = document.getElementById("refreshed");
+           if (e.value == "no") e.value = "yes";
+           else { e.value = "no"; location.reload(); }
+       }
+</script>

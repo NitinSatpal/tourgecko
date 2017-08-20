@@ -263,7 +263,7 @@
                 else {
                     var selected = '';
                     var delimiter = this.delimiterText;
-
+                    return options.length + ' ' + this.nSelectedText;
                     options.each(function() {
                         var label = ($(this).attr('label') !== undefined) ? $(this).attr('label') : $(this).text();
                         selected += label + delimiter;
@@ -1605,7 +1605,6 @@
          */
         updateButtonText: function() {
             var options = this.getSelected();
-
             // First update the displayed button text.
             if (this.options.enableHTML) {
                 $('.multiselect .multiselect-selected-text', this.$container).html(this.options.buttonText(options, this.$select));

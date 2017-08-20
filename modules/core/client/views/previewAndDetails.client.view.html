@@ -1,1 +1,10 @@
-<div ui-view autoscroll></div>
+<div ui-view autoscroll onload="onDivLoad()">
+	<input type="hidden" id="refreshed" value="no"/>
+</div>
+<script>
+	function onDivLoad () {
+           var e = document.getElementById("refreshed");
+           if (e.value == "no") e.value = "yes";
+           else { e.value = "no"; location.reload(); }
+       }
+</script>

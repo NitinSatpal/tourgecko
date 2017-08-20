@@ -5,7 +5,16 @@
 	<section class="main-body-wrapper" style="overflow-x: hidden !important;">
 		<header ng-include="'/modules/core/client/views/header.client.view.html'"></header>
 		<div id="loadingDivUserSettingSide" class="loaderDisplayDiv" style="display: none;"></div>
-  		<div ui-view style="overflow-x: hidden !important;"></div>
+  		<div ui-view style="overflow-x: hidden !important;" onload="onDivLoad()">
+  			<input type="hidden" id="refreshed" value="no"/>
+  		</div>
   		<footer class="footer" ng-include="'/modules/core/client/views/footer.client.view.html'" id="mainFooterElement"></footer>
   	</section>
 </section>
+<script>
+	function onDivLoad () {
+           var e = document.getElementById("refreshed");
+           if (e.value == "no") e.value = "yes";
+           else { e.value = "no"; location.reload(); }
+       }
+</script>
