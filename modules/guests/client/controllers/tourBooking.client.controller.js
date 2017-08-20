@@ -172,7 +172,7 @@
                          */
                         vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
                         /* Get the date and the time so display on the booking page */
-                        if (new Date().getTime() < new Date(sessionDateIterator).getTime()) {
+                        if (new Date().getTime() < new Date(sessionDateIterator).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
                           var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                           /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
                           vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
@@ -246,7 +246,7 @@
                        */
                       vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
 
-                      if (new Date().getTime() < new Date(sessionDateIterator).getTime()) {
+                      if (new Date().getTime() < new Date(sessionDateIterator).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
                         /* Get the date and the time so display on the booking page */
                         var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                         /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
@@ -316,7 +316,7 @@
                 }
 
                 vm.datesOfTheSessionsOfThisProduct.push(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).toString());
-                if (new Date().getTime() < new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime()) {
+                if (new Date().getTime() < new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
                   var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                   vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
                 }
@@ -1136,7 +1136,7 @@ vm.areAddonsSelected = function () {
     }
 
     vm.getSeatsRemainingForList = function (session, index) {
-      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && session.capacityDetails && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
+      if(vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'  && session.capacityDetails.sessionSeatsLimitType == 'unlimited') {
         if (session.capacityDetails.isSessionAvailabilityVisibleToGuests)
           return '-';
         else
