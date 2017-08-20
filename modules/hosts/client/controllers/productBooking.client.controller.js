@@ -143,7 +143,7 @@
         var startTimeOfTheTour;
         if (hourPart && minutePart)
           startTimeOfTheTour = hourPart.toString() + ':' + minutePart.toString();
-        $('#startTimeOfTheTour').attr("value", startTimeOfTheTour);
+        $('#startTimeOfTheTour').prop("value", startTimeOfTheTour);
 
         if (!vm.specificBookingDetails.isOpenDateTour && vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime != '') {
           var hourPart = vm.specificBookingDetails.productSession.sessionDepartureDetails.startTime.split(':')[0];
