@@ -144,7 +144,8 @@
         vm.authentication.user = response;
         // And redirect to the host home page
         if (vm.authentication.user.roles[0] === 'hostAdmin') {
-          if ($state.previous.state.name != 'abstractHome.home')
+          console.log('the previous state is ' + $state.previous.state.name);
+          if ($state.previous.state.name != 'abstractHome.home' && $state.previous.state.name != 'authentication.hostSignup')
             $state.go($state.previous.state.name || 'host.hostHome');
           else
             $state.go('host.hostHome');

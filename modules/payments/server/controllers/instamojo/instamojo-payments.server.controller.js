@@ -29,57 +29,190 @@ Insta.isSandboxMode(true);
 
 // Capture the payment.
 exports.createInstamojoPayment = function (req, res) {
-  var requestBodyData = req.body;
-	InstamojoUser.findOne({user: req.body.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
-  	var userDetails = Insta.UserBasedAuthenticationData();
-  	userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
-  	userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
-  	userDetails.username = instaUser.instamojo_email;
-  	userDetails.password = instaUser.instamojo_password;
-  	Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
-    	if (userTokenError) {
-        console.log(userTokenError);
-    	} else {
-    		Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
-                  	config.paymentGateWayInstamojo.instamojoSecret,
-                  	'Bearer' + ' ' + userTokenResponse.access_token);
-        var purpose = req.body.productData.productTitle.length > 25 ? req.body.productData.productTitle.slice(0,25) + '...' : req.body.productData.productTitle;
-      	var paymentData = new Insta.PaymentData();
-      	paymentData.amount = req.body.bookingDetails.totalAmountPaid;
-        paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
-      	paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
-      	paymentData.purpose = purpose;//,
-        var redirectURL = 'http://' + req.get('host');
-        redirectURL = redirectURL + '/tour/booking/done';
-		    paymentData.setRedirectUrl(redirectURL);
-        paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
-        paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
-        paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
-
-		    Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
-			    if (paymentError) {
-            res.json(paymentError);
-			      // some error
-			    } else {
-            var userId = null;
-            if (req.user)
-              userId = req.user._id;
-            bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
-            var instamojoPaymentRequest = new InstamojoPaymentRequestRecord();
-            var commonPrefix = 'instamojo_';
-            for (var key in paymentReqResponse) {
-              if (paymentReqResponse.hasOwnProperty(key)) {
-                var val = paymentReqResponse[key];
-                instamojoPaymentRequest[commonPrefix + key] = val;
-              }
-            }
-            instamojoPaymentRequest.save(); 
-			      res.json(paymentReqResponse.longurl);
-			    }
-		    });
+  var requestBodyData = req.body.bookingData;
+  var sessionId = mongoose.Types.ObjectId(req.body.sessionId);
+  if (req.body.sessionId != null) {
+    ProductSession.findOne({_id: sessionId}).exec(function (err, productSession) {
+      if (err) {
+        console.log('the error is ' + err);
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
       }
-  	});
-  });
+
+      if (productSession.sessionCapacityDetails.sessionSeatsLimitType == 'limited') {
+        var key = requestBodyData.bookingDetails.actualSessionDate;
+        var seatsRemaining
+        if (productSession.numberOfSeatsSession && productSession.numberOfSeatsSession[key])
+          seatsRemaining = parseInt(productSession.sessionCapacityDetails.sessionSeatLimit) - parseInt(productSession.numberOfSeatsSession[key])
+        else
+          seatsRemaining = parseInt(productSession.sessionCapacityDetails.sessionSeatLimit);
+
+
+        if (seatsRemaining >= parseInt(booking.numberOfSeats)) {
+          InstamojoUser.findOne({user: requestBodyData.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
+            var userDetails = Insta.UserBasedAuthenticationData();
+            userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+            userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
+            userDetails.username = instaUser.instamojo_email;
+            userDetails.password = instaUser.instamojo_password;
+            Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+              if (userTokenError) {
+                console.log(userTokenError);
+              } else {
+                Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                            config.paymentGateWayInstamojo.instamojoSecret,
+                            'Bearer' + ' ' + userTokenResponse.access_token);
+                var purpose = requestBodyData.productData.productTitle.length > 25 ? requestBodyData.productData.productTitle.slice(0,25) + '...' : requestBodyData.productData.productTitle;
+                var paymentData = new Insta.PaymentData();
+                paymentData.amount = requestBodyData.bookingDetails.totalAmountPaid;
+                paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
+                paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
+                paymentData.purpose = purpose;//,
+                var redirectURL = 'http://' + req.get('host');
+                redirectURL = redirectURL + '/tour/booking/done';
+                paymentData.setRedirectUrl(redirectURL);
+                paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
+                paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
+                paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
+
+                Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
+                  if (paymentError) {
+                    res.json(paymentError);
+                    // some error
+                  } else {
+                    var userId = null;
+                    if (req.user)
+                      userId = req.user._id;
+                    bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
+                    var instamojoPaymentRequest = new InstamojoPaymentRequestRecord();
+                    var commonPrefix = 'instamojo_';
+                    for (var key in paymentReqResponse) {
+                      if (paymentReqResponse.hasOwnProperty(key)) {
+                        var val = paymentReqResponse[key];
+                        instamojoPaymentRequest[commonPrefix + key] = val;
+                      }
+                    }
+                    instamojoPaymentRequest.save(); 
+                    res.json(paymentReqResponse.longurl);
+                  }
+                });
+              }
+            });
+          });
+        } else
+          res.json({error: true, message: 'It seems more seats are booked and ' + seatsRemaining + ' are remaining now.'})
+      
+      } else {
+          InstamojoUser.findOne({user: requestBodyData.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
+          var userDetails = Insta.UserBasedAuthenticationData();
+          userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+          userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
+          userDetails.username = instaUser.instamojo_email;
+          userDetails.password = instaUser.instamojo_password;
+          Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+            if (userTokenError) {
+              console.log(userTokenError);
+            } else {
+              Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                          config.paymentGateWayInstamojo.instamojoSecret,
+                          'Bearer' + ' ' + userTokenResponse.access_token);
+              var purpose = requestBodyData.productData.productTitle.length > 25 ? requestBodyData.productData.productTitle.slice(0,25) + '...' : requestBodyData.productData.productTitle;
+              var paymentData = new Insta.PaymentData();
+              paymentData.amount = requestBodyData.bookingDetails.totalAmountPaid;
+              paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
+              paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
+              paymentData.purpose = purpose;//,
+              var redirectURL = 'http://' + req.get('host');
+              redirectURL = redirectURL + '/tour/booking/done';
+              paymentData.setRedirectUrl(redirectURL);
+              paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
+              paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
+              paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
+
+              Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
+                if (paymentError) {
+                  res.json(paymentError);
+                  // some error
+                } else {
+                  var userId = null;
+                  if (req.user)
+                    userId = req.user._id;
+                  bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
+                  var instamojoPaymentRequest = new InstamojoPaymentRequestRecord();
+                  var commonPrefix = 'instamojo_';
+                  for (var key in paymentReqResponse) {
+                    if (paymentReqResponse.hasOwnProperty(key)) {
+                      var val = paymentReqResponse[key];
+                      instamojoPaymentRequest[commonPrefix + key] = val;
+                    }
+                  }
+                  instamojoPaymentRequest.save(); 
+                  return paymentReqResponse.longurl;
+                }
+              });
+            }
+          });
+        });
+      }
+    });
+  } else {
+    InstamojoUser.findOne({user: requestBodyData.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
+      var userDetails = Insta.UserBasedAuthenticationData();
+      userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
+      userDetails.client_secret = config.paymentGateWayInstamojo.instamojoSecret;
+      userDetails.username = instaUser.instamojo_email;
+      userDetails.password = instaUser.instamojo_password;
+      Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
+        if (userTokenError) {
+          console.log(userTokenError);
+        } else {
+          Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
+                      config.paymentGateWayInstamojo.instamojoSecret,
+                      'Bearer' + ' ' + userTokenResponse.access_token);
+          var purpose = requestBodyData.productData.productTitle.length > 25 ? requestBodyData.productData.productTitle.slice(0,25) + '...' : requestBodyData.productData.productTitle;
+          var paymentData = new Insta.PaymentData();
+          paymentData.amount = requestBodyData.bookingDetails.totalAmountPaid;
+          paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
+          paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
+          paymentData.purpose = purpose;//,
+          var redirectURL = 'http://' + req.get('host');
+          redirectURL = redirectURL + '/tour/booking/done';
+          paymentData.setRedirectUrl(redirectURL);
+          paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
+          paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
+          paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
+
+          Insta.createPayment(paymentData, function(paymentError, paymentReqResponse) {
+            if (paymentError) {
+              res.json(paymentError);
+              // some error
+            } else {
+              var userId = null;
+              if (req.user)
+                userId = req.user._id;
+              bookingRecordCreation.createBooking(requestBodyData, userId, paymentReqResponse.longurl, paymentReqResponse.id, null, 'instamojo');
+              var instamojoPaymentRequest = new InstamojoPaymentRequestRecord();
+              var commonPrefix = 'instamojo_';
+              for (var key in paymentReqResponse) {
+                if (paymentReqResponse.hasOwnProperty(key)) {
+                  var val = paymentReqResponse[key];
+                  instamojoPaymentRequest[commonPrefix + key] = val;
+                }
+              }
+              instamojoPaymentRequest.save(); 
+              return paymentReqResponse.longurl;
+            }
+          });
+        }
+      });
+    });
+  }
+
+}
+
+function createPaymentRequest (requestBodyData) {
+    
 }
 
 exports.refundInstamojoPayment = function (req, res) {

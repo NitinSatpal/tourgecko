@@ -904,8 +904,18 @@ vm.areAddonsSelected = function () {
       } else {
         if (vm.bookingProductDetails.hostCompany.paymentGateway == 'instamojo') {
           var bookingData = createBookingObject();
-          $http.post('/api/payment/instamojo/', bookingData).success (function (response) {
+          var sessionId = bookingData.bookingDetails.productSession;
+          var bookingContent= {bookingData: bookingData, sessionId: sessionId }
+          $http.post('/api/payment/instamojo/', bookingContent).success (function (response) {
             // $("a.im-checkout-btn.btn--light").attr('href', response);
+            if (response.error) {
+              toasty.error({
+                title: "Oops! seats are gone",
+                msg: response.message,
+                sound: false
+              });
+              return;
+            }
             Instamojo.open(response)
             //document.getElementsByClassName('im-checkout-btn')[0].click();
           }).error(function (error) {

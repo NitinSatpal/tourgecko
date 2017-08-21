@@ -12,6 +12,7 @@
   min-height: 431px !important;
 }
 .noHorizontalScroll {
+  max-width: 100% !important;
   overflow-x: hidden !important;
 }
 textarea {
