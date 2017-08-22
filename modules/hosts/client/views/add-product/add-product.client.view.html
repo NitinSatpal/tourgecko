@@ -647,8 +647,8 @@
 																	<a href="" data-target="#departureSession" ng-click="vm.openDepartureSessionModal()" id="fixedDepartureSessionCreationModalTrigger"><i class="zmdi zmdi-calendar"></i> Create departure session</a>
 															   	</div>
 															   	<div class="col-sm-4 col-md-4 col-lg-4 col-xs-6 departureSession_section">
-																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == false || vm.showTheList == undefined"> Show the session list</a>
-																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == true"> Hide the session list</a>
+																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == false || vm.showTheList == undefined"> Show schedule</a>
+																	<a href="" data-target="#departureSession" ng-click="vm.showTheList = !vm.showTheList" ng-show="vm.showTheList == true"> Hide schedule</a>
 															   	</div>
 
 															</div>
@@ -678,7 +678,7 @@
 															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacities[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacities[$index].sessionSeatLimit}}</span></p>
 															                    </div>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
-															                        <p><a href="" ng-click="vm.viewThisSession($index, false)">View</a></p>
+															                        <!--<p><a href="" ng-click="vm.viewThisSession($index, false)">View</a></p> -->
 															                        <p><a href="" ng-click="vm.editThisSession($index, false)">Edit</a></p>
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, false)">Delete</a></p>
 															                    </div>
@@ -699,7 +699,7 @@
 															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit}}</span></p>
 															                    </div>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
-															                        <p><a href="" ng-click="vm.viewThisSession($index, true)">View</a></p>
+															                        <!-- <p><a href="" ng-click="vm.viewThisSession($index, true)">View</a></p> -->
 															                        <p><a href="" ng-click="vm.editThisSession($index, true)">Edit</a></p>
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
 															                    </div>

@@ -102,7 +102,6 @@ exports.createInstamojoPayment = function (req, res) {
           });
         } else
           res.json({error: true, message: 'It seems more seats are booked and ' + seatsRemaining + ' are remaining now.'})
-      
       } else {
           InstamojoUser.findOne({user: requestBodyData.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
           var userDetails = Insta.UserBasedAuthenticationData();
@@ -148,7 +147,7 @@ exports.createInstamojoPayment = function (req, res) {
                     }
                   }
                   instamojoPaymentRequest.save(); 
-                  return paymentReqResponse.longurl;
+                  res.json(paymentReqResponse.longurl);
                 }
               });
             }
@@ -201,7 +200,7 @@ exports.createInstamojoPayment = function (req, res) {
                 }
               }
               instamojoPaymentRequest.save(); 
-              return paymentReqResponse.longurl;
+              res.json(paymentReqResponse.longurl);
             }
           });
         }

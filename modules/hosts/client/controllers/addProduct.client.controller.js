@@ -250,10 +250,13 @@
       /* Check whether product is getting created or edited */
   /* ------------------------------------------------------------------------------------------------------------------------- */
       var productId = $location.path().split('/')[4];
+      console.log('the id is ' + productId);
       if (!productId) {
         productId = $location.path().split('/')[3];
         if (productId == 'add')
           productId = undefined;
+        else if (productId == 'edit')
+          $window.location.href = 'https://tourgecko.com/not-found';
       }
       if(productId) {
         fetchSessionsOfThisProduct(productId)
@@ -1574,12 +1577,20 @@
       vm.fixedProductScheduleUniqueIdOld = [];
       $scope.setTheSessionListItem = function (sessions) {
         for (var index = 0; index < sessions.length; index ++) {
-          vm.fixedProductScheduleOld[index] = sessions[index].sessionDepartureDetails;
-          vm.sessionSpecialPricingOld[index] = sessions[index].sessionPricingDetails;
-          vm.sessionInternalNamesOld[index] = sessions[index].sessionInternalName;
-          vm.fixedProductScheduleCapacitiesOld[index] = sessions[index].sessionCapacityDetails;
-          vm.fixedProductScheduleUniqueIdOld[index] = sessions[index]._id;
-          $scope.$apply();
+          if (new Date(sessions[index].sessionDepartureDetails.startDate).getTime() < new Date().getTime()) {
+            vm.fixedProductScheduleOld[index] = sessions[index].sessionDepartureDetails;
+            vm.sessionSpecialPricingOld[index] = sessions[index].sessionPricingDetails;
+            vm.sessionInternalNamesOld[index] = sessions[index].sessionInternalName;
+            vm.fixedProductScheduleCapacitiesOld[index] = sessions[index].sessionCapacityDetails;
+            vm.fixedProductScheduleUniqueIdOld[index] = sessions[index]._id;
+            $scope.$apply();
+          } else {
+            vm.fixedProductSchedule[index] = sessions[index].sessionDepartureDetails;
+            vm.sessionSpecialPricing[index] = sessions[index].sessionPricingDetails;
+            vm.sessionInternalNames[index] = sessions[index].sessionInternalName;
+            vm.fixedProductScheduleCapacities[index] = sessions[index].sessionCapacityDetails;
+            vm.fixedProductScheduleUniqueId[index] = sessions[index]._id;
+          }
         }
       }
     }

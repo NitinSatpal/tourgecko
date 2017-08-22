@@ -72,19 +72,32 @@
       } else if (imageUploaded == true) {
         $window.location.reload();
       } else {
-        $window.location.reload();
-        $('#loadingDivUserSettingSide').css('display', 'none');
-        document.body.style.cursor='default';
+        if (!isPasswordDetailsChanged) {
+          $window.location.reload();
+        }
       }
 
       if (isPasswordDetailsChanged == true) {
+        if (vm.passwordDetails.newPassword && (!vm.passwordDetails.verifyPassword || vm.passwordDetails.verifyPassword == null || vm.passwordDetails.verifyPassword ==' ' || vm.passwordDetails.verifyPassword == '')) {
+         vm.showPasswordRelatedError  = 'Please confirm the new password';
+          $('#loadingDivUserSettingSide').css('display', 'none');
+          document.body.style.cursor='default';
+          return;
+        }
         $('#loadingDivUserSettingSide').css('display', 'block');
         document.body.style.cursor='wait';
         $http.post('/api/users/password', vm.passwordDetails).success(function (response) {
+          console.log('response is ' + JSON.stringify(response));
+
           // If successful show success message and clear form
-          vm.success = true;
-          vm.passwordDetails = null;
-          $window.location.reload();
+          if (response.message == 'Password changed successfully') {
+            vm.success = true;
+            vm.passwordDetails = null;
+            //$window.location.reload();
+          } else {
+            $('#loadingDivUserSettingSide').css('display', 'none');
+            document.body.style.cursor='default';
+          }
         }).error(function (response) {
           vm.showPasswordRelatedError = response.message;
           vm.error = response.message;

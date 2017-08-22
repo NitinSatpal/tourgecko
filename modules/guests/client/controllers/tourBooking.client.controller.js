@@ -631,7 +631,7 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
       totalSeatsForThisBooking = 0;
       toasty.error({
         title: 'Maximum capacity reached!',
-        msg: 'Only ' + maxSeatsAvailable +' seats ara available now', 
+        msg: 'Only ' + maxSeatsAvailable +' seats are available now', 
         sound: false
       });
       return;
@@ -709,7 +709,7 @@ function calculatePrice () {
         totalSeatsForThisBooking = 0;
         toasty.error({
           title: 'Maximum capacity reached!',
-          msg: 'Only ' + maxSeatsAvailable +' seats ara available now',
+          msg: 'Only ' + maxSeatsAvailable +' seats are available now',
           sound: false
         });
         return;

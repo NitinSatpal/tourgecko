@@ -225,18 +225,20 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				        		if(document.product.productAvailabilityType == 'Open Date')
 				        			limit = '-';
 				        		else {
-				        			if (document.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited') {
-					        			limit = '-';
-				        			} else {
-					        			if (document.sessionCapacityDetails.sessionSeatLimit) {
-					        				limit = document.sessionCapacityDetails.sessionSeatLimit;
-					        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
-					        					percentBooking = parseInt(document.numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
-					        				else
-					        					percentBooking = 0;
-					        			} else
-					        			 	limit = '-';
-					        		}
+				        			if (document.sessionInternalName) {
+					        			if (document.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited') {
+						        			limit = '-';
+					        			} else {
+						        			if (document.sessionCapacityDetails.sessionSeatLimit) {
+						        				limit = document.sessionCapacityDetails.sessionSeatLimit;
+						        				if (document.numberOfSeatsSession && document.numberOfSeatsSession[numOfSeatsKey])
+						        					percentBooking = parseInt(document.numberOfSeatsSession[numOfSeatsKey]) / parseInt(limit) * 100;
+						        				else
+						        					percentBooking = 0;
+						        			} else
+						        			 	limit = '-';
+						        		}
+						        	}
 				        		}
 		        				var eventObject;
 		        				var listObject;
