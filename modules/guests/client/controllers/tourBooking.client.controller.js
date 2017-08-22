@@ -908,6 +908,7 @@ vm.areAddonsSelected = function () {
           var bookingContent= {bookingData: bookingData, sessionId: sessionId }
           $http.post('/api/payment/instamojo/', bookingContent).success (function (response) {
             // $("a.im-checkout-btn.btn--light").attr('href', response);
+            console.log(JSON.stringify(response));
             if (response.error) {
               toasty.error({
                 title: "Oops! seats are gone",
@@ -919,7 +920,7 @@ vm.areAddonsSelected = function () {
             Instamojo.open(response)
             //document.getElementsByClassName('im-checkout-btn')[0].click();
           }).error(function (error) {
-
+            console.log(JSON.stringify(error));
           });
         } else if (vm.bookingProductDetails.hostCompany.paymentGateway == 'razorpay') {
             var bookingData = createBookingObject();

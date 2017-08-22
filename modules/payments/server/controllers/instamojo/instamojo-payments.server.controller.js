@@ -34,22 +34,18 @@ exports.createInstamojoPayment = function (req, res) {
   if (req.body.sessionId != null) {
     ProductSession.findOne({_id: sessionId}).exec(function (err, productSession) {
       if (err) {
-        console.log('the error is ' + err);
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
       }
-
       if (productSession.sessionCapacityDetails.sessionSeatsLimitType == 'limited') {
         var key = requestBodyData.bookingDetails.actualSessionDate;
         var seatsRemaining
         if (productSession.numberOfSeatsSession && productSession.numberOfSeatsSession[key])
           seatsRemaining = parseInt(productSession.sessionCapacityDetails.sessionSeatLimit) - parseInt(productSession.numberOfSeatsSession[key])
         else
-          seatsRemaining = parseInt(productSession.sessionCapacityDetails.sessionSeatLimit);
-
-
-        if (seatsRemaining >= parseInt(booking.numberOfSeats)) {
+          seatsRemaining = parseInt(productSession.sessionCapacityDetails.sessionSeatLimit);        
+        if (seatsRemaining >= parseInt(requestBodyData.bookingDetails.numberOfSeats)) {
           InstamojoUser.findOne({user: requestBodyData.bookingDetails.hostOfThisBooking}).populate('hostCompany').exec(function (err, instaUser) {
             var userDetails = Insta.UserBasedAuthenticationData();
             userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
@@ -58,7 +54,6 @@ exports.createInstamojoPayment = function (req, res) {
             userDetails.password = instaUser.instamojo_password;
             Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
               if (userTokenError) {
-                console.log(userTokenError);
               } else {
                 Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                             config.paymentGateWayInstamojo.instamojoSecret,
@@ -111,7 +106,6 @@ exports.createInstamojoPayment = function (req, res) {
           userDetails.password = instaUser.instamojo_password;
           Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
             if (userTokenError) {
-              console.log(userTokenError);
             } else {
               Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                           config.paymentGateWayInstamojo.instamojoSecret,
@@ -164,7 +158,6 @@ exports.createInstamojoPayment = function (req, res) {
       userDetails.password = instaUser.instamojo_password;
       Insta.getAuthenticationAccessToken(userDetails, function(userTokenError, userTokenResponse) {
         if (userTokenError) {
-          console.log(userTokenError);
         } else {
           Insta.setToken(config.paymentGateWayInstamojo.instamojoKey,
                       config.paymentGateWayInstamojo.instamojoSecret,
