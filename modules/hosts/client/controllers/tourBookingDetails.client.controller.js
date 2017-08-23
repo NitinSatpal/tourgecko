@@ -585,10 +585,16 @@
       return displayDate;
     }
 
-    vm.getDisplayDate = function (isoDate, duration) {
-      var date = new Date(isoDate);      
+    vm.getfullCreatedDate = function (isoDate) {
+      var date = new Date(isoDate);
+      var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+      return displayDate;
+    }
+
+    vm.getDisplayDate = function (duration) {
+      var date = new Date(+sessionStartDate);      
       var displayDate = date.getDate();
-      var endDate = new Date(isoDate);
+      var endDate = new Date(+sessionStartDate);
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
         tourEndDate = endDate.setDate(endDate.getDate() + duration - 1);
@@ -601,10 +607,10 @@
       return displayDate;
     }
 
-    vm.getDisplayMonthAndYear = function (isoDate, duration) {
-      var date = new Date(isoDate);
+    vm.getDisplayMonthAndYear = function (duration) {
+      var date = new Date(+sessionStartDate);
       var displayDate = months[date.getMonth()] + ' ' + date.getFullYear();
-      var endDate = new Date(isoDate);
+      var endDate = new Date(+sessionStartDate);
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
         tourEndDate = endDate.setDate(endDate.getDate() + duration - 1);

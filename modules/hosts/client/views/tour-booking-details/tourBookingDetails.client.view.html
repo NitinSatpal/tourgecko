@@ -57,9 +57,9 @@
                             <div class="text-left booking-analytics-info">           
                             <p class="sub_desc">Trip Start Date</p>
                             <h5 class="">
-                            	{{vm.getDisplayDate(vm.productSession.sessionDepartureDetails.startDate, vm.productSession.product.productDuration)}}&nbsp;
+                            	{{vm.getDisplayDate(vm.productSession.product.productDuration)}}&nbsp;
 	                            <span class="sub_desc">
-	                            	{{vm.getDisplayMonthAndYear(vm.productSession.sessionDepartureDetails.startDate, vm.productSession.product.productDuration)}}
+	                            	{{vm.getDisplayMonthAndYear(vm.productSession.product.productDuration)}}
 	                            </span>
                             </h5>
                              </div>
@@ -172,7 +172,7 @@
 	                       				<ul class="cleared card-booking-details margin-top">
                                             <li>
                                                 <span class="content-primary">Created on</span>
-                                                <span class="content-secondary">{{vm.getFullDisplayDate(booking.created)}}</span>
+                                                <span class="content-secondary">{{vm.getfullCreatedDate(booking.created)}}</span>
                                             </li>    
                                             <li>
                                                 <span class="content-primary">Tour</span>
@@ -180,7 +180,7 @@
                                             </li>
                                             <li>
                                                 <span class="content-primary">Departure</span>
-                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getFullDisplayDate(booking.productSession.sessionDepartureDetails.startDate)}} {{booking.actualSessionTime != 'No Time' ? booking.actualSessionTime : ''}}</span>
+                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getFullDisplayDate()}} {{booking.actualSessionTime != 'No Time' ? booking.actualSessionTime : ''}}</span>
                                             </li>
                                             <li>
                                                 <span class="content-primary">No. of seats</span>
@@ -220,6 +220,7 @@
                                     &nbsp; bookings per page
                                 </span>
                             </div>
+                            <br>
                             <div class="col-sm-12 col-md-12 col-lg-12 empty-data-Image-one" ng-if="vm.bookings.length == 0 && !vm.filterApplied">
                                 <span> <h4> There are no bookings for this session yet. </h4></span>
                             </div>
@@ -262,7 +263,6 @@
                                 </a>
                             </div>
                         </div>
-                        <br>
                         <br>
                         <div class="col-sm-12 col-md-12 col-lg-12 text-center" ng-if="vm.guestData.length == 0">
                             <span> <h4> No guests record found </h4></span>
@@ -349,41 +349,40 @@
                 <h4 class="modal-title">Status-wise revenue distribution</h4>
             </div>
             <div class="modal-body">
-            <div class="table-responsive">
-                <table class="table table-striped">                    
-                    <tr>
-                        <td></td>
-                        <td>Confirmed</td>
-                        <td>Pending</td>
-                        <td>Declined</td>
-                        <td>Cancelled</td>
-                        <td>Expired</td>
-                        <td><b>Total</b></td>
-                    </tr>
-                    <tr>
-                        <td>Bookings</td>
-                        <td>{{vm.confirmedBookings}}</td>
-                        <td>{{vm.pendingBookings}}</td>
-                        <td>{{vm.declinedBookings}}</td>
-                        <td>{{vm.cancelledBookings}}</td>
-                        <td>{{vm.expiredBookings}}</td>
-                        <td><b>{{vm.totalNumberOfBookingRequests}}</b></td>
-                    </tr>
-                    <tr>
-                        <td>Revenue</td>
-                        <td>{{vm.confirmedBookingsRevenue}}</td>
-                        <td>{{vm.pendingBookingsRevenue}}</td>
-                        <td>{{vm.declinedBookingsRevenue}}</td>
-                        <td>{{vm.cancelledBookingsRevenue}}</td>
-                        <td>{{vm.expiredBookingsRevenue}}</td>
-                        <td><b>{{vm.totalRevenueOFAllBookings}}</b></td>
-                    </tr>
-                </table>
-            </div>
-                <br>
-                <a data-dismiss="modal" class="btn btn-primary btn-sm margin-bottom pull-right">Ok, got it</a> 
+                <div class="table-responsive">
+                    <table class="table table-striped">                    
+                        <tr>
+                            <td></td>
+                            <td>Confirmed</td>
+                            <td>Pending</td>
+                            <td>Declined</td>
+                            <td>Cancelled</td>
+                            <td>Expired</td>
+                            <td><b>Total</b></td>
+                        </tr>
+                        <tr>
+                            <td>Bookings</td>
+                            <td>{{vm.confirmedBookings}}</td>
+                            <td>{{vm.pendingBookings}}</td>
+                            <td>{{vm.declinedBookings}}</td>
+                            <td>{{vm.cancelledBookings}}</td>
+                            <td>{{vm.expiredBookings}}</td>
+                            <td><b>{{vm.totalNumberOfBookingRequests}}</b></td>
+                        </tr>
+                        <tr>
+                            <td>Revenue</td>
+                            <td>{{vm.confirmedBookingsRevenue}}</td>
+                            <td>{{vm.pendingBookingsRevenue}}</td>
+                            <td>{{vm.declinedBookingsRevenue}}</td>
+                            <td>{{vm.cancelledBookingsRevenue}}</td>
+                            <td>{{vm.expiredBookingsRevenue}}</td>
+                            <td><b>{{vm.totalRevenueOFAllBookings}}</b></td>
+                        </tr>
+                    </table>
+                </div> 
             </div>
             <div class="modal-footer">
+                <a data-dismiss="modal" class="btn btn-primary btn-sm margin-bottom pull-right" style="margin-bottom: 0 !important;">Ok, got it</a>
             </div>
         </div>
     </div>
