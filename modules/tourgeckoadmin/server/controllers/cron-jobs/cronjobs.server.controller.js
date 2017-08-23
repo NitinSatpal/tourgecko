@@ -20,9 +20,8 @@ var cronJob = cron.job('00 05 00 * * *', function() {
         } else {
           products.forEach(function(product) {
             for (var index = 0; index < product.productScheduledDates.length; index++) {
-              if (new Date () > new Date(product.productScheduledDates[index]))
+              if (new Date ().getTime() > new Date(product.productScheduledDates[index]).getTime())
                 product.productScheduledDates.splice(product.productScheduledDates.indexOf(product.productScheduledDates[index]));
-              
               product.save();
             }
           });

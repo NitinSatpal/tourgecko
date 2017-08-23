@@ -97,6 +97,7 @@ $('#calendar').fullCalendar({
 				var fromDate = new Date(splittedString[1] + ' ' + splittedString[0] + ' ' + splittedString[5]);
 				var toDate = new Date(splittedString[4] + ' ' + splittedString[3] + ' ' + splittedString[5]);
 				var uniqueString = monthNameToNumberAgendaWeek.get(splittedString[0]).toString() + splittedString[5];
+				console.log('i m fetching');
 				fetchGivenMonthEvents(uniqueString, monthNameToNumberAgendaWeek.get(splittedString[0]), viewName, fromDate, toDate, null);
 			} else {
 				var fromDate = new Date(splittedString[1] + ' ' + splittedString[0] + ' ' + splittedString[4]);
@@ -413,6 +414,7 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
         			$('#tourgeckoBody').removeClass('waitCursor');
 			    });
 	      	}
+	      	
 	    });
 	} else {
 		$('#calendar').fullCalendar( 'removeEvents', function(event) {

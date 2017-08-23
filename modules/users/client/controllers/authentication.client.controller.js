@@ -139,6 +139,8 @@
 
         return false;
       }
+      $('#loadingDivAuthenticationSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
       $http.post('/api/auth/signin', vm.credentials).success(function (response) {
         // If successful we assign the response to the global user model
         vm.authentication.user = response;
@@ -155,8 +157,12 @@
           $state.go($state.previous.state.name || 'admin.home', $state.previous.params);
         else
           console.log('something is wrong');
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       }).error(function (response) {
         vm.error = response.message;
+        $('#loadingDivAuthenticationSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 

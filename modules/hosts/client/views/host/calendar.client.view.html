@@ -112,7 +112,9 @@
 			                    </div>
 	                    	</div>
 						</div>
+					</div>
 						<!-- ************************************************************************************************ -->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="calendarDiv">
 						<div id='calendar'></div>
 						<div class="row" id="occupancy-indicator-for-calendar">
 		                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -168,7 +170,9 @@
 	});
 	function changeToListView () {
 		$('#calendar').css('opacity',0);
-		$('#calendar').css('display','none');
+		$('#calendarDiv').css('height', 0);
+		$('#calendarDiv').css('width', 0);
+		$('#calendarDiv').css('overflow', 'hidden');
 		$('#occupancy-indicator-for-calendar').css('display', 'none');
 		$('#sessionList').show();
 		$('#calendarLink').removeClass('active');
@@ -176,9 +180,11 @@
 	}
 	function changeToCalendarView () {
 		angular.element('#hostCalendar').scope().listMonthWeekDayClicked = false;
-		$('#sessionList').hide();
+		$('#calendarDiv').css('height', 'auto');
+		$('#calendarDiv').css('width', 'auto');
+		$('#calendarDiv').css('overflow', 'scroll');
+		$('#sessionList').hide();	
 		$('#calendar').css('opacity',1);
-		$('#calendar').css('display','block');
 		$('#occupancy-indicator-for-calendar').css('display', 'block');
 		$('#listLink').removeClass('active');
 		$('#calendarLink').addClass('active');

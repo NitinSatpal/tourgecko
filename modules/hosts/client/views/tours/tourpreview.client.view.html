@@ -337,7 +337,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <span class="more-departure" ng-if="vm.sessionPricing.length > 5"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
+                            <span class="more-departure" ng-if="vm.sessionPricing.length > 5 && vm.productDetails.productAvailabilityType == 'Fixed Departure'"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
                         </div>
                         <div class="col-xs-12 text-center">
                             <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>

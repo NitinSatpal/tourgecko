@@ -10,13 +10,14 @@
         };
     });
 
-  TourDetailsController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication'];
+  TourDetailsController.$inject = ['$scope', '$state', '$window', '$http', '$location', 'Authentication', 'toasty'];
 
-  function TourDetailsController($scope, $state, $window, $http, $location, Authentication) {
+  function TourDetailsController($scope, $state, $window, $http, $location, Authentication, toasty) {
     var vm = this;
     vm.authentication = Authentication;
     var productId = $location.path().split('/')[2];
     vm.productDetails;
+    vm.contentToHost = {};
     vm.productImageURLs = [];
     vm.sessionPricing = [];
 
@@ -42,7 +43,7 @@
       }
       vm.productDetails = response[0];
       vm.companyDetails = response[0].hostCompany;
-      
+      vm.contentToHost['guestSubject'] = 'Enquiry for - ' + vm.productDetails.productTitle;
       $http.get('/api/host/product/productsession/' + productId).success(function (response) {
         vm.sessionsOfThisProduct = response;
         setSessionPricingOptions (response);
@@ -318,6 +319,37 @@
       }
 
       return false;
+    }
+
+    vm.sendContentToHost = function (isValid) {
+      vm.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
+        return false;
+      }
+      $('#loadingDivTourDetails').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      var communicationParams = {guestDetails: vm.contentToHost, hostMail: vm.companyData.inquiryEmail}
+      $http.post('/api/host/sendContentToHostFromContactUs/', communicationParams).success(function (response) {
+        $('#loadingDivTourDetails').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        toasty.success({
+          title: 'Message sent!',
+          msg: 'Your message has been sent!',
+          sound: false
+        });
+        vm.contentToHost = null;
+        $('#dismissContactUsModal').click();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivTourDetails').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        toasty.error({
+          title: 'Something went wrong!',
+          msg: 'Mail could not be send. Please contact Tourgecko!',
+          sound: false
+        });
+      });
     }
 
     vm.goTobookingPageOfThisProduct = function () {

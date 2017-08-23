@@ -16,9 +16,9 @@
       "sentCodeIsActive": "sentCodeIsActive"
     });
 
-  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', 'Authentication', 'PinboardPinService', 'PinboardGoalService', 'mobileverificationServerResponseCodes'];
+  HostHomeController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', '$interval', 'Authentication', 'PinboardPinService', 'PinboardGoalService', 'mobileverificationServerResponseCodes'];
 
-  function HostHomeController($scope, $state, $window, $http, $timeout, Authentication, PinboardPinService, PinboardGoalService, mobileverificationServerResponseCodes) {
+  function HostHomeController($scope, $state, $window, $http, $timeout, $interval, Authentication, PinboardPinService, PinboardGoalService, mobileverificationServerResponseCodes) {
     var vm = this;
     vm.goalPinStatus = [];
     $window.localStorage.setItem('signingupUserEmail', 'NoEmailId');
@@ -175,6 +175,7 @@
 
     vm.clickThisElement = function (id) {
       $('#'+id).click();
+
       if (id == 'verifyAccountPhoneNumber') {
         vm.mobileVerificationCodeEntered = undefined;
         $('#initialMobileVerificationMessage').css('display', 'block');
@@ -187,10 +188,22 @@
         $('#successfullyResentNewAccountKey').css('display', 'none');
         $('#sentCodeIsActive').css('display', 'none');
         $http.post('/api/host/verify/mobile').success(function (response) {
+          if (vm.resendAccountKeyCounter == 60)
+            var resendAccountKeyCounter = $timeout($scope.onTimeout,1000);
           $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
-        }).error(function (response){
+        }).error(function (response) {
         });
+        
       }
+    }
+    vm.resendAccountKeyCounter = 60;
+    $scope.onTimeout = function() {
+        if (vm.resendAccountKeyCounter > 0) {
+            vm.resendAccountKeyCounter--;
+            mytimeout = $timeout($scope.onTimeout,1000);
+        } else {
+            $('#resendMobileKeyCode').removeClass('disableAnchorLinks');
+        }
     }
 
     vm.getDynamicPadding = function () {
@@ -236,7 +249,6 @@
         return cssObjectTwo;
       }
     }
-    
 
     vm.verifyMobileNumber = function (verificationCode) {
       $('#loadingDivHostSide').css('display', 'block');
@@ -283,6 +295,9 @@
       $('#successfullyResentNewAccountKey').css('display', 'none');
       $('#sentCodeIsActive').css('display', 'none');
       $http.post('/api/host/reverify/mobile').success(function (response) {
+        vm.resendAccountKeyCounter = 60;
+        $('#resendMobileKeyCode').addClass('disableAnchorLinks');
+        var resendAccountKeyCounter = $timeout($scope.onTimeout,1000);
         $('#' + mobileverificationServerResponseCodes[response]).css('display', 'block');
         $('#loadingDivHostSide').css('display', 'block');
         $('#loadingDivHostSide').css('display', 'none');

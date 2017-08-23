@@ -991,7 +991,7 @@
     margin-bottom: 0px;
 }
 
-.host-guest-common-style #email.form-control {
+.host-guest-common-style #guestName.form-control, .host-guest-common-style #email.form-control, .host-guest-common-style #guestMessage.form-control {
     margin-bottom: 5px;
 }
 

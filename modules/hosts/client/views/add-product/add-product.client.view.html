@@ -667,6 +667,22 @@
 																	</ul>
 																	<div class="tab-content">
 														            	<div role="tabpanel" class="tab-pane active" id="current">
+														            		<div class="card" ng-repeat="savedSession in vm.fixedProductScheduleOld track by $index" ng-if="vm.checkISThisFuture(vm.fixedProductScheduleOld[$index].startDate)">
+														                		<h5>{{vm.sessionInternalNamesOld[$index]}}</h5>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].startDate)}} {{vm.fixedProductScheduleOld[$index].startTime}}</span></p>
+															                        <p><label>Until:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].repeatTillDate)}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <p><label>Repeats:</label> <span>{{vm.fixedProductScheduleOld[$index].repeatBehavior}}</span></p>
+															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit}}</span></p>
+															                    </div>
+															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
+															                        <!-- <p><a href="" ng-click="vm.viewThisSession($index, true)">View</a></p> -->
+															                        <p><a href="" ng-click="vm.editThisSession($index, true)">Edit</a></p>
+															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
+															                    </div>
+														                	</div>
 														                	<div class="card" ng-repeat="currentSession in vm.fixedProductSchedule track by $index">
 														                		<h5>{{vm.sessionInternalNames[$index]}}</h5>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
@@ -683,12 +699,12 @@
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, false)">Delete</a></p>
 															                    </div>
 														                	</div>
-														                	<div class="text-center" ng-if=" vm.fixedProductSchedule.length == 0">
+														                	<div class="text-center" ng-if=" vm.fixedProductSchedule.length == 0 && !vm.futureSessionPresent">
 														                		<h5>No curent sessions created</h5>
 														                	</div>
 														            	</div>
 														            	<div role="tabpanel" class="tab-pane" id="past">
-								                                            <div class="card" ng-repeat="savedSession in vm.fixedProductScheduleOld track by $index">
+								                                            <div class="card" ng-repeat="savedSession in vm.fixedProductScheduleOld track by $index" ng-if="vm.checkISThisPast(vm.fixedProductScheduleOld[$index].startDate)">
 														                		<h5>{{vm.sessionInternalNamesOld[$index]}}</h5>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
 															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductScheduleOld[$index].startDate)}} {{vm.fixedProductScheduleOld[$index].startTime}}</span></p>
@@ -698,13 +714,8 @@
 															                        <p><label>Repeats:</label> <span>{{vm.fixedProductScheduleOld[$index].repeatBehavior}}</span></p>
 															                        <p><label>Capacity:</label> <span>{{!vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit ? '-' : vm.fixedProductScheduleCapacitiesOld[$index].sessionSeatLimit}}</span></p>
 															                    </div>
-															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
-															                        <!-- <p><a href="" ng-click="vm.viewThisSession($index, true)">View</a></p> -->
-															                        <p><a href="" ng-click="vm.editThisSession($index, true)">Edit</a></p>
-															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
-															                    </div>
 														                	</div>
-														                	<div class="text-center" ng-if=" vm.fixedProductScheduleOld.length == 0">
+														                	<div class="text-center" ng-if=" vm.fixedProductScheduleOld.length == 0 || !vm.pastSessionPresent">
 														                		<h5>No past sessions present</h5>
 														                	</div>
 								                                        </div>                                      

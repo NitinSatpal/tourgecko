@@ -299,7 +299,9 @@
 			                    </div>
 	                    	</div>
 						</div>
+					</div>
 						<!-- ************************************************************************************************ -->
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="calendarDiv">
 						<div id='calendar'></div>
 						<div class="row" id="occupancy-indicator-for-calendar">
 		                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -395,7 +397,8 @@
                            		<p class="margin-bottom text-danger" id="successfullyResentAccountKey" style="color: #40C4FF; display: none;">Your account key has been resent successfully.</p>
                            		<p class="margin-bottom text-danger" id="successfullyResentNewAccountKey" style="color: #40C4FF; display: none;">We noticed your account key was expired. Don't worry! we sent you the new one.</p>
                            		<p class="margin-bottom text-danger" id="sentCodeIsActive" style="color: #40C4FF; display: none;">Please enter the account key sent to you.</p>
-                           		<p class="margin-bottom" id="initialMobileVerificationMessage">Your Account Key may take a few moments to arrive. <br>Please wait <span><strong>49</strong></span> seconds before trying to <a href="" ng-click="vm.resendMobileVerificationKey()">resend</a>.</p>
+                           		<p class="margin-bottom" id="initialMobileVerificationMessage" ng-show="vm.resendAccountKeyCounter > 0">Your Account Key may take a few moments to arrive. <br>Please wait <span><strong>{{vm.resendAccountKeyCounter}}</strong></span> seconds before trying to resend.</p>
+                           		<p class="margin-bottom" id="initialMobileVerificationMessage" ng-show="vm.resendAccountKeyCounter == 0"><a class="disableAnchorLinks" href="" ng-click="vm.resendMobileVerificationKey()" id="resendMobileKeyCode">resend the account key </a></p>
                             </div>
 						</form>
 					</div>
@@ -416,7 +419,9 @@
 	});
 	function changeToListView () {
 		$('#calendar').css('opacity',0);
-		$('#calendar').css('display','none');
+		$('#calendarDiv').css('height', 0);
+		$('#calendarDiv').css('width', 0);
+		$('#calendarDiv').css('overflow', 'hidden');
 		$('#occupancy-indicator-for-calendar').css('display', 'none');
 		$('#sessionList').show();
 		$('#calendarLink').removeClass('active');
@@ -424,8 +429,10 @@
 	}
 	function changeToCalendarView () {
 		$('#sessionList').hide();
+		$('#calendarDiv').css('height', 'auto');
+		$('#calendarDiv').css('width', 'auto');
+		$('#calendarDiv').css('overflow', 'scroll');
 		$('#calendar').css('opacity',1);
-		$('#calendar').css('display','block');
 		$('#occupancy-indicator-for-calendar').css('display', 'block');
 		$('#listLink').removeClass('active');
 		$('#calendarLink').addClass('active');

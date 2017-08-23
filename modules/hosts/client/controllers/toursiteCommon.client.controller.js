@@ -10,9 +10,9 @@
         };
     });
 
-  ToursiteCommonController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window', '$location', 'toasty'];
+  ToursiteCommonController.$inject = ['$scope', '$state', '$stateParams', '$http' , '$window', '$location', '$timeout', 'toasty'];
 
-  function ToursiteCommonController($scope, $state, $stateParams, $http, $window, $location, toasty) {
+  function ToursiteCommonController($scope, $state, $stateParams, $http, $window, $location, $timeout, toasty) {
     var vm = this;
     var toursite = $stateParams.toursite;
     if (toursite == null)
@@ -109,6 +109,7 @@
     vm.sendContentToHost = function (isValid) {
       vm.error = null;
       if (!isValid) {
+        console.log('why i m here again');
         $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
         return false;
       }
@@ -123,7 +124,9 @@
           msg: 'Your message has been sent!',
           sound: false
         });
-        vm.contentToHost = null;
+        $timeout(function () {
+          $state.reload();
+        }, 1000);
       }).error(function (response) {
         vm.error = response.message;
         $('#loadingDivToursite').css('display', 'none');

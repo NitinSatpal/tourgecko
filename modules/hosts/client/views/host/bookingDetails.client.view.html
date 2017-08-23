@@ -204,8 +204,6 @@
                     </div>    
                 </div>
                 
-                
-                <!--
                 <div class="row">    
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
                         
@@ -217,21 +215,30 @@
                                     <form action="">
                                         <ul class="booking-items list-group">
                                             <li class="list-group-item" ng-repeat="payment in vm.paymentsOfThisBooking track by $index">
-                                                <div class="row">
+                                                <div class="row" ng-if="payment.instamojo_refund">
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span style="overflow-wrap: break-word;">{{payment.instamojo_instrument_type}}</span>
+                                                        <span style="overflow-wrap: break-word;">online transfer</span>
                                                     </div>
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span>{{vm.getDisplayDate(payment.instamojo_created_at)}}</span>
+                                                        <span>{{vm.getPaymentTimelineDisplayDate(payment.instamojo_refund.created_at)}}</span>
                                                     </div>
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span>&#8377; {{payment.instamojo_amount}}</span>
+                                                        <span>&#8377; {{payment.instamojo_refund.refund_amount}}</span>
                                                     </div>
                                                     
                                                 </div>
-                                                <span class="booking-payment-method">{{payment.instamojo_instrument_type}}</span>
-                                                <span class="booking-payment-date">{{vm.getDisplayDate(payment.instamojo_created_at)}}</span>
-                                                <span class="booking-payment-amount">&#8377; {{payment.instamojo_amount}}</span>
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span class="paymentType" style="overflow-wrap: break-word; text-transform: lowercase;">{{payment.instamojo_instrument_type}}</span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span>{{vm.getPaymentTimelineDisplayDate(payment.instamojo_created_at)}}</span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span>&#8377; {{payment.instamojo_amount.toFixed(2)}}</span>
+                                                    </div>
+                                                    
+                                                </div>
                                             </li>
                                             <!-- <li class="list-group-item">
                                                 <span class="booking-payment-method edit-mode">
@@ -262,16 +269,17 @@
                                                     </div>
                                                 </span>
                                             </li>
+                                            -->
                                         </ul>
                                     </form>
                                 </div>
                             </div>
-                           <!-- <a href="#" class="add_price_option"><i class="zmdi zmdi-plus"></i> Add payment</a>
+                           <!-- <a href="#" class="add_price_option"><i class="zmdi zmdi-plus"></i> Add payment</a>-->
                         </div>
                     </div>
                 </div>
-                -->
-
+            
+                <!--
                 <div id="action-log" class="row">    
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top ">
                         <div class="head_content">
@@ -303,7 +311,7 @@
                         </div>
                     </div>
                 </div>
-               
+               -->
                <!--  ===========  activity log  ===========   -->
                
                 <div id="action-log" class="row">    
@@ -444,8 +452,8 @@
             </div>
             <div class="modal-body">
                 <p> Are you sure you want to return Rs. {{vm.refundAmount}} /- </p>
-                <p ng-show="vm.hostGoingNegative"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit}} /- and you are returning more!</p>
-                <p ng-show="vm.hostGettingNothing"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit}} /- and you are returning the whole amount!</p>
+                <p ng-show="vm.hostGoingNegative"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are returning more!</p>
+                <p ng-show="vm.hostGettingNothing"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are returning the whole amount!</p>
                 <a ng-click="vm.refundTheGivenAmount()" class="btn btn-warning pull-left margin-right btn-sm">Yes, continue</a>
                 <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">No</a>  
                 <!-- <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;"></textarea>  

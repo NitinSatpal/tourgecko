@@ -55,6 +55,7 @@
     vm.calculatedAddonPriceForSelectedAddonOptions = [];
     vm.errorContent = [];
     vm.agreedToTermsAndConditions = false;
+    vm.contentToHost = {};
 
     $timeout(function () {
       $('.host-guest-common-style-Top-Info-Section').addClass('conditionalHide');
@@ -119,6 +120,7 @@
     $http.get('/api/guest/product/' + productId).success(function (response) {
       /* Product details */
       vm.bookingProductDetails = response[0];
+      vm.contentToHost['guestSubject'] = 'Enquiry for - ' + vm.bookingProductDetails.productTitle;
       /* Get all the sessions of the product. Sessions will be present in case of fixed departure tours only. */
       $http.get('/api/host/product/productsession/' + productId).success(function (response) {
         /* Sessions of the above fetched product*/
@@ -1235,6 +1237,37 @@ vm.areAddonsSelected = function () {
         else
           vm.pricingOptionIndexAndQuantity[index] = 'Please Select';
       }
-    }    
+    }
+
+    vm.sendContentToHost = function (isValid) {
+      vm.error = null;
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'vm.contentToHostForm');
+        return false;
+      }
+      $('#loadingDivTourBooking').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      var communicationParams = {guestDetails: vm.contentToHost, hostMail: vm.companyData.inquiryEmail}
+      $http.post('/api/host/sendContentToHostFromContactUs/', communicationParams).success(function (response) {
+        $('#loadingDivTourBooking').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        toasty.success({
+          title: 'Message sent!',
+          msg: 'Your message has been sent!',
+          sound: false
+        });
+        vm.contentToHost = null;
+        $('#dismissContactUsModal').click();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivTourBooking').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+        toasty.error({
+          title: 'Something went wrong!',
+          msg: 'Mail could not be send. Please contact Tourgecko!',
+          sound: false
+        });
+      });
+    }
   }
 }());

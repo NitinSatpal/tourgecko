@@ -293,6 +293,11 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .fixedDatedTourSessionsAddProductPage .fixed-date-availability ul.nav-tabs {
 	margin:1rem;
 }
+.disableAnchorLinks {
+	cursor: not-allowed;
+	pointer-events: none;
+	color: grey;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 

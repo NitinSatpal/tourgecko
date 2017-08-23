@@ -733,9 +733,12 @@
     if (!vm.editingTheSession)
       vm.fixedProductSchedule.splice((vm.fixedProductSchedule.length - 1), 1);
     else {
+      if (vm.oldSessionEditing)
+        vm.fixedProductSchedule.splice((vm.fixedProductSchedule.length - 1), 1);
       vm.editingTheSession = false;
       vm.oldSessionEditing = false;
       vm.onlyCapacityEditAllowed = false;
+      
     }
   }
 
@@ -992,8 +995,6 @@
     $(".dsChangePrice").hide();
     vm.sessionSeatsLimitType = 'select';
     vm.showTheList = true;
-    console.log('why why ' + vm.editingTheSession);
-    console.log('again why ' + vm.oldSessionEditing);
     if (!vm.editingTheSession) {
       vm.fixedProductScheduleVisibility[vm.fixedDepartureSessionCounter] = true;
       $('#sessionsCreatedAndUnsaved').click();
@@ -1017,7 +1018,7 @@
           vm.sessionInternalNamesOld.push(vm.sessionInternalNames[vm.fixedDepartureSessionCounter]);
           vm.fixedProductScheduleCapacitiesOld.push(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter]);
           saveTheProduct();
-          $('#sessionsCreatedAndSaved').click();
+          //$('#sessionsCreatedAndSaved').click();
         }).error(function (error) {
           toasty.error({
             title: 'Something went wrong!',
@@ -1170,7 +1171,7 @@
               $state.go('host.showProduct', {productId: response._id, showSuccessMsg: false, showEditSuccessMsg: true});
             if (vm.editingTheSession) {
               $('#tours_sa_Selector').click();
-              $('#sessionsCreatedAndSaved').click();
+              //$('#sessionsCreatedAndSaved').click();
               vm.showTheList = true;
               vm.fixedProductScheduleCapacities.length = 0;
               vm.fixedProductSchedule.length = 0;
@@ -1223,11 +1224,12 @@
       /* Assign form data to product record properly */
   /* ------------------------------------------------------------------------------------------------------------------------- */
       function setProductInformation() {
+        vm.productScheduledDates = vm.productScheduledDates.sort();
+        vm.tour.productScheduledDates = vm.productScheduledDates;
         vm.tour.destination = document.getElementById('tour_main_destination').value;
         vm.tour.productGrade = vm.productGrade;
         vm.tour.productAvailabilityType = vm.productAvailabilityType;
         vm.tour.productScheduledTimestamps = vm.productScheduledTimestamps;
-        vm.tour.productScheduledDates = vm.productScheduledDates;
         vm.tour.productDurationType = vm.productDurationType;
         vm.tour.productSummary = CKEDITOR.instances.describe_tour_briefly.getData();
         vm.tour.productCancellationPolicy = CKEDITOR.instances.cancellationPolicies.getData();
@@ -1570,6 +1572,25 @@
         }
       }
 
+      vm.pastSessionPresent = false;
+      vm.checkISThisPast = function (date) {
+        if (new Date(date).getTime() < new Date().getTime()) {
+          vm.pastSessionPresent = true;
+          return true;
+        }
+
+        return false;
+      }
+
+      vm.futureSessionPresent = false;
+      vm.checkISThisFuture = function (date) {
+        if (new Date(date).getTime() >= new Date().getTime()) {
+          vm.futureSessionPresent = true;
+          return true;
+        }
+
+        return false;
+      }
       vm.fixedProductScheduleOld = [];
       vm.sessionSpecialPricingOld = [];
       vm.sessionInternalNamesOld = [];
@@ -1577,20 +1598,20 @@
       vm.fixedProductScheduleUniqueIdOld = [];
       $scope.setTheSessionListItem = function (sessions) {
         for (var index = 0; index < sessions.length; index ++) {
-          if (new Date(sessions[index].sessionDepartureDetails.startDate).getTime() < new Date().getTime()) {
+          //if (new Date(sessions[index].sessionDepartureDetails.startDate).getTime() < new Date().getTime()) {
             vm.fixedProductScheduleOld[index] = sessions[index].sessionDepartureDetails;
             vm.sessionSpecialPricingOld[index] = sessions[index].sessionPricingDetails;
             vm.sessionInternalNamesOld[index] = sessions[index].sessionInternalName;
             vm.fixedProductScheduleCapacitiesOld[index] = sessions[index].sessionCapacityDetails;
             vm.fixedProductScheduleUniqueIdOld[index] = sessions[index]._id;
             $scope.$apply();
-          } else {
+         /* } else {
             vm.fixedProductSchedule[index] = sessions[index].sessionDepartureDetails;
             vm.sessionSpecialPricing[index] = sessions[index].sessionPricingDetails;
             vm.sessionInternalNames[index] = sessions[index].sessionInternalName;
             vm.fixedProductScheduleCapacities[index] = sessions[index].sessionCapacityDetails;
             vm.fixedProductScheduleUniqueId[index] = sessions[index]._id;
-          }
+          } */
         }
       }
     }
