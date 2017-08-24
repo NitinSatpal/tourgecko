@@ -215,18 +215,6 @@
                                     <form action="">
                                         <ul class="booking-items list-group">
                                             <li class="list-group-item" ng-repeat="payment in vm.paymentsOfThisBooking track by $index">
-                                                <div class="row" ng-if="payment.instamojo_refund">
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span style="overflow-wrap: break-word;">online transfer</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span>{{vm.getPaymentTimelineDisplayDate(payment.instamojo_refund.created_at)}}</span>
-                                                    </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
-                                                        <span>&#8377; {{payment.instamojo_refund.refund_amount}}</span>
-                                                    </div>
-                                                    
-                                                </div>
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                                                         <span class="paymentType" style="overflow-wrap: break-word; text-transform: lowercase;">{{payment.instamojo_instrument_type}}</span>
@@ -237,7 +225,17 @@
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
                                                         <span>&#8377; {{payment.instamojo_amount.toFixed(2)}}</span>
                                                     </div>
-                                                    
+                                                </div>
+                                                <div class="row" ng-if="payment.instamojo_refund">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span style="overflow-wrap: break-word;">refund</span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span>{{vm.getPaymentTimelineDisplayDate(payment.instamojo_refund.created_at)}}</span>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                                                        <span>&#8377; {{payment.instamojo_refund.refund_amount}}</span>
+                                                    </div>
                                                 </div>
                                             </li>
                                             <!-- <li class="list-group-item">

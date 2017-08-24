@@ -683,7 +683,7 @@
 															                        <p><a href="" ng-click="vm.deleteThisSession($index, true)">Delete</a></p>
 															                    </div>
 														                	</div>
-														                	<div class="card" ng-repeat="currentSession in vm.fixedProductSchedule track by $index">
+														                	<div class="card" ng-repeat="currentSession in vm.fixedProductSchedule track by $index" id="unsavedCurrentSession{{$index}}">
 														                		<h5>{{vm.sessionInternalNames[$index]}}</h5>
 															                    <div class="col-lg-4 col-md-4  col-sm-4  col-xs-12 grey-text">
 															                        <p><label>Starts:</label> <span>{{vm.getDepartureDateOfSession(vm.fixedProductSchedule[$index].startDate)}} {{vm.fixedProductSchedule[$index].startTime}}</span></p>
@@ -1075,7 +1075,8 @@
 						</div>
 						<br>
 						<div class="dsCreate text-center modal-footer">
-							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="!vm.editingTheSession">Add</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="vm.editingTheSession">Ok</a>
 						</div>
 					</div>
 					<div id="session_repeat" class="tab-pane fade">
@@ -1150,7 +1151,8 @@
 						</div>
 						<br>
 						<div class="dsCreate text-center modal-footer">
-							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="!vm.editingTheSession">Add</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="vm.editingTheSession">Ok</a>
 						</div>
 					</div>
 					<div id="tours_Pc" class="tab-pane fade">
@@ -1259,7 +1261,8 @@
 						</div>
 						<br>
 						<div class="dsCreate text-center modal-footer">
-							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()">Save</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="!vm.editingTheSession">Add</a>
+							<a href="#" class="btn btn-primary" id="createDepartureSessionButton" ng-click="vm.createDepartureSession()" ng-if="vm.editingTheSession">Ok</a>
 						</div>
 					</div>
 				</div>

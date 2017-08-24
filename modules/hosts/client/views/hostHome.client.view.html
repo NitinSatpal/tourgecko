@@ -1,278 +1,310 @@
-<div class="hostHome container-fluid" id="hostHome">
-	<div class="row body-content">
-		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
-			{{vm.isWelcomeMessageValid('firstLoginWelcomeMessage')}}
-			<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
-			<div class="home-section alert alert-welcome" ng-show="vm.showTheWelcomeMessage">
-               <div class="welcome_block">
-					<p>
-						<span>
-							<Strong>Welcome to tourgecko, <span style="text-transform: capitalize; display: inline-block;">{{vm.companyDetails.user.displayName}}</span>.</Strong>
-						</span>
-						We have stuck some steps  on your pinboard below to guide you to complete your account  setup  and start taking online bookings. It takes only few minutes…...
-					</p>														
-					<a class="dismiss " href="" ng-click="vm.disMissWelcomeMessage('firstLoginWelcomeMessage')">Dismiss</a>
+<div class="hostHome" id="hostHome">
+	<div class="container-fluid" >
+		<div class="row body-content">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
+				{{vm.isWelcomeMessageValid('firstLoginWelcomeMessage')}}
+				<div ng-include="'/modules/hosts/client/views/top-nav-home.client.view.html'"></div>
+				<div class="home-section alert alert-welcome" ng-show="vm.showTheWelcomeMessage">
+	               <div class="welcome_block">
+						<p>
+							<span>
+								<Strong>Welcome to tourgecko, <span style="text-transform: capitalize; display: inline-block;">{{vm.companyDetails.user.displayName}}</span>.</Strong>
+							</span>
+							We have stuck some steps  on your pinboard below to guide you to complete your account  setup  and start taking online bookings. It takes only few minutes…...
+						</p>														
+						<a class="dismiss " href="" ng-click="vm.disMissWelcomeMessage('firstLoginWelcomeMessage')">Dismiss</a>
+					</div>
 				</div>
-			</div>
-			<style> 
-				.alert-welcome  {
-					color: white;
-					background-color: #ddffdd;
-					border-color: #ddffdd;
-				}
-			    .welcome_block p span {
-			    	font-size:2rem;
-			    	display: block;
-			    }
-				.welcome_block {
-					padding-top:1rem;
-					display: block;
-					text-align: center;
-				}
-			</style>
+				<style> 
+					.alert-welcome  {
+						color: white;
+						background-color: #ddffdd;
+						border-color: #ddffdd;
+					}
+				    .welcome_block p span {
+				    	font-size:2rem;
+				    	display: block;
+				    }
+					.welcome_block {
+						padding-top:1rem;
+						display: block;
+						text-align: center;
+					}
+				</style>
 
-					
-			<div class="home-section analytics">
-				<div class="head_content">
-					<h4>Analytics</h4>
-					<!-- <p>Last 30 days</p> -->
+						
+				<div class="home-section analytics">
+					<div class="head_content">
+						<h4>Analytics</h4>
+						<!-- <p>Last 30 days</p> -->
+					</div>
+					<!-- We are suppose to give the analytics for last 30 days as per written in heading. For now, its overall. Will
+						 check whether I need to change it to last 30 days or we will change the heading to total -->
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 analytics-bookings">
+							<i class="zmdi zmdi-account"></i>
+							<p ng-show="vm.bookings.length > 1"><span>{{vm.bookings.length}}</span> Bookings</p>
+							<p ng-show="vm.bookings.length <= 1"><span>{{vm.bookings.length}}</span> Booking</p>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 revenue">
+							<i class="fa fa-inr" aria-hidden="true"></i>
+							<p><span>{{vm.totalRevenue}}</span> Revenue</p>
+						</div>
+						<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
+							<i class="zmdi zmdi-card-travel"></i>
+							<p ng-show="vm.messageCount > 1"><span>{{vm.messageCount}}</span> Tours</p>
+							<p ng-show="vm.messageCount <= 1"><span>{{vm.messageCount}}</span> Tour<ur/p>
+						</div> -->
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
+							<i class="zmdi zmdi-card-travel"></i>
+							<p ng-show="vm.productCount > 1"><span>{{vm.productCount}}</span> Tours</p>
+							<p ng-show="vm.productCount <= 1"><span>{{vm.productCount}}</span> Tour<ur/p>
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
+							<i class="zmdi zmdi-airplane"></i>
+							<p ng-show="vm.departuresCount > 1"><span>{{vm.departuresCount}}</span> Departures</p>
+							<p ng-show="vm.departuresCount <= 1"><span>{{vm.departuresCount}}</span> Departure</p>
+						</div>
+					</div>
 				</div>
-				<!-- We are suppose to give the analytics for last 30 days as per written in heading. For now, its overall. Will
-					 check whether I need to change it to last 30 days or we will change the heading to total -->
-				<div class="row">
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 analytics-bookings">
-						<i class="zmdi zmdi-account"></i>
-						<p ng-show="vm.bookings.length > 1"><span>{{vm.bookings.length}}</span> Bookings</p>
-						<p ng-show="vm.bookings.length <= 1"><span>{{vm.bookings.length}}</span> Booking</p>
+				<div class="home-section pinboard">
+					<div class="head_content">
+						<h4>Pinboard</h4>
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 revenue">
-						<i class="fa fa-inr" aria-hidden="true"></i>
-						<p><span>{{vm.totalRevenue}}</span> Revenue</p>
-					</div>
-					<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
-						<i class="zmdi zmdi-card-travel"></i>
-						<p ng-show="vm.messageCount > 1"><span>{{vm.messageCount}}</span> Tours</p>
-						<p ng-show="vm.messageCount <= 1"><span>{{vm.messageCount}}</span> Tour<ur/p>
-					</div> -->
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 messages">
-						<i class="zmdi zmdi-card-travel"></i>
-						<p ng-show="vm.productCount > 1"><span>{{vm.productCount}}</span> Tours</p>
-						<p ng-show="vm.productCount <= 1"><span>{{vm.productCount}}</span> Tour<ur/p>
-					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 departures">
-						<i class="zmdi zmdi-airplane"></i>
-						<p ng-show="vm.departuresCount > 1"><span>{{vm.departuresCount}}</span> Departures</p>
-						<p ng-show="vm.departuresCount <= 1"><span>{{vm.departuresCount}}</span> Departure</p>
-					</div>
-				</div>
-			</div>
-			<div class="home-section pinboard">
-				<div class="head_content">
-					<h4>Pinboard</h4>
-				</div>
-			    <div class="col pin-group" ng-repeat="goal in vm.companyDetails.pinboardGoals track by $index" ng-if="!goal.isGoalCompleted">
-			        <div class="alert alert-info row">
-			        	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-9" ng-style="vm.getDynamicPadding()">
-			            	<strong>Goal:</strong>&nbsp;{{goal.goalText}}
-			            </div>
-			            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3" style="margin-top: 15px;">
-			                <div class="c100 small orange" id="goal{{$index}}" ng-class="vm.getPercentCompletionOfGoal(goal)">
-			                    <span class="orange-text">{{vm.percentCompletion}}%</span>
-			                    <div class="slice">
-			                        <div class="bar"></div>
-			                        <div class="fill"></div>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			        <ul>
-			            <li ng-repeat="pin in goal.pinsForthisGoal track by $index">
-			                <div class="info_content row">
-			                    <div class="info col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			                        <p>{{pin.message}}</p>
-			                    </div>
-			                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			                        <p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i>{{pin.type}}</p>
-			                        <p class="time" ng-show="pin.timeRequired">
-			                        	<i class="zmdi zmdi-timer"></i>
-			                        	{{pin.timeRequired}}
-			                        	<span ng-show="pin.timeRequired == 1">min</span>
-			                        	<span ng-show="pin.timeRequired > 1">mins</span>
-			                        </p>
-			                    </div>
-			                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12 pinButtonsDynamicStyling">
-				                    <div ng-if="!pin.isPinCompleted">
-					                    <a class="update_profile btn btn-default"  ng-if="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-					                    <a class="update_profile btn btn-default"  ng-if="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
-					                </div>
-
-					                <div ng-if="pin.isPinCompleted" ng-style="vm.getDynamicMarginPinboardCompletion()">
-				                    	<h3><i class="zmdi zmdi-assignment-check green-text"></i></h3>
+				    <div class="col pin-group" ng-repeat="goal in vm.companyDetails.pinboardGoals track by $index" ng-if="!goal.isGoalCompleted">
+				        <div class="alert alert-info row">
+				        	<div class="col-lg-11 col-md-11 col-sm-11 col-xs-9" ng-style="vm.getDynamicPadding()">
+				            	<strong>Goal:</strong>&nbsp;{{goal.goalText}}
+				            </div>
+				            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3" style="margin-top: 15px;">
+				                <div class="c100 small orange" id="goal{{$index}}" ng-class="vm.getPercentCompletionOfGoal(goal)">
+				                    <span class="orange-text">{{vm.percentCompletion}}%</span>
+				                    <div class="slice">
+				                        <div class="bar"></div>
+				                        <div class="fill"></div>
 				                    </div>
 				                </div>
-			                </div>
-			            </li>
-			        </ul>
-			    </div>
-			    <div class="info_content" ng-repeat="pin in vm.companyDetails.pinboardPins track by $index">
-			        <div class="info">
-					        <p>{{pin.message}}</p>
-					        <p class="todo text-uppercase"><i class="zmdi zmdi-lamp invert"></i>{{pin.type}}</p>
-					        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
+				            </div>
+				        </div>
+				        <ul>
+				            <li ng-repeat="pin in goal.pinsForthisGoal track by $index">
+				                <div class="info_content row">
+				                    <div class="info col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				                        <p>{{pin.message}}</p>
+				                    </div>
+				                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				                        <p class="todo text-uppercase"><i class="zmdi zmdi-assignment"></i>{{pin.type}}</p>
+				                        <p class="time" ng-show="pin.timeRequired">
+				                        	<i class="zmdi zmdi-timer"></i>
+				                        	{{pin.timeRequired}}
+				                        	<span ng-show="pin.timeRequired == 1">min</span>
+				                        	<span ng-show="pin.timeRequired > 1">mins</span>
+				                        </p>
+				                    </div>
+				                    <div class="info col-lg-6 col-md-6 col-sm-6 col-xs-12 pinButtonsDynamicStyling">
+					                    <div ng-if="!pin.isPinCompleted">
+						                    <a class="update_profile btn btn-default"  ng-if="pin.islinkRequired == 'true'" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+						                    <a class="update_profile btn btn-default"  ng-if="pin.isclickeventRequired == 'true'" href="#" ng-click="vm.clickThisElement(pin.clickableElementId)">{{pin.linkButtonLabel}}</a>
+						                </div>
+
+						                <div ng-if="pin.isPinCompleted" ng-style="vm.getDynamicMarginPinboardCompletion()">
+					                    	<h3><i class="zmdi zmdi-assignment-check green-text"></i></h3>
+					                    </div>
+					                </div>
+				                </div>
+				            </li>
+				        </ul>
 				    </div>
-				    <a class="update_profile btn btn-default pull-right"  ng-show="!pin.isclickeventRequired && !pin.islinkRequired" href="#" ng-click="vm.dismissPinboardMessage(pin._id, 'pin', $index)">Dismiss</a>
-	                <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
-	                <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired" href="#">{{pin.linkButtonLabel}}</a>
-				    <!-- <h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3> -->
-			    </div>
-			</div>
-			
-			<div class="home-section latest">
-				<div class="head_content">
-					<h4>Latest</h4>
+				    <div class="info_content" ng-repeat="pin in vm.companyDetails.pinboardPins track by $index">
+				        <div class="info">
+						        <p>{{pin.message}}</p>
+						        <p class="todo text-uppercase"><i class="zmdi zmdi-lamp invert"></i>{{pin.type}}</p>
+						        <p class="time" ng-show="pin.timeRequired"><i class="zmdi zmdi-timer"></i>{{pin.timeRequired}}</p>
+					    </div>
+					    <a class="update_profile btn btn-default pull-right"  ng-show="!pin.isclickeventRequired && !pin.islinkRequired" href="#" ng-click="vm.dismissPinboardMessage(pin._id, 'pin', $index)">Dismiss</a>
+		                <a class="update_profile btn btn-default pull-right"  ng-show="pin.islinkRequired" href="{{pin.linkURL}}">{{pin.linkButtonLabel}}</a>
+		                <a class="update_profile btn btn-default pull-right"  ng-show="pin.isclickeventRequired" href="#">{{pin.linkButtonLabel}}</a>
+					    <!-- <h3 class="pull-right"><i class="zmdi zmdi-assignment-check green-text"></i></h3> -->
+				    </div>
 				</div>
-				<div class="row">
-					<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
-						<h4>Bookings</h4>
-						<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
-							<div ng-click="vm.goToBookingDetails(booking._id)" style="cursor: pointer;">
-								<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
-								<p class="outing">{{booking.product.productTitle}}</p>
-								<p class="date">{{vm.getDepartureDateOfBookings($index)}}</p>
-								<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
-							</div>
-						</div>
-						<div class="seemoreinfo">
-							<a ng-show="vm.bookings.length == 0">No Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5" onclick="showLoaderHostHome('#bookingsTab')">Go to Bookings</a>
-							<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5" onclick="showLoaderHostHome('#bookingsTab')">See all Bookings</a>
-							
-						</div>
+				
+				<div class="home-section latest">
+					<div class="head_content">
+						<h4>Latest</h4>
 					</div>
-
-					<!--<div class="col-lg-6 col-mg-6 col-sm-6 message">
-						<h4>Messages</h4>
-						<div class="info_content" ng-repeat="message in vm.messages | limitTo:5">
-							<p class="name">{{message.messageFrom}}</p>
-							<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-							<p class="status"><i class="zmdi zmdi-email"></i></p>
-						</div>
-
-						<div class="seemoreinfo">
-							<a ng-show="vm.messages.length == 0">No Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5" onclick="showLoaderHostHome('#messagesTab')">Go to Messages</a>
-							<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5" onclick="showLoaderHostHome('#messagesTab')">See all Messages</a>
-						</div>
-					</div> -->
-					<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
-						<h4>Sessions</h4>
-						<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy: 'utcDate' | limitTo: 5">
-							
-	                            <div class="occupancy-indicator" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;" ng-style="{{session.percentBookingColor}}">
-	                                <i class="zmdi zmdi-account green-text"></i>
-	                                <h5>
-	                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.startDate, session.numberOfSeatsSession)}}</span>&nbsp;/
-	                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? '-' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
-	                                    <span class="total" ng-if="!session.sessionInternalName">-</span>
-	                                </h5>
-	                            </div>
-								<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
-		                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
-		                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
-		                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}} {{session.startTime}}</p>
-									<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}}</span></p>
-	                            </div>
-	                       
-						</div>
-
-						<div class="seemoreinfo">
-							<a ng-show="vm.departureSessions.length == 0">No Sessions</a>
-							<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 0 && vm.departureSessions.length <= 5" onclick="showLoaderHostHome('#sessionsTab')">Go to Sessions</a>
-							<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 5" onclick="showLoaderHostHome('#sessionsTab')">See all Sessions</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="home-section event_calendar">
-				<div class="head_content">
-					<h4>Upcoming</h4>
-                    <ul class="cal_list_toggle pull-right">
-                    	<li>
-                    		<a href="#" class="active" onclick="changeToCalendarView()" id="calendarLink">Calendar</a>
-                    	</li>
-                    	<li> | </li>
-                    	<li>
-                    		<a href="#" onclick="changeToListView()" id="listLink">List</a>
-                    	</li>
-                    </ul>
-				</div>
-				<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">						
-						<div id="sessionList" class="listView" style="margin-top: 0 !important">
-							<div class="fc-toolbar">
-								<div class="fc-right">
-									<div class="fc-button-group">
-										<button id="btnmonth" type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" ng-click="vm.changeCalendarView('month')">month</button>
-										<button id="btnagendaWeek" type="button" class="fc-agendaWeek-button fc-button fc-state-default" ng-click="vm.changeCalendarView('agendaWeek')">week</button>
-										<button id="btnagendaDay" type="button" class="fc-agendaDay-button fc-button fc-state-default fc-corner-right" ng-click="vm.changeCalendarView('agendaDay')">day
-										</button>
-									</div>
+					<div class="row">
+						<div class="col-lg-6 col-mg-6 col-sm-6 bookings">
+							<h4>Bookings</h4>
+							<div class="info_content" ng-repeat="booking in vm.bookings | limitTo:5">
+								<div ng-click="vm.goToBookingDetails(booking._id)" style="cursor: pointer;">
+									<p class="name">{{booking.providedGuestDetails.firstName}} {{booking.providedGuestDetails.lastName}}</p>
+									<p class="outing">{{booking.product.productTitle}}</p>
+									<p class="date">{{vm.getDepartureDateOfBookings($index)}}</p>
+									<p class="status text-uppercase"><i class="zmdi zmdi-star-outline"></i> New</p>
 								</div>
 							</div>
-							<div class="fc-button-group btn-listview">
-								<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthSessions(true)">
-									<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
-								</button>
-								<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthSessions(true)">
-									<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
-								</button>
+							<div class="seemoreinfo">
+								<a ng-show="vm.bookings.length == 0">No Bookings</a>
+								<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 0 && vm.bookings.length <= 5" onclick="showLoaderHostHome('#bookingsTab')">Go to Bookings</a>
+								<a ui-sref="host.allBookings" ng-show="vm.bookings.length > 5" onclick="showLoaderHostHome('#bookingsTab')">See all Bookings</a>
+								
 							</div>
-							<div class="title-listview" style="margin-left: 35%;">
-								<span class="listViewMonthTitle">{{listViewMonthTitle}}</span>
+						</div>
+
+						<!--<div class="col-lg-6 col-mg-6 col-sm-6 message">
+							<h4>Messages</h4>
+							<div class="info_content" ng-repeat="message in vm.messages | limitTo:5">
+								<p class="name">{{message.messageFrom}}</p>
+								<p class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+								<p class="status"><i class="zmdi zmdi-email"></i></p>
 							</div>
-							<br><br>
-							<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
-								<span><h4> There are no tour or activities sessions scheduled in this time period!</h4></span>
+
+							<div class="seemoreinfo">
+								<a ng-show="vm.messages.length == 0">No Messages</a>
+								<a ui-sref="host.allMessages" ng-show="vm.messages.length > 0 && vm.messages.length <= 5" onclick="showLoaderHostHome('#messagesTab')">Go to Messages</a>
+								<a ui-sref="host.allMessages" ng-show="vm.messages.length > 5" onclick="showLoaderHostHome('#messagesTab')">See all Messages</a>
 							</div>
-							<br>
-							<div class="card list-content sessions" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)" ng-if="vm.getStartsInDays(session.startDate) != '0 day'">
-								<div class="info_content">
+						</div> -->
+						<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
+							<h4>Sessions</h4>
+							<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy: 'utcDate' | limitTo: 5">
+								
 		                            <div class="occupancy-indicator" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;" ng-style="{{session.percentBookingColor}}">
 		                                <i class="zmdi zmdi-account green-text"></i>
 		                                <h5>
-		                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.start, session.numberOfSeatsSession)}}</span>&nbsp;/
+		                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.startDate, session.numberOfSeatsSession)}}</span>&nbsp;/
 		                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? '-' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
 		                                    <span class="total" ng-if="!session.sessionInternalName">-</span>
 		                                </h5>
 		                            </div>
 									<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
-			                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.title}})</p>
-			                            <p class="name" ng-if="!session.sessionInternalName">{{session.title}}</p>
-			                            <p class="date">{{vm.getDepartureDateOfSession(session.start)}} {{session.startTime}}</p>
-										<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.start)}}</span></p>
+			                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
+			                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
+			                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}} {{session.startTime}}</p>
+										<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}}</span></p>
 		                            </div>
+		                       
+							</div>
+
+							<div class="seemoreinfo">
+								<a ng-show="vm.departureSessions.length == 0">No Sessions</a>
+								<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 0 && vm.departureSessions.length <= 5" onclick="showLoaderHostHome('#sessionsTab')">Go to Sessions</a>
+								<a ui-sref="host.calendar" ng-show="vm.departureSessions.length > 5" onclick="showLoaderHostHome('#sessionsTab')">See all Sessions</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="home-section event_calendar">
+					<div class="head_content">
+						<h4>Upcoming</h4>
+	                    <ul class="cal_list_toggle pull-right">
+	                    	<li>
+	                    		<a href="#" class="active" onclick="changeToCalendarView()" id="calendarLink">Calendar</a>
+	                    	</li>
+	                    	<li> | </li>
+	                    	<li>
+	                    		<a href="#" onclick="changeToListView()" id="listLink">List</a>
+	                    	</li>
+	                    </ul>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">						
+							<div id="sessionList" class="listView" style="margin-top: 0 !important">
+								<div class="fc-toolbar">
+									<div class="fc-right">
+										<div class="fc-button-group">
+											<button id="btnmonth" type="button" class="fc-month-button fc-button fc-state-default fc-corner-left fc-state-active" ng-click="vm.changeCalendarView('month')">month</button>
+											<button id="btnagendaWeek" type="button" class="fc-agendaWeek-button fc-button fc-state-default" ng-click="vm.changeCalendarView('agendaWeek')">week</button>
+											<button id="btnagendaDay" type="button" class="fc-agendaDay-button fc-button fc-state-default fc-corner-right" ng-click="vm.changeCalendarView('agendaDay')">day
+											</button>
+										</div>
+									</div>
 								</div>
-								<!--<div class="row">
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
-										<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
-											<div class="dataDiv">
-												<span class="numOfBookings"> {{session.numOfBookings}} </span> <br>
-												<span class="bookingText"> Bookings </span>
+								<div class="fc-button-group btn-listview">
+									<button id="listViewPrevBtn" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left customPrevNextBtnStyle" ng-click="vm.fetchPrevMonthSessions(true)">
+										<span class="fc-icon fc-icon-left-single-arrow" style="vertical-align: middle"></span>
+									</button>
+									<button id="listViewNextBtn" type="button" class="fc-next-button fc-button fc-state-default fc-corner-right customPrevNextBtnStyle" ng-click="vm.fetchNextMonthSessions(true)">
+										<span class="fc-icon fc-icon-right-single-arrow" style="vertical-align: middle;"></span>
+									</button>
+								</div>
+								<div class="title-listview" style="margin-left: 35%;">
+									<span class="listViewMonthTitle">{{listViewMonthTitle}}</span>
+								</div>
+								<br><br>
+								<div ng-show="productSessions.length == 0" class="text-center" style="margin-top: 10%;">
+									<span><h4> There are no tour or activities sessions scheduled in this time period!</h4></span>
+								</div>
+								<br>
+								<div class="card list-content sessions" ng-repeat="session in productSessions | orderBy: start: false track by $index" ng-click="vm.goToSessionBookingDetailsViaList($index)" ng-if="vm.getStartsInDays(session.startDate) != '0 day'">
+									<div class="info_content">
+			                            <div class="occupancy-indicator" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;" ng-style="{{session.percentBookingColor}}">
+			                                <i class="zmdi zmdi-account green-text"></i>
+			                                <h5>
+			                                    <span class="current">{{vm.getAvailabilityFigureForLatestSection(session.start, session.numberOfSeatsSession)}}</span>&nbsp;/
+			                                    <span class="total" ng-if="session.sessionInternalName">{{session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited' ? '-' : session.sessionCapacityDetails.sessionSeatLimit}}</span>
+			                                    <span class="total" ng-if="!session.sessionInternalName">-</span>
+			                                </h5>
+			                            </div>
+										<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
+				                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.title}})</p>
+				                            <p class="name" ng-if="!session.sessionInternalName">{{session.title}}</p>
+				                            <p class="date">{{vm.getDepartureDateOfSession(session.start)}} {{session.startTime}}</p>
+											<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.start)}}</span></p>
+			                            </div>
+									</div>
+									<!--<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 productTitle">
+											<div class="bookingRequests" ng-style="vm.getBackgroundColor(session.percentBookingColor);">
+												<div class="dataDiv">
+													<span class="numOfBookings"> {{session.numOfBookings}} </span> <br>
+													<span class="bookingText"> Bookings </span>
+												</div>
+											</div>
+											
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 sessionNameAndDate">
+											<div class="innerDiv">
+												<span class="name" style="color: #40C4FF;">{{session.title}}</span><br>
+												<span class="tourDepartureDate ">
+													{{vm.getDepartureDateOfSession(session.start)}}
+												</span>
 											</div>
 										</div>
-										
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 sessionNameAndDate">
-										<div class="innerDiv">
-											<span class="name" style="color: #40C4FF;">{{session.title}}</span><br>
-											<span class="tourDepartureDate ">
-												{{vm.getDepartureDateOfSession(session.start)}}
-											</span>
-										</div>
-									</div>
-								</div> -->
+									</div> -->
+								</div>
+								<div class="row" ng-hide="productSessions.length == 0">
+				                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					                    <ul class="list-inline occupancy-indicator-legend">
+					                        <li class="text-center">
+					                            <p><span class="outline"><i class="zmdi zmdi-account green-text"></i></span></p>
+					                            <p class="text-readable12">Occupancy Indicator</p>
+					                        </li> 
+					                        <li class="text-center">
+					                            <p><span class="light-blue-bak-color"></span></p>
+					                            <p class="text-readable12">0</p>
+					                        </li> 
+					                        <li class="text-center">
+					                            <p><span class="light-green-bak-color"></span></p>
+					                            <p class="text-readable12">&gt;=1</p>
+					                        </li> 
+					                        <li class="text-center">
+					                            <p><span class="light-orange-bak-color"></span></p>
+					                            <p class="text-readable12">&gt;50%</p>
+					                        </li> 
+					                        <li class="text-center">
+					                            <p><span class="light-red-bak-color"></span></p>
+					                            <p class="text-readable12">100%</p>
+					                        </li> 
+					                    </ul>    
+				                    </div>
+		                    	</div>
 							</div>
-							<div class="row" ng-hide="productSessions.length == 0">
+						</div>
+							<!-- ************************************************************************************************ -->
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="calendarDiv">
+							<div id='calendar'></div>
+							<div class="row" id="occupancy-indicator-for-calendar">
 			                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				                    <ul class="list-inline occupancy-indicator-legend">
 				                        <li class="text-center">
@@ -299,36 +331,6 @@
 			                    </div>
 	                    	</div>
 						</div>
-					</div>
-						<!-- ************************************************************************************************ -->
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="calendarDiv">
-						<div id='calendar'></div>
-						<div class="row" id="occupancy-indicator-for-calendar">
-		                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			                    <ul class="list-inline occupancy-indicator-legend">
-			                        <li class="text-center">
-			                            <p><span class="outline"><i class="zmdi zmdi-account green-text"></i></span></p>
-			                            <p class="text-readable12">Occupancy Indicator</p>
-			                        </li> 
-			                        <li class="text-center">
-			                            <p><span class="light-blue-bak-color"></span></p>
-			                            <p class="text-readable12">0</p>
-			                        </li> 
-			                        <li class="text-center">
-			                            <p><span class="light-green-bak-color"></span></p>
-			                            <p class="text-readable12">&gt;=1</p>
-			                        </li> 
-			                        <li class="text-center">
-			                            <p><span class="light-orange-bak-color"></span></p>
-			                            <p class="text-readable12">&gt;50%</p>
-			                        </li> 
-			                        <li class="text-center">
-			                            <p><span class="light-red-bak-color"></span></p>
-			                            <p class="text-readable12">100%</p>
-			                        </li> 
-			                    </ul>    
-		                    </div>
-                    	</div>
 					</div>
 				</div>
 			</div>

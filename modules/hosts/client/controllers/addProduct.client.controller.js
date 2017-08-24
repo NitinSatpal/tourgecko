@@ -31,6 +31,7 @@
       vm.isAddonAvailable = false;
       vm.isDepositApplicable = false;
       vm.isAvailableThroughoutTheYear = true;
+      vm.productTags = [];
       vm.productGrade = 'Select';
       vm.productAvailabilityType = 'unavailable';
       vm.productDurationType = 'Days';
@@ -263,7 +264,6 @@
         $http.get('/api/host/product/'+ productId).success(function (response) {
 
             vm.tour = response[0];
-
             $scope.productTimeSlotsAvailability = vm.tour.productTimeSlotsAvailability;
 
             if (vm.tour.productTimeSlotsAvailability == 'Fixed Slots' && vm.tour.productTimeSlots.length > 0) {
@@ -289,26 +289,21 @@
             vm.productScheduledDates = vm.tour.productScheduledDates;
             vm.productScheduledTimestamps = vm.tour.productScheduledTimestamps;
             vm.isProductAvailabileAllTime = vm.tour.isProductAvailabileAllTime;
+            vm.productGrade = vm.tour.productGrade;
             // vm.tourActionCanBePerformed = vm.tour.productTitle.length > 15 ? vm.tour.productTitle.splice(0,15) + '...' : vm.tour.productTitle;
             angular.copy(vm.tour.productPricingOptions, previousPricingOption);
               
             vm.showCreatedItinerary = true;
-            
+
             for(var index = 0; index < vm.tour.productTags.length; index++) {
-              if(standardTagSet.has(vm.tour.productTags[index])) {
-                $timeout(function() {
-                    $("#productTagging").select2('val', vm.tour.productTags[index]);
-                    $("#productTagging").trigger("change");
-                });
-              } else {
+              if(!standardTagSet.has(vm.tour.productTags[index])) {
                 var option=jQuery("<option>").attr("value",vm.tour.productTags[index].toString()).html(vm.tour.productTags[index]);
                 jQuery("#productTagging").append(option);
-                $timeout(function() {
-                  $("#productTagging").select2('val', vm.tour.productTags[index]);
-                  $("#productTagging").trigger("change");
-                });
               }
             }
+            $timeout(function() {
+                $("#productTagging").val(vm.tour.productTags).trigger('change');
+            });
             for (var index = 0; index < vm.tour.productPictureURLs.length; index ++) {
               var tempFilePath = vm.tour.productPictureURLs[index].url.split('/');
               var tempFileObject = {uuid: tempFilePath[tempFilePath.length - 1], size: vm.tour.productPictureURLs[index].size, name: vm.tour.productPictureURLs[index].name}
@@ -687,7 +682,9 @@
       });
       return false;
     } else {
+      vm.showTheList = false;
       $('ul.nav-tabs a[href="#session_dt"]').tab('show');
+      var showLastSession = false;
       var modalOpened = true;
       if (!vm.editingTheSession) {
         vm.sessionName = '';
@@ -706,7 +703,7 @@
         $('.ds_repeat_daily_except input:checkbox').removeAttr('checked');
         $('.dsRepeatWeekly button span').html('Select Days');
       }
-     
+      
       $scope.$watch('vm.fixedProductSchedule', function() {
         if (initializing) {
           $timeout(function() { initializing = false; });
@@ -737,9 +734,10 @@
       vm.editingTheSession = false;
       vm.oldSessionEditing = false;
       vm.onlyCapacityEditAllowed = false;
-      
     }
+    vm.showTheList = true;
   }
+
 
   var createdSessionTracker = new Set();
   vm.createDepartureSession = function () {
@@ -1027,6 +1025,7 @@
           return false;
         });
     }
+    vm.showTheList = true;
   }
 
   /* ------------------------------------------------------------------------------------------------------------------------- */    
@@ -1080,8 +1079,9 @@
             
           return false;
         }
-        if(vm.productAvailabilityType == 'Open Date' &&$scope.productTimeSlotsAvailability == 'Fixed Slots' && $scope.timeslots.length == 0)
+        if(vm.productAvailabilityType == 'Open Date' && $scope.productTimeSlotsAvailability == 'Fixed Slots' && $scope.timeslots.length == 0)
           vm.errorContent.push(errorContentData['openDatTimeSlotNotPresent']);
+        
         if(productId !== undefined) {
           var areSessionsPresent = false;
           var isPriceSame = true;
@@ -1154,6 +1154,7 @@
       }
 
       function saveTheProduct () {
+        console.log('abbba hujur ' + JSON.stringify(vm.tour.productTags));
         if(productId) {
           $http.post('/api/host/editproduct/', {tour: vm.tour,
                                                 toursessions: vm.fixedProductSchedule, 
@@ -1571,6 +1572,13 @@
         }
       }
 
+      vm.checkVisibilityCondition = function (index) {
+        if (index == vm.fixedProductSchedule.length - 1 && !showLastSession)
+          return false
+
+        return true;
+      }
+
       vm.pastSessionPresent = false;
       vm.checkISThisPast = function (date) {
         var today = new Date().getDate().toString() + ' ' + months[new Date().getMonth()] + ' ' + new Date().getFullYear().toString();
@@ -1578,7 +1586,6 @@
           vm.pastSessionPresent = true;
           return true;
         }
-
         return false;
       }
 
