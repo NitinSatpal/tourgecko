@@ -16,6 +16,7 @@ var path = require('path'),
   moment = require('moment'),
   momentTimezone = require('moment-timezone'),
   tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),
+  instamojo = require(path.resolve('./modules/payments/server/controllers/instamojo/instamojo-payments.server.controller')),
   mailAndMessage = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
   randomstring = require("randomstring"),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -450,17 +451,9 @@ exports.modifyBooking = function (req, res) {
         }
       }
     } else {
-      booking.bookingStatus = req.body.bookingStatus;
-      booking.bookingComments = req.body.bookingComments;
-      booking.save(function(err, success) {
-        if (err)
-          res.json('Something went wrong. Please try again or contact tourgecko support')
-        tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
-        mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-        if (req.body.bookingStatus != 'Pending')
-          updateSessionNegativeForNonConfirmedAndNonCancelledStatus(booking);
-        res.json('success')
-      });
+      // in case of expired and declined
+      // PS: Currently no expired thing but in future the call should come here.
+      instamojo.refundInstamojoPayment(req, res, false);
     }
   });
 };
@@ -547,80 +540,20 @@ function updateSessionPositiveForConfirmedStatus (booking) {
   }
 }
 
-function updateSessionNegativeForNonConfirmedAndNonCancelledStatus (booking) {
-  if (booking.productSession) {
-    ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      }
-      var key = booking.actualSessionDate + booking.actualSessionTime;
-      if (session.numberOfBookings) {
-        if(session.numberOfBookings[key]) {
-          var value = parseInt(session.numberOfBookings[key]) - 1;
-          session.numberOfBookings[key] = value;
-        }
-      } 
-      
-      if (session.numberOfSeats) {
-        if (session.numberOfSeats[key]) {
-          var value = parseInt(session.numberOfSeats[key]) - parseInt(booking.numberOfSeats);
-          session.numberOfSeats[key] = value;
-        }
-      }
-
-      session.markModified('numberOfBookings');
-      session.markModified('numberOfSeats');
-
-      var sessionKey = booking.actualSessionDate;
-
-      if (session.numberOfBookingsSession) {
-        if(session.numberOfBookingsSession[sessionKey]) {
-          var value = parseInt(session.numberOfBookingsSession[sessionKey]) - 1;
-          session.numberOfBookingsSession[sessionKey] = value;
-        }
-      }
-      
-      if (session.numberOfSeatsSession) {
-        if (session.numberOfSeatsSession[sessionKey]) {
-          var value = parseInt(session.numberOfSeatsSession[sessionKey]) - parseInt(booking.numberOfSeats);
-          session.numberOfSeatsSession[sessionKey] = value;
-        }
-      }
-
-      session.markModified('numberOfBookingsSession');
-      session.markModified('numberOfSeatsSession');
-      
-      session.save(function (err) {
-        if (err) {
-          // session saving failed
-        } else {
-          // session successfully saved
-        }
-      });
-    });
-  }
-}
-
 
 exports.getBookingCountForParticularStatus = function (req, res) {
   if (req.user) {
     if (req.params.bookingStatus == 'All') {
       Booking.count({hostOfThisBooking: req.user._id, isPaymentDone: true}, function(error, count) {
         if (error) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(error)
-          });
+          res.json(error);
         }
         res.json(count);
       });
     } else {
       Booking.count({hostOfThisBooking: req.user._id, bookingStatus: req.params.bookingStatus, isPaymentDone: true}, function(error, count) {
         if (error) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(error)
-          });
+          res.json(error);
         }
         res.json(count);
       });

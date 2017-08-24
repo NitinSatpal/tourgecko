@@ -223,7 +223,10 @@
         return;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
-      var bookingModificationData = {bookingId: $stateParams.bookingId, bookingStatus: status, bookingComments: vm.bookingComments}
+      // In case the booking is getting declined, we will need host, payment Id, payment request id, refund amount, while
+      // other details like booking id and comments will be used if it is getting confirmed. booking status will be used
+      // in both the cases
+      var bookingModificationData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, paymentRequestId: vm.specificBookingDetails.paymentRequestId, refundAmount: vm.specificBookingDetails.totalAmountPaid, bookingStatus: status, bookingId: $stateParams.bookingId, bookingComments: vm.bookingComments}
       $http.post('/api/host/modifyBooking/', bookingModificationData).success(function (response) {
         $('.modal-backdrop').remove();
         // After confirming or declining booking, if we go to bookings tab, its a bit cimplicated to bring the same booking there.
@@ -305,7 +308,7 @@
       if (vm.specificBookingDetails.hostCompany.paymentGatewayBehavior == 'internal') {
         // This if and its respective else if block will get removed once we fix which internal gateway we are using finally
         if(vm.specificBookingDetails.hostCompany.paymentGateway == 'instamojo') {
-          var refundData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, paymentRequestId: vm.specificBookingDetails.paymentRequestId, refundAmount: vm.refundAmount};
+          var refundData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, paymentRequestId: vm.specificBookingDetails.paymentRequestId, refundAmount: vm.refundAmount, bookingStatus: 'Cancelled'}
           $http.post('/api/payment/instamojo/refund/', refundData).success (function (response) {
             $('.modal-backdrop').remove();
             $state.reload();
@@ -316,7 +319,7 @@
             $('.modal-backdrop').remove();
           });
         } else if(vm.specificBookingDetails.hostCompany.paymentGateway == 'razorpay') {
-          var refundData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, refundAmount: vm.refundAmount};
+          var refundData = {host: vm.specificBookingDetails.hostOfThisBooking, paymentId: vm.specificBookingDetails.paymentId, refundAmount: vm.refundAmount, bookingStatus: 'Cancelled'};
           $http.post('/api/payment/razorpay/refund/', refundData).success (function (response) {
             $('.modal-backdrop').remove();
             $state.reload();

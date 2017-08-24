@@ -41,7 +41,6 @@
       vm.fixedProductScheduleVisibility = [];
       vm.fixedProductSchedule = [];
       vm.fixedProductScheduleCapacities = [];
-      vm.fixedProductScheduleUniqueId = [];
       vm.lastIndexOfAlreadySavedOldSessions = -1;
       vm.productScheduledDates = [];
       vm.onlyCapacityEditAllowed = false;
@@ -829,16 +828,38 @@
             });
             return false
           } else {
-            $http.get('/api/host/countNumOfSeatsForParticularSession/' + vm.fixedProductScheduleUniqueId[vm.fixedDepartureSessionCounter] + '/' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).success(function (response) {
+            $http.get('/api/host/countNumOfSeatsForParticularSession/' + vm.fixedProductScheduleUniqueIdOld[vm.oldEditedSessionIndex] + '/' + vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate).success(function (response) {
               if (parseInt(vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit) < response.numOfSeats) {
                 toasty.error({
                   title: 'Capacity cannot be saved!',
                   msg: 'This session already have booking more than ' + vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit,
                   sound: false
                 });
-                return false
-              } else
-                return createDepartureSession(true);
+                return false;
+              } else {
+                // edit the capacity of the session
+                var sessionCapacity = {"sessionSeatLimit":  vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].sessionSeatLimit,"isSessionAvailabilityVisibleToGuests": vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].isSessionAvailabilityVisibleToGuests, "sessionSeatsLimitType": vm.sessionSeatsLimitType}
+                var editSessionCapacity = {sessionId: vm.fixedProductScheduleUniqueIdOld[vm.oldEditedSessionIndex], sessionCapacity: sessionCapacity};
+                $http.post('/api/host/session/editSessionCapacity/', editSessionCapacity).success(function (response) {
+                  toasty.success({
+                    title: 'Capacity edited!',
+                    msg: 'The changed capacity details has been saved successfully',
+                    sound: false
+                  });
+                  modifyDataAfterSessionEdit(vm.editingOldSession, response);
+                  $("#departureSession").fadeOut();
+                  $('.modal-backdrop').remove();
+                  vm.showTheList = true;
+                  return false;
+                 }).error(function (error) {
+                    toasty.error({
+                      title: 'Something went wrong!',
+                      msg: 'The changed capacity details could not be saved. Please try again',
+                      sound: false
+                    });
+                    return false;
+                 });
+              }
             }).error(function (err) {
               toasty.error({
                 title: 'Something went wrong!',
@@ -848,6 +869,28 @@
               return false
             });
           }
+        } else {
+          var sessionCapacity = {"sessionSeatLimit":  "" , "isSessionAvailabilityVisibleToGuests": vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter].isSessionAvailabilityVisibleToGuests, "sessionSeatsLimitType": vm.sessionSeatsLimitType}
+          var editSessionCapacity = {sessionId: vm.fixedProductScheduleUniqueIdOld[vm.oldEditedSessionIndex], sessionCapacity: sessionCapacity};
+          $http.post('/api/host/session/editSessionCapacity/', editSessionCapacity).success(function (response) {
+            toasty.success({
+              title: 'Capacity edited!',
+              msg: 'The changed capacity details has been saved successfully',
+              sound: false
+            });
+            modifyDataAfterSessionEdit(vm.editingOldSession, response);
+            $("#departureSession").fadeOut();
+            $('.modal-backdrop').remove();
+            vm.showTheList = true;
+            return false;
+           }).error(function (error) {
+              toasty.error({
+                title: 'Something went wrong!',
+                msg: 'The changed capacity details could not be saved. Please try again',
+                sound: false
+              });
+              return false;
+           });
         }
       } else
         return createDepartureSession(true);
@@ -1482,7 +1525,8 @@
       }
 
       function setTheSessionDetailsToEdit(index, alreadySavedSession) {
-        refreshThePreviouslyCreatedTimeStamp(index, alreadySavedSession);
+        if (!vm.onlyCapacityEditAllowed)
+          refreshThePreviouslyCreatedTimeStamp(index, alreadySavedSession);
         vm.fixedSchedule = [];
         if (alreadySavedSession) {
           vm.sessionName = vm.sessionInternalNamesOld[index];
@@ -1491,7 +1535,7 @@
           angular.copy(vm.fixedProductScheduleOld, vm.fixedSchedule);
           vm.fixedProductSchedule.push(vm.fixedProductScheduleOld[index]);
           vm.sessionSpecialPricing.push(vm.sessionSpecialPricingOld[index]);
-          vm.fixedProductScheduleCapacities.push(vm.fixedProductScheduleCapacitiesOld[index])
+          vm.fixedProductScheduleCapacities.push(vm.fixedProductScheduleCapacitiesOld[index]);
         } else {
           vm.sessionName = vm.sessionInternalNames[index];
           vm.sessionPricing = vm.sessionSpecialPricing[index];
@@ -1516,7 +1560,6 @@
         $timeout(function(){
           $('#fixedDepartureSessionCreationModalTrigger').click();
           $('ul.nav-tabs a[href="#session_dt"]').tab('show');
-          console.log(JSON.stringify(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter]));
         });     
       }
 
@@ -1547,7 +1590,6 @@
           }
         }
 
-
         var eventDate = new Date(vm.fixedSchedule[sessionIndex].startDate);
         var validatorDate = new Date(vm.fixedSchedule[sessionIndex].startDate);
         var monthTracker = new Set();
@@ -1569,6 +1611,22 @@
           validatorDate = new Date (validatorDate);
           validatorDate = validatorDate.setDate(validatorDate.getDate() + 1);
           validatorDate = new Date (validatorDate);
+        }
+      }
+
+      function modifyDataAfterSessionEdit (alreadySavedSession, editedSession) {
+        if (alreadySavedSession) {
+          vm.sessionInternalNamesOld[vm.oldEditedSessionIndex] = editedSession.sessionInternalName;
+          vm.sessionSpecialPricingOld[vm.oldEditedSessionIndex] = editedSession.sessionPricingDetails;
+          vm.fixedProductScheduleCapacitiesOld[vm.oldEditedSessionIndex] = editedSession.sessionCapacityDetails;
+          vm.fixedProductSchedule.splice(vm.fixedDepartureSessionCounter, 1);
+          vm.sessionSpecialPricing.splice(vm.fixedDepartureSessionCounter, 1);
+          vm.fixedProductScheduleCapacities.splice(vm.fixedDepartureSessionCounter, 1);
+        } else {
+          vm.sessionName = vm.sessionInternalNames[index];
+          vm.sessionPricing = vm.sessionSpecialPricing[index];
+          vm.sessionSeatsLimitType =  vm.fixedProductScheduleCapacities[index].sessionSeatsLimitType;
+          angular.copy(vm.fixedProductSchedule, vm.fixedSchedule);
         }
       }
 

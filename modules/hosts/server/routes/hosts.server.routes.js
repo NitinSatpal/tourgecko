@@ -83,11 +83,11 @@ module.exports = function (app) {
   app.route('/api/host/allBookings/:itemsPerPage')
     .get(hosts.fetchAllBookingDetailsOfCompany);
 
+  app.route('/api/host/session/editSessionCapacity/')
+    .post(hosts.changeSessionCapacityDetails);
+    
   app.route('/api/host/countNumOfSeatsForParticularSession/:productSessionId/:sessionStartDate')
     .get(hosts.getNumberOfSeatsForTheSession);
-  
-  app.route('/api/host/counBookingForParticularSession/:productSessionId')
-    .get(hosts.countBookingsForAParticularSession);
 
   app.route('/api/host/counBookingForParticularSession/:productSessionId')
     .get(hosts.countBookingsForAParticularSession);

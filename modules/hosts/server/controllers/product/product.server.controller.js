@@ -121,6 +121,17 @@ exports.editProduct = function(req, res) {
   });
 };
 
+exports.changeSessionCapacityDetails = function (req, res) {
+  var sessionId = mongoose.Types.ObjectId(req.body.sessionId);
+
+  ProductSession.findOneAndUpdate({ '_id': sessionId }, {$set: {sessionCapacityDetails: req.body.sessionCapacity}}, {new: true}, function (err, productSession) {
+    if (err) {
+      res.json(err);
+    }
+    res.json(productSession);
+  });
+}
+
 
 exports.editProductPictureUrls = function(req, res) {
   Product.findOne({ '_id': req.body.productId }).exec(function (err, product) {
@@ -479,7 +490,11 @@ exports.getNumberOfSeatsForTheSession = function (req, res) {
       });
     }
     var key = new Date (req.params.sessionStartDate).getTime().toString();
-    res.json({numOfSeats: productSession.numberOfSeatsSession[key]});
+    if (productSession.numberOfSeatsSession && productSession.numberOfSeatsSession[key])
+      res.json({numOfSeats: productSession.numberOfSeatsSession[key]});
+    else {
+      res.json({numOfSeats: 0})
+    }
   });
 }
 

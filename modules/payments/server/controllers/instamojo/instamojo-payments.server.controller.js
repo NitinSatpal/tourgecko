@@ -200,14 +200,9 @@ exports.createInstamojoPayment = function (req, res) {
       });
     });
   }
-
 }
 
-function createPaymentRequest (requestBodyData) {
-    
-}
-
-exports.refundInstamojoPayment = function (req, res) {
+exports.refundInstamojoPayment = function (req, res, isCancelled) {
   InstamojoUser.findOne({user: req.body.host}).exec(function (err, instaUser) {
     var userDetails = Insta.UserBasedAuthenticationData();
     userDetails.client_id = config.paymentGateWayInstamojo.instamojoKey;
@@ -252,15 +247,18 @@ exports.refundInstamojoPayment = function (req, res) {
                         res.json('error')
                       booking.isRefundApplied = true;
                       booking.refundAmount = refundAmount;
-                      booking.bookingStatus = 'Cancelled';
+                      booking.bookingStatus = req.body.bookingStatus;
                       booking.save(function(bookingEditError, bookingEditSuccess) {
                         if (bookingEditError) {
                           res.json('error');
                         }
-                        var tracelogMessage = req.user.displayName + ' Cancelled this booking.';
+                        var tracelogMessage = req.user.displayName + ' ' + req.body.bookingStatus + ' this booking.';
                         tracelog.createTraceLog('Booking', booking._id, tracelogMessage);
                         mailAndMessage.sendBookingEmailsToGuestAndHost(booking, req, res, req.body.bookingStatus);
-                        updateSessionNegativeForCancelledStatus(booking, req, res);
+                        if (!isCancelled)
+                          updateSessionNegativeForNonConfirmedAndNonCancelledStatus(booking, req, res);
+                        else
+                          updateSessionNegativeForCancelledStatus(booking, req, res);
                         res.json('success')
                       });
                     });
@@ -351,6 +349,62 @@ function updateSessionNegativeForCancelledStatus (booking, req, res) {
       session.markModified('numberOfConfirmedBookingsSession');
       session.markModified('numberOfSeatsSession');
       session.markModified('numberOfConfirmedSeatsSession');
+      session.save(function (err) {
+        if (err) {
+          // session saving failed
+        } else {
+          // session successfully saved
+        }
+      });
+    });
+  }
+}
+
+function updateSessionNegativeForNonConfirmedAndNonCancelledStatus (booking, req, res) {
+  if (booking.productSession) {
+    ProductSession.findOne({_id: booking.productSession}).exec(function (err, session) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      var key = booking.actualSessionDate + booking.actualSessionTime;
+      if (session.numberOfBookings) {
+        if(session.numberOfBookings[key]) {
+          var value = parseInt(session.numberOfBookings[key]) - 1;
+          session.numberOfBookings[key] = value;
+        }
+      } 
+      
+      if (session.numberOfSeats) {
+        if (session.numberOfSeats[key]) {
+          var value = parseInt(session.numberOfSeats[key]) - parseInt(booking.numberOfSeats);
+          session.numberOfSeats[key] = value;
+        }
+      }
+
+      session.markModified('numberOfBookings');
+      session.markModified('numberOfSeats');
+
+      var sessionKey = booking.actualSessionDate;
+
+      if (session.numberOfBookingsSession) {
+        if(session.numberOfBookingsSession[sessionKey]) {
+          var value = parseInt(session.numberOfBookingsSession[sessionKey]) - 1;
+          session.numberOfBookingsSession[sessionKey] = value;
+        }
+      }
+      
+      if (session.numberOfSeatsSession) {
+        if (session.numberOfSeatsSession[sessionKey]) {
+          var value = parseInt(session.numberOfSeatsSession[sessionKey]) - parseInt(booking.numberOfSeats);
+          session.numberOfSeatsSession[sessionKey] = value;
+        }
+      }
+
+      session.markModified('numberOfBookingsSession');
+      session.markModified('numberOfSeatsSession');
+      
       session.save(function (err) {
         if (err) {
           // session saving failed
