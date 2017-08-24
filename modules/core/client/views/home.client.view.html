@@ -1,4 +1,4 @@
-<section id="landingPage" class="landingPage" ng-style="vm.getDynamicCssForLandingPage()">	
+<section id="landingPage" class="landingPage">	
 	<div class="tourgeckoAdminHeader" ng-include="'/modules/core/client/views/tourgeckoAdminHeader.client.view.html'"></div>
   	<div id="landing" class="container-fluid">
         <div id="hero" class="hero row">
@@ -20,7 +20,7 @@
 
     	<div class="container info-blocks">
     		<div class="row management">
-	       		<div class="listData">
+	       		<div class="listData" >
 				    <ul>
 			            <li>
 			            	<div class="col-sm-1 col-xs-1"><i class="zmdi zmdi-check"></i></div>
@@ -44,7 +44,7 @@
 			<br>
 			<h3 class="text-center"> Features that you need to manange your tour and activity business online</h3>
 	        <div class="featuresLandingPage">
-	        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+	        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block pull-right">
 		        	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 		        		<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_planning.svg" >
 		        	</div>    
@@ -74,7 +74,7 @@
 			        </div>    
 		        </div>
 	        
-		        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+		        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block pull-right">
 			        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 			        	<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_msg.svg" >
 			        </div>    
@@ -94,7 +94,7 @@
 			        </div>    
 		        </div> 
 	        	
-	        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block">
+	        	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 info-block pull-right">
 		        	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 		        		<img class="icn_info-block" alt="Planning" src="modules/core/client/img/landingPage/landing_icons/icn_displays.svg" >
 			        </div>    
@@ -105,23 +105,18 @@
 		        </div>
 		    </div>
     	</div>
-
-    	<div class="container">
-	        <div class="row">
-	        	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-top: 20%;">
-	        		<span >
-	        			Tourgecko is the DIY platform and seriously it is good. We have done lots of work on it and now we just want it to work awesome. This is the last change we are working on before beta. Now after putting this I will have dinner and some walk. Need to go outside as I am just sitting here from last 12 hrs. Gaurav, you should also take rest if you want and just go for it tomorrow. Good luck :)
-	        		<span>
-	        	</div>
-	        	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 landingPageStaticImage">
-	        		<img src="modules/core/client/img/promo/photo-1420655710207-b092e1b8abe3.jpg" alt="" class="" style="object-fit: contain; height: 100%; width: 100%;">
-	        	</div>
-	        	
-	        </div>
-	    </div>
+    	<div class="row staticImage">
+        	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+        		<img src="modules/core/client/img/assets/tourgecko_peek_inside.png" alt="tourgecko">
+        	</div>
+        </div>
+        <br>
+        <br>
     	<footer class="footer row">
 	      <div class="container text-center">
-	          <h2 class="heading"> <img class="comingsoon-logo" src="modules/core/client/img/brand/logo-symbol-icn.svg" alt="tourgecko-icon"> &nbsp;Foundation for your tour and activity  business</h2>
+	          <h2 class="heading">
+	          	<img class="comingsoon-logo" src="modules/core/client/img/brand/logo-symbol-icn.svg" alt="tourgecko-icon"> &nbsp;Foundation for your tour and activity  business
+	          </h2>
 	          <a ui-sref="authentication.hostSignup" class="btn btn-warning btn-lg" ng-if="!vm.authentication.user">Sign up now!</a>
 	          <a ui-sref="host.hostHome" class="btn btn-warning btn-lg" ng-if="vm.authentication.user">Go to admin panel</a>
 	          <h4>Signup is free and it takes less than 2 minutes</h4>

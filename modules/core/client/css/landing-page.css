@@ -217,12 +217,27 @@
     color: #42AE5E
 }
 
+.landingPage .management {
+	background-color: #f5e79e;
+	border-radius:10px;
+	padding: 10px 10px;
+}
+
 .landingPage .info-blocks .featuresLandingPage {
 	margin-top: -25px;
 }
 .landingPage .landingPageStaticImage img {
 	float: right !important;
 	right: 0 !important;
+}
+.landingPage .staticImage {
+	margin-top: -30px;
+	
+}
+.landingPage .staticImage img {
+	width: 70%;
+    height: auto;
+    object-fit: cover;
 }
 @media (max-width: 767px){
     #landing .hero-copy {
@@ -271,7 +286,16 @@
 		margin-left: 0%;
 	}
 	.landingPage .info-blocks .featuresLandingPage {
-		margin-top: -35px;
+		margin-top: 0;
+	}
+	.landingPage .staticImage {
+		margin-top: -50px;
+	}
+	.landingPage .staticImage img{
+		width: 100%;
+	}
+	#landing .info-block {
+		margin-top: 2rem;
 	}
 }
 
@@ -308,7 +332,13 @@
 		margin-left: 0%;
 	}
 	.landingPage .info-blocks .featuresLandingPage {
-		margin-top: -35px;
+		margin-top: 0;
+	}
+	.landingPage .staticImage {
+		margin-top: -50px;
+	}
+	.landingPage .staticImage img{
+		width: 100%;
 	}
 }
 
@@ -330,6 +360,12 @@
 		margin-left: 0%;
 	}
 	.landingPage .info-blocks .featuresLandingPage {
-		margin-top: -35px;
+		margin-top: 0;
+	}
+	.landingPage .staticImage {
+		margin-top: -50px;
+	}
+	.landingPage .staticImage img{
+		width: 100%;
 	}
 }
