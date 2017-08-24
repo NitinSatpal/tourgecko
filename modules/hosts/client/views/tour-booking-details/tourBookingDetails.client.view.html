@@ -446,7 +446,7 @@
         }
     });
     function initializeRemainingTimeCounter (startDate, endDate) {
-        var days = findDistanceBetweenDates (startDate);
+        var days = findDistanceBetweenDates (startDate, true);
         if (days == 0) {
             document.getElementById("remainingTime").innerHTML = "today";
             $('#tourStarting').css('display', 'block');
@@ -469,7 +469,7 @@
             $('#tourEndsIn').css('display', 'none');
             $('#tourEnded').css('display', 'none');
         } else {
-            var days = findDistanceBetweenDates(endDate);
+            var days = findDistanceBetweenDates(endDate, false);
             if (days == 0) {
                 document.getElementById("remainingTime").innerHTML = "today";
                 $('#tourEnding').css('display', 'block');
@@ -509,7 +509,7 @@
         }
     }
 
-    function findDistanceBetweenDates (date) {
+    function findDistanceBetweenDates (date , isStartDate) {
         var countDownDate = new Date(date).getTime();
 
         // Get todays date and time
@@ -524,6 +524,8 @@
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+        if (isStartDate)
+            days = days + 1
         return days;
     }
 
