@@ -446,9 +446,7 @@
         }
     });
     function initializeRemainingTimeCounter (startDate, endDate) {
-        console.log(startDate);
         var days = findDistanceBetweenDates (startDate);
-        console.log('the distance is ' + days)
         if (days == 0) {
             document.getElementById("remainingTime").innerHTML = "today";
             $('#tourStarting').css('display', 'block');

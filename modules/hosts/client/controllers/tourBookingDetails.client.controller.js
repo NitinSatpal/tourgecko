@@ -65,12 +65,14 @@
     $http.get('/api/host/productsession/' + $stateParams.productSessionId).success(function (response) {
       vm.productSession = response;
       var startDate = new Date(+sessionStartDate);
+      var tempStartDate = angular.copy(startDate);
       var duration = vm.productSession.product.productDuration;
       var tourEndDate;
       if (duration && vm.productSession.product.productDurationType == 'Days') {
-        tourEndDate = startDate.setDate(startDate.getDate() + duration - 1);
+        tourEndDate = tempStartDate.setDate(tempStartDate.getDate() + duration - 1);
       } else
-        tourEndDate = startDate;
+        tourEndDate = angular.copy(startDate);
+
       initializeRemainingTimeCounter(startDate, tourEndDate);
       asynRequestCounter++;
       if(asynRequestCounter >= 2) {
