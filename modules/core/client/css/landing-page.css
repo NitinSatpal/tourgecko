@@ -201,6 +201,25 @@
 #pricing  .premium-benefits .section-head ul{ margin-left:0; padding-left:0;}
 #pricing  .premium-benefits{ margin-left:0; padding-left:0;}
 #pricing .col-sm-6.col-xs-10{ background-color: #f6f6f6; border-bottom: 1px solid #eee;}
+.landingPage .management .listData {
+	margin-left: 30%;
+}
+.landingPage .management .listData ul li {
+	list-style-type:none;
+	font-size: 19px;
+}
+.landingPage .management .listData ul li .text {
+	color: #555;
+	font-weight: 300;
+}
+.landingPage .management .listData ul li .zmdi.zmdi-check {
+	font-size: 26px;
+    color: #42AE5E
+}
+
+.landingPage .info-blocks .featuresLandingPage {
+	margin-top: -25px;
+}
 @media (max-width: 767px){
     #landing .hero-copy {
     	margin-top: 4rem;
@@ -244,6 +263,12 @@
 		margin-right:1rem;
 	}
 	#help .contact-details a.phone{ margin-top:1rem}
+	.landingPage .management .listData {
+		margin-left: 0%;
+	}
+	.landingPage .info-blocks .featuresLandingPage {
+		margin-top: -35px;
+	}
 }
 
 @media (max-width: 420px) {
@@ -275,6 +300,12 @@
 	.tourgeckoAdminFooter .footer-info-left{ text-align:center} 
 	.tourgeckoAdminFooter .footer-icon{margin:1rem 0; display: block;}
 	#about #hero .about-logo-holder .about-logo img{width:30%}
+	.landingPage .management .listData {
+		margin-left: 0%;
+	}
+	.landingPage .info-blocks .featuresLandingPage {
+		margin-top: -35px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 1024px){
@@ -290,5 +321,11 @@
 		background-color: #F8F8F8;
 		max-height: 230px !important;
 		min-height: auto !important;
+	}
+	.landingPage .management .listData {
+		margin-left: 0%;
+	}
+	.landingPage .info-blocks .featuresLandingPage {
+		margin-top: -35px;
 	}
 }

@@ -37,26 +37,26 @@
           vm.confirmedBookings ++;
           vm.confirmedSeats = vm.confirmedSeats + parseInt(bookings[index].numberOfSeats);
           vm.totalNumberOfBookingRequests++;
-          vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue + parseFloat(bookings[index].hostCut);
-          vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue.toFixed(2);
+          vm.confirmedBookingsRevenue = parseFloat(vm.confirmedBookingsRevenue) + parseFloat(bookings[index].hostCut);
         } else if (bookings[index].bookingStatus == 'Pending') {
           vm.pendingBookings++;
           vm.totalNumberOfBookingRequests++;
-          vm.pendingBookingsRevenue = vm.pendingBookingsRevenue + parseFloat(bookings[index].hostCut);
-          vm.pendingBookingsRevenue = vm.pendingBookingsRevenue.toFixed(2);
+          vm.pendingBookingsRevenue = parseFloat(vm.pendingBookingsRevenue) + parseFloat(bookings[index].hostCut);
         } else if (bookings[index].bookingStatus == 'Declined') {
           vm.declinedBookings++;
           vm.totalNumberOfBookingRequests++;
         } else if (bookings[index].bookingStatus == 'Cancelled') {
           vm.cancelledBookings++;
           vm.totalNumberOfBookingRequests++;
-          vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue + parseFloat(bookings[index].hostCut) - parseFloat(bookings[index].refundAmount);
-          vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue.toFixed(2);
+          vm.cancelledBookingsRevenue = parseFloat(vm.cancelledBookingsRevenue) + parseFloat(bookings[index].hostCut) - parseFloat(bookings[index].refundAmount);
         } else if (bookings[index].bookingStatus == 'Expired') {
           vm.expiredBookings++;
           vm.totalNumberOfBookingRequests++;
         }
       }
+      vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue.toFixed(2);
+      vm.pendingBookingsRevenue = vm.pendingBookingsRevenue.toFixed(2);
+      vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue.toFixed(2);
       vm.totalRevenueOFAllBookings = parseFloat(vm.totalRevenueOFAllBookings) + parseFloat(vm.confirmedBookingsRevenue) + parseFloat(vm.pendingBookingsRevenue) + parseFloat(vm.cancelledBookingsRevenue);
       vm.totalRevenueOFAllBookings =  vm.totalRevenueOFAllBookings.toFixed(2);
     }).error(function (response){

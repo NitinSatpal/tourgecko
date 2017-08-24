@@ -194,7 +194,6 @@ function updateSession(booking) {
       session.markModified('numberOfSeats');
 
       var sessionKey = booking.actualSessionDate;
-      console.log('the session key is ' + sessionKey);
       if (!session.numberOfBookingsSession) {
         session.numberOfBookingsSession = {
           [sessionKey] : 1
