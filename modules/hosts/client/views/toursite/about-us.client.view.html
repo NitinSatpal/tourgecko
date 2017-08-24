@@ -1,12 +1,12 @@
 <div id="loadingDivToursite" class="loaderDisplayDiv" style="display: none;"></div>
 <div class="host-guest-common-style" id="host-guest-common-style">
     <div ng-include="'/modules/hosts/client/views/toursite/toursiteTopNav.client.view.html'"></div>
-    <div class="host-guest-common-style-marginFromBothSides" style="min-height: 300px;">
+    <div class="host-guest-common-style-marginFromBothSides" style="min-height: 400px;">
         <h2 class="text-center">About Us</h2>
         <hr>
-        <div class="col-xs-12">
+        <div class="col-xs-offset-2 col-xs-8">
             <ng-bind-html="vm.getHtmlTrustedData(vm.companyData.aboutHost)">
-            <p class="about-us-data text-center" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
+            <p class="about-us-data" ng-bind-html="vm.companyData.aboutHost | htmlData">{{vm.companyData.aboutHost}}</p>
         </div>
     </div>
     <footer>
