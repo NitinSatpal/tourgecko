@@ -212,6 +212,9 @@
 	color: #555;
 	font-weight: 300;
 }
+.landingPage .management .listData ul {
+	margin-bottom: 0;
+}
 .landingPage .management .listData ul li .zmdi.zmdi-check {
 	font-size: 26px;
     color: #42AE5E
