@@ -220,6 +220,10 @@
 .landingPage .info-blocks .featuresLandingPage {
 	margin-top: -25px;
 }
+.landingPage .landingPageStaticImage img {
+	float: right !important;
+	right: 0 !important;
+}
 @media (max-width: 767px){
     #landing .hero-copy {
     	margin-top: 4rem;
