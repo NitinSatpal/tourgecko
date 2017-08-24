@@ -230,6 +230,10 @@
 .tourgeckoAdminNavbar {
     margin-top: 5px !important;
 }
+.contactUsEmail {
+    width: 47%;
+}
+
 @media  (max-width: 767px) {
     .pricing-divider-css {
         padding-left: 0 !important;
@@ -254,7 +258,7 @@
         margin-bottom: 15px !important;
     }
     .contactUsEmail {
-        padding-top: 10px !important;
+        width: 45%;
     }
     #landingPageNavbar .navbar-nav > li {
         width: 100%;

@@ -552,14 +552,14 @@
                 <div class="modal-body" style="height: auto; min-height: 80%; overflow: auto;">
                     <form name="vm.contentToHostForm" novalidate>
                         <div class="" style="margin-left: 15px;" >
-                            <div class="col-sm-6 input-group" show-errors style=" float: left; width: 47%">
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: left;">
                                 <label for="fname" class="text-lighten-1">Name</label>
                                 <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required>
                                 <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
                                     <p class="help-block error-text" ng-message="required">Please enter your name</p>
                                 </div>
                             </div>
-                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: right;margin-right: 15px; width: 47%;">
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: right;margin-right: 15px;">
                                 <label for="email" class="text-lighten-1">Email</label>
                                 <input type="email" class="form-control" name="email" id="email" ng-model="vm.contentToHost.guestEmail" required lowercase>
                                 <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
