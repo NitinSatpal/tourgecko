@@ -2,6 +2,7 @@
 <div class="hostHome" id="tours">
 	<div id="tours_list" class="container-fluid">
 		<div class="row body-content tourlist-content">
+			<toasty></toasty>
 			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" id="tourlist-row-content">
 				<div ng-include="'/modules/hosts/client/views/tours/top-nav-tourlist.client.view.html'"></div>
 				<div class="row">
@@ -126,13 +127,13 @@
 	            </div>
 	            <div class="modal-body">
 	                <div class="row text-center">
-			            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			            	<a id="facebookSharing" class="btn btn-primary btn-facebook shareButton" ng-href="{{askForAuthentication}}" ng-click="vm.postTheProductOnFB()">
 			                	<span class="fa fa-facebook"></span> Facebook
 			               	</a>
 			            </div>
 			            <br>
-			            <br> -->
+			            <br>
 			            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 twitter">
 			            	<a id="postOnTwitter" class="btn btn-primary btn-twitter shareButton" ng-click="vm.tweetTheProduct()">
 			            	   	<span class="fa fa-twitter"></span>

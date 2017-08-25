@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('TourListController', TourListController);
 
-  TourListController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', '$interval', 'Authentication', 'CompanyProductService'];
+  TourListController.$inject = ['$scope', '$state', '$window', '$http', '$timeout', '$interval', 'Authentication', 'CompanyProductService', 'toasty'];
 
-  function TourListController($scope, $state, $window, $http, $timeout, $interval, Authentication, CompanyProductService) {
+  function TourListController($scope, $state, $window, $http, $timeout, $interval, Authentication, CompanyProductService, toasty) {
     var vm = this;
     vm.authentication = Authentication;
     vm.index = -1;
@@ -400,16 +400,28 @@
     }
     vm.postTheProductOnFB = function () {
         changeProductVisibility();
-        $http.get('/api/social/host/facebook/pages').success(function (response) {
-            if (response == 'not connected') {
-                $scope.askForAuthentication = "/api/auth/facebook";
-            } else {
-                return "";
-            }
+        toasty.warning({
+          title: 'Coming Soon!',
+          msg: 'Facebook sharing will be on sooner than you think!',
+          sound: false
+        });
+        /*var fbPost = vm.products[vm.index].productTitle + '%0A' + vm.products[vm.index].destination + '%0A';
+        var longURL = 'http://tourgecko.com:3000/tour/' + vm.products[vm.index]._id;
+        $http.get('/api/social/host/shortenURL/?longURL=' + longURL).success(function (response) {
+            fbPost = fbPost + response + '%0A';
+            $http.post('/api/social/host/facebook/feed', {fbPost}).success(function (response) {
+                if (response == 'not connected') {
+                    $scope.askForAuthentication = "/api/auth/facebook";
+                } else {
+                    return "";
+                }
+            }).error(function (response) {
+                vm.error = response.message;
+            });
         }).error(function (response) {
             vm.error = response.message;
-        });
-    }
+        }); */
+    } 
     vm.shareTheProductOnWhatsapp = function () {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             var longURL = 'http://tourgecko.com:3000/tour/' + vm.products[vm.index]._id;

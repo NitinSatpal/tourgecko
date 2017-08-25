@@ -134,7 +134,6 @@ module.exports = function (app) {
   app.route('/api/host/welcomemessage/dismiss')
     .post(hosts.dissmissTheWelcomMessage);
   
-
   app.route('/api/product/productPictureUploads/')
     .post(hosts.uploadProductPicture);
 
@@ -151,8 +150,10 @@ module.exports = function (app) {
     .post(hosts.deleteProductMap);
 
   app.route('/api/social/host/facebook/pages')
-    //.post(hosts.postOnFB),
     .get(hosts.getFBPages);
+
+  app.route('/api/social/host/facebook/feed')
+    .post(hosts.postOnFB);
 
   app.route('/api/host/company')
     .get(hosts.fetchCompanyDetails)

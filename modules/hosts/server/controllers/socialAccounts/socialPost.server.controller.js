@@ -86,7 +86,7 @@ exports.getFBPages = function (req, res) {
   });
 };*/
 
-// Post on Twitter
+// Post on Fb
 //exports.postOnFB = function (req, res) {
   // FB.setAccessToken('EAAKE8WbyqA4BAA91U1a2ZCZA1vbcWKXVlTyhTL0ZAZCfDLZAEwWk8a7WNcKctfF2fOLq6hWHFXOwCdBkq7n7YO9tcXtNKsaFG6diI1WTMiABsEVas5Cg7PQxXROOnpbg472lOqZAMVwUx9vNZAUNJQwWhPKdkgVFWgZD');
   // FB.setAccessToken('EAAKE8WbyqA4BAFCYKZBCrZAwiOrZBlKvMgJSQp9xg7z3AaJEQN38xQoGtPdmzgSR0NvxLAukv1KvBsFUZBjw3Ai3aenWT2YoUIRkOZCarwXursy7AqtDoR7OWk1ZCPR4ZCECFZAcsUT685Yles6UOKGXa6zduxeb6KcZD');
@@ -110,3 +110,22 @@ exports.getFBPages = function (req, res) {
       console.log('responding: ' + JSON.stringify(responding));
     }); 
 }; */
+
+/*exports.postOnFB = function (req, res) {
+  console.log('waht');
+  //FB.setAccessToken('EAAKE8WbyqA4BAA91U1a2ZCZA1vbcWKXVlTyhTL0ZAZCfDLZAEwWk8a7WNcKctfF2fOLq6hWHFXOwCdBkq7n7YO9tcXtNKsaFG6diI1WTMiABsEVas5Cg7PQxXROOnpbg472lOqZAMVwUx9vNZAUNJQwWhPKdkgVFWgZD');
+  //FB.setAccessToken('EAAKE8WbyqA4BAFCYKZBCrZAwiOrZBlKvMgJSQp9xg7z3AaJEQN38xQoGtPdmzgSR0NvxLAukv1KvBsFUZBjw3Ai3aenWT2YoUIRkOZCarwXursy7AqtDoR7OWk1ZCPR4ZCECFZAcsUT685Yles6UOKGXa6zduxeb6KcZD');
+  
+  FB.setAccessToken('EAAKE8WbyqA4BAJ99eZBfSBWCiYpJZBBf5r8KDKmWyT5pxSuDcgTH2Rri0V7WsuRC1ZBJrvQG5pTAZBQqkzNFSY2VEj8ZCfHv6JsqkEVq1p6b52XOU9Y93CJyUqBqLFSlrf714xj4WwSwen6dZAQge2vgztoDQZAbdaDrlfxmox5fZAOy21MqC14jHyelZAZBijThgZD');
+  var body = 'My first post using facebook-node-sdk';
+  FB.api('me/feed', 'post' , {message: body}, function (response) {
+    console.log(response);
+    if(!response || response.error) {
+      res.json(response.error);
+      return;
+    }
+    // var pageID = response.data[0].id;
+    // console.log('id is ' + pageID);
+    console.log('response: ' + JSON.stringify(response));
+  });
+};*/
