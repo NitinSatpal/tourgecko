@@ -156,6 +156,8 @@
 		prevTab = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]).toString();
 	})
 	function showLoaderSideNav (activeTab) {
+		if (prevTab === undefined)
+			prevTab = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]).toString();
 		if (prevTab != activeTab) {
 			$('#loadingDivHostSide').css('display', 'block');
 			$('#tourgeckoBody').addClass('waitCursor');
