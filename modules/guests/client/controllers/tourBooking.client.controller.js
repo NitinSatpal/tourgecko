@@ -18,8 +18,8 @@
       "guestMobileValidity" : "Mobile number is not valid",
       "bookingOptionNoMaxSeatLimitReached" : "Please select booking option to proceed further",
       "bookingOptionMaxSeatLimitReached" : "Please select number of participants within the available range",
-      "bookingOptionProductMinSeatLimitReached": "Please select number of participants more than the minimum participants required",
-      "bookingOptionProductMaxSeatLimitReached": "Please select number of participants less than the maximum participants allowed",
+      "bookingOptionProductMinSeatLimitReached": "Please select number of participants more than or equal to the minimum participants required",
+      "bookingOptionProductMaxSeatLimitReached": "Please select number of participants less than or equal to the maximum participants allowed",
       "dateSelection" : "Please select a departure date to proceed",
       "timeslotSelection" : "Please select your preferred time from the available time slot options"
     })
@@ -239,58 +239,60 @@
 
                   /* Start the loop till above calculated value */
                   for (var repeatIndex = 0; repeatIndex <= repeatedDays; repeatIndex ++) {
-                     /* If day is present in allowed days, then perform the operations */
-                    if (allowedDays.has(sessionDateIterator.getDay())) {
-                      /* This array will store all the dates on which the tour will be present.
-                       * It will be used to check whether the calendar has to be created or not.
-                       * If more than 20 dates are present, the calendar will be created.
-                       * It will also be used to either enable or disable the date on the calendar.
-                       */
-                      vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
+                    if (sessionDateIterator.getTime() <= repeatTillDate.getTime()) {
+                       /* If day is present in allowed days, then perform the operations */
+                      if (allowedDays.has(sessionDateIterator.getDay())) {
+                        /* This array will store all the dates on which the tour will be present.
+                         * It will be used to check whether the calendar has to be created or not.
+                         * If more than 20 dates are present, the calendar will be created.
+                         * It will also be used to either enable or disable the date on the calendar.
+                         */
+                        vm.datesOfTheSessionsOfThisProduct.push(sessionDateIterator.toString());
 
-                      if (new Date().getTime() < new Date(sessionDateIterator).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
-                        /* Get the date and the time so display on the booking page */
-                        var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
-                        /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
-                        vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                        if (new Date().getTime() < new Date(sessionDateIterator).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
+                          /* Get the date and the time so display on the booking page */
+                          var tempRecord = {startDate: sessionDateIterator, startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
+                          /* Add the temprecord to the following array, and this array will be iterated in html ng-repeat */
+                          vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
+                        }
+
+                        /* Check whether any seats are remaining for the above time stamp */
+                        var remainingSeats = -1;
+                        var fullyBookedKey;
+                        fullyBookedKey = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
+                        if (vm.sessionsOfThisProduct[index] && vm.sessionsOfThisProduct[index].numberOfSeats && vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey])
+                          remainingSeats = parseInt(vm.sessionsOfThisProduct[index].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
+                        if (parseInt(remainingSeats) == 0)
+                          sessionFullyBooked.set(sessionDateIterator.toString(), 'Yes');
+                        else
+                          sessionFullyBooked.set(sessionDateIterator.toString(), 'No');
+
+                        /* In database, we have saved only one session, with start date. Other repeat sessions we create on the fly everywhere.
+                         * Suppose the session start date is 1s Jan and it is repeating for 30 days and user selected 28th Jan. There should be
+                         * some way to find out, which session's repeat date is 28th Jan. Hence the following map dateTimestampToActualSession 
+                         * store the timestamp to index values for all the sessions.
+                         */
+                        var key = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
+                        dateTimestampToActualSession.set(key, index);
+                        /* There can be two different independent session on the same date with different time slots. We need to show all the
+                         * timeslots from all the session on a particular date. The following map dateToTimeslots will store the array of all
+                         * the timeslots from all the sessions on a given date
+                         */
+                        if (dateToTimeslots.has(sessionDateIterator.getTime().toString())) {
+                          var tempArr = dateToTimeslots.get(sessionDateIterator.getTime().toString());
+                          tempArr.push(sessionPricingPartialKey);
+                          dateToTimeslots.set(sessionDateIterator.getTime().toString(), tempArr);
+                        } else {
+                          var tempArr = [];
+                          tempArr.push(sessionPricingPartialKey);
+                          dateToTimeslots.set(sessionDateIterator.getTime().toString(), tempArr);
+                        }
                       }
-
-                      /* Check whether any seats are remaining for the above time stamp */
-                      var remainingSeats = -1;
-                      var fullyBookedKey;
-                      fullyBookedKey = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
-                      if (vm.sessionsOfThisProduct[index] && vm.sessionsOfThisProduct[index].numberOfSeats && vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey])
-                        remainingSeats = parseInt(vm.sessionsOfThisProduct[index].sessionCapacityDetails.sessionSeatLimit) - parseInt(vm.sessionsOfThisProduct[index].numberOfSeats[fullyBookedKey]);
-                      if (parseInt(remainingSeats) == 0)
-                        sessionFullyBooked.set(sessionDateIterator.toString(), 'Yes');
-                      else
-                        sessionFullyBooked.set(sessionDateIterator.toString(), 'No');
-
-                      /* In database, we have saved only one session, with start date. Other repeat sessions we create on the fly everywhere.
-                       * Suppose the session start date is 1s Jan and it is repeating for 30 days and user selected 28th Jan. There should be
-                       * some way to find out, which session's repeat date is 28th Jan. Hence the following map dateTimestampToActualSession 
-                       * store the timestamp to index values for all the sessions.
-                       */
-                      var key = sessionDateIterator.getTime().toString() + sessionPricingPartialKey;
-                      dateTimestampToActualSession.set(key, index);
-                      /* There can be two different independent session on the same date with different time slots. We need to show all the
-                       * timeslots from all the session on a particular date. The following map dateToTimeslots will store the array of all
-                       * the timeslots from all the sessions on a given date
-                       */
-                      if (dateToTimeslots.has(sessionDateIterator.getTime().toString())) {
-                        var tempArr = dateToTimeslots.get(sessionDateIterator.getTime().toString());
-                        tempArr.push(sessionPricingPartialKey);
-                        dateToTimeslots.set(sessionDateIterator.getTime().toString(), tempArr);
-                      } else {
-                        var tempArr = [];
-                        tempArr.push(sessionPricingPartialKey);
-                        dateToTimeslots.set(sessionDateIterator.getTime().toString(), tempArr);
-                      }
+                      /* Increment the date iterator variable */
+                      sessionDateIterator = new Date(sessionDateIterator);
+                      sessionDateIterator = sessionDateIterator.setDate(sessionDateIterator.getDate() + 1);
+                      sessionDateIterator = new Date(sessionDateIterator);
                     }
-                    /* Increment the date iterator variable */
-                    sessionDateIterator = new Date(sessionDateIterator);
-                    sessionDateIterator = sessionDateIterator.setDate(sessionDateIterator.getDate() + 1);
-                    sessionDateIterator = new Date(sessionDateIterator);
                   }
                 }
             } else {
@@ -525,6 +527,7 @@ vm.selectedTimeslot = 'Select Time';
           $scope.$broadcast('show-errors-check-validity', 'vm.bookingForm');
           return false;
         }
+
         return false;
       }
       if (stepNumberTo == 2) {
@@ -533,8 +536,25 @@ vm.selectedTimeslot = 'Select Time';
           vm.selectedTimeslot = 'No Time';
         findThePricingOptionsForSelectedDateTimestamp(vm.selectedDate, vm.selectedTimeslot);
       }
-      if (stepNumberTo == 3)
+      if (stepNumberTo == 3) {
+        if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
+          productMinSeatLimitError = true;
+          $('.groupCustomQuantityQuantity').val('Please Select');
+          reinitializeThePricingAndAddonOptionIndexAndQuantityArray();
+          vm.totalDiscount = 0;
+          vm.totalCalculatedSeatPrice = 0;
+          vm.totalcalculatedAddonPrice = 0;
+          vm.totalPayablePrice = 0;
+          totalSeatsForThisBooking = 0;
+          toasty.error({
+            title: 'Minimum limit on seats!',
+            msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' seats need to be booked',
+            sound: false
+          });
+          return;
+        }
         document.getElementById('fixedDepartureStep3').style.pointerEvents = 'auto';
+      }
       $('#fixedDepartureStep'+stepNumberFrom).removeClass('host-guest-common-style-btn');
       $('#fixedDepartureStep'+stepNumberFrom).addClass('host-guest-common-style-default-btn');
       $('#fixedDepartureStep'+stepNumberTo).removeClass("host-guest-common-style-default-btn");
@@ -590,26 +610,10 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
     }
     vm.pricingOptionIndexAndQuantity[index] = parseInt(vm.pricingOptionIndexAndQuantity[index]) - 1;
   } else {
-    if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
-      productMinSeatLimitError = true;
-      $('.groupCustomQuantityQuantity').val('Please Select');
-      reinitializeThePricingOptionIndexAndQuantityArray();
-      vm.totalDiscount = 0;
-      vm.totalCalculatedSeatPrice = 0;
-      vm.totalcalculatedAddonPrice = 0;
-      vm.totalPayablePrice = 0;
-      totalSeatsForThisBooking = 0;
-      toasty.error({
-        title: 'Minimum limit on seats!',
-        msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' need to be booked',
-        sound: false
-      });
-      return;
-    }
     if(vm.bookingProductDetails.maxSeatsPerBookingAllowed && (parseInt(totalSeatsForThisBooking) > vm.bookingProductDetails.maxSeatsPerBookingAllowed)) {
       productMaxSeatLimitError = true;
       $('.groupCustomQuantityQuantity').val('Please Select');
-      reinitializeThePricingOptionIndexAndQuantityArray();
+      reinitializeThePricingAndAddonOptionIndexAndQuantityArray();
       vm.totalDiscount = 0;
       vm.totalCalculatedSeatPrice = 0;
       vm.totalcalculatedAddonPrice = 0;
@@ -617,7 +621,7 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
       totalSeatsForThisBooking = 0;
       toasty.error({
         title: 'Maximum limit on seats!',
-        msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' need to be booked',
+        msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' seats can be booked',
         sound: false
       });
       return;
@@ -625,7 +629,7 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
     if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
       maxSeatLimitError = true;
       $('.groupCustomQuantityQuantity').val('Please Select');
-      reinitializeThePricingOptionIndexAndQuantityArray();
+      reinitializeThePricingAndAddonOptionIndexAndQuantityArray();
       vm.totalDiscount = 0;
       vm.totalCalculatedSeatPrice = 0;
       vm.totalcalculatedAddonPrice = 0;
@@ -644,9 +648,8 @@ vm.changeSeatsForNonGroupAndCustomOption = function (index, behavior) {
 }
 
 vm.getHtmlTrustedData = function(htmlData){
-     console.log('did i come here ' + htmlData);
-      return $sce.trustAsHtml(htmlData);
-    };
+  return $sce.trustAsHtml(htmlData);
+};
 
 
 vm.calculatePriceForNonGroupAndCustomOption = function () {
@@ -668,26 +671,10 @@ function calculatePrice () {
   for (var index = 0; index < vm.pricingOptionIndexAndQuantity.length; index ++) {
     if (parseInt(vm.pricingOptionIndexAndQuantity[index]) > 0 && vm.pricingOptionIndexAndQuantity[index] != 'Please Select') {
       totalSeatsForThisBooking = totalSeatsForThisBooking + parseInt(vm.pricingOptionIndexAndQuantity[index]);
-      if(vm.bookingProductDetails.minSeatsPerBookingRequired && (parseInt(totalSeatsForThisBooking) < vm.bookingProductDetails.minSeatsPerBookingRequired)) {
-        productMinSeatLimitError = true;
-        $('.groupCustomQuantityQuantity').val('Please Select');
-        reinitializeThePricingOptionIndexAndQuantityArray();
-        vm.totalDiscount = 0;
-        vm.totalCalculatedSeatPrice = 0;
-        vm.totalcalculatedAddonPrice = 0;
-        vm.totalPayablePrice = 0;
-        totalSeatsForThisBooking = 0;
-        toasty.error({
-          title: 'Minimum limit on seats!',
-          msg: 'Minimum ' + vm.bookingProductDetails.minSeatsPerBookingRequired + ' need to be booked',
-          sound: false
-        });
-        return;
-      }
       if(vm.bookingProductDetails.maxSeatsPerBookingAllowed && (parseInt(totalSeatsForThisBooking) > vm.bookingProductDetails.maxSeatsPerBookingAllowed)) {
         productMaxSeatLimitError = true;
         $('.groupCustomQuantityQuantity').val('Please Select');
-        reinitializeThePricingOptionIndexAndQuantityArray();
+        reinitializeThePricingAndAddonOptionIndexAndQuantityArray();
         vm.totalDiscount = 0;
         vm.totalCalculatedSeatPrice = 0;
         vm.totalcalculatedAddonPrice = 0;
@@ -695,7 +682,7 @@ function calculatePrice () {
         totalSeatsForThisBooking = 0;
         toasty.error({
           title: 'Maximum limit on seats!',
-          msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' need to be booked',
+          msg: 'Maximum ' + vm.bookingProductDetails.maxSeatsPerBookingAllowed + ' seats can be booked',
           sound: false
         });
         return;
@@ -703,7 +690,7 @@ function calculatePrice () {
       if (vm.bookingProductDetails.productAvailabilityType != 'Open Date' && parseInt(totalSeatsForThisBooking) > maxSeatsAvailable) {
         maxSeatLimitError = true;
         $('.groupCustomQuantityQuantity').val('Please Select');
-        reinitializeThePricingOptionIndexAndQuantityArray();
+        reinitializeThePricingAndAddonOptionIndexAndQuantityArray();
         vm.totalDiscount = 0;
         vm.totalCalculatedSeatPrice = 0;
         vm.totalcalculatedAddonPrice = 0;
@@ -863,7 +850,6 @@ vm.areAddonsSelected = function () {
       bookingObject.numberOfSeats = totalSeatsForThisBooking;
       bookingObject.numberOfAddons = totalAddonForThisBooking;
       bookingObject.actualSessionDate = new Date(vm.selectedDate).getTime().toString();
-      console.log('the date selected or key created is ' + bookingObject.actualSessionDate);
       bookingObject.actualSessionTime = vm.selectedTimeslot.toString();
       // There is no discount for now. So Always zero
       bookingObject.totalDiscount = 0;
@@ -910,7 +896,6 @@ vm.areAddonsSelected = function () {
           var bookingContent= {bookingData: bookingData, sessionId: sessionId }
           $http.post('/api/payment/instamojo/', bookingContent).success (function (response) {
             // $("a.im-checkout-btn.btn--light").attr('href', response);
-            console.log(JSON.stringify(response));
             if (response.error) {
               toasty.error({
                 title: "Oops! seats are gone",
@@ -922,7 +907,6 @@ vm.areAddonsSelected = function () {
             Instamojo.open(response)
             //document.getElementsByClassName('im-checkout-btn')[0].click();
           }).error(function (error) {
-            console.log(JSON.stringify(error));
           });
         } else if (vm.bookingProductDetails.hostCompany.paymentGateway == 'razorpay') {
             var bookingData = createBookingObject();
@@ -1193,7 +1177,9 @@ vm.areAddonsSelected = function () {
     vm.getSeatsRemainingForCalendar = function (time) {
       var key = new Date(vm.selectedDate).getTime().toString() + time.toString();
       var actualSessionIndex = dateTimestampToActualSession.get(key);
-      if(vm.bookingProductDetails.productAvailabilityType == 'Open Date' || (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')) {
+      if(vm.bookingProductDetails.productAvailabilityType == 'Open Date')
+        return '';
+      else if (vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure' && vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.sessionSeatsLimitType == 'unlimited') {
         if (vm.sessionsOfThisProduct[actualSessionIndex].sessionCapacityDetails.isSessionAvailabilityVisibleToGuests)
           return ' - (-)';
       } else {
@@ -1229,7 +1215,7 @@ vm.areAddonsSelected = function () {
         return '';
     }
 
-    function reinitializeThePricingOptionIndexAndQuantityArray () {
+    function reinitializeThePricingAndAddonOptionIndexAndQuantityArray () {
       for (var index = 0; index < vm.validPricingOptions.length; index ++) {
         if (vm.validPricingOptions[index].pricingType != 'Custom'
           && vm.validPricingOptions[index].pricingType != 'Group')
@@ -1237,6 +1223,9 @@ vm.areAddonsSelected = function () {
         else
           vm.pricingOptionIndexAndQuantity[index] = 'Please Select';
       }
+
+      for (var index = 0; index < vm.addonOptionIndexAndQuantity.length; index++)
+        vm.addonOptionIndexAndQuantity[index] = 0;
     }
 
     vm.sendContentToHost = function (isValid) {

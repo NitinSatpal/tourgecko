@@ -34,7 +34,7 @@ exports.fetchCompanyBookingDetailsForAnalyticsAndLatestData = function (req, res
       	}
       	var totalRevenue = 0;
       	for (var index = 0; index < bookings.length; index ++)
-        	totalRevenue = totalRevenue + parseInt(bookings[index].hostCut);
+        	totalRevenue = parseFloat(totalRevenue) + parseFloat(bookings[index].hostCut);
         totalRevenue = totalRevenue.toFixed(2);
       	res.json({bookings: bookings, totalRevenue: totalRevenue});
     });
@@ -50,7 +50,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
     // The following line is removed from the query conditions as for now we are nto queryying for last 30 days
     // , sessionDepartureDate: {$gt: startDate},  sessionDepartureDate: {$lte: endDate}
   	ProductSession.find({ 'hostCompany': req.user.company}).populate('product').sort('sessionDepartureDate').exec(function(error, sessions) {
-    		if (error) {
+        if (error) {
       		return res.status(400).send({
         			message: errorHandler.getErrorMessage(error)
       		});
@@ -67,7 +67,7 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
       	var finalCounter = 0;
     		for (var index = 0; index < sessions.length; index++) {
       		if(sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Daily' || sessions[index].sessionDepartureDetails.repeatBehavior == 'Repeat Weekly') {
-				    var firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
+            var firstDate = new Date(sessions[index].sessionDepartureDetails.repeatTillDate);
     			  var secondDate = new Date(sessions[index].sessionDepartureDetails.startDate);
         		var oneDay = 24 * 60 * 60 * 1000;
         		var repeatedDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
@@ -117,13 +117,19 @@ exports.fetchCompanyProductSessionDetailsForAnalyticsAndLatestData =function (re
               tempObject.numberOfSeatsSession = sessions[index].numberOfSeatsSession;
               tempObject.sessionCapacityDetails = sessions[index].sessionCapacityDetails;
               tempObject.productSeatLimit = sessions[index].product.productSeatLimit;
-              tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
+              if (sessions[index].product.productAvailabilityType != 'Open Date')
+                tempObject.percentBookingColor = findBackgroundColorAsPerOccupancy(tempObject.numberOfSeatsSession, tempObject.sessionCapacityDetails, sessions[index].sessionDepartureDetails.startDate);
+              else
+                tempObject.percentBookingColor = {"background-color": '#34C76E'}
+
               tempObject.sessionId = sessions[index]._id;
               departureSessions.push(tempObject);
             }
           }
 		    }
-    	res.json({departureSessions: departureSessions, count: finalCounter});
+
+
+    	  res.json({departureSessions: departureSessions, count: finalCounter});
   	});
 	}
 }
@@ -145,9 +151,7 @@ function findBackgroundColorAsPerOccupancy (numberOfSeatsSession, sessionCapacit
   // Need to find a proper solution. For now the following hack for converting milliseconds to locale
   var keyTime = (stringMillis - 19800000).toString();
 
-  //console.log('is it working ' + localeDateString.getTime());
   var numOfSeatsKey = keyTime.toString();
-  //console.log('the session key final is ' + numOfSeatsKey);
   var percentBooking;
   if (sessionCapacityDetails.sessionSeatLimit) {
     var limit = parseInt(sessionCapacityDetails.sessionSeatLimit);

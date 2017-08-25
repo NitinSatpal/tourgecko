@@ -120,7 +120,9 @@ $('#calendar').fullCalendar({
 
 		// Convert start date in ISO format Date to show
 		var startDate = new Date(event._start._i);
-		var showDate = startDate.getDate() + " " + months[startDate.getMonth()] + ' ' + event.startTime;
+		var showDate = startDate.getDate() + " " + months[startDate.getMonth()];
+		if (event.startTime != 'Select Time' && event.startTime != 'No time')
+			showDate = showDate + ' ' + event.startTime;
 		var duration = event.duration === undefined ? 'Duration not provided' :  event.duration;
 		// Name of the tour or event
 		var event_name = event.titleText; //$(jsEvent.currentTarget).find(".eventname").text();
@@ -198,7 +200,11 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 		        			//var date = eventDate.getDay() + '-' + eventDate.getMonth() + '-' + eventDate.getFullYear();
 		        			var localeDate = eventDate.toLocaleDateString();
 		        			localeDate = localeDate.split('/')[2] + '-' + localeDate.split('/')[1] + '-' + localeDate.split('/')[0];
-		        			var dateTimeString = localeDate + ' ' +  document.sessionDepartureDetails.startTime;
+		        			var dateTimeString;
+		        			if (document.sessionDepartureDetails.startTime != 'Select Time' && document.sessionDepartureDetails.startTime != 'No Time')
+		        				dateTimeString = localeDate + ' ' +  document.sessionDepartureDetails.startTime;
+		        			else
+		        				dateTimeString = localeDate;
 		        			var eventDateEventObject = new Date(dateTimeString);
 		        			var needToSave = true;
 		        			var allDay;
@@ -403,6 +409,8 @@ function fetchGivenMonthEvents(uniqueString, monthNumber, viewName, fromDate, to
 				$('#calendar').fullCalendar( 'removeEvents', function(event) {
 					return true;
 				});
+
+
 				$('#calendar').fullCalendar( 'addEventSource', monthArrays[monthNumber]);
 				
 				var $scope = angular.element('#calendar').scope();

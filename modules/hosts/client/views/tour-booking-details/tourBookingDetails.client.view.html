@@ -180,7 +180,7 @@
                                             </li>
                                             <li>
                                                 <span class="content-primary">Departure</span>
-                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getFullDisplayDate()}} {{booking.actualSessionTime != 'No Time' ? booking.actualSessionTime : ''}}</span>
+                                                <span class="content-secondary">{{booking.isOpenDateTour == true ? booking.openDatedTourDepartureDate : vm.getFullDisplayDate()}} {{vm.getBookingDepartureTime(booking.actualSessiontime)}}</span>
                                             </li>
                                             <li>
                                                 <span class="content-primary">No. of seats</span>

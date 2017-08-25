@@ -70,7 +70,17 @@
     vm.goToSessionBookingDetailsViaCalendar = function (id) {
       var element = document.getElementById(id);
       var sessionId = element.getAttribute('sessionId');
-      var sessionStartDate = element.getAttribute('sessionStartDate');
+      var sessionStartDateTemp = element.getAttribute('sessionStartDate');
+      sessionStartDateTemp = sessionStartDateTemp.split(' ');
+      var sessionStartDate = '';
+      for (var index = 0; index < sessionStartDateTemp.length; index++) {
+        if (index != 4)
+          sessionStartDate = sessionStartDate + sessionStartDateTemp[index];
+        if (index == 4)
+          sessionStartDate = sessionStartDate + '00:00:00';
+        if (index != sessionStartDateTemp.length -1)
+          sessionStartDate = sessionStartDate + ' ';
+      }
       sessionStartDate = new Date(sessionStartDate).getTime().toString();
       $state.go('host.sessionDetails', {productSessionId: sessionId, sessionStartDate:sessionStartDate});
     }

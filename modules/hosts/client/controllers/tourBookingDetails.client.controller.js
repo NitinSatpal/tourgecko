@@ -45,6 +45,7 @@
         } else if (bookings[index].bookingStatus == 'Declined') {
           vm.declinedBookings++;
           vm.totalNumberOfBookingRequests++;
+          vm.declinedBookingsRevenue = parseFloat(vm.declinedBookingsRevenue) - parseFloat(bookings[index].tourgeckoCut) - parseFloat(bookings[index].instamojoCut);
         } else if (bookings[index].bookingStatus == 'Cancelled') {
           vm.cancelledBookings++;
           vm.totalNumberOfBookingRequests++;
@@ -54,11 +55,12 @@
           vm.totalNumberOfBookingRequests++;
         }
       }
+      vm.totalRevenueOFAllBookings = parseFloat(vm.totalRevenueOFAllBookings) + parseFloat(vm.declinedBookingsRevenue) + parseFloat(vm.confirmedBookingsRevenue) + parseFloat(vm.pendingBookingsRevenue) + parseFloat(vm.cancelledBookingsRevenue);
+      vm.totalRevenueOFAllBookings =  vm.totalRevenueOFAllBookings.toFixed(2);
+      vm.declinedBookingsRevenue = vm.declinedBookingsRevenue.toFixed(2);
       vm.confirmedBookingsRevenue = vm.confirmedBookingsRevenue.toFixed(2);
       vm.pendingBookingsRevenue = vm.pendingBookingsRevenue.toFixed(2);
       vm.cancelledBookingsRevenue = vm.cancelledBookingsRevenue.toFixed(2);
-      vm.totalRevenueOFAllBookings = parseFloat(vm.totalRevenueOFAllBookings) + parseFloat(vm.confirmedBookingsRevenue) + parseFloat(vm.pendingBookingsRevenue) + parseFloat(vm.cancelledBookingsRevenue);
-      vm.totalRevenueOFAllBookings =  vm.totalRevenueOFAllBookings.toFixed(2);
     }).error(function (response){
     });
     /* This will change and we will fetch only one as per date */
@@ -88,7 +90,7 @@
       }
     });
 
-    $http.get(' /api/host/productsessions/guestData/' + $stateParams.productSessionId + '/' + vm.skipIndexForGuestData).success(function (response) {
+    $http.get('/api/host/productsessions/guestData/' + $stateParams.productSessionId + '/'  + sessionStartDate + '/' + vm.skipIndexForGuestData).success(function (response) {
       vm.guestData = response.guestData;
       var totalGuestDataCount = response.guestDataCount;
       vm.lastIndexForGuestData = Math.floor(totalGuestDataCount / 10);
@@ -585,6 +587,13 @@
       var date = new Date(+sessionStartDate);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
       return displayDate;
+    }
+
+    vm.getBookingDepartureTime = function (startTime) {
+      if (startTime != 'No Time' & startTime != 'Select Time')
+        return startTime;
+
+      return '';
     }
 
     vm.getfullCreatedDate = function (isoDate) {

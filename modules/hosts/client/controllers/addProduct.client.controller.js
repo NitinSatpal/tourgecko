@@ -680,7 +680,7 @@
         sound: false
       });
       return false;
-    } else {
+    } else {      
       vm.showTheList = false;
       $('ul.nav-tabs a[href="#session_dt"]').tab('show');
       var showLastSession = false;
@@ -696,11 +696,27 @@
         var newCapacityObject = {sessionSeatLimit: '', isSessionAvailabilityVisibleToGuests: false};
         vm.fixedProductScheduleCapacities[vm.fixedDepartureSessionCounter] = newCapacityObject;
         $(".ds_repeat_daily").hide();
-        $('#weeksRepeatOn').multiselect('deselectAll', true);
-        $('#dailyExcept').multiselect('deselectAll', true);
-        $('.ds_repeat_daily_except button span').html('Select Days');
-        $('.ds_repeat_daily_except input:checkbox').removeAttr('checked');
-        $('.dsRepeatWeekly button span').html('Select Days');
+        $timeout(function() {
+          $("#dailyExcept").val('').trigger('change');
+          $("#weeksRepeatOn").val('').trigger('change');
+        });
+      } else {
+        if (vm.editingOldSession) {
+          $timeout(function() {
+            if (vm.fixedProductScheduleOld[vm.oldEditedSessionIndex].repeatBehavior == 'Repeat Daily')
+              $("#dailyExcept").val(vm.fixedProductScheduleOld[vm.oldEditedSessionIndex].notRepeatOnDays).trigger('change');
+            else
+              $("#weeksRepeatOn").val(vm.fixedProductScheduleOld[vm.oldEditedSessionIndex].repeatOnDays).trigger('change');
+          });
+
+        } else {
+          $timeout(function() {
+            if (vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily')
+              $("#dailyExcept").val(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].notRepeatOnDays).trigger('change');
+            else
+              $("#weeksRepeatOn").val(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatOnDays).trigger('change');
+          });
+        }
       }
       
       $scope.$watch('vm.fixedProductSchedule', function() {
@@ -995,10 +1011,12 @@
     for (var index = 0; index <= repeatedDays; index ++) {
       var needToSave = true;
       if(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Daily' && notAllowedDays.has(eventDate.getDay()) || 
-        vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()) ||
-        eventDate > firstDate)
+        vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatBehavior == 'Repeat Weekly' && !allowedDays.has(eventDate.getDay()))
         needToSave = false;
       
+      if (eventDate.getTime() > new Date(vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].repeatTillDate).getTime())
+        needToSave = false;
+
       if (needToSave) {
         var sessionCreatedTimestamp;
         if ($('#dsTimeSlot').val() == undefined || $('#dsTimeSlot').val() == '' || $('#dsTimeSlot').val() == ' ')
@@ -1506,6 +1524,7 @@
               vm.fixedDepartureSessionCounter = vm.fixedProductSchedule.length;
               setTheSessionDetailsToEdit(index, true);
             } else {
+              vm.onlyCapacityEditAllowed = true;
               vm.editingTheSession = true;
               vm.editingOldSession = true;
               vm.oldEditedSessionIndex = index;
@@ -1619,6 +1638,8 @@
           vm.sessionInternalNamesOld[vm.oldEditedSessionIndex] = editedSession.sessionInternalName;
           vm.sessionSpecialPricingOld[vm.oldEditedSessionIndex] = editedSession.sessionPricingDetails;
           vm.fixedProductScheduleCapacitiesOld[vm.oldEditedSessionIndex] = editedSession.sessionCapacityDetails;
+          console.log('i m here man ' + vm.fixedProductSchedule);
+          console.log('i m here man ' + vm.fixedDepartureSessionCounter);
           vm.fixedProductSchedule.splice(vm.fixedDepartureSessionCounter, 1);
           vm.sessionSpecialPricing.splice(vm.fixedDepartureSessionCounter, 1);
           vm.fixedProductScheduleCapacities.splice(vm.fixedDepartureSessionCounter, 1);

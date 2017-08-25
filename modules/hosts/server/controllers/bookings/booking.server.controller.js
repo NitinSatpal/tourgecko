@@ -200,7 +200,6 @@ exports.countBookingsForAParticularSession = function (req, res) {
 exports.fetchAllBookingsForAParticularSession = function (req, res) {
   if (req.user) {
     var actualSessionDate = req.params.sessionStartDate;
-    console.log('bhagra ' + req.params.productSessionId);
     Booking.find({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate }).sort('-created').exec(function (err, bookings) {
       if (err) {
         return res.status(400).send({
@@ -274,8 +273,9 @@ exports.fetchProductSessionBookingDetailsForGuestData = function (req, res) {
   if (req.user) {
     var skipIndex = parseInt(req.params.skipIndex);
     var itemsPerPage = 20;
-    Booking.count({productSession: req.params.productSessionId, isPaymentDone: true}, function(error, count) {
-      Booking.find({productSession: req.params.productSessionId, isPaymentDone: true}).skip(skipIndex * itemsPerPage).limit(itemsPerPage).sort('-created').exec(function (err, bookings) {
+    var actualSessionDate = req.params.sessionStartDate;
+    Booking.count({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}, function(error, count) {
+      Booking.find({productSession: req.params.productSessionId, isPaymentDone: true, actualSessionDate: actualSessionDate}).skip(skipIndex * itemsPerPage).limit(itemsPerPage).sort('-created').exec(function (err, bookings) {
         if (err) {
           return res.status(400).send({
             message: errorHandler.getErrorMessage(err)

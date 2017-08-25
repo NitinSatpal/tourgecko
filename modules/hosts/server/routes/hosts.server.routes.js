@@ -49,7 +49,7 @@ module.exports = function (app) {
   app.route('/api/host/productsessions/')
     .get(hosts.fetchAllProductSessionDetails);
 
-  app.route('/api/host/productsessions/guestData/:productSessionId/:skipIndex')
+  app.route('/api/host/productsessions/guestData/:productSessionId/:sessionStartDate/:skipIndex')
     .get(hosts.fetchProductSessionBookingDetailsForGuestData);
 
   app.route('/api/host/companyproductsessionsForAnalyticsAndLatestData/')

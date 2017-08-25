@@ -168,7 +168,6 @@
 						<div class="col-lg-6 col-mg-6 col-sm-6 sessions">
 							<h4>Sessions</h4>
 							<div class="info_content" ng-repeat="session in vm.departureSessions | orderBy: 'utcDate' | limitTo: 5">
-								
 		                            <div class="occupancy-indicator" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;" ng-style="{{session.percentBookingColor}}">
 		                                <i class="zmdi zmdi-account green-text"></i>
 		                                <h5>
@@ -180,7 +179,7 @@
 									<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
 			                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.productTitle}})</p>
 			                            <p class="name" ng-if="!session.sessionInternalName">{{session.productTitle}}</p>
-			                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate)}} {{session.startTime}}</p>
+			                            <p class="date">{{vm.getDepartureDateOfSession(session.startDate, session.startTime)}}</p>
 										<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.startDate)}}</span></p>
 		                            </div>
 		                       
@@ -249,7 +248,7 @@
 										<div class="session-info" ng-click="vm.goToSessionBookingDetailsViaLatestSection(session)" style="cursor: pointer;">
 				                            <p class="name" ng-if="session.sessionInternalName">{{session.sessionInternalName}} ({{session.title}})</p>
 				                            <p class="name" ng-if="!session.sessionInternalName">{{session.title}}</p>
-				                            <p class="date">{{vm.getDepartureDateOfSession(session.start)}} {{session.startTime}}</p>
+				                            <p class="date">{{vm.getDepartureDateOfSession(session.start, session.startTime)}}</p>
 											<p class="outing">Starts in <span class="orange-text">{{vm.getStartsInDays(session.start)}}</span></p>
 			                            </div>
 									</div>

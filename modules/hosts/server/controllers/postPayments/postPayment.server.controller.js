@@ -240,7 +240,7 @@ function createSession (booking, product, paymentRequestId, paymentId) {
   var productSession = new ProductSession();
   var departureDetails = {
     // Just add this to display at different screens of host side
-    startTime: booking.actualSessionTime,
+    startTime: booking.actualSessionTime == 'Select Time' ? '' : booking.actualSessionTime,
     startDate: booking.openDatedTourDepartureDate,
     repeatBehavior : "Do not repeat"
   };
