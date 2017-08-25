@@ -1215,7 +1215,6 @@
       }
 
       function saveTheProduct () {
-        console.log('abbba hujur ' + JSON.stringify(vm.tour.productTags));
         if(productId) {
           $http.post('/api/host/editproduct/', {tour: vm.tour,
                                                 toursessions: vm.fixedProductSchedule, 
@@ -1638,8 +1637,6 @@
           vm.sessionInternalNamesOld[vm.oldEditedSessionIndex] = editedSession.sessionInternalName;
           vm.sessionSpecialPricingOld[vm.oldEditedSessionIndex] = editedSession.sessionPricingDetails;
           vm.fixedProductScheduleCapacitiesOld[vm.oldEditedSessionIndex] = editedSession.sessionCapacityDetails;
-          console.log('i m here man ' + vm.fixedProductSchedule);
-          console.log('i m here man ' + vm.fixedDepartureSessionCounter);
           vm.fixedProductSchedule.splice(vm.fixedDepartureSessionCounter, 1);
           vm.sessionSpecialPricing.splice(vm.fixedDepartureSessionCounter, 1);
           vm.fixedProductScheduleCapacities.splice(vm.fixedDepartureSessionCounter, 1);

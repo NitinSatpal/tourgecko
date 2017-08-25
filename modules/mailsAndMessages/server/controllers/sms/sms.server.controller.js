@@ -22,12 +22,12 @@ exports.sendBookingDoneSms = function (smsBody, recepient, callback) {
   var numbers = recepient;
   var msg = encodeURIComponent(smsBody);
   var uri = 'username='+username+'&hash='+hash+'&sender='+sender+'&numbers='+numbers+'&message='+msg;
-  /*request.get({
+  request.get({
     headers : this.HEADERSWITHTOKEN,
     url     : 'http://api.Textlocal.in/send/?' + uri
   }, function(error, response, body) {
     var result = JSON.parse(body);
-  });*/
+  });
 }
 
 

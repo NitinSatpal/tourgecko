@@ -166,7 +166,7 @@
     }
 
     function getRemainingSeats (session, date) {
-      if (session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()]) {
+      if (session.sessionCapacityDetails && session.sessionCapacityDetails.sessionSeatsLimitType == 'limited' && session.numberOfSeatsSession && session.numberOfSeatsSession[date.getTime().toString()]) {
         var remainingSeats = parseInt(session.sessionCapacityDetails.sessionSeatLimit) - parseInt(session.numberOfSeatsSession[date.getTime().toString()]);
         if (remainingSeats == 1)
           return remainingSeats.toString() + ' seat';

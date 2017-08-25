@@ -24,7 +24,7 @@ var Insta = require('instamojo-nodejs');
 //Insta.setKeys(config.paymentGateWayInstamojo.instamojoKey, config.paymentGateWayInstamojo.instamojoSecret);
 
 // This line will be removed later. Setting sandbox mode for now
-Insta.isSandboxMode(true);
+// Insta.isSandboxMode(true);
 
 
 // Capture the payment.
@@ -64,7 +64,7 @@ exports.createInstamojoPayment = function (req, res) {
                 paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
                 paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
                 paymentData.purpose = purpose;//,
-                var redirectURL = 'http://' + req.get('host');
+                var redirectURL = 'https://' + req.get('host');
                 redirectURL = redirectURL + '/tour/booking/done';
                 paymentData.setRedirectUrl(redirectURL);
                 paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
@@ -116,7 +116,7 @@ exports.createInstamojoPayment = function (req, res) {
               paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
               paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
               paymentData.purpose = purpose;//,
-              var redirectURL = 'http://' + req.get('host');
+              var redirectURL = 'https://' + req.get('host');
               redirectURL = redirectURL + '/tour/booking/done';
               paymentData.setRedirectUrl(redirectURL);
               paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
@@ -168,7 +168,7 @@ exports.createInstamojoPayment = function (req, res) {
           paymentData.partner_fee_type = instaUser.hostCompany.tourgeckoFeeType;
           paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
           paymentData.purpose = purpose;//,
-          var redirectURL = 'http://' + req.get('host');
+          var redirectURL = 'https://' + req.get('host');
           redirectURL = redirectURL + '/tour/booking/done';
           paymentData.setRedirectUrl(redirectURL);
           paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;

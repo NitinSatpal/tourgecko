@@ -29,7 +29,7 @@ exports.shortenTheURL = function (req, res) {
 };
 
 // Get FB Pages
-exports.getFBPages = function (req, res) {
+/* exports.getFBPages = function (req, res) {
   if (!req.user.additionalProvidersData) {
     res.json('not connected');
   } else {
@@ -45,7 +45,7 @@ exports.getFBPages = function (req, res) {
 }
 
 // Post on Twitter
-/* exports.postOnTwitter = function (req, res) {
+exports.postOnTwitter = function (req, res) {
   var output = "";
   var pathToScript = path.resolve('./scripts/socialPosts.py');
   console.log('path is ' +pathToScript);

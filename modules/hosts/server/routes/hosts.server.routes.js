@@ -149,11 +149,11 @@ module.exports = function (app) {
   app.route('/api/product/productMapUploadDelete/')
     .post(hosts.deleteProductMap);
 
-  app.route('/api/social/host/facebook/pages')
+  /* app.route('/api/social/host/facebook/pages')
     .get(hosts.getFBPages);
 
   app.route('/api/social/host/facebook/feed')
-    .post(hosts.postOnFB);
+    .post(hosts.postOnFB); */
 
   app.route('/api/host/company')
     .get(hosts.fetchCompanyDetails)
