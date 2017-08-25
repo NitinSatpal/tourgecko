@@ -322,7 +322,7 @@ exports.signupDetails = function(req, res, next) {
                   country: userDetails.country
                 };
                 hostCompany.tourgeckoFeeType = 'percent',
-                hostCompany.tourgeckoFee = 7;
+                hostCompany.tourgeckoFee = 5;
                 hostCompany.markModified('hostCompanyAddress');
                 // going forward host will choose this at the time of signup
                 hostCompany.hostPackage = 'go';
