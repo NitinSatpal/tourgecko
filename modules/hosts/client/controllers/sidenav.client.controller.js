@@ -6,9 +6,9 @@
     .module('hosts')
     .controller('sidenavController', sidenavController);
 
-  sidenavController.$inject = ['$scope', '$state', '$rootScope', '$window', '$http', '$location', 'Authentication'];
+  sidenavController.$inject = ['$scope', '$state', '$rootScope', '$window', '$http', '$location', 'Authentication', 'toasty'];
 
-  function sidenavController($scope, $state, $rootScope, $window, $http, $location, Authentication) {
+  function sidenavController($scope, $state, $rootScope, $window, $http, $location, Authentication, toasty) {
     var vm = this;
     vm.authentication = Authentication;
     
@@ -49,11 +49,11 @@
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else if(response.isToursiteInactive == true) {
-          alert('your toursite is inactive. Please make it active in your settings');
+          alert('Your toursite is currently inactive. You can switch to active in your settings');
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else if(response.user.isActive == false) {
-          alert('your account is inactive. Tourgecko will verify and activate your account.');
+          alert('Your account is inactive. Tourgecko will verify and activate your account.');
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
