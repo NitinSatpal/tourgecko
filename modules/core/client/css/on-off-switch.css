@@ -1,0 +1,57 @@
+.genericoffswitch {
+	position:absolute;
+	width:40px;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+}
+.genericoffswitch-checkbox{
+	display:none;
+}
+.genericoffswitch-label {
+	display:block;
+	overflow:hidden;
+	cursor:pointer;
+	height:20px;
+	padding:0;
+	line-height:20px;
+	border:2px solid #CCCCCC;
+	border-radius:20px;
+	background-color:#eee;
+	transition:background-color 0.3s ease-in;
+}
+.genericoffswitch-label:before {
+	content:"";
+	display:block;
+	width:20px;
+	margin:0px;
+	background:#FFFFFF;
+	position:absolute;
+	top:0;
+	bottom:0;
+	right:20px;
+	border:2px solid #CCCCCC;
+	border-radius:20px;
+	transition:all 0.3s ease-in 0s;
+	height:20px;
+}
+.genericoffswitch-checkbox:checked + .genericoffswitch-label {
+	background-color:#49E845;
+}
+.genericoffswitch-checkbox:checked + .genericoffswitch-label, .genericoffswitch-checkbox:checked + .genericoffswitch-label:before {
+	border-color:#49E845;
+}
+.genericoffswitch-checkbox:checked + .genericoffswitch-label:before {
+	right:0px;
+}
+
+@media  (max-width: 767px) {
+	.genericoffswitch {
+		position:absolute;
+		width:40px;
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		margin-left: 47% !important;
+	}
+}

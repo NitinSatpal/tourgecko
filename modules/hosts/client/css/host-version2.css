@@ -298,6 +298,10 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 	pointer-events: none;
 	color: grey;
 }
+.convenience-onoffswitch {
+	top: 18px;
+	left:200px;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -375,6 +379,10 @@ and (max-device-width : 1024px){
 	}
 	#tour_main_content .productType {
 		margin-top: 4px
+	}
+	.convenience-onoffswitch {
+		top: -2px;
+		left:62px;
 	}
 }
 @media (max-width: 425px){

@@ -149,6 +149,10 @@ var HostCompanySchema = new Schema({
     type:Schema.Types.Mixed,
     default: {}
   },
+  passConvenienceFee: {
+    type: Boolean,
+    default: false
+  },
   isAccountActive: {
     type: Boolean,
     default: false

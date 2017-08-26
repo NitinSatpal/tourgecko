@@ -301,6 +301,7 @@ exports.savePaymentDetails = function (req, res) {
                                   company.hostBankAccountDetails.beneficiaryBankIFSCcode = otherChangedPaymentDetails.hostBankAccountDetails.beneficiaryBankIFSCcode;
                                   company.hostBankAccountDetails.beneficiaryBankCountry = changedPaymentDetailsCountry;
                                   company.hostBankAccountDetails.permanentAccountNumber = otherChangedPaymentDetails.hostBankAccountDetails.permanentAccountNumber;
+                                  company.passConvenienceFee = otherChangedPaymentDetails.passConvenienceFee;
                                   company.paymentActivated = true;
                                   company.paymentGateway = otherChangedPaymentDetails.paymentGateway;
                                   company.markModified('hostBankAccountDetails');
@@ -336,8 +337,22 @@ exports.savePaymentDetails = function (req, res) {
   }
 };
 
-function setBankDetailsOnInstamojo(instaUser, otherChangedPaymentDetails) {
-  
+exports.saveCanBeEditedPaymentDetails = function (req, res) {
+  var otherChangedPaymentDetails = req.body;
+  Company.findOne({user: req.user._id}).exec(function (error, company) {
+    if (error) {
+      errors.push('Something went wrong while saving the edited details. Please contact tourgecko support');
+      res.json({messages: errors, status: 'failure'});
+    }
+    company.passConvenienceFee = otherChangedPaymentDetails[0].passConvenienceFee;
+    company.save(function (error, response) {
+      if (error) {
+        errors.push('Something went wrong while saving the edited details. Please contact tourgecko support');
+        res.json({messages: errors, status: 'failure'});
+      }
+      res.json({messages: company, status: 'success'});
+    });
+  });
 }
 
 // Save toursite details

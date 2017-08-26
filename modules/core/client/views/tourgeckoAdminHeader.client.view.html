@@ -15,17 +15,18 @@
                 <img src="modules/core/client/img/brand/logo-beta.svg" alt="Tourgecko">
             </a>
         </div>
-        <div id="loadingDiv" class="loaderDisplayDiv" ng-show="vm.showLoaderForHomePageClicks"></div>
+        <div id="loadingDivTourgeckoToOther" class="loaderDisplayDiv" ng-show="vm.showLoaderForHomePageClicks"></div>
+        <div id="loadingDivTourgecko" class="loaderDisplayDiv" style="display: none;"></div>
         <div id="landingPageNavbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="" ui-sref="tourgeckoHome" ng-click="vm.showLoaderForHomePageClicks = true">Home</a>
+                <li id="tourgeckoHomeTab">
+                    <a href="" ui-sref="tourgeckoHome" onclick="checkTabAcitveness('tourgeckohome')">Home</a>
                 </li>
-                <li>
-                    <a href="" ui-sref="tourgeckoAdmin-pricing" ng-click="vm.showLoaderForHomePageClicks = true">Pricing</a>
+                <li id="tourgeckopricingTab">
+                    <a href="" ui-sref="tourgeckoAdmin-pricing" onclick="checkTabAcitveness('pricing')">Pricing</a>
                 </li>
-                <li>
-                    <a href="#" ui-sref="tourgeckoAdmin-about-us" ng-click="vm.showLoaderForHomePageClicks = true">About Us</a>
+                <li id="tourgeckoaboutTab">
+                    <a href="" ui-sref="tourgeckoAdmin-about-us" onclick="checkTabAcitveness('about')">About Us</a>
                 </li>
                 <li>
                     <a ui-sref="host.hostHome" ng-hide="!vm.authentication.user" ng-click="vm.showLoaderForHomePageClicks = true">Go to Admin Panel</a>
@@ -43,3 +44,22 @@
         </div>
     </div>
 </nav>
+<script>
+    var prevTab;
+    $(document).ready(function () {
+        if (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1] == '') {
+            $('#tourgeckoHomeTab').addClass('active');
+            prevTab = 'tourgeckohome'
+        } else {
+
+            $('#tourgecko' + (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]).toString() + 'Tab').addClass('active');
+            prevTab = (window.location.pathname.split('/')[window.location.pathname.split('/').length - 1]).toString();
+        }
+    })
+    function checkTabAcitveness (activeTab) {
+        if (prevTab != activeTab) {
+            $('#loadingDivTourgecko').css('display', 'block');
+        }
+        prevTab = activeTab;
+    }
+</script>

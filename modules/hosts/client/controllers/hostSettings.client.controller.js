@@ -20,6 +20,7 @@
     vm.authentication = Authentication;
     vm.showErrorsPaymentSettings = false;
     vm.showSuccessPaymentSettings= false;
+    vm.paymentActivated = false;
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
@@ -38,6 +39,7 @@
       vm.noSocialCheck = !vm.companyDetails[0].areSocialAccountsPresent;
       vm.paymentDetails = vm.companyDetails;
       if(vm.paymentDetails[0].paymentActivated) {
+        vm.paymentActivated = true;
         $(".activated").removeClass("inactive");
         $('.bank-account-details').find('input, textarea, select').attr('readonly', 'readonly');
       }
@@ -50,7 +52,6 @@
     vm.userDetails = SpecificUserService.query();
     
     vm.languagesSupported = LanguageService.query();
-    console.log(LanguageService.query());
     vm.languages = vm.languagesSupported.supportedLanguages;
     vm.beneficiaryBankCountry = 'India';
     vm.preferredCurrency = 'INR';
@@ -212,6 +213,7 @@
           $('#loadingDivHostSide').css('display', 'none');
           $('#tourgeckoBody').removeClass('waitCursor');
         } else {
+          vm.paymentActivated = true;
           $(".activated").removeClass("inactive");
           vm.showSuccessPaymentSettings = true;
           vm.showErrorsPaymentSettings = false;
@@ -227,6 +229,32 @@
         $('#loadingDivHostSide').css('display', 'none');
         $('#tourgeckoBody').removeClass('waitCursor');
         $('html, body').animate({scrollTop : 0},800);
+      });
+    }
+
+    vm.saveCanBeEditedPaymentSettings = function () {
+      vm.error = null;
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      $http.post('/api/host/canBeEditedPayment', vm.paymentDetails).success(function (response) {
+        if (response.status == 'failure') {
+          vm.paymentBankAccError = response.messages;
+          vm.showErrorsPaymentSettings = true;
+          vm.showSuccessCanBeEditedPaymentSettings = false;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
+        } else {
+          vm.showSuccessCanBeEditedPaymentSettings = true;
+          vm.showErrorsPaymentSettings = false;
+          $('#loadingDivHostSide').css('display', 'none');
+          $('#tourgeckoBody').removeClass('waitCursor');
+        }
+      }).error(function (response) {
+        vm.showErrorsPaymentSettings = true;
+        vm.showSuccessCanBeEditedPaymentSettings = false;
+        vm.paymentBankAccError = response.messages;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
       });
     }
 

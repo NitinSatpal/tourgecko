@@ -45,11 +45,11 @@
             							<span class="pull-left activated inactive">
             								<i class="zmdi zmdi-power green-text text-readable16"></i> Activated
             							</span>
-            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="!vm.paymentDetails[0].paymentActivated"> Setup and activate
+            							<a href="" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="!vm.paymentActivated"> Setup and activate
             								<i class="zmdi zmdi-chevron-down"></i>
             							</a>
 
-            							<a href="#" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="vm.paymentDetails[0].paymentActivated"> View Details
+            							<a href="" class="btn btn-warning setup-payment pull-right margin-bottom" ng-show="vm.paymentActivated"> Edit Details
             								<i class="zmdi zmdi-chevron-down"></i>
             							</a>
             
@@ -81,8 +81,15 @@
 													</span>
 												</div>
 											</div>
+											<div class="row error-success-notification-common" ng-if="vm.showSuccessCanBeEditedPaymentSettings" id="successMessageContainer">
+												<div class="col-lg-12 col-md-12 col-sm-12 success">
+													<span class="success-content">
+														The changes are saved successfully.
+													</span>
+												</div>
+											</div>
         									<h4 class="padding-top">1. Bank Details</h4>
-        									<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
+        									<p class="sub_desc">Changing these details is not permitted later. Please enter correct details.</p>
         									<div class="bank-account-details">
 						                        <div class="col-lg-6 col-md-6 col-sm-6">
 						                            <div class="form-group" show-errors>
@@ -147,11 +154,11 @@
 								                        <div class="fileUpload margin-bottom" id="hostAddressProofUploader">
 								                        	<div id="host-addressProof-uploader"></div>
 								                   		</div>
-															<p class="sub_desc">Your name, address and account number must be visible on uploaded file</p>
+															<p class="sub_desc">Your name, address and account number must be visible on uploaded file.</p>
 														</div>
 												</div>
         										<h4 class="padding-top margin-top">2. PAN Details</h4>
-        										<p class="sub_desc">Changing these details is not permitted later. Please enter correct details</p>
+        										<p class="sub_desc">Changing these details is not permitted later. Please enter correct details.</p>
 						                        <div class="col-md-12 col-sm-12">
 						                        	<div class="form-group col-sm-12 col-md-6 padding-none-left" show-errors>
 						                        		<label class="control-label" for="pan_number">Permanent Account Number (PAN)</label>
@@ -166,8 +173,29 @@
 						                        		<div class="fileUpload margin-bottom margin-top">
 							                          		<div id="host-panProof-uploader"></div>
 						                   				</div>
-        												<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings(vm.form.paymentSettingForm.$valid)" ng-show="!vm.paymentDetails[0].paymentActivated">Submit</a>
+						                   				<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings(vm.form.paymentSettingForm.$valid)" ng-show="!vm.paymentDetails[0].paymentActivated">Submit</a>
         											</div>
+												</div>
+												<h4 class="padding-top margin-top">3. Convenience fee</h4>
+        										<p class="sub_desc">Switch on this if you want to transfer the gateway fee to the buyer. Note that the platform fee will still be deducted from your booking amount.</p>
+        										<p class="sub_desc">This setting can be change anytime.</p>
+						                        <div class="row">
+													 <div class="col-sm-12 col-md-12 col-lg-12">
+													 	<div class="form-group">
+														   <label for="convenience-onoffswitch" class="control-label">Transfer convenience fee?</label>
+														   <div class="genericoffswitch convenience-onoffswitch">
+															  <input type="checkbox" name="convenience-onoffswitch" class="genericoffswitch-checkbox" ng-model="vm.paymentDetails[0].passConvenienceFee" id="convenience-onoffswitch">
+															  <label class="genericoffswitch-label" for="convenience-onoffswitch"></label>
+														   </div>
+														   <br>
+															<span ng-if="vm.paymentDetails[0].passConvenienceFee" style="color: #ED9C28;"> Convenience fee of 2% + 3 Rs. and applicable taxes will be charged to buyer </span>
+														</div>
+														<div class="form-group text-center">
+															<a class="sub_btn btn btn-primary margin-top" href="#" type="submit" ng-click="vm.savePaymentSettings(vm.form.paymentSettingForm.$valid)" ng-show="!vm.paymentActivated">Submit</a>
+
+															<a class="sub_btn btn btn-primary margin-top" href="" ng-click="vm.saveCanBeEditedPaymentSettings()" ng-show="vm.paymentActivated">Save</a>
+														</div>
+													</div>
 												</div>
         									</div>
         								</div>

@@ -174,6 +174,11 @@ module.exports = function (app) {
   app.route('/api/host/payment')
     .post(hosts.savePaymentDetails);
 
+  app.route('/api/host/canBeEditedPayment')
+    .post(hosts.saveCanBeEditedPaymentDetails);
+
+  
+
  /* app.route('/api/host/account')
     .post(hosts.saveAccountDetails); */
 

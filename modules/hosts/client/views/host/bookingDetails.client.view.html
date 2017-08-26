@@ -371,7 +371,7 @@
                 <p> Are you sure you want to decline this booking? Please note that if you decline this booking, no amount
                     will be charged to guest</p>
                 <a ng-click="vm.modifyBooking('Declined')" class="btn btn-default pull-left margin-right btn-sm">Decline</a>
-                <a onclick="closeModal('#decline-confirmation')" class="btn btn-warning btn-sm margin-bottom">No</a> 
+                <a data-dismiss="modal" class="btn btn-warning btn-sm margin-bottom">No</a> 
                 <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;">
                     
                 </textarea>  
@@ -390,7 +390,7 @@
             <div class="modal-body">
                 <p> Are you sure you want to confirm this booking? If you confirm, the status of booking will change to Confirmed and email is sent to customer. </p>
                 <a ng-click="vm.modifyBooking('Confirmed')" class="btn btn-warning pull-left margin-right btn-sm">Confirm</a>
-                <a onclick="closeModal('#confirm-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
+                <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">No</a> 
                 <!-- <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;"></textarea>  
                 -->
             </div>
@@ -435,7 +435,7 @@
                 <div class="row" style="margin-left: 0 !important">
                     <div class="form-group col-md-12 col-sm-12 col-lg-12 col-xs-12">
                         <a ng-click="vm.validateRefundAction()" class="btn btn-warning pull-left margin-right btn-sm">Cancel now</a>
-                        <a onclick="closeModal('#refund-confirmation')" class="btn btn-default btn-sm margin-bottom">No</a> 
+                        <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">No</a> 
                         <p class="text-danger"> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Please note that this action cannot be undone. </p>
                     </div>
                 </div>
@@ -443,7 +443,7 @@
         </div>
     </div>
 </div>
-<a data-toggle="modal" data-target="#refund-confirmation-two" style="display: none" id="refund-confirmation-two-trigger">Decline</a>          
+<a data-toggle="modal" data-target="#refund-confirmation-two" style="display: none" id="refund-confirmation-two-trigger"></a>          
 <div id="refund-confirmation-two" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -452,9 +452,10 @@
                 <h4 class="modal-title">Re-confirm the amount to be refunded</h4>
             </div>
             <div class="modal-body">
-                <p> Are you sure you want to return Rs. {{vm.refundAmount}} /- </p>
-                <p ng-show="vm.hostGoingNegative"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are returning more!</p>
-                <p ng-show="vm.hostGettingNothing"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are returning the whole amount!</p>
+                <p ng-show="vm.refundAmountNegative"> Are you sure you do not want to refund anything.</p>
+                <p ng-show="vm.refundAmountPositive"> Are you sure you want to refund Rs. {{vm.refundAmount}} /- </p>
+                <p ng-show="vm.hostGoingNegative"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are refunding more!</p>
+                <p ng-show="vm.hostGettingNothing"> The total amount you got for this booking after deducting platform fee, payment gateway fee and taxes is Rs. {{vm.specificBookingDetails.refundTopLimit.toFixed(2)}} /- and you are refunding the whole amount!</p>
                 <a ng-click="vm.refundTheGivenAmount()" class="btn btn-warning pull-left margin-right btn-sm">Yes, continue</a>
                 <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">No</a>  
                 <!-- <textarea class="form-control margin-top" placeholder="Additional comments" ng-model="vm.bookingComments" style="resize: vertical;"></textarea>  

@@ -5,11 +5,11 @@
       
     <div class="row pricing-overview">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        	<div class="col-md-offset-1 col-md-6 text-center alert alert-info">
+        	<div class="col-md-offset-1 col-md-6 text-center alert alert-info"  style="cursor: pointer;" data-toggle="modal" data-target="#pricing-explanation">
         		<h3>
-        			<strong>7% </strong>per online booking
+        			<strong>5%* </strong>per online booking
         		</h3>
-        		<p>*This includes, platform fee, payment gateway fee and service taxes.</p>
+        		<p>click to know more</p>
           	</div>
           	<div class="col-md-4 text-center  pricing-cta alert alert-warning">
           		<h4>No setup or monthly fee</h4>
@@ -96,7 +96,43 @@
           	</ul>
       	</div>
     </div>    
-</div>   
+</div>
+
+<div id="pricing-explanation" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Pricing</h4>
+            </div>
+            <div class="modal-body">
+                <p> 5% is the platform (tourgecko) fee. The integrated payment gateway fee is 2% + 3 Rs. But the good thing is you can transfer the integrated payment gateway fee to your buyer by switiching ON the 'convenience fee' in your payment settings.</p>
+
+                <p> Let's suppose you have a tour of 1000 Rs. When you get a booking. The following distribution will take place:</p>
+                <ul>
+                	<li> <p> Considering integrated payment gateway fee (convenience fee) is transferred to the buyer </p>
+                		<ul>
+                			<li> <p> 5% of 1000 = 50 Rs. will be transferred to platform (tourgecko) </p> </li>
+                			<li> <p> You get 950 Rs. in your bank account </p> </li>
+                		</ul>
+                	</li>
+                	<li> <p> Considering you are not transferring integrated payment gateway fee (convenience fee) to the buyer </p>
+                		<ul>
+                			<li> <p> 5% of 1000 = 50 Rs. will be transferred to platform (tourgecko) </p> </li>
+                			<li> <p> 2% of 1000 = 20 + 3 i.e 23 Rs. will be transferred to payment gateway</p> </li>
+                			<li> <p> 18% GST on 23 = 4.14 Rs. will be levied as taxes</p> </li>
+                			<li> <p> You get 922.60 Rs. in your bank account </p> </li>
+                		</ul>
+                	</li>
+                </ul>                
+            </div>
+            <div class="modal-footer">
+            	<a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom ">Ok, got it</a> 
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer class="footer tourgeckoAdminFooter">
     <div ng-include="'/modules/core/client/views/tourgeckoAdminFooter.client.view.html'">
 </footer>
@@ -111,3 +147,8 @@ s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
+<style>
+	.modal-open {
+    	overflow: hidden !important;
+	}
+</style>
