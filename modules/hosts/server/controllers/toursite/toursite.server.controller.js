@@ -53,16 +53,20 @@ exports.getToursiteData = function (req, res) {
         error: 'Oops! Something went wrong...'
       });
     }
-    Product.count({user: company.user, isPublished: true}, function(error, count){
-      Product.find({user: company.user, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
-        if (err) {
-          return res.status(400).send({
-            message: errorHandler.getErrorMessage(err)
-          });
-        }
-        res.json({productArray: products, productCount: count, companyData: company});
+    if (company) {
+      Product.count({user: company.user, isPublished: true}, function(error, count) {
+        Product.find({user: company.user, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
+          if (err) {
+            return res.status(400).send({
+              message: errorHandler.getErrorMessage(err)
+            });
+          }
+          res.json({productArray: products, productCount: count, companyData: company});
+        });
       });
-    });
+    } else {
+      res.json('noToursite')
+    }
   });
 };
 

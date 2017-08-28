@@ -240,6 +240,19 @@ exports.fetchAllProductDetailsOfCompany = function (req, res) {
   }
 };
 
+
+exports.fetchProductDetailOfAGivenHostCompany = function ( req, res) {
+  Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('hostCompany').exec(function (err, products) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    }
+    res.json(products);
+  });
+
+}
+
 // Fetch Company product details for current page
 exports.fetchCompanyProductDetailsForCurrentPage = function (req, res) {
   if (req.user) {

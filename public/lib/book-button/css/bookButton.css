@@ -1,0 +1,30 @@
+.tourgeckoSpecificTourBookButton, .tourgeckoToursiteBookButton {
+	position: absolute;
+	top:50%;
+	right: 10px;
+	display: block;
+    min-width: 100px;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.tourgeckoSpecificTourBookButton a, .tourgeckoToursiteBookButton a {
+    text-decoration: none;
+    color: #fff;
+ }
+
+.tourgeckoSpecificTourBookButton a:hover, .tourgeckoToursiteBookButton a:hover {
+	text-decoration: underline;
+}
+.tourgeckoSpecificTourBookButton .easing, .tourgeckoToursiteBookButton .easing {
+    overflow:hidden;
+    margin:10px 0;
+}
+.tourgeckoSpecificTourBookButton .easing button, .tourgeckoToursiteBookButton .easing button {
+    font-size:1.1em;
+    float:left;
+    clear:left;
+    line-height:1;
+    cursor:pointer;
+}

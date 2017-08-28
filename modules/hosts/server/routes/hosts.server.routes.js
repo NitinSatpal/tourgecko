@@ -34,6 +34,9 @@ module.exports = function (app) {
   app.route('/api/host/productVisibility/')
     .post(hosts.changeProductVisibility);
 
+  app.route('/api/host/company/products/')
+    .get(hosts.fetchProductDetailOfAGivenHostCompany);
+
   app.route('/api/host/companyproducts/')
     .get(hosts.fetchCompanyProductDetails);
 

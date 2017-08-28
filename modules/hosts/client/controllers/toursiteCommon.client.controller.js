@@ -18,6 +18,8 @@
     if (toursite == null)
       toursite = $location.host().split('.')[0];
     $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
+        if (response == 'noToursite')
+          $location.path('/not-found');
         vm.toursitedata = response.productArray;
         vm.companyData = response.companyData;
         $scope.hostAddress = vm.companyData.hostCompanyAddress.postalCode;

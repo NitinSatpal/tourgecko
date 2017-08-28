@@ -26,7 +26,7 @@
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     var totalToursiteRecords;
-    
+
     if ($window.innerWidth > 767) {
       vm.paginationWindow = 5;
       scrollTo = 580;
@@ -45,6 +45,8 @@
 
     if (toursite !== 'tourgecko' && toursite !== 'test' && toursite !== 'localhost' && toursite !== 'www') {
       $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
+          if (response == 'noToursite')
+            $location.path('/not-found');
           vm.toursitedata = response.productArray;
           vm.companyData = response.companyData;
           if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")

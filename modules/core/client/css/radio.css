@@ -1,0 +1,41 @@
+.generic-radio label.radio_label {
+	font-size: 18px;
+	color: rgba(0,0,0,0.6);
+	font-weight: 900;
+	margin: 0;
+	display: inline-block;
+	position: relative;
+}
+.generic-radio label.radio_label span {
+	font-size: 14px;
+	color: rgba(0,0,0,0.6);
+	font-weight: 900;
+	margin-left: 16px;
+}
+.generic-radio {
+	position: relative;
+	margin: 0 0;
+}
+.generic-radio.text_align_left {
+	text-align: left;
+	margin: 10px 0 0px 0;
+}
+.generic-radio i {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+}
+.generic-radio input {
+	display: none;
+}
+.generic-radio input ~ .zmdi-check-circle {
+	display: none;
+}
+.generic-radio input:checked ~ .zmdi-check-circle {
+	display: block;
+	color: #42AE5E;
+}
+.generic-radio input:checked ~ .zmdi-circle-o {
+	display: none;
+}

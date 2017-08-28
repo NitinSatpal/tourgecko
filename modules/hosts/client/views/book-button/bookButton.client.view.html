@@ -1,0 +1,160 @@
+<div class="hostHome container-fluid bookButton" id="bookButton">
+	<div class="row body-content bookButtonTabBodyContent" id="bookButtonTabBodyContent">
+		<script type="text/javascript" src="lib/scripts-inside-html/js/jscolor.min.js"></script>
+		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
+			<div class="home_add_tour">
+			    <i class="fa fa-calendar-check-o heading-icn"></i>
+			    <h2><span>Book button</span></h2>
+			</div>
+			<br>			
+			<div class="row infoSessionAtTop">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+					<span> Create the Book button for toursite or a specific tour and use it on your own wesbite </span>
+				</div>
+				<br>
+				<br>
+				<div class="col-md-2 col-sm-2 col-lg-2 col-xs-2 lamp-symbol">
+					<i class="zmdi zmdi-lamp"></i>
+				</div>
+				<div class="col-md-10 col-sm-10 col-lg-10 col-xs-10 tourTypeSessionsInfo">
+					<ul>
+						<li>
+							<span>The book button for toursite will allow your website users to browse / book any tour present in your tourgecko account </span>
+						</li>
+						<li>
+							<span>The book button for a specific tour will allow your wesbite users to see / book only that particular tour. </span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="panel">
+				<div class="row no_margin_row">
+					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonLabelName">
+						<label for="bookButtonName" class="control-label">Give the label to the button</label>
+						<div class="input_group">
+							<div class="input-group">
+								<input id="bookButtonName" ng-model="bookButtonLabelName">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonColor">
+						<label for="jscolor" class="control-label">Select the button color</label>
+						<div class="input_group">
+							<div class="input-group">
+								<input class="jscolor" value="ED9C28">
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+						<label for="bookButton" class="control-label">Create Book Button for?</label>
+						<div class="row no_margin_row">
+							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+								<div class="generic-radio">
+									<label class="radio_label">
+										<input type="radio" name="datetime" value="bookButtonForToursite" ng-click="vm.generateBookButtonToursite()" id="bookButtonForToursite" />
+										<span>&nbsp;toursite</span>
+										<i class="zmdi zmdi-check-circle"></i>
+										<i class="zmdi zmdi-circle-o"></i>
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+								<div class="generic-radio">
+									<label class="radio_label">
+										<input id="bookButtonForSpecificTour" type="radio" name="datetime" value="bookButtonForSpecificTour" ng-click="vm.bookButtonForSpecificTour = true"/>
+										<span>&nbsp;specific tour</span>
+										<i class="zmdi zmdi-check-circle"></i>
+										<i class="zmdi zmdi-circle-o"></i>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" ng-show="vm.bookButtonForSpecificTour">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" style="margin-left: 10px; margin-top: 15px;">
+						<label for="bookButton" class="control-label">Select the tour</label>
+						<div class="row no_margin_row">
+							<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+								<select id="tourBookButton" ng-model="vm.tourSelected" ng-change="vm.generateBookButtonForSpecificTour()">
+									<option></option>
+								</select>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<a id="book-button-copy-content-trigger" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-copy-content" style="display: none">
+</a>
+<div id="book-button-copy-content" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Book button</h4>
+            </div>
+            <div class="modal-body">
+                <p> Please copy the contents below anywhere in the body tag of your html </p>
+                <textarea class="form-control margin-top embedElements" ng-model="vm.bookButtonContent" disabled=""></textarea>
+                <br>
+	            <p> Include the following css file in the head tag of your html </p>
+	            <textarea class="form-control margin-top embedCss" ng-model="vm.bookingButtonCSS" disabled=""></textarea>
+	            <br>
+	            <p> Also include following jquery in the head tag </p>
+	            <textarea class="form-control margin-top embedJquery" ng-model="vm.bookingButtonJquery" disabled=""></textarea>
+	            <br>
+	            <p> And following js in the head tag </p>
+	            <textarea class="form-control margin-top embedJs" ng-model="vm.bookingButtonJS" disabled=""></textarea>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$.ajax({
+	    	url:'/api/host/company/products/',
+	        type:'GET',
+	        dataType: 'json',
+	      	success: function( tours ) {
+	      		if (tours.length > 0)	      			
+	      			angular.element('#bookButton').scope().hostToursiteName = tours[0].hostCompany.toursite;
+	      		var toursArray = [];	      		
+	      		for (var index = 0; index < tours.length; index ++) {
+	      			var tempTourObj = {id: tours[index]._id, text: tours[index].productTitle}
+	      			toursArray.push(tempTourObj);
+	      		}
+	      		$("#tourBookButton").select2({
+	      			data: toursArray,
+			  		width: '80%',
+			      	placeholder: "Select tour",
+			      	allowClear: true
+			    });
+	        }
+	    });
+	});
+
+	$('#book-button-copy-content').on('hidden.bs.modal', function () {
+		$("#tourBookButton").val('').trigger('change');
+		$('#bookButtonForToursite').prop("checked", false);
+		$('#bookButtonForSpecificTour').prop("checked", false);
+		$('.jscolor').val('ED9C28');
+		$('.jscolor').css("background-color", "ED9C28");
+		var $scope = angular.element('#bookButton').scope()
+	    $scope.$evalAsync(function() {
+	        angular.element('#bookButton').scope().bookButtonLabelName = '';
+	        
+	    });
+	})
+</script>

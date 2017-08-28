@@ -203,6 +203,15 @@
           pageTitle: 'notifications'
         }
       })
+      .state('host.bookButton', {
+        url: '/book-button',
+        templateUrl: 'modules/hosts/client/views/book-button/bookButton.client.view.html',
+        controller: 'BookButtonController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'book button'
+        }
+      })
       .state('host.hostHelp', {
         url: '/help',
         templateUrl: 'modules/hosts/client/views/host/hostHelp.client.view.html',

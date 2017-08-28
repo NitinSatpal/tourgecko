@@ -302,6 +302,41 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 	top: 18px;
 	left:200px;
 }
+
+.bookButton .bookButtonTabBodyContent .infoSessionAtTop span {
+	font-weight: 500;
+	font-size: 16px;
+}
+.bookButton .bookButtonTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+	color: #ED9C28;
+	font-size: 20px;
+	margin-left: 75px;
+	margin-top: 10px;
+}
+.bookButton .bookButtonTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo {
+	margin-left: -65px;
+}
+.bookButton .bookButtonTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo ul li {
+	list-style: none;
+}
+.bookButton .bookButtonTabBodyContent .infoSessionAtTop .tourTypeSessionsInfo span {
+	font-weight: 300;
+	font-size: 12px;
+}
+.bookButton .bookButtonTabBodyContent .panel{
+	padding: 1rem 2rem 1rem 1rem;
+}
+.book-button-copy-content .embedElements {
+	height: 10rem;
+	resize: none;
+}
+
+.book-button-copy-content .embedCss,
+.book-button-copy-content .embedJquery,
+.book-button-copy-content .embedJs {
+	height: 3.4rem;
+	resize: none;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -384,6 +419,19 @@ and (max-device-width : 1024px){
 		top: -2px;
 		left:62px;
 	}
+	.bookButton .bookButtonTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+		margin-left: 0;
+		margin-top: 30px;
+	}
+	.book-button-copy-content .embedCss,
+	.book-button-copy-content .embedJquery,
+	.book-button-copy-content .embedJs {
+		height: 4.2rem;
+		resize: none;
+	}
+	.bookButton .bookButtonTabBodyContent .bookButtonColor {
+		margin-top: 20px;
+	}
 }
 @media (max-width: 425px){
 	#settings .settings_payment .payment-guide{ float:none !important; display:block; margin-top:1rem; margin-bottom:1rem;}
@@ -452,8 +500,25 @@ and (max-device-width : 1024px){
 		margin-top: 4px;
 	}
 	.qq-thumbnail-wrapper {
-			width: 155px !important
-		}
+		width: 155px !important
+	}
+	.bookButton .bookButtonTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+		margin-left: 0;
+		margin-top: 30px;
+	}
+
+	.bookButton .bookButtonTabBodyContent .panel {
+		    padding: 1rem 2rem 1rem 1rem;
+	}
+	.book-button-copy-content .embedCss,
+	.book-button-copy-content .embedJquery,
+	.book-button-copy-content .embedJs {
+		height: 4.2rem;
+		resize: none;
+	}
+	.bookButton .bookButtonTabBodyContent .bookButtonColor {
+		margin-top: 20px;
+	}
 }
 @media (max-width: 320px){   
 	#booking-detail .form-control.trip-booking-input {width: 114px;}
@@ -517,6 +582,19 @@ and (max-device-width : 1024px){
 		margin-top: 4px
 	}
 	.qq-thumbnail-wrapper {
-			width: 155px !important
-		}
+		width: 155px !important
+	}
+	.bookButton .bookButtonTabBodyContent .infoSessionAtTop .lamp-symbol .zmdi-lamp {
+		margin-left: 0;
+		margin-top: 30px;
+	}
+	.book-button-copy-content .embedCss,
+	.book-button-copy-content .embedJquery,
+	.book-button-copy-content .embedJs {
+		height: 4.2rem;
+		resize: none;
+	}
+	.bookButton .bookButtonTabBodyContent .bookButtonColor {
+		margin-top: 20px;
+	}
 }
