@@ -20,8 +20,9 @@
     $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
         vm.toursitedata = response.productArray;
         vm.companyData = response.companyData;
-        $scope.hostAddress =  vm.companyData.hostCompanyAddress.streetAddress.toString() + '+' + vm.companyData.hostCompanyAddress.city .toString()
-                         + '+' + vm.companyData.hostCompanyAddress.state.toString() + '+' + vm.companyData.hostCompanyAddress.country.toString();
+        $scope.hostAddress = vm.companyData.hostCompanyAddress.postalCode;
+        /* $scope.hostAddress =  vm.companyData.hostCompanyAddress.streetAddress.toString() + '+' + vm.companyData.hostCompanyAddress.city .toString()
+                         + '+' + vm.companyData.hostCompanyAddress.state.toString() + '+' + vm.companyData.hostCompanyAddress.country.toString(); */
         //$('#hostPinnedAddressMap').attr('src', '//www.google.com/maps/embed/v1/place?q='+ hostAddress +'&zoom=17&key=AIzaSyC8QX0vYZ8GdosLz3mHlHHuwyOYVqz5TxI');
         if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
           vm.facebookLink = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;

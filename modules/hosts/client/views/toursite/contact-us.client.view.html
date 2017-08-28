@@ -103,6 +103,10 @@
         </div> -->
         <br>
         <br>
+        <div id="locationNotFound" style="display: none;" class="text-center">
+            <p> We could not find this address</p>
+        </div>
+
         <div id = "hostPinnedAddressMap" class="hostPinnedAddressMap"></div>
     </div>
     <footer>
@@ -114,17 +118,18 @@
     var map;
     function initMap() {
         var mapOptions = {
-           center:new google.maps.LatLng(17.4927060, 78.3360520),
+           // center:new google.maps.LatLng(17.4927060, 78.3360520),
            zoom:17
         }
         map = new google.maps.Map(document.getElementById("hostPinnedAddressMap"),mapOptions);
         var marker = new google.maps.Marker({
-           position: new google.maps.LatLng(17.4927060, 78.3360520),
+           // position: new google.maps.LatLng(17.4927060, 78.3360520),
            map: map,
         });
 
         geocoder = new google.maps.Geocoder();
         var address = angular.element('.contact-us-page').scope().hostAddress;
+        console.log(address);
         geocoder.geocode( { 'address': address}, function(results, status) {
           if (status == 'OK') {
             map.setCenter(results[0].geometry.location);
@@ -133,7 +138,8 @@
                 position: results[0].geometry.location
             });
           } else {
-            // alert('Geocode was not successful for the following reason: ' + status);
+            $('#locationNotFound').css('display', 'block');
+            //alert('Geocode was not successful for the following reason: ' + status);
           }
         });
      }
