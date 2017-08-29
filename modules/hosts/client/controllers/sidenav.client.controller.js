@@ -30,14 +30,12 @@
     $http.get('/api/host/booking/status/count/' + 'All').success(function (response) {
       vm.pendingBookingCount = response;
     }).error(function (response) {
-      vm.error = response.message;
     });
 
     setInterval(function () {
       $http.get('/api/host/booking/status/count/' + 'All').success(function (response) {
         vm.pendingBookingCount = response;
       }).error(function (response) {
-        vm.error = response.message;
       });
     }, 60000);
     

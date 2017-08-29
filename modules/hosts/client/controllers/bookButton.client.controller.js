@@ -10,45 +10,70 @@
   function BookButtonController($state, $scope, $window, $http) {
     var vm = this;
     $scope.hostToursiteName = '';
-    vm.bookingButtonCSS = 'https://tourgecko.com/lib/book-button/css/bookButton.css';
-    vm.bookingButtonJS = 'https://tourgecko.com/lib/book-button/js/bookButton.js'
-    vm.bookingButtonJquery = "http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
+
     vm.generateBookButtonForSpecificTour = function () {
       if (vm.tourSelected) {
-        var div = document.createElement('div');
-        $(div).addClass("tourgeckoSpecificTourBookButton");
-        $(div).css("background-color", $('.jscolor').val());
-        var anchorTag = document.createElement('a');
-        $(anchorTag).attr("type", "button")
-        $(anchorTag).addClass('btn');
-        $(anchorTag).addClass('btn-primary');
-        $(anchorTag).attr("href", "https://" + $scope.hostToursiteName + '.tourgecko.com/tour/book/' + vm.tourSelected);
+        var dynamicallyAddedAttribute = '';
+        var linkURL = "https://" + $scope.hostToursiteName + ".tourgecko.com/tour/book/" + vm.tourSelected;
+        var bookButtonLabel = '';
         if (!$scope.bookButtonLabelName)
-          anchorTag.innerHTML = 'Book Now';
+          bookButtonLabel = 'Book Now';
         else
-          anchorTag.innerHTML = $scope.bookButtonLabelName;
-        $(div).append(anchorTag);
-        vm.bookButtonContent = div.outerHTML;
+          bookButtonLabel = $scope.bookButtonLabelName;
+        var bookButtonColor = $('.jscolor').val();
+       dynamicallyAddedAttribute = dynamicallyAddedAttribute + 
+                                  '\ts1.setAttribute("linkURL", ' +
+                                  ' "' + linkURL.toString() +'");\n' +
+                                  '\ts1.setAttribute("bookButtonLabel", ' +
+                                  ' "' + bookButtonLabel.toString() + '");\n' +
+                                  '\ts1.setAttribute("bookButtonColor",' + ' "#' +
+                                  bookButtonColor.toString() + '");\n';
+        
+       vm.scriptToEmbed = 'window.TG = window.TG || {};\n' +
+                            '(function (window, document) {\n' +
+                            '\tvar s1 = document.createElement("script")\n' +
+                            '\tvar s0 = document.getElementsByTagName("script")[0];\n' +
+                            '\ts1.async = true;\n' +
+                            '\ts1.src = "https://tourgecko.com/lib/integrations/book-button/bookButton.js";\n' +
+                            '\ts1.charset = "UTF-8";\n' +
+                            '\ts1.setAttribute("id" , "bookButtonIntegration");\n' +
+                            dynamicallyAddedAttribute +
+                            '\ts0.parentNode.insertBefore(s1,s0);\n' +
+                          '})(window, document);';
         $('#book-button-copy-content-trigger').click();
       }
     }
 
     vm.generateBookButtonToursite = function () {
       vm.bookButtonForSpecificTour = false;
-      var div = document.createElement('div');
-      $(div).addClass("tourgeckoToursiteBookButton");
-      $(div).css("background-color", $('.jscolor').val());
-      var anchorTag = document.createElement('a');
-      $(anchorTag).attr("type", "button")
-      $(anchorTag).addClass('btn');
-      $(anchorTag).addClass('btn-primary');
-      $(anchorTag).attr("href", "https://" + $scope.hostToursiteName + '.tourgecko.com/tours');
+      var dynamicallyAddedAttribute = ' ';
+      var linkURL = "https://" + $scope.hostToursiteName + ".tourgecko.com/tours";
+      var bookButtonLabel = '';
       if (!$scope.bookButtonLabelName)
-        anchorTag.innerHTML = 'Browse Tours';
+        bookButtonLabel = 'Browse Tours';
       else
-        anchorTag.innerHTML = $scope.bookButtonLabelName;
-      $(div).append(anchorTag);
-      vm.bookButtonContent = div.outerHTML;
+        bookButtonLabel = $scope.bookButtonLabelName;
+      var bookButtonColor = $('.jscolor').val();
+      dynamicallyAddedAttribute = dynamicallyAddedAttribute + 
+                                  '\ts1.setAttribute("linkURL", ' +
+                                  ' "' + linkURL.toString() +'");\n' +
+                                  '\ts1.setAttribute("bookButtonLabel", ' +
+                                  ' "' + bookButtonLabel.toString() + '");\n' +
+                                  '\ts1.setAttribute("bookButtonColor",' + ' "#' +
+                                  bookButtonColor.toString() + '");\n';
+      
+      vm.scriptToEmbed = 'window.TG = window.TG || {};\n' +
+                            '(function (window, document) {\n' +
+                            '\tvar s1 = document.createElement("script")\n' +
+                            '\tvar s0 = document.getElementsByTagName("script")[0];\n' +
+                            '\ts1.async = true;\n' +
+                            '\ts1.src = "https://tourgecko.com/lib/integrations/book-button/bookButton.js";\n' +
+                            '\ts1.charset = "UTF-8";\n' +
+                            '\ts1.setAttribute("id" , "bookButtonIntegration");\n' +
+                            dynamicallyAddedAttribute +
+                            '\ts0.parentNode.insertBefore(s1,s0);\n' +
+                          '})(window, document);';  
+
       $('#book-button-copy-content-trigger').click();
     }
   }

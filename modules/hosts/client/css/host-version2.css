@@ -326,17 +326,11 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .bookButton .bookButtonTabBodyContent .panel{
 	padding: 1rem 2rem 1rem 1rem;
 }
-.book-button-copy-content .embedElements {
-	height: 10rem;
+.book-button-copy-content .bookButtonEmbededScriptTextarea {
+	height: 28rem;
 	resize: none;
 }
 
-.book-button-copy-content .embedCss,
-.book-button-copy-content .embedJquery,
-.book-button-copy-content .embedJs {
-	height: 3.4rem;
-	resize: none;
-}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 
@@ -423,12 +417,6 @@ and (max-device-width : 1024px){
 		margin-left: 0;
 		margin-top: 30px;
 	}
-	.book-button-copy-content .embedCss,
-	.book-button-copy-content .embedJquery,
-	.book-button-copy-content .embedJs {
-		height: 4.2rem;
-		resize: none;
-	}
 	.bookButton .bookButtonTabBodyContent .bookButtonColor {
 		margin-top: 20px;
 	}
@@ -510,12 +498,7 @@ and (max-device-width : 1024px){
 	.bookButton .bookButtonTabBodyContent .panel {
 		    padding: 1rem 2rem 1rem 1rem;
 	}
-	.book-button-copy-content .embedCss,
-	.book-button-copy-content .embedJquery,
-	.book-button-copy-content .embedJs {
-		height: 4.2rem;
-		resize: none;
-	}
+	
 	.bookButton .bookButtonTabBodyContent .bookButtonColor {
 		margin-top: 20px;
 	}
@@ -588,12 +571,7 @@ and (max-device-width : 1024px){
 		margin-left: 0;
 		margin-top: 30px;
 	}
-	.book-button-copy-content .embedCss,
-	.book-button-copy-content .embedJquery,
-	.book-button-copy-content .embedJs {
-		height: 4.2rem;
-		resize: none;
-	}
+	
 	.bookButton .bookButtonTabBodyContent .bookButtonColor {
 		margin-top: 20px;
 	}

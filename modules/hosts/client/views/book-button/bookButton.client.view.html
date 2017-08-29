@@ -62,7 +62,7 @@
 						<label for="jscolor" class="control-label">Select the button color</label>
 						<div class="input_group">
 							<div class="input-group">
-								<input class="jscolor" value="ED9C28" onclick="abc()">
+								<input class="jscolor" value="ED9C28">
 							</div>
 						</div>
 					</div>
@@ -123,19 +123,9 @@
                 <h4 class="modal-title">Book button</h4>
             </div>
             <div class="modal-body">
-                <p> Please copy the contents below anywhere in the body tag of your html </p>
-                <textarea class="form-control margin-top embedElements" ng-model="vm.bookButtonContent" disabled=""></textarea>
-                <br>
-	            <p> Include the following css file in the head tag of your html </p>
-	            <textarea class="form-control margin-top embedCss" ng-model="vm.bookingButtonCSS" disabled=""></textarea>
-	            <br>
-	            <p> Also include following jquery in the head tag </p>
-	            <textarea class="form-control margin-top embedJquery" ng-model="vm.bookingButtonJquery" disabled=""></textarea>
-	            <br>
-	            <p> And following js in the head tag </p>
-	            <textarea class="form-control margin-top embedJs" ng-model="vm.bookingButtonJS" disabled=""></textarea>
-            </div>
-
+                <p> Please copy the contents below anywhere before the '/body' tag of your html </p>
+                <textarea class="form-control margin-top bookButtonEmbededScriptTextarea" ng-model="vm.scriptToEmbed" disabled=""></textarea>
+            </div>            
         </div>
     </div>
 </div>
