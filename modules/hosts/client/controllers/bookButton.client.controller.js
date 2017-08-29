@@ -10,7 +10,7 @@
   function BookButtonController($state, $scope, $window, $http) {
     var vm = this;
     $scope.hostToursiteName = '';
-
+    $scope.bookButtonLabelName = '';
     vm.generateBookButtonForSpecificTour = function () {
       if (vm.tourSelected) {
         var dynamicallyAddedAttribute = '';
