@@ -8,6 +8,7 @@ var _ = require('lodash'),
   mongoose = require('mongoose'),
   Product = mongoose.model('Product'),
   ProductSession = mongoose.model('ProductSession'),
+  Company = mongoose.model('HostCompany'),
   // cron = require('cron'),
   async = require('async'),
   multer = require('multer'),
@@ -242,15 +243,17 @@ exports.fetchAllProductDetailsOfCompany = function (req, res) {
 
 
 exports.fetchProductDetailOfAGivenHostCompany = function ( req, res) {
-  Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('hostCompany').exec(function (err, products) {
+  Company.findOne({user: req.user._id}).exec(function (err, company) {
     if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
+      res.json('error');
     }
-    res.json(products);
+    Product.find({ 'hostCompany': req.user.company }).sort('-created').populate('hostCompany').exec(function (err, products) {
+      if (err) {
+        res.json('error');
+      }
+      res.json({toursite: company.toursite, productArray: products});
+    });
   });
-
 }
 
 // Fetch Company product details for current page

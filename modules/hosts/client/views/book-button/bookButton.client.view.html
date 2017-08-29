@@ -6,7 +6,26 @@
 			    <i class="fa fa-calendar-check-o heading-icn"></i>
 			    <h2><span>Book button</span></h2>
 			</div>
-			<br>			
+			<br>
+			<div class="row error-success-notification-common" id="bookButtonErrorContainer" style="display: none;">
+                <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                            <span>  
+                                <h5> There is 1 error in Book button</h5>
+                                <ul>
+                                    <li> Please try again or contact tourgecko support </li>
+                                </ul>
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>		
 			<div class="row infoSessionAtTop">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
 					<span> Create the Book button for toursite or a specific tour and use it on your own wesbite </span>
@@ -43,7 +62,7 @@
 						<label for="jscolor" class="control-label">Select the button color</label>
 						<div class="input_group">
 							<div class="input-group">
-								<input class="jscolor" value="ED9C28">
+								<input class="jscolor" value="ED9C28" onclick="abc()">
 							</div>
 						</div>
 					</div>
@@ -127,9 +146,11 @@
 	    	url:'/api/host/company/products/',
 	        type:'GET',
 	        dataType: 'json',
-	      	success: function( tours ) {
-	      		if (tours.length > 0)	      			
-	      			angular.element('#bookButton').scope().hostToursiteName = tours[0].hostCompany.toursite;
+	      	success: function( response ) {
+	      		if (response == 'error')
+	      			$('#bookButtonErrorContainer').css ("display", "block");
+	      		var tours = response.productArray;
+	      		angular.element('#bookButton').scope().hostToursiteName = response.toursite;
 	      		var toursArray = [];	      		
 	      		for (var index = 0; index < tours.length; index ++) {
 	      			var tempTourObj = {id: tours[index]._id, text: tours[index].productTitle}
@@ -143,6 +164,11 @@
 			    });
 	        }
 	    });
+	});
+
+	$(document).on("click", ".bookButton", function () {
+		if($("#bookButtonErrorContainer:visible"))
+			$("#bookButtonErrorContainer").hide();
 	});
 
 	$('#book-button-copy-content').on('hidden.bs.modal', function () {

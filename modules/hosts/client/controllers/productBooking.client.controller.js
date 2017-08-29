@@ -179,7 +179,6 @@
 
     vm.getDisplayDate = function (isoDate) {
       var date = new Date(isoDate);
-      console.log('ghagra choli ' + date);
       if (date == 'Invalid Date')
         date = new Date(+isoDate);
       var displayDate = weekdays[date.getDay()] + ', ' + date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
