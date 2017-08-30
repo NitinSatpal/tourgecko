@@ -4,7 +4,6 @@
  * Module dependencies
  */
 var path = require('path'),
-    cors = require('cors'),
     hosts = require('../controllers/hosts.server.controller'),
     mailsAndSms = require(path.resolve('./modules/mailsAndMessages/server/controllers/mailsAndMessages.server.controller')),
     tracelog = require(path.resolve('./modules/core/server/controllers/tracelog.server.controller')),

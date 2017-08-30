@@ -5,7 +5,6 @@
  * Module dependencies
  */
 var path = require('path'),
-  cors = require('cors'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
   Product = mongoose.model('Product'),
