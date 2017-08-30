@@ -179,13 +179,15 @@
           return remainingSeats.toString() + ' seats';
       }
       else {
-        if (session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')
-          return 'No seat limit';
-        else {
-          if (parseInt(session.sessionCapacityDetails.sessionSeatLimit) <= 1)
-            return  session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seat';
-          else
-            return session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seats';
+        if (session.sessionCapacityDetails) {
+          if (session.sessionCapacityDetails.sessionSeatsLimitType == 'unlimited')
+            return 'No seat limit';
+          else {
+            if (parseInt(session.sessionCapacityDetails.sessionSeatLimit) <= 1)
+              return  session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seat';
+            else
+              return session.sessionCapacityDetails.sessionSeatLimit.toString() + ' seats';
+          }
         }
       }
     }

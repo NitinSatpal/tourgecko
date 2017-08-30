@@ -73,6 +73,21 @@ function generateBookButton () {
                                         'line-height:1;' +
                                         'cursor:pointer;' +
                                     '}';
+    if ($(window).width() <= 1000) {
+        bookButtonDivStyle.innerHTML = bookButtonDivStyle.innerHTML + 
+                                       '.mobile-contact {' +
+                                            'float: left;' +
+                                            'text-align: center;' +
+                                            'width: 100%;' +
+                                            'position: fixed;' +
+                                            'bottom: 0;' +
+                                            'background-color: #fff !important;' +
+                                            'left: 0;' +
+                                            'border-top: 1px solid #f1f1f1;' +
+                                            'padding: 5px;' +
+                                            'z-index: 2222;' +
+                                        '}'
+    }
 
     $(document.body).append(bookButtonDivStyle);
     var clickedOnce = false;
@@ -80,6 +95,12 @@ function generateBookButton () {
     var redirectTo = document.getElementById("bookButtonIntegration").getAttribute("linkURL") + '?ids=' + encodeURIComponent(requestData);
     var div = document.createElement('div');
     $(div).addClass('tourgeckoBookButton');
+    $(div).css("border-radius", "4px");
+    if ($(window).width() <= 1000) {
+        $(div).css("border-radius", "0");
+        $(div).removeClass('tourgeckoBookButton');
+        $(div).addClass("mobile-contact");
+    }
     $(div).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
     var anchorTag = document.createElement('a');
     $(anchorTag).attr('id', 'multiTourBookButton');
@@ -88,10 +109,25 @@ function generateBookButton () {
     $(anchorTag).addClass('btn-primary');
     $(anchorTag).attr("href", redirectTo);
     $(anchorTag).attr("target", "_blank");
+    if ($(window).width() <= 1000) {
+        $(anchorTag).css("padding", "20px");
+        $(anchorTag).css("bottom", "0");
+        $(anchorTag).css("left", "0");
+        $(anchorTag).css("position", "fixed");
+        $(anchorTag).css("width", "100%");
+        $(anchorTag).css("font-size", "25px");
+        $(anchorTag).css("color", "#fff");
+        $(anchorTag).css("font-weight", "bold");
+        $(anchorTag).css("height", "auto");
+        $(anchorTag).css("border-radius", "4px");
+        $(anchorTag).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
+    }
     anchorTag.innerHTML = document.getElementById("bookButtonIntegration").getAttribute("bookButtonLabel");
     $(div).append(anchorTag);
     $(document.body).append(div);
 
+    console.log($(window).width());
+    console.log($(document).width());
     $('.tourgeckoBookButton').click(function () {
         window.open(redirectTo, '_blank');
     });
@@ -286,10 +322,12 @@ function generateBookButton () {
         };
     })(jQuery);
 
-    $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
+    if ($(window).width() > 1000) {
+        $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
 
-    // after page refresh, make sure the values are returned to their defaults
-    $('.tourgeckoBookButton :text').each(function(){
-    	$(this).val(this.defaultValue);
-    });
+        // after page refresh, make sure the values are returned to their defaults
+        $('.tourgeckoBookButton :text').each(function(){
+        	$(this).val(this.defaultValue);
+        });
+    }
 }
