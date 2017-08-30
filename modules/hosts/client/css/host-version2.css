@@ -324,13 +324,22 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 	font-size: 12px;
 }
 .bookButton .bookButtonTabBodyContent .panel{
-	padding: 1rem 2rem 1rem 1rem;
+	padding-top:0;
+	padding-bottom: 1rem;
+	padding-left: 2rem;
+	padding-right: 2rem;
 }
-.book-button-copy-content .bookButtonEmbededScriptTextarea {
-	height: 28rem;
+.book-button-copy-content .bookButtonEmbededScriptTextareaForsingleTour {
+	height: 12rem;
 	resize: none;
 }
-
+.book-button-copy-content .bookButtonEmbededScriptTextareaForMultipleTours {
+	height: 30rem;
+	resize: none;
+}
+.bookButton .bookButtonTabBodyContent .row{
+	margin-top: 20px;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 

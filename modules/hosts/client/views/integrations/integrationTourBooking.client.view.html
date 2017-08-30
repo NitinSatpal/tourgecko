@@ -1,0 +1,648 @@
+<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
+    <span ng-bind="vm.error"></span>
+</uib-alert>
+<div id="loadingDivTourBooking" class="loaderDisplayDiv"></div>
+<div class="host-guest-common-style" id="host-guest-common-style">
+    <toasty></toasty>
+    <div class="host-guest-common-style-bookings-marginFromBothSides" style="min-height: 80%;">
+        <div class="row booking-wrapper">
+            <div class="col-sm-8">
+                <div class="tour-info-panel">
+                    <h4 class="tour-title">{{vm.bookingProductDetails.productTitle}}</h4>
+                    <span href="#" class="card-city-name"><i class="fa fa-map-marker orange-text"></i>{{vm.bookingProductDetails.destination}}</span> <span><i class="fa fa-clock-o orange-text"></i>{{vm.bookingProductDetails.productDuration}} {{vm.bookingProductDetails.productDurationType}}</span>
+                </div>
+                <div class="stepwizard" id="wizard">
+                    <div class="stepwizard-row setup-panel">
+                        <div class="stepwizard-step" id="stepwizard-step">
+                            <a href="#step-1" type="button" class="btn host-guest-common-style-btn btn-circle" id="fixedDepartureStep1">1</a>
+                            <p class="host-guest-common-style-btn-departure">
+                                <span>Departure</span></p>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 ">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}}</small>
+                        </div>
+                        <div class="stepwizard-step">
+                            <a href="#step-2" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep2">2</a>
+                            <p>
+                                <span>Options</span>
+                            </p>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 col-xs-hidden" ng-if="vm.totalPayablePrice != 0">
+                                <span class="currency"> &#8377;</span> {{vm.totalPayablePrice}}
+                            </small>
+                        </div>
+                        <div class="stepwizard-step">
+                            <a href="#step-3" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep3">3</a>
+                            <p> <span>Guest</span> </p>
+                            <small class="host-guest-common-style-btn-text text-lighten-1 col-xs-hidden" >{{vm.providedGuestDetails.email}}</small>
+                        </div>
+                        <div class="stepwizard-step">
+                            <a href="#step-4" type="button" class="btn host-guest-common-style-default-btn btn-circle" id="fixedDepartureStep4">4</a>
+                            <p> <span>Checkout</span> </p>
+                        </div>
+                    </div>
+                </div>
+                <form role="form" action="" method="post" name="vm.bookingForm" novalidate autocomplete="off">
+                    <div class="row setup-content" id="step-1">
+                        <div class="col-xs-12" ng-if="vm.datesOfTheSessionsOfThisProduct.length <= 20 && vm.bookingProductDetails.productAvailabilityType == 'Fixed Departure'">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(1)">
+                                <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                                                <span>  
+                                                    <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in departure date selection</h5>
+                                                    <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in departure date selection</h5>
+                                                    <ul>
+                                                        <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                                    </ul>
+                                                </span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-calendar orange-text"></i> Departure</h3>
+                                <strong class="booking-form-subtitle"> Select the departure date</strong>
+                                <div class="date-picker">
+                                    <div class="select-date-wrapper" ng-repeat="session in vm.sesisonDateAndTimeForDisplayAndAvailability | orderBy: 'startDate' track by $index" ng-style="vm.getDynamicCSSForDateSection($index)" id="dateSelectorDiv{{$index}}">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="optionsRadios" id="optionsRadios{{$index}}" type="radio"  id="departureDate{{$index}}" value="vm.selectedDate" ng-click="vm.setSelectedDate(session, $index)"> {{getDepartureDate(session.startDate, $index)}}
+                                                <br>
+                                                <span ng-if="session.startTime != '' && session.startTime != undefined && session.startTime != 'No Time'" id="startTime{{$index}}"><i class="fa fa-clock-o orange-text"></i>{{session.startTime}}</span>
+                                            </label>
+                                        </div>
+                                        <a href="#" class="select-date-btn">
+                                            <span class="card-tour-price" id="remainingSeats{{$index}}">
+                                                <span></span> {{vm.getSeatsRemainingForList(session, $index)}} 
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" style="margin-bottom: 10px;" ng-click="vm.hideErrorsIfExists(1)" id="bookingCalendar">
+                            <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep1">
+                                <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-2 col-sm-2">
+                                            <i class="fa fa-ban" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                                            <span>  
+                                                <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in departure date selection</h5>
+                                                <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in departure date selection</h5>
+                                                <ul>
+                                                    <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                                </ul>
+                                            </span> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="booking-form-title"><i class="zmdi zmdi-calendar orange-text"></i> Departure</h3>
+                            <strong class="booking-form-subtitle"> Select the departure date</strong>
+                            <br>
+                            <br>
+                            <div class="responsive-calendar" id="bookingDateSelector" style="margin-top: 25px;">
+                                <div class="controls">
+                                    <a class="pull-left" data-go="prev" ng-click="findUnavailableMonthsAndDates('prev')">
+                                        <img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px">
+                                    </a>
+                                    <h4>
+                                        <span data-head-year></span>
+                                        <span data-head-month></span>
+                                    </h4>
+                                    <a class="pull-right" data-go="next" ng-click="findUnavailableMonthsAndDates('next')">
+                                        <img src="modules/core/client/img/hostGuestCommonImages/left.svg" width="30px" style="transform: rotate(180deg)">
+                                    </a>
+                                </div>
+                                <hr/>
+                                <div class="day-headers">
+                                    <div class="day header">Mon</div>
+                                    <div class="day header">Tue</div>
+                                    <div class="day header">Wed</div>
+                                    <div class="day header">Thu</div>
+                                    <div class="day header">Fri</div>
+                                    <div class="day header">Sat</div>
+                                    <div class="day header">Sun</div>
+                                </div>
+                                <div class="days day-style" data-group="days">
+                                </div>
+                                <!-- Responsive calendar - END -->
+                            </div>
+                            <div class="calendar-info">
+                                <ul class="calendar-info-list">
+                                    <li><span class="calendar-info-selected"></span><small>Selected</small></li>
+                                    <li><span class="calendar-info-avilable"></span><small>Available</small></li>
+                                    <li><span class="calendar-info-unavilable"></span><small>Unavailable</small></li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-12 preferred-time-wrapper" ng-if="vm.timesForThisDate.length > 0">
+                                <label class="preferred-time">
+                                    <span><i class="fa fa-clock-o orange-text"></i>Preferred time</span>
+                                </label>
+                                <div class="dropdown show-btn">
+                                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> {{vm.selectedTimeslot}}
+                                        <span class="selected"></span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu per-page-count">
+                                        <li ng-repeat="time in vm.timesForThisDate track by $index">
+                                            <a href="" ng-click="vm.findMaximumCapcityOfThisTimestamp(time)">{{time}} <span>{{vm.getSeatsRemainingForCalendar(time)}}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="host-guest-common-style-row form-np-btn">
+                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(1,2)" onclick="scrollToTop()" >Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row setup-content" id="step-2">
+                        <div class="col-xs-12">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(2)">
+                                <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep2">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                                                <span>  
+                                                    <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in booking option selection </h5>
+                                                    <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in booking option selecction </h5>
+                                                    <ul>
+                                                        <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                                    </ul>
+                                                </span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="booking-form-title"><span class="currency orange-text">&#8377;</span> Booking Options</h3>
+                                <strong class="booking-form-subtitle"> Enter number of participants
+                                    <span class="pull-right orange-text">Mandatory</span>
+                                </strong>
+                                <div ng-repeat="pricing in vm.validPricingOptions track by $index">
+                                    <div class="booking-radio-wrappers border-bottom" ng-if="pricing.pricingType == 'Custom'">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <div class="checkbox">
+                                                <label class="text-lighten-1">{{pricing.customLabel}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 text-lighten-1"><span class="currency">&#8377;</span> <strong>{{pricing.price}}</strong>
+                                            <!--<p class="text-lighten-1 text-justify">(For family of 4)</p>-->
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3">
+                                            <select class="form-control groupCustomQuantityQuantity" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForCustomOption($index)">
+                                                <option value="Please Select">Please Select</option>
+                                                <option ng-repeat="size in vm.getRepeaterIndexForGroupAndCustomPricing(1, pricing.seatsUsed) track by $index">{{size}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12" ng-if="pricing.description!= '' && pricing.description">
+                                            <br>
+                                            <small class="text-lighten-1 text-justify col-xs-12">{{pricing.description}}</small>
+                                        </div>
+                                    </div>
+                                    <div class="booking-radio-wrappers border-bottom" ng-if="pricing.pricingType == 'Group'">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <div class="checkbox">
+                                                <label class="text-lighten-1">{{pricing.pricingType}} of {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 text-lighten-1"><span class="currency text-lighten-1">&#8377;</span> <strong>{{pricing.price}}</strong>
+                                            <p class="text-lighten-1 text-justify">({{pricing.groupOption}})</p>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3">
+                                            <select class="form-control groupCustomQuantityQuantity" id="qty" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForGroupOption()">
+                                                <option value="Please Select">Please Select</option>
+                                                <option ng-repeat="size in vm.getRepeaterIndexForGroupAndCustomPricing(pricing.minGroupSize, pricing.maxGroupSize) track by $index">{{size}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12" ng-if="pricing.description!= '' && pricing.description">
+                                            <br>
+                                            <small class="text-lighten-1 text-justify col-xs-12">{{pricing.description}}</small>
+                                        </div>
+                                    </div>
+                                    <div class="booking-radio-wrappers" ng-if="pricing.pricingType != 'Custom' && pricing.pricingType != 'Group'">
+                                        <div class="col-xs-3 col-sm-3">
+                                            <div class="checkbox">
+                                                <label class="text-lighten-1">{{pricing.pricingType}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-6 text-lighten-1">
+                                            <span class="currency text-lighten-1">&#8377;</span>
+                                            <strong>{{pricing.price}}</strong>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'decrement')" style="background-color: #ddd;">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input  name="quant[2]" class="form-control input-number" value="vm.pricingOptionIndexAndQuantity[$index]" style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.pricingOptionIndexAndQuantity[$index]" ng-change="vm.calculatePriceForNonGroupAndCustomOption()" numbers-only>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeSeatsForNonGroupAndCustomOption($index, 'increment')" style="background-color: #ddd;">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12" ng-if="pricing.description!= '' && pricing.description">
+                                            <br>
+                                            <small class="text-lighten-1 text-justify col-xs-12">{{pricing.description}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="booking-checkbox-wrappers" style="margin-top: -11px" ng-if="vm.bookingProductDetails.productAddons.length > 1 || (vm.bookingProductDetails.productAddons.length == 1 && vm.bookingProductDetails.productAddons[0].name != '' && vm.bookingProductDetails.productAddons[0].price != '')">
+                                    <p class="booking-checkbox-title text-lighten-1">Add-Ons and extras
+                                        <span class="pull-right orange-text">Optional</span>
+                                    </p>
+                                    <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')" ng-show="addon.name != '' && addon.price != ''">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <div class="checkbox">
+                                                <label class="text-lighten-1"> {{addon.name}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 text-lighten-1"><span class="currency">&#8377;</span><strong>{{addon.price}}</strong>
+                                            <p class="text-lighten-1 text-justify">({{addon.applyAs}})</p>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3">
+                                            <div class="input-group">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number"  data-type="minus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'decrement')" style="background-color: #ddd;">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input type="text" name="quant[2]" class="form-control input-number" value="0" max="1" min="0" 
+                                                style="margin-bottom: 0; height: 28px; text-align: center; background-color: #fff; border:1px solid #ddd;" ng-model="vm.addonOptionIndexAndQuantity[$index]" 
+                                                ng-change="vm.calculatePriceForAddons($index)" numbers-only>
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="quant[2]" ng-click="vm.changeAddonsQuantity($index, 'increment')" style="background-color: #ddd;">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12">
+                                            <small class="text-lighten-1 text-justify col-xs-12">{{addon.description}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="booking-total-wrappers" ng-style="vm.getDynamicCSSForAddonSection()">
+                                    <div class="booking-total">
+                                        <div class="host-guest-common-style-row">
+                                            <div class="col-xs-6 pull-right">Total 
+                                            <b><span class="currency" style="margin-left:10px">&#8377;</span>{{vm.totalPayablePrice}}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="host-guest-common-style-row form-np-btn">
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(2,1)" onclick="scrollToTop()">Previous</button>
+                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(2,3)" onclick="scrollToTop()">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row setup-content" id="step-3">
+                        <div class="col-xs-12">
+                            <div class="booing-form-box" ng-click="vm.hideErrorsIfExists(3)">
+                                <div class="row error-success-notification-common" ng-if="vm.showErrorsOnTopOfStep3">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                            </div>
+                                            <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                                                <span>  
+                                                    <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in guest information </h5>
+                                                    <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in guest information </h5>
+                                                    <ul>
+                                                        <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                                    </ul>
+                                                </span> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-account orange-text"></i>  Guest Information </h3>
+                                <strong class="booking-form-subtitle"> Your Information</strong>
+                                <form>
+                                    <div class="host-guest-common-style-row form-group" show-errors style="margin-bottom: 0px">
+                                        <div class="col-sm-6">
+                                            <label for="firstName" class="text-lighten-1">First Name</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" ng-model="vm.providedGuestDetails.firstName" placeholder="First Name" required>
+                                            <div class="error_group" ng-messages="vm.bookingForm.firstName.$error" role="alert">
+                                                <p class="help-block error-text" ng-message="required">Please enter first name</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label for="lastName" class="text-lighten-1">Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" ng-model="vm.providedGuestDetails.lastName" placeholder="Last Name" required>
+                                            <div class="error_group" ng-messages="vm.bookingForm.lastName.$error" role="alert">
+                                                <p class="help-block error-text" ng-message="required">Please enter last name</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="host-guest-common-style-row form-group" show-errors style="margin-bottom: 0px">
+                                        <div class="col-sm-12">
+                                            <label for="email" class="text-lighten-1">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" ng-model="vm.providedGuestDetails.email" placeholder="example@email.com" lowercase required>
+                                            <small class="text-lighten-1">Notification and Confirmation message will be sent to this email.</small>
+                                             <div class="error_group" ng-messages="vm.bookingForm.email.$error" role="alert">
+                                                <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                                                <p class="help-block error-text" ng-message="email">Please enter a valid email address</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="host-guest-common-style-row form-group" show-errors style="margin-bottom: 0px">
+                                        <div class="col-xs-12">
+                                            <label for="mobile" class="text-lighten-1">Mobile Number</label>
+                                            <input type="text" class="form-control" id="mobile" name="mobile" ng-model="vm.providedGuestDetails.mobile" placeholder="Mobile" ng-pattern="regExForMobileValidity" lowercase required>
+                                            <div class="error_group" ng-messages="vm.bookingForm.mobile.$error" role="alert">
+                                                <p class="help-block error-text " ng-message="required"> Please enter Mobile Number</p>
+                                                <p class="help-block error-text " ng-message="pattern">Please enter valid Mobile Number</p>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="host-guest-common-style-row form-np-btn">
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(3,2)" onclick="scrollToTop()">Previous</button>
+                                <button onclick="scrollToTop()" class="btn nextButton pull-right" type="button" ng-click="vm.validateData(3,4)">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row setup-content" id="step-4">
+                        <div class="col-xs-12">
+                            <div class="booing-form-box">
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-shopping-cart orange-text"></i>  Checkout </h3>
+                                <strong class="booking-form-subtitle"> Review your booking and pay</strong>
+                                <div class="booking-info-section-wrapper">
+                                    <div class="col-xs-12">
+                                        <h4>{{vm.bookingProductDetails.productTitle}}</h4>
+                                    </div>
+                                    <div class="host-guest-common-style-row">
+                                        <span class="col-xs-6 col-sm-6">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}} to {{vm.endDateOFTheTour}}</span>
+                                        <!--
+                                        <span class="col-xs-6 col-sm-6 arrow">{{vm.selectedDate}} {{vm.getTheSelectedTimeslot()}}</span>
+                                        <span class="col-xs-6 col-sm-6">{{vm.endDateOFTheTour}}</span>
+                                        -->
+                                    </div>
+                                    <div class="host-guest-common-style-row pay-contact-wrapper">
+                                        <span class="col-xs-12">Contact : <b><a href="#">{{vm.providedGuestDetails.email}}</a></b> | <a href="tel:{{vm.providedGuestDetails.mobile}}"><strong>{{vm.providedGuestDetails.mobile}}</strong></a></span>
+                                    </div>
+                                </div>
+                                <div class="booking-info-section-wrapper">
+                                    <div class="col-xs-12 table-wrapper">
+                                        <table class="table table-hover host-guest-common-style-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-weight: 500;">Booking</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th style="font-weight: 500;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="selectedBookingOption in vm.pricingOptionIndexAndQuantity track by $index" ng-if="vm.checkIfTheBookingOptionIsSelected($index)">
+                                                <tr ng-if="vm.validPricingOptions[$index].pricingType != 'Group' && vm.validPricingOptions[$index].pricingType != 'Custom'">
+                                                    <td>{{vm.validPricingOptions[$index].pricingType}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
+                                                    <td>{{selectedBookingOption}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
+                                                </tr>
+                                                <tr ng-if="vm.validPricingOptions[$index].pricingType == 'Custom'">
+                                                    <td>{{vm.validPricingOptions[$index].customLabel}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
+                                                    <td>{{selectedBookingOption}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
+                                                </tr>
+                                                <tr ng-if="vm.sessionsOfThisProduct[vm.selectedBookingOptionIndex].sessionPricingDetails[$index].pricingType == 'Group'">
+                                                    <td>Group of {{vm.validPricingOptions[$index].minGroupSize}} to {{vm.validPricingOptions[$index].maxGroupSize}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.validPricingOptions[$index].price}}</td>
+                                                    <td>{{selectedBookingOption}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.calculatedSeatPriceForselectedBookingOptions[$index]}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-hover host-guest-common-style-table" ng-if="vm.areAddonsSelected()">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-weight: 500;">Addon</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th style="font-weight: 500;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-repeat="selectedAddonOption in vm.addonOptionIndexAndQuantity track by $index">
+                                                <tr ng-if="selectedAddonOption > 0 && vm.bookingProductDetails.productAddons[$index].name != ''">
+                                                    <td>{{vm.bookingProductDetails.productAddons[$index].name}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.bookingProductDetails.productAddons[$index].price}}({{vm.bookingProductDetails.productAddons[$index].applyAs}})</td>
+                                                    <td>{{selectedAddonOption}}</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.calculatedAddonPriceForSelectedAddonOptions[$index]}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="booking-coupon-wrappers">
+                                            <!-- <p class="booking-coupon-title text-lighten-1 collapsed" data-toggle="collapse" data-target="#coupon" aria-expanded="false">Have a coupon? <i class="fa  fa-plus"></i></p> 
+                                            <div style="height: 0px;" class="booking-coupon collapse" id="coupon" aria-expanded="false">
+                                                <div class="col-sm-3 col-xs-6">
+                                                    <input class="form-control" placeholder="Coupon Code" type="text">
+                                                </div>
+                                                <button class="btn nextButton" type="button">Apply</button>
+                                            </div> -->
+                                        </div>
+                                        <table class="table table-hover host-guest-common-style-table">
+                                            <tbody>
+                                                <!--<tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>Discount</td>
+                                                    <td><span class="currency">&#8377;</span>100</td>
+                                                </tr> -->
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>Grand Total</td>
+                                                    <td><span class="currency">&#8377;</span>{{vm.totalPayablePrice}}</td>
+                                                </tr>
+                                                <tr class="order-now">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style="font-weight: 500;">Due now</td>
+                                                    <td><b><span class="currency">&#8377;</span>{{vm.totalPayablePrice}}</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="pay-now col-xs-12 text-center">
+                                            <div class="generic-o-checkbox" style="width: 100%; padding-bottom: 20px; margin-top: 10px;">
+                                                <input type="checkbox" name="bookingTermsAndConditions" id="bookingTermsAndConditions" ng-model="vm.agreedToTermsAndConditions">
+                                                <label for="bookingTermsAndConditions"></label>
+                                                <span style="padding-left: 40px;">I hereby agree to <a href="" data-toggle="modal" data-target="#bookings-terms-and-conditions"> terms and conditions </a> <br> <br>
+                                                <a href="" class="pay-now-btn" ng-click="vm.makePaymentForTheBooking()">Confirm and Pay</a>
+                                            </div> 
+                                            
+                                            <br>
+                                        </div>
+                                        <p class="host-guest-common-style-row text-center">On confirmation you will be taken to payment screen.</p>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="host-guest-common-style-row form-np-btn">
+                                <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(4,3)" onclick="scrollToTop()">Previous</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <div class="card contact">
+                    <div class="card-price-wrapper">
+                        <div class="col-xs-12">
+                            <p class="booking col-xs-12 text-center ">Need any help with booking?</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center mar5">
+                        <a href="" type="button" name="req" class="btn btn-default orange-text req-btn" value="" data-toggle="modal" data-target="#contact-us-from-tour-details-page"><i class="zmdi zmdi-email" ></i>Contact Us</a>
+                    </div>
+                    <div class="col-xs-12 text-center mar5">
+                        <div class="chip">
+                            <a href="tel:{{vm.companyData.inquiryMobile}}"><img src="modules/core/client/img/hostGuestCommonImages/icn_call.svg" alt="Contact Person"></a>
+                            <span class="grey-text"></span> <a href="tel:+919867101299" class="text-lighten-1"><strong>{{vm.companyData.inquiryMobile}}</strong></a>
+                            <div class="avl-time-wrapper"><span class="">{{vm.getInquiryHours()}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="bookings-terms-and-conditions" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Terms and conditions</h4>
+                </div>
+                <div class="modal-body">
+                    <ng-bind-html="vm.getHtmlTrustedData(vm.bookingProductDetails.productCancellationPolicy)">
+                    <p ng-bind-html="vm.bookingProductDetails.productCancellationPolicy | htmlData">{{vm.bookingProductDetails.productCancellationPolicy}}</p>
+                    <p ng-show="vm.bookingProductDetails.productCancellationPolicy == ''"> No cancellation or refund policy defined for this tour</p>
+                    <a data-dismiss="modal" class="btn btn-default btn-sm margin-bottom">Close</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="contact-us-from-tour-details-page" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="dismissContactUsModal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Contact us!</h4>
+                </div>
+                <div class="modal-body" style="height: auto; min-height: 80%; overflow: auto;">
+                    <form name="vm.contentToHostForm" novalidate>
+                        <div class="" style="margin-left: 15px;" >
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: left;">
+                                <label for="fname" class="text-lighten-1">Name</label>
+                                <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required>
+                                <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter your name</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: right;margin-right: 15px;">
+                                <label for="email" class="text-lighten-1">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" ng-model="vm.contentToHost.guestEmail" required lowercase>
+                                <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                                    <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0" show-errors>
+                            <div class="col-sm-12">
+                                <label for="subject" class="text-lighten-1">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="guestSubject" ng-model="vm.contentToHost.guestSubject" required>
+                                <div ng-messages="vm.contentToHostForm.guestSubject.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter Subject of the message</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0" show-errors >
+                            <div class="col-xs-12">
+                                <label for="msg" class="text-lighten-1">Message</label>
+                                <textarea name="guestMessage" type="text" class="form-control" id="guestMessage" ng-model="vm.contentToHost.guestMessage" required></textarea>
+                                <div ng-messages="vm.contentToHostForm.guestMessage.$error" role="alert" class="error-message-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter message</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 contactUSSendButton" style="margin-bottom: 10px; margin-top: 15px;">
+                                <button class="btn pull-left nextButton"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://d2xwmjc4uy2hr5.cloudfront.net/im-embed/im-embed.min.js"></script>
+<script type="text/javascript" src="lib/scripts-inside-html/js/jquery.smartWizard.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#stepwizard-step #fixedDepartureStep1').click();
+        document.getElementById('fixedDepartureStep2').style.pointerEvents = 'none';
+        document.getElementById('fixedDepartureStep3').style.pointerEvents = 'none';
+        document.getElementById('fixedDepartureStep4').style.pointerEvents = 'none';
+    });
+
+    
+    function generateCalendar(lowestAvailableMonth, lowestAvailableYear) {
+        var month = lowestAvailableMonth + 1;
+        month = month < 10 ? '0' + month.toString() : month.toString();
+        var currentMonth = lowestAvailableYear + '-' + month;
+        angular.element('#host-guest-common-style').scope().findUnavailableMonthsAndDates(lowestAvailableMonth, lowestAvailableYear);
+        $("#bookingDateSelector").responsiveCalendar({
+            time: currentMonth,
+            events: {
+                /*"2017-06-30": {
+                    "number": 5,
+                    "url": "http://w3widgets.com/responsive-slider"
+                },
+                "2017-06-26": {
+                    "number": 1,
+                    "url": "http://w3widgets.com"
+                },
+                "2017-06-03": {
+                    "number": 1
+                },
+                "2017-06-12": {}*/
+            }
+        });
+    }
+
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    function makeThisDayActive (makeThisElementActive) {
+        if($(makeThisElementActive).hasClass('not-availableDates'))
+            return;
+        var date = $(makeThisElementActive).children().attr("data-day") + '-' + months[$(makeThisElementActive).children().attr("data-month") - 1] + '-' + $(makeThisElementActive).children().attr("data-year");
+        var displayDate = angular.element('#bookingDateSelector').scope().getDepartureDate(date, -1);
+        
+        angular.element('#bookingDateSelector').scope().setThisDateAsSelected(displayDate);
+        
+        $(makeThisElementActive).parent().find('div').removeClass("active");
+        $(makeThisElementActive).addClass('active');
+    }
+
+    function scrollToTop() {
+        $('html, body').animate({scrollTop : 0},800);
+    }
+</script>

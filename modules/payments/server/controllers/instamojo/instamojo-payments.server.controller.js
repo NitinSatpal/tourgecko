@@ -65,7 +65,11 @@ exports.createInstamojoPayment = function (req, res) {
                 paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
                 paymentData.purpose = purpose;//,
                 var redirectURL = 'https://' + req.get('host');
-                redirectURL = redirectURL + '/tour/booking/done';
+                if (!req.body.isViaBookbutton)
+                  redirectURL = redirectURL + '/tour/booking/done';
+                else
+                  redirectURL = redirectURL + '/integrations/tour/booking/done';
+
                 paymentData.setRedirectUrl(redirectURL);
                 paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
                 paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
@@ -117,8 +121,11 @@ exports.createInstamojoPayment = function (req, res) {
               paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
               paymentData.purpose = purpose;//,
               var redirectURL = 'https://' + req.get('host');
-              redirectURL = redirectURL + '/tour/booking/done';
-              paymentData.setRedirectUrl(redirectURL);
+              if (!req.body.isViaBookbutton)
+                redirectURL = redirectURL + '/tour/booking/done';
+              else
+                redirectURL = redirectURL + '/integrations/tour/booking/done';
+            paymentData.setRedirectUrl(redirectURL);
               paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
               paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;
               paymentData.buyer_name = requestBodyData.bookingDetails.providedGuestDetails.firstName + ' ' + requestBodyData.bookingDetails.providedGuestDetails.lastName;
@@ -169,7 +176,10 @@ exports.createInstamojoPayment = function (req, res) {
           paymentData.partner_fee = instaUser.hostCompany.tourgeckoFee;
           paymentData.purpose = purpose;//,
           var redirectURL = 'https://' + req.get('host');
-          redirectURL = redirectURL + '/tour/booking/done';
+          if (!req.body.isViaBookbutton)
+            redirectURL = redirectURL + '/tour/booking/done';
+          else
+            redirectURL = redirectURL + '/integrations/tour/booking/done';
           paymentData.setRedirectUrl(redirectURL);
           paymentData.email = requestBodyData.bookingDetails.providedGuestDetails.email;
           paymentData.phone = requestBodyData.bookingDetails.providedGuestDetails.mobile;

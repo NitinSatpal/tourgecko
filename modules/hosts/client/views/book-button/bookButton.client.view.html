@@ -28,7 +28,7 @@
             <br>		
 			<div class="row infoSessionAtTop">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
-					<span> Create the Book button for toursite or a specific tour and use it on your own wesbite </span>
+					<span> Create the Book button for single or multiple tours and use it on your own wesbite </span>
 				</div>
 				<br>
 				<br>
@@ -38,10 +38,10 @@
 				<div class="col-md-10 col-sm-10 col-lg-10 col-xs-10 tourTypeSessionsInfo">
 					<ul>
 						<li>
-							<span>The book button for toursite will allow your website users to browse / book any tour present in your tourgecko account </span>
+							<span>If you select multiple tours, the created button will redirect users to list of tours</span>
 						</li>
 						<li>
-							<span>The book button for a specific tour will allow your wesbite users to see / book only that particular tour. </span>
+							<span>If you select single tour, you can control the behavior of the button </span>
 						</li>
 					</ul>
 				</div>
@@ -67,16 +67,15 @@
 						</div>
 					</div>
 				</div>
-				<br>
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 						<label for="bookButton" class="control-label">Create Book Button for?</label>
-						<div class="row no_margin_row">
+						<div class="row no_margin_row" style="margin-top: 0;">
 							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 								<div class="generic-radio">
 									<label class="radio_label">
-										<input type="radio" name="datetime" value="bookButtonForToursite" ng-click="vm.generateBookButtonToursite()" id="bookButtonForToursite" />
-										<span>&nbsp;toursite</span>
+										<input id="bookButtonForSpecificTour" type="radio" name="bookButtonForSpecificTour" value="bookButtonForSpecificTour" ng-click="vm.changePreferenceOfBookButton('single');"/>
+										<span>&nbsp;Single tour</span>
 										<i class="zmdi zmdi-check-circle"></i>
 										<i class="zmdi zmdi-circle-o"></i>
 									</label>
@@ -85,8 +84,8 @@
 							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 								<div class="generic-radio">
 									<label class="radio_label">
-										<input id="bookButtonForSpecificTour" type="radio" name="datetime" value="bookButtonForSpecificTour" ng-click="vm.bookButtonForSpecificTour = true"/>
-										<span>&nbsp;specific tour</span>
+										<input id="bookButtonForMultipleTours" type="radio" name="bookButtonForMultipleTours" value="bookButtonForMultipleTours" ng-click="vm.changePreferenceOfBookButton('multiple');"/>
+										<span>&nbsp;multiple tours</span>
 										<i class="zmdi zmdi-check-circle"></i>
 										<i class="zmdi zmdi-circle-o"></i>
 									</label>
@@ -95,18 +94,60 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="row" ng-show="vm.bookButtonForSpecificTour">
-					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" style="margin-left: 10px; margin-top: 15px;">
-						<label for="bookButton" class="control-label">Select the tour</label>
-						<div class="row no_margin_row">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+						<label for="singleTourBookButton" class="control-label">Select the tour</label>
+						<div class="row no_margin_row" style="margin-top: 0;">
 							<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
-								<select id="tourBookButton" ng-model="vm.tourSelected" ng-change="vm.generateBookButtonForSpecificTour()">
+								<select id="singleTourBookButton" ng-model="vm.selectedSingleTour" ng-change="vm.singleTourSelected = true;">
 									<option></option>
 								</select>
-								
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="row" ng-show="vm.bookButtonForMultipleTours">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+						<label for="multipleTourBookButton" class="control-label">Select tours</label>
+						<div class="row no_margin_row" style="margin-top: 0;">
+							<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
+								<select id="multipleTourBookButton" ng-model="vm.selectedMultipleTours" multiple>
+									<option></option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" ng-show="vm.singleTourSelected">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+						<label for="redirectionBehavior" class="control-label">Where should the user redirect on button click?</label>
+						<div class="row no_margin_row" style="margin-top: 0;">
+							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+								<div class="generic-radio">
+									<label class="radio_label">
+										<input id="redirectToTourDetails" name="redirectToTourDetails" type="radio"  value="redirectToTourDetailsPage" ng-model="redirectTo"/>
+										<span>&nbsp;Tour details page</span>
+										<i class="zmdi zmdi-check-circle"></i>
+										<i class="zmdi zmdi-circle-o"></i>
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
+								<div class="generic-radio">
+									<label class="radio_label">
+										<input id="redirectToBooking" name="redirectToBooking" type="radio" name="datetime" value="redirectToBookingPage" ng-model="redirectTo"/>
+										<span>&nbsp;Booking page</span>
+										<i class="zmdi zmdi-check-circle"></i>
+										<i class="zmdi zmdi-circle-o"></i>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+						<a class="sub_btn btn btn-primary margin-top" href="" type="submit" ng-click="vm.createDynamicBookButton()">Create Button</a>
 					</div>
 				</div>
 			</div>
@@ -123,8 +164,10 @@
                 <h4 class="modal-title">Book button</h4>
             </div>
             <div class="modal-body">
-                <p> Please copy the contents below anywhere before the '/body' tag of your html </p>
-                <textarea class="form-control margin-top bookButtonEmbededScriptTextarea" ng-model="vm.scriptToEmbed" disabled=""></textarea>
+            	<p ng-show="vm.bookButtonForSpecificTour"> Please copy the contents below wherever you want the button to appear </p>
+                <p ng-show="vm.bookButtonForMultipleTours"> Please copy the contents below anywhere before the '/body' tag of your html </p>
+                <textarea class="form-control margin-top bookButtonEmbededScriptTextareaForsingleTour" ng-model="vm.scriptToEmbed" disabled="" ng-show="vm.bookButtonForSpecificTour"></textarea>
+                <textarea class="form-control margin-top bookButtonEmbededScriptTextareaForMultipleTours" ng-model="vm.scriptToEmbed" disabled="" ng-show="vm.bookButtonForMultipleTours"></textarea>
             </div>            
         </div>
     </div>
@@ -132,6 +175,7 @@
 
 <script>
 	$(document).ready(function() {
+		jscolor.installByClassName("jscolor");
 		$.ajax({
 	    	url:'/api/host/company/products/',
 	        type:'GET',
@@ -146,12 +190,20 @@
 	      			var tempTourObj = {id: tours[index]._id, text: tours[index].productTitle}
 	      			toursArray.push(tempTourObj);
 	      		}
-	      		$("#tourBookButton").select2({
+	      		$("#singleTourBookButton").select2({
 	      			data: toursArray,
 			  		width: '80%',
 			      	placeholder: "Select tour",
 			      	allowClear: true
 			    });
+			    $("#multipleTourBookButton").select2({
+	      			data: toursArray,
+			  		width: '80%',
+			      	placeholder: "Select tour"
+			    });
+
+			    $('#loadingDivHostSide').css('display', 'none');
+				$('#tourgeckoBody').removeClass('waitCursor');
 	        }
 	    });
 	});
@@ -162,15 +214,17 @@
 	});
 
 	$('#book-button-copy-content').on('hidden.bs.modal', function () {
-		$("#tourBookButton").val('').trigger('change');
-		$('#bookButtonForToursite').prop("checked", false);
+		$("#singleTourBookButton").val('').trigger('change');
+		$("#multipleTourBookButton").val('').trigger('change');
+		$('#bookButtonForMultipleTours').prop("checked", false);
 		$('#bookButtonForSpecificTour').prop("checked", false);
 		$('.jscolor').val('ED9C28');
 		$('.jscolor').css("background-color", "ED9C28");
 		var $scope = angular.element('#bookButton').scope()
 	    $scope.$evalAsync(function() {
 	        angular.element('#bookButton').scope().bookButtonLabelName = '';
+	        angular.element('#bookButton').scope().redirectTo = 'redirectToTourDetailsPage';
 	        
 	    });
-	})
+	});
 </script>

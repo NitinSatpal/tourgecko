@@ -75,7 +75,7 @@ exports.getToursiteData = function (req, res) {
 exports.getToursiteDataForCurrentPage = function (req, res) {
   var tourSite = req.params.toursite;
   var pageNumber = req.params.pageNumber;
-  var itemsPerPage = req.params.itemsPerPage;
+  var itemsPerPage = parseInt(req.params.itemsPerPage);
   
   Company.findOne({ toursite: tourSite }, '-salt -password').exec(function (err, company) {
     if (err) {

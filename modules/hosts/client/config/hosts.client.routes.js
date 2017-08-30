@@ -255,6 +255,77 @@
           pageTitle: 'Admin | Tour'
         }
       })
+      .state('integrations', {
+        abstract: true,
+        url: '/integrations',
+        templateUrl: 'modules/hosts/client/views/integrations/integration.client.view.html',
+        controller: '',
+        controllerAs: '',
+      })
+      .state('integrations.tours', {
+        url: '/tours',
+        templateUrl: 'modules/hosts/client/views/integrations/integrationTours.client.view.html',
+        controller: 'IntegrationToursController',
+        controllerAs: 'vm',
+        params: {
+          toursite: null
+        },
+        data: {
+          pageTitle: 'tours'
+        }
+      })
+      .state('integrations.tourDetails', {
+        url: '/tour/:productId',
+        templateUrl: 'modules/hosts/client/views/integrations/integrationTourDetails.client.view.html',
+        controller: 'TourDetailsController',
+        controllerAs: 'vm',
+        params: {
+          productId: null
+        },
+        data: {
+          pageTitle: 'Tour | Details',
+          roles: ['user', 'guest']
+        }
+      })
+      .state('integrations.booking', {
+        url: '/tour/book/:productId',
+        templateUrl: 'modules/hosts/client/views/integrations/integrationTourBooking.client.view.html',
+        controller: 'TourBookingController',
+        controllerAs: 'vm',
+        params: {
+          productId: null,
+          via: null
+        },
+        data: {
+          pageTitle: 'Tour | Booking'
+        }
+      })
+      .state('integrations.lockedCheckout', {
+        url: '/chekout/error',
+        templateUrl: 'modules/guests/client/views/booking/lockedCheckout.client.view.html',
+        controller: '',
+        controllerAs: '',
+        params: {
+          productId: null,
+          via: null
+        },
+        data: {
+          pageTitle: 'Tour | Booking'
+        }
+      })
+      .state('integrations.bookingDone', {
+        url: '/tour/booking/done?payment_id&payment_request_id',
+        templateUrl: 'modules/hosts/client/views/integrations/integrationTourBookingDone.client.view.html',
+        controller: 'TourBookingDoneController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Tour | Booking Done'
+        },
+        params: {
+          payment_id: null,
+          payment_request_id: null
+        }
+      })
       .state('host.coming-soon', {
         url: '/coming-soon',
         templateUrl: 'modules/hosts/client/views/coming-soon.client.view.html',

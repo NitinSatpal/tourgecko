@@ -16,5 +16,6 @@ module.exports = _.extend(
   require('./hostHome/hostHome.server.controller'),
   require('./hostSettings/hostSettings.server.controller'),  
   require('./postPayments/postPayment.server.controller'),
-  require('./pinboard/pinboard.server.controller')
+  require('./pinboard/pinboard.server.controller'),
+  require('./integrations/integrations.server.controller')
 );

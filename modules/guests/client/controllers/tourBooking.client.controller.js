@@ -109,8 +109,14 @@
 
     var departureDates = new Map();
 
+    var isViaBookbutton = false;
+
     // Get the product id
     var productId = $location.path().split('/')[3];
+    if (productId == 'book') {
+      productId = $location.path().split('/')[4];
+      isViaBookbutton = true;
+    }
     // We cannot use map here, as keys can be duplicate i.e there can be more than one tour with the same start date
     var sessionIndex = [];
     vm.datesOfTheSessionsOfThisProduct = [];
@@ -893,7 +899,7 @@ vm.areAddonsSelected = function () {
         if (vm.bookingProductDetails.hostCompany.paymentGateway == 'instamojo') {
           var bookingData = createBookingObject();
           var sessionId = bookingData.bookingDetails.productSession;
-          var bookingContent= {bookingData: bookingData, sessionId: sessionId }
+          var bookingContent= {bookingData: bookingData, sessionId: sessionId, isViaBookbutton: isViaBookbutton}
           $http.post('/api/payment/instamojo/', bookingContent).success (function (response) {
             // $("a.im-checkout-btn.btn--light").attr('href', response);
             if (response.error) {

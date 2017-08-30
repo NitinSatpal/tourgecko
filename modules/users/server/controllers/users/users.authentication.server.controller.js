@@ -771,7 +771,6 @@ exports.oauthCall = function (strategy, scope) {
   return function (req, res, next) {
     // Set redirection path on session.
     // Do not redirect to a signin or signup page
-    console.log(noReturnUrls.indexOf(req.query.redirect_to));
     if (noReturnUrls.indexOf(req.query.redirect_to) === -1) {
       req.session.redirect_to = req.query.redirect_to;
     }

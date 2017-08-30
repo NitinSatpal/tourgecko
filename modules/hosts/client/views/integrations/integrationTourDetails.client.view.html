@@ -1,0 +1,455 @@
+<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
+    <span ng-bind="vm.error"></span>
+</uib-alert>
+<div id="loadingDivTourDetails" class="loaderDisplayDiv"></div>
+
+<div class="host-guest-common-style" id="host-guest-common-style">
+    <toasty></toasty>
+    <div class="container-fluid">
+        <div class="row" id="productPictureTourDetailsCarousel">
+            <div id="tourDetailsCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#tourDetailsCarousel" class="" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" data-slide-to="{{$index}}"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="{{vm.productDetails.productPictureURLs[0].url}}" alt="{{vm.productDetails.productPictureURLs[0].name}}" class="banners-carousel">
+                    </div>
+                    <div class="item" ng-repeat="img in vm.productDetails.productPictureURLs track by $index" ng-if="$index != 0 ">
+                        <img src="{{img.url}}" alt="{{img.name}}" class="banners-carousel">
+                    </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="carousel-control left" href="" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control right" href="" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="row generic-banner-no-image" ng-if="vm.checkProductPicturePresence()">
+            <div class="generic_banner_no_image">
+                <div>
+                    <i class="zmdi zmdi-image-alt"></i>
+                    <span>no picture</span>
+                </div>
+            </div>
+        </div> 
+    </div>
+    <div class="host-guest-common-style-preview-details-marginFromBothSides">
+        <div class="row card-wrapper">
+            <div class="col-sm-8">
+                <div class="card">
+                    <div class="detail-card-title-wrapper">
+                        <div class="row">
+                            <div class="detail-card-day col-xs-2">
+                                <center>
+                                    <div class="day-circle"><strong>{{vm.productDetails.productDuration}}</strong>
+                                        <br>{{vm.productDetails.productDurationType}}</div>
+                                </center>
+                            </div>
+                            <div class="col-xs-10">
+                                <h2 class="detail-card-title text-left">{{vm.productDetails.productTitle}}</h2>
+                                <h4 class="detail-card-city"><i class="fa fa-map-marker"></i>{{vm.productDetails.destination}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tour_tags col-xs-12 " ng-if="vm.productDetails.productTags.length > 0">
+                        <a href="#" ng-repeat="tag in vm.productDetails.productTags">
+                            <div class="chip" style="margin-bottom: 5px;">{{tag}}</div>
+                        </a>
+                    </div>
+                    <div class="card-trip-overview">
+                        <div class="col-sm-3 col-xs-6 text-center">
+                            <a href="#"><i class="fa fa-map-marker"></i>Start<br><span>{{vm.productDetails.pickupLocation}}</span></a>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 text-center">
+                            <a href="#"><i class="fa fa-map-marker"></i>End<br><span>{{vm.productDetails.dropLocation}}</span></a>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 text-center">
+                            <a href="#"><i class="fa fa-clock-o"></i>Suitable For<br>
+                                <span>{{vm.productDetails.productMinAgeRequired}}
+                                    <span ng-show="vm.productDetails.productMinAgeRequired || vm.productDetails.productMaxAgeRequired">-</span>
+                                    {{vm.productDetails.productMaxAgeRequired}}
+                                    <span ng-show="vm.productDetails.productMinAgeRequired || vm.productDetails.productMaxAgeRequired" class="blue-grey-text text-lighten-1">Years</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 text-center">
+                            <a href="#"><i class="zmdi zmdi-run orange-text"></i>Physical Demand<br><span>{{vm.productDetails.productGrade != 'Select' ? vm.productDetails.productGrade : ''}}</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default my-panel">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse1">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-info-outline orange-text"></i> Overview</h4>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                    <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productSummary)">
+                                    <p class="listAlignment-overview" ng-bind-html="vm.productDetails.productSummary | htmlData">{{vm.productDetails.productSummary}}</p> </div>
+                                </div>
+                            </div>
+                           <!-- <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse2">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-format-list-bulleted orange-text"></i> At a Glance</h4>
+                                </div>
+                                <div id="collapse2" class="host-guest-common-style-active">
+                                    <div class="panel-body">
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Travel Style</div>
+                                            <div class="col-xs-8">Active</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Suitable For</div>
+                                            <div class="col-xs-8">16 - 50 Years Old </div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Group Size</div>
+                                            <div class="col-xs-8">2 - 5</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Social Type</div>
+                                            <div class="col-xs-8">Groups</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Guiding Type</div>
+                                            <div class="col-xs-8">Guided</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Service Style</div>
+                                            <div class="col-xs-8">Luxury</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Attractions</div>
+                                            <div class="col-xs-8">
+                                                <div class="tour_tags">
+                                                    <a href="#">
+                                                        <div class="chip">Glacier</div>
+                                                    </a>
+                                                    <a href="#">
+                                                        <div class="chip">Lake</div>
+                                                    </a>
+                                                    <a href="#">
+                                                        <div class="chip">Park</div>
+                                                    </a>
+                                                    <a href="#">
+                                                        <div class="chip">Diving</div>
+                                                    </a>
+                                                    <a href="#">
+                                                        <div class="chip">Cycling</div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Best Season</div>
+                                            <div class="col-xs-8">Active</div>
+                                        </div>
+                                        <div class=" listing">
+                                            <div class="col-xs-4">Availability</div>
+                                            <div class="col-xs-8">Fixed Departure</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse3">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-file-text orange-text"></i> Itinerary</h4>
+                                </div>
+                                <div class="panel-collapse collapse in">
+                                    <div class="panel-body" id="collapsibleDivParent">
+                                        <ol class="collapsible list-group vertical-steps">
+                                            <li class="list-group-item" data-toggle="collapse" href="#itineraryDescription{{$index}}"  ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index">
+                                                <div class="blue-grey-text text-darken-1 collapsible-header"><strong>{{itinerary.title}}</strong>
+                                                    <br>
+                                                </div>
+                                                <div id="itineraryDescription{{$index}}" class="collapse in">
+                                                    <ng-bind-html="vm.getHtmlTrustedData(itinerary.description)">
+                                                    <p class= "listAlignment-itinerary wordWrap" ng-style="vm.getDynamicCSS(itinerary.description)" ng-bind-html="itinerary.description | htmlData">{{itinerary.description}}</p>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse4">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-comment-list orange-text"></i> Guidelines</h4>
+                                </div>
+                                <div id="collapse4" class="host-guest-common-style-active">
+                                    <div class="panel-body">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productGuidelines)">
+                                        <p class="renderedChild" ng-bind-html="vm.productDetails.productGuidelines | htmlData">{{vm.productDetails.productGuidelines}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse5">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-check orange-text"></i> Inclusions</h4>
+                                </div>
+                                <div id="collapse5" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productInclusions)">
+                                        <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productInclusions | htmlData">{{vm.productDetails.productInclusions}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse6">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-close orange-text"></i> Exclusions</h4>
+                                </div>
+                                <div id="collapse6" class="panel-collapse collapse in in">
+                                    <div class="panel-body">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productExclusions)">
+                                        <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productExclusions | htmlData">{{vm.productDetails.productExclusions}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse7">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Availability and Prices</h4>
+                                </div>
+                                <div id="collapse7" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
+                                                <div class="seats-sys-wrapper" ng-repeat="session in vm.sessionPricing | orderBy: 'sortingAttribute' | limitTo: 20 track by $index">
+                                                    <div class="booking-date-wrapper">
+                                                        <div class="sessionFromSessionToNonMobile">
+                                                            <p class="booking-day-name">
+                                                                <small>{{session.fromDay}}</small >
+                                                            </p>
+                                                            <p class="booking-day-name">
+                                                                <small>{{session.toDay}}</small >
+                                                            </p>
+                                                            <span class="booking-date-name">
+                                                                <span class="arrow">{{session.startDate}}</span>
+                                                            </span>
+                                                            <span class="booking-date-name">
+                                                                <span>{{session.endDate}}</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="sessionFromSessionToMobile">
+                                                            <span> 
+                                                                <span>
+                                                                    {{session.fromDay}}
+                                                                    <span>{{session.startDate}}</span>
+                                                                </span>
+                                                                to
+                                                                <span>
+                                                                    {{session.toDay}}
+                                                                    <span>{{session.endDate}}</span>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                        <span class="more-departure" id="timeslotsForThisSession">
+                                                            <a href="#" ng-repeat="timeslot in session.sessionTimes track by $index" ng-click="vm.getPricingDetailsOfGivenTimeSlot($parent.$index, $index, timeslot, session)">
+                                                                <span id="timeslotValue{{$parent.$index}}{{$index}}" class="timeslotValueActive{{$index}}">{{timeslot}}</span>
+                                                                 &nbsp;&nbsp;
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                    <div class="all-seats-wrapper">
+                                                        <p class="seats-wrapper"><span class="seats-avai">{{session.availableSeats}}</span>
+                                                        </p>
+                                                        <p class="seats-wrapper">
+                                                            <span class="booking-date-title">Prices</span>
+                                                            <p class="seats-wrapper" ng-repeat="pricing in session.pricing">
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">{{pricing.pricingType}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Group'">{{pricing.pricingType}} of {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Custom'">{{pricing.customLabel}}</span>
+                                                                <span class="booking-day-name"><span class="currency">&#8377;</span>{{pricing.price}}</span>
+                                                            </p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <span class="more-departure pricingAndAvailability" ng-if="vm.sessionPricing.length > 20"><b>{{vm.sessionPricing.length - 20}}</b> more departure. <a href="" ng-click="vm.goTobookingPageOfThisProduct()"> Book </a> now to choose!</span>
+                                            </div>
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType == 'Open Date'">
+                                                <div class="seats-sys-wrapper">
+                                                    <span>Always available <span  ng-if="vm.productDetails.productUnavailableMonths.length > 0"> except in months of </span> <span ng-repeat="month in vm.productDetails.productUnavailableMonths" class="capitalization">{{month}}<span ng-if="$index != vm.productDetails.productUnavailableMonths.length -1">, </span> </span>. You can choose your preferred date during booking.</span>
+                                                    <div class="all-seats-wrapper">
+                                                        <p class="seats-wrapper">
+                                                            <span class="booking-date-title">Prices</span>
+                                                            <p class="seats-wrapper" ng-repeat="pricing in vm.productDetails.productPricingOptions">
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType != 'Group' && pricing.pricingType != 'Custom'">{{pricing.pricingType}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Group'">{{pricing.pricingType}} of {{pricing.minGroupSize}} to {{pricing.maxGroupSize}}</span>
+                                                                <span class="booking-day-name" ng-if="pricing.pricingType == 'Custom'">{{pricing.customLabel}}</span>
+                                                                <span class="booking-day-name"><span class="currency">&#8377;</span>{{pricing.price}}</span>
+                                                            </p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'">
+                                                <span>There is no availability currently</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse8">
+                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Cancellation & Refund</h4>
+                                </div>
+                                <div id="collapse8" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productCancellationPolicy)">
+                                        <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productCancellationPolicy | htmlData">{{vm.productDetails.productCancellationPolicy}}</p>
+                                       <!-- <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
+                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a> -->
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card card-availability">
+                    <div class="card-price-wrapper">
+                        <div class="col-xs-12">
+                            <p class="Starting-form col-xs-12 ">Starting From<span class="card-tour-price"><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <h3 class="text-center avl-title">Availability</h3>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="avl-info-wrap">
+                            <div class="col-xs-3 text-center" style="font-size: 60px; color: #9e9e9e">
+                                <i class="zmdi zmdi-calendar-alt"></i>
+                            </div>
+                            <div class="col-xs-9">
+                                <ul class="tour_tags">
+                                    <li class="tour_tags_dates text-lighten-1" ng-repeat="session in vm.sessionPricing | orderBy: 'sortingAttribute'| limitTo: 5 track by $index" ng-style="vm.getDynamicCSSForBorderIssue($index)" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.productDetails.productAvailabilityType != 'Open Date'">
+                                        <b>{{session.startDate}}</b> <br>
+                                        <span ng-repeat="timeslot in session.sessionTimes track by $index">{{timeslot}} <span ng-if="$index != session.sessionTimes.length - 1">&nbsp;&nbsp;</span></span>
+                                    </li>
+                                    <li class="tour_tags_dates text-lighten-1" ng-style="vm.getDynamicCSSForBorderIssue('noBorder')" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'">
+                                        <span>Not available currently! <br> Please check later </span>
+                                    </li>
+                                    <li class="tour_tags_dates text-lighten-1" ng-style="vm.getDynamicCSSForBorderIssue('noBorder')" ng-if="vm.productDetails.productAvailabilityType == 'Open Date'">
+                                        <span>Always available <span ng-if="vm.productDetails.productUnavailableMonths.length > 0"> except in certain months</span>. <br> Book now to select tour date! </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <span class="more-departure" ng-if="vm.sessionPricing.length > 5 && vm.productDetails.productAvailabilityType == 'Fixed Departure'"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
+                        </div>
+                        <div class="col-xs-12 text-center">
+                            <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                            <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card contact">
+                    <div class="card-price-wrapper">
+                        <div class="col-xs-12">
+                           <p class="booking col-xs-12 text-center ">Need any help with booking?</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center mar5">
+                        <a href="#" type="button" name="req" class="btn btn-default orange-text req-btn" value="" data-toggle="modal" data-target="#contact-us-from-booking-page"><i class="zmdi zmdi-email"></i>Contact Us</a>
+                    </div>
+                    <div class="col-xs-12 text-center mar5">
+                        <div class="chip">
+                            <a href="tel:+919867101299"><img src="modules/core/client/img/hostGuestCommonImages/icn_call.svg" alt="Contact Person"></a>
+                            <span class="grey-text"></span> <a href="tel:+919867101299" class="text-lighten-1"><strong>{{vm.companyData.inquiryMobile}}</strong></a>
+                            <div class="avl-time-wrapper"><span class="">{{vm.getInquiryHours()}}</div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="mobile-contact">
+            <div class="wid50 ">
+                <p class="Starting-form">Starting From</p>
+                <span class=""><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
+            </div>
+            <div class="wid50 text-center">
+                <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                <a  href="" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
+            </div>
+        </div>
+    </footer>
+    <div id="contact-us-from-booking-page" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="dismissContactUsModal"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Contact us!</h4>
+                </div>
+                <div class="modal-body" style="height: auto; min-height: 80%; overflow: auto;">
+                    <form name="vm.contentToHostForm" novalidate>
+                        <div class="" style="margin-left: 15px;" >
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: left;">
+                                <label for="fname" class="text-lighten-1">Name</label>
+                                <input type="text" class="form-control" name="guestName" id="guestName" ng-model="vm.contentToHost.guestName" required>
+                                <div ng-messages="vm.contentToHostForm.guestName.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter your name</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 input-group contactUsEmail" show-errors style=" float: right;margin-right: 15px;">
+                                <label for="email" class="text-lighten-1">Email</label>
+                                <input type="email" class="form-control" name="email" id="email" ng-model="vm.contentToHost.guestEmail" required lowercase>
+                                <div ng-messages="vm.contentToHostForm.email.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter Email address</p>
+                                    <p class="help-block error-text" ng-message="email">Please enter a valid Email address</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0" show-errors>
+                            <div class="col-sm-12">
+                                <label for="subject" class="text-lighten-1">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="guestSubject" ng-model="vm.contentToHost.guestSubject" required>
+                                <div ng-messages="vm.contentToHostForm.guestSubject.$error" role="alert" class="error-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter Subject of the message</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0" show-errors >
+                            <div class="col-xs-12">
+                                <label for="msg" class="text-lighten-1">Message</label>
+                                <textarea name="guestMessage" type="text" class="form-control" id="guestMessage" ng-model="vm.contentToHost.guestMessage" required></textarea>
+                                <div ng-messages="vm.contentToHostForm.guestMessage.$error" role="alert" class="error-message-block">
+                                    <p class="help-block error-text" ng-message="required">Please enter message</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 contactUSSendButton" style="margin-bottom: 10px; margin-top: 15px;">
+                                <button class="btn pull-left nextButton"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#tourDetailsCarousel').carousel({
+          interval: 5000
+        });
+    });
+
+    $('.carousel-control.left').click(function() {
+        $('#tourDetailsCarousel').carousel('prev');
+    });
+
+    $('.carousel-control.right').click(function() {
+      $('#tourDetailsCarousel').carousel('next');
+    });
+</script>

@@ -51,9 +51,9 @@
           toursite: null
         },
         data: {
-          pageTitle: 'Contact-US'
+          pageTitle: 'tours'
         }
-      })
+      })      
       .state('hostToursite-about-us', {
         url: '/about-us',
         templateUrl: 'modules/hosts/client/views/toursite/about-us.client.view.html',
@@ -63,7 +63,7 @@
           toursite: null
         },
         data: {
-          pageTitle: 'Contact-US'
+          pageTitle: 'About us'
         }
       })
       .state('hostToursite-contact-us', {
@@ -75,7 +75,7 @@
           toursite: null
         },
         data: {
-          pageTitle: 'Contact-US'
+          pageTitle: 'Contact us'
         }
       })
       .state('abstractHome.home', {
@@ -96,7 +96,7 @@
         controller: 'TourgeckoAdminCommonController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Contact-US'
+          pageTitle: 'Pricing'
         }
       })
       .state('tourgeckoAdmin-about-us', {
@@ -105,7 +105,7 @@
         controller: 'TourgeckoAdminCommonController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Contact-US'
+          pageTitle: 'About'
         }
       })
       .state('legal', {
@@ -118,13 +118,19 @@
         url: '/privacy-policy',
         templateUrl: 'modules/core/client/views/privacy-policy.client.view.html',
         controller: 'LegalController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Privacy policy'
+        }
       })
       .state('legal.terms-of-use', {
         url: '/terms-of-use',
         templateUrl: 'modules/core/client/views/terms-of-use.client.view.html',
         controller: 'LegalController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Terms of use'
+        }
       })
       .state('not-found', {
         url: '/not-found',

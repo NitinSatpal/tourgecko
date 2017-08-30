@@ -15,7 +15,12 @@
   function TourDetailsController($scope, $state, $window, $http, $location, Authentication, toasty) {
     var vm = this;
     vm.authentication = Authentication;
+    var isViaBookButton = false;
     var productId = $location.path().split('/')[2];
+    if (productId == 'tour') {
+      isViaBookButton = true;
+      productId = $location.path().split('/')[3];
+    }
     vm.productDetails;
     vm.contentToHost = {};
     vm.productImageURLs = [];
@@ -26,13 +31,13 @@
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
     var weekDaysNumber = new Map();
-            weekDaysNumber.set('Sunday', 0);
-            weekDaysNumber.set('Monday', 1);
-            weekDaysNumber.set('Tuesday', 2);
-            weekDaysNumber.set('Wednesday', 3);
-            weekDaysNumber.set('Thursday', 4);
-            weekDaysNumber.set('Friday', 5);
-            weekDaysNumber.set('Saturday', 6);
+    weekDaysNumber.set('Sunday', 0);
+    weekDaysNumber.set('Monday', 1);
+    weekDaysNumber.set('Tuesday', 2);
+    weekDaysNumber.set('Wednesday', 3);
+    weekDaysNumber.set('Thursday', 4);
+    weekDaysNumber.set('Friday', 5);
+    weekDaysNumber.set('Saturday', 6);
   
     
     $http.get('/api/guest/product/' + productId).success(function (response) {
@@ -353,8 +358,8 @@
     }
 
     vm.goTobookingPageOfThisProduct = function () {
-      if($location.search().via == 'bookButton')
-        $state.go('guest.booking', {productId: vm.productDetails._id, via: 'bookButton'});
+      if(isViaBookButton)
+        $state.go('integrations.booking', {productId: vm.productDetails._id});
       else
         $state.go('guest.booking', {productId: vm.productDetails._id});
     }
