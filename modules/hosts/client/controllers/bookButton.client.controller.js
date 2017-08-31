@@ -15,7 +15,8 @@
     vm.bookButtonForMultipleTours = false;
     vm.selectedSingleTour;
     vm.selectedMultipleTours = [];
-    vm.singleTourSelected = false;
+    vm.singleTourSelected = false;    
+    vm.errorContent = [];
     $scope.redirectTo = 'redirectToTourDetailsPage';
 
     vm.changePreferenceOfBookButton = function (preference) {
@@ -23,17 +24,38 @@
         vm.bookButtonForSpecificTour = true;
         vm.bookButtonForMultipleTours = false;
       } else {
+        vm.singleTourSelected = false;
         vm.bookButtonForSpecificTour = false;
         vm.bookButtonForMultipleTours = true;
       }
     }
     vm.createDynamicBookButton = function () {
+      vm.errorContent.length = 0;
+      if (!vm.bookButtonType) {
+        $("#showErrorsOnTopForBookButton").show();    
+        vm.errorContent.push("Please select option 'Create button for'");
+        return false;
+      } else {
+        if (vm.bookButtonType == 'bookButtonForSpecificTour' && !vm.singleTourSelected) {
+          $("#showErrorsOnTopForBookButton").show();    
+          vm.errorContent.push("Please select tour for which the button has to be created");
+          return false;
+        }
+      }
       if (vm.bookButtonForSpecificTour) {
         var anchorTag = document.createElement('a');
         $(anchorTag).attr("type", "button")
         $(anchorTag).addClass('btn');
         $(anchorTag).addClass('btn-primary');
         $(anchorTag).css('background-color', $('.jscolor').val());
+        $(anchorTag).css('padding', "12px 38px");
+        $(anchorTag).css('color', "#fff");
+        $(anchorTag).css('border-radius', "4px");
+        $(anchorTag).css('font-family', "Arial, Helvetica, sans-serif");
+        $(anchorTag).css('font-weight', "400");
+        $(anchorTag).css('font-style', "normal");
+        $(anchorTag).css('font-size', "18px");
+        $(anchorTag).css('text-decoration', "none");
         $(anchorTag).attr("target", "_blank");
         var bookButtonLabel = '';
         if (!$scope.bookButtonLabelName)
@@ -42,7 +64,7 @@
           bookButtonLabel = $scope.bookButtonLabelName;
         var redirectURL = ''
         if ($scope.redirectTo == 'redirectToTourDetailsPage')
-          redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/tour/' + vm.selectedSingleTour;
+          redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tour/' + vm.selectedSingleTour;
         else
           redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/tour/book/' + vm.selectedSingleTour;
         $(anchorTag).attr("href", redirectURL);
@@ -60,24 +82,18 @@
           bookButtonLabel = $scope.bookButtonLabelName;
 
         var toursiteName = $scope.hostToursiteName;
-        toursiteName = toursiteName.toString();
-        console.log(toursiteName);
-        console.log($scope.hostToursiteName);
+        toursiteName = toursiteName.toString();       
         var redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tours';
         var bookButtonColor = $('.jscolor').val();
         dynamicallyAddedAttribute = dynamicallyAddedAttribute +
-                                  '\ts1.setAttribute("toursite", ' +
-                                  ' "' + toursiteName + '");\n' +
-                                  '\ts1.setAttribute("linkURL", ' +
-                                  ' "' + redirectURL + '");\n' +
-                                  '\ts1.setAttribute("tourIds", ' +
-                                  ' "' + vm.selectedMultipleTours +'");\n' +
                                   '\ts1.setAttribute("bookButtonLabel", ' +
                                   ' "' + bookButtonLabel.toString() + '");\n' +
                                   '\ts1.setAttribute("bookButtonColor",' + ' "#' +
                                   bookButtonColor.toString() + '");\n';
 
-        vm.scriptToEmbed = 'window.TG = window.TG || {};\n' +
+        vm.scriptToEmbed =  '<!--Start of tourgecko embed code-->\n' + 
+                            '<script>\n' +
+                            'window.TG = window.TG || {};\n' +
                             '(function (window, document) {\n' +
                             '\tvar s1 = document.createElement("script")\n' +
                             '\tvar s0 = document.getElementsByTagName("script")[0];\n' +
@@ -87,7 +103,9 @@
                             '\ts1.setAttribute("id" , "bookButtonIntegration");\n' +
                             dynamicallyAddedAttribute +
                             '\ts0.parentNode.insertBefore(s1,s0);\n' +
-                          '})(window, document);';  
+                          '})(window, document);\n' +
+                          '</script>\n' + 
+                          '<!--End of tourgecko embed code-->';  
 
         $('#book-button-copy-content-trigger').click();
       }

@@ -24,11 +24,9 @@
                     </div>
                 </div>
             </div>
-            <br>
-            <br>		
 			<div class="row infoSessionAtTop">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
-					<span> Create the Book button for single or multiple tours and use it on your own wesbite </span>
+					<span> Enable online booking and payments on your own website </span>
 				</div>
 				<br>
 				<br>
@@ -38,43 +36,39 @@
 				<div class="col-md-10 col-sm-10 col-lg-10 col-xs-10 tourTypeSessionsInfo">
 					<ul>
 						<li>
-							<span>If you select multiple tours, the created button will redirect users to list of tours</span>
-						</li>
-						<li>
-							<span>If you select single tour, you can control the behavior of the button </span>
+							<span>If you have an existing website  that you use as marketing front end, you can always integrate the  online booking and payment  process by <b>Book Now</b> button.</span>
 						</li>
 					</ul>
 				</div>
 			</div>
-			<br>
-			<br>
-			<div class="panel">
-				<div class="row no_margin_row">
-					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonLabelName">
-						<label for="bookButtonName" class="control-label">Give the label to the button</label>
-						<div class="input_group">
-							<div class="input-group">
-								<input id="bookButtonName" ng-model="bookButtonLabelName">
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonColor">
-						<label for="jscolor" class="control-label">Select the button color</label>
-						<div class="input_group">
-							<div class="input-group">
-								<input class="jscolor" value="ED9C28">
-							</div>
-						</div>
-					</div>
-				</div>
+			<div class="row error-success-notification-common" id="showErrorsOnTopForBookButton" style="display: none;">
+                <div class="col-lg-12 col-md-12 col-sm-12 errors-common">
+                    <div class="row" style="margin-top: 0;">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 error-content-common">
+                            <span>  
+                                <h5 ng-if="vm.errorContent.length == 1"> There is {{vm.errorContent.length}} error in Book button creation</h5>
+                                <h5 ng-if="vm.errorContent.length > 1"> There are {{vm.errorContent.length}} errors in Book button creation</h5>
+                                <ul style="margin-bottom: 0;">
+                                    <li ng-repeat="error in vm.errorContent"> {{error}} </li>
+                                </ul>
+                            </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+			<div class="panel" id="bookButtonContainer" style="padding-bottom: 20px;">
 				<div class="row">
 					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<label for="bookButton" class="control-label">Create Book Button for?</label>
+						<label for="bookButton" class="control-label">Create button for?</label>
 						<div class="row no_margin_row" style="margin-top: 0;">
 							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 								<div class="generic-radio">
 									<label class="radio_label">
-										<input id="bookButtonForSpecificTour" type="radio" name="bookButtonForSpecificTour" value="bookButtonForSpecificTour" ng-click="vm.changePreferenceOfBookButton('single');"/>
+										<input id="bookButtonForSpecificTour" type="radio" name="bookButtonForSpecificTour" value="bookButtonForSpecificTour" ng-click="vm.changePreferenceOfBookButton('single');" ng-model="vm.bookButtonType"/>
 										<span>&nbsp;Single tour</span>
 										<i class="zmdi zmdi-check-circle"></i>
 										<i class="zmdi zmdi-circle-o"></i>
@@ -84,19 +78,21 @@
 							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 								<div class="generic-radio">
 									<label class="radio_label">
-										<input id="bookButtonForMultipleTours" type="radio" name="bookButtonForMultipleTours" value="bookButtonForMultipleTours" ng-click="vm.changePreferenceOfBookButton('multiple');"/>
-										<span>&nbsp;multiple tours</span>
+										<input id="bookButtonForMultipleTours" type="radio" name="bookButtonForMultipleTours" value="bookButtonForMultipleTours" ng-click="vm.changePreferenceOfBookButton('multiple');" ng-model="vm.bookButtonType"/>
+										<span>&nbsp;collection of tours</span>
 										<i class="zmdi zmdi-check-circle"></i>
 										<i class="zmdi zmdi-circle-o"></i>
 									</label>
 								</div>
 							</div>
 						</div>
+						<p class="sub_desc" style="padding-top: 5px;" ng-if="vm.bookButtonType == 'bookButtonForSpecificTour'">This button will take customer to a specific tour that you have created</p>
+						<p class="sub_desc" style="padding-top: 5px;" ng-if="vm.bookButtonType == 'bookButtonForMultipleTours'">This button will show customer all of your tours and let them choose to book</p>
 					</div>
 				</div>
 				<div class="row" ng-show="vm.bookButtonForSpecificTour">
 					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<label for="singleTourBookButton" class="control-label">Select the tour</label>
+						<label for="singleTourBookButton" class="control-label">Which tour?</label>
 						<div class="row no_margin_row" style="margin-top: 0;">
 							<div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
 								<select id="singleTourBookButton" ng-model="vm.selectedSingleTour" ng-change="vm.singleTourSelected = true;">
@@ -106,7 +102,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row" ng-show="vm.bookButtonForMultipleTours">
+				<!-- <div class="row" ng-show="vm.bookButtonForMultipleTours">
 					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
 						<label for="multipleTourBookButton" class="control-label">Select tours</label>
 						<div class="row no_margin_row" style="margin-top: 0;">
@@ -117,10 +113,10 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row" ng-show="vm.singleTourSelected">
+				</div> -->
+				<div class="row" ng-show="vm.bookButtonType == 'bookButtonForSpecificTour'">
 					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
-						<label for="redirectionBehavior" class="control-label">Where should the user redirect on button click?</label>
+						<label for="redirectionBehavior" class="control-label">Link to?</label>
 						<div class="row no_margin_row" style="margin-top: 0;">
 							<div class="col-sm-3 col-md-3 col-lg-3 col-xs-6">
 								<div class="generic-radio">
@@ -145,10 +141,28 @@
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
-						<a class="sub_btn btn btn-primary margin-top" href="" type="submit" ng-click="vm.createDynamicBookButton()">Create Button</a>
+				<div class="row no_margin_row">
+					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonLabelName">
+						<label for="bookButtonName" class="control-label">Button label</label>
+						<div class="input_group">
+							<div class="input-group">
+								<input id="bookButtonName" ng-model="bookButtonLabelName" placeholder=" e.g. Book now">
+							</div>
+						</div>
 					</div>
+					<div class="col-md-6 col-sm-6 col-lg-6 col-xs-12 bookButtonColor">
+						<label for="jscolor" class="control-label">Button color</label>
+						<div class="input_group">
+							<div class="input-group">
+								<input class="jscolor" value="ED9C28">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+					<a class="sub_btn btn btn-primary margin-top" href="" type="submit" ng-click="vm.createDynamicBookButton()">Get button code</a>
 				</div>
 			</div>
 		</div>
@@ -165,7 +179,7 @@
             </div>
             <div class="modal-body">
             	<p ng-show="vm.bookButtonForSpecificTour"> Please copy the contents below wherever you want the button to appear </p>
-                <p ng-show="vm.bookButtonForMultipleTours"> Please copy the contents below anywhere before the '/body' tag of your html </p>
+                <p ng-show="vm.bookButtonForMultipleTours"> This code will create a floating button. Paste the javascript code before the closing /body tag on every page of your website if you want button to float on all screens. There is usually a common footer that is used throughout a website.  You can put this Javascript code in the common footer file </p>
                 <textarea class="form-control margin-top bookButtonEmbededScriptTextareaForsingleTour" ng-model="vm.scriptToEmbed" disabled="" ng-show="vm.bookButtonForSpecificTour"></textarea>
                 <textarea class="form-control margin-top bookButtonEmbededScriptTextareaForMultipleTours" ng-model="vm.scriptToEmbed" disabled="" ng-show="vm.bookButtonForMultipleTours"></textarea>
             </div>            
@@ -208,9 +222,11 @@
 	    });
 	});
 
-	$(document).on("click", ".bookButton", function () {
+	$(document).on("click", "#bookButtonContainer", function () {
 		if($("#bookButtonErrorContainer:visible"))
 			$("#bookButtonErrorContainer").hide();
+		if($("#showErrorsOnTopForBookButton:visible"))
+			$("#showErrorsOnTopForBookButton").hide();
 	});
 
 	$('#book-button-copy-content').on('hidden.bs.modal', function () {
@@ -220,7 +236,7 @@
 		$('#bookButtonForSpecificTour').prop("checked", false);
 		$('.jscolor').val('ED9C28');
 		$('.jscolor').css("background-color", "ED9C28");
-		var $scope = angular.element('#bookButton').scope()
+		var $scope = angular.element('#bookButton').scope();
 	    $scope.$evalAsync(function() {
 	        angular.element('#bookButton').scope().bookButtonLabelName = '';
 	        angular.element('#bookButton').scope().redirectTo = 'redirectToTourDetailsPage';

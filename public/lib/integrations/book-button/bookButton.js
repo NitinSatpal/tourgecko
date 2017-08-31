@@ -73,7 +73,7 @@ function generateBookButton () {
                                         'line-height:1;' +
                                         'cursor:pointer;' +
                                     '}';
-    if ($(window).width() <= 1000) {
+    if ($(window).width() <= 767) {
         bookButtonDivStyle.innerHTML = bookButtonDivStyle.innerHTML + 
                                        '.mobile-contact {' +
                                             'float: left;' +
@@ -89,14 +89,11 @@ function generateBookButton () {
                                         '}'
     }
 
-    $(document.body).append(bookButtonDivStyle);
-    var clickedOnce = false;
-    var requestData = document.getElementById("bookButtonIntegration").getAttribute("tourIds");
-    var redirectTo = document.getElementById("bookButtonIntegration").getAttribute("linkURL") + '?ids=' + encodeURIComponent(requestData);
+    $(document.body).append(bookButtonDivStyle);    
     var div = document.createElement('div');
     $(div).addClass('tourgeckoBookButton');
     $(div).css("border-radius", "4px");
-    if ($(window).width() <= 1000) {
+    if ($(window).width() <= 767) {
         $(div).css("border-radius", "0");
         $(div).removeClass('tourgeckoBookButton');
         $(div).addClass("mobile-contact");
@@ -107,9 +104,9 @@ function generateBookButton () {
     $(anchorTag).attr("type", "button");
     $(anchorTag).addClass('btn');
     $(anchorTag).addClass('btn-primary');
-    $(anchorTag).attr("href", redirectTo);
+    $(anchorTag).attr("href", document.getElementById("bookButtonIntegration").getAttribute("linkURL"));
     $(anchorTag).attr("target", "_blank");
-    if ($(window).width() <= 1000) {
+    if ($(window).width() <= 767) {
         $(anchorTag).css("padding", "20px");
         $(anchorTag).css("bottom", "0");
         $(anchorTag).css("left", "0");
@@ -126,10 +123,8 @@ function generateBookButton () {
     $(div).append(anchorTag);
     $(document.body).append(div);
 
-    console.log($(window).width());
-    console.log($(document).width());
     $('.tourgeckoBookButton').click(function () {
-        window.open(redirectTo, '_blank');
+        window.open(document.getElementById("bookButtonIntegration").getAttribute("linkURL"), '_blank');
     });
 
     (function($){
@@ -322,7 +317,7 @@ function generateBookButton () {
         };
     })(jQuery);
 
-    if ($(window).width() > 1000) {
+    if ($(window).width() > 767) {
         $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
 
         // after page refresh, make sure the values are returned to their defaults

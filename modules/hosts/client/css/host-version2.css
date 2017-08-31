@@ -330,11 +330,11 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 	padding-right: 2rem;
 }
 .book-button-copy-content .bookButtonEmbededScriptTextareaForsingleTour {
-	height: 12rem;
+	height: 16rem;
 	resize: none;
 }
 .book-button-copy-content .bookButtonEmbededScriptTextareaForMultipleTours {
-	height: 30rem;
+	height: 34rem;
 	resize: none;
 }
 .bookButton .bookButtonTabBodyContent .row{

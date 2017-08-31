@@ -35,8 +35,7 @@
     
     var hostURL = $location.host();
     var toursite = hostURL.split('.')[0];
-    var tourIds = $location.search().ids.split(',');
-    var reqBody = {toursite: toursite, tourIds: tourIds};
+    var reqBody = {toursite: toursite};
 
     $http.post('/api/host/integrations/multipletours/', reqBody).success(function (response) {
         vm.toursitedata = response.productArray;

@@ -17,7 +17,6 @@ var path = require('path'),
 // Finding if toursite exists or not.
 exports.fetchToursForBookButtonIntegrations = function (req, res) {
   var tourSite = req.body.toursite;
-  var tourIds = req.body.tourIds;
   Company.findOne({ toursite: tourSite }, '-salt -password').exec(function (err, company) {
     if (err) {
       res.status(500).render('modules/core/server/views/500', {
@@ -25,8 +24,8 @@ exports.fetchToursForBookButtonIntegrations = function (req, res) {
       });
     }
     if (company) {
-      Product.count({user: company.user, isPublished: true, _id: {$in: tourIds}}, function(error, count) {
-        Product.find({user: company.user, isPublished: true, _id: {$in: tourIds}}).limit(10).sort('-created').populate('user').exec(function (err, products) {
+      Product.count({user: company.user, isPublished: true}, function(error, count) {
+        Product.find({user: company.user, isPublished: true}).limit(10).sort('-created').populate('user').exec(function (err, products) {
           if (err) {
             return res.status(400).send({
               message: errorHandler.getErrorMessage(err)
