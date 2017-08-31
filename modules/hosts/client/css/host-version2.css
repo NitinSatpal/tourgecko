@@ -340,6 +340,9 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 .bookButton .bookButtonTabBodyContent .row{
 	margin-top: 20px;
 }
+.pinboard .info_content h3 {
+	margin-top: 0;
+}
 @media only screen
 and (min-device-width : 768px)
 and (max-device-width : 1024px){ 

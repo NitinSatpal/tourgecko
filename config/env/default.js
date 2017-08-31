@@ -38,7 +38,7 @@ module.exports = {
     p3p: 'ABCDEF',
     xssProtection: true
   },
-  logo: 'modules/core/client/img/brand/logo.png',
+  logo: 'https://tourgecko.com/modules/core/client/img/brand/logo-icon.png',
   favicon: 'modules/core/client/img/brand/favicon.ico',
   uploads: {
     profileUpload: {
