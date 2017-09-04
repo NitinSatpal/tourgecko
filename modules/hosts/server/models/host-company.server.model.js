@@ -197,7 +197,7 @@ var HostCompanySchema = new Schema({
   },
   themeColor: {
     type: String,
-    default: '#ff9800'
+    default: '#FF9800'
   }
 });
 

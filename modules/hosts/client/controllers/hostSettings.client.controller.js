@@ -44,7 +44,10 @@
         $('.bank-account-details').find('input, textarea, select').attr('readonly', 'readonly');
       }
       vm.toursiteDetails = vm.companyDetails;
-      $('.jscolor').val(vm.toursiteDetails[0].themeColor.substring(1).toUpperCase());
+      if (vm.toursiteDetails[0].themeColor)
+        $('.jscolor').val(vm.toursiteDetails[0].themeColor.substring(1).toUpperCase());
+      else
+        $('.jscolor').val('FF9800');
       jscolor.installByClassName("jscolor");
       vm.accountDetails = vm.companyDetails;
       vm.regionalDetails = vm.companyDetails;
