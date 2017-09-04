@@ -16,6 +16,7 @@
         if (response === null || response === '' || response === undefined) {
           $location.path('/not-found');
         } else {
+          $("#tourgeckoBody").addClass(tourHostToursite);
           $state.go('abstractHome.toursite', { toursite:  tourHostToursite});
         }
       }).error(function (response) {

@@ -44,6 +44,8 @@
         $('.bank-account-details').find('input, textarea, select').attr('readonly', 'readonly');
       }
       vm.toursiteDetails = vm.companyDetails;
+      $('.jscolor').val(vm.toursiteDetails[0].themeColor.substring(1).toUpperCase());
+      jscolor.installByClassName("jscolor");
       vm.accountDetails = vm.companyDetails;
       vm.regionalDetails = vm.companyDetails;
     });
@@ -259,7 +261,7 @@
     }
 
     // Toursite settings
-    vm.saveToursiteSettings = function () {
+    vm.saveToursiteDomainSettings = function () {
       vm.error = null;
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
@@ -272,6 +274,18 @@
       });
     };
 
+    vm.saveToursiteThemeSettings = function () {
+      $('#loadingDivHostSide').css('display', 'block');
+      $('#tourgeckoBody').addClass('waitCursor');
+      var themeColor = {themeColor: '#' + $('.jscolor').val()};
+      $http.post('/api/host/toursite/theme', themeColor).success(function (response) {
+        $window.location.reload();
+      }).error(function (response) {
+        vm.error = response.message;
+        $('#loadingDivHostSide').css('display', 'none');
+        $('#tourgeckoBody').removeClass('waitCursor');
+      });
+    }
     // Account settings
     // For now account modifiction is not present
     /* vm.saveAccountSettings = function (isValid) {

@@ -56,7 +56,8 @@
     vm.errorContent = [];
     vm.agreedToTermsAndConditions = false;
     vm.contentToHost = {};
-
+    var toursite = $location.host().split('.')[0];
+    $("#tourgeckoBody").addClass(toursite);
     $timeout(function () {
       $('.host-guest-common-style-Top-Info-Section').addClass('conditionalHide');
       $('.host-guest-common-style-navbar .navbar-header .navbar-toggle').addClass('conditionalHide');

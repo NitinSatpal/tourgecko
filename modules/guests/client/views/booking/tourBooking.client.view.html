@@ -10,7 +10,7 @@
             <div class="col-sm-8">
                 <div class="tour-info-panel">
                     <h4 class="tour-title">{{vm.bookingProductDetails.productTitle}}</h4>
-                    <span href="#" class="card-city-name"><i class="fa fa-map-marker orange-text"></i>{{vm.bookingProductDetails.destination}}</span> <span><i class="fa fa-clock-o orange-text"></i>{{vm.bookingProductDetails.productDuration}} {{vm.bookingProductDetails.productDurationType}}</span>
+                    <span href="#" class="card-city-name"><i class="fa fa-map-marker themeSelectedByHostColor"></i>{{vm.bookingProductDetails.destination}}</span> <span><i class="fa fa-clock-o themeSelectedByHostColor"></i>{{vm.bookingProductDetails.productDuration}} {{vm.bookingProductDetails.productDurationType}}</span>
                 </div>
                 <div class="stepwizard" id="wizard">
                     <div class="stepwizard-row setup-panel">
@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h3 class="booking-form-title"><i class="zmdi zmdi-calendar orange-text"></i> Departure</h3>
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-calendar themeSelectedByHostColor"></i> Departure</h3>
                                 <strong class="booking-form-subtitle"> Select the departure date</strong>
                                 <div class="date-picker">
                                     <div class="select-date-wrapper" ng-repeat="session in vm.sesisonDateAndTimeForDisplayAndAvailability | orderBy: 'startDate' track by $index" ng-style="vm.getDynamicCSSForDateSection($index)" id="dateSelectorDiv{{$index}}">
@@ -70,7 +70,7 @@
                                             <label>
                                                 <input name="optionsRadios" id="optionsRadios{{$index}}" type="radio"  id="departureDate{{$index}}" value="vm.selectedDate" ng-click="vm.setSelectedDate(session, $index)"> {{getDepartureDate(session.startDate, $index)}}
                                                 <br>
-                                                <span ng-if="session.startTime != '' && session.startTime != undefined && session.startTime != 'No Time'" id="startTime{{$index}}"><i class="fa fa-clock-o orange-text"></i>{{session.startTime}}</span>
+                                                <span ng-if="session.startTime != '' && session.startTime != undefined && session.startTime != 'No Time'" id="startTime{{$index}}"><i class="fa fa-clock-o themeSelectedByHostColor"></i>{{session.startTime}}</span>
                                             </label>
                                         </div>
                                         <a href="#" class="select-date-btn">
@@ -101,7 +101,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <h3 class="booking-form-title"><i class="zmdi zmdi-calendar orange-text"></i> Departure</h3>
+                            <h3 class="booking-form-title"><i class="zmdi zmdi-calendar themeSelectedByHostColor"></i> Departure</h3>
                             <strong class="booking-form-subtitle"> Select the departure date</strong>
                             <br>
                             <br>
@@ -141,7 +141,7 @@
                             </div>
                             <div class="col-xs-12 preferred-time-wrapper" ng-if="vm.timesForThisDate.length > 0">
                                 <label class="preferred-time">
-                                    <span><i class="fa fa-clock-o orange-text"></i>Preferred time</span>
+                                    <span><i class="fa fa-clock-o themeSelectedByHostColor"></i>Preferred time</span>
                                 </label>
                                 <div class="dropdown show-btn">
                                     <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"> {{vm.selectedTimeslot}}
@@ -158,7 +158,7 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="host-guest-common-style-row form-np-btn">
-                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(1,2)" onclick="scrollToTop()" >Next</button>
+                                <button class="btn nextButton themeSelectedByHostBackgroundColor pull-right" type="button" ng-click="vm.validateData(1,2)" onclick="scrollToTop()" >Next</button>
                             </div>
                         </div>
                     </div>
@@ -183,9 +183,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h3 class="booking-form-title"><span class="currency orange-text">&#8377;</span> Booking Options</h3>
-                                <strong class="booking-form-subtitle"> Enter number of participants
-                                    <span class="pull-right orange-text">Mandatory</span>
+                                <h3 class="booking-form-title"><span class="currency themeSelectedByHostColor">&#8377;</span> Booking Options</h3>
+                                <strong class="booking-form-subtitle"> Enter number of participantthemeSelectedByHostColors
+                                    <span class="pull-right themeSelectedByHostColor">Mandatory</span>
                                 </strong>
                                 <div ng-repeat="pricing in vm.validPricingOptions track by $index">
                                     <div class="booking-radio-wrappers border-bottom" ng-if="pricing.pricingType == 'Custom'">
@@ -264,7 +264,7 @@
                                 </div>
                                 <div class="booking-checkbox-wrappers" style="margin-top: -11px" ng-if="vm.bookingProductDetails.productAddons.length > 1 || (vm.bookingProductDetails.productAddons.length == 1 && vm.bookingProductDetails.productAddons[0].name != '' && vm.bookingProductDetails.productAddons[0].price != '')">
                                     <p class="booking-checkbox-title text-lighten-1">Add-Ons and extras
-                                        <span class="pull-right orange-text">Optional</span>
+                                        <span class="pull-right themeSelectedByHostColor">Optional</span>
                                     </p>
                                     <div class="booking-checkbox border-bottom" ng-repeat="addon in vm.bookingProductDetails.productAddons track by $index" ng-style="vm.getDynamicCSSForPricingSection($index, 'addons')" ng-show="addon.name != '' && addon.price != ''">
                                         <div class="col-xs-6 col-sm-3">
@@ -309,7 +309,7 @@
                             </div>
                             <div class="host-guest-common-style-row form-np-btn">
                                 <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(2,1)" onclick="scrollToTop()">Previous</button>
-                                <button class="btn nextButton pull-right" type="button" ng-click="vm.validateData(2,3)" onclick="scrollToTop()">Next</button>
+                                <button class="btn nextButton themeSelectedByHostBackgroundColor pull-right" type="button" ng-click="vm.validateData(2,3)" onclick="scrollToTop()">Next</button>
                             </div>
                         </div>
                     </div>
@@ -334,7 +334,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h3 class="booking-form-title"><i class="zmdi zmdi-account orange-text"></i>  Guest Information </h3>
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-account themeSelectedByHostColor"></i>  Guest Information </h3>
                                 <strong class="booking-form-subtitle"> Your Information</strong>
                                 <form>
                                     <div class="host-guest-common-style-row form-group" show-errors style="margin-bottom: 0px">
@@ -378,14 +378,14 @@
                             </div>
                             <div class="host-guest-common-style-row form-np-btn">
                                 <button class="btn previousBtn pull-left" type="button" ng-click="vm.goToPreviousAndChangeCSS(3,2)" onclick="scrollToTop()">Previous</button>
-                                <button onclick="scrollToTop()" class="btn nextButton pull-right" type="button" ng-click="vm.validateData(3,4)">Next</button>
+                                <button onclick="scrollToTop()" class="btn nextButton themeSelectedByHostBackgroundColor pull-right" type="button" ng-click="vm.validateData(3,4)">Next</button>
                             </div>
                         </div>
                     </div>
                     <div class="row setup-content" id="step-4">
                         <div class="col-xs-12">
                             <div class="booing-form-box">
-                                <h3 class="booking-form-title"><i class="zmdi zmdi-shopping-cart orange-text"></i>  Checkout </h3>
+                                <h3 class="booking-form-title"><i class="zmdi zmdi-shopping-cart themeSelectedByHostColor"></i>  Checkout </h3>
                                 <strong class="booking-form-subtitle"> Review your booking and pay</strong>
                                 <div class="booking-info-section-wrapper">
                                     <div class="col-xs-12">
@@ -458,7 +458,7 @@
                                                 <div class="col-sm-3 col-xs-6">
                                                     <input class="form-control" placeholder="Coupon Code" type="text">
                                                 </div>
-                                                <button class="btn nextButton" type="button">Apply</button>
+                                                <button class="btn nextButton themeSelectedByHostBackgroundColor" type="button">Apply</button>
                                             </div> -->
                                         </div>
                                         <table class="table table-hover host-guest-common-style-table">
@@ -513,7 +513,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 text-center mar5">
-                        <a href="" type="button" name="req" class="btn btn-default orange-text req-btn" value="" data-toggle="modal" data-target="#contact-us-from-tour-details-page"><i class="zmdi zmdi-email" ></i>Contact Us</a>
+                        <a href="" type="button" name="req" class="btn btn-default themeSelectedByHostColor req-btn" value="" data-toggle="modal" data-target="#contact-us-from-tour-details-booking-page"><i class="zmdi zmdi-email" ></i>Contact Us</a>
                     </div>
                     <div class="col-xs-12 text-center mar5">
                         <div class="chip">
@@ -542,7 +542,7 @@
             </div>
         </div>
     </div>
-    <div id="contact-us-from-tour-details-page" class="modal fade" tabindex="-1" role="dialog">
+    <div id="contact-us-from-tour-details-booking-page" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -586,7 +586,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 contactUSSendButton" style="margin-bottom: 10px; margin-top: 15px;">
-                                <button class="btn pull-left nextButton"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
+                                <button class="btn pull-left nextButton themeSelectedByHostBackgroundColor"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
                             </div>
                         </div>
                     </form>

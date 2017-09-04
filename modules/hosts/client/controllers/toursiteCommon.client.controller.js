@@ -17,6 +17,7 @@
     var toursite = $stateParams.toursite;
     if (toursite == null)
       toursite = $location.host().split('.')[0];
+    $("#tourgeckoBody").addClass(toursite);
     $http.get('/api/host/toursitedata/' + toursite).success(function (response) {
         if (response == 'noToursite')
           $location.path('/not-found');
@@ -39,6 +40,7 @@
     }).error(function (response) {
       vm.error = response.message;
     });
+
 
     vm.getInquiryHours = function () {
       if (vm.companyData) {

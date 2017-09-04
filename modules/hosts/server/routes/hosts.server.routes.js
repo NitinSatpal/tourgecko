@@ -18,6 +18,9 @@ module.exports = function (app) {
   app.route('/api/host/toursitedata/:toursite')
     .get(hosts.getToursiteData);
 
+  app.route('/api/host/toursite/theme')
+    .post(hosts.setTheToursiteTeme);
+
   app.route('/api/host/toursitedataForCurrentPage/:toursite/:pageNumber/:itemsPerPage')
     .get(hosts.getToursiteDataForCurrentPage);
 

@@ -41,7 +41,7 @@
       toursite = $location.host().split('.')[0];
     else
       toursite = $stateParams.toursite;
-    
+    $("#tourgeckoBody").addClass(toursite);
 
     if (toursite !== 'tourgecko' && toursite !== 'test' && toursite !== 'localhost' && toursite !== 'www') {
       $http.get('/api/host/toursitedata/' + toursite).success(function (response) {

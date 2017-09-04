@@ -12,6 +12,7 @@ var path = require('path'),
   HostCompany = mongoose.model('HostCompany'),
   PinboardGoal = mongoose.model('PinboardGoals'),
   PinboardPin = mongoose.model('PinboardPins'),
+  fs = require('fs'),
   passport = require('passport'),
   nodemailer = require('nodemailer'),
   mg = require('nodemailer-mailgun-transport'),
@@ -190,6 +191,15 @@ function createTheUserAccount (req, res) {
                 });
               } else {
                 // Do nothing
+                var cssString = '.'+ hostCompany.toursite + ' .themeSelectedByHostColor { color : #ff9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBackgroundColor { background-color : #ff9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid #ff9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid #ff9800 !important;}\n';
+
+                fs.appendFile(path.resolve('./modules/core/client/css/themes.css'), cssString, function (err) {
+                    if (err)
+                      console.log('css could not be modified');
+                });
                 res.json(user);
               }
             });

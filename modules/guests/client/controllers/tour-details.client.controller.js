@@ -14,7 +14,7 @@
 
   function TourDetailsController($scope, $state, $window, $http, $location, Authentication, toasty) {
     var vm = this;
-    vm.authentication = Authentication;
+    vm.authentication = Authentication;    
     var isViaBookButton = false;
     var productId = $location.path().split('/')[2];
     if (productId == 'tour') {
@@ -39,7 +39,8 @@
     weekDaysNumber.set('Friday', 5);
     weekDaysNumber.set('Saturday', 6);
   
-    
+    var toursite = $location.host().split('.')[0];
+    $("#tourgeckoBody").addClass(toursite);
     $http.get('/api/guest/product/' + productId).success(function (response) {
       if(response == 'No tour found with this id') {
         vm.error = response;
@@ -202,13 +203,17 @@
       if (sessionDateTimeAvailableSeats.get(remainingSeatsKey) == 'No seat limit')
         vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
       else
-        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey) + ' seats available';
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
 
-      if (!activeIndex.has(parentIndex))
+      if (!activeIndex.has(parentIndex)) {
         $("#timeslotValue" + parentIndex + '0').removeClass("timeslotValueActive0");
-      else
+        $("#timeslotValue" + parentIndex + '0').removeClass("themeSelectedByHostBackgroundColor");
+      } else {
         $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("timeslotValueActive0");
+        $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("themeSelectedByHostBackgroundColor");
+      }
 
+      $("#timeslotValue" + parentIndex + index).addClass("themeSelectedByHostBackgroundColor");
       $("#timeslotValue" + parentIndex + index).addClass("timeslotValueActive0");
       activeIndex.set(parentIndex, index);
     }
@@ -276,6 +281,11 @@
         return oddCSS;
       else
         return evenCSS;
+    }
+
+    vm.getThemeClass = function (index) {
+      if (index == 0)
+        return "themeSelectedByHostBackgroundColor"
     }
 
     vm.setMarginDynamically = function () {

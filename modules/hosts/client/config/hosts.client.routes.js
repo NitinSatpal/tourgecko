@@ -182,7 +182,7 @@
         controller: 'HostSettingsController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Toursite'
+          pageTitle: 'Toursite Domain'
         }
       })
       .state('host.toursiteBanners', {
@@ -191,7 +191,16 @@
         controller: 'HostSettingsController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Toursite'
+          pageTitle: 'Toursite Banners'
+        }
+      })
+      .state('host.toursiteTheme', {
+        url: '/toursite/theme',
+        templateUrl: 'modules/hosts/client/views/settings/toursite-theme-settings.client.view.html',
+        controller: 'HostSettingsController',
+        controllerAs: 'vm',
+        data: {
+          pageTitle: 'Toursite Theme'
         }
       })
       .state('host.allNotifications', {

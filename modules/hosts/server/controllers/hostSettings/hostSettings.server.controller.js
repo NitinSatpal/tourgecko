@@ -374,6 +374,46 @@ exports.saveToursiteDetails = function (req, res) {
   }
 };
 
+// Save toursite theme details
+exports.setTheToursiteTeme = function (req, res) {
+  var themeColor = req.body.themeColor;
+  if (req.user) {
+    Company.findOne({user: req.user._id}).exec(function (err, company) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      }
+      var oldThemeColor = company.themeColor;
+      company.themeColor = themeColor;
+      company.save(function () {
+        fs.readFile(path.resolve('./modules/core/client/css/themes.css'), 'utf8', function (err, data) {
+          if (err) {
+            return console.log(err);
+          }
+
+          var stringToBeReplaced = '.'+ company.toursite + ' .themeSelectedByHostColor { color : ' + oldThemeColor + ' !important;}' + '\n' +
+                                   '.'+ company.toursite + ' .themeSelectedByHostBackgroundColor { background-color : ' + oldThemeColor + ' !important;}' + '\n' +
+                                   '.'+ company.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid ' + oldThemeColor + ' !important;}' + '\n' +
+                                   '.'+ company.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid ' + oldThemeColor + ' !important;}' + '\n';
+          
+          var replacingString =  '.'+ company.toursite + ' .themeSelectedByHostColor { color : ' + themeColor + ' !important;}' + '\n' +
+                                 '.'+ company.toursite + ' .themeSelectedByHostBackgroundColor { background-color : ' + themeColor + ' !important;}' + '\n' +
+                                 '.'+ company.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid ' + themeColor + ' !important;}' + '\n' +
+                                 '.'+ company.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid ' + themeColor + ' !important;}' + '\n';
+
+          var result = data.replace(stringToBeReplaced, replacingString);
+
+          fs.writeFile(path.resolve('./modules/core/client/css/themes.css'), result, 'utf8', function (err) {
+             if (err) return console.log(err);
+          });
+        });
+      });
+      res.json(company);
+    });
+  }
+};
+
 // Save account details
 /* exports.saveAccountDetails = function (req, res) {
   console.log(req.user._id);

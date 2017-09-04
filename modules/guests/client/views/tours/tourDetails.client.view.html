@@ -1,4 +1,4 @@
-<uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
+    <uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
     <span ng-bind="vm.error"></span>
 </uib-alert>
 <div id="loadingDivTourDetails" class="loaderDisplayDiv"></div>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-xs-10">
                                 <h2 class="detail-card-title text-left">{{vm.productDetails.productTitle}}</h2>
-                                <h4 class="detail-card-city"><i class="fa fa-map-marker"></i>{{vm.productDetails.destination}}</h4>
+                                <h4 class="detail-card-city"><i class="fa fa-map-marker themeSelectedByHostColor"></i>{{vm.productDetails.destination}}</h4>
                             </div>
                         </div>
                     </div>
@@ -67,13 +67,13 @@
                     </div>
                     <div class="card-trip-overview">
                         <div class="col-sm-3 col-xs-6 text-center">
-                            <a href="#"><i class="fa fa-map-marker"></i>Start<br><span>{{vm.productDetails.pickupLocation}}</span></a>
+                            <a href="#"><i class="fa fa-map-marker themeSelectedByHostColor"></i>Start<br><span>{{vm.productDetails.pickupLocation}}</span></a>
                         </div>
                         <div class="col-sm-3 col-xs-6 text-center">
-                            <a href="#"><i class="fa fa-map-marker"></i>End<br><span>{{vm.productDetails.dropLocation}}</span></a>
+                            <a href="#"><i class="fa fa-map-marker themeSelectedByHostColor"></i>End<br><span>{{vm.productDetails.dropLocation}}</span></a>
                         </div>
                         <div class="col-sm-3 col-xs-6 text-center">
-                            <a href="#"><i class="fa fa-clock-o"></i>Suitable For<br>
+                            <a href="#"><i class="fa fa-clock-o themeSelectedByHostColor"></i>Suitable For<br>
                                 <span>{{vm.productDetails.productMinAgeRequired}}
                                     <span ng-show="vm.productDetails.productMinAgeRequired || vm.productDetails.productMaxAgeRequired">-</span>
                                     {{vm.productDetails.productMaxAgeRequired}}
@@ -82,7 +82,7 @@
                             </a>
                         </div>
                         <div class="col-sm-3 col-xs-6 text-center">
-                            <a href="#"><i class="zmdi zmdi-run orange-text"></i>Physical Demand<br><span>{{vm.productDetails.productGrade != 'Select' ? vm.productDetails.productGrade : ''}}</span></a>
+                            <a href="#"><i class="zmdi zmdi-run themeSelectedByHostColor"></i>Physical Demand<br><span>{{vm.productDetails.productGrade != 'Select' ? vm.productDetails.productGrade : ''}}</span></a>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                         <div class="panel-group" id="accordion">
                             <div class="panel panel-default my-panel">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse1">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-info-outline orange-text"></i> Overview</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-info-outline themeSelectedByHostColor"></i> Overview</h4>
                                 </div>
                                 <div id="collapse1" class="panel-collapse collapse in">
                                     <div class="panel-body">
@@ -101,7 +101,7 @@
                             </div>
                            <!-- <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse2">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-format-list-bulleted orange-text"></i> At a Glance</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-format-list-bulleted themeSelectedByHostColor"></i> At a Glance</h4>
                                 </div>
                                 <div id="collapse2" class="host-guest-common-style-active">
                                     <div class="panel-body">
@@ -164,12 +164,12 @@
                             </div> -->
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse3">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-file-text orange-text"></i> Itinerary</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-file-text themeSelectedByHostColor"></i> Itinerary</h4>
                                 </div>
                                 <div class="panel-collapse collapse in">
                                     <div class="panel-body" id="collapsibleDivParent">
                                         <ol class="collapsible list-group vertical-steps">
-                                            <li class="list-group-item" data-toggle="collapse" href="#itineraryDescription{{$index}}"  ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index">
+                                            <li class="list-group-item themeSelectedByHostBorderColor themeSelectedByHostBorderColorLeft" data-toggle="collapse" href="#itineraryDescription{{$index}}"  ng-repeat="itinerary in vm.productDetails.productItineraryDescription track by $index">
                                                 <div class="blue-grey-text text-darken-1 collapsible-header"><strong>{{itinerary.title}}</strong>
                                                     <br>
                                                 </div>
@@ -184,7 +184,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse4">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-comment-list orange-text"></i> Guidelines</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-comment-list themeSelectedByHostColor"></i> Guidelines</h4>
                                 </div>
                                 <div id="collapse4" class="host-guest-common-style-active">
                                     <div class="panel-body">
@@ -195,7 +195,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse5">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-check orange-text"></i> Inclusions</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-check themeSelectedByHostColor"></i> Inclusions</h4>
                                 </div>
                                 <div id="collapse5" class="panel-collapse collapse in">
                                     <div class="panel-body">
@@ -206,7 +206,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse6">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-close orange-text"></i> Exclusions</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-calendar-close themeSelectedByHostColor"></i> Exclusions</h4>
                                 </div>
                                 <div id="collapse6" class="panel-collapse collapse in in">
                                     <div class="panel-body">
@@ -217,7 +217,7 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse7">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Availability and Prices</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box themeSelectedByHostColor"></i> Availability and Prices</h4>
                                 </div>
                                 <div id="collapse7" class="panel-collapse collapse in">
                                     <div class="panel-body">
@@ -254,7 +254,7 @@
                                                         </div>
                                                         <span class="more-departure" id="timeslotsForThisSession">
                                                             <a href="#" ng-repeat="timeslot in session.sessionTimes track by $index" ng-click="vm.getPricingDetailsOfGivenTimeSlot($parent.$index, $index, timeslot, session)">
-                                                                <span id="timeslotValue{{$parent.$index}}{{$index}}" class="timeslotValueActive{{$index}}">{{timeslot}}</span>
+                                                                <span id="timeslotValue{{$parent.$index}}{{$index}}" class="timeslotValueActive{{$index}}" ng-class="vm.getThemeClass($index)">{{timeslot}}</span>
                                                                  &nbsp;&nbsp;
                                                             </a>
                                                         </span>
@@ -300,14 +300,14 @@
                             </div>
                             <div class="panel panel-default">
                                 <div class="panel-heading" data-toggle="" data-parent="#accordion" href="#collapse8">
-                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box orange-text"></i> Cancellation & Refund</h4>
+                                    <h4 class="panel-title"><i class="zmdi zmdi-money-box themeSelectedByHostColor"></i> Cancellation & Refund</h4>
                                 </div>
                                 <div id="collapse8" class="panel-collapse collapse in">
                                     <div class="panel-body">
                                         <ng-bind-html="vm.getHtmlTrustedData(vm.productDetails.productCancellationPolicy)">
                                         <p class="listAlignment-inclusions" ng-bind-html="vm.productDetails.productCancellationPolicy | htmlData">{{vm.productDetails.productCancellationPolicy}}</p>
-                                       <!-- <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text orange-text margin-right"></i> Cancellation Terms</a>
-                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help orange-text margin-right"></i> Cancellation FAQ</a> -->
+                                       <!-- <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-file-text themeSelectedByHostColor margin-right"></i> Cancellation Terms</a>
+                                       <a href="#" class="blue-grey-text text-darken-1 margin-top block-element"><i class="zmdi zmdi-help themeSelectedByHostColor margin-right"></i> Cancellation FAQ</a> -->
                                     </div>
                                 </div>
                             </div>
@@ -347,7 +347,7 @@
                             <span class="more-departure" ng-if="vm.sessionPricing.length > 5 && vm.productDetails.productAvailabilityType == 'Fixed Departure'"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
                         </div>
                         <div class="col-xs-12 text-center">
-                            <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                            <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
                             <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
                         </div>
                     </div>
@@ -359,7 +359,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 text-center mar5">
-                        <a href="#" type="button" name="req" class="btn btn-default orange-text req-btn" value="" data-toggle="modal" data-target="#contact-us-from-booking-page"><i class="zmdi zmdi-email"></i>Contact Us</a>
+                        <a href="#" type="button" name="req" class="btn btn-default themeSelectedByHostColor req-btn" value="" data-toggle="modal" data-target="#contact-us-from-tour-details-booking-page"><i class="zmdi zmdi-email"></i>Contact Us</a>
                     </div>
                     <div class="col-xs-12 text-center mar5">
                         <div class="chip">
@@ -381,12 +381,12 @@
                 <span class=""><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
             </div>
             <div class="wid50 text-center">
-                <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
                 <a  href="" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
             </div>
         </div>
     </footer>
-    <div id="contact-us-from-booking-page" class="modal fade" tabindex="-1" role="dialog">
+    <div id="contact-us-from-tour-details-booking-page" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -430,7 +430,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 contactUSSendButton" style="margin-bottom: 10px; margin-top: 15px;">
-                                <button class="btn pull-left nextButton"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
+                                <button class="btn pull-left nextButton themeSelectedByHostBackgroundColor"  type="submit" ng-click="vm.sendContentToHost(vm.contentToHostForm.$valid, true)">Send</button>
                             </div>
                         </div>
                     </form>
@@ -441,10 +441,6 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-       
-    });
-
     $(document).ready(function() {
         $('#tourDetailsCarousel').carousel({
           interval: 5000

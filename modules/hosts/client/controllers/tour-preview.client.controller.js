@@ -32,7 +32,7 @@
     weekDaysNumber.set('Saturday', 6);
   
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-
+    
     if (productId) {
       $http.get('/api/host/product/' + productId).success(function (response) {
         vm.productDetails = response[0];
@@ -45,6 +45,7 @@
           $('#tourgeckoBody').removeClass('waitCursor');
         });
         vm.companyData = response[0].hostCompany;
+        $("#tourgeckoBody").addClass(vm.companyData.toursite);
         if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.facebook && vm.companyData.hostSocialAccounts.facebook != "")
           vm.facebookLink = 'https://www.facebook.com/' + vm.companyData.hostSocialAccounts.facebook;
         if (vm.companyData.hostSocialAccounts && vm.companyData.hostSocialAccounts.twitter && vm.companyData.hostSocialAccounts.twitter != "")
@@ -201,13 +202,17 @@
       if (sessionDateTimeAvailableSeats.get(remainingSeatsKey) == 'No seat limit')
         vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
       else
-        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey) + ' seats available';
+        vm.sessionPricing[parentIndex].availableSeats = sessionDateTimeAvailableSeats.get(remainingSeatsKey);
       
-      if (!activeIndex.has(parentIndex))
+      if (!activeIndex.has(parentIndex)) {
         $("#timeslotValue" + parentIndex + '0').removeClass("timeslotValueActive0");
-      else
+        $("#timeslotValue" + parentIndex + '0').removeClass("themeSelectedByHostBackgroundColor");
+      } else {
         $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("timeslotValueActive0");
+        $("#timeslotValue" + parentIndex + activeIndex.get(parentIndex)).removeClass("themeSelectedByHostBackgroundColor");
+      }
 
+      $("#timeslotValue" + parentIndex + index).addClass("themeSelectedByHostBackgroundColor");
       $("#timeslotValue" + parentIndex + index).addClass("timeslotValueActive0");
       activeIndex.set(parentIndex, index);
     }
@@ -281,6 +286,11 @@
         return oddCSS;
       else
         return evenCSS;
+    }
+
+    vm.getThemeClass = function (index) {
+      if (index == 0)
+        return "themeSelectedByHostBackgroundColor"
     }
 
     vm.setMarginDynamically = function () {
