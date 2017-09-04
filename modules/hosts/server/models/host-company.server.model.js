@@ -194,6 +194,10 @@ var HostCompanySchema = new Schema({
   newUserFirstLoginValidElements: {
     type: Array,
     default: []
+  },
+  themeColor: {
+    type: String,
+    default: '#ff9800'
   }
 });
 
