@@ -45,9 +45,9 @@
       }
       vm.toursiteDetails = vm.companyDetails;
       if (vm.toursiteDetails[0].themeColor)
-        $('.jscolor').val(vm.toursiteDetails[0].themeColor.substring(1).toUpperCase());
+        $('.jscolor').val(vm.toursiteDetails[0].themeColor);
       else
-        $('.jscolor').val('FF9800');
+        $('.jscolor').val('#FF9800');
       jscolor.installByClassName("jscolor");
       vm.accountDetails = vm.companyDetails;
       vm.regionalDetails = vm.companyDetails;
