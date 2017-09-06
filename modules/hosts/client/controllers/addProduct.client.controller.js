@@ -756,14 +756,14 @@
 
   var createdSessionTracker = new Set();
   vm.createDepartureSession = function () {
-    if (vm.sessionName == '' && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
+    if ((vm.sessionName == '' || vm.sessionName == ' ' || vm.sessionName == undefined || vm.sessionName == null) && vm.fixedProductSchedule[vm.fixedDepartureSessionCounter].startDate === undefined) {
       toasty.error({
         title: 'Session name and start date required!',
         msg: 'Please give some name to the session and select start date for creating a departure session!',
         sound: false
       });
       return false;
-    } else if (vm.sessionName == '') {
+    } else if (vm.sessionName == '' || vm.sessionName == ' ' || vm.sessionName == undefined || vm.sessionName == null) {
       toasty.error({
         title: 'Session name required!',
         msg: 'Please give some name to the session!',
