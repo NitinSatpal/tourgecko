@@ -327,7 +327,7 @@
                 }
 
                 vm.datesOfTheSessionsOfThisProduct.push(new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).toString());
-                if (new Date().getTime() < new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime()) {
+                if (new Date().getTime() < new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate).getTime() && vm.sessionsOfThisProduct[index].sessionInternalName) {
                   var tempRecord = {startDate: new Date(vm.sessionsOfThisProduct[index].sessionDepartureDetails.startDate), startTime: sessionPricingPartialKey, capacityDetails: vm.sessionsOfThisProduct[index].sessionCapacityDetails}
                   vm.sesisonDateAndTimeForDisplayAndAvailability.push(tempRecord);
                 }
