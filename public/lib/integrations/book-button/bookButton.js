@@ -24,7 +24,7 @@
 var JQE = document.createElement("script");
 var JQC = document.getElementsByTagName("script")[0];
 JQE.async=true;
-JQE.src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
+JQE.src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js';
 JQE.charset='UTF-8';
 
 JQC.parentNode.insertBefore(JQE,JQC);
