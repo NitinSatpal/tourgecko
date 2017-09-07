@@ -13,10 +13,10 @@
 .adventureislife .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}
 .adventureislife .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}
 
-.outrider .themeSelectedByHostColor { color : #397FFF !important;}
-.outrider .themeSelectedByHostBackgroundColor { background-color : #397FFF !important;}
-.outrider .themeSelectedByHostBorderColor::before { border: 2px solid #397FFF !important;}
-.outrider .themeSelectedByHostBorderColorLeft { border-left: 2px solid #397FFF !important;}
+.outrider .themeSelectedByHostColor { color : #FF9800 !important;}
+.outrider .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}
+.outrider .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}
+.outrider .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}
 
 .anand .themeSelectedByHostColor { color : #FF9800 !important;}
 .anand .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}
@@ -28,10 +28,10 @@
 .fbtest .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}
 .fbtest .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}
 
-.demo .themeSelectedByHostColor { color : #B3FFEB !important;}
-.demo .themeSelectedByHostBackgroundColor { background-color : #B3FFEB !important;}
-.demo .themeSelectedByHostBorderColor::before { border: 2px solid #B3FFEB !important;}
-.demo .themeSelectedByHostBorderColorLeft { border-left: 2px solid #B3FFEB !important;}
+.demo .themeSelectedByHostColor { color : #FF9800 !important;}
+.demo .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}
+.demo .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}
+.demo .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}
 
 .facebooktest .themeSelectedByHostColor { color : #FF9800 !important;}
 .facebooktest .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}
