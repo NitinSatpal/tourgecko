@@ -211,6 +211,17 @@ a:hover .header-profile-image {
     padding: 3rem 0;
 }
 
+.overlayStyle {
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
 body.modal-open {
     overflow: auto;
 }

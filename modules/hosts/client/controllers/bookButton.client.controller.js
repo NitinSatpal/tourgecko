@@ -5,9 +5,9 @@
     .module('hosts')
     .controller('BookButtonController', BookButtonController);
 
-  BookButtonController.$inject = ['$state', '$scope', '$window', '$http'];
+  BookButtonController.$inject = ['$state', '$scope', '$window', '$http', 'toasty'];
 
-  function BookButtonController($state, $scope, $window, $http) {
+  function BookButtonController($state, $scope, $window, $http, toasty) {
     var vm = this;
     $scope.hostToursiteName = '';
     $scope.bookButtonLabelName = '';
@@ -17,12 +17,15 @@
     vm.selectedMultipleTours = [];
     vm.singleTourSelected = false;    
     vm.errorContent = [];
+    vm.initialColor = "FF9800";
     $scope.redirectTo = 'redirectToTourDetailsPage';
 
     vm.changePreferenceOfBookButton = function (preference) {
       if (preference == 'single') {
         vm.bookButtonForSpecificTour = true;
         vm.bookButtonForMultipleTours = false;
+        if($("#multiTourBookButtonPreview:visible"))
+          $("#multiTourBookButtonPreview").hide();
       } else {
         vm.singleTourSelected = false;
         vm.bookButtonForSpecificTour = false;
@@ -42,7 +45,7 @@
           return false;
         }
       }
-      if (vm.bookButtonForSpecificTour) {
+      if (vm.bookButtonForSpecificTour) {        
         var anchorTag = document.createElement('a');
         $(anchorTag).attr("type", "button")
         $(anchorTag).addClass('btn');
@@ -109,6 +112,58 @@
 
         $('#book-button-copy-content-trigger').click();
       }
-    }    
+    }
+
+    vm.showDynamicBookButtonPreview = function () {
+        if (vm.bookButtonForSpecificTour) {
+          var bookButtonLabel = '';
+          if (!$scope.bookButtonLabelName)
+            bookButtonLabel = 'Book Now';
+          else
+            bookButtonLabel = $scope.bookButtonLabelName;
+          $("#singleTourPreviewButton").text(bookButtonLabel);
+          $(".hostHome.bookButton").addClass("overlayStyle");
+          $("#singleTourBookButtonPreview").css("display", "block");
+        } else if (vm.bookButtonForMultipleTours) {
+          var bookButtonLabel = '';
+          if (!$scope.bookButtonLabelName)
+            bookButtonLabel = 'Browse Tours';
+          else
+            bookButtonLabel = $scope.bookButtonLabelName;
+          var redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tours';
+          $("#multiTourBookButton").text(bookButtonLabel);
+          $("#multiTourBookButton").attr("href", redirectURL);
+          $(".tourgeckoBookButton").css("background-color", $('.jscolor').val());
+          $("#multiTourBookButtonPreview").css("display", "block");
+        } else {
+          toasty.error({
+              title: 'Book button type!',
+              msg: "Please provide details in 'create button for'",
+              sound: false
+            });
+            return false;
+        }
+    }
+
+    vm.closePreviewSectionForSingleTour = function () {
+      $('.hostHome.bookButton').removeClass("overlayStyle");
+      $("#singleTourBookButtonPreview").css("display", "none");
+      $("#multiTourBookButtonPreview").css("display", "none");
+    }
+
+    vm.changePreviewbuttonColor = function () {
+      $(".tourgeckoBookButton").css("background-color", $('.jscolor').val());
+    }
+
+    vm.changePreviewbuttonLabel = function () {
+      $("#multiTourBookButton").text($scope.bookButtonLabelName);
+    }
+    vm.getStyleForBookButtonPreview = function () {
+      var cssObject = {
+        "margin-top": $(".overlayStyle").height() / 3,
+        "margin-bottom": $(".overlayStyle").height() / 3
+      }
+      return cssObject;
+    }   
   }
 }());

@@ -21,6 +21,12 @@
     vm.showErrorsPaymentSettings = false;
     vm.showSuccessPaymentSettings= false;
     vm.paymentActivated = false;
+
+    var icon = document.createElement('i');
+    $(icon).addClass('fa');
+    $(icon).addClass('fa-check-circle');
+    $(icon).css("color", "#fff");
+    $(icon).attr("aria-hidden", "true");
     
     $http.get('/api/host/company/').success(function (response)  {
       vm.companyDetails = response;
@@ -44,10 +50,11 @@
         $('.bank-account-details').find('input, textarea, select').attr('readonly', 'readonly');
       }
       vm.toursiteDetails = vm.companyDetails;
+      // to handle undefined theme color for already registered users
       if (vm.toursiteDetails[0].themeColor)
-        $('.jscolor').val(vm.toursiteDetails[0].themeColor.substring(1).toUpperCase());
+        $(vm.toursiteDetails[0].themeColor).append(icon)
       else
-        $('.jscolor').val('FF9800');
+        $('#FF9800').append(icon);
       jscolor.installByClassName("jscolor");
       vm.accountDetails = vm.companyDetails;
       vm.regionalDetails = vm.companyDetails;
@@ -277,10 +284,16 @@
       });
     };
 
+    vm.themeColor = '#FF9800'
+    vm.selectTheClickedThemeColor = function (divIdColor) {
+      $(divIdColor).append(icon);
+      vm.themeColor = divIdColor;
+    }
+
     vm.saveToursiteThemeSettings = function () {
       $('#loadingDivHostSide').css('display', 'block');
       $('#tourgeckoBody').addClass('waitCursor');
-      var themeColor = {themeColor: '#' + $('.jscolor').val()};
+      var themeColor = {themeColor: vm.themeColor};
       $http.post('/api/host/toursite/theme', themeColor).success(function (response) {
         $window.location.reload();
       }).error(function (response) {

@@ -108,6 +108,15 @@ exports.signup = function (req, res) {
                       }
                       res.json(alreadyExistedUser);
                     });
+                    /*var cssString = '\n' + '.'+ theCompany.toursite + ' .themeSelectedByHostColor { color : #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}\n';
+
+                    fs.appendFile(path.resolve('./modules/core/client/css/themes.css'), cssString, function (err) {
+                        if (err)
+                          console.log('css could not be modified');
+                    }); */
                   }
                 });
               } else {
@@ -131,6 +140,15 @@ exports.signup = function (req, res) {
                       }
                       res.json(alreadyExistedUser);
                     });
+                    /* var cssString = '\n' + '.'+ theCompany.toursite + ' .themeSelectedByHostColor { color : #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}' + '\n' +
+                              '.'+ theCompany.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}\n';
+
+                    fs.appendFile(path.resolve('./modules/core/client/css/themes.css'), cssString, function (err) {
+                        if (err)
+                          console.log('css could not be modified');
+                    }); */
                   }
                 });
               }
@@ -190,11 +208,10 @@ function createTheUserAccount (req, res) {
                   message: errorHandler.getErrorMessage(err)
                 });
               } else {
-                // Do nothing
-                var cssString = '.'+ hostCompany.toursite + ' .themeSelectedByHostColor { color : #ff9800 !important;}' + '\n' +
-                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBackgroundColor { background-color : #ff9800 !important;}' + '\n' +
-                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid #ff9800 !important;}' + '\n' +
-                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid #ff9800 !important;}\n';
+                var cssString = '\n' + '.'+ hostCompany.toursite + ' .themeSelectedByHostColor { color : #FF9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBackgroundColor { background-color : #FF9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColor::before { border: 2px solid #FF9800 !important;}' + '\n' +
+                                '.'+ hostCompany.toursite + ' .themeSelectedByHostBorderColorLeft { border-left: 2px solid #FF9800 !important;}\n';
 
                 fs.appendFile(path.resolve('./modules/core/client/css/themes.css'), cssString, function (err) {
                     if (err)
@@ -396,6 +413,29 @@ exports.signupDetails = function(req, res, next) {
           }
           else {
             res.json(user)
+            // console.warn('success');
+          }
+        });
+      var body = 'Hello Team, <br>' +
+                 'The new host has been regiested on tourgecko with the following email: <br>' +
+                 'email: ' + user.email + '<br>' +
+                 'name: ' + user.displayName + '<br> <br>' +
+                 'Best Regards.';
+      nodemailerMailgun.sendMail({
+          from: 'tourgecko <noreply@tourgecko.com>',
+          to: 'team@tourgecko.com', // An array if you have multiple recipients.
+          //cc:'',
+          //bcc:'',
+          subject: 'New host registered to tourgecko',
+          //You can use "html:" to send HTML email content. It's magic!
+          html: body,
+          //You can use "text:" to send plain-text content. It's oldschool!
+          // text: req.body.guestDetails.guestMessage
+        }, function (err, info) {
+          if (err) {
+            // console.warn('error');
+          }
+          else {
             // console.warn('success');
           }
         });

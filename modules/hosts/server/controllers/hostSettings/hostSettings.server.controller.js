@@ -311,6 +311,31 @@ exports.savePaymentDetails = function (req, res) {
                                       res.json({messages: errors, status: 'failure'});
                                     }
                                     ModifyPinboard.modifyPinboardGoalsForThisUser('completionOfAccountSetupAndLaunch', 'activatePayment', company._id);
+                                    var body = 'Hello Team, <br>' +
+                                               'The host ' + user.displayName + ' with toursite ' + company.toursite + 
+                                               ' has turned on the Pass Convenience Fee option.' + '<br>' +
+                                               'The detail of instamojo account for the host is as follows:' + '<br>' +
+                                               'username: ' + instaUser.instamojo_email + '<br>' +
+                                               'password: ' + instaUser.instamojo_password + '<br> <br>' +
+                                               'Best Regards.';
+                                    nodemailerMailgun.sendMail({
+                                        from: 'tourgecko <noreply@tourgecko.com>',
+                                        to: 'team@tourgecko.com', // An array if you have multiple recipients.
+                                        //cc:'',
+                                        //bcc:'',
+                                        subject: 'Host opts for Convenience Fee transfer to buyer',
+                                        //You can use "html:" to send HTML email content. It's magic!
+                                        html: body,
+                                        //You can use "text:" to send plain-text content. It's oldschool!
+                                        // text: req.body.guestDetails.guestMessage
+                                      }, function (err, info) {
+                                        if (err) {
+                                          // console.warn('error');
+                                        }
+                                        else {
+                                          // console.warn('success');
+                                        }
+                                      });
                                     res.json({messages: editHostResponse, status: 'success'});
                                   });
                                 });

@@ -209,12 +209,14 @@ ul.card-booking-details li span{ line-height:initial; margin-bottom:1rem; min-he
 }
 #enter-phone-verification-otp input{ width:100px; text-align:center; margin:2rem auto; font-size:1.8rem; font-weight:600}
 .sessions .info_content{display: flex}
-.sessions .occupancy-indicator{flex: 1;
+.sessions .occupancy-indicator {
+	flex: 1;
     text-align: center;
     background-color: transparent;
     border-radius: 6px;
     padding: .5rem;
-    margin-right: 1rem;}
+    margin-right: 1rem;
+}
 .sessions .occupancy-indicator i{font-size: 18; margin-top: .8rem}
 .sessions .occupancy-indicator h5{ margin-top: .2rem}
 .sessions .session-info{flex: 5}
@@ -342,6 +344,31 @@ ul.occupancy-indicator-legend{ background-color: #fff; padding: 1rem;float: left
 }
 .pinboard .info_content h3 {
 	margin-top: 0;
+}
+
+.themes .theme-Color-Selector {	
+	flex: 1;
+    text-align: center;
+    background-color: transparent;
+    border-radius: 6px;
+    padding: .5rem;
+    margin-right: 1rem;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+.themes .theme-Color-Selector i {
+	font-size: 20;
+	margin-top: .9rem;
+}
+.themes .theme-Color-Selector .fa{
+	color: #fff;
+}
+.themes .theme-Color-Selector i.fa-plus-square {
+	margin-top: .4rem;
+}
+.themes .theme-Color-Selector .fa-plus-square{
+	font-size: 30px;
 }
 @media only screen
 and (min-device-width : 768px)

@@ -1,3 +1,4 @@
+<toasty></toasty>
 <div class="hostHome container-fluid bookButton" id="bookButton">
 	<div class="row body-content bookButtonTabBodyContent" id="bookButtonTabBodyContent">
 		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 home-content">
@@ -145,7 +146,7 @@
 						<label for="bookButtonName" class="control-label">Button label</label>
 						<div class="input_group">
 							<div class="input-group">
-								<input id="bookButtonName" ng-model="bookButtonLabelName" placeholder=" e.g. Book now">
+								<input id="bookButtonName" ng-model="bookButtonLabelName" placeholder=" e.g. Book now" ng-change="vm.changePreviewbuttonLabel()">
 							</div>
 						</div>
 					</div>
@@ -153,7 +154,7 @@
 						<label for="jscolor" class="control-label">Button color</label>
 						<div class="input_group">
 							<div class="input-group">
-								<input class="jscolor" value="ED9C28">
+								<input class="jscolor" value="FF9800" ng-model="vm.initialColor" ng-change="vm.changePreviewbuttonColor()">
 							</div>
 						</div>
 					</div>
@@ -161,12 +162,23 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+					<a class="sub_btn btn btn-default margin-top" href="" type="submit" ng-click="vm.showDynamicBookButtonPreview()">Preview</a>
+					&nbsp;&nbsp; &nbsp;
 					<a class="sub_btn btn btn-primary margin-top" href="" type="submit" ng-click="vm.createDynamicBookButton()">Get button code</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="text-center"  id="singleTourBookButtonPreview" style="display: none; z-index: 99999;" ng-style="vm.getStyleForBookButtonPreview()">
+	<p> This is how your button will look like. It can be added wherever you want this button to be shown in your html page.</p>
+	<p class="text-center"> Click <a href="" ng-click="vm.closePreviewSectionForSingleTour()"> here </a>to go back </p>
+	<a id="singleTourPreviewButton" type="button" class="btn btn-primary" target="_blank" href="https://wow.tourgecko.com/integrations/tour/59acf9c3c15085f529a40f8a" style="background-color: rgb(237, 156, 40); padding: 12px 38px; color: rgb(255, 255, 255); border-radius: 4px; font-family: Arial, Helvetica, sans-serif; font-weight: 400; font-style: normal; font-size: 18px; text-decoration: none;"></a>
+</div>
+<div class="tourgeckoBookButton" id="multiTourBookButtonPreview" style="display: none;">
+	<a id="multiTourBookButton" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
+</div>
+	<!--End of tourgecko embed code-->
 <a id="book-button-copy-content-trigger" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-copy-content" style="display: none">
 </a>
 <div id="book-button-copy-content" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
@@ -186,6 +198,7 @@
     </div>
 </div>
 <script type="text/javascript" src="lib/scripts-inside-html/js/jscolor.min.js"></script>
+<script src="lib/stickyfloat-master/stickyfloat.js"></script>
 <script>
 	$(document).ready(function() {
 		jscolor.installByClassName("jscolor");
@@ -227,19 +240,35 @@
 		if($("#showErrorsOnTopForBookButton:visible"))
 			$("#showErrorsOnTopForBookButton").hide();
 	});
-
-	$('#book-button-copy-content').on('hidden.bs.modal', function () {
+	
+	/*$('#book-button-copy-content').on('hidden.bs.modal', function () {
+		console.log($("#singleTourBookButton").val());
+		console.log($("#multipleTourBookButton").val());
 		$("#singleTourBookButton").val('').trigger('change');
 		$("#multipleTourBookButton").val('').trigger('change');
 		$('#bookButtonForMultipleTours').prop("checked", false);
 		$('#bookButtonForSpecificTour').prop("checked", false);
-		$('.jscolor').val('ED9C28');
-		$('.jscolor').css("background-color", "ED9C28");
+		$('.jscolor').val('FF9800');
+		$('.jscolor').css("background-color", "FF9800");
 		var $scope = angular.element('#bookButton').scope();
 	    $scope.$evalAsync(function() {
 	        angular.element('#bookButton').scope().bookButtonLabelName = '';
 	        angular.element('#bookButton').scope().redirectTo = 'redirectToTourDetailsPage';
 	        
 	    });
+	}); */
+	$(document).ready(function() {
+		if ($(window).width() > 767) {	        
+			 $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
+	        // after page refresh, make sure the values are returned to their defaults
+	        $('.tourgeckoBookButton :text').each(function(){
+	        	$(this).val(this.defaultValue);
+	        });
+	    }
+
 	});
+	$('.tourgeckoBookButton').click(function () {
+		var redirectURL = 'https://' + angular.element('#bookButton').scope().hostToursiteName + '.tourgecko.com/integrations/tours';
+        window.open(redirectURL , '_blank');
+    });
 </script>
