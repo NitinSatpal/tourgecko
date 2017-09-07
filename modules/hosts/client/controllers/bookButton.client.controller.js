@@ -19,6 +19,8 @@
     vm.errorContent = [];
     vm.initialColor = "FF9800";
     $scope.redirectTo = 'redirectToTourDetailsPage';
+    vm.bookButtonType = 'bookButtonForSpecificTour';
+    vm.bookButtonForSpecificTour = true;
 
     vm.changePreferenceOfBookButton = function (preference) {
       if (preference == 'single') {
@@ -121,9 +123,10 @@
             bookButtonLabel = 'Book Now';
           else
             bookButtonLabel = $scope.bookButtonLabelName;
+
+          $('#book-button-show-preview-window-trigger-single').click();
           $("#singleTourPreviewButton").text(bookButtonLabel);
-          $(".hostHome.bookButton").addClass("overlayStyle");
-          $("#singleTourBookButtonPreview").css("display", "block");
+          $("#singleTourPreviewButton").css("background-color", $('.jscolor').val());         
         } else if (vm.bookButtonForMultipleTours) {
           var bookButtonLabel = '';
           if (!$scope.bookButtonLabelName)
@@ -131,10 +134,17 @@
           else
             bookButtonLabel = $scope.bookButtonLabelName;
           var redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tours';
-          $("#multiTourBookButton").text(bookButtonLabel);
-          $("#multiTourBookButton").attr("href", redirectURL);
-          $(".tourgeckoBookButton").css("background-color", $('.jscolor').val());
-          $("#multiTourBookButtonPreview").css("display", "block");
+          if ($(window).width() > 767) {
+            $('#book-button-show-preview-window-trigger-collection').click();
+            $("#multiTourBookButton").text(bookButtonLabel);
+            $("#multiTourBookButton").attr("href", redirectURL);
+            $("#multiTourBookButton").css("background-color", $('.jscolor').val());
+          } else {
+            $('#book-button-show-preview-window-trigger-collection-mobile').click();
+            $("#multiTourBookButtonMobile").text(bookButtonLabel);
+            $("#multiTourBookButtonMobile").attr("href", redirectURL);
+            $("#multiTourBookButtonMobile").css("background-color", $('.jscolor').val());
+          }
         } else {
           toasty.error({
               title: 'Book button type!',

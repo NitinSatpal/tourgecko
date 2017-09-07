@@ -79,7 +79,7 @@
 								<div class="generic-radio">
 									<label class="radio_label">
 										<input id="bookButtonForMultipleTours" type="radio" name="bookButtonForMultipleTours" value="bookButtonForMultipleTours" ng-click="vm.changePreferenceOfBookButton('multiple');" ng-model="vm.bookButtonType"/>
-										<span>&nbsp;collection of tours</span>
+										<span>&nbsp;Collection of tours</span>
 										<i class="zmdi zmdi-check-circle"></i>
 										<i class="zmdi zmdi-circle-o"></i>
 									</label>
@@ -170,15 +170,68 @@
 		</div>
 	</div>
 </div>
-<div class="text-center"  id="singleTourBookButtonPreview" style="display: none; z-index: 99999;" ng-style="vm.getStyleForBookButtonPreview()">
+<a id="book-button-show-preview-window-trigger-single" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-show-preview-window-single" style="display: none">
+</a>
+<div id="book-button-show-preview-window-single" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Book button preview</h4>
+            </div>
+            <div class="modal-body">
+            	<p> This is how your button will look like.</p>
+            	<div class="text-center"  id="singleTourBookButtonPreview">
+                	<a id="singleTourPreviewButton" type="button" class="btn btn-primary" target="_blank" href="https://wow.tourgecko.com/integrations/tour/59acf9c3c15085f529a40f8a" style="background-color: rgb(237, 156, 40); padding: 12px 38px; color: rgb(255, 255, 255); border-radius: 4px; font-family: Arial, Helvetica, sans-serif; font-weight: 400; font-style: normal; font-size: 18px; text-decoration: none;"></a>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<a id="book-button-show-preview-window-trigger-collection" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-show-preview-window-collection" style="display: none">
+</a>
+<div id="book-button-show-preview-window-collection" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height: 100%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Book button preview</h4>
+            </div>
+            <div class="modal-body">
+            	<p> This is how your button will look like.</p>
+            	<div class="tourgeckoBookButton" id="multiTourBookButtonPreview">
+					<a id="multiTourBookButton" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
+				</div>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<a id="book-button-show-preview-window-trigger-collection-mobile" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-show-preview-window-collection-mobile" style="display: none">
+</a>
+<div id="book-button-show-preview-window-collection-mobile" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height: 100%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Book button preview</h4>
+            </div>
+            <div class="modal-body">
+            	<p> This is how your button will look like.</p>
+            	<a id="multiTourBookButtonMobile" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
+            </div>            
+        </div>
+    </div>
+</div>
+<!-- <div class="text-center"  id="singleTourBookButtonPreview" style="display: none; z-index: 99999;" ng-style="vm.getStyleForBookButtonPreview()">
 	<p> This is how your button will look like. It can be added wherever you want this button to be shown in your html page.</p>
 	<p class="text-center"> Click <a href="" ng-click="vm.closePreviewSectionForSingleTour()"> here </a>to go back </p>
 	<a id="singleTourPreviewButton" type="button" class="btn btn-primary" target="_blank" href="https://wow.tourgecko.com/integrations/tour/59acf9c3c15085f529a40f8a" style="background-color: rgb(237, 156, 40); padding: 12px 38px; color: rgb(255, 255, 255); border-radius: 4px; font-family: Arial, Helvetica, sans-serif; font-weight: 400; font-style: normal; font-size: 18px; text-decoration: none;"></a>
-</div>
-<div class="tourgeckoBookButton" id="multiTourBookButtonPreview" style="display: none;">
+</div> 
+
 	<a id="multiTourBookButton" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
-</div>
-	<!--End of tourgecko embed code-->
+ -->
 <a id="book-button-copy-content-trigger" class="btn btn-primary pull-right" data-toggle="modal" data-target="#book-button-copy-content" style="display: none">
 </a>
 <div id="book-button-copy-content" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
@@ -259,7 +312,7 @@
 	}); */
 	$(document).ready(function() {
 		if ($(window).width() > 767) {	        
-			 $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
+			 $('.tourgeckoBookButton').stickyfloat({offsetY: 250});
 	        // after page refresh, make sure the values are returned to their defaults
 	        $('.tourgeckoBookButton :text').each(function(){
 	        	$(this).val(this.defaultValue);

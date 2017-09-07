@@ -88,26 +88,33 @@ function generateBookButton () {
                                             'z-index: 2222;' +
                                         '}'
     }
-
-    $(document.body).append(bookButtonDivStyle);    
-    var div = document.createElement('div');
-    $(div).addClass('tourgeckoBookButton');
-    $(div).css("border-radius", "4px");
-    if ($(window).width() <= 767) {
-        $(div).css("border-radius", "0");
-        $(div).removeClass('tourgeckoBookButton');
-        $(div).addClass("mobile-contact");
-    }
-    $(div).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
-    var anchorTag = document.createElement('a');
-    $(anchorTag).attr('id', 'multiTourBookButton');
-    $(anchorTag).attr("type", "button");
-    $(anchorTag).addClass('btn');
-    $(anchorTag).addClass('btn-primary');
-    $(anchorTag).attr("href", document.getElementById("bookButtonIntegration").getAttribute("linkURL"));
-    $(anchorTag).attr("target", "_blank");
-    if ($(window).width() <= 767) {
-        $(anchorTag).css("padding", "20px");
+    $(document.body).append(bookButtonDivStyle);  
+    console.log($(window).width())
+    if ($(window).width() > 767) {  
+        console.log('bada');  
+        var div = document.createElement('div');
+        $(div).addClass('tourgeckoBookButton');
+        $(div).css("border-radius", "4px");
+        $(div).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
+        var anchorTag = document.createElement('a');
+        $(anchorTag).attr('id', 'multiTourBookButton');
+        $(anchorTag).attr("type", "button");
+        $(anchorTag).addClass('btn');
+        $(anchorTag).addClass('btn-primary');
+        $(anchorTag).attr("href", document.getElementById("bookButtonIntegration").getAttribute("linkURL"));
+        $(anchorTag).attr("target", "_blank");
+        anchorTag.innerHTML = document.getElementById("bookButtonIntegration").getAttribute("bookButtonLabel");
+        $(div).append(anchorTag);
+        $(document.body).append(div);
+    } else {
+        console.log('asasaasasasas');
+        var anchorTag = document.createElement('a');
+        $(anchorTag).attr('id', 'multiTourBookButton');
+        $(anchorTag).attr("type", "button");
+        $(anchorTag).addClass('btn');
+        $(anchorTag).attr("href", document.getElementById("bookButtonIntegration").getAttribute("linkURL"));
+        $(anchorTag).attr("target", "_blank");
+        $(anchorTag).css("padding", "10px");
         $(anchorTag).css("bottom", "0");
         $(anchorTag).css("left", "0");
         $(anchorTag).css("position", "fixed");
@@ -116,13 +123,11 @@ function generateBookButton () {
         $(anchorTag).css("color", "#fff");
         $(anchorTag).css("font-weight", "bold");
         $(anchorTag).css("height", "auto");
-        $(anchorTag).css("border-radius", "4px");
+        $(anchorTag).css("border-radius", "0");
         $(anchorTag).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
+        anchorTag.innerHTML = document.getElementById("bookButtonIntegration").getAttribute("bookButtonLabel");        
+        $(document.body).append(anchorTag);
     }
-    anchorTag.innerHTML = document.getElementById("bookButtonIntegration").getAttribute("bookButtonLabel");
-    $(div).append(anchorTag);
-    $(document.body).append(div);
-
     $('.tourgeckoBookButton').click(function () {
         window.open(document.getElementById("bookButtonIntegration").getAttribute("linkURL"), '_blank');
     });
