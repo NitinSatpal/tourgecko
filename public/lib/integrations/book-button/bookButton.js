@@ -90,12 +90,23 @@ function generateBookButton () {
     }
     $(document.body).append(bookButtonDivStyle);  
     console.log($(window).width())
-    if ($(window).width() > 767) {  
+    if ($(window).width() > 980) {  
         console.log('bada');  
         var div = document.createElement('div');
         $(div).addClass('tourgeckoBookButton');
         $(div).css("border-radius", "4px");
         $(div).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
+        $(div).css("-webkit-transform-origin", "100% 100%");
+        $(div).css("-moz-transform-origin", "100% 100%");
+        $(div).css("-ms-transform-origin", "100% 100%");
+        $(div).css("-o-transform-origin", "100% 100%");
+        $(div).css("transform-origin", "100% 100%");
+        $(div).css("-webkit-transform", "rotate(90deg) translate(50%, 50%)");
+        $(div).css("-moz-transform", "rotate(90deg) translate(50%, 50%)");
+        $(div).css("-ms-transform", "rotate(90deg) translate(50%, 50%)");
+        $(div).css("-o-transform", "rotate(90deg) translate(50%, 50%)");
+        $(div).css("transform", "rotate(90deg) translate(50%, 50%)");
+   
         var anchorTag = document.createElement('a');
         $(anchorTag).attr('id', 'multiTourBookButton');
         $(anchorTag).attr("type", "button");
@@ -322,7 +333,7 @@ function generateBookButton () {
         };
     })(jQuery);
 
-    if ($(window).width() > 767) {
+    if ($(window).width() > 980) {
         $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
 
         // after page refresh, make sure the values are returned to their defaults
