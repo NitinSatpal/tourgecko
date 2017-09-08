@@ -180,7 +180,9 @@
                 <h4 class="modal-title">Book button preview</h4>
             </div>
             <div class="modal-body">
-            	<p> This is how your button will look like.</p>
+            	<div>
+            		<img src="modules/hosts/client/images/single_tour_sketch.jpg" style="max-width: 100%">
+            	</div>
             	<div class="text-center"  id="singleTourBookButtonPreview">
                 	<a id="singleTourPreviewButton" type="button" class="btn btn-primary" target="_blank" href="https://wow.tourgecko.com/integrations/tour/59acf9c3c15085f529a40f8a" style="background-color: rgb(237, 156, 40); padding: 12px 38px; color: rgb(255, 255, 255); border-radius: 4px; font-family: Arial, Helvetica, sans-serif; font-weight: 400; font-style: normal; font-size: 18px; text-decoration: none;"></a>
                 </div>
@@ -193,17 +195,20 @@
 </a>
 <div id="book-button-show-preview-window-collection" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="height: 100%;">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Book button preview</h4>
             </div>
             <div class="modal-body">
-            	<p> This is how your button will look like.</p>
+            	<div style="margin-right: 20px;">
+            		<img src="modules/hosts/client/images/website_whole.jpg" style="max-width: 100%">
+            		<img src="modules/hosts/client/images/website_whole.jpg" style="max-width: 100%">
+            	</div>            	
             	<div class="tourgeckoBookButton" id="multiTourBookButtonPreview">
 					<a id="multiTourBookButton" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
 				</div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -212,15 +217,20 @@
 </a>
 <div id="book-button-show-preview-window-collection-mobile" class="modal fade book-button-copy-content" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" style="height: 100%;">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Book button preview</h4>
             </div>
             <div class="modal-body">
-            	<p> This is how your button will look like.</p>
+            	<div style="margin-right: 20px;">
+            		<img src="modules/hosts/client/images/website_whole.jpg" style="max-width: 100%">
+            		<img src="modules/hosts/client/images/website_whole.jpg" style="max-width: 100%">
+            	</div>
+            </div>
+            <div class="modal-footer">
             	<a id="multiTourBookButtonMobile" type="button" class="btn tourgeckoAnchorBookButton" target="_blank" href=""></a>
-            </div>            
+            </div>         
         </div>
     </div>
 </div>
@@ -310,16 +320,6 @@
 	        
 	    });
 	}); */
-	$(document).ready(function() {
-		if ($(window).width() > 767) {	        
-			 $('.tourgeckoBookButton').stickyfloat({offsetY: 250});
-	        // after page refresh, make sure the values are returned to their defaults
-	        $('.tourgeckoBookButton :text').each(function(){
-	        	$(this).val(this.defaultValue);
-	        });
-	    }
-
-	});
 	$('.tourgeckoBookButton').click(function () {
 		var redirectURL = 'https://' + angular.element('#bookButton').scope().hostToursiteName + '.tourgecko.com/integrations/tours';
         window.open(redirectURL , '_blank');

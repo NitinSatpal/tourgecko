@@ -1,15 +1,25 @@
 .tourgeckoBookButton { 
-   position: absolute;
-   top:50%;
-   right: 10px;
-   display: block;
-   min-width: 100px; 
-   height: auto;
-   padding: 10px;
-   text-align: center;
-   font-weight: bold;
-   cursor: pointer;
-   border-radius: 4px;
+  position: fixed;
+  top:35%;
+  right: 6.8%;
+  display: block;
+  min-height: 100px; 
+  height: auto;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  -webkit-transform-origin: 100% 100%;
+   -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+     -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+  -webkit-transform: rotate(90deg) translate(50%, 50%);
+   -moz-transform: rotate(90deg) translate(50%, 50%);
+    -ms-transform: rotate(90deg) translate(50%, 50%);
+     -o-transform: rotate(90deg) translate(50%, 50%);
+        transform: rotate(90deg) translate(50%, 50%);
 }
 .tourgeckoBookButton a {
     text-decoration: none;
@@ -47,7 +57,6 @@
   }
 
   .tourgeckoAnchorBookButton {
-    padding: 10px;
     bottom: 0;
     left: 0;
     position: fixed;
@@ -76,7 +85,6 @@
   }
 
   .tourgeckoAnchorBookButton {
-    padding: 10px;
     bottom: 0;
     left: 0;
     position: fixed;
@@ -106,7 +114,6 @@
   }
 
   .tourgeckoAnchorBookButton {
-    padding: 10px;
     bottom: 0;
     left: 0;
     position: fixed;
@@ -135,7 +142,6 @@
   }
 
   .tourgeckoAnchorBookButton {
-    padding: 10px;
     bottom: 0;
     left: 0;
     position: fixed;
