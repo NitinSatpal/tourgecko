@@ -43,9 +43,9 @@ function generateBookButton () {
     var bookButtonDivStyle = document.createElement('style');
     bookButtonDivStyle.type = 'text/css';
     bookButtonDivStyle.innerHTML = '.tourgeckoBookButton { ' +
-                                       'position: absolute;' +
-                                       'top:50%;' +
-                                       'right: 10px;' +
+                                       'position: fixed;' +
+                                       'top:30%;' +
+                                       'right: 1.5%;' +
                                        'display: block;' +
                                        'min-width: 100px;' + 
                                        'height: auto;' +
@@ -90,7 +90,7 @@ function generateBookButton () {
     }
     $(document.body).append(bookButtonDivStyle);  
     console.log($(window).width())
-    if ($(window).width() > 980) {  
+    if ($(window).width() > 767) {  
         console.log('bada');  
         var div = document.createElement('div');
         $(div).addClass('tourgeckoBookButton');
@@ -118,23 +118,23 @@ function generateBookButton () {
         $(div).append(anchorTag);
         $(document.body).append(div);
     } else {
-        console.log('asasaasasasas');
         var anchorTag = document.createElement('a');
         $(anchorTag).attr('id', 'multiTourBookButton');
         $(anchorTag).attr("type", "button");
         $(anchorTag).addClass('btn');
         $(anchorTag).attr("href", document.getElementById("bookButtonIntegration").getAttribute("linkURL"));
         $(anchorTag).attr("target", "_blank");
-        $(anchorTag).css("padding", "10px");
+        $(anchorTag).css("padding", "20px");
         $(anchorTag).css("bottom", "0");
         $(anchorTag).css("left", "0");
         $(anchorTag).css("position", "fixed");
         $(anchorTag).css("width", "100%");
-        $(anchorTag).css("font-size", "25px");
+        $(anchorTag).css("font-size", "35px");
         $(anchorTag).css("color", "#fff");
         $(anchorTag).css("font-weight", "bold");
         $(anchorTag).css("height", "auto");
         $(anchorTag).css("border-radius", "0");
+        $(anchorTag).css("text-align", "center");
         $(anchorTag).css("background-color", document.getElementById("bookButtonIntegration").getAttribute("bookButtonColor"));
         anchorTag.innerHTML = document.getElementById("bookButtonIntegration").getAttribute("bookButtonLabel");        
         $(document.body).append(anchorTag);
@@ -333,8 +333,8 @@ function generateBookButton () {
         };
     })(jQuery);
 
-    if ($(window).width() > 980) {
-        $('.tourgeckoBookButton').stickyfloat({offsetY: 300});
+    if ($(window).width() > 767) {
+        $('.tourgeckoBookButton').stickyfloat('update',{duration : 0, stickToBottom:true });
 
         // after page refresh, make sure the values are returned to their defaults
         $('.tourgeckoBookButton :text').each(function(){
