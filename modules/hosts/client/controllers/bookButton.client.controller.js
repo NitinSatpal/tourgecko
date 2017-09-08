@@ -26,8 +26,6 @@
       if (preference == 'single') {
         vm.bookButtonForSpecificTour = true;
         vm.bookButtonForMultipleTours = false;
-        if($("#multiTourBookButtonPreview:visible"))
-          $("#multiTourBookButtonPreview").hide();
       } else {
         vm.singleTourSelected = false;
         vm.bookButtonForSpecificTour = false;
@@ -155,12 +153,6 @@
         }
     }
 
-    vm.closePreviewSectionForSingleTour = function () {
-      $('.hostHome.bookButton').removeClass("overlayStyle");
-      $("#singleTourBookButtonPreview").css("display", "none");
-      $("#multiTourBookButtonPreview").css("display", "none");
-    }
-
     vm.changePreviewbuttonColor = function () {
       $(".tourgeckoBookButton").css("background-color", $('.jscolor').val());
     }
@@ -168,12 +160,5 @@
     vm.changePreviewbuttonLabel = function () {
       $("#multiTourBookButton").text($scope.bookButtonLabelName);
     }
-    vm.getStyleForBookButtonPreview = function () {
-      var cssObject = {
-        "margin-top": $(".overlayStyle").height() / 3,
-        "margin-bottom": $(".overlayStyle").height() / 3
-      }
-      return cssObject;
-    }   
   }
 }());
