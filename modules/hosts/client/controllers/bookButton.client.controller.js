@@ -129,7 +129,11 @@
             bookButtonLabel = 'Book Now';
           else
             bookButtonLabel = $scope.bookButtonLabelName;
-          var redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tour/' + vm.selectedSingleTour;
+          var redirectURL
+          if ($scope.redirectTo == 'redirectToTourDetailsPage')
+            redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tour/' + vm.selectedSingleTour;
+          else
+            redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/tour/book/' + vm.selectedSingleTour;
           $('#book-button-show-preview-window-trigger-single').click();
           $("#singleTourPreviewButton").text(bookButtonLabel);
           $("#singleTourPreviewButton").css("background-color", $('.jscolor').val());
