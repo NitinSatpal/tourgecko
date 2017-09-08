@@ -116,15 +116,24 @@
 
     vm.showDynamicBookButtonPreview = function () {
         if (vm.bookButtonForSpecificTour) {
+          if (!vm.selectedSingleTour) {
+            toasty.error({
+              title: 'Select tour!',
+              msg: "Please select tour to show the butoon preview'",
+              sound: false
+            });
+            return false;
+          }
           var bookButtonLabel = '';
           if (!$scope.bookButtonLabelName)
             bookButtonLabel = 'Book Now';
           else
             bookButtonLabel = $scope.bookButtonLabelName;
-
+          var redirectURL = 'https://' + $scope.hostToursiteName + '.tourgecko.com/integrations/tour/' + vm.selectedSingleTour;
           $('#book-button-show-preview-window-trigger-single').click();
           $("#singleTourPreviewButton").text(bookButtonLabel);
-          $("#singleTourPreviewButton").css("background-color", $('.jscolor').val());         
+          $("#singleTourPreviewButton").css("background-color", $('.jscolor').val());
+          $("#singleTourPreviewButton").attr("href", redirectURL);       
         } else if (vm.bookButtonForMultipleTours) {
           var bookButtonLabel = '';
           if (!$scope.bookButtonLabelName)

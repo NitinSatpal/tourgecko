@@ -1,3 +1,6 @@
+#singleTourBookButtonPreview a:hover {
+  text-decoration: underline;
+}
 .tourgeckoBookButton { 
   position: fixed;
   top:35%;
