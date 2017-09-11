@@ -44,7 +44,7 @@
     $http.get('/api/guest/product/' + productId).success(function (response) {
       if(response == 'No tour found with this id') {
         vm.error = response;
-        $('#tourDetailsScreen').hide();
+        $location.path('/not-found');
         return;
       }
       vm.productDetails = response[0];

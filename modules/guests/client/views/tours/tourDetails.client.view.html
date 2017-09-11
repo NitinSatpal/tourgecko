@@ -1,6 +1,3 @@
-    <uib-alert type="danger" ng-show="vm.error" class="text-center text-danger">
-    <span ng-bind="vm.error"></span>
-</uib-alert>
 <div id="loadingDivTourDetails" class="loaderDisplayDiv"></div>
 
 <div class="host-guest-common-style" id="host-guest-common-style">
@@ -348,7 +345,7 @@
                         </div>
                         <div class="col-xs-12 text-center">
                             <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
-                            <a href="" type="button" name="req" class="btn btn-default orange req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
+                            <a href="" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'  || vm.sessionPricing.length == 0;" disabled>No Availability</a>
                         </div>
                     </div>
                 </div>
@@ -382,7 +379,7 @@
             </div>
             <div class="wid50 text-center">
                 <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
-                <a  href="" type="button" name="req" class="btn btn-default orange req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'" disabled>No Availability</a>
+                <a  href="" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable' || vm.sessionPricing.length == 0;" disabled>No Availability</a>
             </div>
         </div>
     </footer>
