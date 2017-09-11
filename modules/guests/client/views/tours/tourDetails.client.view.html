@@ -344,7 +344,7 @@
                             <span class="more-departure" ng-if="vm.sessionPricing.length > 5 && vm.productDetails.productAvailabilityType == 'Fixed Departure'"><b>{{vm.sessionPricing.length - 5}}</b> more departure. Book now to choose!</span>
                         </div>
                         <div class="col-xs-12 text-center">
-                            <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                            <a href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.sessionPricing.length > 0">Book Now</a>
                             <a href="" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" ng-if="vm.productDetails.productAvailabilityType == 'unavailable'  || vm.sessionPricing.length == 0;" disabled>No Availability</a>
                         </div>
                     </div>
@@ -378,7 +378,7 @@
                 <span class=""><span class="currency">&#8377;</span>{{vm.getMinimumPricing(vm.productDetails)}}</span>
             </div>
             <div class="wid50 text-center">
-                <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable'">Book Now</a>
+                <a  href="" ng-click="vm.goTobookingPageOfThisProduct()" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType != 'unavailable' && vm.sessionPricing.length > 0">Book Now</a>
                 <a  href="" type="button" name="req" class="btn btn-default themeSelectedByHostBackgroundColor req-btn" value="" ng-if="vm.productDetails.productAvailabilityType == 'unavailable' || vm.sessionPricing.length == 0;" disabled>No Availability</a>
             </div>
         </div>
