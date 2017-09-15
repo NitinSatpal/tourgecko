@@ -104,7 +104,7 @@ function logCapturedPayment (bookingId, paymentRequestId, paymentId, host, hostC
                 var instamojoCut = parseFloat(instamojoPayment.instamojo_fees) + parseFloat(instamojoPayment.instamojo_total_taxes);
                 var tourgeckoCut;
                 if (hostCompany.tourgeckoFeeType == 'fixed')
-                  tourgeckoCut = parseFloat(instamojoPayment.instamojo_amount) - parseFloat(hostCompany.tourgeckoFee);
+                  tourgeckoCut = parseFloat(hostCompany.tourgeckoFee);
                 else
                   tourgeckoCut = parseFloat(hostCompany.tourgeckoFee) * parseFloat(instamojoPayment.instamojo_amount) / 100;
                 booking.instamojoCut = instamojoCut;
