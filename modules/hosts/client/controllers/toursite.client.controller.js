@@ -415,7 +415,7 @@
 
           displayDate = eventDate.getDate() + ' ' + months[eventDate.getMonth()] + ' ' + eventDate.getFullYear();
         } else
-          displayDate = 'Not Available Currently';
+          displayDate = 'No Availability';
         if (vm.toursitedata[index].productScheduledDates.length > 1) {
           var numberOfTours = vm.toursitedata[index].productScheduledDates.length - 1;
           var remainingDatesString;

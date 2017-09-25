@@ -1307,6 +1307,8 @@
         //angular.copy($scope.timeslots, vm.tour.productTimeSlots);
         vm.tour.productTimeSlots = $scope.timeslots;
         vm.tour.isProductScheduled = vm.isProductScheduled;
+        if (vm.productAvailabilityType == 'Open Date')
+          vm.tour.isProductScheduled = true;
         vm.tour.productTimeSlotsAvailability = $scope.productTimeSlotsAvailability;
         // Maps upload are not present in beta
         //setUploadedMapsUrls();

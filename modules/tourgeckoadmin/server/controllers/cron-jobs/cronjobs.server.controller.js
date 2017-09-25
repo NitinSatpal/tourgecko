@@ -19,11 +19,14 @@ var cronJob = cron.job('00 05 00 * * *', function() {
           console.log('error occurred in finding the required documents');
         } else {
           products.forEach(function(product) {
+            var indexTracker = [];
             for (var index = 0; index < product.productScheduledDates.length; index++) {
-              if (new Date ().getTime() > new Date(product.productScheduledDates[index]).getTime())
-                product.productScheduledDates.splice(product.productScheduledDates.indexOf(product.productScheduledDates[index]));
-              product.save();
+              if (new Date().getTime() > new Date(product.productScheduledDates[index]).getTime())
+                indexTracker.push(index);
             }
+            for (var spliceIndex = indexTracker.length -1; spliceIndex >= 0; spliceIndex--)
+              product.productScheduledDates.splice(indexTracker[spliceIndex],1);
+            product.save();
           });
         }
       });
